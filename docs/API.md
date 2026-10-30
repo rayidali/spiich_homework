@@ -1,6 +1,6 @@
 # REST API quick reference
 
-> Updated 2026-10-29. The API remains REST. Gemini/OpenAI adapters now share the same accounting validation; AI responses add provider/usage and query/context metadata. A key is configured locally, but live verification is blocked by this session's networking restrictions. See the [saved checkpoint](../CHECKPOINT.md).
+> Updated 2026-10-29. The API remains REST. Gemini/OpenAI adapters now share the same accounting validation; AI responses add provider/usage and query/context metadata. A key is configured locally, but live model verification remains pending. Database/API contracts passed in CI. See the [saved checkpoint](../CHECKPOINT.md).
 
 All routes are under `/api`. Monetary amounts and exchange rates are **decimal strings**, dates are `YYYY-MM-DD`, and identifiers are UUIDs. The organization is resolved from trusted server configuration; this assignment has no login or public tenant-selection header.
 

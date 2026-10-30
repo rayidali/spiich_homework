@@ -1,6 +1,6 @@
 # Architecture and engineering decisions
 
-> Checkpoint updated 2026-10-29. This describes the implemented Daybook architecture. The redesign preserves the ledger and database invariants; browser components remain clients of the existing API. Production scale and full container operation still require external verification. Resume from [CHECKPOINT.md](../CHECKPOINT.md).
+> Checkpoint updated 2026-10-29. This describes the implemented Daybook architecture. The redesign preserves the ledger and database invariants; browser components remain clients of the existing API. Docker startup and container-recreation persistence passed in CI. Production scale, failover and backup recovery remain unmeasured. Resume from [CHECKPOINT.md](../CHECKPOINT.md).
 
 For a pictorial introduction, open the [eight-page PDF report](reports/architecture-review.pdf) or [interactive HTML version](reports/architecture-review.html). They are the planning snapshot before the provider/interface implementation. Current implementation and verification status are recorded below and in the checkpoint.
 

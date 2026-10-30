@@ -1,8 +1,8 @@
 # Explain and demonstrate what you built
 
-> Updated 2026-10-29. Use Daybook as the product name. Screenshots show the earlier design; capture the simpler interface after runtime verification. The key is saved, but live provider checks remain blocked by this session's networking. Current evidence and next steps are in [CHECKPOINT.md](../CHECKPOINT.md).
+> Updated 2026-10-29. Use Daybook as the product name. Checked-in screenshots show the earlier design; fresh captures of the simpler interface are in the successful CI artifact and still need visual review. The key is saved, but live provider checks remain blocked by this session's networking. Current evidence and next steps are in [CHECKPOINT.md](../CHECKPOINT.md).
 
-Use the [visual architecture report](reports/architecture-review.pdf) to rehearse with diagrams, or open the [interactive HTML walkthrough](reports/architecture-review.html#journeys) to step through a rent payment. It records the earlier planning snapshot. Gemini support and the simpler interface are now implemented in source, while live/runtime checks and optional retrieval remain pending.
+Use the [visual architecture report](reports/architecture-review.pdf) to rehearse with diagrams, or open the [interactive HTML walkthrough](reports/architecture-review.html#journeys) to step through a rent payment. It records the earlier planning snapshot. Gemini support and the simpler interface are now implemented in source, with backend, browser and Docker checks passing in CI. Live model evaluation and optional retrieval experiments remain pending.
 
 ## Your 30-second explanation
 

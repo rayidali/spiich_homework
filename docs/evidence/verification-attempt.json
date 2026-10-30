@@ -36,8 +36,10 @@
     }
   },
   "remoteCi": {
-    "status": "prepared, not executed",
-    "requires": "Local Git metadata write access for the user-requested Terminal workflow; local rayidali login has ADMIN access to rayidali/spiich_homework. Live job additionally requires repository GEMINI_API_KEY secret."
+    "status": "subsequently executed successfully",
+    "url": "https://github.com/rayidali/spiich_homework/actions/runs/40994222818",
+    "evidence": "cloud-verification.json",
+    "remaining": "Live job requires the repository Gemini secret and explicit opt-in; it was skipped."
   },
   "limitations": [
     "Skipped database tests are not passing tests.",

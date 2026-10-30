@@ -8,9 +8,11 @@ Latest user request: run tests and push through the local Terminal/Git login. **
 
 The project directory still cannot create `.git`. A separate permitted checkout was initialized at `/private/tmp/daybook-publish.kbVq33`; it contains only the 95 reviewed submission files, no `.env`, local database, dependencies, or provider key. Existing public Git objects were fetched with approved HTTP commands, then normal local `git add`, `git commit`, and `git push origin main` succeeded. Use this checkout for further local commits while it exists; do not relocate Git metadata into the protected project directory or reset the working source/database. Git printed a stale missing credential-helper path, but another configured helper authenticated the successful push; global Git configuration was not changed.
 
-[First CI run](https://github.com/rayidali/spiich_homework/actions/runs/40992655726): formatting, production build, migrations, and backend tests passed on PostgreSQL. The browser step failed; Docker and live AI were skipped. Browser diagnostics are being exposed as CI annotations to investigate the failure. Current browser and Docker success are not yet claimed. Local attempts remain recorded in [verification-attempt.json](docs/evidence/verification-attempt.json).
+The [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs/40994222818) on commit `634ab08f22627b26539af9227883c9208f2ae479` passed **94 backend tests, 10 production browser workflows, Docker build/startup/health, containerized tests, and posted-entry persistence across app/database recreation**. Earlier failed runs exposed a short-form dropdown label lookup and stale HTTP connections in the persistence checker; both fixes were pushed and the original accounting assertions retained. Machine-readable results are in [cloud-verification.json](docs/evidence/cloud-verification.json). The earlier local failures remain historical in [verification-attempt.json](docs/evidence/verification-attempt.json).
 
-The live Gemini job is opt-in and requires the repository's `GEMINI_API_KEY` secret. The local key has not been transferred, and no live evaluation or Vercel deployment has run.
+The live Gemini job is opt-in and requires the repository's `GEMINI_API_KEY` secret. The local key has not been transferred, and no live evaluation has run. Fresh browser screenshots are in the successful run's browser-evidence artifact; checked-in images still show the earlier design and need replacement after visual review.
+
+The user asked about Vercel access. The Vercel CLI is installed (65.2.0), but `vercel whoami` failed on a network request; local login status is unconfirmed. The Vercel plugin is available but not connected; an installation/connection option was offered. No token was requested in chat and no deployment or hosted database was created.
 
 **Gemini/OpenAI support, stronger evaluation and the simpler interface are implemented in source.** The user saved the Gemini key in the local `.env`; it must never be displayed or copied into source, documentation, screenshots or the archive. The key has not been validated against Google because this session cannot resolve the provider hostname.
 
@@ -36,21 +38,21 @@ The previous discussion-only instruction is superseded: the user said to take th
 
 ## Verification: current versus historical
 
-| Check                                       | Current evidence                                                                              |
-| ------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| Offline provider tests                      | **22 passing** with mocked transport                                                          |
-| Evaluation scorer/options/dataset tests     | **23 passing** without model/database calls                                                   |
-| Simple-entry selection tests                | **6 passing**                                                                                 |
-| Strict TypeScript / production bundle       | Passed; two known nonfatal upstream Zod annotation warnings                                   |
-| Formatting / Compose configuration          | Passed                                                                                        |
-| Current PostgreSQL suites                   | **Pending**: 29 accounting + 14 AI contracts authored; local socket connection failed `EPERM` |
-| Current browser suite                       | **Pending**: 10 workflows listed; browser aborts before page load                             |
-| Live provider access / accounting accuracy  | **Pending**: key saved, provider DNS blocked                                                  |
-| Full Docker startup / persistence           | **Pending**: no Docker runtime/socket installed                                               |
-| Physical phone / Safari / Firefox           | Not verified                                                                                  |
-| Million-user capacity / production failover | Not measured or claimed                                                                       |
+| Check                                       | Current evidence                                                                       |
+| ------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Offline provider tests                      | **22 passing** with mocked transport                                                   |
+| Evaluation scorer/options/dataset tests     | **23 passing** without model/database calls                                            |
+| Simple-entry selection tests                | **6 passing**                                                                          |
+| Strict TypeScript / production bundle       | Passed; two known nonfatal upstream Zod annotation warnings                            |
+| Formatting / Compose configuration          | Passed                                                                                 |
+| Current PostgreSQL suites                   | **Passed in CI**: 29 accounting + 14 AI contracts                                      |
+| Current browser suite                       | **Passed in CI**: all 10 production Chromium workflows                                 |
+| Live provider access / accounting accuracy  | **Pending**: key saved, provider DNS blocked                                           |
+| Full Docker startup / persistence           | **Passed in CI**: build, startup, health, containerized tests and container recreation |
+| Physical phone / Safari / Firefox           | Not verified                                                                           |
+| Million-user capacity / production failover | Not measured or claimed                                                                |
 
-The previous verified baseline was 29 database/application tests, 8 provider contracts and 8 production browser workflows. Those results and saved screenshots apply to the earlier source. Do not claim the new database/browser suites passed or use the old screenshots as evidence of the new layout. The current isolated total is **51 passing tests**; it is not a live accuracy score.
+The current automated total is **94 backend tests and 10 browser workflows passing in CI**. The 51 isolated tests are included in the backend total. Earlier checked-in screenshots still show the previous design; new captures exist in the CI artifact but have not been visually inspected here. Contract/browser tests do not establish live model accuracy or physical-device behavior.
 
 ## Environment and data preservation
 
@@ -68,6 +70,8 @@ Preserve:
 - Posted history: never edit/delete it to reset a demo; corrections use linked reversals.
 
 ## Resume and verify
+
+The source above has passed full CI; repeat relevant checks when source changes. Prioritize live evaluation, fresh screenshot review and the requested hosting discussion. For local publication, use the separate checkout and normal Git commands; the primary working source stays in this project directory.
 
 1. Read this checkpoint, [README](README.md), [verification](docs/VERIFICATION.md), and the latest [build log](docs/BUILD_LOG.md).
 2. Inspect listeners before starting another server:

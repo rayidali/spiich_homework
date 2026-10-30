@@ -1,12 +1,12 @@
 # Daybook · Accounting workspace
 
-> Updated 2026-10-29: Gemini/OpenAI adapters, bounded evaluation and the simpler interface are implemented. Compilation and isolated tests pass; the latest database/browser runs and live AI remain pending because this session blocks local sockets, browser launch and provider DNS. See [CHECKPOINT.md](CHECKPOINT.md) for the exact verification state.
+> Updated 2026-10-29: Gemini/OpenAI adapters, bounded evaluation and the simpler interface are implemented. The [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs/40994222818) passed 94 backend tests, 10 production browser workflows, Docker startup and container-recreation persistence. Live model evaluation and physical-device review remain pending. See [verification](docs/VERIFICATION.md).
 
 A React and TypeScript accounting workspace backed by PostgreSQL. Every posted journal entry is balanced and immutable at the database level. AI prepares entries for review and selects read-only financial queries; the ledger and SQL own the financial numbers.
 
 ![Daybook financial dashboard](docs/evidence/dashboard.png)
 
-The screenshot records the earlier verified design. The new Home / Transactions / Reports / Settings interface still needs fresh browser screenshots.
+The screenshot records the earlier design. Fresh screenshots of Home / Transactions / Reports / Settings are generated in the browser-evidence artifact of the [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs/40994222818); they still need visual review before replacing these images.
 
 ## Run with Docker Compose
 
@@ -115,9 +115,9 @@ docker compose --profile test run --build --rm tests
 node scripts/check-compose-persistence.mjs --execute
 ```
 
-The persistence command recreates app/database containers and checks that a complete existing posted entry survives; it preserves the named volume and makes no journal writes. Run it after Compose startup. CI includes this check, but no remote CI run is claimed.
+The persistence command recreates app/database containers and checks that a complete existing posted entry survives; it preserves the named volume and makes no journal writes. Run it after Compose startup. This check passed in the [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs/40994222818).
 
-The earlier verified baseline was **29 database tests, 8 provider contracts and 8 browser workflows**. The new provider/evaluation isolated tests pass; the revised PostgreSQL contracts and browser workflows need a new runtime run. Full Docker startup and physical-phone checks remain pending. See [verification details](docs/VERIFICATION.md) for current counts and boundaries.
+Current CI passed **94 backend tests** (29 accounting, 14 AI/database contracts, 22 provider, 23 evaluation and 6 simple-entry tests), **10 production browser workflows**, Docker build/startup/health, containerized backend tests, and posted-entry persistence across app/database container recreation. Provider responses in automated tests are controlled; this is not a live model accuracy result. See [verification details](docs/VERIFICATION.md).
 
 ## Reading the code
 

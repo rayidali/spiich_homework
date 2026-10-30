@@ -1,12 +1,12 @@
 # Daybook design record
 
-> Updated 2026-10-29. The simpler interface is implemented in source and compiles; its current browser/device verification is pending because this session cannot launch the test browser. Screenshots below document the earlier verified design. See [CHECKPOINT.md](../CHECKPOINT.md).
+> Updated 2026-10-29. The simpler interface passed all 10 production browser workflows in CI, including mobile emulation and keyboard behavior. Fresh CI screenshots still need visual inspection; screenshots below document the earlier design. Physical devices remain unverified. See [CHECKPOINT.md](../CHECKPOINT.md).
 
 Daybook is the product name. Spiich is the company receiving the engineering assignment. The interface, page title, favicon, exported filenames, package, and Compose project use Daybook.
 
 ## Latest user feedback: simplification requested
 
-On 2026-10-29 the user reported that the interface was confusing and exposed too much at once. After the architecture report they authorized implementation. The new flow is implemented; the screenshots further below remain the earlier baseline until browser verification is possible.
+On 2026-10-29 the user reported that the interface was confusing and exposed too much at once. After the architecture report they authorized implementation. The new flow is implemented and browser workflows passed in CI; the screenshots below remain the earlier baseline until fresh CI captures are reviewed and substituted.
 
 | Earlier design                                         | Current source                                                        | Reason                                                              |
 | ------------------------------------------------------ | --------------------------------------------------------------------- | ------------------------------------------------------------------- |

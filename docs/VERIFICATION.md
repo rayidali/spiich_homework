@@ -1,19 +1,17 @@
 # Verification record
 
-> Updated 2026-10-29 after Gemini/evaluation/UI implementation. New isolated tests, TypeScript/build and Compose configuration pass. The previous 29 database tests, 8 provider contracts and 8 browser workflows are historical evidence; the changed database/browser suites have not run in this restricted session. See [CHECKPOINT.md](../CHECKPOINT.md).
+> Updated 2026-10-29. The [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs/40994222818) on `634ab08f22627b26539af9227883c9208f2ae479` passed the current PostgreSQL, production-browser and Docker suites. Live model evaluation and physical-device checks remain pending. See [machine-readable evidence](evidence/cloud-verification.json).
 
 ## Current implementation checks and blockers
 
-At the user's request, a new full `npm test` attempt produced **51 passing tests, 43 skipped tests and two failed suite setups** because PostgreSQL connections are denied with `EPERM`. `npm run build` passed again. The four-case live smoke command failed during database setup before any provider call. A new DNS check returned `ENOTFOUND`, and the browser still failed before page load. The machine-readable [attempt record](evidence/verification-attempt.json) preserves those results without credentials. These are environment failures, not successful runtime verification.
+- **Backend:** all 94 tests passed against PostgreSQL: 29 accounting, 14 AI/database contracts, 22 provider unit tests, 23 evaluation unit tests and 6 simple-entry tests. Provider transport is controlled; these tests do not establish live model accuracy.
+- **Production browser:** all 10 Chromium workflows passed, including real posting/reversal, reports, accounts, recurring schedules, anomaly review, mobile overflow/touch/focus behavior, short-form account effects and AI clarification/review without automatic writes.
+- **Build/configuration:** formatting, strict TypeScript, production build, migrations and Compose configuration passed. The known upstream Zod annotation warnings remain nonfatal.
+- **Docker:** image build, complete stack startup, health check, containerized backend tests and exact posted-entry/workspace persistence after app/database container recreation passed. The named volume was preserved; the checker made no journal writes.
+- **Live AI:** the key is saved only in private local `.env`; no successful live model evaluation has run. The opt-in CI job was skipped. No provider accuracy, key validity, measured latency or billing result is claimed.
+- **Visual review:** fresh screenshots were generated in the successful run's browser-evidence artifact. Checked-in screenshots remain the earlier design until the new captures are inspected. Real phones, Safari and Firefox remain unverified.
 
-- **Provider unit tests:** 22 passing, with mocked transport and no external requests. Covers Gemini/OpenAI, schemas, allowed calls, extra-call rejection, malformed/truncated output, safe error mapping, timeouts, usage and budgets.
-- **Evaluation unit tests:** 23 passing, covering full-line comparisons, extra lines/wrong rates, exact evidence, clarification routing, dataset splits and CLI limits. These do not establish model accuracy.
-- **Simple-entry unit tests:** 6 passing, covering customized chart defaults, active/USD eligibility, receipt/repayment directions, transfers and stale selections. The current isolated total is **51 passing tests**.
-- **Build/configuration:** strict TypeScript, production Vite build and Compose configuration passed. The two previously documented Zod annotation warnings remain nonfatal.
-- **Database/browser regressions:** the current source contains 29 accounting tests, 14 database-backed AI contracts, and 10 browser workflows. A local PostgreSQL connection failed with `EPERM`; the test browser aborted before page load. These revised suites are pending, not passed.
-- **Key/connectivity:** the user saved the Gemini key in private `.env`. One minimal structured-output connectivity attempt failed before a provider response; a credential-free host check reported DNS `ENOTFOUND`. No provider result, token usage, key validity or charge can be confirmed. No live financial evaluation ran.
-- **Docker:** no runtime/socket is installed on this Mac. The new persistence check and dedicated evaluation service are configured but unexecuted. CI has not run remotely.
-- **Screenshots:** existing screenshots show the earlier verified interface. No image is presented as proof of the new layout. Real-phone verification remains pending.
+An earlier local attempt produced 51 passing tests, 43 skipped tests and two failed suite setups because PostgreSQL connections were denied with `EPERM`. Local browser startup and provider DNS also failed. The [local attempt record](evidence/verification-attempt.json) preserves this history; the remote run above supplies the subsequent database/browser/Docker evidence.
 
 Run these from the project in a normal Terminal with the existing development PostgreSQL running:
 
@@ -36,11 +34,11 @@ npm run ai:evaluate -- --suite holdout --repeats 3
 
 For Compose, start the stack, then run `docker compose --profile evaluate run --build --rm evaluate` for smoke cases. Its fixture-creation credentials are isolated from the normal app service. Evidence is written to the mounted `docs/evidence` directory. Run `node scripts/check-compose-persistence.mjs --execute` after container startup to recreate the app/database containers and compare an existing complete posted entry, without journal writes or volume deletion.
 
-### Prepared remote verification
+### GitHub Actions
 
-The existing GitHub Actions workflow now also supports manual execution. Normal push/PR/manual runs execute database/application tests, browser workflows and Compose/persistence checks. Selecting the manual `live_ai` input additionally runs four Gemini smoke cases after both prerequisite jobs pass, using at most four attempts and a 32,000 observed-token guard. This job reads only the repository's `GEMINI_API_KEY` secret and optional `DAYBOOK_GEMINI_MODEL` variable; no key is embedded in the workflow. Synthetic results are uploaded as an artifact. The user supplied `rayidali/spiich_homework`, but the connection currently reports read-only access, so nothing has been uploaded or run remotely. The available connector has repository-write and run-inspection tools but no workflow-dispatch or secret-management tool, so those steps may require GitHub's UI unless another authorized capability becomes available.
+Source was published to `rayidali/spiich_homework` using the user's local Git login and a separate temporary checkout. The original remote commit was preserved. The [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs/40994222818) verifies the current executable source. No API key, local database or dependency directory was uploaded.
 
-The local CLI was subsequently verified as `rayidali` with ADMIN access to the target. The read-only connector is authenticated as a different account, `gulfmarvel`. The user prefers local Git. Local initialization was attempted and failed with `.git: Operation not permitted` under this session's filesystem policy; direct `gh api` access also failed to connect. GitHub account permissions are therefore not the blocker for the preferred local workflow. No upload or remote test run has succeeded.
+Normal push/PR/manual runs execute database/application tests, production browser workflows and Compose/persistence checks. Selecting the manual `live_ai` input additionally runs four Gemini smoke cases after both prerequisite jobs pass, using at most four attempts and a 32,000 observed-token guard. This job requires the repository's `GEMINI_API_KEY` secret and optionally `DAYBOOK_GEMINI_MODEL`; no key is embedded in source. Synthetic results are uploaded as an artifact. That opt-in live run has not occurred.
 
 ## Historical implementation verification
 
@@ -71,7 +69,6 @@ The production bundle builds successfully. The installed Zod version emits two n
 ## Still pending
 
 - **Live AI:** a key is now saved, but provider-host DNS prevented validation. The contract tests establish application defenses, not live model accuracy, latency, or account access. Run the new bounded smoke/development/holdout harness and inspect clarification meaning manually.
-- **Container execution:** no Docker daemon was available on this machine. Compose parses/validates, but image build/startup and volume persistence need an actual Docker run. The CI configuration includes these checks and has not been executed remotely.
 - **Production capacity:** no million-user benchmark, multi-region exercise, load/failover test, or restore drill has been performed. See the architecture's workload and production plan.
 - **Browser scope:** automated checks used one Chromium-family browser at desktop and 390px mobile widths, including a touch-enabled browser context. Safari, Firefox, a formal accessibility audit, and real mobile devices have not been checked.
 
@@ -108,3 +105,6 @@ Open the UI, post a clearly labeled test entry, restart the app, and confirm tha
 - Seed completion now has a persisted date and completion marker so interrupted/repeated startup does not shift or duplicate history.
 - Cursor payloads now receive full date/UUID validation rather than letting malformed values reach PostgreSQL.
 - Repeated interrupt signals exposed a duplicate pool-close during development shutdown. Shutdown handlers now ignore repeated signals. A subsequent interactive-stop check was rejected by the execution environment's approval policy, so that particular manual path remains unverified after the fix; the standalone test launcher's start/stop cycle did pass.
+
+- Current CI found an exact-label lookup failure in the short transaction form. The category/destination selector now has an explicit accessible name; the full posting assertions passed unchanged.
+- The container-recreation checker now closes HTTP connections between reads so it does not retain a socket to a destroyed app while synchronous Compose commands run. The full posted-entry equality check subsequently passed.

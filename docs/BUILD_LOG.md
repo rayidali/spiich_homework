@@ -160,11 +160,14 @@ Data boundaries, correctness under concurrency, bounded work, and operational vi
 - The diagnostic run confirmed nine browser workflows pass; the short-form workflow times out locating its category dropdown by an exact label. Gave the dropdown an explicit accessible name matching its visible category/destination label, keeping the existing review, no-write-before-confirmation, and exact ledger assertions unchanged. Re-running CI to validate the full workflow.
 - The next run passed all 10 browser workflows, Docker build/startup/health, and containerized backend tests. Its final container-recreation persistence check failed. The check used pooled HTTP connections across destruction of the app while synchronous Compose commands blocked socket-close processing; changed these deliberate before/after reads to close their connections and added a CI failure annotation for exact diagnostics. Persistence equality assertions remain unchanged; the next run will establish whether this resolves the failure.
 
+- Final executable-source run: **[40994222818](https://github.com/rayidali/spiich_homework/actions/runs/40994222818)**, commit `634ab08f22627b26539af9227883c9208f2ae479`, succeeded. Both verify and compose jobs passed: 94 backend tests, 10 production browser workflows, Docker startup/health, containerized tests and unchanged posted-entry persistence. Live AI was intentionally skipped. Saved sanitized cloud evidence, synchronized current documentation, and refreshed the submission archive.
+- Vercel CLI is installed, but its identity request failed on networking; no local authentication status is inferred. Offered the available Vercel plugin connection. No hosting project, managed database, provider-secret transfer or deployment was created.
+
 ## Remaining external verification
 
-1. From a capable Terminal/environment, validate the saved key and execute smoke/development/holdout evaluations plus the demonstration prompts. Restart the existing API to load new source/configuration.
-2. Execute the container build/startup/persistence checks on a Docker-enabled host or CI.
-3. Production load/failover/restore testing and identity/authorization remain outside this assignment's verified scope.
-4. Run the changed database/browser suites, capture current screenshots and inspect a physical phone. The current isolated tests do not substitute for those checks.
+1. Configure the live evaluation environment without exposing keys, validate Gemini access, and run smoke/development/holdout cases with the existing bounds. Inspect required clarifications manually.
+2. Inspect the fresh CI screenshots and replace historical images after review. Check a physical phone and additional browsers.
+3. Production load/failover/restore testing and identity/authorization remain outside the verified scope.
+4. Prepare hosting only with an available authorized connection and a suitable hosted PostgreSQL database; Docker verification alone is not a deployed preview.
 
 The submission should describe these limits plainly. No guarantee of hiring acceptance or million-user capacity is implied by the implementation.
