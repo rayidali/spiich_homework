@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync, renameSync, writeFileSync, unlinkSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { QUEUE_COMPLETION_MARKER } from '../../research/io';
 const root = resolve('.tools/research/queue');
 const count = Number(process.argv[2] ?? '4');
 if (!Number.isSafeInteger(count) || count < 1 || count > 16) throw new Error('Invalid batch size');
@@ -14,7 +15,7 @@ const blocks = files.flatMap((name) => {
   const remaining = metadata.expiresAt === undefined ? null : metadata.expiresAt - Date.now();
   if (remaining !== null && remaining <= 0) {
     unlinkSync(`${stem}.ready`);
-    writeFileSync(`${stem}.done`, '000 0 28', { mode: 0o600 });
+    writeFileSync(`${stem}.done`, `000 0 28 ${QUEUE_COMPLETION_MARKER}\n`, { mode: 0o600 });
     return [];
   }
   renameSync(`${stem}.ready`, `${stem}.claimed`);

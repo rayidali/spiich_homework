@@ -10,6 +10,7 @@ import {
   type CommonMapping,
   type CommonAmendment,
   type CommonValidityNotice,
+  type CommonMetadataAmendment,
 } from '../scripts/analyze-common-capabilities';
 
 const mapping: CommonMapping = mappingSource;
@@ -253,6 +254,44 @@ describe('static common-capability postprocessor', () => {
     const data = input();
     data.currentQuestionFileSha256 = changed;
     expect(analyzeCommonCapabilities(data).questionMetadataSourceValid).toBe(false);
+  });
+
+  it('binds a reviewed metadata amendment to both original/runtime source pairs without changing membership', () => {
+    const data = input();
+    data.comparisonSourceHashes['research/baseline.ts'] = changed;
+    data.comparisonSourceHashes['research/routes.ts'] = 'c'.repeat(64);
+    const metadataAmendment: CommonMetadataAmendment = {
+      schemaVersion: 2,
+      mappingId: mapping.id,
+      membershipUnchanged: true,
+      reviewedAt: '2026-10-30T23:00:00Z',
+      rationale:
+        'Reviewed measurement-only normalization preserves the same operational capability membership.',
+      changes: ['research/baseline.ts', 'research/routes.ts'].map((file) => ({
+        file: file as 'research/baseline.ts' | 'research/routes.ts',
+        definitionSha256: mapping.sourceSha256[file],
+        comparisonSha256: data.comparisonSourceHashes[file],
+        rationale:
+          'Metadata/schema normalization only; source scope and declared capabilities remain unchanged.',
+      })),
+    };
+    const result = analyzeCommonCapabilities({ ...data, amendment: metadataAmendment });
+    expect(result.membershipSourcesValid).toBe(true);
+    expect(result.selectedQuestionIds).toHaveLength(12);
+    expect(result.sourceChecks.filter((row) => row.status === 'reviewed_amendment')).toHaveLength(2);
+    const wrongPair = structuredClone(metadataAmendment);
+    wrongPair.changes[0].comparisonSha256 = 'd'.repeat(64);
+    expect(analyzeCommonCapabilities({ ...data, amendment: wrongPair }).eligibleForConclusion).toBe(false);
+    expect(
+      analyzeCommonCapabilities({
+        ...data,
+        amendment: { ...metadataAmendment, changes: metadataAmendment.changes.slice(0, 1) },
+      }).eligibleForConclusion,
+    ).toBe(false);
+    data.comparisonSourceHashes['research/fixtures/questions.json'] = changed;
+    expect(analyzeCommonCapabilities({ ...data, amendment: metadataAmendment }).eligibleForConclusion).toBe(
+      false,
+    );
   });
 
   it('rejects stale primary snapshots, duplicate attempts, and metadata rewrites', () => {

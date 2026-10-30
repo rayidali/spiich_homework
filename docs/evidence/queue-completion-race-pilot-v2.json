@@ -1,0 +1,62 @@
+{
+  "recordedAt": "2026-10-30T22:32:51.642267+00:00",
+  "runId": "pilot-v2",
+  "episodeId": "pilot-v2:R6:financial-01-1:0",
+  "sourceHash": "7acbad256c3884d242e9f4b3ca54b034eaf3dda3c139995247d28d3b9be8f38e",
+  "classification": "inferred harness completion-file read race",
+  "confidenceBoundary": "The completion file was inspected after the episode failed. Its exact bytes at the original read were not captured; the race is an inference, not a directly observed partial read.",
+  "observedEpisode": {
+    "status": "error",
+    "error": "RESEARCH_HTTP_FAILURE",
+    "durationMs": 6254,
+    "providerDurationMs": 936
+  },
+  "providerUsageRecords": [
+    {
+      "at": "2026-10-30T22:29:07.297Z",
+      "provider": "gemini",
+      "kind": "generate",
+      "model": "gemini-3.5-flash-lite",
+      "status": 200,
+      "durationMs": 936,
+      "inputTokens": 1334,
+      "outputTokens": 142,
+      "reserveUsd": 0.0096256,
+      "estimatedUsd": 0.0007552
+    },
+    {
+      "at": "2026-10-30T22:29:11.499Z",
+      "provider": "gemini",
+      "kind": "generate",
+      "model": "gemini-3.5-flash-lite",
+      "status": null,
+      "durationMs": null,
+      "inputTokens": null,
+      "outputTokens": null,
+      "reserveUsd": 0.016787299999999998,
+      "estimatedUsd": null
+    }
+  ],
+  "completedRequest": {
+    "queuedAt": "2026-10-30T22:29:11.501Z",
+    "expiresAtMs": 1793399376500,
+    "completedFileModifiedAt": "2026-10-30T22:29:13.545591+00:00",
+    "observedFinalHttpStatus": 200,
+    "observedFinalNetworkDurationMs": 1181,
+    "observedFinalCurlExitCode": 0,
+    "observedFinalFieldCount": 3
+  },
+  "mechanism": {
+    "source": "research/io.ts queuedHttp",
+    "observation": "The runner checks completion-file existence, then immediately parses three whitespace-separated fields. Curl creates and writes that file directly. An empty or partial read can leave exitCode missing, which maps to RESEARCH_HTTP_FAILURE."
+  },
+  "interpretation": "The failed second call has a completed HTTP 200 / curl exit 0 record with about 1.181 seconds network duration. This does not support a provider/network failure or a 25-second request deadline. A non-atomic completion read is the supported harness hypothesis.",
+  "preservation": {
+    "episodeRetried": false,
+    "episodeEdited": false,
+    "usageLedgerEdited": false,
+    "reservationReleased": false,
+    "frozenResearchSourceEdited": false
+  },
+  "nextStep": "After pilot-v2 completes, add a completion terminator and require the complete footer before parsing; test partial-file arrival. Preserve this original episode and cost uncertainty."
+}

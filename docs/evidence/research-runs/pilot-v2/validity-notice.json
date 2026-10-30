@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "runId": "pilot-v2",
+  "recordedAt": "2026-10-30T22:48:54.206570+00:00",
+  "eligibleForSelection": false,
+  "classification": "Incomplete development pilot with a diagnosed transport race and pre-holdout control-protocol limitation",
+  "originalResultsSha256": "7db6a7ba258a4f3d377e1b220d63b2986c42097ca0916a9918c1a96253eb2ace",
+  "issues": [
+    {
+      "code": "DAILY_PROVIDER_QUOTA",
+      "detail": "The run stopped at 101 of 108 planned episodes after four Gemini HTTP 429 daily free-tier quota responses and the persisted unknown-usage circuit opened. Seven episodes were not attempted. The provider identified a 500-request per-day, per-project, per-model quota. No retry replaced an outcome."
+    },
+    {
+      "code": "INFERRED_COMPLETION_READ_RACE",
+      "detail": "R6 first cash episode reported RESEARCH_HTTP_FAILURE although its completed curl footer later showed HTTP 200 and exit 0. A non-atomic completion-file read is the supported explanation; the exact partial bytes were not captured. Original outcome and unknown-use reservation remain unchanged. A complete footer marker and partial-file regression tests are being added after this run."
+    },
+    {
+      "code": "CONTROL_METADATA_PROTOCOL",
+      "detail": "A pre-holdout code audit found R0 has no model-output fields or advertised vocabulary for required clarification/assumption tags. This is a structural limitation of the measurement adapter; the selected pilot does not establish how corrected clarification metadata will perform. The next development revision normalizes output metadata without adding financial tools, retrieval or a second model call."
+    }
+  ],
+  "interpretation": "This partial development record supports debugging and failure analysis, not architecture selection or a held-out accuracy claim. Source and full scoped ledger/document fingerprints were unchanged during the run. Missing attempts, provider failures and safe blocks stay visible; no winner is selected."
+}

@@ -1,5 +1,15 @@
 # Verification record
 
+## Current research checkpoint — 2026-10-30
+
+The latest published research runtime, `3d906ce127d260a342257f60fd1f8d24576157ec`, passed [CI 41138538661](https://github.com/rayidali/spiich_homework/actions/runs/41138538661): application/browser verification, Docker/persistence and native pgvector/Wren checks. Its local checkpoint passed 339 isolated tests plus build and formatting. The final working revision adds completion-file framing, normalized control metadata, clearer output instructions and an audited one-shot quota recovery helper. It passed **399 isolated tests across 26 files**, strict TypeScript/production build and global formatting; see [local v3 evidence](evidence/research-local-v3.json). A new cloud CI result is pending publication. The 43 database-dependent application tests and browser workflows were not run in the restricted local environment. Production remains unchanged at `7ecb435c`.
+
+The first 108-episode development pilot completed but has a bound invalidity notice for adapter/grammar/dispatch defects. The second recorded **101/108 episodes**, then stopped at Gemini's observed **500-request daily free-tier quota**. Its full scoped ledger/document/vector fingerprint was unchanged, and source integrity passed. Raw V2 counts are **83 ok, 9 blocked, 9 error**, with seven attempts missing. An `ok` execution does not establish correctness. The dispatcher and watcher are stopped; the persisted provider circuit remains open. A genuine HTTP 504, four quota HTTP 429 responses and an inferred completion-file read race remain visible.
+
+The [V2 diagnostic PDF](evidence/research-runs/pilot-v2/study-report.pdf), [raw report](evidence/research-runs/pilot-v2/report.html), [validity notice](evidence/research-runs/pilot-v2/validity-notice.json) and [dispatch evidence](evidence/dispatch-pilot-v2.json) document this incomplete run. PDF pages were rendered and checked for page bounds; selected chart/cover pages were visually inspected. This is report verification, not live model validation. The completed reviewer development study contains 240 outcomes with four provider errors and a threshold selected only on development data.
+
+**Not measured:** 1,620 planned held-out route episodes, 240 held-out reviewer outcomes, independent human prose quality, and the final component decision. Account billing has not been changed; an audited availability probe and a small corrected development smoke must precede the final freeze. No failed scored episode is silently retried, and no unknown-use reservation is deleted.
+
 ## 2026-10-30 live AI recovery update
 
 The hosted model and source default are now **`gemini-3.1-flash-lite`**. Direct API testing reproduced the earlier model's generation timeouts and confirmed working text/JSON/tool calls on Flash-Lite. A separate journal-proposal rejection was traced to the 100-line `maxItems` constraint in Gemini's decoding grammar: the transport now omits array maxima, while the full original Zod limit, account checks and exact-money/balance rules remain enforced locally.
@@ -10,7 +20,7 @@ Local build/native imports and **60 isolated tests** passed, including two new s
 
 > Saved 2026-10-29 America/New_York. Full CI on executable commit `576a2468feacf9bd1d040c75bb1c5ff203f28dae` **succeeded**: [run 40999183176](https://github.com/rayidali/spiich_homework/actions/runs/40999183176). Hosted HTTP checks are recorded separately. Live generation/accuracy, fresh visual inspection and physical-device checks remain pending.
 
-## Current verified state
+## Historical hosted verification snapshot — 2026-10-29
 
 | Check                 | Evidence                      | Result / scope                                                                                                            |
 | --------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
@@ -43,7 +53,7 @@ Anonymous requests reached Vercel sign-in. Private automation authenticated the 
 
 The scheduler required both deployment access and its own bearer secret. The authorized manual call processed a bounded batch. It does not prove the automatic daily timer has fired, that queues always drain, or that recovery/load objectives are met.
 
-## Live AI: established facts and unresolved work
+## Historical timeout investigation — superseded by the recovery update above
 
 The user saved a Gemini key locally and it was supplied server-side to Vercel. A Google model-metadata request succeeded for the configured model. A hosted financial question returned the handled 25-second timeout. This establishes neither a successful generation nor the cause of the timeout. No completed smoke/development/holdout score, successful live latency benchmark, provider usage or billing result is claimed. Do not call the key untested or infer it is invalid from the timeout.
 
@@ -61,7 +71,7 @@ Use a capable environment with migrated PostgreSQL and fixture-creation credenti
 
 With Compose, `docker compose --profile evaluate run --build --rm evaluate` uses the separate evaluation profile. Freeze model/settings/cases before holdout; disclose reuse if held-out failures guide tuning.
 
-## CI execution and publication
+## Historical hosting CI and publication
 
 Source was pushed using local `rayidali` Git authentication from the permitted temporary checkout. The public repository contains reviewed source/docs and no local keys or database. The tested executable commit is `576a2468feacf9bd1d040c75bb1c5ff203f28dae`; later checkpoint changes are documentation/evidence only.
 

@@ -1,0 +1,1911 @@
+{
+  "schemaVersion": 1,
+  "runId": "pilot-v2",
+  "split": "development",
+  "weights": [
+    {
+      "id": "original",
+      "label": "Original",
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10
+    },
+    {
+      "id": "financial",
+      "label": "Financial emphasis",
+      "factual": 50,
+      "completion": 15,
+      "grounding": 15,
+      "uncertainty": 10
+    },
+    {
+      "id": "evidence",
+      "label": "Evidence emphasis",
+      "factual": 30,
+      "completion": 15,
+      "grounding": 35,
+      "uncertainty": 10
+    },
+    {
+      "id": "uncertainty",
+      "label": "Uncertainty emphasis",
+      "factual": 30,
+      "completion": 15,
+      "grounding": 20,
+      "uncertainty": 25
+    },
+    {
+      "id": "equal",
+      "label": "Equal dimensions",
+      "factual": 22.5,
+      "completion": 22.5,
+      "grounding": 22.5,
+      "uncertainty": 22.5
+    }
+  ],
+  "specificationSha256": "6226947bda60da2398a85b30407338f275d95351e2124495e9c8a90de2dd2cc0",
+  "complete": false,
+  "eligibleForComparativeInterpretation": false,
+  "validityNotice": {
+    "schemaVersion": 1,
+    "runId": "pilot-v2",
+    "recordedAt": "2026-10-30T22:48:54.206570+00:00",
+    "eligibleForSelection": false,
+    "classification": "Incomplete development pilot with a diagnosed transport race and pre-holdout control-protocol limitation",
+    "originalResultsSha256": "7db6a7ba258a4f3d377e1b220d63b2986c42097ca0916a9918c1a96253eb2ace",
+    "issues": [
+      {
+        "code": "DAILY_PROVIDER_QUOTA",
+        "detail": "The run stopped at 101 of 108 planned episodes after four Gemini HTTP 429 daily free-tier quota responses and the persisted unknown-usage circuit opened. Seven episodes were not attempted. The provider identified a 500-request per-day, per-project, per-model quota. No retry replaced an outcome."
+      },
+      {
+        "code": "INFERRED_COMPLETION_READ_RACE",
+        "detail": "R6 first cash episode reported RESEARCH_HTTP_FAILURE although its completed curl footer later showed HTTP 200 and exit 0. A non-atomic completion-file read is the supported explanation; the exact partial bytes were not captured. Original outcome and unknown-use reservation remain unchanged. A complete footer marker and partial-file regression tests are being added after this run."
+      },
+      {
+        "code": "CONTROL_METADATA_PROTOCOL",
+        "detail": "A pre-holdout code audit found R0 has no model-output fields or advertised vocabulary for required clarification/assumption tags. This is a structural limitation of the measurement adapter; the selected pilot does not establish how corrected clarification metadata will perform. The next development revision normalizes output metadata without adding financial tools, retrieval or a second model call."
+      }
+    ],
+    "interpretation": "This partial development record supports debugging and failure analysis, not architecture selection or a held-out accuracy claim. Source and full scoped ledger/document fingerprints were unchanged during the run. Missing attempts, provider failures and safe blocks stay visible; no winner is selected."
+  },
+  "validityNoticeBound": true,
+  "routes": [
+    {
+      "route": "R0",
+      "episodes": 11,
+      "plannedEpisodes": 12,
+      "missingEpisodes": 1,
+      "errors": 3,
+      "disqualified": false,
+      "primaryMacroSuccess": 0.3333333333333333,
+      "columns": [
+        {
+          "id": "original",
+          "meanScore90": 40.303,
+          "familyMacro90": 36.9444,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 11.6667
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 23.3333
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 6.6667
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 0
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "financial",
+          "meanScore90": 39.0909,
+          "familyMacro90": 35.8333,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 10
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 20
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 5
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 0
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "evidence",
+          "meanScore90": 43.9394,
+          "familyMacro90": 40.2778,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 16.6666
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 33.3333
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 11.6666
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 0
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "uncertainty",
+          "meanScore90": 44.3939,
+          "familyMacro90": 40.6944,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 19.1667
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 38.3333
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 6.6667
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 0
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "equal",
+          "meanScore90": 44.3182,
+          "familyMacro90": 40.625,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 18.75
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 37.5
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 7.5
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 0
+            }
+          ],
+          "rank": null
+        }
+      ],
+      "minimumRank": null,
+      "maximumRank": null
+    },
+    {
+      "route": "R1",
+      "episodes": 11,
+      "plannedEpisodes": 12,
+      "missingEpisodes": 1,
+      "errors": 0,
+      "disqualified": false,
+      "primaryMacroSuccess": 0.4166666666666667,
+      "columns": [
+        {
+          "id": "original",
+          "meanScore90": 51.2121,
+          "familyMacro90": 53.6111,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 53.3334
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 8.3334
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 0
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 80
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "financial",
+          "meanScore90": 51.0606,
+          "familyMacro90": 53.6111,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 52.5
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 7.5
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 0
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 81.6667
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "evidence",
+          "meanScore90": 52.2727,
+          "familyMacro90": 54.7223,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 55.8334
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 10.8334
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 0
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 81.6667
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "uncertainty",
+          "meanScore90": 53.6364,
+          "familyMacro90": 55.5556,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 60.8334
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 15.8334
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 0
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 76.6667
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "equal",
+          "meanScore90": 53.1818,
+          "familyMacro90": 55,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 60
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 15
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 0
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 75
+            }
+          ],
+          "rank": null
+        }
+      ],
+      "minimumRank": null,
+      "maximumRank": null
+    },
+    {
+      "route": "R2",
+      "episodes": 12,
+      "plannedEpisodes": 12,
+      "missingEpisodes": 0,
+      "errors": 1,
+      "disqualified": false,
+      "primaryMacroSuccess": 0.5,
+      "columns": [
+        {
+          "id": "original",
+          "meanScore90": 58.6111,
+          "familyMacro90": 58.6111,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 75
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 56.6667
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "adversarial",
+              "episodes": 2,
+              "meanScore90": 40
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "financial",
+          "meanScore90": 58.2639,
+          "familyMacro90": 58.2639,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 73.75
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 55
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "adversarial",
+              "episodes": 2,
+              "meanScore90": 40.8333
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "evidence",
+          "meanScore90": 59.375,
+          "familyMacro90": 59.375,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 73.75
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 61.6666
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "adversarial",
+              "episodes": 2,
+              "meanScore90": 40.8333
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "uncertainty",
+          "meanScore90": 60,
+          "familyMacro90": 60,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 77.5
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 64.1667
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "adversarial",
+              "episodes": 2,
+              "meanScore90": 38.3334
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "equal",
+          "meanScore90": 60,
+          "familyMacro90": 60,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 78.75
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 63.75
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "adversarial",
+              "episodes": 2,
+              "meanScore90": 37.5
+            }
+          ],
+          "rank": null
+        }
+      ],
+      "minimumRank": null,
+      "maximumRank": null
+    },
+    {
+      "route": "R3",
+      "episodes": 12,
+      "plannedEpisodes": 12,
+      "missingEpisodes": 0,
+      "errors": 2,
+      "disqualified": false,
+      "primaryMacroSuccess": 0.4166666666666667,
+      "columns": [
+        {
+          "id": "original",
+          "meanScore90": 54.1667,
+          "familyMacro90": 54.1667,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 48.3333
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 56.6667
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 2,
+              "meanScore90": 40
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "financial",
+          "meanScore90": 53.2639,
+          "familyMacro90": 53.2639,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 43.75
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 55
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 2,
+              "meanScore90": 40.8333
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "evidence",
+          "meanScore90": 54.9306,
+          "familyMacro90": 54.9306,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 47.0834
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 61.6666
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 2,
+              "meanScore90": 40.8333
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "uncertainty",
+          "meanScore90": 56.3889,
+          "familyMacro90": 56.3889,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 55.8334
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 64.1667
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 2,
+              "meanScore90": 38.3334
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "equal",
+          "meanScore90": 56.875,
+          "familyMacro90": 56.875,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 60
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 63.75
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 2,
+              "meanScore90": 37.5
+            }
+          ],
+          "rank": null
+        }
+      ],
+      "minimumRank": null,
+      "maximumRank": null
+    },
+    {
+      "route": "R4",
+      "episodes": 11,
+      "plannedEpisodes": 12,
+      "missingEpisodes": 1,
+      "errors": 0,
+      "disqualified": false,
+      "primaryMacroSuccess": 0.5,
+      "columns": [
+        {
+          "id": "original",
+          "meanScore90": 63.9394,
+          "familyMacro90": 65.2778,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 75
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 56.6667
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 80
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "financial",
+          "meanScore90": 63.5606,
+          "familyMacro90": 65.0695,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 73.75
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 55
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 81.6667
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "evidence",
+          "meanScore90": 64.7727,
+          "familyMacro90": 66.1806,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 73.75
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 61.6666
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 81.6667
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "uncertainty",
+          "meanScore90": 65.4545,
+          "familyMacro90": 66.3889,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 77.5
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 64.1667
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 76.6667
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "equal",
+          "meanScore90": 65.4545,
+          "familyMacro90": 66.25,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 78.75
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 63.75
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 75
+            }
+          ],
+          "rank": null
+        }
+      ],
+      "minimumRank": null,
+      "maximumRank": null
+    },
+    {
+      "route": "R5",
+      "episodes": 11,
+      "plannedEpisodes": 12,
+      "missingEpisodes": 1,
+      "errors": 0,
+      "disqualified": false,
+      "primaryMacroSuccess": 0.4166666666666667,
+      "columns": [
+        {
+          "id": "original",
+          "meanScore90": 57.2727,
+          "familyMacro90": 59.1667,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 38.3333
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 56.6667
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 80
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "financial",
+          "meanScore90": 56.7424,
+          "familyMacro90": 58.8195,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 36.25
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 55
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 81.6667
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "evidence",
+          "meanScore90": 58.5606,
+          "familyMacro90": 60.4861,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 39.5834
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 61.6666
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 81.6667
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "uncertainty",
+          "meanScore90": 60.1515,
+          "familyMacro90": 61.5278,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 48.3333
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 64.1667
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 76.6667
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "equal",
+          "meanScore90": 60,
+          "familyMacro90": 61.25,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 48.75
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 63.75
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 75
+            }
+          ],
+          "rank": null
+        }
+      ],
+      "minimumRank": null,
+      "maximumRank": null
+    },
+    {
+      "route": "R6",
+      "episodes": 11,
+      "plannedEpisodes": 12,
+      "missingEpisodes": 1,
+      "errors": 2,
+      "disqualified": false,
+      "primaryMacroSuccess": 0.5,
+      "columns": [
+        {
+          "id": "original",
+          "meanScore90": 54.5455,
+          "familyMacro90": 50,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 53.3334
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 56.6667
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 55
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 0
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "financial",
+          "meanScore90": 53.75,
+          "familyMacro90": 49.2708,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 52.5
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 55
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 53.125
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 0
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "evidence",
+          "meanScore90": 56.9318,
+          "familyMacro90": 52.1875,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 55.8334
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 61.6666
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 60.625
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 0
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "uncertainty",
+          "meanScore90": 57.9545,
+          "familyMacro90": 53.125,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 60.8334
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 64.1667
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 58.75
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 0
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "equal",
+          "meanScore90": 57.7841,
+          "familyMacro90": 52.9688,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 60
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 63.75
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 59.0625
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 0
+            }
+          ],
+          "rank": null
+        }
+      ],
+      "minimumRank": null,
+      "maximumRank": null
+    },
+    {
+      "route": "R7",
+      "episodes": 11,
+      "plannedEpisodes": 12,
+      "missingEpisodes": 1,
+      "errors": 0,
+      "disqualified": false,
+      "primaryMacroSuccess": 0.5,
+      "columns": [
+        {
+          "id": "original",
+          "meanScore90": 67.2727,
+          "familyMacro90": 68.3333,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 48.3333
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 56.6667
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 80
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "financial",
+          "meanScore90": 66.2879,
+          "familyMacro90": 67.5695,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 43.75
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 55
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 81.6667
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "evidence",
+          "meanScore90": 68.1061,
+          "familyMacro90": 69.2361,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 47.0834
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 61.6666
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 81.6667
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "uncertainty",
+          "meanScore90": 69.697,
+          "familyMacro90": 70.2778,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 55.8334
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 64.1667
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 76.6667
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "equal",
+          "meanScore90": 70.2273,
+          "familyMacro90": 70.625,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 60
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 63.75
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 75
+            }
+          ],
+          "rank": null
+        }
+      ],
+      "minimumRank": null,
+      "maximumRank": null
+    },
+    {
+      "route": "R8",
+      "episodes": 11,
+      "plannedEpisodes": 12,
+      "missingEpisodes": 1,
+      "errors": 1,
+      "disqualified": false,
+      "primaryMacroSuccess": 0.4166666666666667,
+      "columns": [
+        {
+          "id": "original",
+          "meanScore90": 50,
+          "familyMacro90": 45.8333,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 38.3333
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 56.6667
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 0
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "financial",
+          "meanScore90": 49.3182,
+          "familyMacro90": 45.2083,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 36.25
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 55
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 0
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "evidence",
+          "meanScore90": 51.1364,
+          "familyMacro90": 46.875,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 39.5834
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 61.6666
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 0
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "uncertainty",
+          "meanScore90": 53.1818,
+          "familyMacro90": 48.75,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 48.3333
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 64.1667
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 0
+            }
+          ],
+          "rank": null
+        },
+        {
+          "id": "equal",
+          "meanScore90": 53.1818,
+          "familyMacro90": 48.75,
+          "families": [
+            {
+              "family": "financial",
+              "episodes": 2,
+              "meanScore90": 90
+            },
+            {
+              "family": "analytics",
+              "episodes": 2,
+              "meanScore90": 48.75
+            },
+            {
+              "family": "documents",
+              "episodes": 2,
+              "meanScore90": 63.75
+            },
+            {
+              "family": "scenario",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "entry",
+              "episodes": 2,
+              "meanScore90": 45
+            },
+            {
+              "family": "adversarial",
+              "episodes": 1,
+              "meanScore90": 0
+            }
+          ],
+          "rank": null
+        }
+      ],
+      "minimumRank": null,
+      "maximumRank": null
+    }
+  ],
+  "notes": [
+    "Secondary dashboard robustness only. Whole-benchmark six-family task success, paired effects and hard gates remain primary; no winner is chosen from these columns.",
+    "Every alternative totals90. Components are normalized by their original maxima40/20/20/10; the unavailable10-point human clarity score is not imputed.",
+    "Errors retain zero components; blocks retain their recorded graded components. Missing episodes remain missing, and any invalidity notice supersedes mechanical completeness.",
+    "Each headline column is an equal-family mean, unavailable when a family lacks observations. Micro means and per-family counts remain available separately.",
+    "Ranks use competition ties and exclude disqualified routes. Ranks are unavailable for incomplete/ineligible studies. Stable ranks do not establish prose faithfulness or statistical superiority.",
+    "Weights were fixed before held-out evaluation and were not selected using observed scores. Do not select the most favorable column or average columns into a new objective."
+  ]
+}

@@ -1,10 +1,12 @@
 # Daybook · Accounting workspace
 
-> Updated 2026-10-30: hosted AI uses `gemini-3.1-flash-lite`; cash, transaction search, expenses and a review-only entry proposal passed selected live checks. Provider failures remain intermittent. The journal-schema compatibility fix passes 60 isolated tests; [new full CI](https://github.com/rayidali/spiich_homework/actions/runs/41103851106) passed **103 backend tests, 10 browser workflows and Docker startup/persistence**. See [recovery evidence](docs/evidence/chat-recovery-verification.json) and [checkpoint](CHECKPOINT.md).
+> Updated 2026-10-30: the deployed accounting application remains separate from the research study. The latest research pilot stopped at **101/108 episodes** after Gemini's daily free-tier quota was exhausted; its full data fingerprint was unchanged. The planned held-out comparison is unrun, and no winning architecture is claimed. See the [study narrative](docs/reports/research-study.md), [V2 validity notice](docs/evidence/research-runs/pilot-v2/validity-notice.json) and [checkpoint](CHECKPOINT.md).
 
 A React and TypeScript accounting workspace backed by PostgreSQL. Every posted journal entry is balanced and immutable at the database level. AI prepares entries for review and selects read-only financial queries; the ledger and SQL own the financial numbers.
 
-An isolated comparative research implementation now explores nine AI architectures: the current tool control, broader analytics, lexical documents, managed File Search, Gemini embeddings with pgvector, Jev reranking, Wren, and two answer reviewers. See the [experimental protocol](docs/PLAN.md) and [research checkpoint](CHECKPOINT.md). Integration checks are passing; the controlled pilot and held-out score study are still in progress. These experimental routes are not deployed as the production assistant, and no study winner is claimed yet.
+The deployed assistant uses `gemini-3.1-flash-lite` or the selectable OpenAI adapter. Selected hosted cash, transaction-search, expense and entry-proposal checks succeeded; intermittent provider failures remain. Its [application baseline](https://github.com/rayidali/spiich_homework/actions/runs/41103851106) passed 103 backend tests, 10 browser workflows and Docker startup/persistence. These checks are not a model-accuracy score.
+
+An isolated research implementation compares nine AI routes: the current tool architecture, broader analytics, lexical documents, managed File Search, Gemini embeddings with pgvector, Jev reranking, Wren and two answer reviewers. Research uses Gemini 3.5 Flash-Lite with separate synthetic fixtures and read-only analytical access. The first pilot is disqualified by diagnosed adapter defects; V2 is incomplete and remains diagnostic. **1,620 held-out route episodes and 240 held-out reviewer outcomes have not run.** The [protocol](docs/PLAN.md), [narrative and diagrams](docs/reports/research-study.md), [diagnostic V2 HTML report](docs/evidence/research-runs/pilot-v2/report.html), [12-page PDF](docs/evidence/research-runs/pilot-v2/study-report.pdf) and [reproduction guide](docs/research/REPRODUCE.md) describe the implemented work and its limits. None of these experimental routes is enabled in production chat.
 
 ![Daybook financial dashboard](docs/evidence/dashboard.png)
 
@@ -53,7 +55,7 @@ With Compose, use the dedicated evaluation profile, which has administrative acc
 docker compose --profile evaluate run --build --rm evaluate
 ```
 
-No successful live model evaluation is claimed yet. Jev, semantic vectors, Mastra and Wren remain optional experiments.
+The production 40-case live evaluation is separate from the research benchmark and remains incomplete. Jev, semantic vectors, managed File Search and Wren are implemented and exercised in the isolated research harness; they are not production features. Mastra has not been added.
 
 ## Local development without Docker
 
@@ -119,7 +121,9 @@ node scripts/check-compose-persistence.mjs --execute
 
 The persistence command recreates app/database containers and checks that a complete existing posted entry survives; it preserves the named volume and makes no journal writes. Run it after Compose startup. This check passed in the [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs/40999183176).
 
-Current CI passed **103 backend tests** (29 accounting, 14 AI/database contracts, 24 provider, 23 evaluation, 6 simple-entry and 7 hosted scheduler tests), **10 production browser workflows**, Docker build/startup/health, containerized backend tests, and posted-entry persistence across app/database container recreation. Provider responses in automated tests are controlled; this is not a live model accuracy result. See [verification details](docs/VERIFICATION.md).
+The deployed application baseline passed **103 backend tests** (29 accounting, 14 AI/database contracts, 24 provider, 23 evaluation, 6 simple-entry and 7 hosted scheduler tests), **10 production browser workflows**, Docker build/startup/health, containerized backend tests, and posted-entry persistence across app/database container recreation.
+
+For research source `3d906ce`, [CI 41138538661](https://github.com/rayidali/spiich_homework/actions/runs/41138538661) passed the application verification, application Compose and separate native research database jobs. The recorded local checkpoint had **339 isolated tests**, build and formatting passing; this is not the CI backend count. The live-AI job was skipped. The final development correction now passes **399 isolated tests**, build and formatting locally ([evidence](docs/evidence/research-local-v3.json)); its new cloud CI is pending publication. It does not alter the preserved pilot results. Automated provider contracts and database checks do not establish live answer accuracy. See [research CI evidence](docs/evidence/research-ci-v2.json) and [verification details](docs/VERIFICATION.md).
 
 ## Reading the code
 
@@ -137,9 +141,11 @@ shared/          Money arithmetic and TypeScript/Zod contracts
 web/src/         React pages, forms and reusable UI
 tests/           Real PostgreSQL tests, provider contracts, browser workflows
 scripts/         Migration, resumable seeding, dev launcher, live AI evaluation
+research/        Isolated routes, retrieval, Wren bridge, validators and reference/scoring code
+scripts/research/  Fixture setup, indexing, controlled runs and report generation
 ```
 
-Start with the eight-page **[visual architecture report](docs/reports/architecture-review.pdf)** or its **[interactive HTML version](docs/reports/architecture-review.html)**. This is the planning snapshot from before the Gemini/interface implementation; it explains the research, responsibility boundaries and evaluation plan. Use the checkpoint for current execution status.
+For the current research explanation, start with the **[study narrative](docs/reports/research-study.md)** and its hiring-cost walkthrough and architecture diagrams. The older eight-page **[visual architecture report](docs/reports/architecture-review.pdf)** and **[interactive HTML version](docs/reports/architecture-review.html)** preserve the planning snapshot from before the Gemini/interface implementation. Use the checkpoint for current execution status.
 
 The [beginner accounting walkthrough](docs/ACCOUNTING_WALKTHROUGH.md) explains the numbers, and the [architecture](docs/ARCHITECTURE.md) provides implementation details and research sources. The [demo and interview guide](docs/INTERVIEW_GUIDE.md) explains the design in practical terms. [API reference](docs/API.md), [delivery plan](docs/PLAN.md), and [build log](docs/BUILD_LOG.md) record implementation details and decisions. The [Daybook design record](docs/DESIGN.md) explains the visual identity, downloaded design skills, interaction rules, and before/after evidence.
 
@@ -147,7 +153,7 @@ The [beginner accounting walkthrough](docs/ACCOUNTING_WALKTHROUGH.md) explains t
 
 This is a single configured workspace application, as authentication was excluded from the assignment. Organization-scoped tables and composite foreign keys prepare the data model for tenancy; they do not replace production authentication, authorization, or row-level security. Compose binds the UI/API to localhost.
 
-Reports use historical recorded exchange rates. Automated period-end revaluation, tax, inventory, invoice lifecycle management, bank reconciliation, and formal period closing are outside this implementation. Financial insights support four explicit query families and clarification; arbitrary SQL and unrestricted analysis are intentionally unavailable.
+Reports use historical recorded exchange rates. Automated period-end revaluation, tax, inventory, invoice lifecycle management, bank reconciliation, and formal period closing are outside this implementation. Production financial insights support four explicit query families and clarification. Broader analysis and Wren-planned SQL exist only in the isolated experiment, behind bounded query checks and a restricted reader.
 
 The design includes concurrency controls and bounded work that support growth. **Million-user capacity has not been load-tested or claimed.** The architecture document describes the workload assumptions, operational requirements, and measurements needed to earn that claim.
 
@@ -159,4 +165,4 @@ Open [Daybook](https://daybook-ledger-delta.vercel.app) and sign in with the own
 
 The hosted trial balance and balance sheet had zero differences. Scheduler authorization and an authorized batch passed. Automatic daily firing, fresh hosted browser visual inspection and live AI accuracy remain unverified. Larger job backlogs can wait for later hosted invocations; this is not a measured million-user deployment.
 
-The next work is to assess intermittent provider failures, run bounded live evaluations, inspect fresh CI screenshots, check the hosted/physical-phone flows, and decide reviewer sharing. Resume from [CHECKPOINT.md](CHECKPOINT.md); do not reset the database or rebuild the application.
+Research is stopped at a documented daily quota. Preserve the pilot failures and unknown-use reservations, finish offline development corrections, and verify provider capacity through an explicitly authorized recovery check before any further live run. No recovery probe has yet restored capacity. Held-out evaluation and a product recommendation remain pending. Hosted visual review, physical-phone checks and reviewer sharing are separate unfinished product checks. Resume from [CHECKPOINT.md](CHECKPOINT.md); do not reset the database or rebuild the application.

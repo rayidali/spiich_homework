@@ -2,7 +2,7 @@
 
 Defined **2026-10-30 during the development pilot and before held-out execution**. This is a supplementary, descriptive comparison of ordinary tasks within the original R0 interface. The whole-benchmark six-family macro score remains the primary result. No episode outcomes were used to choose membership, and this document reports no subgroup performance.
 
-The machine-readable definition is [common-capabilities-v1.json](common-capabilities-v1.json). It lists all 60 scenario groups, both question IDs in each group, split/family, inclusion or exclusion, capability, and a rationale. It also records SHA-256 hashes of the exact baseline, route-dispatch, and question files inspected. These documents are separate from the frozen runtime and do not change model prompts, reference labels, scoring, or the running pilot.
+The machine-readable definition is [common-capabilities-v1.json](common-capabilities-v1.json). It lists all 60 scenario groups, both question IDs in each group, split/family, inclusion or exclusion, capability, and a rationale. It also records SHA-256 hashes of the exact baseline, route-dispatch, and question files inspected. This definition was created separately from the frozen runtime during the first development pilot; it did not change that pilot's model prompts, reference labels, scoring, or execution.
 
 ## Why this subgroup exists
 
@@ -106,7 +106,7 @@ node --import tsx scripts/analyze-common-capabilities.ts docs/evidence/research-
 
 It writes `common-capabilities/common-capabilities.json`, `report.md`, `success.svg`, and `analysis-provenance.json` beneath the run directory. The command reuses preserved primary scores rather than silently rescoring with later labels. It cross-checks raw episode identity/metadata, rejects duplicates and stale report/log pairs, preserves errors and blocks, reports missing versus unscheduled cases, and propagates whole-run route hard gates. It requires full primary benchmark coverage, verified ledger-and-corpus fingerprints, complete subgroup measurements, and valid membership-source hashes before comparative eligibility.
 
-The comparison source hashes come from that run's `source-manifest.json`, not whichever runtime file happens to be on disk later. Current question metadata must still match the definition. Baseline or question hash changes make the analysis diagnostic; they cannot be waived through a route-file amendment.
+The comparison source hashes come from that run's `source-manifest.json`, not whichever runtime file happens to be on disk later. Current question metadata must still match the definition. Baseline or question hash changes make the analysis diagnostic under a legacy route-only amendment. The explicit version-2 metadata amendment described below can bind reviewed baseline and route changes together; question changes remain unwaivable.
 
 If an explicitly reviewed route-file change leaves the defined R0 capability boundary intact, a second argument may identify a separate amendment JSON with these fields:
 
@@ -124,8 +124,12 @@ If an explicitly reviewed route-file change leaves the defined R0 capability bou
 
 This is a format example, not an approved amendment. The analyzer accepts only the exact hash pair, retains the amendment in its output, and records its hash in analysis provenance. Without that artifact, route-source drift stays visibly diagnostic and ineligible. A changed capability boundary requires a new subgroup definition before examining the new held-out outcomes.
 
-Fifteen provider-free tests cover subgroup counts, unequal-family denominators, errors/blocks, missing/unscheduled work, hard gates outside the subgroup, snapshot gates, exact amendment binding, unwaivable baseline/question drift, stale/duplicate logs, mapping integrity, superseding validity notices, and standalone escaped SVG output. They passed together with TypeScript validation on 2026-10-30. These are analysis checks, not measured model performance.
+Sixteen provider-free tests cover subgroup counts, unequal-family denominators, errors/blocks, missing/unscheduled work, hard gates outside the subgroup, snapshot gates, exact amendment binding, unwaivable baseline/question drift, stale/duplicate logs, mapping integrity, superseding validity notices, and standalone escaped SVG output. They passed together with TypeScript validation on 2026-10-30. These are analysis checks, not measured model performance.
 
 The analyzer also reads an adjacent `validity-notice.json`. A negative notice overrides the original report's mechanical eligibility flag. Its run ID and original-results digest must bind to the input report; an unbound notice also forces diagnostic status. Original scores remain preserved.
 
 The [reviewed v2 route-source amendment](common-capabilities-amendment-v2.json) binds the original capability definition to the corrected development runtime's exact route-file hash. It confirms that baseline tools, question texts, and subgroup membership are unchanged; the R0 evidence adapter and broader planner contracts were corrected. This membership review does not validate or rescore the initial pilot. Pass this artifact only when analyzing a run with that exact reviewed route hash.
+
+The [final metadata-normalization amendment](common-capabilities-amendment-v3.json) uses `schemaVersion: 2`, preserves `membershipUnchanged: true`, and binds **both** baseline and route source hashes through a two-item `changes` array. The external analyzer verifies both complete hash pairs and their review rationales together. It does not permit this artifact to waive changed question text, missing measurements, snapshot failure, or a negative validity notice. The additional metadata grants no new financial or retrieval capability. R0's formal CLARIFY-versus-BLOCK limitation remains; a strict behavior mismatch is not evidence of harmful acceptance.
+
+Use the v2 route-only amendment for the actual `pilot-v2` source, and the v3 metadata amendment only for a run matching its later final-runtime hashes. The [pilot-v2 subgroup supplement](../evidence/research-runs/pilot-v2/common-capabilities/report.md) is diagnostic and ineligible; it preserves the quota stop, source version and validity notice.

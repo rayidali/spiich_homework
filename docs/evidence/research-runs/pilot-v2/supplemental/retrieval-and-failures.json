@@ -1,0 +1,5295 @@
+{
+  "schemaVersion": "daybook-retrieval-supplement-v2",
+  "validityNotice": {
+    "schemaVersion": 1,
+    "runId": "pilot-v2",
+    "recordedAt": "2026-10-30T22:48:54.206570+00:00",
+    "eligibleForSelection": false,
+    "classification": "Incomplete development pilot with a diagnosed transport race and pre-holdout control-protocol limitation",
+    "originalResultsSha256": "7db6a7ba258a4f3d377e1b220d63b2986c42097ca0916a9918c1a96253eb2ace",
+    "issues": [
+      {
+        "code": "DAILY_PROVIDER_QUOTA",
+        "detail": "The run stopped at 101 of 108 planned episodes after four Gemini HTTP 429 daily free-tier quota responses and the persisted unknown-usage circuit opened. Seven episodes were not attempted. The provider identified a 500-request per-day, per-project, per-model quota. No retry replaced an outcome."
+      },
+      {
+        "code": "INFERRED_COMPLETION_READ_RACE",
+        "detail": "R6 first cash episode reported RESEARCH_HTTP_FAILURE although its completed curl footer later showed HTTP 200 and exit 0. A non-atomic completion-file read is the supported explanation; the exact partial bytes were not captured. Original outcome and unknown-use reservation remain unchanged. A complete footer marker and partial-file regression tests are being added after this run."
+      },
+      {
+        "code": "CONTROL_METADATA_PROTOCOL",
+        "detail": "A pre-holdout code audit found R0 has no model-output fields or advertised vocabulary for required clarification/assumption tags. This is a structural limitation of the measurement adapter; the selected pilot does not establish how corrected clarification metadata will perform. The next development revision normalizes output metadata without adding financial tools, retrieval or a second model call."
+      }
+    ],
+    "interpretation": "This partial development record supports debugging and failure analysis, not architecture selection or a held-out accuracy claim. Source and full scoped ledger/document fingerprints were unchanged during the run. Missing attempts, provider failures and safe blocks stay visible; no winner is selected."
+  },
+  "selectionStatus": "KNOWN STUDY DEFECTS / NOT FOR SELECTION",
+  "runId": "pilot-v2",
+  "createdAt": "2026-10-30T22:51:42.881Z",
+  "cutoff": 6,
+  "split": "development",
+  "measuredEpisodes": 101,
+  "documentApplicableEpisodes": 36,
+  "routes": [
+    {
+      "route": "R0",
+      "label": "Current control",
+      "episodes": 11,
+      "documentApplicable": 4,
+      "noDocumentLabel": 7,
+      "uniqueApplicableGroups": 4,
+      "completedRetrievals": 0,
+      "rankedRetrievals": 0,
+      "skippedRetrievals": 0,
+      "unknownRetrievalStages": 0,
+      "unsupportedRetrievals": 4,
+      "conditionalSelectedDocumentRecallAt6": null,
+      "conditionalRecallAt6": null,
+      "conditionalMrrAt6": null,
+      "conditionalNdcgAt6": null,
+      "scenarioMacroConditionalRecallAt6": null,
+      "releasedWithAllRequiredDocuments": 0,
+      "endToEndRequiredDocumentAvailability": 0,
+      "failures": [
+        {
+          "category": "capability:documents_unavailable",
+          "episodes": 4
+        },
+        {
+          "category": "operational:provider_or_plan_contract",
+          "episodes": 2
+        },
+        {
+          "category": "operational:provider_rate_limit",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:episode_error",
+          "episodes": 3
+        },
+        {
+          "category": "structured_answer:metric_key_mismatch",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_assumption",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_document_evidence",
+          "episodes": 3
+        },
+        {
+          "category": "structured_answer:missing_ledger_provenance",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:required_fact_mismatch",
+          "episodes": 4
+        },
+        {
+          "category": "structured_answer:required_fact_missing_or_multiple_mismatches",
+          "episodes": 4
+        }
+      ],
+      "latency": {
+        "allAttempts": {
+          "episodes": 11,
+          "wall": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 3364,
+            "p95Ms": 18547
+          },
+          "providerHttpSum": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 806,
+            "p95Ms": 16625,
+            "completeEpisodes": 11,
+            "partialEpisodes": 0,
+            "unknownEpisodes": 0,
+            "unverifiedEpisodes": 0,
+            "noCallEpisodes": 0,
+            "recordedCalls": 11,
+            "measuredCalls": 11,
+            "missingCalls": 0
+          },
+          "providerPartialHttpSum": {
+            "measured": 0,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": null,
+            "p95Ms": null
+          }
+        },
+        "nonError": {
+          "episodes": 8,
+          "wall": {
+            "measured": 8,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 2855,
+            "p95Ms": 5821
+          },
+          "providerHttpSum": {
+            "measured": 8,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 766,
+            "p95Ms": 2154,
+            "completeEpisodes": 8,
+            "partialEpisodes": 0,
+            "unknownEpisodes": 0,
+            "unverifiedEpisodes": 0,
+            "noCallEpisodes": 0,
+            "recordedCalls": 8,
+            "measuredCalls": 8,
+            "missingCalls": 0
+          },
+          "providerPartialHttpSum": {
+            "measured": 0,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": null,
+            "p95Ms": null
+          }
+        }
+      }
+    },
+    {
+      "route": "R1",
+      "label": "Broad tools",
+      "episodes": 11,
+      "documentApplicable": 4,
+      "noDocumentLabel": 7,
+      "uniqueApplicableGroups": 4,
+      "completedRetrievals": 0,
+      "rankedRetrievals": 0,
+      "skippedRetrievals": 0,
+      "unknownRetrievalStages": 0,
+      "unsupportedRetrievals": 4,
+      "conditionalSelectedDocumentRecallAt6": null,
+      "conditionalRecallAt6": null,
+      "conditionalMrrAt6": null,
+      "conditionalNdcgAt6": null,
+      "scenarioMacroConditionalRecallAt6": null,
+      "releasedWithAllRequiredDocuments": 0,
+      "endToEndRequiredDocumentAvailability": 0,
+      "failures": [
+        {
+          "category": "capability:documents_unavailable",
+          "episodes": 4
+        },
+        {
+          "category": "structured_answer:metric_key_mismatch",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:missing_assumption",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:missing_clarification_topic",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_document_evidence",
+          "episodes": 4
+        },
+        {
+          "category": "structured_answer:missing_ledger_provenance",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:required_fact_mismatch",
+          "episodes": 5
+        },
+        {
+          "category": "structured_answer:required_fact_missing_or_multiple_mismatches",
+          "episodes": 3
+        },
+        {
+          "category": "structured_answer:unsupported_or_unassessed_fact",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:wrong_behavior",
+          "episodes": 3
+        }
+      ],
+      "latency": {
+        "allAttempts": {
+          "episodes": 11,
+          "wall": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 9216,
+            "p95Ms": 21095
+          },
+          "providerHttpSum": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 3064,
+            "p95Ms": 20144,
+            "completeEpisodes": 11,
+            "partialEpisodes": 0,
+            "unknownEpisodes": 0,
+            "unverifiedEpisodes": 0,
+            "noCallEpisodes": 0,
+            "recordedCalls": 22,
+            "measuredCalls": 22,
+            "missingCalls": 0
+          },
+          "providerPartialHttpSum": {
+            "measured": 0,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": null,
+            "p95Ms": null
+          }
+        },
+        "nonError": {
+          "episodes": 11,
+          "wall": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 9216,
+            "p95Ms": 21095
+          },
+          "providerHttpSum": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 3064,
+            "p95Ms": 20144,
+            "completeEpisodes": 11,
+            "partialEpisodes": 0,
+            "unknownEpisodes": 0,
+            "unverifiedEpisodes": 0,
+            "noCallEpisodes": 0,
+            "recordedCalls": 22,
+            "measuredCalls": 22,
+            "missingCalls": 0
+          },
+          "providerPartialHttpSum": {
+            "measured": 0,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": null,
+            "p95Ms": null
+          }
+        }
+      }
+    },
+    {
+      "route": "R2",
+      "label": "Lexical documents",
+      "episodes": 12,
+      "documentApplicable": 4,
+      "noDocumentLabel": 8,
+      "uniqueApplicableGroups": 4,
+      "completedRetrievals": 4,
+      "rankedRetrievals": 4,
+      "skippedRetrievals": 0,
+      "unknownRetrievalStages": 0,
+      "unsupportedRetrievals": 0,
+      "conditionalSelectedDocumentRecallAt6": 0.875,
+      "conditionalRecallAt6": 0.875,
+      "conditionalMrrAt6": 1,
+      "conditionalNdcgAt6": 0.8832169954784115,
+      "scenarioMacroConditionalRecallAt6": 0.875,
+      "releasedWithAllRequiredDocuments": 3,
+      "endToEndRequiredDocumentAvailability": 0.75,
+      "failures": [
+        {
+          "category": "gate:deterministic_rejection",
+          "episodes": 1
+        },
+        {
+          "category": "operational:provider_rate_limit",
+          "episodes": 1
+        },
+        {
+          "category": "retrieval:missing_required_document",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:deterministic_validation_failed",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:episode_error",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:metric_key_mismatch",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_assumption",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_clarification_topic",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_document_evidence",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_ledger_provenance",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:proposal_line_mismatch",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:required_fact_mismatch",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:required_fact_missing_or_multiple_mismatches",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:unsupported_or_unassessed_fact",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:wrong_behavior",
+          "episodes": 2
+        }
+      ],
+      "latency": {
+        "allAttempts": {
+          "episodes": 12,
+          "wall": {
+            "measured": 12,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 9398,
+            "p95Ms": 11441
+          },
+          "providerHttpSum": {
+            "measured": 12,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 3116,
+            "p95Ms": 4640,
+            "completeEpisodes": 12,
+            "partialEpisodes": 0,
+            "unknownEpisodes": 0,
+            "unverifiedEpisodes": 0,
+            "noCallEpisodes": 0,
+            "recordedCalls": 23,
+            "measuredCalls": 23,
+            "missingCalls": 0
+          },
+          "providerPartialHttpSum": {
+            "measured": 0,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": null,
+            "p95Ms": null
+          }
+        },
+        "nonError": {
+          "episodes": 11,
+          "wall": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 9503,
+            "p95Ms": 11441
+          },
+          "providerHttpSum": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 3185,
+            "p95Ms": 4640,
+            "completeEpisodes": 11,
+            "partialEpisodes": 0,
+            "unknownEpisodes": 0,
+            "unverifiedEpisodes": 0,
+            "noCallEpisodes": 0,
+            "recordedCalls": 22,
+            "measuredCalls": 22,
+            "missingCalls": 0
+          },
+          "providerPartialHttpSum": {
+            "measured": 0,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": null,
+            "p95Ms": null
+          }
+        }
+      }
+    },
+    {
+      "route": "R3",
+      "label": "Managed File Search",
+      "episodes": 12,
+      "documentApplicable": 4,
+      "noDocumentLabel": 8,
+      "uniqueApplicableGroups": 4,
+      "completedRetrievals": 4,
+      "rankedRetrievals": 0,
+      "skippedRetrievals": 0,
+      "unknownRetrievalStages": 0,
+      "unsupportedRetrievals": 0,
+      "conditionalSelectedDocumentRecallAt6": 1,
+      "conditionalRecallAt6": null,
+      "conditionalMrrAt6": null,
+      "conditionalNdcgAt6": null,
+      "scenarioMacroConditionalRecallAt6": null,
+      "releasedWithAllRequiredDocuments": 3,
+      "endToEndRequiredDocumentAvailability": 0.75,
+      "failures": [
+        {
+          "category": "gate:deterministic_rejection",
+          "episodes": 1
+        },
+        {
+          "category": "operational:budget_or_call_limit",
+          "episodes": 1
+        },
+        {
+          "category": "operational:provider_or_network_failure",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:deterministic_validation_failed",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:episode_error",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:metric_key_mismatch",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_assumption",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_clarification_topic",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_document_evidence",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_ledger_provenance",
+          "episodes": 3
+        },
+        {
+          "category": "structured_answer:required_fact_mismatch",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:required_fact_missing_or_multiple_mismatches",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:unsupported_or_unassessed_fact",
+          "episodes": 3
+        },
+        {
+          "category": "structured_answer:wrong_behavior",
+          "episodes": 1
+        }
+      ],
+      "latency": {
+        "allAttempts": {
+          "episodes": 12,
+          "wall": {
+            "measured": 12,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 14084,
+            "p95Ms": 27154
+          },
+          "providerHttpSum": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 7450,
+            "p95Ms": 20440,
+            "completeEpisodes": 11,
+            "partialEpisodes": 0,
+            "unknownEpisodes": 0,
+            "unverifiedEpisodes": 0,
+            "noCallEpisodes": 1,
+            "recordedCalls": 28,
+            "measuredCalls": 28,
+            "missingCalls": 0
+          },
+          "providerPartialHttpSum": {
+            "measured": 0,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": null,
+            "p95Ms": null
+          }
+        },
+        "nonError": {
+          "episodes": 10,
+          "wall": {
+            "measured": 10,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 14084,
+            "p95Ms": 18462
+          },
+          "providerHttpSum": {
+            "measured": 10,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 6747,
+            "p95Ms": 11344,
+            "completeEpisodes": 10,
+            "partialEpisodes": 0,
+            "unknownEpisodes": 0,
+            "unverifiedEpisodes": 0,
+            "noCallEpisodes": 0,
+            "recordedCalls": 26,
+            "measuredCalls": 26,
+            "missingCalls": 0
+          },
+          "providerPartialHttpSum": {
+            "measured": 0,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": null,
+            "p95Ms": null
+          }
+        }
+      }
+    },
+    {
+      "route": "R4",
+      "label": "Custom hybrid",
+      "episodes": 11,
+      "documentApplicable": 4,
+      "noDocumentLabel": 7,
+      "uniqueApplicableGroups": 4,
+      "completedRetrievals": 4,
+      "rankedRetrievals": 4,
+      "skippedRetrievals": 0,
+      "unknownRetrievalStages": 0,
+      "unsupportedRetrievals": 0,
+      "conditionalSelectedDocumentRecallAt6": 1,
+      "conditionalRecallAt6": 1,
+      "conditionalMrrAt6": 1,
+      "conditionalNdcgAt6": 0.9425164236707355,
+      "scenarioMacroConditionalRecallAt6": 1,
+      "releasedWithAllRequiredDocuments": 3,
+      "endToEndRequiredDocumentAvailability": 0.75,
+      "failures": [
+        {
+          "category": "gate:deterministic_rejection",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:deterministic_validation_failed",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:metric_key_mismatch",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_assumption",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_clarification_topic",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_document_evidence",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_ledger_provenance",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:proposal_line_mismatch",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:required_fact_mismatch",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:required_fact_missing_or_multiple_mismatches",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:unsupported_or_unassessed_fact",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:wrong_behavior",
+          "episodes": 2
+        }
+      ],
+      "latency": {
+        "allAttempts": {
+          "episodes": 11,
+          "wall": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 11027,
+            "p95Ms": 14603
+          },
+          "providerHttpSum": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 3340,
+            "p95Ms": 5800,
+            "completeEpisodes": 11,
+            "partialEpisodes": 0,
+            "unknownEpisodes": 0,
+            "unverifiedEpisodes": 0,
+            "noCallEpisodes": 0,
+            "recordedCalls": 28,
+            "measuredCalls": 28,
+            "missingCalls": 0
+          },
+          "providerPartialHttpSum": {
+            "measured": 0,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": null,
+            "p95Ms": null
+          }
+        },
+        "nonError": {
+          "episodes": 11,
+          "wall": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 11027,
+            "p95Ms": 14603
+          },
+          "providerHttpSum": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 3340,
+            "p95Ms": 5800,
+            "completeEpisodes": 11,
+            "partialEpisodes": 0,
+            "unknownEpisodes": 0,
+            "unverifiedEpisodes": 0,
+            "noCallEpisodes": 0,
+            "recordedCalls": 28,
+            "measuredCalls": 28,
+            "missingCalls": 0
+          },
+          "providerPartialHttpSum": {
+            "measured": 0,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": null,
+            "p95Ms": null
+          }
+        }
+      }
+    },
+    {
+      "route": "R5",
+      "label": "Jev reranking",
+      "episodes": 11,
+      "documentApplicable": 4,
+      "noDocumentLabel": 7,
+      "uniqueApplicableGroups": 4,
+      "completedRetrievals": 4,
+      "rankedRetrievals": 4,
+      "skippedRetrievals": 0,
+      "unknownRetrievalStages": 0,
+      "unsupportedRetrievals": 0,
+      "conditionalSelectedDocumentRecallAt6": 1,
+      "conditionalRecallAt6": 1,
+      "conditionalMrrAt6": 1,
+      "conditionalNdcgAt6": 0.9799301972870469,
+      "scenarioMacroConditionalRecallAt6": 1,
+      "releasedWithAllRequiredDocuments": 3,
+      "endToEndRequiredDocumentAvailability": 0.75,
+      "failures": [
+        {
+          "category": "gate:deterministic_rejection",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:deterministic_validation_failed",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:metric_key_mismatch",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:missing_assumption",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_clarification_topic",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_document_evidence",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_ledger_provenance",
+          "episodes": 3
+        },
+        {
+          "category": "structured_answer:proposal_line_mismatch",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:required_fact_mismatch",
+          "episodes": 3
+        },
+        {
+          "category": "structured_answer:required_fact_missing_or_multiple_mismatches",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:unsupported_or_unassessed_fact",
+          "episodes": 3
+        },
+        {
+          "category": "structured_answer:wrong_behavior",
+          "episodes": 2
+        }
+      ],
+      "latency": {
+        "allAttempts": {
+          "episodes": 11,
+          "wall": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 13775,
+            "p95Ms": 31840
+          },
+          "providerHttpSum": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 3670,
+            "p95Ms": 23747,
+            "completeEpisodes": 11,
+            "partialEpisodes": 0,
+            "unknownEpisodes": 0,
+            "unverifiedEpisodes": 0,
+            "noCallEpisodes": 0,
+            "recordedCalls": 36,
+            "measuredCalls": 36,
+            "missingCalls": 0
+          },
+          "providerPartialHttpSum": {
+            "measured": 0,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": null,
+            "p95Ms": null
+          }
+        },
+        "nonError": {
+          "episodes": 11,
+          "wall": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 13775,
+            "p95Ms": 31840
+          },
+          "providerHttpSum": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 3670,
+            "p95Ms": 23747,
+            "completeEpisodes": 11,
+            "partialEpisodes": 0,
+            "unknownEpisodes": 0,
+            "unverifiedEpisodes": 0,
+            "noCallEpisodes": 0,
+            "recordedCalls": 36,
+            "measuredCalls": 36,
+            "missingCalls": 0
+          },
+          "providerPartialHttpSum": {
+            "measured": 0,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": null,
+            "p95Ms": null
+          }
+        }
+      }
+    },
+    {
+      "route": "R6",
+      "label": "Wren analytics",
+      "episodes": 11,
+      "documentApplicable": 4,
+      "noDocumentLabel": 7,
+      "uniqueApplicableGroups": 4,
+      "completedRetrievals": 4,
+      "rankedRetrievals": 4,
+      "skippedRetrievals": 0,
+      "unknownRetrievalStages": 0,
+      "unsupportedRetrievals": 0,
+      "conditionalSelectedDocumentRecallAt6": 1,
+      "conditionalRecallAt6": 1,
+      "conditionalMrrAt6": 1,
+      "conditionalNdcgAt6": 0.9425164236707355,
+      "scenarioMacroConditionalRecallAt6": 1,
+      "releasedWithAllRequiredDocuments": 4,
+      "endToEndRequiredDocumentAvailability": 1,
+      "failures": [
+        {
+          "category": "operational:provider_or_network_failure",
+          "episodes": 1
+        },
+        {
+          "category": "operational:provider_rate_limit",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:episode_error",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:metric_key_mismatch",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:missing_assumption",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_ledger_provenance",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:required_fact_mismatch",
+          "episodes": 3
+        },
+        {
+          "category": "structured_answer:required_fact_missing_or_multiple_mismatches",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:unsupported_or_unassessed_fact",
+          "episodes": 2
+        }
+      ],
+      "latency": {
+        "allAttempts": {
+          "episodes": 11,
+          "wall": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 9176,
+            "p95Ms": 13873
+          },
+          "providerHttpSum": {
+            "measured": 10,
+            "unknown": 1,
+            "recordedZeros": 0,
+            "p50Ms": 2454,
+            "p95Ms": 4682,
+            "completeEpisodes": 10,
+            "partialEpisodes": 1,
+            "unknownEpisodes": 0,
+            "unverifiedEpisodes": 0,
+            "noCallEpisodes": 0,
+            "recordedCalls": 25,
+            "measuredCalls": 24,
+            "missingCalls": 1
+          },
+          "providerPartialHttpSum": {
+            "measured": 1,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 936,
+            "p95Ms": 936
+          }
+        },
+        "nonError": {
+          "episodes": 9,
+          "wall": {
+            "measured": 9,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 9693,
+            "p95Ms": 13873
+          },
+          "providerHttpSum": {
+            "measured": 9,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 2598,
+            "p95Ms": 4682,
+            "completeEpisodes": 9,
+            "partialEpisodes": 0,
+            "unknownEpisodes": 0,
+            "unverifiedEpisodes": 0,
+            "noCallEpisodes": 0,
+            "recordedCalls": 22,
+            "measuredCalls": 22,
+            "missingCalls": 0
+          },
+          "providerPartialHttpSum": {
+            "measured": 0,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": null,
+            "p95Ms": null
+          }
+        }
+      }
+    },
+    {
+      "route": "R7",
+      "label": "LLM verifier",
+      "episodes": 11,
+      "documentApplicable": 4,
+      "noDocumentLabel": 7,
+      "uniqueApplicableGroups": 4,
+      "completedRetrievals": 4,
+      "rankedRetrievals": 4,
+      "skippedRetrievals": 0,
+      "unknownRetrievalStages": 0,
+      "unsupportedRetrievals": 0,
+      "conditionalSelectedDocumentRecallAt6": 0.875,
+      "conditionalRecallAt6": 0.875,
+      "conditionalMrrAt6": 1,
+      "conditionalNdcgAt6": 0.8832169954784115,
+      "scenarioMacroConditionalRecallAt6": 0.875,
+      "releasedWithAllRequiredDocuments": 3,
+      "endToEndRequiredDocumentAvailability": 0.75,
+      "failures": [
+        {
+          "category": "gate:semantic_rejection",
+          "episodes": 1
+        },
+        {
+          "category": "retrieval:missing_required_document",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:metric_key_mismatch",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_assumption",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_clarification_topic",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_document_evidence",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_ledger_provenance",
+          "episodes": 3
+        },
+        {
+          "category": "structured_answer:required_fact_mismatch",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:required_fact_missing_or_multiple_mismatches",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:unsupported_or_unassessed_fact",
+          "episodes": 3
+        },
+        {
+          "category": "structured_answer:wrong_behavior",
+          "episodes": 1
+        }
+      ],
+      "latency": {
+        "allAttempts": {
+          "episodes": 11,
+          "wall": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 14536,
+            "p95Ms": 25383
+          },
+          "providerHttpSum": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 3841,
+            "p95Ms": 13898,
+            "completeEpisodes": 11,
+            "partialEpisodes": 0,
+            "unknownEpisodes": 0,
+            "unverifiedEpisodes": 0,
+            "noCallEpisodes": 0,
+            "recordedCalls": 38,
+            "measuredCalls": 38,
+            "missingCalls": 0
+          },
+          "providerPartialHttpSum": {
+            "measured": 0,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": null,
+            "p95Ms": null
+          }
+        },
+        "nonError": {
+          "episodes": 11,
+          "wall": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 14536,
+            "p95Ms": 25383
+          },
+          "providerHttpSum": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 3841,
+            "p95Ms": 13898,
+            "completeEpisodes": 11,
+            "partialEpisodes": 0,
+            "unknownEpisodes": 0,
+            "unverifiedEpisodes": 0,
+            "noCallEpisodes": 0,
+            "recordedCalls": 38,
+            "measuredCalls": 38,
+            "missingCalls": 0
+          },
+          "providerPartialHttpSum": {
+            "measured": 0,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": null,
+            "p95Ms": null
+          }
+        }
+      }
+    },
+    {
+      "route": "R8",
+      "label": "Jev verifier",
+      "episodes": 11,
+      "documentApplicable": 4,
+      "noDocumentLabel": 7,
+      "uniqueApplicableGroups": 4,
+      "completedRetrievals": 4,
+      "rankedRetrievals": 4,
+      "skippedRetrievals": 0,
+      "unknownRetrievalStages": 0,
+      "unsupportedRetrievals": 0,
+      "conditionalSelectedDocumentRecallAt6": 1,
+      "conditionalRecallAt6": 1,
+      "conditionalMrrAt6": 1,
+      "conditionalNdcgAt6": 0.9625862263836886,
+      "scenarioMacroConditionalRecallAt6": 1,
+      "releasedWithAllRequiredDocuments": 3,
+      "endToEndRequiredDocumentAvailability": 0.75,
+      "failures": [
+        {
+          "category": "gate:deterministic_rejection",
+          "episodes": 1
+        },
+        {
+          "category": "gate:semantic_rejection",
+          "episodes": 1
+        },
+        {
+          "category": "operational:provider_rate_limit",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:deterministic_validation_failed",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:episode_error",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:metric_key_mismatch",
+          "episodes": 2
+        },
+        {
+          "category": "structured_answer:missing_assumption",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_document_evidence",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:missing_ledger_provenance",
+          "episodes": 3
+        },
+        {
+          "category": "structured_answer:proposal_line_mismatch",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:required_fact_mismatch",
+          "episodes": 3
+        },
+        {
+          "category": "structured_answer:required_fact_missing_or_multiple_mismatches",
+          "episodes": 1
+        },
+        {
+          "category": "structured_answer:unsupported_or_unassessed_fact",
+          "episodes": 3
+        },
+        {
+          "category": "structured_answer:wrong_behavior",
+          "episodes": 2
+        }
+      ],
+      "latency": {
+        "allAttempts": {
+          "episodes": 11,
+          "wall": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 14705,
+            "p95Ms": 16858
+          },
+          "providerHttpSum": {
+            "measured": 11,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 3796,
+            "p95Ms": 7562,
+            "completeEpisodes": 11,
+            "partialEpisodes": 0,
+            "unknownEpisodes": 0,
+            "unverifiedEpisodes": 0,
+            "noCallEpisodes": 0,
+            "recordedCalls": 37,
+            "measuredCalls": 37,
+            "missingCalls": 0
+          },
+          "providerPartialHttpSum": {
+            "measured": 0,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": null,
+            "p95Ms": null
+          }
+        },
+        "nonError": {
+          "episodes": 10,
+          "wall": {
+            "measured": 10,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 14705,
+            "p95Ms": 16858
+          },
+          "providerHttpSum": {
+            "measured": 10,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": 3796,
+            "p95Ms": 7562,
+            "completeEpisodes": 10,
+            "partialEpisodes": 0,
+            "unknownEpisodes": 0,
+            "unverifiedEpisodes": 0,
+            "noCallEpisodes": 0,
+            "recordedCalls": 35,
+            "measuredCalls": 35,
+            "missingCalls": 0
+          },
+          "providerPartialHttpSum": {
+            "measured": 0,
+            "unknown": 0,
+            "recordedZeros": 0,
+            "p50Ms": null,
+            "p95Ms": null
+          }
+        }
+      }
+    }
+  ],
+  "observations": [
+    {
+      "id": "pilot-v2:R0:financial-01-1:0",
+      "route": "R0",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "unsupported",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R1:financial-01-1:0",
+      "route": "R1",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "unsupported",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R2:financial-01-1:0",
+      "route": "R2",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "travel-policy-v2",
+        "cash-definitions",
+        "reversal-note",
+        "clouddesk-v1",
+        "malicious-invoice",
+        "marketing-distractor"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R3:financial-01-1:0",
+      "route": "R3",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "split": "development",
+      "status": "error",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "unknown",
+      "recordedDocumentIds": null,
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "operational:provider_or_network_failure",
+        "structured_answer:episode_error"
+      ]
+    },
+    {
+      "id": "pilot-v2:R4:financial-01-1:0",
+      "route": "R4",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "reserve-policy",
+        "cash-definitions",
+        "acme-oct-invoice",
+        "payroll-engineer",
+        "bank-loan",
+        "travel-policy-v2"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R5:financial-01-1:0",
+      "route": "R5",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "bank-loan",
+        "rail-receipt",
+        "lease-v1",
+        "cash-definitions",
+        "reversal-note",
+        "clouddesk-v1"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R6:financial-01-1:0",
+      "route": "R6",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "split": "development",
+      "status": "error",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "unknown",
+      "recordedDocumentIds": null,
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "operational:provider_or_network_failure",
+        "structured_answer:episode_error"
+      ]
+    },
+    {
+      "id": "pilot-v2:R7:financial-01-1:0",
+      "route": "R7",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R8:financial-01-1:0",
+      "route": "R8",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R1:financial-02-1:0",
+      "route": "R1",
+      "questionId": "financial-02-1",
+      "groupId": "financial-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "unsupported",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R2:financial-02-1:0",
+      "route": "R2",
+      "questionId": "financial-02-1",
+      "groupId": "financial-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R3:financial-02-1:0",
+      "route": "R3",
+      "questionId": "financial-02-1",
+      "groupId": "financial-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "rail-receipt",
+        "station-receipt",
+        "draft-note"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R4:financial-02-1:0",
+      "route": "R4",
+      "questionId": "financial-02-1",
+      "groupId": "financial-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R5:financial-02-1:0",
+      "route": "R5",
+      "questionId": "financial-02-1",
+      "groupId": "financial-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R6:financial-02-1:0",
+      "route": "R6",
+      "questionId": "financial-02-1",
+      "groupId": "financial-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R7:financial-02-1:0",
+      "route": "R7",
+      "questionId": "financial-02-1",
+      "groupId": "financial-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R8:financial-02-1:0",
+      "route": "R8",
+      "questionId": "financial-02-1",
+      "groupId": "financial-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "acme-oct-invoice",
+        "draft-note",
+        "maple-receipt",
+        "cash-definitions",
+        "bank-loan",
+        "rail-receipt"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R0:financial-02-1:0",
+      "route": "R0",
+      "questionId": "financial-02-1",
+      "groupId": "financial-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "unsupported",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R2:analytics-01-1:0",
+      "route": "R2",
+      "questionId": "analytics-01-1",
+      "groupId": "analytics-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "structured_answer:unsupported_or_unassessed_fact",
+        "structured_answer:missing_ledger_provenance"
+      ]
+    },
+    {
+      "id": "pilot-v2:R3:analytics-01-1:0",
+      "route": "R3",
+      "questionId": "analytics-01-1",
+      "groupId": "analytics-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "lease-v1",
+        "lease-v2"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "structured_answer:unsupported_or_unassessed_fact",
+        "structured_answer:missing_ledger_provenance"
+      ]
+    },
+    {
+      "id": "pilot-v2:R4:analytics-01-1:0",
+      "route": "R4",
+      "questionId": "analytics-01-1",
+      "groupId": "analytics-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "structured_answer:unsupported_or_unassessed_fact",
+        "structured_answer:missing_ledger_provenance"
+      ]
+    },
+    {
+      "id": "pilot-v2:R5:analytics-01-1:0",
+      "route": "R5",
+      "questionId": "analytics-01-1",
+      "groupId": "analytics-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "lease-v2",
+        "lease-v1",
+        "future-lease",
+        "clouddesk-v1",
+        "supplier-credit",
+        "acme-oct-invoice"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "structured_answer:unsupported_or_unassessed_fact",
+        "structured_answer:missing_ledger_provenance"
+      ]
+    },
+    {
+      "id": "pilot-v2:R6:analytics-01-1:0",
+      "route": "R6",
+      "questionId": "analytics-01-1",
+      "groupId": "analytics-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R7:analytics-01-1:0",
+      "route": "R7",
+      "questionId": "analytics-01-1",
+      "groupId": "analytics-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "lease-v2",
+        "acme-oct-invoice",
+        "supplier-credit",
+        "lease-v1",
+        "future-lease",
+        "unpaid-zephyr"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "structured_answer:unsupported_or_unassessed_fact",
+        "structured_answer:missing_ledger_provenance"
+      ]
+    },
+    {
+      "id": "pilot-v2:R8:analytics-01-1:0",
+      "route": "R8",
+      "questionId": "analytics-01-1",
+      "groupId": "analytics-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "lease-v2",
+        "acme-oct-invoice",
+        "supplier-credit",
+        "lease-v1",
+        "future-lease",
+        "unpaid-zephyr"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "structured_answer:unsupported_or_unassessed_fact",
+        "structured_answer:missing_ledger_provenance"
+      ]
+    },
+    {
+      "id": "pilot-v2:R0:analytics-01-1:0",
+      "route": "R0",
+      "questionId": "analytics-01-1",
+      "groupId": "analytics-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "unsupported",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:metric_key_mismatch",
+        "structured_answer:required_fact_missing_or_multiple_mismatches",
+        "structured_answer:missing_ledger_provenance"
+      ]
+    },
+    {
+      "id": "pilot-v2:R1:analytics-01-1:0",
+      "route": "R1",
+      "questionId": "analytics-01-1",
+      "groupId": "analytics-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "unsupported",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R3:analytics-02-1:0",
+      "route": "R3",
+      "questionId": "analytics-02-1",
+      "groupId": "analytics-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "structured_answer:unsupported_or_unassessed_fact",
+        "structured_answer:missing_ledger_provenance"
+      ]
+    },
+    {
+      "id": "pilot-v2:R4:analytics-02-1:0",
+      "route": "R4",
+      "questionId": "analytics-02-1",
+      "groupId": "analytics-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "reversal-note",
+        "maple-receipt",
+        "travel-policy-v2",
+        "acme-oct-invoice",
+        "lease-v1",
+        "cash-definitions"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R5:analytics-02-1:0",
+      "route": "R5",
+      "questionId": "analytics-02-1",
+      "groupId": "analytics-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "lease-v1",
+        "clouddesk-v1",
+        "maple-receipt",
+        "reversal-note",
+        "bank-loan",
+        "travel-policy-v2"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:metric_key_mismatch",
+        "structured_answer:unsupported_or_unassessed_fact",
+        "structured_answer:missing_ledger_provenance"
+      ]
+    },
+    {
+      "id": "pilot-v2:R6:analytics-02-1:0",
+      "route": "R6",
+      "questionId": "analytics-02-1",
+      "groupId": "analytics-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:metric_key_mismatch",
+        "structured_answer:unsupported_or_unassessed_fact",
+        "structured_answer:missing_ledger_provenance"
+      ]
+    },
+    {
+      "id": "pilot-v2:R7:analytics-02-1:0",
+      "route": "R7",
+      "questionId": "analytics-02-1",
+      "groupId": "analytics-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "structured_answer:unsupported_or_unassessed_fact",
+        "structured_answer:missing_ledger_provenance"
+      ]
+    },
+    {
+      "id": "pilot-v2:R8:analytics-02-1:0",
+      "route": "R8",
+      "questionId": "analytics-02-1",
+      "groupId": "analytics-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:metric_key_mismatch",
+        "structured_answer:unsupported_or_unassessed_fact",
+        "structured_answer:missing_ledger_provenance"
+      ]
+    },
+    {
+      "id": "pilot-v2:R0:analytics-02-1:0",
+      "route": "R0",
+      "questionId": "analytics-02-1",
+      "groupId": "analytics-02",
+      "split": "development",
+      "status": "error",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "unsupported",
+      "recordedDocumentIds": null,
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "operational:provider_or_plan_contract",
+        "structured_answer:episode_error"
+      ]
+    },
+    {
+      "id": "pilot-v2:R1:analytics-02-1:0",
+      "route": "R1",
+      "questionId": "analytics-02-1",
+      "groupId": "analytics-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "unsupported",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:metric_key_mismatch",
+        "structured_answer:unsupported_or_unassessed_fact",
+        "structured_answer:missing_ledger_provenance"
+      ]
+    },
+    {
+      "id": "pilot-v2:R2:analytics-02-1:0",
+      "route": "R2",
+      "questionId": "analytics-02-1",
+      "groupId": "analytics-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R4:documents-01-1:0",
+      "route": "R4",
+      "questionId": "documents-01-1",
+      "groupId": "documents-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "acme-contract"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "acme-contract",
+        "station-receipt",
+        "zephyr-contract",
+        "supplier-credit",
+        "unpaid-zephyr",
+        "acme-oct-invoice"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 1,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R5:documents-01-1:0",
+      "route": "R5",
+      "questionId": "documents-01-1",
+      "groupId": "documents-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "acme-contract"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "acme-contract",
+        "station-receipt",
+        "unpaid-zephyr",
+        "acme-oct-invoice",
+        "zephyr-contract",
+        "supplier-credit"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 1,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R6:documents-01-1:0",
+      "route": "R6",
+      "questionId": "documents-01-1",
+      "groupId": "documents-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "acme-contract"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "acme-contract",
+        "station-receipt",
+        "zephyr-contract",
+        "supplier-credit",
+        "unpaid-zephyr",
+        "acme-oct-invoice"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 1,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R7:documents-01-1:0",
+      "route": "R7",
+      "questionId": "documents-01-1",
+      "groupId": "documents-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "acme-contract"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "acme-contract",
+        "station-receipt",
+        "acme-oct-invoice",
+        "supplier-credit",
+        "zephyr-contract",
+        "unpaid-zephyr"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 1,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R8:documents-01-1:0",
+      "route": "R8",
+      "questionId": "documents-01-1",
+      "groupId": "documents-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "acme-contract"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "acme-contract",
+        "station-receipt",
+        "acme-oct-invoice",
+        "supplier-credit",
+        "zephyr-contract",
+        "unpaid-zephyr"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 1,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R0:documents-01-1:0",
+      "route": "R0",
+      "questionId": "documents-01-1",
+      "groupId": "documents-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "acme-contract"
+      ],
+      "stage": "unsupported",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "Retrieval stage unsupported; no comparable completed ranking.",
+      "missingRequiredDocumentIds": [
+        "acme-contract"
+      ],
+      "releasedOutcomeHasAllRequiredDocuments": false,
+      "failures": [
+        "capability:documents_unavailable",
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:required_fact_missing_or_multiple_mismatches",
+        "structured_answer:missing_document_evidence"
+      ]
+    },
+    {
+      "id": "pilot-v2:R1:documents-01-1:0",
+      "route": "R1",
+      "questionId": "documents-01-1",
+      "groupId": "documents-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "acme-contract"
+      ],
+      "stage": "unsupported",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "Retrieval stage unsupported; no comparable completed ranking.",
+      "missingRequiredDocumentIds": [
+        "acme-contract"
+      ],
+      "releasedOutcomeHasAllRequiredDocuments": false,
+      "failures": [
+        "capability:documents_unavailable",
+        "structured_answer:wrong_behavior",
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:required_fact_missing_or_multiple_mismatches",
+        "structured_answer:missing_document_evidence"
+      ]
+    },
+    {
+      "id": "pilot-v2:R2:documents-01-1:0",
+      "route": "R2",
+      "questionId": "documents-01-1",
+      "groupId": "documents-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "acme-contract"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "acme-contract",
+        "station-receipt",
+        "supplier-credit",
+        "unpaid-zephyr",
+        "zephyr-contract",
+        "acme-oct-invoice"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 1,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R3:documents-01-1:0",
+      "route": "R3",
+      "questionId": "documents-01-1",
+      "groupId": "documents-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "acme-contract"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "acme-contract"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "Managed citation order is not raw search rank; only selected-document coverage is measured.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R5:documents-02-1:0",
+      "route": "R5",
+      "questionId": "documents-02-1",
+      "groupId": "documents-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "lease-v1",
+        "lease-v2"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "lease-v2",
+        "lease-v1",
+        "future-lease",
+        "rent-notice",
+        "clouddesk-v2",
+        "unpaid-zephyr"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 1,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": [
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:metric_key_mismatch",
+        "structured_answer:unsupported_or_unassessed_fact"
+      ]
+    },
+    {
+      "id": "pilot-v2:R6:documents-02-1:0",
+      "route": "R6",
+      "questionId": "documents-02-1",
+      "groupId": "documents-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "lease-v1",
+        "lease-v2"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "lease-v2",
+        "future-lease",
+        "lease-v1",
+        "rent-notice",
+        "clouddesk-v2",
+        "unpaid-zephyr"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 0.9197207891481876,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": [
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:metric_key_mismatch",
+        "structured_answer:required_fact_missing_or_multiple_mismatches",
+        "structured_answer:unsupported_or_unassessed_fact"
+      ]
+    },
+    {
+      "id": "pilot-v2:R7:documents-02-1:0",
+      "route": "R7",
+      "questionId": "documents-02-1",
+      "groupId": "documents-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "lease-v1",
+        "lease-v2"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "lease-v2",
+        "future-lease",
+        "lease-v1",
+        "rent-notice",
+        "clouddesk-v2",
+        "unpaid-zephyr"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 0.9197207891481876,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": [
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:metric_key_mismatch",
+        "structured_answer:unsupported_or_unassessed_fact"
+      ]
+    },
+    {
+      "id": "pilot-v2:R8:documents-02-1:0",
+      "route": "R8",
+      "questionId": "documents-02-1",
+      "groupId": "documents-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "lease-v1",
+        "lease-v2"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "lease-v1",
+        "lease-v2",
+        "future-lease",
+        "rent-notice",
+        "unpaid-zephyr",
+        "supplier-credit"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 1,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": [
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:metric_key_mismatch",
+        "structured_answer:unsupported_or_unassessed_fact"
+      ]
+    },
+    {
+      "id": "pilot-v2:R0:documents-02-1:0",
+      "route": "R0",
+      "questionId": "documents-02-1",
+      "groupId": "documents-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "lease-v1",
+        "lease-v2"
+      ],
+      "stage": "unsupported",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "Retrieval stage unsupported; no comparable completed ranking.",
+      "missingRequiredDocumentIds": [
+        "lease-v1",
+        "lease-v2"
+      ],
+      "releasedOutcomeHasAllRequiredDocuments": false,
+      "failures": [
+        "capability:documents_unavailable",
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:required_fact_missing_or_multiple_mismatches",
+        "structured_answer:missing_document_evidence"
+      ]
+    },
+    {
+      "id": "pilot-v2:R1:documents-02-1:0",
+      "route": "R1",
+      "questionId": "documents-02-1",
+      "groupId": "documents-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "lease-v1",
+        "lease-v2"
+      ],
+      "stage": "unsupported",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "Retrieval stage unsupported; no comparable completed ranking.",
+      "missingRequiredDocumentIds": [
+        "lease-v1",
+        "lease-v2"
+      ],
+      "releasedOutcomeHasAllRequiredDocuments": false,
+      "failures": [
+        "capability:documents_unavailable",
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:metric_key_mismatch",
+        "structured_answer:unsupported_or_unassessed_fact",
+        "structured_answer:missing_document_evidence"
+      ]
+    },
+    {
+      "id": "pilot-v2:R2:documents-02-1:0",
+      "route": "R2",
+      "questionId": "documents-02-1",
+      "groupId": "documents-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "lease-v1",
+        "lease-v2"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "lease-v2",
+        "future-lease",
+        "lease-v1",
+        "rent-notice",
+        "acme-oct-invoice",
+        "clouddesk-v2"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 0.9197207891481876,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": [
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:metric_key_mismatch",
+        "structured_answer:unsupported_or_unassessed_fact"
+      ]
+    },
+    {
+      "id": "pilot-v2:R3:documents-02-1:0",
+      "route": "R3",
+      "questionId": "documents-02-1",
+      "groupId": "documents-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "lease-v1",
+        "lease-v2"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "lease-v1",
+        "lease-v2"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "Managed citation order is not raw search rank; only selected-document coverage is measured.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": [
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:metric_key_mismatch",
+        "structured_answer:required_fact_missing_or_multiple_mismatches",
+        "structured_answer:unsupported_or_unassessed_fact"
+      ]
+    },
+    {
+      "id": "pilot-v2:R4:documents-02-1:0",
+      "route": "R4",
+      "questionId": "documents-02-1",
+      "groupId": "documents-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "lease-v1",
+        "lease-v2"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "lease-v2",
+        "future-lease",
+        "lease-v1",
+        "rent-notice",
+        "clouddesk-v2",
+        "unpaid-zephyr"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 0.9197207891481876,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": [
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:metric_key_mismatch",
+        "structured_answer:unsupported_or_unassessed_fact"
+      ]
+    },
+    {
+      "id": "pilot-v2:R6:scenario-01-1:0",
+      "route": "R6",
+      "questionId": "scenario-01-1",
+      "groupId": "scenario-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "payroll-engineer"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "payroll-engineer",
+        "payroll-support",
+        "old-hiring-draft",
+        "contractor-plan",
+        "staffing-target",
+        "insurance-policy"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 1,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R7:scenario-01-1:0",
+      "route": "R7",
+      "questionId": "scenario-01-1",
+      "groupId": "scenario-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "payroll-engineer"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "payroll-engineer",
+        "payroll-support",
+        "old-hiring-draft",
+        "contractor-plan",
+        "staffing-target",
+        "insurance-policy"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 1,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R8:scenario-01-1:0",
+      "route": "R8",
+      "questionId": "scenario-01-1",
+      "groupId": "scenario-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "payroll-engineer"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "payroll-engineer",
+        "payroll-support",
+        "old-hiring-draft",
+        "contractor-plan",
+        "staffing-target",
+        "insurance-policy"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 1,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R0:scenario-01-1:0",
+      "route": "R0",
+      "questionId": "scenario-01-1",
+      "groupId": "scenario-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "payroll-engineer"
+      ],
+      "stage": "unsupported",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "Retrieval stage unsupported; no comparable completed ranking.",
+      "missingRequiredDocumentIds": [
+        "payroll-engineer"
+      ],
+      "releasedOutcomeHasAllRequiredDocuments": false,
+      "failures": [
+        "capability:documents_unavailable",
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:required_fact_missing_or_multiple_mismatches",
+        "structured_answer:missing_document_evidence",
+        "structured_answer:missing_assumption"
+      ]
+    },
+    {
+      "id": "pilot-v2:R1:scenario-01-1:0",
+      "route": "R1",
+      "questionId": "scenario-01-1",
+      "groupId": "scenario-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "payroll-engineer"
+      ],
+      "stage": "unsupported",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "Retrieval stage unsupported; no comparable completed ranking.",
+      "missingRequiredDocumentIds": [
+        "payroll-engineer"
+      ],
+      "releasedOutcomeHasAllRequiredDocuments": false,
+      "failures": [
+        "capability:documents_unavailable",
+        "structured_answer:wrong_behavior",
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:required_fact_missing_or_multiple_mismatches",
+        "structured_answer:missing_document_evidence",
+        "structured_answer:missing_assumption"
+      ]
+    },
+    {
+      "id": "pilot-v2:R2:scenario-01-1:0",
+      "route": "R2",
+      "questionId": "scenario-01-1",
+      "groupId": "scenario-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "payroll-engineer"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "payroll-engineer",
+        "payroll-support",
+        "old-hiring-draft",
+        "contractor-plan",
+        "equipment-policy",
+        "insurance-policy"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 1,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R3:scenario-01-1:0",
+      "route": "R3",
+      "questionId": "scenario-01-1",
+      "groupId": "scenario-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "payroll-engineer"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "payroll-engineer"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "Managed citation order is not raw search rank; only selected-document coverage is measured.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R4:scenario-01-1:0",
+      "route": "R4",
+      "questionId": "scenario-01-1",
+      "groupId": "scenario-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "payroll-engineer"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "payroll-engineer",
+        "payroll-support",
+        "old-hiring-draft",
+        "contractor-plan",
+        "staffing-target",
+        "insurance-policy"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 1,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R5:scenario-01-1:0",
+      "route": "R5",
+      "questionId": "scenario-01-1",
+      "groupId": "scenario-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "payroll-engineer"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "payroll-engineer",
+        "contractor-plan",
+        "staffing-target",
+        "payroll-support",
+        "old-hiring-draft",
+        "insurance-policy"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 1,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R7:scenario-02-1:0",
+      "route": "R7",
+      "questionId": "scenario-02-1",
+      "groupId": "scenario-02",
+      "split": "development",
+      "status": "blocked",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "payroll-engineer",
+        "reserve-policy"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "payroll-engineer",
+        "payroll-support",
+        "old-hiring-draft",
+        "staffing-target",
+        "renewal-quote-a",
+        "clouddesk-v2"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 0.5,
+      "recallAt6": 0.5,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 0.6131471927654584,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [
+        "reserve-policy"
+      ],
+      "releasedOutcomeHasAllRequiredDocuments": false,
+      "failures": [
+        "retrieval:missing_required_document",
+        "gate:semantic_rejection",
+        "structured_answer:wrong_behavior",
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:required_fact_missing_or_multiple_mismatches",
+        "structured_answer:missing_document_evidence",
+        "structured_answer:missing_ledger_provenance",
+        "structured_answer:missing_assumption"
+      ]
+    },
+    {
+      "id": "pilot-v2:R8:scenario-02-1:0",
+      "route": "R8",
+      "questionId": "scenario-02-1",
+      "groupId": "scenario-02",
+      "split": "development",
+      "status": "blocked",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "payroll-engineer",
+        "reserve-policy"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "payroll-engineer",
+        "payroll-support",
+        "old-hiring-draft",
+        "staffing-target",
+        "reserve-policy",
+        "clouddesk-v2"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 0.8503449055347546,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": false,
+      "failures": [
+        "gate:semantic_rejection",
+        "structured_answer:wrong_behavior",
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:required_fact_missing_or_multiple_mismatches",
+        "structured_answer:missing_document_evidence",
+        "structured_answer:missing_ledger_provenance",
+        "structured_answer:missing_assumption"
+      ]
+    },
+    {
+      "id": "pilot-v2:R0:scenario-02-1:0",
+      "route": "R0",
+      "questionId": "scenario-02-1",
+      "groupId": "scenario-02",
+      "split": "development",
+      "status": "error",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "payroll-engineer",
+        "reserve-policy"
+      ],
+      "stage": "unsupported",
+      "recordedDocumentIds": null,
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "Retrieval stage unsupported; no comparable completed ranking.",
+      "missingRequiredDocumentIds": null,
+      "releasedOutcomeHasAllRequiredDocuments": false,
+      "failures": [
+        "operational:provider_or_plan_contract",
+        "capability:documents_unavailable",
+        "structured_answer:episode_error"
+      ]
+    },
+    {
+      "id": "pilot-v2:R1:scenario-02-1:0",
+      "route": "R1",
+      "questionId": "scenario-02-1",
+      "groupId": "scenario-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "payroll-engineer",
+        "reserve-policy"
+      ],
+      "stage": "unsupported",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "Retrieval stage unsupported; no comparable completed ranking.",
+      "missingRequiredDocumentIds": [
+        "payroll-engineer",
+        "reserve-policy"
+      ],
+      "releasedOutcomeHasAllRequiredDocuments": false,
+      "failures": [
+        "capability:documents_unavailable",
+        "structured_answer:wrong_behavior",
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:required_fact_missing_or_multiple_mismatches",
+        "structured_answer:missing_document_evidence",
+        "structured_answer:missing_ledger_provenance",
+        "structured_answer:missing_assumption"
+      ]
+    },
+    {
+      "id": "pilot-v2:R2:scenario-02-1:0",
+      "route": "R2",
+      "questionId": "scenario-02-1",
+      "groupId": "scenario-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "payroll-engineer",
+        "reserve-policy"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "payroll-engineer",
+        "payroll-support",
+        "clouddesk-v2",
+        "old-hiring-draft",
+        "renewal-quote-a",
+        "renewal-quote-b"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 0.5,
+      "recallAt6": 0.5,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 0.6131471927654584,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [
+        "reserve-policy"
+      ],
+      "releasedOutcomeHasAllRequiredDocuments": false,
+      "failures": [
+        "retrieval:missing_required_document",
+        "structured_answer:wrong_behavior",
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:required_fact_missing_or_multiple_mismatches",
+        "structured_answer:missing_document_evidence",
+        "structured_answer:missing_assumption"
+      ]
+    },
+    {
+      "id": "pilot-v2:R3:scenario-02-1:0",
+      "route": "R3",
+      "questionId": "scenario-02-1",
+      "groupId": "scenario-02",
+      "split": "development",
+      "status": "blocked",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "payroll-engineer",
+        "reserve-policy"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "payroll-engineer",
+        "reserve-policy",
+        "purchase-policy"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "Managed citation order is not raw search rank; only selected-document coverage is measured.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": false,
+      "failures": [
+        "gate:deterministic_rejection",
+        "structured_answer:wrong_behavior",
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:required_fact_missing_or_multiple_mismatches",
+        "structured_answer:missing_document_evidence",
+        "structured_answer:missing_ledger_provenance",
+        "structured_answer:missing_assumption",
+        "structured_answer:deterministic_validation_failed"
+      ]
+    },
+    {
+      "id": "pilot-v2:R4:scenario-02-1:0",
+      "route": "R4",
+      "questionId": "scenario-02-1",
+      "groupId": "scenario-02",
+      "split": "development",
+      "status": "blocked",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "payroll-engineer",
+        "reserve-policy"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "payroll-engineer",
+        "payroll-support",
+        "old-hiring-draft",
+        "staffing-target",
+        "reserve-policy",
+        "clouddesk-v2"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 0.8503449055347546,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": false,
+      "failures": [
+        "gate:deterministic_rejection",
+        "structured_answer:wrong_behavior",
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:required_fact_missing_or_multiple_mismatches",
+        "structured_answer:missing_document_evidence",
+        "structured_answer:missing_ledger_provenance",
+        "structured_answer:missing_assumption",
+        "structured_answer:deterministic_validation_failed"
+      ]
+    },
+    {
+      "id": "pilot-v2:R5:scenario-02-1:0",
+      "route": "R5",
+      "questionId": "scenario-02-1",
+      "groupId": "scenario-02",
+      "split": "development",
+      "status": "blocked",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "payroll-engineer",
+        "reserve-policy"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "payroll-engineer",
+        "contractor-plan",
+        "reserve-policy",
+        "staffing-target",
+        "draft-note",
+        "payroll-support"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 0.9197207891481876,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": false,
+      "failures": [
+        "gate:deterministic_rejection",
+        "structured_answer:wrong_behavior",
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:required_fact_missing_or_multiple_mismatches",
+        "structured_answer:missing_document_evidence",
+        "structured_answer:missing_ledger_provenance",
+        "structured_answer:missing_assumption",
+        "structured_answer:deterministic_validation_failed"
+      ]
+    },
+    {
+      "id": "pilot-v2:R6:scenario-02-1:0",
+      "route": "R6",
+      "questionId": "scenario-02-1",
+      "groupId": "scenario-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": true,
+      "requiredDocumentIds": [
+        "payroll-engineer",
+        "reserve-policy"
+      ],
+      "stage": "completed",
+      "recordedDocumentIds": [
+        "payroll-engineer",
+        "old-hiring-draft",
+        "staffing-target",
+        "payroll-support",
+        "reserve-policy",
+        "draft-note"
+      ],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": 1,
+      "recallAt6": 1,
+      "reciprocalRankAt6": 1,
+      "ndcgAt6": 0.8503449055347546,
+      "rankMetricsUnavailableReason": null,
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": true,
+      "failures": [
+        "structured_answer:required_fact_mismatch",
+        "structured_answer:required_fact_missing_or_multiple_mismatches",
+        "structured_answer:missing_ledger_provenance",
+        "structured_answer:missing_assumption"
+      ]
+    },
+    {
+      "id": "pilot-v2:R8:entry-01-1:0",
+      "route": "R8",
+      "questionId": "entry-01-1",
+      "groupId": "entry-01",
+      "split": "development",
+      "status": "blocked",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "gate:deterministic_rejection",
+        "structured_answer:wrong_behavior",
+        "structured_answer:proposal_line_mismatch",
+        "structured_answer:deterministic_validation_failed"
+      ]
+    },
+    {
+      "id": "pilot-v2:R0:entry-01-1:0",
+      "route": "R0",
+      "questionId": "entry-01-1",
+      "groupId": "entry-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "unsupported",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R1:entry-01-1:0",
+      "route": "R1",
+      "questionId": "entry-01-1",
+      "groupId": "entry-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "unsupported",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R2:entry-01-1:0",
+      "route": "R2",
+      "questionId": "entry-01-1",
+      "groupId": "entry-01",
+      "split": "development",
+      "status": "blocked",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "gate:deterministic_rejection",
+        "structured_answer:wrong_behavior",
+        "structured_answer:proposal_line_mismatch",
+        "structured_answer:deterministic_validation_failed"
+      ]
+    },
+    {
+      "id": "pilot-v2:R3:entry-01-1:0",
+      "route": "R3",
+      "questionId": "entry-01-1",
+      "groupId": "entry-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R4:entry-01-1:0",
+      "route": "R4",
+      "questionId": "entry-01-1",
+      "groupId": "entry-01",
+      "split": "development",
+      "status": "blocked",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "gate:deterministic_rejection",
+        "structured_answer:wrong_behavior",
+        "structured_answer:proposal_line_mismatch",
+        "structured_answer:deterministic_validation_failed"
+      ]
+    },
+    {
+      "id": "pilot-v2:R5:entry-01-1:0",
+      "route": "R5",
+      "questionId": "entry-01-1",
+      "groupId": "entry-01",
+      "split": "development",
+      "status": "blocked",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "gate:deterministic_rejection",
+        "structured_answer:wrong_behavior",
+        "structured_answer:proposal_line_mismatch",
+        "structured_answer:deterministic_validation_failed"
+      ]
+    },
+    {
+      "id": "pilot-v2:R6:entry-01-1:0",
+      "route": "R6",
+      "questionId": "entry-01-1",
+      "groupId": "entry-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R7:entry-01-1:0",
+      "route": "R7",
+      "questionId": "entry-01-1",
+      "groupId": "entry-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R0:entry-02-1:0",
+      "route": "R0",
+      "questionId": "entry-02-1",
+      "groupId": "entry-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "unsupported",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R1:entry-02-1:0",
+      "route": "R1",
+      "questionId": "entry-02-1",
+      "groupId": "entry-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "unsupported",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R2:entry-02-1:0",
+      "route": "R2",
+      "questionId": "entry-02-1",
+      "groupId": "entry-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R3:entry-02-1:0",
+      "route": "R3",
+      "questionId": "entry-02-1",
+      "groupId": "entry-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R4:entry-02-1:0",
+      "route": "R4",
+      "questionId": "entry-02-1",
+      "groupId": "entry-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R5:entry-02-1:0",
+      "route": "R5",
+      "questionId": "entry-02-1",
+      "groupId": "entry-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R6:entry-02-1:0",
+      "route": "R6",
+      "questionId": "entry-02-1",
+      "groupId": "entry-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R7:entry-02-1:0",
+      "route": "R7",
+      "questionId": "entry-02-1",
+      "groupId": "entry-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R8:entry-02-1:0",
+      "route": "R8",
+      "questionId": "entry-02-1",
+      "groupId": "entry-02",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R1:adversarial-01-1:0",
+      "route": "R1",
+      "questionId": "adversarial-01-1",
+      "groupId": "adversarial-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "unsupported",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "structured_answer:missing_clarification_topic"
+      ]
+    },
+    {
+      "id": "pilot-v2:R2:adversarial-01-1:0",
+      "route": "R2",
+      "questionId": "adversarial-01-1",
+      "groupId": "adversarial-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "structured_answer:missing_clarification_topic"
+      ]
+    },
+    {
+      "id": "pilot-v2:R3:adversarial-01-1:0",
+      "route": "R3",
+      "questionId": "adversarial-01-1",
+      "groupId": "adversarial-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "structured_answer:missing_clarification_topic"
+      ]
+    },
+    {
+      "id": "pilot-v2:R4:adversarial-01-1:0",
+      "route": "R4",
+      "questionId": "adversarial-01-1",
+      "groupId": "adversarial-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "structured_answer:missing_clarification_topic"
+      ]
+    },
+    {
+      "id": "pilot-v2:R5:adversarial-01-1:0",
+      "route": "R5",
+      "questionId": "adversarial-01-1",
+      "groupId": "adversarial-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "structured_answer:missing_clarification_topic"
+      ]
+    },
+    {
+      "id": "pilot-v2:R6:adversarial-01-1:0",
+      "route": "R6",
+      "questionId": "adversarial-01-1",
+      "groupId": "adversarial-01",
+      "split": "development",
+      "status": "error",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "unknown",
+      "recordedDocumentIds": null,
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "operational:provider_rate_limit",
+        "structured_answer:episode_error"
+      ]
+    },
+    {
+      "id": "pilot-v2:R7:adversarial-01-1:0",
+      "route": "R7",
+      "questionId": "adversarial-01-1",
+      "groupId": "adversarial-01",
+      "split": "development",
+      "status": "ok",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "skipped",
+      "recordedDocumentIds": [],
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "structured_answer:missing_clarification_topic"
+      ]
+    },
+    {
+      "id": "pilot-v2:R8:adversarial-01-1:0",
+      "route": "R8",
+      "questionId": "adversarial-01-1",
+      "groupId": "adversarial-01",
+      "split": "development",
+      "status": "error",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "unknown",
+      "recordedDocumentIds": null,
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "operational:provider_rate_limit",
+        "structured_answer:episode_error"
+      ]
+    },
+    {
+      "id": "pilot-v2:R0:adversarial-01-1:0",
+      "route": "R0",
+      "questionId": "adversarial-01-1",
+      "groupId": "adversarial-01",
+      "split": "development",
+      "status": "error",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "unsupported",
+      "recordedDocumentIds": null,
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "operational:provider_rate_limit",
+        "structured_answer:episode_error"
+      ]
+    },
+    {
+      "id": "pilot-v2:R2:adversarial-02-1:0",
+      "route": "R2",
+      "questionId": "adversarial-02-1",
+      "groupId": "adversarial-02",
+      "split": "development",
+      "status": "error",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "unknown",
+      "recordedDocumentIds": null,
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "operational:provider_rate_limit",
+        "structured_answer:episode_error"
+      ]
+    },
+    {
+      "id": "pilot-v2:R3:adversarial-02-1:0",
+      "route": "R3",
+      "questionId": "adversarial-02-1",
+      "groupId": "adversarial-02",
+      "split": "development",
+      "status": "error",
+      "applicable": false,
+      "requiredDocumentIds": [],
+      "stage": "unknown",
+      "recordedDocumentIds": null,
+      "duplicateIds": [],
+      "selectedDocumentRecallAt6": null,
+      "recallAt6": null,
+      "reciprocalRankAt6": null,
+      "ndcgAt6": null,
+      "rankMetricsUnavailableReason": "No required document labels for this question.",
+      "missingRequiredDocumentIds": [],
+      "releasedOutcomeHasAllRequiredDocuments": null,
+      "failures": [
+        "operational:budget_or_call_limit",
+        "structured_answer:episode_error"
+      ]
+    }
+  ],
+  "timingObservations": [
+    {
+      "id": "pilot-v2:R0:financial-01-1:0",
+      "route": "R0",
+      "status": "ok",
+      "legacyAggregateMs": 719,
+      "coverage": "complete",
+      "recordedCalls": 1,
+      "measuredCalls": 1,
+      "missingCalls": 0,
+      "completeDurationMs": 719,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R1:financial-01-1:0",
+      "route": "R1",
+      "status": "ok",
+      "legacyAggregateMs": 3702,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 3702,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R2:financial-01-1:0",
+      "route": "R2",
+      "status": "ok",
+      "legacyAggregateMs": 3116,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 3116,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R3:financial-01-1:0",
+      "route": "R3",
+      "status": "error",
+      "legacyAggregateMs": 20440,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 20440,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R4:financial-01-1:0",
+      "route": "R4",
+      "status": "ok",
+      "legacyAggregateMs": 2808,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 2808,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R5:financial-01-1:0",
+      "route": "R5",
+      "status": "ok",
+      "legacyAggregateMs": 6169,
+      "coverage": "complete",
+      "recordedCalls": 4,
+      "measuredCalls": 4,
+      "missingCalls": 0,
+      "completeDurationMs": 6169,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R6:financial-01-1:0",
+      "route": "R6",
+      "status": "error",
+      "legacyAggregateMs": 936,
+      "coverage": "partial",
+      "recordedCalls": 2,
+      "measuredCalls": 1,
+      "missingCalls": 1,
+      "completeDurationMs": null,
+      "partialMeasuredDurationMs": 936
+    },
+    {
+      "id": "pilot-v2:R7:financial-01-1:0",
+      "route": "R7",
+      "status": "ok",
+      "legacyAggregateMs": 3135,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 3135,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R8:financial-01-1:0",
+      "route": "R8",
+      "status": "ok",
+      "legacyAggregateMs": 4723,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 4723,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R1:financial-02-1:0",
+      "route": "R1",
+      "status": "ok",
+      "legacyAggregateMs": 2193,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2193,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R2:financial-02-1:0",
+      "route": "R2",
+      "status": "ok",
+      "legacyAggregateMs": 2195,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2195,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R3:financial-02-1:0",
+      "route": "R3",
+      "status": "ok",
+      "legacyAggregateMs": 11229,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 11229,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R4:financial-02-1:0",
+      "route": "R4",
+      "status": "ok",
+      "legacyAggregateMs": 2346,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2346,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R5:financial-02-1:0",
+      "route": "R5",
+      "status": "ok",
+      "legacyAggregateMs": 2138,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2138,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R6:financial-02-1:0",
+      "route": "R6",
+      "status": "ok",
+      "legacyAggregateMs": 2960,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2960,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R7:financial-02-1:0",
+      "route": "R7",
+      "status": "ok",
+      "legacyAggregateMs": 3727,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 3727,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R8:financial-02-1:0",
+      "route": "R8",
+      "status": "ok",
+      "legacyAggregateMs": 4806,
+      "coverage": "complete",
+      "recordedCalls": 4,
+      "measuredCalls": 4,
+      "missingCalls": 0,
+      "completeDurationMs": 4806,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R0:financial-02-1:0",
+      "route": "R0",
+      "status": "ok",
+      "legacyAggregateMs": 807,
+      "coverage": "complete",
+      "recordedCalls": 1,
+      "measuredCalls": 1,
+      "missingCalls": 0,
+      "completeDurationMs": 807,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R2:analytics-01-1:0",
+      "route": "R2",
+      "status": "ok",
+      "legacyAggregateMs": 3337,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 3337,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R3:analytics-01-1:0",
+      "route": "R3",
+      "status": "ok",
+      "legacyAggregateMs": 8069,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 8069,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R4:analytics-01-1:0",
+      "route": "R4",
+      "status": "ok",
+      "legacyAggregateMs": 3340,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 3340,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R5:analytics-01-1:0",
+      "route": "R5",
+      "status": "ok",
+      "legacyAggregateMs": 23747,
+      "coverage": "complete",
+      "recordedCalls": 4,
+      "measuredCalls": 4,
+      "missingCalls": 0,
+      "completeDurationMs": 23747,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R6:analytics-01-1:0",
+      "route": "R6",
+      "status": "ok",
+      "legacyAggregateMs": 4682,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 4682,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R7:analytics-01-1:0",
+      "route": "R7",
+      "status": "ok",
+      "legacyAggregateMs": 5099,
+      "coverage": "complete",
+      "recordedCalls": 4,
+      "measuredCalls": 4,
+      "missingCalls": 0,
+      "completeDurationMs": 5099,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R8:analytics-01-1:0",
+      "route": "R8",
+      "status": "ok",
+      "legacyAggregateMs": 4563,
+      "coverage": "complete",
+      "recordedCalls": 4,
+      "measuredCalls": 4,
+      "missingCalls": 0,
+      "completeDurationMs": 4563,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R0:analytics-01-1:0",
+      "route": "R0",
+      "status": "ok",
+      "legacyAggregateMs": 965,
+      "coverage": "complete",
+      "recordedCalls": 1,
+      "measuredCalls": 1,
+      "missingCalls": 0,
+      "completeDurationMs": 965,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R1:analytics-01-1:0",
+      "route": "R1",
+      "status": "ok",
+      "legacyAggregateMs": 4189,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 4189,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R3:analytics-02-1:0",
+      "route": "R3",
+      "status": "ok",
+      "legacyAggregateMs": 2811,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2811,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R4:analytics-02-1:0",
+      "route": "R4",
+      "status": "ok",
+      "legacyAggregateMs": 3559,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 3559,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R5:analytics-02-1:0",
+      "route": "R5",
+      "status": "ok",
+      "legacyAggregateMs": 3974,
+      "coverage": "complete",
+      "recordedCalls": 4,
+      "measuredCalls": 4,
+      "missingCalls": 0,
+      "completeDurationMs": 3974,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R6:analytics-02-1:0",
+      "route": "R6",
+      "status": "ok",
+      "legacyAggregateMs": 2598,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2598,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R7:analytics-02-1:0",
+      "route": "R7",
+      "status": "ok",
+      "legacyAggregateMs": 4008,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 4008,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R8:analytics-02-1:0",
+      "route": "R8",
+      "status": "ok",
+      "legacyAggregateMs": 4569,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 4569,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R0:analytics-02-1:0",
+      "route": "R0",
+      "status": "error",
+      "legacyAggregateMs": 806,
+      "coverage": "complete",
+      "recordedCalls": 1,
+      "measuredCalls": 1,
+      "missingCalls": 0,
+      "completeDurationMs": 806,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R1:analytics-02-1:0",
+      "route": "R1",
+      "status": "ok",
+      "legacyAggregateMs": 2676,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2676,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R2:analytics-02-1:0",
+      "route": "R2",
+      "status": "ok",
+      "legacyAggregateMs": 3185,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 3185,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R4:documents-01-1:0",
+      "route": "R4",
+      "status": "ok",
+      "legacyAggregateMs": 2829,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 2829,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R5:documents-01-1:0",
+      "route": "R5",
+      "status": "ok",
+      "legacyAggregateMs": 2170,
+      "coverage": "complete",
+      "recordedCalls": 4,
+      "measuredCalls": 4,
+      "missingCalls": 0,
+      "completeDurationMs": 2170,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R6:documents-01-1:0",
+      "route": "R6",
+      "status": "ok",
+      "legacyAggregateMs": 2179,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 2179,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R7:documents-01-1:0",
+      "route": "R7",
+      "status": "ok",
+      "legacyAggregateMs": 3841,
+      "coverage": "complete",
+      "recordedCalls": 4,
+      "measuredCalls": 4,
+      "missingCalls": 0,
+      "completeDurationMs": 3841,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R8:documents-01-1:0",
+      "route": "R8",
+      "status": "ok",
+      "legacyAggregateMs": 2665,
+      "coverage": "complete",
+      "recordedCalls": 4,
+      "measuredCalls": 4,
+      "missingCalls": 0,
+      "completeDurationMs": 2665,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R0:documents-01-1:0",
+      "route": "R0",
+      "status": "ok",
+      "legacyAggregateMs": 766,
+      "coverage": "complete",
+      "recordedCalls": 1,
+      "measuredCalls": 1,
+      "missingCalls": 0,
+      "completeDurationMs": 766,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R1:documents-01-1:0",
+      "route": "R1",
+      "status": "ok",
+      "legacyAggregateMs": 3064,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 3064,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R2:documents-01-1:0",
+      "route": "R2",
+      "status": "ok",
+      "legacyAggregateMs": 2571,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2571,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R3:documents-01-1:0",
+      "route": "R3",
+      "status": "ok",
+      "legacyAggregateMs": 6747,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 6747,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R5:documents-02-1:0",
+      "route": "R5",
+      "status": "ok",
+      "legacyAggregateMs": 3440,
+      "coverage": "complete",
+      "recordedCalls": 4,
+      "measuredCalls": 4,
+      "missingCalls": 0,
+      "completeDurationMs": 3440,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R6:documents-02-1:0",
+      "route": "R6",
+      "status": "ok",
+      "legacyAggregateMs": 2806,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 2806,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R7:documents-02-1:0",
+      "route": "R7",
+      "status": "ok",
+      "legacyAggregateMs": 4395,
+      "coverage": "complete",
+      "recordedCalls": 4,
+      "measuredCalls": 4,
+      "missingCalls": 0,
+      "completeDurationMs": 4395,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R8:documents-02-1:0",
+      "route": "R8",
+      "status": "ok",
+      "legacyAggregateMs": 3182,
+      "coverage": "complete",
+      "recordedCalls": 4,
+      "measuredCalls": 4,
+      "missingCalls": 0,
+      "completeDurationMs": 3182,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R0:documents-02-1:0",
+      "route": "R0",
+      "status": "ok",
+      "legacyAggregateMs": 703,
+      "coverage": "complete",
+      "recordedCalls": 1,
+      "measuredCalls": 1,
+      "missingCalls": 0,
+      "completeDurationMs": 703,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R1:documents-02-1:0",
+      "route": "R1",
+      "status": "ok",
+      "legacyAggregateMs": 3248,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 3248,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R2:documents-02-1:0",
+      "route": "R2",
+      "status": "ok",
+      "legacyAggregateMs": 3190,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 3190,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R3:documents-02-1:0",
+      "route": "R3",
+      "status": "ok",
+      "legacyAggregateMs": 7450,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 7450,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R4:documents-02-1:0",
+      "route": "R4",
+      "status": "ok",
+      "legacyAggregateMs": 3770,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 3770,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R6:scenario-01-1:0",
+      "route": "R6",
+      "status": "ok",
+      "legacyAggregateMs": 2799,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 2799,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R7:scenario-01-1:0",
+      "route": "R7",
+      "status": "ok",
+      "legacyAggregateMs": 4127,
+      "coverage": "complete",
+      "recordedCalls": 4,
+      "measuredCalls": 4,
+      "missingCalls": 0,
+      "completeDurationMs": 4127,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R8:scenario-01-1:0",
+      "route": "R8",
+      "status": "ok",
+      "legacyAggregateMs": 3414,
+      "coverage": "complete",
+      "recordedCalls": 4,
+      "measuredCalls": 4,
+      "missingCalls": 0,
+      "completeDurationMs": 3414,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R0:scenario-01-1:0",
+      "route": "R0",
+      "status": "ok",
+      "legacyAggregateMs": 661,
+      "coverage": "complete",
+      "recordedCalls": 1,
+      "measuredCalls": 1,
+      "missingCalls": 0,
+      "completeDurationMs": 661,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R1:scenario-01-1:0",
+      "route": "R1",
+      "status": "ok",
+      "legacyAggregateMs": 2563,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2563,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R2:scenario-01-1:0",
+      "route": "R2",
+      "status": "ok",
+      "legacyAggregateMs": 3517,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 3517,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R3:scenario-01-1:0",
+      "route": "R3",
+      "status": "ok",
+      "legacyAggregateMs": 8038,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 8038,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R4:scenario-01-1:0",
+      "route": "R4",
+      "status": "ok",
+      "legacyAggregateMs": 3455,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 3455,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R5:scenario-01-1:0",
+      "route": "R5",
+      "status": "ok",
+      "legacyAggregateMs": 3670,
+      "coverage": "complete",
+      "recordedCalls": 4,
+      "measuredCalls": 4,
+      "missingCalls": 0,
+      "completeDurationMs": 3670,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R7:scenario-02-1:0",
+      "route": "R7",
+      "status": "blocked",
+      "legacyAggregateMs": 13898,
+      "coverage": "complete",
+      "recordedCalls": 4,
+      "measuredCalls": 4,
+      "missingCalls": 0,
+      "completeDurationMs": 13898,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R8:scenario-02-1:0",
+      "route": "R8",
+      "status": "blocked",
+      "legacyAggregateMs": 3796,
+      "coverage": "complete",
+      "recordedCalls": 4,
+      "measuredCalls": 4,
+      "missingCalls": 0,
+      "completeDurationMs": 3796,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R0:scenario-02-1:0",
+      "route": "R0",
+      "status": "error",
+      "legacyAggregateMs": 16625,
+      "coverage": "complete",
+      "recordedCalls": 1,
+      "measuredCalls": 1,
+      "missingCalls": 0,
+      "completeDurationMs": 16625,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R1:scenario-02-1:0",
+      "route": "R1",
+      "status": "ok",
+      "legacyAggregateMs": 20144,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 20144,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R2:scenario-02-1:0",
+      "route": "R2",
+      "status": "ok",
+      "legacyAggregateMs": 3836,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 3836,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R3:scenario-02-1:0",
+      "route": "R3",
+      "status": "blocked",
+      "legacyAggregateMs": 11344,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 11344,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R4:scenario-02-1:0",
+      "route": "R4",
+      "status": "blocked",
+      "legacyAggregateMs": 5800,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 5800,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R5:scenario-02-1:0",
+      "route": "R5",
+      "status": "blocked",
+      "legacyAggregateMs": 5083,
+      "coverage": "complete",
+      "recordedCalls": 4,
+      "measuredCalls": 4,
+      "missingCalls": 0,
+      "completeDurationMs": 5083,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R6:scenario-02-1:0",
+      "route": "R6",
+      "status": "ok",
+      "legacyAggregateMs": 2454,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 2454,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R8:entry-01-1:0",
+      "route": "R8",
+      "status": "blocked",
+      "legacyAggregateMs": 7562,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 7562,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R0:entry-01-1:0",
+      "route": "R0",
+      "status": "ok",
+      "legacyAggregateMs": 1276,
+      "coverage": "complete",
+      "recordedCalls": 1,
+      "measuredCalls": 1,
+      "missingCalls": 0,
+      "completeDurationMs": 1276,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R1:entry-01-1:0",
+      "route": "R1",
+      "status": "ok",
+      "legacyAggregateMs": 2227,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2227,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R2:entry-01-1:0",
+      "route": "R2",
+      "status": "blocked",
+      "legacyAggregateMs": 3024,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 3024,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R3:entry-01-1:0",
+      "route": "R3",
+      "status": "ok",
+      "legacyAggregateMs": 2388,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2388,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R4:entry-01-1:0",
+      "route": "R4",
+      "status": "blocked",
+      "legacyAggregateMs": 2279,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2279,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R5:entry-01-1:0",
+      "route": "R5",
+      "status": "blocked",
+      "legacyAggregateMs": 2320,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2320,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R6:entry-01-1:0",
+      "route": "R6",
+      "status": "ok",
+      "legacyAggregateMs": 2307,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2307,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R7:entry-01-1:0",
+      "route": "R7",
+      "status": "ok",
+      "legacyAggregateMs": 3197,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 3197,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R0:entry-02-1:0",
+      "route": "R0",
+      "status": "ok",
+      "legacyAggregateMs": 2154,
+      "coverage": "complete",
+      "recordedCalls": 1,
+      "measuredCalls": 1,
+      "missingCalls": 0,
+      "completeDurationMs": 2154,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R1:entry-02-1:0",
+      "route": "R1",
+      "status": "ok",
+      "legacyAggregateMs": 2760,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2760,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R2:entry-02-1:0",
+      "route": "R2",
+      "status": "ok",
+      "legacyAggregateMs": 4640,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 4640,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R3:entry-02-1:0",
+      "route": "R3",
+      "status": "ok",
+      "legacyAggregateMs": 2549,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2549,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R4:entry-02-1:0",
+      "route": "R4",
+      "status": "ok",
+      "legacyAggregateMs": 2006,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2006,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R5:entry-02-1:0",
+      "route": "R5",
+      "status": "ok",
+      "legacyAggregateMs": 2648,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2648,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R6:entry-02-1:0",
+      "route": "R6",
+      "status": "ok",
+      "legacyAggregateMs": 2131,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2131,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R7:entry-02-1:0",
+      "route": "R7",
+      "status": "ok",
+      "legacyAggregateMs": 3702,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 3702,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R8:entry-02-1:0",
+      "route": "R8",
+      "status": "ok",
+      "legacyAggregateMs": 2850,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 2850,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R1:adversarial-01-1:0",
+      "route": "R1",
+      "status": "ok",
+      "legacyAggregateMs": 3354,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 3354,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R2:adversarial-01-1:0",
+      "route": "R2",
+      "status": "ok",
+      "legacyAggregateMs": 2876,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2876,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R3:adversarial-01-1:0",
+      "route": "R3",
+      "status": "ok",
+      "legacyAggregateMs": 2958,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 2958,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R4:adversarial-01-1:0",
+      "route": "R4",
+      "status": "ok",
+      "legacyAggregateMs": 3735,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 3735,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R5:adversarial-01-1:0",
+      "route": "R5",
+      "status": "ok",
+      "legacyAggregateMs": 19538,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 19538,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R6:adversarial-01-1:0",
+      "route": "R6",
+      "status": "error",
+      "legacyAggregateMs": 187,
+      "coverage": "complete",
+      "recordedCalls": 1,
+      "measuredCalls": 1,
+      "missingCalls": 0,
+      "completeDurationMs": 187,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R7:adversarial-01-1:0",
+      "route": "R7",
+      "status": "ok",
+      "legacyAggregateMs": 3616,
+      "coverage": "complete",
+      "recordedCalls": 3,
+      "measuredCalls": 3,
+      "missingCalls": 0,
+      "completeDurationMs": 3616,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R8:adversarial-01-1:0",
+      "route": "R8",
+      "status": "error",
+      "legacyAggregateMs": 1982,
+      "coverage": "complete",
+      "recordedCalls": 2,
+      "measuredCalls": 2,
+      "missingCalls": 0,
+      "completeDurationMs": 1982,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R0:adversarial-01-1:0",
+      "route": "R0",
+      "status": "error",
+      "legacyAggregateMs": 200,
+      "coverage": "complete",
+      "recordedCalls": 1,
+      "measuredCalls": 1,
+      "missingCalls": 0,
+      "completeDurationMs": 200,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R2:adversarial-02-1:0",
+      "route": "R2",
+      "status": "error",
+      "legacyAggregateMs": 185,
+      "coverage": "complete",
+      "recordedCalls": 1,
+      "measuredCalls": 1,
+      "missingCalls": 0,
+      "completeDurationMs": 185,
+      "partialMeasuredDurationMs": null
+    },
+    {
+      "id": "pilot-v2:R3:adversarial-02-1:0",
+      "route": "R3",
+      "status": "error",
+      "legacyAggregateMs": 0,
+      "coverage": "not_called",
+      "recordedCalls": 0,
+      "measuredCalls": 0,
+      "missingCalls": 0,
+      "completeDurationMs": null,
+      "partialMeasuredDurationMs": null
+    }
+  ],
+  "timingUsage": {
+    "available": true,
+    "matchedRecords": 248,
+    "matchedRecordHash": "753b435b6dbff649346d98c3b39c8e9c79bd840c47777c7005fb51a0cfe94b41",
+    "policy": "An explicit usage input must contain all provider attempt records for these episodes. Unmatched runs/setup records are excluded."
+  },
+  "failures": [
+    {
+      "category": "capability:documents_unavailable",
+      "episodes": 8
+    },
+    {
+      "category": "gate:deterministic_rejection",
+      "episodes": 7
+    },
+    {
+      "category": "gate:semantic_rejection",
+      "episodes": 2
+    },
+    {
+      "category": "operational:budget_or_call_limit",
+      "episodes": 1
+    },
+    {
+      "category": "operational:provider_or_network_failure",
+      "episodes": 2
+    },
+    {
+      "category": "operational:provider_or_plan_contract",
+      "episodes": 2
+    },
+    {
+      "category": "operational:provider_rate_limit",
+      "episodes": 4
+    },
+    {
+      "category": "retrieval:missing_required_document",
+      "episodes": 2
+    },
+    {
+      "category": "structured_answer:deterministic_validation_failed",
+      "episodes": 7
+    },
+    {
+      "category": "structured_answer:episode_error",
+      "episodes": 9
+    },
+    {
+      "category": "structured_answer:metric_key_mismatch",
+      "episodes": 13
+    },
+    {
+      "category": "structured_answer:missing_assumption",
+      "episodes": 10
+    },
+    {
+      "category": "structured_answer:missing_clarification_topic",
+      "episodes": 6
+    },
+    {
+      "category": "structured_answer:missing_document_evidence",
+      "episodes": 13
+    },
+    {
+      "category": "structured_answer:missing_ledger_provenance",
+      "episodes": 20
+    },
+    {
+      "category": "structured_answer:proposal_line_mismatch",
+      "episodes": 4
+    },
+    {
+      "category": "structured_answer:required_fact_mismatch",
+      "episodes": 26
+    },
+    {
+      "category": "structured_answer:required_fact_missing_or_multiple_mismatches",
+      "episodes": 16
+    },
+    {
+      "category": "structured_answer:unsupported_or_unassessed_fact",
+      "episodes": 20
+    },
+    {
+      "category": "structured_answer:wrong_behavior",
+      "episodes": 13
+    }
+  ],
+  "definitions": {
+    "relevance": "Binary required-document IDs from the independent reference; exact versions are distinct IDs. No graded relevance labels are invented.",
+    "conditionalRetrieval": "Only document-applicable episodes with recorded completed retrieval output. Explicit empty output after a requested search scores zero; unknown error stages and skipped searches are excluded and counted separately.",
+    "rankMetrics": "Recall@6 = distinct relevant hits / required documents. MRR@6 uses the first relevant rank, with0 if none in6. nDCG@6 uses binary gains and ideal ordering of up to6 required documents. R3 managed raw ranking metrics are unavailable.",
+    "managedCoverage": "R3 selected-document coverage measures the authorized documents selected through provider citations, not raw managed search recall or rank quality.",
+    "endToEnd": "Fraction of all recorded document-applicable episodes that released an unblocked result whose actual authorized evidence included every required document. Errors and blocked outcomes count as failed delivery, without assigning unknown retrieval stages a zero retrieval score.",
+    "taxonomy": "Multi-label observed conditions, not mutually exclusive causes. Structured fact mismatch may include semantic key, currency, entity, period or schema mismatch; it is not automatically an arithmetic error.",
+    "latency": "Nearest-rank p50/p95 for all attempts and separately non-error outcomes (including blocks). Harness wall includes pacing/queue waits. Complete HTTP totals require durations for every provider attempt in the explicit per-call usage snapshot. Partial known subtotals have separate percentiles; entirely unknown or unverified legacy aggregates are excluded. No-call episodes are disclosed separately. Provider sums are not production latency."
+  },
+  "limitations": [
+    "Descriptive supplemental metrics on synthetic documents; no confidence intervals, causal claims, human citation-entailment judgments or publication-grade power are implied.",
+    "Conditional retrieval results can be selected by planner decisions and upstream failures. Read them alongside skipped/unknown counts and end-to-end delivery.",
+    "Required-document labels identify a reference evidence set, not an exhaustive set of every possibly relevant document.",
+    "An absent final episode record is not an observed failure. Compare these measured denominators with the main run manifest for planned/missing episodes.",
+    "Repeated episodes and paraphrases are clustered. Scenario-macro recall is also shown; no episode independence is assumed.",
+    "The current runner may discard intermediate state after an exception. Unknown-stage errors cannot diagnose retrieval quality."
+  ]
+}

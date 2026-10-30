@@ -6,6 +6,25 @@ import type { ResearchRequest, ResearchResponse, ResearchTransport } from './pro
 export type HttpRequest = Omit<ResearchRequest, 'provider' | 'model' | 'kind'>;
 export type HttpTransport = (request: HttpRequest) => Promise<ResearchResponse>;
 
+/** Appended last: .done existence alone does not prove curl finished writing it. */
+export const QUEUE_COMPLETION_MARKER = 'DAYBOOK_HTTP_DONE_V1';
+export interface QueueCompletion {
+  status: number;
+  elapsedMs: number;
+  exitCode: number;
+}
+export function parseQueueCompletion(value: string): QueueCompletion | null {
+  if (!value.endsWith(` ${QUEUE_COMPLETION_MARKER}\n`)) return null;
+  const match = /^(\d{3}) (\d+(?:\.\d+)?) (\d{1,3}) DAYBOOK_HTTP_DONE_V1\n$/.exec(value);
+  if (!match) throw new Error('RESEARCH_INVALID_HTTP_COMPLETION');
+  const status = Number(match[1]);
+  const elapsedMs = Math.round(Number(match[2]) * 1000);
+  const exitCode = Number(match[3]);
+  if ((status !== 0 && (status < 100 || status > 599)) || !Number.isSafeInteger(elapsedMs) || exitCode > 255)
+    throw new Error('RESEARCH_INVALID_HTTP_COMPLETION');
+  return { status, elapsedMs, exitCode };
+}
+
 export function atomicJson(path: string, value: unknown) {
   const temporary = `${path}.${process.pid}.tmp`;
   writeFileSync(temporary, JSON.stringify(value, null, 2) + '\n', { mode: 0o600 });
@@ -49,20 +68,21 @@ export function queuedHttp(directory = '.tools/research/queue'): HttpTransport {
       ...(body === undefined ? [] : [`data-binary = ${quote(`@${stem}.body`)}`]),
       `output = ${quote(`${stem}.response`)}`,
       `dump-header = ${quote(`${stem}.headers`)}`,
-      `write-out = ${quote(`%output{${stem}.done}%{http_code} %{time_total} %{exitcode}`)}`,
+      `write-out = ${quote(`%output{${stem}.done}%{http_code} %{time_total} %{exitcode} ${QUEUE_COMPLETION_MARKER}\n`)}`,
     ].join('\n');
     writeFileSync(`${stem}.curl`, config + '\n', { mode: 0o600 });
     atomicJson(`${stem}.ready`, { id, createdAt: new Date().toISOString(), expiresAt });
-    while (!existsSync(`${stem}.done`)) {
+    let completion: QueueCompletion | null = null;
+    while (!completion) {
       // Queue waiting consumes the same request/episode deadline as network I/O.
       if (Date.now() >= expiresAt) {
         if (existsSync(`${stem}.ready`)) unlinkSync(`${stem}.ready`);
         throw new Error('RESEARCH_HTTP_TIMEOUT');
       }
-      await new Promise((r) => setTimeout(r, 100));
+      if (existsSync(`${stem}.done`)) completion = parseQueueCompletion(readFileSync(`${stem}.done`, 'utf8'));
+      if (!completion) await new Promise((r) => setTimeout(r, Math.min(100, expiresAt - Date.now())));
     }
     if (Date.now() > expiresAt) throw new Error('RESEARCH_HTTP_TIMEOUT');
-    const [statusText, seconds, exitCode] = readFileSync(`${stem}.done`, 'utf8').trim().split(/\s+/);
     const raw = existsSync(`${stem}.response`) ? readFileSync(`${stem}.response`, 'utf8') : '';
     let json: unknown = null;
     try {
@@ -79,9 +99,9 @@ export function queuedHttp(directory = '.tools/research/queue'): HttpTransport {
           return [line.slice(0, colon).toLowerCase(), line.slice(colon + 1).trim()];
         }),
     );
-    if (exitCode !== '0')
-      throw new Error(exitCode === '28' ? 'RESEARCH_HTTP_TIMEOUT' : 'RESEARCH_HTTP_FAILURE');
-    return { status: Number(statusText), json, headers, elapsedMs: Math.round(Number(seconds) * 1000) };
+    if (completion.exitCode !== 0)
+      throw new Error(completion.exitCode === 28 ? 'RESEARCH_HTTP_TIMEOUT' : 'RESEARCH_HTTP_FAILURE');
+    return { status: completion.status, json, headers, elapsedMs: completion.elapsedMs };
   };
 }
 

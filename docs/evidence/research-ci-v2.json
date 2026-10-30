@@ -1,0 +1,40 @@
+{
+  "at": "2026-10-30T22:35:25.724104+00:00",
+  "commit": "3d906ce127d260a342257f60fd1f8d24576157ec",
+  "documentationHead": "1e5e152",
+  "runId": 41138538661,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41138538661",
+  "jobs": [
+    {
+      "name": "verify",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "research-native",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "compose",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "live-ai",
+      "status": "completed",
+      "conclusion": "skipped"
+    }
+  ],
+  "scope": "Corrected research control adapter and backend-specific planner interfaces; production application unchanged",
+  "localRuntimeCheckpoint": {
+    "isolatedTests": 339,
+    "build": "passed",
+    "format": "passed"
+  },
+  "limits": [
+    "Additional external analyzer/exporter tests passed separately and CI checked the complete committed TypeScript suite.",
+    "Live study results remain separate from these application/database/build checks.",
+    "No production deployment was made."
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "recordedAt": "2026-10-30T23:04:34.827Z",
+  "scope": "Offline final development revision; no live provider requests or final held-out freeze",
+  "sourceHash": "28ac6366b03d38da8eed431c3063494cea2e221c4324e37b43efe79976317b37",
+  "runtime": {
+    "node": "v22.23.4",
+    "platform": "darwin",
+    "architecture": "arm64"
+  },
+  "protocolSha256": "8c0dc4b36ddc05c54634e5bd8136396b8431f275991bc81af107ea8379eb5f9b",
+  "checks": [
+    {
+      "command": "npx vitest run --exclude tests/accounting.test.ts --exclude tests/ai-contract.test.ts",
+      "passed": true,
+      "files": 26,
+      "tests": 399,
+      "durationSeconds": 5.12
+    },
+    {
+      "command": "npm run build",
+      "passed": true,
+      "scope": "Strict TypeScript and production Vite bundle",
+      "warnings": "Two existing nonfatal Zod/Rollup annotation warnings"
+    },
+    {
+      "command": "npm run format:check",
+      "passed": true
+    }
+  ],
+  "databaseAndBrowserChecks": "Require new cloud CI for this working revision; latest previously passing run is 41138538661.",
+  "liveFinalRevisionSmoke": "NOT_RUN_DAILY_PROVIDER_QUOTA",
+  "heldOutRoutes": {
+    "planned": 1620,
+    "measured": 0
+  },
+  "heldOutReviewerOutcomes": {
+    "planned": 240,
+    "measured": 0
+  },
+  "productionDeployed": false
+}

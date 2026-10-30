@@ -3,6 +3,15 @@ import { dirname } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { atomicJson } from './io';
 import type { ResearchRequest, ResearchResponse, ResearchTransport } from './providers/transport';
+import {
+  assertRecoveryAllowsNormalCall,
+  probeOutcome,
+  validateQuotaRecoveryPermit,
+  validateRecoveryJournal,
+  type QuotaRecoveryPermit,
+  type RecoveryJournalEntry,
+  type RecoveryReceipt,
+} from './recovery';
 
 export interface UsageRecord {
   id: string;
@@ -42,39 +51,139 @@ export class StudyBudget {
       .reduce((a, r) => a + (r.estimatedUsd ?? r.reserveUsd), 0);
   }
   wrap(transport: ResearchTransport): ResearchTransport {
-    return async (request) => {
-      const lockPath = `${this.path}.lock`;
-      if (existsSync(lockPath)) {
-        const pid = Number(readFileSync(lockPath, 'utf8'));
-        try {
-          process.kill(pid, 0);
-          throw new Error('RESEARCH_BUDGET_IN_USE');
-        } catch (error) {
-          if ((error as NodeJS.ErrnoException).code !== 'ESRCH') throw error;
-          unlinkSync(lockPath);
-        }
-      }
-      const lock = openSync(lockPath, 'wx', 0o600);
-      writeFileSync(lock, String(process.pid));
-      try {
-        if (existsSync(this.path))
-          this.records.splice(
-            0,
-            this.records.length,
-            ...(JSON.parse(readFileSync(this.path, 'utf8')) as UsageRecord[]),
-          );
+    return async (request) =>
+      this.withLock(async () => {
+        if (request.provider === 'gemini')
+          assertRecoveryAllowsNormalCall(this.recoveryJournal(), this.records);
         const reservation = this.reserve(request);
         const response = await transport(request);
         this.finish(reservation, request, response);
         return response;
-      } finally {
-        atomicJson(this.path, this.records);
-        closeSync(lock);
-        unlinkSync(lockPath);
-      }
-    };
+      });
   }
-  private reserve(request: ResearchRequest) {
+  private recoveryJournal(): RecoveryJournalEntry[] {
+    const path = `${this.path}.recovery.json`;
+    return existsSync(path) ? validateRecoveryJournal(JSON.parse(readFileSync(path, 'utf8'))) : [];
+  }
+  /** Explicit one-shot probe only. Does not start or resume any experiment. */
+  async recoverQuota(input: {
+    permit: QuotaRecoveryPermit;
+    request: ResearchRequest;
+    quotaEvidence: unknown;
+    authorization: unknown;
+    transport: ResearchTransport;
+    now?: () => number;
+  }): Promise<RecoveryReceipt> {
+    return this.withLock(async () => {
+      if (existsSync(`${dirname(this.path)}/runner.lock`)) throw new Error('RESEARCH_RECOVERY_RUNNER_ACTIVE');
+      const now = input.now ?? Date.now;
+      const journal = this.recoveryJournal();
+      const permit = validateQuotaRecoveryPermit({
+        ...input,
+        records: this.records,
+        limits: this.limits,
+        journal,
+        now: now(),
+      });
+      // Check caps before consuming the permit, but do not write a reservation yet.
+      this.reserve(input.request, { probe: true, dryRun: true });
+      const recordId = randomUUID();
+      const entry: RecoveryJournalEntry = {
+        permit,
+        recordId,
+        state: 'pending',
+        consumedAt: new Date(now()).toISOString(),
+      };
+      journal.push(entry);
+      // Consumed before reservation/network. A crash here permanently uses this permit.
+      atomicJson(`${this.path}.recovery.json`, journal);
+      const originalEpisode = this.episode;
+      this.episode = `recovery-probe:${permit.id}`;
+      let reservation: UsageRecord;
+      try {
+        reservation = this.reserve(input.request, { probe: true, id: recordId });
+      } finally {
+        this.episode = originalEpisode;
+      }
+      let response: ResearchResponse | undefined;
+      try {
+        response = await input.transport(input.request);
+        if (
+          !Number.isInteger(response.status) ||
+          response.status < 100 ||
+          response.status > 599 ||
+          !Number.isFinite(response.elapsedMs) ||
+          response.elapsedMs < 0
+        ) {
+          response = undefined;
+          throw new Error('RESEARCH_RECOVERY_INVALID_TRANSPORT_METADATA');
+        }
+        this.finish(reservation, input.request, response);
+      } catch {
+        /* No raw error, URL, body or credential enters the receipt. */
+      }
+      let outcome = probeOutcome(response);
+      if (outcome === 'RECOVERED' && reservation.estimatedUsd === null) outcome = 'MISSING_USAGE';
+      const receipt: RecoveryReceipt = {
+        schemaVersion: 1,
+        provider: 'gemini',
+        model: permit.model,
+        at: new Date(now()).toISOString(),
+        authorizationReason: permit.authorization.reason,
+        outcome,
+        status: reservation.status,
+        durationMs: reservation.durationMs,
+        inputTokens: reservation.inputTokens,
+        outputTokens: reservation.outputTokens,
+        estimatedUsd: reservation.estimatedUsd,
+        reserveUsd: reservation.reserveUsd,
+        preservedUnknownRecords: 3,
+        priorReservationsUnchanged: true,
+        quotaEvidenceHash: permit.quotaEvidenceHash,
+      };
+      // Persist measured usage before releasing the recovery latch. A crash stays blocked.
+      atomicJson(this.path, this.records);
+      entry.state = outcome === 'RECOVERED' && reservation.estimatedUsd !== null ? 'succeeded' : 'failed';
+      entry.completedAt = receipt.at;
+      entry.receipt = receipt;
+      atomicJson(`${this.path}.recovery.json`, journal);
+      return receipt;
+    });
+  }
+  private async withLock<T>(action: () => Promise<T>): Promise<T> {
+    const lockPath = `${this.path}.lock`;
+    // Never unlink a supposedly stale PID lock automatically. Another process may
+    // have replaced it between inspection and unlink, allowing two budget writers.
+    let lock: number;
+    try {
+      lock = openSync(lockPath, 'wx', 0o600);
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code === 'EEXIST') throw new Error('RESEARCH_BUDGET_IN_USE');
+      throw error;
+    }
+    writeFileSync(lock, String(process.pid));
+    let loaded = false;
+    try {
+      if (existsSync(this.path))
+        this.records.splice(
+          0,
+          this.records.length,
+          ...(JSON.parse(readFileSync(this.path, 'utf8')) as UsageRecord[]),
+        );
+      loaded = true;
+      return await action();
+    } finally {
+      // A corrupt/unreadable ledger must never be replaced with an older in-memory
+      // snapshot from before this lock was acquired.
+      if (loaded) atomicJson(this.path, this.records);
+      closeSync(lock);
+      unlinkSync(lockPath);
+    }
+  }
+  private reserve(
+    request: ResearchRequest,
+    options: { probe?: boolean; dryRun?: boolean; id?: string } = {},
+  ) {
     const inputBound = Buffer.byteLength(request.rawBody ?? JSON.stringify(request.body ?? {})) + 2048;
     if (
       request.provider === 'gemini' &&
@@ -91,7 +200,11 @@ export class StudyBudget {
           r.kind,
         ),
     );
-    if (generations.length >= 3 && generations.slice(-3).every((r) => r.estimatedUsd === null))
+    if (
+      !options.probe &&
+      generations.length >= 3 &&
+      generations.slice(-3).every((r) => r.estimatedUsd === null)
+    )
       throw new Error('RESEARCH_PROVIDER_CIRCUIT_OPEN');
     const data = request.body as
       | {
@@ -118,7 +231,7 @@ export class StudyBudget {
     )
       throw new Error('RESEARCH_BUDGET_EXHAUSTED');
     const record: UsageRecord = {
-      id: randomUUID(),
+      id: options.id ?? randomUUID(),
       episode: this.episode,
       provider: request.provider,
       kind: request.kind,
@@ -131,8 +244,10 @@ export class StudyBudget {
       outputTokens: null,
       durationMs: null,
     };
-    this.records.push(record);
-    atomicJson(this.path, this.records);
+    if (!options.dryRun) {
+      this.records.push(record);
+      atomicJson(this.path, this.records);
+    }
     return record;
   }
   private finish(record: UsageRecord, request: ResearchRequest, response: ResearchResponse) {

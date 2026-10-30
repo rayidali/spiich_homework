@@ -1,0 +1,8 @@
+{
+  "createdAt": "2026-10-30T22:55:34.296Z",
+  "runId": "pilot-v1",
+  "specificationSha256": "6226947bda60da2398a85b30407338f275d95351e2124495e9c8a90de2dd2cc0",
+  "primaryReportSha256": "3e9d3bee731db378192b69a110d76d4d74d9a1d236747cb2a7615d489f8baae7",
+  "validityNoticeSha256": "22ab3fbc3382ee0d8bbf023a805fa65170c5bf2da97b72bfb0cca359431def55",
+  "analyzerSha256": "6dd03fa6f6a8809c0a9f4cca520f5d438309d043ff3870097e2642e487aea7a0"
+}

@@ -2,6 +2,8 @@
 
 Implemented 2026-10-30 after the user's explicit authorization to execute the research plan. This component is separate from the hosted Daybook demo.
 
+**Current study status:** the Wren adapter is implemented and exercised, but its comparative value is unestablished. Initial-pilot backend grammar defects and V2's incomplete 101/108 run prevent architecture selection. V2 stopped on Gemini's daily free-tier quota; its full data fingerprint was unchanged. Its first R6 cash failure is separately attributed to an **inferred queue completion-read race**, not demonstrated Wren or database failure. The completed curl record was HTTP 200/exit 0. The original outcome remains preserved. [V2 validity notice](../evidence/research-runs/pilot-v2/validity-notice.json), [race diagnostic](../evidence/queue-completion-race-pilot-v2.json), [diagnostic PDF](../evidence/research-runs/pilot-v2/study-report.pdf).
+
 ## What is actually used
 
 The experiment runs **Wren's Rust/DataFusion semantic engine**, distributed as `wren-core-py==0.8.2`. It does not simulate Wren by renaming our own SQL compiler. The bridge calls the upstream `wren_core.SessionContext.transform_sql` implementation. Model names and calculated fields in [the MDL manifest](../../research/wren/mdl.json) are expanded by that engine into PostgreSQL SQL.
@@ -68,4 +70,8 @@ The real macOS arm64 Wren core wheel was downloaded from PyPI, its SHA-256 verif
 
 The first real-engine smoke caught a concrete integration bug: precision-bearing MDL strings such as `decimal(24,2)` were interpreted as strings by this core binding. The manifest now uses Wren's recognized `decimal` type. The generated SQL preserves the underlying PostgreSQL numeric expressions; the database retains the declared precision. A test exercises the real expansion so a fake or mocked backend would not establish this evidence.
 
-These tests prove local planning/protocol behavior, **not** PostgreSQL permissions, financial execution accuracy, throughput or live Gemini task success. Those require the shared evaluator's database and model tests. The optional local DuckDB execution shortcut was not used because the installed Python 3.15 has no matching DuckDB 2.0 wheel. No incompatible binary was forced into the environment.
+These Python tests establish local planning/protocol behavior. Separate live database checks executed actual Wren SQL through the restricted reader and returned the independent fixture's **USD 164,615.00** cash total; access checks and before/after fingerprints passed. The provider-free native research job also completed in [CI 41138538661](https://github.com/rayidali/spiich_homework/actions/runs/41138538661), exercising a real pgvector/PostgreSQL container and the pinned engine. [Database evidence](../evidence/research-database-check.json), [CI evidence](../evidence/research-ci-v2.json).
+
+Those checks do not establish correctness for every SQL plan, live answer quality or production throughput. The 1,620 held-out route episodes and 240 held-out reviewer outcomes remain unrun. Read the [V2 HTML report](../evidence/research-runs/pilot-v2/report.html) with its validity notice; a diagnostic score is not a benchmark of Wren's complete product. Post-pilot control/protocol corrections and live capacity recovery require separate verification before the final comparison.
+
+The optional local DuckDB execution shortcut was not used because the installed Python 3.15 had no matching DuckDB 2.0 wheel at integration time. No incompatible binary was forced into the environment.

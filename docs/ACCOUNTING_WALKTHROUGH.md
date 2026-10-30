@@ -1,6 +1,8 @@
 # Accounting walkthrough
 
-> Saved 2026-10-29. This is a learning example for the implemented Daybook ledger. The five-event fixture below is separate from the six-month synthetic Northstar Studio data in the protected hosted app. Full CI and hosted report checks passed; live AI generation is still unverified after a timeout. See [checkpoint](../CHECKPOINT.md).
+> Current status, 2026-10-30: selected hosted AI questions and a review-only proposal succeeded after the Gemini recovery; intermittent provider failures remain. Separate research routes are implemented, but their development pilots are invalid or incomplete, and held-out comparisons have not run. The deployed accounting workflow remains the baseline. See [checkpoint](../CHECKPOINT.md) and the [research report](reports/research-study.md).
+
+This learning example was saved on 2026-10-29 for the implemented Daybook ledger. Its five-event fixture is separate from both the six-month synthetic Northstar Studio data in the protected hosted app and the research dataset. The amounts below are illustrative walkthrough values, not current account balances.
 
 Imagine you run a small design studio. The app is a carefully organized notebook of what your business owns, owes, earns, and spends. An account is a labeled bookkeeping bucket. A journal entry describes one event; its lines describe which buckets changed.
 

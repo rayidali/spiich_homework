@@ -22,7 +22,7 @@ export interface CommonMapping {
     rationale: string;
   }[];
 }
-export interface CommonAmendment {
+export interface CommonRouteAmendment {
   schemaVersion: 1;
   mappingId: string;
   file: 'research/routes.ts';
@@ -31,6 +31,20 @@ export interface CommonAmendment {
   reviewedAt: string;
   rationale: string;
 }
+export interface CommonMetadataAmendment {
+  schemaVersion: 2;
+  mappingId: string;
+  membershipUnchanged: true;
+  reviewedAt: string;
+  rationale: string;
+  changes: {
+    file: 'research/baseline.ts' | 'research/routes.ts';
+    definitionSha256: string;
+    comparisonSha256: string;
+    rationale: string;
+  }[];
+}
+export type CommonAmendment = CommonRouteAmendment | CommonMetadataAmendment;
 export interface CommonValidityNotice {
   schemaVersion: number;
   runId: string;
@@ -103,6 +117,28 @@ export function analyzeCommonCapabilities(input: CommonInput) {
   )
     throw new Error('MAPPING_MEMBERSHIP_MISMATCH');
   const sourceFiles = ['research/baseline.ts', 'research/routes.ts', 'research/fixtures/questions.json'];
+  const amendment = input.amendment;
+  const validMetadataAmendment = Boolean(
+    amendment?.schemaVersion === 2 &&
+      amendment.mappingId === mapping.id &&
+      amendment.membershipUnchanged === true &&
+      Number.isFinite(Date.parse(amendment.reviewedAt)) &&
+      amendment.rationale.trim().length >= 30 &&
+      Array.isArray(amendment.changes) &&
+      amendment.changes.length === 2 &&
+      sameSet(
+        amendment.changes.map((change) => change.file),
+        ['research/baseline.ts', 'research/routes.ts'],
+      ) &&
+      amendment.changes.every(
+        (change) =>
+          digest(change.definitionSha256) &&
+          digest(change.comparisonSha256) &&
+          change.definitionSha256 === mapping.sourceSha256[change.file] &&
+          change.comparisonSha256 === input.comparisonSourceHashes[change.file] &&
+          change.rationale.trim().length >= 30,
+      ),
+  );
   const sourceChecks = sourceFiles.map((file) => {
     const definitionSha256 = mapping.sourceSha256[file] ?? null;
     const comparisonSha256 = input.comparisonSourceHashes[file] ?? null;
@@ -111,18 +147,21 @@ export function analyzeCommonCapabilities(input: CommonInput) {
       digest(definitionSha256) && digest(comparisonSha256) && definitionSha256 === comparisonSha256;
     const amended =
       !exact &&
-      file === 'research/routes.ts' &&
       Boolean(
         a &&
-          a.schemaVersion === 1 &&
-          a.mappingId === mapping.id &&
-          a.file === file &&
-          a.definitionSha256 === definitionSha256 &&
-          a.comparisonSha256 === comparisonSha256 &&
-          digest(definitionSha256) &&
-          digest(comparisonSha256) &&
-          Number.isFinite(Date.parse(a.reviewedAt)) &&
-          a.rationale.trim().length >= 30,
+          ((a.schemaVersion === 1 &&
+            file === 'research/routes.ts' &&
+            a.mappingId === mapping.id &&
+            a.file === file &&
+            a.definitionSha256 === definitionSha256 &&
+            a.comparisonSha256 === comparisonSha256 &&
+            digest(definitionSha256) &&
+            digest(comparisonSha256) &&
+            Number.isFinite(Date.parse(a.reviewedAt)) &&
+            a.rationale.trim().length >= 30) ||
+            (a.schemaVersion === 2 &&
+              validMetadataAmendment &&
+              a.changes.some((change) => change.file === file))),
       );
     return {
       file,
@@ -339,7 +378,7 @@ export function analyzeCommonCapabilities(input: CommonInput) {
       'Observed-family macro averages only families with measurements; it is not a six-family macro. Always read family counts and missing coverage.',
       'Paired intervals use scenario-group blocks within families and are exploratory, unadjusted for multiple comparisons, and unstable with so few groups. A zero-width empirical interval does not imply certainty.',
       'Primary completion, verified ledger-and-corpus fingerprint, full subgroup coverage, and matching membership-source hashes are required for comparative eligibility. Any hard-gate violation anywhere in a route remains disqualifying.',
-      'A changed route file is diagnostic unless an explicit reviewed amendment binds the definition hash to the compared-run hash. Baseline/question source mismatches cannot be waived through that amendment.',
+      'Changed source files are diagnostic unless an explicit reviewed amendment binds exact definition/comparison hashes. Legacy route-only amendments cannot waive baseline changes; a version-2 metadata amendment must bind both baseline and route hashes and preserve membership. Question-source changes cannot be waived.',
       'This postprocessor reuses the preserved primary scores after checking raw outcome identity and metadata. It does not silently rescore using a later reference or rubric version.',
       'An adjacent post-run validity notice supersedes mechanical completion/integrity eligibility. A notice with an unverified run/report binding also forces diagnostic status; it never silently repairs or replaces original scores.',
     ],

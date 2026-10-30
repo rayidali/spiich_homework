@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 2,
+  "mappingId": "daybook-common-capabilities-v1",
+  "membershipUnchanged": true,
+  "reviewedAt": "2026-10-30T22:53:43.489455+00:00",
+  "rationale": "Final development measurement normalization and generic planner/answer contract corrections reviewed before any held-out outcomes. All 15 common-answerable groups and 45 excluded groups retain their original membership. Both changed source files are bound exactly; questions and membership labels are unchanged. This does not rescore, repair, or validate prior pilot outcomes.",
+  "changes": [
+    {
+      "file": "research/baseline.ts",
+      "definitionSha256": "121b44bbac184669ce0d269b4d95d99f48e4d5c905f49cfc5d4c83d81897c648",
+      "comparisonSha256": "ca3a9eecb5d2a7cf0c8188430b26706148cc14364d814b74e181e75125d124f7",
+      "rationale": "The same four financial tools, clarification tool, proposal workflow, scoped SQL, and single-call budget remain. Both full shared tag catalogs are now requested as model-emitted measurement metadata, with empty legacy defaults and no gold-derived inference. Metadata does not affect SQL arguments or grant a new accounting/retrieval capability. This corrects an interface mismatch without changing which ordinary answerable requests the tools can fulfill."
+    },
+    {
+      "file": "research/routes.ts",
+      "definitionSha256": "8e493da705b890190bd52c366ec0e0c8788f7f849f4eca804036527c1a2af1e5",
+      "comparisonSha256": "7e19c6f410c06e5e4356b8b1174975da2a450ad74b60acf504ffcdb02c70b8c4",
+      "rationale": "Reviewed R0 shared validation/user/calculation evidence wiring and backend-specific schemas, typed Wren columns, and general answer guidance. These corrections retain the same R0 operational interface and scopes. Guidance distinguishes draft proposal lines from historical facts, scenario from historical balances, and exact metadata meanings; it does not add a tool or change subgroup membership."
+    }
+  ],
+  "questionSha256": "42b7671906526fe7790f2aa443c0d6c904eceadb041ee406e0b0027b1a2fbfb6",
+  "limits": [
+    "R0 still maps its refusal/clarification interface to formal CLARIFY, not BLOCK; a strict behavior mismatch is not evidence of harmful acceptance.",
+    "Model-emitted tags do not establish independent prose faithfulness.",
+    "The final normalized runtime has offline verification; no live smoke is claimed while provider quota is exhausted."
+  ]
+}

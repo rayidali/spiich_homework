@@ -1,0 +1,63 @@
+{
+  "recordedAt": "2026-10-30T22:48:14.455724+00:00",
+  "runId": "pilot-v2",
+  "scope": "Entire pilot-v2 dispatch period; requests created only by the authorized study runner",
+  "requests": 365,
+  "geminiRequests": 232,
+  "httpStatuses": {
+    "200": 360,
+    "504": 1,
+    "429": 4
+  },
+  "curlExitCodes": {
+    "0": 365
+  },
+  "geminiPreCurlStartGapMs": {
+    "n": 231,
+    "min": 4594,
+    "p50": 4619,
+    "p95": 5636,
+    "max": 19706
+  },
+  "queueWaitMs": {
+    "n": 365,
+    "min": 249,
+    "p50": 1592,
+    "p95": 3646,
+    "max": 3748
+  },
+  "networkDurationMs": {
+    "n": 365,
+    "min": 78,
+    "p50": 882,
+    "p95": 3237,
+    "max": 19250
+  },
+  "runnerLockExists": false,
+  "readyRequests": 0,
+  "measurementLimit": "Start gaps are recorded immediately before curl invocation, not packet-capture timestamps. HTTP 200 does not establish answer correctness or successful runner consumption.",
+  "pilotAfter": {
+    "fingerprint": "2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c",
+    "unchanged": true,
+    "complete": false
+  },
+  "episodesRecorded": 101,
+  "plannedEpisodes": 108,
+  "episodeStatuses": {
+    "ok": 83,
+    "error": 9,
+    "blocked": 9
+  },
+  "stopReason": "Persistent provider circuit opened after daily free-tier quota responses; this pilot is incomplete.",
+  "quota": {
+    "httpStatus": 429,
+    "providerStatus": "RESOURCE_EXHAUSTED",
+    "quotaMetric": "generativelanguage.googleapis.com/generate_content_free_tier_requests",
+    "quotaId": "GenerateRequestsPerDayPerProjectPerModel-FreeTier",
+    "quotaValue": 500,
+    "firstObservedRetryDelaySeconds": 29601,
+    "responsesObserved": 4,
+    "interpretation": "Daily project/model quota, not minute request pacing. Retry delay is a provider observation, not a guarantee of future availability."
+  },
+  "knownHarnessIssue": "One HTTP-200 R6 call was rejected by the runner with RESEARCH_HTTP_FAILURE; inferred completion-file race preserved separately."
+}

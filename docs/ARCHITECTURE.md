@@ -1,5 +1,30 @@
 # Architecture and engineering decisions
 
+## 2026-10-30 research implementation checkpoint
+
+Daybook now has two distinct execution paths. The deployed product keeps its four financial tool families, reviewed transaction proposals and accounting database constraints. The separate `research/` harness implements nine experimental routes with broader analytical plans, lexical and vector retrieval, Gemini File Search, Jev reranking/review, the actual Wren semantic engine and an optional Gemini reviewer. Research uses synthetic fixtures and Gemini 3.5 Flash-Lite; production still uses its configured 3.1 Flash-Lite default. The research source has not been enabled in the hosted assistant.
+
+```mermaid
+flowchart LR
+  User[Application user] --> App[Production React and REST API]
+  App --> Tools[Four financial tools or reviewed proposal]
+  Tools --> Ledger[(Application ledger)]
+  Cases[Separate synthetic study questions] --> Routes[Nine research routes]
+  Routes --> Reader[(Restricted research views)]
+  Routes --> Docs[Authorized documents and retrieval]
+  Reader --> Checks[Exact calculations and source checks]
+  Docs --> Checks
+  Checks --> Evidence[Preserved outcomes and diagnostic reports]
+```
+
+The deployed accounting invariants remain authoritative. Research model output cannot post a transaction. The custom analytical backend compiles typed plans to parameterized SQL; R6 uses actual Wren MDL expansion with SQL checks before and after planning. AST-derived units prevent a model alias from turning an account code or count into money. Optional reviewers may withhold an answer, but cannot bypass mandatory checks. [Wren implementation](research/WREN.md), [study narrative](reports/research-study.md).
+
+The first 108-episode pilot exposed control-adapter and planner-contract defects and is ineligible for selection. **V2 stopped at 101/108 episodes** after the provider reported its 500-request daily project/model free-tier quota. The full scoped ledger, documents and embeddings fingerprint remained unchanged. A separate R6 error supports an inferred non-atomic completion-file read race: its later completed curl footer showed HTTP 200/exit 0, while the runner had recorded a failure. Original outcomes and reservations remain intact. [V2 validity notice](evidence/research-runs/pilot-v2/validity-notice.json), [dispatch and quota evidence](evidence/dispatch-pilot-v2.json), [race diagnostic](evidence/queue-completion-race-pilot-v2.json).
+
+Post-pilot development work adds complete-footer parsing, normalizes R0's clarification/assumption metadata within its original model call, and clarifies the shared distinction between draft proposal amounts and posted historical facts. These corrections do not add control tools, weaken accounting checks, or rewrite prior results. Their live effect remains unmeasured. **The primary 1,620 held-out route episodes and 240 held-out reviewer outcomes have not run**, so no architecture winner or final product integration is justified yet.
+
+[CI for research source `3d906ce`](https://github.com/rayidali/spiich_homework/actions/runs/41138538661) passed application verification, application Compose and the isolated native research database job. That job executes the real Wren engine and restricted PostgreSQL checks without provider keys. It verifies integration, not model accuracy or million-user capacity. The later development corrections are outside that recorded CI revision. [Portable reproduction](research/REPRODUCE.md).
+
 ## 2026-10-30 live AI recovery update
 
 The hosted model and source default are now **`gemini-3.1-flash-lite`**. Direct API testing reproduced the earlier model's generation timeouts and confirmed working text/JSON/tool calls on Flash-Lite. A separate journal-proposal rejection was traced to the 100-line `maxItems` constraint in Gemini's decoding grammar: the transport now omits array maxima, while the full original Zod limit, account checks and exact-money/balance rules remain enforced locally.
@@ -18,7 +43,7 @@ The user authorized implementation after the report. `server/ai-provider.ts` now
 
 Both transports have a 25-second timeout, one attempt without automatic retries, bounded output and at most four in-flight requests per process. A financial question must produce exactly one permitted call with validated arguments. Unknown fields, including attempted organization overrides, are rejected. Numerical answers still come from SQL and application code. Proposals still pass the same active-account, exact-money and balance checks and require user review.
 
-Provider metadata records reported token usage, configured/resolved model and duration without storing keys or raw error payloads. The CLI evaluation adds exact attempt limits and an observed-token guard; it stops when usage is unknown. A request already underway can exceed the token threshold, so this is not a hard billing cap. The 40-case dataset is split into development/holdout sets with full entry comparisons, exact financial query/evidence checks, correction retrieval and organization-isolation cases. Synthetic fixtures use new workspaces and the journal is fingerprinted around model calls. Clarification meaning remains an explicit human-review item. An authenticated model-metadata request succeeded and a hosted financial question returned the safe 25-second AI_TIMEOUT. Successful live generation/accuracy remains unestablished; metadata access is a different check from generation. The root cause and provider usage of the timeout are unknown.
+Provider metadata records reported token usage, configured/resolved model and duration without storing keys or raw error payloads. The CLI evaluation adds exact attempt limits and an observed-token guard; it stops when usage is unknown. A request already underway can exceed the token threshold, so this is not a hard billing cap. The production 40-case dataset is split into development/holdout sets with full entry comparisons, exact financial query/evidence checks, correction retrieval and organization-isolation cases. Synthetic fixtures use new workspaces and the journal is fingerprinted around model calls. Clarification meaning remains an explicit human-review item. The earlier 2026-10-29 metadata success and handled 25-second AI_TIMEOUT preceded the selected successful generation checks documented above; neither that failure nor the later examples establish a full accuracy score. The nine-route research benchmark is a separate dataset and harness.
 
 ## The central invariant
 
@@ -155,9 +180,9 @@ The server caps in-flight model requests at four, provider requests at a 25-seco
 
 Anomaly detection uses explainable statistical rules rather than a model call: possible duplicates within three days, expense amount at least 1.75 times a median from 4–24 previous samples with at least 50 native currency units of difference, and a changed vendor expense category after at least four historical examples. These are review hints. They have false positives and do not detect every anomaly or establish fraud. Thresholds and the fixed native-currency difference should be tuned by currency and customer data in production.
 
-## Architecture discussion: proposed next iteration, not implemented
+## Historical architecture proposal and later experimental implementation
 
-This section preserves the earlier discussion. After the visual report, the user authorized the Gemini adapter, stronger evaluation harness and simpler UI, which are now implemented in source; live/runtime verification remains outstanding. Paid Jev and other models/services remain acceptable when justified. Jev, vector retrieval and document ingestion have not been integrated.
+This section preserves the earlier proposal. The Gemini adapter, stronger evaluation harness and simpler UI were subsequently implemented in the application. Jev, vector retrieval, document ingestion and Wren were later implemented in the isolated research paths described at the top of this document. The paragraphs below explain the design questions that led to those comparisons; they do not describe those components as production features. No paid subscription or billing-tier upgrade is inferred from API usage.
 
 The proposed baseline is the existing accounting engine plus a selected Gemini adapter, approved financial functions, current business definitions, and evidence-backed responses. PostgreSQL retains the authoritative ledger. A function should return exact values together with its date range, currency, scope, and record/query provenance. The model may interpret intent incorrectly even when its JSON is valid; validate arguments, show the interpreted scope, and ask for missing facts. A stronger model cannot supply an unknown payment account or exchange rate reliably.
 
@@ -171,7 +196,7 @@ Sources reviewed: [Gemini function calling](https://ai.google.dev/gemini-api/doc
 
 ## Repository research: references under consideration
 
-Reviewed public GitHub metadata, READMEs, licenses, and selected implementation files on **2026-10-29**. Star counts are a dated popularity snapshot. These repositories have not been installed, executed, audited in full, or incorporated into Daybook.
+Reviewed public GitHub metadata, READMEs, licenses, and selected implementation files on **2026-10-29**. Star counts are a dated popularity snapshot. This table preserves that research stage. Wren's pinned semantic-core package was subsequently installed and executed in the isolated experiment; the other repositories remain architectural references, not incorporated product dependencies or fully audited systems.
 
 | Repository                                                | Stars observed | Most useful reference for Daybook                                           | Fit limitation                                                                                            |
 | --------------------------------------------------------- | -------------: | --------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
