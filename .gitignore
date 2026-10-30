@@ -10,3 +10,5 @@ coverage/
 *.log
 .DS_Store
 submission.zip
+.vercel-build/
+.vercel/

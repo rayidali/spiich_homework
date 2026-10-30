@@ -8,3 +8,5 @@ package-lock.json
 db/migrations/
 .env
 .env.*
+.vercel-build/
+.vercel/

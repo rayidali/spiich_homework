@@ -10,3 +10,5 @@ playwright-report
 docs/evidence
 *.log
 submission.zip
+.vercel
+.vercel-build

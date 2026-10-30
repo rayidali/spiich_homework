@@ -1,7 +1,7 @@
 import { waitUntil } from '@vercel/functions';
-import { createApp } from '../server/app';
-import { processJobs } from '../server/anomalies';
-import { config } from '../server/config';
+import { createApp } from '../app';
+import { processJobs } from '../anomalies';
+import { config } from '../config';
 import express from 'express';
 
 const app = express();
