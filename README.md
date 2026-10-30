@@ -146,3 +146,5 @@ This is a single configured workspace application, as authentication was exclude
 Reports use historical recorded exchange rates. Automated period-end revaluation, tax, inventory, invoice lifecycle management, bank reconciliation, and formal period closing are outside this implementation. Financial insights support four explicit query families and clarification; arbitrary SQL and unrestricted analysis are intentionally unavailable.
 
 The design includes concurrency controls and bounded work that support growth. **Million-user capacity has not been load-tested or claimed.** The architecture document describes the workload assumptions, operational requirements, and measurements needed to earn that claim.
+
+Optional hosted demo: [Daybook](https://daybook-ledger-delta.vercel.app), protected by Vercel login. See [hosting setup and verification limits](docs/HOSTING.md). Financial reports and database health were checked live; Gemini chat timed out and live AI accuracy remains unverified.

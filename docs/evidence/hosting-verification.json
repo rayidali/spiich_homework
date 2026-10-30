@@ -1,0 +1,33 @@
+{
+  "recordedAt": "2026-10-30T03:46:35.313300+00:00",
+  "url": "https://daybook-ledger-delta.vercel.app",
+  "deploymentId": "dpl_HQ4Hm8iULs7nXjhgR2JzuhFAXjLA",
+  "status": "READY",
+  "protection": "all deployments; anonymous access reaches Vercel sign-in",
+  "checks": {
+    "spa_document": true,
+    "database_health": true,
+    "trial_balance": {
+      "balanced": true,
+      "difference": "0.00",
+      "debits": "190072.00",
+      "credits": "190072.00"
+    },
+    "balance_sheet": {
+      "balanced": true,
+      "difference": "0.00"
+    },
+    "income_statement": true,
+    "scheduler_missing_secret_status": 401,
+    "scheduler_authorized": true,
+    "google_model_metadata_access": true,
+    "financial_chat": "AI_TIMEOUT after 25 seconds"
+  },
+  "notVerified": [
+    "automatic daily cron firing",
+    "live AI accuracy",
+    "fresh hosted browser visual review",
+    "load capacity"
+  ],
+  "localIsolatedTests": 58
+}
