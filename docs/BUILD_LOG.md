@@ -152,6 +152,12 @@ Data boundaries, correctness under concurrency, bounded work, and operational vi
 - Follow-up diagnosis found the connector uses `gulfmarvel`. At the user's direction, checked the local CLI instead: it is authenticated as `rayidali` and reports ADMIN access to the target. No GitHub permission change is needed for that login. Attempted local `git init -b main`, which failed because this session cannot write `.git`; the policy explicitly grants that directory read-only access. A direct `gh api` read also failed to connect, while `gh repo view` succeeded. The user wants us to perform the local commands; continuation requires an environment that allows the Git metadata writes. No commit or push succeeded.
 - Updated checkpoint/verification documentation and refreshed the submission archive. Hosting and CI access are separate from test success; no successful runtime claim was added.
 
+## 2026 10 29 Local Git publication and CI diagnosis
+
+- Confirmed local GitHub CLI identity `rayidali` and ADMIN access. The connector's different identity was irrelevant to the requested local publication. Escalated initialization of the project folder was rejected by session policy; initialized a separate checkout in permitted temporary storage instead.
+- Preserved the existing remote initial commit, copied only the reviewed submission manifest, checked candidate bytes against configured private keys, and successfully committed/pushed using the local Git CLI. First application commit: `c718a1fd29bc9c6cdb0a397264709e3255f3d1b0`. No credential, local database, dependency directory, or archive was uploaded. No force push or global Git configuration change was made.
+- The first remote run passed formatting, build, migrations, and backend tests against PostgreSQL. The production browser step failed, so dependent Docker/live jobs did not run. Added Playwright GitHub annotations and captured startup/failure diagnostics so the exact browser failure can be inspected through public check results; typechecking passed. Investigation remains in progress.
+
 ## Remaining external verification
 
 1. From a capable Terminal/environment, validate the saved key and execute smoke/development/holdout evaluations plus the demonstration prompts. Restart the existing API to load new source/configuration.

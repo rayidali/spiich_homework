@@ -15,5 +15,5 @@ export default defineConfig({
       executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE ?? (existsSync(brave) ? brave : undefined),
     },
   },
-  reporter: [['list']],
+  reporter: process.env.CI ? [['github'], ['list']] : [['list']],
 });

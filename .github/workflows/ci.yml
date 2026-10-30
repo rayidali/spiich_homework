@@ -42,7 +42,15 @@ jobs:
       - run: npm run db:migrate
       - run: npm test
       - run: npx playwright install --with-deps chromium
-      - run: npm run dev -- --test-browser --production
+      - name: Run production browser workflows
+        id: browser
+        run: |
+          set -o pipefail
+          npm run dev -- --test-browser --production 2>&1 | tee browser-check.log
+      - name: Surface browser startup and failure details
+        if: failure() && steps.browser.outcome == 'failure'
+        run: |
+          node --input-type=module -e 'import { readFileSync } from "node:fs"; const message = readFileSync("browser-check.log", "utf8").slice(-12000).replaceAll("%", "%25").replaceAll("\r", "%0D").replaceAll("\n", "%0A"); console.log("::error title=Browser verification::" + message);'
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -50,6 +58,7 @@ jobs:
           path: |
             docs/evidence/*.png
             test-results/
+            browser-check.log
 
   compose:
     runs-on: ubuntu-latest
