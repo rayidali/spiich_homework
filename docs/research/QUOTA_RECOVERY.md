@@ -1,12 +1,12 @@
 # Explicit quota recovery
 
-The second development pilot stopped after Gemini's daily free-tier quota was exhausted. The ordinary budget circuit remains closed after three generation attempts with unreported usage. Failed records and their conservative cost reservations are retained. This helper does not change the pilot's results or restart an experiment.
+The second development pilot stopped after Gemini's daily free-tier quota was exhausted. The ordinary budget circuit blocks further generation after three attempts with unreported usage. Failed records and their conservative cost reservations are retained. This helper does not change the pilot's results or restart an experiment.
 
 Recovery is implemented and tested offline. **No recovery probe has been executed at this checkpoint.** Execution requires an explicit operator action after a confirmed billing change for the same project or the documented daily reset. Permission to implement the helper does not constitute confirmation that billing changed.
 
 ## Prerequisites
 
-The helper accepts only the latest three Gemini generation records when all three have HTTP429, unknown usage, the same pinned `gemini-3.5-flash-lite` model, and membership in the run described by the sanitized daily-quota evidence. The permit binds the complete usage snapshot, those records, the evidence, authorization, unchanged budget limits and the exact fixed request, including its private credential. It cannot be reused with a different key, model, payload or history. Historical project identity is an operator-confirmed prerequisite; the old usage records do not contain credential fingerprints.
+The helper accepts only the latest three Gemini generation records when all three have HTTP 429, unknown usage, the same pinned `gemini-3.5-flash-lite` model, and membership in the run described by the sanitized daily-quota evidence. The permit binds the complete usage snapshot, those records, the evidence, authorization, unchanged budget limits and the exact fixed request, including its private credential. It cannot be reused with a different key, model, payload or history. Historical project identity is an operator-confirmed prerequisite; the old usage records do not contain credential fingerprints.
 
 The observed quota was 500 daily requests per project and model; see [dispatch evidence](../evidence/dispatch-pilot-v2.json). Google documents a daily reset at midnight Pacific and cautions that actual capacity can vary. The helper converts that reset with the Pacific time zone and adds a one-minute margin. For this incident, the earliest reset-based probe is **2026-10-31T07:01:00Z**, or 03:01 Eastern. Passing that time alone does not execute anything. [Google quota documentation](https://ai.google.dev/gemini-api/docs/rate-limits)
 
@@ -55,7 +55,7 @@ The default transport is native fetch. The environment's existing `RESEARCH_TRAN
 
 The fixed same-model request asks only for `{"ok":true}`, with no documents, financial tools or study questions, at most 128 output tokens and a 25-second request deadline. There is no retry. The permit is consumed under the budget lock before reserving or dispatching. Dollar and attempt caps still include every unknown historical reservation. An active runner, pending recovery, changed record, early/expired permit, exhausted cap or reused permit results in zero provider calls.
 
-Success requires HTTP2xx, valid exact output and valid reported token counts. A safe public receipt records the outcome, timing, token counts and cost accounting; it excludes credentials, request bindings, response bodies and private authorization references. The private recovery journal is stored beside the usage ledger as `usage.json.recovery.json`.
+Success requires HTTP 2xx, valid exact output and valid reported token counts. A safe public receipt records the outcome, timing, token counts and cost accounting; it excludes credentials, request bindings, response bodies and private authorization references. The private recovery journal is stored beside the usage ledger as `usage.json.recovery.json`.
 
 Any failure or interruption keeps ordinary Gemini calls blocked. A crash after consumption cannot be retried with the same permit. A token-reported but malformed answer also stays blocked, even though its cost can be measured. Missing usage retains the new reservation. Do not delete the recovery journal or manufacture a successful record to resume.
 

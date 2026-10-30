@@ -118,7 +118,7 @@ Posting is one tightly coupled database transaction. Splitting it prematurely ad
 
 **What would you build next?**
 
-Start with the verified gaps: diagnose the Gemini timeout, run live evaluation, inspect fresh screenshots, observe the automatic hosted schedule and decide reviewer access. Container startup/persistence already passed in CI. For a real service, prioritize identity/authorization, operational recovery, observability, measured load tests, and financial closing/revaluation policies. Product expansion would follow customer needs such as invoice management, bank imports/reconciliation, and tax.
+Start with the verified gaps: restore research quota capacity, test the corrected development revision, complete the held-out comparison, inspect fresh screenshots, observe the automatic hosted schedule and decide reviewer access. Selected hosted chat recovery succeeded; remaining provider availability still needs measurement. Container startup/persistence already passed in CI. For a real service, prioritize identity/authorization, operational recovery, observability, measured load tests, and financial closing/revaluation policies. Product expansion would follow customer needs such as invoice management, bank imports/reconciliation, and tax.
 
 ## Explain the interface
 

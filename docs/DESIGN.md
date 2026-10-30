@@ -1,6 +1,6 @@
 # Daybook design record
 
-> Saved 2026-10-29. All 10 production browser workflows passed in the [latest CI](https://github.com/rayidali/spiich_homework/actions/runs/40999183176), including mobile emulation and keyboard behavior. The protected hosted SPA document/API respond, but fresh hosted visual inspection, CI screenshot review and physical devices remain pending. Images below document the earlier design. See [checkpoint](../CHECKPOINT.md).
+> Saved 2026-10-29. All 10 production browser workflows passed in the [then-current CI](https://github.com/rayidali/spiich_homework/actions/runs/40999183176), including mobile emulation and keyboard behavior. The protected hosted SPA document/API respond, but fresh hosted visual inspection, CI screenshot review and physical devices remain pending. Images below document the earlier design. See [checkpoint](../CHECKPOINT.md).
 
 Daybook is the product name. Spiich is the company receiving the engineering assignment. The interface, page title, favicon, exported filenames, package, and Compose project use Daybook.
 

@@ -23,7 +23,7 @@ The first 108-episode pilot exposed control-adapter and planner-contract defects
 
 Post-pilot development work adds complete-footer parsing, normalizes R0's clarification/assumption metadata within its original model call, and clarifies the shared distinction between draft proposal amounts and posted historical facts. These corrections do not add control tools, weaken accounting checks, or rewrite prior results. Their live effect remains unmeasured. **The primary 1,620 held-out route episodes and 240 held-out reviewer outcomes have not run**, so no architecture winner or final product integration is justified yet.
 
-[CI for research source `3d906ce`](https://github.com/rayidali/spiich_homework/actions/runs/41138538661) passed application verification, application Compose and the isolated native research database job. That job executes the real Wren engine and restricted PostgreSQL checks without provider keys. It verifies integration, not model accuracy or million-user capacity. The later development corrections are outside that recorded CI revision. [Portable reproduction](research/REPRODUCE.md).
+[CI for research source `05a9fe3`](https://github.com/rayidali/spiich_homework/actions/runs/41142335257) passed application verification, application Compose and the isolated native research database job. That job executes the real Wren engine and restricted PostgreSQL checks without provider keys. It verifies integration, not model accuracy or million-user capacity. This revision includes the final offline metadata, transport and recovery corrections; its live development smoke and held-out evaluation remain pending. [Portable reproduction](research/REPRODUCE.md).
 
 ## 2026-10-30 live AI recovery update
 
