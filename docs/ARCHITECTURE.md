@@ -1,12 +1,20 @@
 # Architecture and engineering decisions
 
+## 2026-10-30 live AI recovery update
+
+The hosted model and source default are now **`gemini-3.1-flash-lite`**. Direct API testing reproduced the earlier model's generation timeouts and confirmed working text/JSON/tool calls on Flash-Lite. A separate journal-proposal rejection was traced to the 100-line `maxItems` constraint in Gemini's decoding grammar: the transport now omits array maxima, while the full original Zod limit, account checks and exact-money/balance rules remain enforced locally.
+
+Selected hosted checks succeeded: cash **$125,620.00**, **12 Acme Corp entries**, September expenses **$9,265.00**, and a review-only **$340 Supplies debit / Company credit card credit** proposal. Cash/search/expense values matched independent endpoints, and the 73-entry journal list was unchanged. An initial expense timeout succeeded on manual repeat, while a later search failed; **intermittent provider failures remain**. No automatic retry, paid-plan change or accuracy guarantee was introduced.
+
+Local build/native imports and **60 isolated tests** passed, including two new schema regressions. Full CI for source `7ecb435c421862dba5efd4e3b6f743c93fd1888e` is [queued](https://github.com/rayidali/spiich_homework/actions/runs/41103851106); the previous 101-test full run remains the last completed regression evidence. These selected checks are not the full 40-case live evaluation. [Detailed evidence](evidence/chat-recovery-verification.json) records successes and failures. Earlier timeout-only notes below describe the 2026-10-29 snapshot.
+
 > Saved 2026-10-29. The implemented modular monolith now has both Docker/native and protected Vercel/Neon hosting paths. Full CI passed **101 backend tests, 10 browser workflows, native hosted imports and Docker persistence**. Hosted API/reports/scheduler passed HTTP checks. Gemini model-metadata access succeeded; live financial chat timed out. Scale/failover/restore and live AI accuracy remain unverified. Resume from [CHECKPOINT.md](../CHECKPOINT.md).
 
 For a pictorial introduction, open the [eight-page PDF report](reports/architecture-review.pdf) or [interactive HTML version](reports/architecture-review.html). They are the planning snapshot before the provider/interface implementation. Current implementation and verification status are recorded below and in the checkpoint.
 
 ## Gemini and evaluation implementation
 
-The user authorized implementation after the report. `server/ai-provider.ts` now isolates native Gemini `generateContent` and OpenAI Responses from shared accounting rules in `server/ai.ts`. Gemini uses the documented JSON-schema response format and allowlisted function declarations; OpenAI remains selectable. No orchestration framework or new application dependency was needed. The configurable Gemini default is `gemini-3.8-flash`, verified against the official [model page](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash) and [REST reference](https://ai.google.dev/api/generate-content).
+The user authorized implementation after the report. `server/ai-provider.ts` now isolates native Gemini `generateContent` and OpenAI Responses from shared accounting rules in `server/ai.ts`. Gemini uses the documented JSON-schema response format and allowlisted function declarations; OpenAI remains selectable. No orchestration framework or new application dependency was needed. The configurable Gemini default is now `gemini-3.1-flash-lite`, verified against the official [model page](https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-lite) and [REST reference](https://ai.google.dev/api/generate-content).
 
 Both transports have a 25-second timeout, one attempt without automatic retries, bounded output and at most four in-flight requests per process. A financial question must produce exactly one permitted call with validated arguments. Unknown fields, including attempted organization overrides, are rejected. Numerical answers still come from SQL and application code. Proposals still pass the same active-account, exact-money and balance checks and require user review.
 

@@ -1,0 +1,68 @@
+{
+  "recordedAt": "2026-10-30T18:07:30.508358+00:00",
+  "url": "https://daybook-ledger-delta.vercel.app",
+  "deploymentId": "dpl_HQefAFAGwPS2x52c1nXPetRYovKq",
+  "sourceCommit": "7ecb435c421862dba5efd4e3b6f743c93fd1888e",
+  "provider": "gemini",
+  "model": "gemini-3.1-flash-lite",
+  "transport": {
+    "deadlineMs": 25000,
+    "automaticRetries": 0
+  },
+  "diagnosis": {
+    "previousModelMinimalRequest": "timed out without response headers at 30 seconds",
+    "interactionsMinimalRequest": "timed out at 55 seconds",
+    "latestAlias": "503 UNAVAILABLE high demand",
+    "listedOlderModel": "404 unavailable to new users",
+    "fullProposalSchema": "400 with maxItems=100; still 400 after removing metaschema alone; 200 after removing only maxItems=100"
+  },
+  "successfulChecks": {
+    "cash": {
+      "value": "125620.00",
+      "matchesDashboard": true,
+      "requestSeconds": 3.253483
+    },
+    "transactionSearch": {
+      "counterparty": "Acme Corp",
+      "count": 12,
+      "matchesEntriesEndpoint": true,
+      "requestSeconds": 2.132803
+    },
+    "expenses": {
+      "from": "2026-09-01",
+      "to": "2026-09-30",
+      "total": "9265.00",
+      "matchesIncomeReport": true,
+      "requestSeconds": 4.423294,
+      "manualAttempts": 2
+    },
+    "proposal": {
+      "date": "2026-10-30",
+      "debitAccountCode": "5030",
+      "creditAccountCode": "2100",
+      "amount": "340.00",
+      "readyForReview": true,
+      "posted": false,
+      "requestSeconds": 2.887092
+    },
+    "journalListUnchanged": true,
+    "observedEntryCount": 73
+  },
+  "observedFailuresAfterModelSwitch": [
+    "First expense request timed out; an explicit manual repeat succeeded.",
+    "A later Acme transaction search returned AI_PROVIDER_ERROR after an earlier successful search."
+  ],
+  "localIsolatedTests": 60,
+  "ci": {
+    "runId": 41103851106,
+    "status": "queued",
+    "conclusion": null,
+    "url": "https://github.com/rayidali/spiich_homework/actions/runs/41103851106"
+  },
+  "limits": [
+    "Intermittent provider failures remain; no continuous availability guarantee.",
+    "Selected live checks, not a completed 40-case evaluation or an accuracy estimate.",
+    "No hosted browser visual test or physical-device check performed.",
+    "Timed-out request usage/billing unknown; no plan/subscription changed."
+  ]
+}

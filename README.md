@@ -1,6 +1,6 @@
 # Daybook · Accounting workspace
 
-> Saved 2026-10-29: [protected hosted demo](https://daybook-ledger-delta.vercel.app) is live. The [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs/40999183176) passed **101 backend tests, 10 browser workflows, native hosted module startup, Docker startup and persistence** on executable commit `576a2468feacf9bd1d040c75bb1c5ff203f28dae`. Hosted reports and scheduler checks passed. Gemini model access was confirmed through metadata; live chat timed out. See [verification](docs/VERIFICATION.md) and [checkpoint](CHECKPOINT.md).
+> Updated 2026-10-30: hosted AI uses `gemini-3.1-flash-lite`; cash, transaction search, expenses and a review-only entry proposal passed selected live checks. Provider failures remain intermittent. The journal-schema compatibility fix passes 60 isolated tests; [new full CI](https://github.com/rayidali/spiich_homework/actions/runs/41103851106) is queued. The previous full CI passed 101 backend tests and 10 browser workflows. See [recovery evidence](docs/evidence/chat-recovery-verification.json) and [checkpoint](CHECKPOINT.md).
 
 A React and TypeScript accounting workspace backed by PostgreSQL. Every posted journal entry is balanced and immutable at the database level. AI prepares entries for review and selects read-only financial queries; the ledger and SQL own the financial numbers.
 
@@ -35,7 +35,7 @@ Leave `AI_MODEL` empty to use the provider default: `gemini-3.1-flash-lite` or `
 docker compose up -d --force-recreate app
 ```
 
-Use a model your project can access. Gemini's default was selected from Google's current [model documentation](https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-lite). An authenticated model-metadata request succeeded; the hosted financial-chat test hit the 25-second timeout. Successful generation, live quality, token usage and billing remain unverified. The key is configured server-side on Vercel as well as locally, but no GitHub Actions key secret was configured. With no key, manual accounting, reports, recurrence, and statistical alerts continue working.
+Use a model your project can access. Gemini's default was selected from Google's current [model documentation](https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-lite). Direct testing reproduced generation timeouts on the earlier model. With Flash-Lite, selected hosted financial questions and a draft proposal succeeded; transient failures remain. The full live evaluation/accuracy score has not been completed, and timed-out calls have unknown usage/billing. The key is configured server-side on Vercel as well as locally, but no GitHub Actions key secret was configured. With no key, manual accounting, reports, recurrence, and statistical alerts continue working.
 
 Start with the bounded four-case smoke evaluation against a running, migrated database:
 
@@ -157,4 +157,4 @@ Open [Daybook](https://daybook-ledger-delta.vercel.app) and sign in with the own
 
 The hosted trial balance and balance sheet had zero differences. Scheduler authorization and an authorized batch passed. Automatic daily firing, fresh hosted browser visual inspection and live AI accuracy remain unverified. Larger job backlogs can wait for later hosted invocations; this is not a measured million-user deployment.
 
-The next work is to investigate the Gemini timeout, run bounded live evaluations, inspect fresh CI screenshots, check the hosted/physical-phone flows, and decide reviewer sharing. Resume from [CHECKPOINT.md](CHECKPOINT.md); do not reset the database or rebuild the application.
+The next work is to assess intermittent provider failures, run bounded live evaluations, inspect fresh CI screenshots, check the hosted/physical-phone flows, and decide reviewer sharing. Resume from [CHECKPOINT.md](CHECKPOINT.md); do not reset the database or rebuild the application.

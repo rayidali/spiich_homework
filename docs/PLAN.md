@@ -1,5 +1,13 @@
 # Delivery plan for a one-day assignment build
 
+## 2026-10-30 live AI recovery update
+
+The hosted model and source default are now **`gemini-3.1-flash-lite`**. Direct API testing reproduced the earlier model's generation timeouts and confirmed working text/JSON/tool calls on Flash-Lite. A separate journal-proposal rejection was traced to the 100-line `maxItems` constraint in Gemini's decoding grammar: the transport now omits array maxima, while the full original Zod limit, account checks and exact-money/balance rules remain enforced locally.
+
+Selected hosted checks succeeded: cash **$125,620.00**, **12 Acme Corp entries**, September expenses **$9,265.00**, and a review-only **$340 Supplies debit / Company credit card credit** proposal. Cash/search/expense values matched independent endpoints, and the 73-entry journal list was unchanged. An initial expense timeout succeeded on manual repeat, while a later search failed; **intermittent provider failures remain**. No automatic retry, paid-plan change or accuracy guarantee was introduced.
+
+Local build/native imports and **60 isolated tests** passed, including two new schema regressions. Full CI for source `7ecb435c421862dba5efd4e3b6f743c93fd1888e` is [queued](https://github.com/rayidali/spiich_homework/actions/runs/41103851106); the previous 101-test full run remains the last completed regression evidence. These selected checks are not the full 40-case live evaluation. [Detailed evidence](evidence/chat-recovery-verification.json) records successes and failures. Earlier timeout-only notes below describe the 2026-10-29 snapshot.
+
 > Saved 2026-10-29. Ledger, Gemini/OpenAI adapters, evaluation harness, simpler UI, Docker verification and protected Vercel/Neon hosting are implemented. Latest full CI passed 101 backend tests, 10 browser workflows and persistence. Hosted HTTP checks passed. The active gap is a live Gemini timeout; successful generation/evaluation, visual review, automatic cron observation and reviewer access remain. See [checkpoint](../CHECKPOINT.md).
 
 The highest-value submission is a complete, explainable product with defensible financial rules. The intended sequence protects that outcome before adding polish.

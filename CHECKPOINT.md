@@ -1,10 +1,14 @@
 # Daybook session checkpoint
 
-Saved **2026-10-29, America/New_York** (verification timestamps may read 2026-10-30 in UTC). Read this first on resumption. Continue the implemented application; do not rebuild or restore an earlier ZIP over it.
+Saved **2026-10-30, America/New_York** (verification timestamps may read 2026-10-30 in UTC). Read this first on resumption. Continue the implemented application; do not rebuild or restore an earlier ZIP over it.
 
 ## Where we stopped
 
-The user requested a detailed update to every project Markdown document and a saved checkpoint after the first hosted deployment. **Daybook is implemented, published and hosted.** The next product issue is the live Gemini financial-chat timeout, followed by live evaluation and fresh visual review. No further application implementation or model calls were performed for this documentation checkpoint.
+The user reported failed chat, then asked whether Vercel needed a Git connection and whether the provider API had been tested directly. **Direct API tests isolated two issues:** the earlier model's generation calls stalled; journal proposals were rejected with the 100-line array maximum in the provider grammar. The hosted model and source default are now `gemini-3.1-flash-lite`, and numeric array maxima are omitted only from the provider grammar. Original Zod/account/money/balance validation is retained. No automatic retries or paid plan changes were added.
+
+Selected hosted cash/search/expense questions and a review-only supplies proposal succeeded. Independent endpoints matched the returned values and the journal list stayed unchanged. Provider failures are still intermittent: an expense timeout passed on manual repeat, and a later search failed after an earlier success. Do not present this as universal availability or a completed live accuracy evaluation. See [chat recovery evidence](docs/evidence/chat-recovery-verification.json).
+
+New executable source is `7ecb435c421862dba5efd4e3b6f743c93fd1888e`; local build, native imports and **60 isolated tests passed**, with two added schema regression tests. [Full CI 41103851106](https://github.com/rayidali/spiich_homework/actions/runs/41103851106) is queued; the previous 101-test run below is the last completed full regression. The new expected full count is 103, not yet claimed passing. Hosting is updated to deployment `dpl_HQefAFAGwPS2x52c1nXPetRYovKq`. Vercel was deployed directly with local authentication, so GitHub not being connected to Vercel is expected: GitHub stores source/runs CI but pushes do not auto-deploy.
 
 | Item                                         | Saved state                                                                                                                     |
 | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
@@ -16,10 +20,10 @@ The user requested a detailed update to every project Markdown document and a sa
 | Successful full CI                           | [40999183176](https://github.com/rayidali/spiich_homework/actions/runs/40999183176)                                             |
 | Latest remote before this documentation save | `5dbcfdb21d99934a8772b448f5a59ad7cb9a6cd1`; this save adds a documentation-only commit                                          |
 | Verified totals                              | **101 backend tests and 10 browser workflows**, native hosted module loading, Docker startup/health/container tests/persistence |
-| Live AI                                      | Authenticated Google model-metadata access succeeded; hosted financial chat returned handled `AI_TIMEOUT` after 25 seconds      |
+| Live AI                                      | Selected live financial questions and an entry proposal passed with Flash-Lite; intermittent provider errors remain             |
 | Submission                                   | `submission.zip`, root `daybook-ledger/`, refreshed from reviewed source/docs with credential and integrity checks              |
 
-Full CI now passed after the hosting changes. The earlier 94-test baseline is historical, preserved in [cloud-verification-before-hosting.json](docs/evidence/cloud-verification-before-hosting.json). Current evidence is [cloud-verification.json](docs/evidence/cloud-verification.json); live hosting evidence is [hosting-verification.json](docs/evidence/hosting-verification.json).
+The previous full CI passed after the hosting changes; the new model/schema fix has separate local/live evidence and queued CI. The earlier 94-test baseline is historical, preserved in [cloud-verification-before-hosting.json](docs/evidence/cloud-verification-before-hosting.json). Current evidence is [cloud-verification.json](docs/evidence/cloud-verification.json); live hosting evidence is [hosting-verification.json](docs/evidence/hosting-verification.json).
 
 ## User preferences and authorization
 
@@ -46,7 +50,7 @@ Full CI now passed after the hosting changes. The earlier 94-test baseline is hi
 | Vercel account/team    | `rayidali` / `rayidalis-projects`; Hobby at provisioning                        |
 | Vercel project         | `daybook-ledger`, `prj_5lvzp08Wa2E1A3pZPkm0UF9u9oYR`                            |
 | Team ID                | `team_8FfnxIHgE2sKsb8m2q0hXs33`                                                 |
-| Verified deployment    | `dpl_HQ4Hm8iULs7nXjhgR2JzuhFAXjLA`, READY, production                           |
+| Verified deployment    | `dpl_HQefAFAGwPS2x52c1nXPetRYovKq`, READY, production                           |
 | Separate Neon database | `daybook-db`, `store_bcO6NqHC5sMcY31n`; free through existing Neon installation |
 | Region                 | `iad1` for Functions/database provisioning                                      |
 | Access                 | All-deployment Vercel protection; public requests reach sign-in                 |
@@ -113,8 +117,8 @@ Use that checkout while it exists. Temporary storage may disappear between sessi
 ## Next session: ordered work
 
 1. Read this checkpoint, [hosting](docs/HOSTING.md), [verification](docs/VERIFICATION.md), and the latest [build log](docs/BUILD_LOG.md). Inspect Git/CI/deployment status without changing identity or printing secrets.
-2. Investigate the **live Gemini timeout** with bounded calls. Distinguish provider latency, request format/settings and hosting connectivity using sanitized timing/error evidence; the cause is not yet known. Do not silently increase retries or claim key failure after metadata access succeeded.
-3. Once generation works, run the existing isolated smoke suite, inspect failures/clarifications, then development cases. Freeze model/settings/cases before the held-out repeated run. Keep the production demo untouched; use fixture-capable credentials only in the evaluation environment.
+2. Review the new queued CI result and assess **intermittent provider failures** with bounded calls. Distinguish provider latency, request format/settings and hosting connectivity using sanitized timing/error evidence; direct tests showed model-dependent failures and a separate provider-schema rejection; the latter is fixed. Do not silently add retries or mislabel provider failures as bad keys.
+3. Generation now works on selected requests; run the existing isolated smoke suite, inspect failures/clarifications, then development cases. Freeze model/settings/cases before the held-out repeated run. Keep the production demo untouched; use fixture-capable credentials only in the evaluation environment.
 4. Retrieve and visually inspect fresh CI screenshots, replace historical images only after review, check the hosted browser flow and a real phone/additional browsers as available.
 5. Observe a scheduled daily cron invocation; inspect durable backlog and failed jobs. The manual authorized call established the handler, not the platform timer or sustained processing rate.
 6. Decide how reviewers will access the protected demo. Keep the application protected while it contains a writable shared workspace and a billable provider key.
