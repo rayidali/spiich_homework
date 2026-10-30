@@ -2,6 +2,12 @@
 
 Saved **2026-10-30, America/New_York** (verification timestamps may read 2026-10-30 in UTC). Read this first on resumption. Continue the implemented application; do not rebuild or restore an earlier ZIP over it.
 
+## Active request: research planning only
+
+The latest user request supersedes further implementation: propose a validation agent and multiple research routes (managed File Search/broader analysis, Gemini embeddings, Jev and Wren), with shared tests and comparative scores, **but do not implement anything yet**. The detailed plan is [docs/PLAN.md](docs/PLAN.md). It defines nine component-controlled configurations, mandatory deterministic validation, optional LLM/Jev reviewers, shared isolated fixtures, a proposed 120-question grouped development/holdout set, separate verifier/error-injection and security suites, paired comparisons, cost/latency reporting and staged execution. All dataset sizes, budgets, scores and route results are proposals; no research experiment ran.
+
+Only documentation, public-source research and the submission/checkpoint archive were updated for this task. No application code, dependency, database, deployment, provider configuration, document index, new agent or paid API call was added. The deployed Daybook behavior and passing 103-test/10-browser baseline below remain unchanged. Do not start integrations or evaluations from this plan until a later user instruction authorizes implementation. The next conversation should discuss/refine the experimental tier, comparison controls, reference cases and proposed call/dollar limits.
+
 ## Where we stopped
 
 The user reported failed chat, then asked whether Vercel needed a Git connection and whether the provider API had been tested directly. **Direct API tests isolated two issues:** the earlier model's generation calls stalled; journal proposals were rejected with the 100-line array maximum in the provider grammar. The hosted model and source default are now `gemini-3.1-flash-lite`, and numeric array maxima are omitted only from the provider grammar. Original Zod/account/money/balance validation is retained. No automatic retries or paid plan changes were added.
