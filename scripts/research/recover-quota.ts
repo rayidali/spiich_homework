@@ -46,6 +46,7 @@ async function main() {
       quotaEvidence,
       authorization,
       limits: budget.limits,
+      policy: budget.keyCheckPolicy(),
     });
     mkdirSync(dirname(permitPath), { recursive: true, mode: 0o700 });
     atomicJson(permitPath, permit);

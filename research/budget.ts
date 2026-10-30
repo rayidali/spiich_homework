@@ -12,6 +12,14 @@ import {
   type RecoveryJournalEntry,
   type RecoveryReceipt,
 } from './recovery';
+import {
+  assertKeyCheckReservation,
+  createKeyCheckPolicy,
+  keyCheckPolicyMarker,
+  validateKeyCheckPolicy,
+  validateKeyCheckPolicyMarker,
+  type KeyCheckPolicy,
+} from './budget-policy';
 
 export interface UsageRecord {
   id: string;
@@ -65,6 +73,41 @@ export class StudyBudget {
     const path = `${this.path}.recovery.json`;
     return existsSync(path) ? validateRecoveryJournal(JSON.parse(readFileSync(path, 'utf8'))) : [];
   }
+  /** An installed restriction applies to every caller of this shared usage ledger. */
+  keyCheckPolicy(): KeyCheckPolicy | undefined {
+    const policyPath = `${this.path}.policy.json`,
+      markerPath = `${this.path}.policy-required.json`;
+    const policyExists = existsSync(policyPath),
+      markerExists = existsSync(markerPath);
+    if (!policyExists && !markerExists) {
+      if (this.recoveryJournal().some((entry) => entry.permit.policyHash))
+        throw new Error('RESEARCH_POLICY_MISSING');
+      return undefined;
+    }
+    if (!policyExists || !markerExists) throw new Error('RESEARCH_POLICY_INCOMPLETE');
+    const policy = validateKeyCheckPolicy(JSON.parse(readFileSync(policyPath, 'utf8')), this.records);
+    validateKeyCheckPolicyMarker(JSON.parse(readFileSync(markerPath, 'utf8')), policy);
+    return policy;
+  }
+  /** Explicit offline installation; no automatic allowance reset and no overwrite. */
+  async installKeyCheckPolicy(authorizationReference: string, now = Date.now()): Promise<KeyCheckPolicy> {
+    return this.withLock(async () => {
+      if (existsSync(`${dirname(this.path)}/runner.lock`)) throw new Error('RESEARCH_RECOVERY_RUNNER_ACTIVE');
+      const policyPath = `${this.path}.policy.json`,
+        markerPath = `${this.path}.policy-required.json`;
+      if (
+        existsSync(policyPath) ||
+        existsSync(markerPath) ||
+        this.recoveryJournal().some((entry) => entry.permit.policyHash)
+      )
+        throw new Error('RESEARCH_POLICY_ALREADY_INSTALLED');
+      const policy = createKeyCheckPolicy(this.records, authorizationReference, now);
+      // A crash between these two writes leaves an incomplete policy and fails closed.
+      atomicJson(policyPath, policy);
+      atomicJson(markerPath, keyCheckPolicyMarker(policy));
+      return policy;
+    });
+  }
   /** Explicit one-shot probe only. Does not start or resume any experiment. */
   async recoverQuota(input: {
     permit: QuotaRecoveryPermit;
@@ -84,6 +127,7 @@ export class StudyBudget {
         limits: this.limits,
         journal,
         now: now(),
+        policy: this.keyCheckPolicy(),
       });
       // Check caps before consuming the permit, but do not write a reservation yet.
       this.reserve(input.request, { probe: true, dryRun: true });
@@ -225,6 +269,16 @@ export class StudyBudget {
         : ((inputBound + extraRetrieval) * (embed ? prices.embeddingInput : rate.input) +
             (embed ? 0 : outputBound * rate.output)) /
           1e6;
+    const policy = this.keyCheckPolicy();
+    if (policy)
+      assertKeyCheckReservation({
+        policy,
+        records: this.records,
+        provider: request.provider,
+        kind: request.kind,
+        reserveUsd,
+        isProbe: options.probe === true,
+      });
     if (
       this.records.length >= this.limits.attempts ||
       this.spend(request.provider) + reserveUsd > this.limits[request.provider]

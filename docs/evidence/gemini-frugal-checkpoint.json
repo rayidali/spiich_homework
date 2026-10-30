@@ -1,0 +1,29 @@
+{
+  "recordedAt": "2026-10-30T23:53:19.207Z",
+  "sourceHash": "bbccba5d944d0af6e1d8c4edce5b7618153f597969d1fed577bacf052d0de6b9",
+  "scope": "Changed local key: one fixed availability request only",
+  "keyChangeObserved": true,
+  "inheritedKeyOverride": false,
+  "accountBalanceKnown": false,
+  "projectIdentityKnown": false,
+  "billingChangeConfirmed": false,
+  "additionalAllowanceUsd": {
+    "gemini": 0.01,
+    "jev": 0
+  },
+  "maximumAdditionalAttempts": 1,
+  "actualAdditionalAttempts": 1,
+  "baselineRecords": 840,
+  "currentRecords": 841,
+  "baselinePreserved": true,
+  "persistentPolicyMode": "fixed-key-probe-only",
+  "restartedDefaultBudgetBlocksNormalCalls": true,
+  "verificationReachedTransport": false,
+  "pendingQueueJobs": 0,
+  "activeRunnerLock": false,
+  "studyRestarted": false,
+  "hostedCredentialsChanged": false,
+  "indexAccessVerifiedWithNewKey": false,
+  "largerBudgetDecision": "PENDING",
+  "probeReceipt": "gemini-key-check-2026-10-30.json"
+}

@@ -1,0 +1,36 @@
+{
+  "recordedAt": "2026-10-30T23:55:03.713Z",
+  "scope": "Persistent frugal spending guard and one changed-key availability probe",
+  "sourceHash": "bbccba5d944d0af6e1d8c4edce5b7618153f597969d1fed577bacf052d0de6b9",
+  "runtime": {
+    "node": "v22.23.4",
+    "platform": "darwin",
+    "architecture": "arm64"
+  },
+  "checks": [
+    {
+      "command": "npx vitest run --exclude tests/accounting.test.ts --exclude tests/ai-contract.test.ts",
+      "passed": true,
+      "files": 27,
+      "tests": 417,
+      "durationSeconds": 4.99
+    },
+    {
+      "command": "npm run build",
+      "passed": true,
+      "scope": "Strict TypeScript and production Vite bundle",
+      "warnings": "Two existing nonfatal Zod/Rollup annotation warnings"
+    },
+    {
+      "command": "npm run format:check",
+      "passed": true
+    }
+  ],
+  "independentReview": "No critical issue found in one-request restriction, restart behavior, historical usage preservation or truthful key-change evidence.",
+  "cloudCi": "Previous full CI 41142335257 predates this guard. Fresh result will be recorded separately.",
+  "liveProbe": "gemini-key-check-2026-10-30.json",
+  "ordinaryResearchBlocked": true,
+  "heldOutRouteEpisodesMeasured": 0,
+  "heldOutReviewerOutcomesMeasured": 0,
+  "productionDeployed": false
+}

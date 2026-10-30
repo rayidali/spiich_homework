@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "provider": "gemini",
+  "model": "gemini-3.5-flash-lite",
+  "at": "2026-10-30T23:52:57.995Z",
+  "authorizationReason": "user_configured_key_change",
+  "outcome": "RECOVERED",
+  "status": 200,
+  "durationMs": 878,
+  "inputTokens": 14,
+  "outputTokens": 5,
+  "estimatedUsd": 0.0000167,
+  "reserveUsd": 0.0010841,
+  "preservedUnknownRecords": 3,
+  "priorReservationsUnchanged": true,
+  "quotaEvidenceHash": "79f4370f9188dc5ec7ffca3ac9de29f016f69f3db99d52bff154a2d93fbc6808"
+}

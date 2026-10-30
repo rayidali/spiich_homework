@@ -2,6 +2,7 @@ import { createHash, randomUUID } from 'node:crypto';
 import { z } from 'zod';
 import type { UsageRecord } from './budget';
 import type { ResearchRequest, ResearchResponse } from './providers/transport';
+import { validateKeyCheckPolicy } from './budget-policy';
 
 export const QUOTA_PROBE_MODEL = 'gemini-3.5-flash-lite';
 const hashSchema = z.string().regex(/^[a-f0-9]{64}$/);
@@ -15,12 +16,24 @@ const limitsSchema = z
   .strict();
 const authorizationSchema = z
   .object({
-    reason: z.enum(['user_confirmed_billing_change', 'documented_daily_quota_reset']),
+    reason: z.enum([
+      'user_confirmed_billing_change',
+      'documented_daily_quota_reset',
+      'user_configured_key_change',
+    ]),
     confirmedAt: stamp,
     notBefore: stamp,
     expiresAt: stamp,
     // Private audit reference; never copied into a public receipt.
     evidenceReference: z.string().min(1).max(500),
+    keyChange: z
+      .object({
+        observedAt: stamp,
+        previousFingerprint: hashSchema,
+        currentFingerprint: hashSchema,
+      })
+      .strict()
+      .optional(),
   })
   .strict();
 export type RecoveryAuthorization = z.infer<typeof authorizationSchema>;
@@ -55,6 +68,7 @@ const permitSchema = z
     authorizationHash: hashSchema,
     authorization: authorizationSchema,
     limits: limitsSchema,
+    policyHash: hashSchema.optional(),
   })
   .strict();
 export type QuotaRecoveryPermit = z.infer<typeof permitSchema>;
@@ -85,6 +99,8 @@ export interface RecoveryReceipt {
 }
 export const recoveryHash = (value: unknown) =>
   createHash('sha256').update(JSON.stringify(value)).digest('hex');
+/** Private evidence only; never publish credential fingerprints. */
+export const credentialFingerprint = (key: string) => createHash('sha256').update(key).digest('hex');
 function checked<T>(schema: z.ZodType<T>, value: unknown): T {
   const result = schema.safeParse(value);
   if (!result.success) throw new Error('RESEARCH_RECOVERY_INVALID_ARTIFACT');
@@ -181,10 +197,35 @@ function checkAuthorization(value: unknown, selected: UsageRecord[], now: number
     start < documentedQuotaResetAfter(selected.at(-1)!.at)
   )
     throw new Error('RESEARCH_RECOVERY_BEFORE_RESET');
-  if (authorization.reason === 'user_confirmed_billing_change' && confirmed < Date.parse(selected.at(-1)!.at))
+  if (
+    ['user_confirmed_billing_change', 'user_configured_key_change'].includes(authorization.reason) &&
+    confirmed < Date.parse(selected.at(-1)!.at)
+  )
     throw new Error('RESEARCH_RECOVERY_STALE_AUTHORIZATION');
+  if (authorization.reason !== 'user_configured_key_change' && authorization.keyChange)
+    throw new Error('RESEARCH_RECOVERY_INVALID_ARTIFACT');
   if (requireReady && now < start) throw new Error('RESEARCH_RECOVERY_TOO_EARLY');
   return authorization;
+}
+function checkKeyChange(
+  authorization: RecoveryAuthorization,
+  request: ResearchRequest,
+  policy: unknown,
+  records: UsageRecord[],
+  now: number,
+) {
+  if (authorization.reason !== 'user_configured_key_change') return;
+  const change = authorization.keyChange;
+  if (
+    !change ||
+    change.previousFingerprint === change.currentFingerprint ||
+    change.currentFingerprint !== credentialFingerprint(request.headers['x-goog-api-key']) ||
+    Date.parse(change.observedAt) < Date.parse(authorization.confirmedAt) ||
+    Date.parse(change.observedAt) > now
+  )
+    throw new Error('RESEARCH_RECOVERY_KEY_CHANGE_UNVERIFIED');
+  if (!policy) throw new Error('RESEARCH_RECOVERY_RESTRICTIVE_POLICY_REQUIRED');
+  validateKeyCheckPolicy(policy, records);
 }
 export function createQuotaRecoveryPermit(input: {
   records: UsageRecord[];
@@ -193,11 +234,13 @@ export function createQuotaRecoveryPermit(input: {
   authorization: unknown;
   limits: { gemini: number; jev: number; attempts: number };
   now?: number;
+  policy?: unknown;
 }): QuotaRecoveryPermit {
   const now = input.now ?? Date.now();
   if (!isProbe(input.request)) throw new Error('RESEARCH_RECOVERY_WRONG_REQUEST');
   const selected = quotaRecords(input.records, input.quotaEvidence);
   const authorization = checkAuthorization(input.authorization, selected, now, false);
+  checkKeyChange(authorization, input.request, input.policy, input.records, now);
   return checked(permitSchema, {
     schemaVersion: 1,
     id: randomUUID(),
@@ -212,6 +255,9 @@ export function createQuotaRecoveryPermit(input: {
     authorizationHash: recoveryHash(authorization),
     authorization,
     limits: input.limits,
+    ...(input.policy
+      ? { policyHash: recoveryHash(validateKeyCheckPolicy(input.policy, input.records)) }
+      : {}),
   });
 }
 export function validateQuotaRecoveryPermit(input: {
@@ -223,6 +269,7 @@ export function validateQuotaRecoveryPermit(input: {
   limits: { gemini: number; jev: number; attempts: number };
   journal: RecoveryJournalEntry[];
   now?: number;
+  policy?: unknown;
 }): QuotaRecoveryPermit {
   const permit = checked(permitSchema, input.permit),
     now = input.now ?? Date.now();
@@ -239,6 +286,12 @@ export function validateQuotaRecoveryPermit(input: {
     throw new Error('RESEARCH_RECOVERY_SNAPSHOT_CHANGED');
   const selected = quotaRecords(input.records, input.quotaEvidence);
   const authorization = checkAuthorization(input.authorization, selected, now, true);
+  checkKeyChange(authorization, input.request, input.policy, input.records, now);
+  if (
+    permit.policyHash !==
+    (input.policy ? recoveryHash(validateKeyCheckPolicy(input.policy, input.records)) : undefined)
+  )
+    throw new Error('RESEARCH_RECOVERY_POLICY_CHANGED');
   if (
     recoveryHash(selected.map((r) => ({ id: r.id, hash: recoveryHash(r) }))) !==
       recoveryHash(permit.recordBindings) ||

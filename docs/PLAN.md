@@ -2,6 +2,12 @@
 
 > **Implementation authorized — 2026-10-30.** After approving the planning checkpoint, the user explicitly requested implementation, automatic checkpoint tests, all route comparisons, a control, comparable scientific-style scores, graphs and a detailed report. The original design below is the preregistration. Amendments must be dated and explained before held-out results are examined. The deployed application remains the baseline. Read [CHECKPOINT.md](../CHECKPOINT.md) for current state.
 
+### Spending restriction before further live work (2026-10-30)
+
+The user replaced the local Gemini key and requested frugal use. Exactly one fixed availability probe was performed under a persistent **$0.01 additional Gemini/$0 Jev/one-attempt** policy. It succeeded with 14 input/5 output tokens and $0.0000167 estimated usage; no experimental case was run. All historical usage is preserved. The consumed probe-only policy blocks ordinary runners across restarts, overriding the original spending allowances below. An explicit additional budget is pending. Account balance, project identity and old File Search store access remain unknown.
+
+The original 1,620-route-episode/240-reviewer-outcome design remains unrun. If funds require fewer repetitions, record that amendment before any held-out results, keep equal questions/repetitions across routes, and disclose lower precision. Development budget checks must use balanced preselected cases, not favorable pilot outcomes. A local reservation cap estimates cost and does not reveal or guarantee the provider's billed balance.
+
 ### Implementation amendments before any held-out run
 
 - The local sandbox denies both TCP and Unix database sockets. An authenticated Neon SQL HTTP probe succeeded and confirmed pgvector availability. Use a separate research schema, synthetic data and a dedicated role restricted to scoped analytical views, rather than connect experiments to demo tables. The physical database may be shared; the report must disclose this distinction from a physically separate database.

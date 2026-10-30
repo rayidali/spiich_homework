@@ -1,6 +1,14 @@
 # Verification record
 
-## Current research checkpoint — 2026-10-30
+## Changed-key check and spending guard — 2026-10-30
+
+The replacement local Gemini key passed exactly one fixed availability request: HTTP 200, 878 ms, 14 input/5 output tokens, $0.0000167 paid-equivalent estimated usage. [Receipt](evidence/gemini-key-check-2026-10-30.json). No study questions, documents, indexing, Jev requests or hosted deployment were involved. Account balance, project identity, remaining quota and existing File Search access are unverified.
+
+A persistent one-request/$0.01 additional Gemini/$0 Jev policy remains in force after the success. A reconstructed default-budget instance rejected an ordinary call before reaching transport; all 840 previous usage records are preserved, with one new probe record. [Policy verification](evidence/gemini-frugal-checkpoint.json). Missing/malformed policy, changed history, wrong key, extra requests and unknown usage have offline coverage. The new revision passed **417 tests in 27 files** and strict TypeScript/production build. Fresh full CI status is recorded separately; the cloud result below predates this guard.
+
+No larger budget answer or additional study run exists. The following section records the previous published checkpoint.
+
+## Previous research checkpoint — 2026-10-30
 
 Research runtime **`05a9fe3488f7dcbd6d137c6a2780aab0f5675e3d`** passed [CI 41142335257](https://github.com/rayidali/spiich_homework/actions/runs/41142335257): application/backend and browser verification, Docker startup/persistence, and native pgvector/Wren checks. The opt-in live-AI job was skipped. [CI v3 evidence](evidence/research-ci-v3.json) records completed jobs/steps; exact new CI test counts were not extracted from protected logs.
 
