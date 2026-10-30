@@ -1,6 +1,6 @@
 # Architecture and engineering decisions
 
-> Checkpoint updated 2026-10-29. This describes the implemented Daybook architecture. The redesign preserves the ledger and database invariants; browser components remain clients of the existing API. Docker startup and container-recreation persistence passed in CI. Production scale, failover and backup recovery remain unmeasured. Resume from [CHECKPOINT.md](../CHECKPOINT.md).
+> Saved 2026-10-29. The implemented modular monolith now has both Docker/native and protected Vercel/Neon hosting paths. Full CI passed **101 backend tests, 10 browser workflows, native hosted imports and Docker persistence**. Hosted API/reports/scheduler passed HTTP checks. Gemini model-metadata access succeeded; live financial chat timed out. Scale/failover/restore and live AI accuracy remain unverified. Resume from [CHECKPOINT.md](../CHECKPOINT.md).
 
 For a pictorial introduction, open the [eight-page PDF report](reports/architecture-review.pdf) or [interactive HTML version](reports/architecture-review.html). They are the planning snapshot before the provider/interface implementation. Current implementation and verification status are recorded below and in the checkpoint.
 
@@ -10,7 +10,7 @@ The user authorized implementation after the report. `server/ai-provider.ts` now
 
 Both transports have a 25-second timeout, one attempt without automatic retries, bounded output and at most four in-flight requests per process. A financial question must produce exactly one permitted call with validated arguments. Unknown fields, including attempted organization overrides, are rejected. Numerical answers still come from SQL and application code. Proposals still pass the same active-account, exact-money and balance checks and require user review.
 
-Provider metadata records reported token usage, configured/resolved model and duration without storing keys or raw error payloads. The CLI evaluation adds exact attempt limits and an observed-token guard; it stops when usage is unknown. A request already underway can exceed the token threshold, so this is not a hard billing cap. The 40-case dataset is split into development/holdout sets with full entry comparisons, exact financial query/evidence checks, correction retrieval and organization-isolation cases. Synthetic fixtures use new workspaces and the journal is fingerprinted around model calls. Clarification meaning remains an explicit human-review item. No live accuracy result has been established in this restricted session.
+Provider metadata records reported token usage, configured/resolved model and duration without storing keys or raw error payloads. The CLI evaluation adds exact attempt limits and an observed-token guard; it stops when usage is unknown. A request already underway can exceed the token threshold, so this is not a hard billing cap. The 40-case dataset is split into development/holdout sets with full entry comparisons, exact financial query/evidence checks, correction retrieval and organization-isolation cases. Synthetic fixtures use new workspaces and the journal is fingerprinted around model calls. Clarification meaning remains an explicit human-review item. An authenticated model-metadata request succeeded and a hosted financial question returned the safe 25-second AI_TIMEOUT. Successful live generation/accuracy remains unestablished; metadata access is a different check from generation. The root cause and provider usage of the timeout are unknown.
 
 ## The central invariant
 
@@ -109,7 +109,33 @@ The recurring scheduler locks up to 20 due templates, creates at most 50 occurre
 
 A savepoint isolates each template. Invalid accounts pause that template with an actionable error and roll back its partial batch; other templates continue. Editing changes future generated content, not existing drafts. Original frequency and anchor stay fixed; create a new schedule to change them. Foreign recurring occurrences require explicit rate confirmation before posting.
 
-For the assignment the scheduler and worker share the API process. The scheduler serves its configured organization; anomaly jobs can be claimed across organizations. Multiple instances safely contend on the database. A production multi-tenant scheduler would enumerate due organizations independently and run in a dedicated worker deployment.
+In Docker/native mode the scheduler and worker share the API process. The scheduler serves its configured organization; the continuous anomaly worker can claim across organizations. Multiple instances contend safely through database locks/leases. Hosted adapters pass the configured organization explicitly. A production multi-tenant scheduler would enumerate due organizations independently and use dedicated worker deployment/connection budgets.
+
+## Vercel hosting and operational boundaries
+
+The hosted demo keeps the same ledger/report/AI services and PostgreSQL invariants. Static Vite assets run on Vercel; tiny `api/index.js` and `api/cron.js` exports load generated native ESM from TypeScript adapters in `server/hosting/`. esbuild resolves internal extensionless imports, and CI imports both wrappers. No application rules were duplicated for hosting and no applied migration was rewritten.
+
+```mermaid
+flowchart LR
+  User[Browser] --> Gate[Vercel login protection]
+  Gate --> Web[Vite static output]
+  Gate --> Function[Express API function]
+  Function --> Ledger[Shared ledger and reports]
+  Ledger --> Neon[(Separate Neon PostgreSQL)]
+  Function --> After[waitUntil: one durable job batch]
+  After --> Neon
+  Cron[Daily UTC cron] --> Secret[Express wrapper + bearer check]
+  Secret --> Recurring[Generate pending recurring drafts]
+  Recurring --> Neon
+  Secret --> Jobs[Process one durable job batch]
+  Jobs --> Neon
+```
+
+The runtime connects with a strong-password restricted `spiich_app` account over a pooled TLS URL. Build-only owner access runs checksummed migrations, role hardening and the idempotent seed. Production credentials were supplied as deployment overrides; persistent project production variables and automatic Git deployment are not configured assumptions. Local private operational files are excluded from source/archives.
+
+Successful mutations schedule bounded analysis with `waitUntil`; daily cron generates pending recurring entries and processes a bounded job batch. PostgreSQL retains job retry state. The observed Hobby plan's daily timer plus request-triggered batches can leave large backlogs waiting. This adapter is sufficient for a protected demo, while sustained workers, distributed cost/concurrency limits and aggregate connection budgeting need measured production design. The in-process four-call AI limit is per function process, not global across replicas.
+
+All-deployment Vercel protection gates this shared workspace. It does not implement application users, per-user authorization or multi-tenant isolation policies. Hosted data is separate from local PostgreSQL and Docker. HTTP smoke checks established reports balance and scheduler auth/work; they do not establish real-phone layout, automatic timer firing, recovery capacity or live model accuracy. Full details and resource state are in [hosting](HOSTING.md).
 
 ## AI and statistical signals
 

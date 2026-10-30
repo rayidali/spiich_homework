@@ -1,46 +1,75 @@
 # Verification record
 
-> Updated 2026-10-29. The [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs/40994222818) on `634ab08f22627b26539af9227883c9208f2ae479` passed the current PostgreSQL, production-browser and Docker suites. Live model evaluation and physical-device checks remain pending. See [machine-readable evidence](evidence/cloud-verification.json).
+> Saved 2026-10-29 America/New_York. Full CI on executable commit `576a2468feacf9bd1d040c75bb1c5ff203f28dae` **succeeded**: [run 40999183176](https://github.com/rayidali/spiich_homework/actions/runs/40999183176). Hosted HTTP checks are recorded separately. Live generation/accuracy, fresh visual inspection and physical-device checks remain pending.
 
-## Current implementation checks and blockers
+## Current verified state
 
-- **Backend:** all 94 tests passed against PostgreSQL: 29 accounting, 14 AI/database contracts, 22 provider unit tests, 23 evaluation unit tests and 6 simple-entry tests. Provider transport is controlled; these tests do not establish live model accuracy.
-- **Production browser:** all 10 Chromium workflows passed, including real posting/reversal, reports, accounts, recurring schedules, anomaly review, mobile overflow/touch/focus behavior, short-form account effects and AI clarification/review without automatic writes.
-- **Build/configuration:** formatting, strict TypeScript, production build, migrations and Compose configuration passed. The known upstream Zod annotation warnings remain nonfatal.
-- **Docker:** image build, complete stack startup, health check, containerized backend tests and exact posted-entry/workspace persistence after app/database container recreation passed. The named volume was preserved; the checker made no journal writes.
-- **Live AI:** the key is saved only in private local `.env`; no successful live model evaluation has run. The opt-in CI job was skipped. No provider accuracy, key validity, measured latency or billing result is claimed.
-- **Visual review:** fresh screenshots were generated in the successful run's browser-evidence artifact. Checked-in screenshots remain the earlier design until the new captures are inspected. Real phones, Safari and Firefox remain unverified.
+| Check                 | Evidence                      | Result / scope                                                                                                            |
+| --------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| PostgreSQL/accounting | CI verify and container tests | 29 accounting + 14 AI/database contracts                                                                                  |
+| Isolated tests        | CI and local execution        | 22 provider + 23 evaluation + 6 simple-entry + 7 scheduler                                                                |
+| Backend total         | `npm test`                    | **101 passing**; provider responses controlled                                                                            |
+| Production browser    | CI Chromium                   | **10 passing**; real accounting flows, mocked AI review, desktop/mobile emulation                                         |
+| Build                 | CI                            | Formatting, strict TypeScript, Vite production output, both native hosted module imports                                  |
+| Docker                | CI compose job                | Image build, complete startup, health, containerized tests, unchanged posted-entry persistence after container recreation |
+| Hosted app/API        | Authenticated HTTP smoke      | SPA document, health, metadata, P&L, trial balance and balance sheet passed                                               |
+| Hosted scheduler      | Authenticated HTTP smoke      | Missing bearer secret: 401; authorized: 0 due drafts, 4 jobs processed                                                    |
+| Gemini access         | Authenticated Google request  | Configured model metadata accessible                                                                                      |
+| Live financial chat   | Hosted API request            | **504 `AI_TIMEOUT` after 25 seconds**; successful generation not established                                              |
+| Automatic timer       | Configuration only            | Daily 06:00 UTC cron; automatic firing not observed                                                                       |
 
-An earlier local attempt produced 51 passing tests, 43 skipped tests and two failed suite setups because PostgreSQL connections were denied with `EPERM`. Local browser startup and provider DNS also failed. The [local attempt record](evidence/verification-attempt.json) preserves this history; the remote run above supplies the subsequent database/browser/Docker evidence.
+The backend total is 29 + 14 + 22 + 23 + 6 + 7 = 101. The 58 isolated tests are included, not additional tests. The ten browser workflows are separate. CI's live-AI job was skipped. Browser checks disable the live key and do not measure model accuracy. Native import checks establish that both hosted modules load; live HTTP smoke independently established deployed API/report/scheduler behavior.
 
-Run these from the project in a normal Terminal with the existing development PostgreSQL running:
+Evidence files:
+
+- [Current CI result and job steps](evidence/cloud-verification.json). Both verify and compose succeeded; live-ai skipped.
+- [Hosted HTTP observations](evidence/hosting-verification.json), deployment `dpl_HQ4Hm8iULs7nXjhgR2JzuhFAXjLA`.
+- [Earlier 94-test baseline](evidence/cloud-verification-before-hosting.json), retained as historical evidence.
+- [Earlier restricted local attempt](evidence/verification-attempt.json), retained rather than relabeled as a pass.
+
+## Hosted financial observations
+
+The protected [Daybook deployment](https://daybook-ledger-delta.vercel.app) returned October 2026 trial-balance totals of **$190,072.00 debits and $190,072.00 credits**, with **$0.00 difference**. Its balance sheet reported **$132,420.00 assets, $178.00 liabilities and $132,242.00 equity**, with **$0.00 difference**. The P&L endpoint responded successfully. These are synthetic seeded-workspace values at the observation time; they are not the five-event accounting fixture or permanent balances.
+
+Anonymous requests reached Vercel sign-in. Private automation authenticated the HTTP checks without disabling deployment protection. Hosted SPA HTML delivery was checked; this is not a fresh browser layout or physical-device review.
+
+The scheduler required both deployment access and its own bearer secret. The authorized manual call processed a bounded batch. It does not prove the automatic daily timer has fired, that queues always drain, or that recovery/load objectives are met.
+
+## Live AI: established facts and unresolved work
+
+The user saved a Gemini key locally and it was supplied server-side to Vercel. A Google model-metadata request succeeded for the configured model. A hosted financial question returned the handled 25-second timeout. This establishes neither a successful generation nor the cause of the timeout. No completed smoke/development/holdout score, successful live latency benchmark, provider usage or billing result is claimed. Do not call the key untested or infer it is invalid from the timeout.
+
+The insight endpoint has no journal-posting path. Contract tests verify account/tool/argument checks, exact SQL results and organization scope using controlled responses; they do not establish semantic accuracy from a live provider.
+
+Investigate the timeout using bounded sanitized probes, then run:
 
 ```sh
-npm test
-npm run build
-npm run dev -- --test-browser --reuse-db --production
-npm run format:check
 npm run ai:evaluate -- --suite smoke
-```
-
-The smoke suite defaults to four cases, eight attempts and 32,000 observed tokens. Development defaults to 20 cases, 32 attempts and 150,000 observed tokens; holdout defaults to 20 cases repeated three times, 96 attempts and 400,000 observed tokens. Correction cases include a before/after call. Use `--max-attempts` and `--max-total-tokens` to lower bounds. Usage that cannot be observed stops the run; one response may cross the token threshold. Provider calls may be billed. The harness creates new synthetic workspaces and predefined fixture postings, never posts model output, and never resets the demo. Inspect the clarification review rubric and failures before treating any automated pass as useful behavior.
-
-After smoke/development checks and fixes, run the reserved split without tuning on its results:
-
-```sh
 npm run ai:evaluate -- --suite development
 npm run ai:evaluate -- --suite holdout --repeats 3
 ```
 
-For Compose, start the stack, then run `docker compose --profile evaluate run --build --rm evaluate` for smoke cases. Its fixture-creation credentials are isolated from the normal app service. Evidence is written to the mounted `docs/evidence` directory. Run `node scripts/check-compose-persistence.mjs --execute` after container startup to recreate the app/database containers and compare an existing complete posted entry, without journal writes or volume deletion.
+Use a capable environment with migrated PostgreSQL and fixture-creation credentials separate from normal runtime access. The harness creates new synthetic workspaces and predefined fixtures, fingerprints journals, and never posts model output or resets the demo. Smoke defaults to four cases/eight attempts/32,000 observed tokens; development to 20 cases/32 attempts/150,000 tokens; holdout to 20 cases repeated three times/96 attempts/400,000 tokens. Lower limits using CLI options. No automatic retry. Unknown usage stops subsequent calls; an in-flight response can exceed the token threshold, so it is not a hard billing ceiling. Inspect clarification meaning manually before interpreting pass counts.
 
-### GitHub Actions
+With Compose, `docker compose --profile evaluate run --build --rm evaluate` uses the separate evaluation profile. Freeze model/settings/cases before holdout; disclose reuse if held-out failures guide tuning.
 
-Source was published to `rayidali/spiich_homework` using the user's local Git login and a separate temporary checkout. The original remote commit was preserved. The [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs/40994222818) verifies the current executable source. No API key, local database or dependency directory was uploaded.
+## CI execution and publication
 
-Normal push/PR/manual runs execute database/application tests, production browser workflows and Compose/persistence checks. Selecting the manual `live_ai` input additionally runs four Gemini smoke cases after both prerequisite jobs pass, using at most four attempts and a 32,000 observed-token guard. This job requires the repository's `GEMINI_API_KEY` secret and optionally `DAYBOOK_GEMINI_MODEL`; no key is embedded in source. Synthetic results are uploaded as an artifact. That opt-in live run has not occurred.
+Source was pushed using local `rayidali` Git authentication from the permitted temporary checkout. The public repository contains reviewed source/docs and no local keys or database. The tested executable commit is `576a2468feacf9bd1d040c75bb1c5ff203f28dae`; later checkpoint changes are documentation/evidence only.
+
+Push/PR/manual workflows run PostgreSQL tests, production browser workflows, native hosted module import checks and Docker startup/persistence. The optional manual `live_ai` input adds four smoke cases only after verify/compose pass, with a four-attempt/32,000 observed-token guard. It requires a GitHub repository `GEMINI_API_KEY` secret and optionally `DAYBOOK_GEMINI_MODEL`. That secret has **not** been configured; the live job was skipped. A hosted key is not automatically a CI key.
+
+Fresh screenshots are in the successful run's browser-evidence artifact. They have not been visually inspected here; checked-in screenshots remain the earlier design. Physical phones, Safari/Firefox and a formal accessibility audit are unverified.
+
+## Environment observations
+
+Earlier local PostgreSQL/socket calls returned `EPERM`, browser launch failed, and Node provider DNS failed. Subsequent approved HTTP reached Vercel/Google and full remote CI passed. Distinguish these execution paths rather than claiming networking is universally unavailable. No local Docker runtime was found. At this checkpoint no listeners were observed on 5173/3001/55432; recheck before starting anything. No runtime or model calls were made for this documentation save.
+
+The two upstream Zod/Rollup annotation warnings remain nonfatal. Documentation verification for this save covers Markdown formatting, local links, stale-status review, credential exclusion, and ZIP/source equality; unchanged application suites were not rerun unnecessarily.
 
 ## Historical implementation verification
+
+The following records describe earlier iterations and their executed checks. Current counts and deployment evidence are above; do not sum historical totals into the current suite.
 
 Implementation checks were recorded during the build and redesign session; documentation was synchronized on 2026-10-29 in the local macOS arm64 workspace. This file distinguishes executed checks from checks that need another environment.
 
@@ -68,7 +97,7 @@ The production bundle builds successfully. The installed Zod version emits two n
 
 ## Still pending
 
-- **Live AI:** a key is now saved, but provider-host DNS prevented validation. The contract tests establish application defenses, not live model accuracy, latency, or account access. Run the new bounded smoke/development/holdout harness and inspect clarification meaning manually.
+- **Live AI:** model-metadata access succeeded, but hosted generation timed out. Diagnose that failure, then run bounded smoke/development/holdout cases and review clarification meaning. No live accuracy or usage score exists.
 - **Production capacity:** no million-user benchmark, multi-region exercise, load/failover test, or restore drill has been performed. See the architecture's workload and production plan.
 - **Browser scope:** automated checks used one Chromium-family browser at desktop and 390px mobile widths, including a touch-enabled browser context. Safari, Firefox, a formal accessibility audit, and real mobile devices have not been checked.
 
@@ -108,3 +137,7 @@ Open the UI, post a clearly labeled test entry, restart the app, and confirm tha
 
 - Current CI found an exact-label lookup failure in the short transaction form. The category/destination selector now has an explicit accessible name; the full posting assertions passed unchanged.
 - The container-recreation checker now closes HTTP connections between reads so it does not retain a socket to a destroyed app while synchronous Compose commands run. The full posted-entry equality check subsequently passed.
+
+## Hosting-specific regressions resolved
+
+The hosting build now installs development compilation dependencies explicitly; the API bundles internal TypeScript imports as native ESM; both wrapper imports are checked in CI; and the scheduler uses an Express request wrapper before bearer validation. Live checks subsequently passed. See [hosting](HOSTING.md) for configuration, credential scope, the daily-worker tradeoff and remaining operational checks.

@@ -1,6 +1,6 @@
 # Daybook design record
 
-> Updated 2026-10-29. The simpler interface passed all 10 production browser workflows in CI, including mobile emulation and keyboard behavior. Fresh CI screenshots still need visual inspection; screenshots below document the earlier design. Physical devices remain unverified. See [CHECKPOINT.md](../CHECKPOINT.md).
+> Saved 2026-10-29. All 10 production browser workflows passed in the [latest CI](https://github.com/rayidali/spiich_homework/actions/runs/40999183176), including mobile emulation and keyboard behavior. The protected hosted SPA document/API respond, but fresh hosted visual inspection, CI screenshot review and physical devices remain pending. Images below document the earlier design. See [checkpoint](../CHECKPOINT.md).
 
 Daybook is the product name. Spiich is the company receiving the engineering assignment. The interface, page title, favicon, exported filenames, package, and Compose project use Daybook.
 
@@ -18,7 +18,7 @@ On 2026-10-29 the user reported that the interface was confusing and exposed too
 
 The short form requires an explicit category/account. Money received for an existing invoice credits receivables; equity and loan receipts are also supported. Outgoing liability payments reduce debt, and transfers move between cash accounts. Foreign currency and split transactions use the full journal mode. Review displays debit/credit lines, amounts, increases/decreases and recorded rates. These remain clients of the same validated posting API; they do not create another ledger implementation.
 
-The downloaded Emil design/mobile guidance was applied again. An independent code review found and corrected an ineligible default account on customized charts and editing controls that could race an in-flight preparation/posting request. The browser suite now includes short-form accounting and a mocked AI clarification/review workflow; runtime success and layout quality remain to be checked.
+The downloaded Emil design/mobile guidance was applied again. An independent code review found and corrected an ineligible default account on customized charts and editing controls that could race an in-flight preparation/posting request. The browser suite now includes short-form accounting and a mocked AI clarification/review workflow; behavioral runtime checks passed in CI; fresh visual inspection and physical-device layout quality remain to be checked.
 
 The name refers to the daily journal at the center of bookkeeping. The small line-drawn mark combines a D with a book's spine and ledger lines. It is an SVG implemented in the repository; there are no generated bitmap assets or external font requests.
 
@@ -70,7 +70,7 @@ Existing PostgreSQL database and role identifiers retain their original internal
 
 ## Verification and evidence
 
-The production build and eight Playwright workflows passed in Chromium/Brave. Coverage includes posting/reversal, account CRUD, reports, recurrence, anomaly review, chart data, keyboard focus, reduced motion, and a touch-enabled 390px browser context. The original 37 database/provider-contract tests remain part of the suite.
+The current production build and ten Playwright workflows passed in CI Chromium. Coverage includes posting/reversal, account CRUD, reports, recurrence, anomaly review, chart data, keyboard focus, reduced motion, the simple-entry/AI review flows and a touch-enabled 390px browser context. Current backend coverage totals 101 tests; the earlier eight-workflow/37-test results are historical iterations. These counts establish tested behavior rather than aesthetic or real-device quality.
 
 Desktop screenshots: [overview](evidence/dashboard.png), [transactions](evidence/transactions.png), [accounts](evidence/chart-of-accounts.png), [reports](evidence/reports.png), [recurrence](evidence/recurring.png), [journal form](evidence/journal-form.png), and [assistant](evidence/assistant.png). Mobile evidence: [touch overview](evidence/mobile-touch.png) and [journal form](evidence/mobile-journal.png). The [previous overview](evidence/before-dashboard.png) records the starting design.
 
@@ -79,3 +79,11 @@ Desktop screenshots: [overview](evidence/dashboard.png), [transactions](evidence
 ## How to explain the change
 
 “I designed Daybook around the daily review loop: see balances, inspect the journal, review drafts and unusual activity, then post or investigate. AI remains available at the point of work. I used restrained surfaces and aligned numeric columns so the financial information has the strongest hierarchy. The motion rules depend on how often someone performs an action, and the mobile layout preserves useful amounts rather than shrinking the desktop screen.”
+
+## Hosted handoff and next visual pass
+
+[The live demo](https://daybook-ledger-delta.vercel.app) serves the same Vite interface behind Vercel login. HTTP checking established the SPA document loads; it did not inspect rendered spacing, fonts, charts or phone keyboard behavior. The new protected hosted URL should not be presented as additional browser-layout evidence.
+
+The next pass should inspect fresh CI captures against the actual four-destination flow, then exercise the protected hosted app at desktop and phone widths. Review the transaction category labels, account-effects confirmation, advanced journal disclosure, alert evidence and report drill-downs. Check real-device keyboard/focus and safe areas when available. Replace historical evidence only after inspection, preserving the before images and recording what was actually reviewed.
+
+AI failure is part of the current usability state: a hosted financial question timed out and returned the handled AI_TIMEOUT response. Manual entry and reports remain available. Inspect the rendered error/retry experience in the next browser pass; do not claim it was visually verified from the API response alone. All UI changes continue through the existing posting rules; deployment protection does not add new product navigation or user roles.

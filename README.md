@@ -1,12 +1,12 @@
 # Daybook · Accounting workspace
 
-> Updated 2026-10-29: Gemini/OpenAI adapters, bounded evaluation and the simpler interface are implemented. The [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs/40994222818) passed 94 backend tests, 10 production browser workflows, Docker startup and container-recreation persistence. Live model evaluation and physical-device review remain pending. See [verification](docs/VERIFICATION.md).
+> Saved 2026-10-29: [protected hosted demo](https://daybook-ledger-delta.vercel.app) is live. The [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs/40999183176) passed **101 backend tests, 10 browser workflows, native hosted module startup, Docker startup and persistence** on executable commit `576a2468feacf9bd1d040c75bb1c5ff203f28dae`. Hosted reports and scheduler checks passed. Gemini model access was confirmed through metadata; live chat timed out. See [verification](docs/VERIFICATION.md) and [checkpoint](CHECKPOINT.md).
 
 A React and TypeScript accounting workspace backed by PostgreSQL. Every posted journal entry is balanced and immutable at the database level. AI prepares entries for review and selects read-only financial queries; the ledger and SQL own the financial numbers.
 
 ![Daybook financial dashboard](docs/evidence/dashboard.png)
 
-The screenshot records the earlier design. Fresh screenshots of Home / Transactions / Reports / Settings are generated in the browser-evidence artifact of the [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs/40994222818); they still need visual review before replacing these images.
+The screenshot records the earlier design. Fresh screenshots of Home / Transactions / Reports / Settings are generated in the browser-evidence artifact of the [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs/40999183176); they still need visual review before replacing these images.
 
 ## Run with Docker Compose
 
@@ -35,7 +35,7 @@ Leave `AI_MODEL` empty to use the provider default: `gemini-3.8-flash` or `gpt-6
 docker compose up -d --force-recreate app
 ```
 
-Use a model your project can access. Gemini's default was selected from Google's current [model documentation](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash). Provider access, quotas and live quality still require verification. With no key, manual accounting, reports, recurrence, and statistical alerts continue working.
+Use a model your project can access. Gemini's default was selected from Google's current [model documentation](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash). An authenticated model-metadata request succeeded; the hosted financial-chat test hit the 25-second timeout. Successful generation, live quality, token usage and billing remain unverified. The key is configured server-side on Vercel as well as locally, but no GitHub Actions key secret was configured. With no key, manual accounting, reports, recurrence, and statistical alerts continue working.
 
 Start with the bounded four-case smoke evaluation against a running, migrated database:
 
@@ -70,20 +70,20 @@ Set `SEED_DEMO=false` **before the first start** for an empty journal with the d
 
 ## What is included
 
-| Requirement                 | Implementation                                                                                         |
-| --------------------------- | ------------------------------------------------------------------------------------------------------ |
-| Double entry                | Exact decimals, 2–100 lines, balanced USD base amounts, deferred PostgreSQL constraints                |
-| Chart of accounts           | Tree, unique codes, five account types, create/edit/archive/restore/delete unused accounts             |
-| Journal                     | Simple USD form, full manual/FX entries, AI clarification and review, drafts, revisions and reversals  |
-| Currency                    | USD base; USD, EUR, GBP, CAD, JPY accounts; stored rates and native/base balances                      |
-| Recurrence                  | Weekly/monthly/yearly, calendar anchors, automatic drafts, edit future content, pause/resume, recovery |
-| Reporting                   | Trial balance, P&L, balance sheet, account ledger with opening/running balances, filters and CSV       |
-| Transactions                | Search, account/date/status/currency filters, cursor pagination, entry drill-down                      |
-| AI entry and categorization | Structured proposals, clarification, account validation, relevant history and correction retrieval     |
-| Anomaly detection           | Duplicate matching, median amount deviations, unusual vendor categories, review/dismissal              |
-| Insights                    | Allowlisted financial tools, SQL-derived answers, evidence and links to the underlying views           |
-| UX                          | Four primary destinations, explicit account-effects review, accessible controls and progressive detail |
-| Operations                  | Migrations, Docker Compose, health checks, request IDs, outbox jobs, automated CI configuration        |
+| Requirement                 | Implementation                                                                                              |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Double entry                | Exact decimals, 2–100 lines, balanced USD base amounts, deferred PostgreSQL constraints                     |
+| Chart of accounts           | Tree, unique codes, five account types, create/edit/archive/restore/delete unused accounts                  |
+| Journal                     | Simple USD form, full manual/FX entries, AI clarification and review, drafts, revisions and reversals       |
+| Currency                    | USD base; USD, EUR, GBP, CAD, JPY accounts; stored rates and native/base balances                           |
+| Recurrence                  | Weekly/monthly/yearly, calendar anchors, automatic drafts, edit future content, pause/resume, recovery      |
+| Reporting                   | Trial balance, P&L, balance sheet, account ledger with opening/running balances, filters and CSV            |
+| Transactions                | Search, account/date/status/currency filters, cursor pagination, entry drill-down                           |
+| AI entry and categorization | Structured proposals, clarification, account validation, relevant history and correction retrieval          |
+| Anomaly detection           | Duplicate matching, median amount deviations, unusual vendor categories, review/dismissal                   |
+| Insights                    | Allowlisted financial tools, SQL-derived answers, evidence and links to the underlying views                |
+| UX                          | Four primary destinations, explicit account-effects review, accessible controls and progressive detail      |
+| Operations                  | Migrations, Docker Compose, health checks, request IDs, outbox jobs, passing CI, protected Vercel/Neon demo |
 
 Categorization happens during AI-assisted creation; this submission does not include a bank-feed or CSV-import workflow. Correction retrieval improves the context of later suggestions; it is not model fine-tuning.
 
@@ -115,9 +115,9 @@ docker compose --profile test run --build --rm tests
 node scripts/check-compose-persistence.mjs --execute
 ```
 
-The persistence command recreates app/database containers and checks that a complete existing posted entry survives; it preserves the named volume and makes no journal writes. Run it after Compose startup. This check passed in the [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs/40994222818).
+The persistence command recreates app/database containers and checks that a complete existing posted entry survives; it preserves the named volume and makes no journal writes. Run it after Compose startup. This check passed in the [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs/40999183176).
 
-Current CI passed **94 backend tests** (29 accounting, 14 AI/database contracts, 22 provider, 23 evaluation and 6 simple-entry tests), **10 production browser workflows**, Docker build/startup/health, containerized backend tests, and posted-entry persistence across app/database container recreation. Provider responses in automated tests are controlled; this is not a live model accuracy result. See [verification details](docs/VERIFICATION.md).
+Current CI passed **101 backend tests** (29 accounting, 14 AI/database contracts, 22 provider, 23 evaluation, 6 simple-entry and 7 hosted scheduler tests), **10 production browser workflows**, Docker build/startup/health, containerized backend tests, and posted-entry persistence across app/database container recreation. Provider responses in automated tests are controlled; this is not a live model accuracy result. See [verification details](docs/VERIFICATION.md).
 
 ## Reading the code
 
@@ -129,6 +129,8 @@ server/ai.ts      Shared proposal validation and approved financial tools
 server/ai-provider.ts  Gemini/OpenAI adapters, safe errors, usage and budgets
 server/recurring.ts / anomalies.ts  Bounded durable background work
 server/app.ts    Validated REST API and error responses
+server/hosting/  TypeScript Vercel API/scheduler adapters
+api/             Tiny exports of generated native ESM hosted bundles
 shared/          Money arithmetic and TypeScript/Zod contracts
 web/src/         React pages, forms and reusable UI
 tests/           Real PostgreSQL tests, provider contracts, browser workflows
@@ -147,4 +149,12 @@ Reports use historical recorded exchange rates. Automated period-end revaluation
 
 The design includes concurrency controls and bounded work that support growth. **Million-user capacity has not been load-tested or claimed.** The architecture document describes the workload assumptions, operational requirements, and measurements needed to earn that claim.
 
-Optional hosted demo: [Daybook](https://daybook-ledger-delta.vercel.app), protected by Vercel login. See [hosting setup and verification limits](docs/HOSTING.md). Financial reports and database health were checked live; Gemini chat timed out and live AI accuracy remains unverified.
+## Hosted demo and continuation
+
+Open [Daybook](https://daybook-ledger-delta.vercel.app) and sign in with the owner's Vercel account if prompted. Hosting uses Vite static output, Express Functions and a separate free Neon database. Vercel protection controls access to the shared writable demo; application-level identity is outside assignment scope. Reviewer access is still to be decided.
+
+[Hosting](docs/HOSTING.md) explains the build-only migration credential, restricted runtime role, native ESM bundle, daily scheduler and deployment-variable requirements. Production values were supplied as deployment overrides, so a fresh CLI deploy needs explicit private configuration; a repository push is not a configured Vercel auto-deploy. Docker remains the complete portable startup path.
+
+The hosted trial balance and balance sheet had zero differences. Scheduler authorization and an authorized batch passed. Automatic daily firing, fresh hosted browser visual inspection and live AI accuracy remain unverified. Larger job backlogs can wait for later hosted invocations; this is not a measured million-user deployment.
+
+The next work is to investigate the Gemini timeout, run bounded live evaluations, inspect fresh CI screenshots, check the hosted/physical-phone flows, and decide reviewer sharing. Resume from [CHECKPOINT.md](CHECKPOINT.md); do not reset the database or rebuild the application.

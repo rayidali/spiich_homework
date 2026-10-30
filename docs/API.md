@@ -1,8 +1,8 @@
 # REST API quick reference
 
-> Updated 2026-10-29. The API remains REST. Gemini/OpenAI adapters now share the same accounting validation; AI responses add provider/usage and query/context metadata. A key is configured locally, but live model verification remains pending. Database/API contracts passed in CI. See the [saved checkpoint](../CHECKPOINT.md).
+> Saved 2026-10-29. API design is REST with Zod-validated contracts and decimal-string money. The latest full CI passed 101 backend tests; hosted health/report/scheduler HTTP checks passed. Gemini metadata access succeeded, but financial chat returned the handled 25-second timeout. See [verification](VERIFICATION.md) and [checkpoint](../CHECKPOINT.md).
 
-All routes are under `/api`. Monetary amounts and exchange rates are **decimal strings**, dates are `YYYY-MM-DD`, and identifiers are UUIDs. The organization is resolved from trusted server configuration; this assignment has no login or public tenant-selection header.
+All routes are under `/api`. Monetary amounts and exchange rates are **decimal strings**, dates are `YYYY-MM-DD`, and identifiers are UUIDs. The organization is resolved from trusted server configuration; the application has no user login or public tenant-selection header. The hosted demo additionally sits behind Vercel Authentication; that platform gate is separate from application authorization.
 
 | Method           | Route                                    | Purpose                                                     |
 | ---------------- | ---------------------------------------- | ----------------------------------------------------------- |
@@ -90,3 +90,21 @@ The model transport makes one attempt per request with a 25-second timeout and a
 ```
 
 Common statuses: 400 invalid input/cursor, 404 missing resource, 409 stale/reused-key/in-use conflict, 422 accounting rule violation, 429 AI concurrency/provider limit, 502 provider or invalid-model-output failure, 503 unconfigured AI/database timeout, 504 model timeout. Request IDs appear in response headers and request logs. Database statements use bound parameters; request bodies and keys are not logged.
+
+## Hosted access and scheduled work
+
+The hosted base URL is https://daybook-ledger-delta.vercel.app. Browser requests need Vercel deployment access before reaching these routes. A Vercel sign-in page is not a response from Daybook's API. Local/Compose instances do not have that platform gate. Keep testing credentials private; do not put them into frontend code or examples.
+
+`GET /api/cron` is a **hosting-only operational route** exported separately from the core Express API. It requires `Authorization: Bearer <CRON_SECRET>` in addition to any deployment access. It generates due recurring drafts for the configured organization, then processes one bounded durable job batch. It never posts drafts. The production schedule is daily 06:00 UTC; automatic firing has not yet been observed.
+
+Successful response example, observed in the hosted check:
+
+```json
+{ "schedules": { "generated": 0, "failed": 0 }, "processed": 4 }
+```
+
+The scheduler sets `Cache-Control: no-store`. Unlike the general API envelope, its minimal operational errors are `{"error":"UNAUTHORIZED"}` (401, missing/wrong/unconfigured secret), `{"error":"METHOD_NOT_ALLOWED"}` (405 with Allow: GET), and `{"error":"SCHEDULE_UNAVAILABLE"}` (503). No work runs before authorization. PostgreSQL/worker details are not exposed. Core `POST /api/recurring/generate` remains available through the normal API; it generates pending drafts and is a separate operation.
+
+The hosted financial-chat probe returned HTTP 504 with `error.code=AI_TIMEOUT`, a request ID and a message explaining that the books had not changed. This is a handled failure, not a successful financial answer. A metadata response with `ai.available=true` only means a key is configured; neither that flag nor model-metadata access establishes live generation quality.
+
+Hosted requests use the same posting/reversal/revision rules as Docker. Successful mutating requests also register a bounded post-response anomaly job batch through `waitUntil`; the journal transaction does not depend on that analysis completing. Durable failures can be retried later. [Hosting](HOSTING.md) describes queue cadence and deployment configuration.

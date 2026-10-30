@@ -1,6 +1,6 @@
 # Delivery plan for a one-day assignment build
 
-> Updated 2026-10-29. The user authorized implementation after the report. Gemini/OpenAI support, the new evaluation harness and simpler UI are implemented in source. Database/browser regression, Docker startup and persistence passed in CI. Live model evaluation, fresh visual review and physical-device checks remain. See the [saved checkpoint](../CHECKPOINT.md).
+> Saved 2026-10-29. Ledger, Gemini/OpenAI adapters, evaluation harness, simpler UI, Docker verification and protected Vercel/Neon hosting are implemented. Latest full CI passed 101 backend tests, 10 browser workflows and persistence. Hosted HTTP checks passed. The active gap is a live Gemini timeout; successful generation/evaluation, visual review, automatic cron observation and reviewer access remain. See [checkpoint](../CHECKPOINT.md).
 
 The highest-value submission is a complete, explainable product with defensible financial rules. The intended sequence protects that outcome before adding polish.
 
@@ -22,16 +22,18 @@ These are planning allocations, not recorded durations. The build log records ob
 
 ## Highest-value remaining steps
 
-1. Run the implemented Gemini smoke suite, then development cases, from a Terminal/environment that can reach PostgreSQL and Google. A local key is saved but has not been validated: the session's provider DNS failed. Inspect failures before running the reserved holdout cases. The changed PostgreSQL and browser suites passed in CI; inspect the fresh screenshots and rehearse the simpler entry flow. Do not treat isolated unit tests as live accuracy or browser-layout evidence.
-2. Review the successful CI evidence for Docker startup and posted-entry persistence. Re-run relevant checks after implementation changes; hosting is a separate next step if requested.
-3. Rehearse the six-minute demo. Be able to explain why the five-event example produces $12,260 profit but $22,600 cash.
-4. Check the phone layout on a real device, especially the keyboard, safe areas, forms, and drawers. Browser emulation has passed; physical-device behavior is not yet verified.
-5. Refresh the submission ZIP after any further code or documentation changes.
-6. Spend any remaining time on a real issue found during those checks, not extra infrastructure or speculative features.
+1. **Resolve the live Gemini timeout.** Model-metadata access succeeded, while the hosted question hit the 25-second timeout. Use bounded probes to separate provider latency/request settings/connectivity. Record the cause before changing timeouts or adding models; never make automatic retries unbounded. No further provider calls were made for the documentation save.
+2. **Establish a live baseline.** Run the existing smoke cases in isolated workspaces, inspect exact entries/tool arguments and human clarification meaning, then development cases. Freeze the model/settings/cases before held-out repeats. The completed contract tests are not live accuracy evidence.
+3. **Review the actual UI.** Retrieve the latest CI screenshots, inspect desktop/mobile layouts and replace historical checked-in images after review. Test the protected hosted browser journey and a real phone/additional browsers as available. Behavioral browser workflows already pass in CI.
+4. **Complete hosted operational checks.** Observe an automatic daily cron firing and inspect queued/failed jobs. Manual authorization/work passed; the daily schedule and request-triggered batch strategy can leave large backlogs. Decide how reviewers will access the protected writable demo.
+5. **Rehearse and package.** Explain the accounting example, live reports, database constraints and observed AI timeout honestly. Use the successful CI evidence and refreshed ZIP. Update docs/checkpoint/evidence after changes.
+6. **Only then consider an optional challenger.** Add Jev/vector retrieval only to fix a demonstrated baseline weakness with measured benefit. Additional subscriptions/frameworks do not substitute for a working evaluated provider.
+
+The latest executable source passed [full CI](https://github.com/rayidali/spiich_homework/actions/runs/40999183176); Docker startup/persistence are complete rather than unfinished work. Hosting is live rather than a proposal. Documentation-only saves do not need a repeated application test run when executable source is unchanged.
 
 ## Proposed one-to-two-day finish and comparison
 
-The user clarified that they want to finish within one or two days because of other commitments. The role is uncertain, so the plan covers both advertised engineering roles. The baseline provider, harness and UI work below is now implemented; the current backend/browser/Docker runtime checks passed in CI. Live evaluation and retrieval comparison have not run. Source is now committed to GitHub through a separate permitted local publishing checkout; the prior ZIP remains preserved.
+The user clarified that they want to finish within one or two days because of other commitments. The role is uncertain, so the plan covers both advertised engineering roles. The baseline provider, harness and UI work below is now implemented; the current backend/browser/Docker runtime checks passed in CI. Live evaluation and retrieval comparison have not run. Source is committed to GitHub through a separate permitted local publishing checkout, and the protected Vercel/Neon demo is live; prior ZIPs remain preserved. The original day allocations below describe the planning sequence, not work that must be repeated.
 
 **First day:** preserve a stable baseline in local version control, add the Gemini adapter behind the existing provider boundary, strengthen and run bounded live evaluations, and simplify the main transaction/review flows. Reserve time to execute the Compose startup/persistence checks on a Docker-enabled host. The existing ledger, reports, database constraints, and background jobs remain the shared foundation. A functioning complete submission takes priority when a time budget expires.
 
@@ -53,7 +55,7 @@ The former eight-case script has been replaced. The new harness compares the ful
 
 Measure exact task success, required-clarification success, unsupported claims, wrong-category suggestions, relevant-example retrieval, provider failures, p50/p95 latency, and observed token/call cost. For corrections, compare the same case before and after storing relevant feedback. Keep numerical checks deterministic; use human review for meaning and any optional model judge only as supplementary evidence. Count unnecessary clarification as a usability cost so an assistant cannot appear correct by refusing every task.
 
-Require no observed unconfirmed postings, invalid accepted money, or cross-organization evidence in the test suite. Report counts and failure examples, not claims of zero production risk. Accept extra infrastructure only for a repeatable improvement on the relevant cases without critical regressions, with understandable operating cost and a fallback. If there is no clear improvement, retain the simpler candidate and record what the experiment showed. No candidate has earned acceptance yet.
+Require no observed unconfirmed postings, invalid accepted money, or cross-organization evidence in the test suite. Report counts and failure examples, not claims of zero production risk. Accept extra infrastructure only for a repeatable improvement on the relevant cases without critical regressions, with understandable operating cost and a fallback. If there is no clear improvement, retain the simpler candidate and record what the experiment showed. The implemented baseline has passed deterministic application checks; no candidate has earned a live model-quality advantage yet.
 
 ## What makes the submission strong
 
@@ -65,3 +67,7 @@ Require no observed unconfirmed postings, invalid accepted money, or cross-organ
 - Present the tests and tradeoffs in a form a reviewer can inspect in minutes.
 
 A strong implementation improves the evidence a reviewer sees; it cannot guarantee a hiring decision.
+
+## Saved hosting tradeoff
+
+The free/Hobby demo serves the same modular monolith through native ESM Functions, with restricted Neon runtime access, build-only owner setup, daily recurring generation and request-triggered anomaly batches. It preserves the portable Compose submission and keeps the assignment explainable. A production service would need identity/authorization, continuously serviced queues, global connection/model quotas, restore drills and measured workloads. Current architecture prepares useful boundaries; it does not prove million-user throughput. Deployment variables and reviewer access are documented in [hosting](HOSTING.md).

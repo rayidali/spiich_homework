@@ -1,127 +1,161 @@
 # Daybook session checkpoint
 
-Updated **2026-10-29** after the user authorized implementation following the visual architecture report. Read this file first; continue the existing application rather than rebuilding it.
+Saved **2026-10-29, America/New_York** (verification timestamps may read 2026-10-30 in UTC). Read this first on resumption. Continue the implemented application; do not rebuild or restore an earlier ZIP over it.
 
-## Current state
+## Where we stopped
 
-Latest user request: run tests and push through the local Terminal/Git login. **Daybook was pushed successfully** to `https://github.com/rayidali/spiich_homework` as commit `c718a1fd29bc9c6cdb0a397264709e3255f3d1b0`, preserving the original initial commit. The repository is public. Local `gh` is authenticated as `rayidali` with ADMIN access; no account change is needed and the different-account GitHub connector was not used to publish.
+The user requested a detailed update to every project Markdown document and a saved checkpoint after the first hosted deployment. **Daybook is implemented, published and hosted.** The next product issue is the live Gemini financial-chat timeout, followed by live evaluation and fresh visual review. No further application implementation or model calls were performed for this documentation checkpoint.
 
-The project directory still cannot create `.git`. A separate permitted checkout was initialized at `/private/tmp/daybook-publish.kbVq33`; it contains only the 95 reviewed submission files, no `.env`, local database, dependencies, or provider key. Existing public Git objects were fetched with approved HTTP commands, then normal local `git add`, `git commit`, and `git push origin main` succeeded. Use this checkout for further local commits while it exists; do not relocate Git metadata into the protected project directory or reset the working source/database. Git printed a stale missing credential-helper path, but another configured helper authenticated the successful push; global Git configuration was not changed.
+| Item                                         | Saved state                                                                                                                     |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Product                                      | **Daybook**; Spiich is the assignment recipient                                                                                 |
+| Working source                               | `/Users/rayidali/Desktop/spiich_codinghw`                                                                                       |
+| Hosted app                                   | [daybook-ledger-delta.vercel.app](https://daybook-ledger-delta.vercel.app), Vercel login required                               |
+| Repository                                   | [rayidali/spiich_homework](https://github.com/rayidali/spiich_homework), public                                                 |
+| Tested executable commit                     | `576a2468feacf9bd1d040c75bb1c5ff203f28dae`                                                                                      |
+| Successful full CI                           | [40999183176](https://github.com/rayidali/spiich_homework/actions/runs/40999183176)                                             |
+| Latest remote before this documentation save | `5dbcfdb21d99934a8772b448f5a59ad7cb9a6cd1`; this save adds a documentation-only commit                                          |
+| Verified totals                              | **101 backend tests and 10 browser workflows**, native hosted module loading, Docker startup/health/container tests/persistence |
+| Live AI                                      | Authenticated Google model-metadata access succeeded; hosted financial chat returned handled `AI_TIMEOUT` after 25 seconds      |
+| Submission                                   | `submission.zip`, root `daybook-ledger/`, refreshed from reviewed source/docs with credential and integrity checks              |
 
-The [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs/40994222818) on commit `634ab08f22627b26539af9227883c9208f2ae479` passed **94 backend tests, 10 production browser workflows, Docker build/startup/health, containerized tests, and posted-entry persistence across app/database recreation**. Earlier failed runs exposed a short-form dropdown label lookup and stale HTTP connections in the persistence checker; both fixes were pushed and the original accounting assertions retained. Machine-readable results are in [cloud-verification.json](docs/evidence/cloud-verification.json). The earlier local failures remain historical in [verification-attempt.json](docs/evidence/verification-attempt.json).
+Full CI now passed after the hosting changes. The earlier 94-test baseline is historical, preserved in [cloud-verification-before-hosting.json](docs/evidence/cloud-verification-before-hosting.json). Current evidence is [cloud-verification.json](docs/evidence/cloud-verification.json); live hosting evidence is [hosting-verification.json](docs/evidence/hosting-verification.json).
 
-The live Gemini job is opt-in and requires the repository's `GEMINI_API_KEY` secret. The local key has not been transferred, and no live evaluation has run. Fresh browser screenshots are in the successful run's browser-evidence artifact; checked-in images still show the earlier design and need replacement after visual review.
+## User preferences and authorization
 
-The user requires **local Terminal/CLI authentication for GitHub and Vercel**, without chat connectors. Local Vercel identity is confirmed as `rayidali` in `rayidalis-projects`. Created the protected `daybook-ledger` project and a separate free Neon `daybook-db` through the existing Neon installation. No paid plan or unrelated database was changed. Vercel hosting is live at https://daybook-ledger-delta.vercel.app with login protection. API/database/frontend and financial-report smoke checks passed; live Gemini chat returned a handled 25-second timeout (model-metadata access succeeded). Scheduler runtime checks passed (unauthorized 401, authorized job processing); automatic daily execution has not yet been observed; inspect `.tools/vercel-session/deployment-status.json` and `docs/HOSTING.md` for the latest state. Private session files contain credentials and must never be printed, committed or archived. The first hosted build applied all four unchanged migrations, hardened the runtime role and seeded the new database, then failed because production dependency installation omitted TypeScript. A second build explicitly includes development build dependencies. Local tests now include seven scheduler authorization cases (58 isolated tests passing); the existing full CI result predates this hosting change.
+- AI-assisted implementation is authorized. Keep clear decisions, logs and explanations the user can rehearse. Never guarantee hiring acceptance.
+- Keep Daybook's independent identity. The user wanted fewer choices and a much simpler interface; the implemented baseline is Home / Transactions / Reports / Settings.
+- **Use local Terminal/CLI authentication for GitHub and Vercel. Do not use or propose chat account connectors.** Local accounts are `rayidali`; the earlier GitHub connector used a different identity and is irrelevant.
+- Paid Jev/models/services are acceptable when justified; no paid subscription or plan upgrade has been purchased. Current Vercel/Neon resources use the observed free/Hobby plans. Provider request usage/billing was not established by the timeout.
+- Proceed with authorized work without repeatedly requesting permission. Preserve database history and checksummed migrations. Keep keys and connection URLs out of source, docs, screenshots, chat and ZIPs.
 
-**Gemini/OpenAI support, stronger evaluation and the simpler interface are implemented in source.** The user saved the Gemini key in the local `.env`; it must never be displayed or copied into source, documentation, screenshots or the archive. The key has not been validated against Google because this session cannot resolve the provider hostname.
+## Implemented product
 
-- Product: **Daybook**. Spiich is the assignment recipient, not the product name.
-- Workspace: `/Users/rayidali/Desktop/spiich_codinghw`.
-- Package/archive root: `daybook-ledger`; Compose project: `daybook`.
-- Preview: `http://localhost:5173`; API: `127.0.0.1:3001`; development PostgreSQL: `55432`.
-- The project folder has no `.git`; the separate publishing checkout and remote now have committed history. The previous submission is preserved at `.tools/checkpoints/before-gemini-implementation-2026-10-29.zip`. Do not restore it over current work during normal resumption.
-- Paid providers/Jev are acceptable when justified. No purchase or subscription was made. Jev, pgvector, Mastra, Wren and managed document retrieval are **not integrated**.
+- **Ledger:** PostgreSQL double-entry journal, exact decimal strings, native and base amounts, deferred balance constraints, immutable posted headers/lines, linked exact reversals, idempotent creation and stale-draft revision protection. USD base; supported foreign account currencies and recorded rates. Four applied migrations remain unchanged.
+- **Chart/reports:** account hierarchy/CRUD/archive behavior, trial balance, P&L, balance sheet including unclosed earnings, account ledger with opening/running balances, date filters and exports. Only posted entries affect reports.
+- **Background work:** recurring schedules create reviewable drafts; transactional outbox queues anomaly analysis. Leases, bounded claims, retries and unique alert keys support safe reprocessing. Median amount deviations, duplicates and unusual vendor categories have explainable evidence.
+- **AI:** native Gemini REST and OpenAI Responses adapters share deterministic proposal validation and approved financial tools. The model proposes entries or selects a tool; application-authored SQL and code compute answers. No arbitrary model-written SQL is executed. Posting requires an explicit reviewed request.
+- **Retrieval:** PostgreSQL/text retrieval of relevant history and confirmed corrections. No fine-tuning. Jev, pgvector, Mastra, Wren, receipt ingestion, Gemini Files/File Search and bank/CSV imports are **not integrated**.
+- **UI:** short USD money-in/out/transfer form, account-effects review then confirmation, advanced split/foreign journal mode, separate AI clarification/review. Paying an existing invoice reduces receivables rather than counting revenue twice. Chart-code-independent account eligibility and preparation/posting race protection are implemented.
+- **Evaluation:** 40 labeled cases, 20 development/20 holdout, four-case smoke mode; exact entry/tool/evidence checks, correction retrieval and organization isolation, journal fingerprints, usage metadata and attempt/token limits. Synthetic fixtures use new workspaces; model output is never posted. Clarification meaning requires human review. The live harness has not completed.
 
-The previous discussion-only instruction is superseded: the user said to take the clipboard key and begin. Clipboard access failed, so the user saved the key locally instead. One minimal structured-output connection attempt failed without a provider response; a credential-free host check returned `ENOTFOUND`. Key validity, provider token usage and charges cannot be confirmed from that failure. No live financial evaluation ran.
+## Hosting: actual resources and behavior
 
-## New implementation
+| Resource               | Saved identifier / behavior                                                     |
+| ---------------------- | ------------------------------------------------------------------------------- |
+| Vercel account/team    | `rayidali` / `rayidalis-projects`; Hobby at provisioning                        |
+| Vercel project         | `daybook-ledger`, `prj_5lvzp08Wa2E1A3pZPkm0UF9u9oYR`                            |
+| Team ID                | `team_8FfnxIHgE2sKsb8m2q0hXs33`                                                 |
+| Verified deployment    | `dpl_HQ4Hm8iULs7nXjhgR2JzuhFAXjLA`, READY, production                           |
+| Separate Neon database | `daybook-db`, `store_bcO6NqHC5sMcY31n`; free through existing Neon installation |
+| Region                 | `iad1` for Functions/database provisioning                                      |
+| Access                 | All-deployment Vercel protection; public requests reach sign-in                 |
+| Daily schedule         | `/api/cron`, `0 6 * * *` UTC; automatic firing not observed yet                 |
 
-- `server/ai-provider.ts`: native Gemini REST and retained OpenAI Responses adapters, configurable provider/model, 25-second timeout, no automatic retries, four-request concurrency limit, strict response validation, one allowed financial call, safe error codes, usage/model metadata and evaluation budgets. No new application dependency.
-- Gemini default: `gemini-3.8-flash`; OpenAI default: `gpt-6-luna`. Both are configurable with `AI_MODEL`; remove a stale override when switching provider. `.env.example` and Compose support both keys.
-- `server/ai.ts`: shared account/decimal/balance checks, strict financial arguments that reject attempted organization overrides, retrieved history/correction IDs, and exact SQL-derived financial answers. Provider output never posts itself.
-- `scripts/evaluate-ai.ts` and `scripts/evaluation/`: 40 labeled cases (20 development, 20 reserved holdout), four-case smoke mode, exact full-line/date/rate checks, exact query/evidence checks, correction before/after probes and organization-isolation evidence. Runs create new synthetic workspaces and predefined fixture postings, never mutate the demo or post model outputs. Clarification meaning explicitly needs human review.
-- UI: Home / Transactions / Reports / Settings; Home prioritizes cash, profit, recording and review. Details remain expandable. Short USD money-in/out/transfer form leads to explicit account-effects review and confirmation. Receivable/equity/liability cases remain distinct from revenue/expenses; full journal mode supports foreign currencies and splits. AI clarification precedes its review screen.
-- `web/src/quick-entry.ts`: eligible account choices/defaults independent of chart codes. An independent review caught and fixed invalid default selection on customized charts and editing races during preparation/posting.
-- Browser launcher disables the model key. Ten browser workflows are authored, including short-form accounting and mocked AI review with no automatic posting.
-- Compose has a separate `evaluate` profile for synthetic fixture creation; normal app credentials remain restricted. `scripts/check-compose-persistence.mjs --execute` recreates app/database containers and checks an existing complete posted entry without journal writes or volume deletion. CI includes it.
+The pre-existing unrelated database was not reused or changed. Hosted synthetic data is separate from `.tools/postgres` and the local Docker volume.
 
-## Verification: current versus historical
+The Vite output is served by Vercel. `api/index.js` and `api/cron.js` are tiny JavaScript exports of generated native ESM bundles; the application implementation remains TypeScript in `server/hosting/`. `scripts/bundle-hosting.mjs` uses esbuild to resolve extensionless TypeScript imports before deployment. CI verifies both wrappers load under native Node. `vercel.json` includes generated `.vercel-build/**`, uses Node project settings supplied at deploy, allows 60 seconds per function and rewrites SPA/API paths.
 
-| Check                                       | Current evidence                                                                       |
-| ------------------------------------------- | -------------------------------------------------------------------------------------- |
-| Offline provider tests                      | **22 passing** with mocked transport                                                   |
-| Evaluation scorer/options/dataset tests     | **23 passing** without model/database calls                                            |
-| Simple-entry selection tests                | **6 passing**                                                                          |
-| Strict TypeScript / production bundle       | Passed; two known nonfatal upstream Zod annotation warnings                            |
-| Formatting / Compose configuration          | Passed                                                                                 |
-| Current PostgreSQL suites                   | **Passed in CI**: 29 accounting + 14 AI contracts                                      |
-| Current browser suite                       | **Passed in CI**: all 10 production Chromium workflows                                 |
-| Live provider access / accounting accuracy  | **Pending**: key saved, provider DNS blocked                                           |
-| Full Docker startup / persistence           | **Passed in CI**: build, startup, health, containerized tests and container recreation |
-| Physical phone / Safari / Firefox           | Not verified                                                                           |
-| Million-user capacity / production failover | Not measured or claimed                                                                |
+Successful API mutations register bounded durable job processing through `waitUntil`. Daily cron calls scoped recurring generation and one bounded job batch. Docker/native retain their continuous worker loop. Larger hosted backlogs can wait for later invocations; this is a demo hosting tradeoff, not evidence of production throughput. Cron is wrapped in Express and separately requires its bearer secret; raw Vercel requests do not provide Express's `req.get()`.
 
-The current automated total is **94 backend tests and 10 browser workflows passing in CI**. The 51 isolated tests are included in the backend total. Earlier checked-in screenshots still show the previous design; new captures exist in the CI artifact but have not been visually inspected here. Contract/browser tests do not establish live model accuracy or physical-device behavior.
+### Credentials and future deployments
 
-## Environment and data preservation
+- The local `.env` contains the Gemini key. It was supplied server-side to the hosted deployment; it was **not** uploaded to the GitHub repository or configured as a GitHub Actions secret.
+- Runtime `DATABASE_URL` uses TLS, the pooled host and restricted `spiich_app` with a generated strong password. The migration owner URL is supplied only in the build environment. `scripts/prepare-hosting.ts` migrates, hardens the role and seeds idempotently.
+- The Neon integration is connected to the Vercel project's **development environment only**. Hosted runtime/build values were supplied as deployment overrides. **A fresh CLI deployment must explicitly receive the required values; do not assume project-level production variables or a Git auto-deploy connection exist.** See [hosting](docs/HOSTING.md).
+- Private API payloads/responses and local-session curl configurations live under ignored `.tools/vercel-session/`. Some contain provider/database/Vercel/automation credentials. Never print or archive them. They are local operational state, not portable submission content.
+- `vercel whoami`/other Node CLI network calls failed in this session despite valid login. Authenticated HTTP requests using the authorized local CLI session worked. Treat network failure separately from authentication. Credentials may expire; use normal local authorization when needed, never ask for secrets in chat or silently change identity.
+- The deployed application has no application-level user authentication. Vercel protection controls demo access. Reviewer sharing remains an explicit next decision; do not disable protection merely to make automation work.
 
-At implementation startup, Node PID `2666` listened on `3001`/`5173` and PostgreSQL PID `2669` on `55432`. Recheck before acting; PIDs are observations, not permanent identities. The processes were not stopped/restarted during this iteration, so the existing API can still have the old provider configuration until restarted. Frontend hot reload does not reload the API or `.env`.
+## Verified evidence and its limits
 
-This session cannot connect to the existing local database (`EPERM`), launch the test browser, resolve Google API DNS, read the macOS clipboard, or create `.git`. Do not bypass those restrictions or repeatedly retry unchanged failures. Complete runtime verification from a normal Terminal or an environment with the necessary access. No Docker Desktop, OrbStack, Rancher Desktop or Docker socket was found.
+| Check                       | Result                                                                                                                                                  |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Accounting PostgreSQL tests | 29 passing                                                                                                                                              |
+| AI/database contract tests  | 14 passing with controlled provider responses                                                                                                           |
+| Provider unit tests         | 22 passing                                                                                                                                              |
+| Evaluation unit tests       | 23 passing                                                                                                                                              |
+| Simple-entry tests          | 6 passing                                                                                                                                               |
+| Hosted scheduler tests      | 7 passing: authorization, methods, sequencing, safe errors                                                                                              |
+| Total backend               | **101 passing in CI**; 58 isolated tests also passed locally                                                                                            |
+| Browser                     | **10 production Chromium workflows passing in CI**; desktop/mobile emulation and keyboard checks                                                        |
+| Build/config                | Formatting, strict TypeScript, production bundle, native hosted-module imports, migrations and Compose validation passed                                |
+| Docker                      | Build, complete stack startup/health, containerized tests and posted-entry persistence after app/database container recreation passed                   |
+| Hosted HTTP smoke           | SPA document, health, metadata, trial balance, P&L and balance sheet passed                                                                             |
+| Hosted scheduler HTTP       | 401 without its secret; authorized call generated 0 due drafts, processed 4 jobs                                                                        |
+| Gemini                      | Model-metadata request succeeded; hosted financial question timed out with safe HTTP 504 `AI_TIMEOUT`                                                   |
+| Not verified                | Successful live generation/accuracy, automatic daily cron firing, hosted browser visual layout, physical devices, Safari/Firefox, load/failover/restore |
+
+The recorded hosted trial balance for October 2026 had **$190,072.00** on each side and **$0.00 difference**. The balance sheet had **$132,420.00 assets = $178.00 liabilities + $132,242.00 equity**. These are timestamped synthetic demo observations, not permanent balances or the five-event learning example.
+
+Fresh screenshots are available in the successful CI run's browser-evidence artifact but have not been visually inspected here. Checked-in screenshots document the earlier design. Passing browser behavior tests does not establish physical-device quality or live model accuracy. The opt-in CI `live-ai` job was skipped. The financial-chat timeout does not establish its root cause, provider usage or charges; model metadata access is not a generation evaluation.
+
+## Local runtime and data preservation
+
+At this checkpoint the listener inspection returned **no listeners on 5173, 3001 or 55432**. This is a point-in-time observation; recheck before starting anything. No local server/database was started or stopped for this documentation save. `.tools/postgres` remains the development data directory.
 
 Preserve:
 
-- `.tools/postgres`: actual development data.
-- Database/role compatibility identifiers: `spiich` / `spiich_app`.
-- Compose named volume: **`spiich_postgres_data`**.
-- Applied, checksummed migrations `001_ledger.sql` through `004_provenance.sql`; none changed in this iteration.
-- Default organization `00000000-0000-4000-8000-000000000001`. Previous clean seed: 72 posted entries, one draft and three alerts; current counts could not be queried in this restricted session.
-- Posted history: never edit/delete it to reset a demo; corrections use linked reversals.
+- `.tools/postgres`, all posted history, account compatibility names and `spiich_app` role identity.
+- Compose named volume **`spiich_postgres_data`**; do not run `down -v` as routine cleanup.
+- Applied migration checksums `001_ledger.sql` through `004_provenance.sql`; add new migrations when needed.
+- Default organization `00000000-0000-4000-8000-000000000001` and idempotent seed anchor/completion markers. Do not reseed by deleting history.
+- Existing checkpoints, including `.tools/checkpoints/before-gemini-implementation-2026-10-29.zip` and `.tools/checkpoints/before-hosting-documentation-checkpoint-2026-10-29.zip`.
 
-## Resume and verify
+This session previously could not bind local test sockets, connect to development PostgreSQL (`EPERM`), launch its browser or create project-root `.git`; no local Docker runtime was found. Node provider DNS failed earlier, but approved HTTP later reached Google and Vercel. Do not restate earlier networking failures as proof all network paths remain unavailable or bypass environment restrictions.
 
-The source above has passed full CI; repeat relevant checks when source changes. Prioritize live evaluation, fresh screenshot review and the requested hosting discussion. For local publication, use the separate checkout and normal Git commands; the primary working source stays in this project directory.
+## Git publication and resume
 
-1. Read this checkpoint, [README](README.md), [verification](docs/VERIFICATION.md), and the latest [build log](docs/BUILD_LOG.md).
-2. Inspect listeners before starting another server:
+The source directory has no `.git`; its `.git` path is read-only under this session policy. The existing permitted publishing checkout is **`/private/tmp/daybook-publish.kbVq33`**, branch `main`, origin `https://github.com/rayidali/spiich_homework.git`. Local Git add/commit/push succeeded. Git reports an old missing credential-helper path, but another existing helper authenticates; global Git configuration was not changed.
 
-   ```sh
-   lsof -nP -iTCP:5173 -iTCP:3001 -iTCP:55432 -sTCP:LISTEN
-   ```
+Use that checkout while it exists. Temporary storage may disappear between sessions; check before using it, and recreate a permitted checkout from the existing remote if needed. Never overwrite source or the database while recovering Git. `.tools/publish-checkout.json` and `.tools/github-upload-manifest.json` record local publishing metadata. Only allowlisted source/docs are copied; `.env`, `.tools`, database data, dependencies, builds, browser state and ZIPs are excluded. Documentation-only commits can use `[skip ci]`; application changes require relevant checks.
 
-3. In a capable Terminal, restart the existing dev process to load the new server and key. If all ports are free, use `npm run dev`. If only PostgreSQL remains running, use `npm run dev -- --reuse-db`. Preserve the database directory; never start a second PostgreSQL against it.
-4. With PostgreSQL running, verify current source:
+## Next session: ordered work
 
-   ```sh
-   npm test
-   npm run build
-   npm run dev -- --test-browser --reuse-db --production
-   npm run format:check
-   npm run ai:evaluate -- --suite smoke
-   ```
+1. Read this checkpoint, [hosting](docs/HOSTING.md), [verification](docs/VERIFICATION.md), and the latest [build log](docs/BUILD_LOG.md). Inspect Git/CI/deployment status without changing identity or printing secrets.
+2. Investigate the **live Gemini timeout** with bounded calls. Distinguish provider latency, request format/settings and hosting connectivity using sanitized timing/error evidence; the cause is not yet known. Do not silently increase retries or claim key failure after metadata access succeeded.
+3. Once generation works, run the existing isolated smoke suite, inspect failures/clarifications, then development cases. Freeze model/settings/cases before the held-out repeated run. Keep the production demo untouched; use fixture-capable credentials only in the evaluation environment.
+4. Retrieve and visually inspect fresh CI screenshots, replace historical images only after review, check the hosted browser flow and a real phone/additional browsers as available.
+5. Observe a scheduled daily cron invocation; inspect durable backlog and failed jobs. The manual authorized call established the handler, not the platform timer or sustained processing rate.
+6. Decide how reviewers will access the protected demo. Keep the application protected while it contains a writable shared workspace and a billable provider key.
+7. Rehearse the six-minute demo, report limitations plainly, refresh the submission archive after changes. Optional Jev/vector comparisons follow a measured baseline, not before.
 
-5. Inspect smoke results and the proposed entries/clarifications. Then run `npm run ai:evaluate -- --suite development`. Freeze model, cases, contexts and settings before `npm run ai:evaluate -- --suite holdout --repeats 3`. Record failures; once holdout failures guide tuning, report that reuse rather than claiming unseen results.
-6. On a Docker-enabled host:
+### Useful local commands
 
-   ```sh
-   docker compose up --build --wait
-   docker compose --profile test run --build --rm tests
-   node scripts/check-compose-persistence.mjs --execute
-   docker compose --profile evaluate run --build --rm evaluate
-   ```
+```sh
+lsof -nP -iTCP:5173 -iTCP:3001 -iTCP:55432 -sTCP:LISTEN
+npm run dev
+```
 
-7. Inspect desktop/phone flows, update screenshots and evidence, rehearse the demo, and refresh the ZIP after changes. Optional retrieval/Jev comparisons follow successful baseline verification; they are not prerequisites.
+If only the existing local PostgreSQL is running, use `npm run dev -- --reuse-db`; never start two servers against `.tools/postgres`. For capable runtime verification:
 
-The smoke suite has four cases and defaults to eight attempts / 32,000 observed tokens. Development defaults to 32 attempts / 150,000 tokens; holdout to 96 attempts / 400,000 tokens. Use lower CLI limits as needed. No automatic retries. Unknown usage or access/quota failures stop the run. The token threshold stops subsequent requests; an in-flight response can exceed it, so it is not an absolute billing ceiling. Provider calls may be billed. Run `npm run ai:evaluate -- --help` for options.
+```sh
+npm test
+npm run build
+npm run hosting:bundle
+node -e "Promise.all([import('./api/index.js'), import('./api/cron.js')]).then(() => process.exit(0))"
+npm run dev -- --test-browser --reuse-db --production
+npm run format:check
+npm run ai:evaluate -- --suite smoke
+```
 
-## Design and research continuity
+For Docker:
 
-The project-local Emil Kowalski guidance is at `.tools/design-skills/skills-main`, revision `a81dbca07f2217b7103e510c0f13f8d5b017afc9`. It is not a globally installed skill. Provenance and applied design/mobile rules are in [design](docs/DESIGN.md).
+```sh
+docker compose up --build --wait
+docker compose --profile test run --build --rm tests
+node scripts/check-compose-persistence.mjs --execute
+docker compose --profile evaluate run --build --rm evaluate
+```
 
-The [PDF report](docs/reports/architecture-review.pdf) and [interactive HTML](docs/reports/architecture-review.html) are the planning snapshot before this implementation. They explain Spiich/Midday/Actual lessons, system boundaries, examples, proposed UI and the 12-hour core + four-hour reserve allocation. Follow this checkpoint for current status. Public research, pinned source reviews and their limits are recorded in [architecture](docs/ARCHITECTURE.md); no upstream product was installed or incorporated.
+The evaluation CLI defaults are smoke: 4 cases / 8 attempts / 32,000 observed tokens; development: 20 cases / 32 attempts / 150,000 tokens; holdout: 20 cases repeated three times / 96 attempts / 400,000 tokens. Correction probes may use multiple calls. Lower limits with CLI options as needed. No automatic retry; unknown usage stops subsequent calls. An in-flight response can exceed the token threshold, so it is not an absolute spending ceiling. See `npm run ai:evaluate -- --help`.
 
-## Documentation and submission
+## Design, research and documentation
 
-- [README](README.md): startup, provider setup and scope.
-- [Architecture](docs/ARCHITECTURE.md): invariants, adapters, research and scaling boundaries.
-- [Plan](docs/PLAN.md): delivery allocation and controlled comparison.
-- [API](docs/API.md): REST contracts and errors.
-- [Design](docs/DESIGN.md): simpler flow, guidance provenance and historical screenshots.
-- [Verification](docs/VERIFICATION.md): executed checks and outstanding runtime work.
-- [Accounting walkthrough](docs/ACCOUNTING_WALKTHROUGH.md): beginner examples.
-- [Interview guide](docs/INTERVIEW_GUIDE.md): explanations and demonstration.
-- [Build log](docs/BUILD_LOG.md): actual changes and decisions.
-- [AGENTS.md](AGENTS.md): concise continuation instructions.
+Project-local Emil Kowalski guidance remains at `.tools/design-skills/skills-main`, revision `a81dbca07f2217b7103e510c0f13f8d5b017afc9`; provenance and application are in [design](docs/DESIGN.md). It is excluded local tooling, not a globally installed package.
 
-The submission ZIP uses the `daybook-ledger/` root and excludes `.env`, `.tools`, `.git`, dependency/build/test directories and credentials. Refresh it after changes. Authentication, invoice/bank-feed/tax workflows, period-end FX revaluation and measured production capacity remain explicit boundaries.
+The [PDF](docs/reports/architecture-review.pdf) and [interactive HTML](docs/reports/architecture-review.html) are the earlier planning snapshot. Do not relabel their proposed features/UI as current deployment evidence. [Architecture](docs/ARCHITECTURE.md) preserves pinned research and production tradeoffs. No researched upstream app was installed or incorporated.
+
+All project Markdown documents were synchronized for this checkpoint. [README](README.md) is the entry point, [API](docs/API.md) documents REST/cron behavior, [plan](docs/PLAN.md) orders remaining work, [walkthrough](docs/ACCOUNTING_WALKTHROUGH.md) separates learning amounts from seeded data, and [interview guide](docs/INTERVIEW_GUIDE.md) supplies accurate explanations. [Build log](docs/BUILD_LOG.md) is chronological; earlier pending/failure statements there are historical and superseded by this checkpoint.
+
+The refreshed archive contains reviewed source, documentation and sanitized evidence under `daybook-ledger/`. Private session files are preserved locally for continuity and excluded. Authentication/authorization within the app, bank/invoice/tax workflows, period-end FX revaluation and measured production capacity remain outside the delivered scope.

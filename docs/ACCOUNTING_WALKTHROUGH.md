@@ -1,6 +1,6 @@
 # Accounting walkthrough
 
-> Checkpoint updated 2026-10-29. This walkthrough applies to the current Daybook application. Its five-event example is a learning fixture, separate from the six-month Northstar Studio demo shown in the UI. The rename and redesign do not change the accounting results. See the [saved checkpoint](../CHECKPOINT.md).
+> Saved 2026-10-29. This is a learning example for the implemented Daybook ledger. The five-event fixture below is separate from the six-month synthetic Northstar Studio data in the protected hosted app. Full CI and hosted report checks passed; live AI generation is still unverified after a timeout. See [checkpoint](../CHECKPOINT.md).
 
 Imagine you run a small design studio. The app is a carefully organized notebook of what your business owns, owes, earns, and spends. An account is a labeled bookkeeping bucket. A journal entry describes one event; its lines describe which buckets changed.
 
@@ -54,3 +54,15 @@ Suppose a customer pays €100 for newly earned work. At a recorded rate of $1.1
 For “Paid $2,400 rent for March,” AI identifies a likely expense and payment account. It asks about missing dates or accounts, and prepares a structured draft. You review the draft. The regular posting engine validates it. AI cannot bypass the ledger rules.
 
 For “What were my top expenses last month?”, AI chooses an approved database query. SQL computes the amounts. The answer displays the actual query results and links to the supporting records. A well-formed AI response still needs business validation; structured output alone does not guarantee correct accounting.
+
+## Try the current product without mixing up the examples
+
+Open [Daybook](https://daybook-ledger-delta.vercel.app), signing in to Vercel if asked. The demo already contains six months of made-up studio activity. Its bank/profit/report totals will therefore differ from the empty-start example above. At the saved observation its October trial balance had $190,072.00 on each side, and its balance sheet had $132,420.00 assets = $178.00 liabilities + $132,242.00 equity. A balanced report checks the arithmetic; a person still needs to check what a purchase really was.
+
+For the manual supplies example, choose **money out**, enter $340, choose the company credit card and office supplies, then inspect the account-effects review. Supplies expense increases by $340 and card debt increases by $340. Your bank cash does not fall until you pay the card. Posting adds this event to the existing demo; it does not replace the earlier data. If correcting a demonstration posting, use a linked reversal so the history stays visible.
+
+The trial balance, P&L and balance sheet are different windows onto the same journal. A draft awaiting review is left out of all three. A due rent schedule produces another draft, so it also stays out until you review and post. An anomaly alert is like a sticky note saying “please check this”; dismissing it does not delete or change the expense. No continuous stream is required—the rules compare each posted event with stored history. The demo deliberately includes duplicate and unusually large charges so these checks can be demonstrated.
+
+For the assistant, think of a helper choosing a labeled calculator: “cash position” uses the cash query, and “top expenses” uses the expense query. Code reads the notebook and computes the answer. The helper cannot invent a new SQL program or post a purchase by chatting. In the actual hosted test the helper took too long and the app returned a safe timeout. That is the current limitation; there is no successful live AI score to quote yet.
+
+To rehearse the exact five-event totals above, use a separate empty test workspace/fixture rather than deleting the seeded history. Automated tests already use isolated fixtures for that purpose. The protected hosted demo and local development database are separate copies of synthetic activity, not automatically synchronized ledgers.

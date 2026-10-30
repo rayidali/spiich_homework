@@ -1,5 +1,7 @@
 # Build log
 
+> Current save: 2026-10-29 America/New_York. This log is chronological: earlier failures, pending checks and proposed tools describe their point in time. [CHECKPOINT.md](../CHECKPOINT.md), [verification](VERIFICATION.md) and [hosting](HOSTING.md) hold the reconciled latest state. Latest full CI passed 101 backend tests, 10 browser workflows and Docker persistence; the protected hosted demo is live, while Gemini generation timed out.
+
 > Checkpoint updated 2026-10-29. The user requested a session checkpoint after the completed Daybook redesign. Current state, continuation instructions, and outstanding checks are saved in [CHECKPOINT.md](../CHECKPOINT.md).
 
 This is the running engineering record for Daybook, built for the Spiich assignment. Completed work and observed checks are recorded separately from plans. No scale or verification claim is implied by a planned item.
@@ -163,7 +165,7 @@ Data boundaries, correctness under concurrency, bounded work, and operational vi
 - Final executable-source run: **[40994222818](https://github.com/rayidali/spiich_homework/actions/runs/40994222818)**, commit `634ab08f22627b26539af9227883c9208f2ae479`, succeeded. Both verify and compose jobs passed: 94 backend tests, 10 production browser workflows, Docker startup/health, containerized tests and unchanged posted-entry persistence. Live AI was intentionally skipped. Saved sanitized cloud evidence, synchronized current documentation, and refreshed the submission archive.
 - Vercel CLI is installed, but its identity request failed on networking; no local authentication status is inferred. Offered the available Vercel plugin connection. No hosting project, managed database, provider-secret transfer or deployment was created.
 
-## Remaining external verification
+## External verification remaining before hosting (historical snapshot)
 
 - Authentication preference clarified: use local Terminal/CLI sessions for GitHub and Vercel. The earlier Vercel plugin suggestion is superseded. Verified the installed Vercel CLI's login help; no plugin account connection, token transfer or deployment was performed.
 
@@ -187,3 +189,12 @@ The submission should describe these limits plainly. No guarantee of hiring acce
 - Native ESM deployment succeeded and authenticated checks passed for health, metadata, SPA HTML, P&L, trial balance ($190,072.00 each side) and balance sheet ($0.00 difference). Public traffic reaches Vercel protection. Live financial chat returned AI_TIMEOUT without journal writes; an authenticated Google model-metadata request succeeded. Live generation accuracy remains pending. The cron handler needed an Express wrapper because raw Vercel requests do not provide req.get(); wrapper added, both native modules load locally, rebuilding for live verification.
 
 - Final hosted scheduler checks passed: missing bearer secret returns 401, authorized execution processes a bounded batch (four jobs) and returns schedule counts. Health remained OK. Automatic daily firing is not yet observed. Stable URL: https://daybook-ledger-delta.vercel.app. Updated hosting/checkpoint/README and refreshed the credential-free submission archive.
+
+## 2026 10 29 Detailed documentation and checkpoint save
+
+- The user requested all project Markdown documents be updated in detail and the current state saved for continuation. Reviewed all 12 maintained Markdown files and the implemented hosting/configuration paths; updated README, AGENTS, CHECKPOINT, architecture, API, design, plan, walkthrough, interview guide, hosting, verification and this log. Earlier log entries remain chronological evidence.
+- Read public GitHub results using the requested local publication workflow. The final executable commit `576a2468feacf9bd1d040c75bb1c5ff203f28dae` completed [CI run 40999183176](https://github.com/rayidali/spiich_homework/actions/runs/40999183176) successfully: verify/compose passed, live-ai skipped. Current backend total is 101 (29 accounting + 14 AI/database contracts + 22 provider + 23 evaluation + 6 simple-entry + 7 scheduler), plus 10 browser workflows. Native imports, Docker startup/health/container tests and posted-entry persistence passed. Preserved the earlier 94-test evidence separately and updated sanitized current CI evidence.
+- Reconciled stale status statements: Vercel/Neon hosting is live, Gemini model-metadata access succeeded, the hosted financial-chat request timed out, the scheduler passed direct HTTP authorization/work checks, and an automatic daily firing remains unobserved. No successful live generation, usage/billing result, visual review, physical-device result or scale benchmark was inferred.
+- Documented production deployment overrides versus persistent project variables, separate hosted/local data, build-only owner access, the restricted runtime role, daily/request-triggered bounded job tradeoffs, lack of Git auto-deployment and the unresolved reviewer-sharing decision. No credentials or private payloads were placed in documentation.
+- Saved local Git recovery, resource identifiers, existing data/volume/migration safeguards, archived pre-save handoff and ordered next-session work. Listener inspection showed no local servers on 5173/3001/55432; no server/database was started or stopped. No application code, migration, data, credentials, deployment settings, subscriptions or provider behavior changed for this documentation task. No model call ran.
+- Validation for this save covers Markdown formatting, local links, stale-status reconciliation, credential exclusion and archive integrity/source equality. Application regression was not rerun for unchanged executable source; the successful final CI above provides that evidence. Refreshed `submission.zip` under `daybook-ledger/` and published the documentation save through the existing local Git checkout, using a documentation-only CI skip.
