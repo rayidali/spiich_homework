@@ -30,7 +30,12 @@ async function run() {
   assert.match(address, /:\d+$/u, 'Compose app must publish a local HTTP port.');
   const base = new URL(`http://${address.replace(/^0\.0\.0\.0:/u, '127.0.0.1:')}`);
   async function get(path) {
-    const response = await fetch(new URL(path, base), { signal: AbortSignal.timeout(15_000) });
+    // Containers are deliberately destroyed between reads. Do not retain a socket
+    // to the old app while synchronous Compose commands block the Node event loop.
+    const response = await fetch(new URL(path, base), {
+      signal: AbortSignal.timeout(15_000),
+      headers: { Connection: 'close' },
+    });
     assert.ok(response.ok, `HTTP ${response.status} while checking ${path}`);
     return response.json();
   }
@@ -55,6 +60,12 @@ async function run() {
 }
 
 run().catch((error) => {
-  console.error(error instanceof Error ? error.message : 'Compose persistence check failed.');
+  const message = error instanceof Error ? error.message : 'Compose persistence check failed.';
+  console.error(message);
+  if (process.env.GITHUB_ACTIONS === 'true') {
+    const diagnostic = error instanceof Error ? (error.stack ?? message) : message;
+    const annotation = diagnostic.replaceAll('%', '%25').replaceAll('\r', '%0D').replaceAll('\n', '%0A');
+    console.log(`::error title=Compose persistence::${annotation}`);
+  }
   process.exitCode = 1;
 });
