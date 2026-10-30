@@ -1,0 +1,11 @@
+# Hosting Daybook
+
+The original single-command Docker Compose setup remains the portable submission. Optional Vercel hosting uses the Vite output on the CDN, the existing Express API through `api/index.ts`, and a separate Neon PostgreSQL database in the same region (`iad1`). No ledger migrations were changed.
+
+`api/cron.ts` requires `Authorization: Bearer <CRON_SECRET>`. Production runs it daily at 06:00 UTC (Hobby scheduling can be delayed within the hour). It creates pending recurring drafts and processes a bounded batch of durable jobs; it never automatically posts drafts. Successful API mutations also use Vercel `waitUntil` to process queued anomalies. Retries survive in PostgreSQL. Large backlogs require more worker invocations; this is a demo hosting arrangement, not measured production capacity.
+
+Set `DATABASE_URL` to a pooled, TLS connection for the restricted `spiich_app` role. Supply a strong generated password (at least 32 characters). Supply `MIGRATION_DATABASE_URL` only as a deployment build variable, alongside `DATABASE_URL`. `npm run hosting:prepare` migrates, hardens the role and seeds idempotently before building. Never give the runtime owner credentials, commit credentials, or put them in VITE variables. Build installation explicitly includes development dependencies for TypeScript/Vite.
+
+Configure server-side Gemini/OpenAI variables as in the README and a generated `CRON_SECRET`. Keep deployment protection enabled because this assignment intentionally has no application authentication and uses a shared workspace. Access is through the owner's Vercel login. Sharing with reviewers requires an explicit access or sharing decision.
+
+Current provisioning: local Vercel account `rayidali`, project `daybook-ledger`, separate free Neon database `daybook-db`. The first cloud build migrated and seeded successfully; the next deployment is building. Final URL and smoke evidence will be recorded after verification.

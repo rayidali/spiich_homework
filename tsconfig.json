@@ -14,5 +14,5 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": ["server", "web", "shared", "scripts", "tests", "*.ts"]
+  "include": ["server", "web", "shared", "scripts", "tests", "*.ts", "api"]
 }

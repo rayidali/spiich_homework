@@ -1,0 +1,16 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
+  "installCommand": "npm ci --include=dev --no-audit --no-fund",
+  "buildCommand": "npm run hosting:prepare && npm run build",
+  "outputDirectory": "dist",
+  "regions": ["iad1"],
+  "functions": { "api/*.ts": { "maxDuration": 60 } },
+  "crons": [{ "path": "/api/cron", "schedule": "0 6 * * *" }],
+  "routes": [
+    { "src": "/api/cron", "dest": "/api/cron" },
+    { "src": "/api/(.*)", "dest": "/api/index" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}

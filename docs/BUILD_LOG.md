@@ -173,3 +173,11 @@ Data boundaries, correctness under concurrency, bounded work, and operational vi
 4. Prepare hosting only with an available authorized connection and a suitable hosted PostgreSQL database; Docker verification alone is not a deployed preview.
 
 The submission should describe these limits plainly. No guarantee of hiring acceptance or million-user capacity is implied by the implementation.
+
+## 2026 10 29 Local Vercel hosting
+
+- Verified local Vercel identity `rayidali`, preserving the user's local-only authentication preference. Created a separate free Neon database through the already installed integration and a Daybook Vercel project with all-deployment access protection. No paid subscription or unrelated resource was changed.
+- Added a Vercel API adapter, a bearer-protected daily scheduler, and post-response processing of durable anomaly jobs. Docker retains its existing continuous worker; Hobby hosting uses a daily schedule with bounded batches, which can leave larger backlogs until later invocations.
+- Hosted setup applies checksummed migrations, gives `spiich_app` a generated strong password and runs the idempotent seed. Owner credentials are supplied only in the deployment build environment. Runtime credentials and Gemini are server-side. Private request/response files stay under ignored `.tools`.
+- The first build successfully prepared the new database but omitted TypeScript because NODE_ENV=production skipped build dependencies. The installation command now explicitly includes them. Deployment verification remains in progress.
+- Production build/typechecking passed; 58 isolated tests passed including seven cron authorization, sequencing and safe-error cases. Initial HTTP-based cron tests could not bind locally (EPERM); the handler cases now use direct request/response doubles. Full regression CI for this source is pending.
