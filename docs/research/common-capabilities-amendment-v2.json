@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "mappingId": "daybook-common-capabilities-v1",
+  "file": "research/routes.ts",
+  "definitionSha256": "8e493da705b890190bd52c366ec0e0c8788f7f849f4eca804036527c1a2af1e5",
+  "comparisonSha256": "23a1e3848d2fa6263339f3b3a8b8d0213c39240d1dd4cbeef4e2f0a9910a579b",
+  "reviewedAt": "2026-10-30T22:27:14.076153+00:00",
+  "rationale": "Reviewed the corrected development route implementation before pilot-v2 and held-out execution. R0 still dispatches to the same unchanged baseline.ts financial tools or entry-proposal interface, with the same query scope, native/base currency limits, proposal capabilities and single model call. The R0 branch now attaches scoped user evidence and runs the shared validator to materialize deterministic calculation citations and expose validation metadata; this repairs provenance measurement and applies the mandatory gate without adding a retrieval or analytical capability. Other routes now expose only their permitted planner backend schema, typed Wren columns and clearer planning instructions. These changes do not alter which question requests the unchanged R0 tool interface can express. All 15 included and 45 excluded scenario groups therefore retain their version-1 membership; observed successes were not used to revise the subgroup.",
+  "unchangedSourceSha256": {
+    "research/baseline.ts": "121b44bbac184669ce0d269b4d95d99f48e4d5c905f49cfc5d4c83d81897c648",
+    "research/fixtures/questions.json": "42b7671906526fe7790f2aa443c0d6c904eceadb041ee406e0b0027b1a2fbfb6"
+  },
+  "scope": "Capability-membership review only. This does not repair, rescore, or validate pilot-v1 outcomes; its separate validity notice remains controlling.",
+  "evidence": [
+    "tests/research-r0-validation.test.ts",
+    "docs/evidence/research-runs/pilot-v1/validity-notice.json"
+  ]
+}

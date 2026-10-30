@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "runId": "pilot-v1",
+  "recordedAt": "2026-10-30T22:24:07.845953+00:00",
+  "eligibleForSelection": false,
+  "classification": "Development pilot with known adapter and operational defects",
+  "originalResultsSha256": "3e9d3bee731db378192b69a110d76d4d74d9a1d236747cb2a7615d489f8baae7",
+  "issues": [
+    {
+      "code": "CONTROL_EVIDENCE_ADAPTER",
+      "detail": "R0 omitted the shared validation/user-evidence adapter, causing valid proposals and derived calculations to be penalized for missing provenance. Original generations and scores are retained; this is not evidence that the production baseline cannot make those proposals."
+    },
+    {
+      "code": "PLANNER_BACKEND_GRAMMAR",
+      "detail": "Both query backend fields were exposed in one grammar. Wren repeatedly selected custom plans that the backend gate correctly rejected. A later development version exposes only the permitted backend schema and actual typed Wren columns."
+    },
+    {
+      "code": "DISPATCH_STARTUP_GAPS",
+      "detail": "Three early route requests expired during manual-to-continuous dispatcher transition. These are harness errors, not established provider outages. The continuously logged319requests all returnedHTTP200."
+    }
+  ],
+  "interpretation": "Complete unchanged data proves measurement coverage/integrity only. These known defects make this pilot unsuitable for selecting an architecture. No held-out questions were used to make the fixes."
+}

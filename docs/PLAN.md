@@ -22,6 +22,14 @@
 - Native reproduction uses a separate pgvector Compose database on port 5433. The live sandbox uses restricted Neon HTTP views. Record runtime/transport and fingerprint the complete scoped ledger, documents and embeddings before/after a run; an absent or changed snapshot makes conclusions ineligible.
 - Primary comparisons follow H1–H7. Additional baseline comparisons are descriptive. Confidence intervals are exploratory and unadjusted for multiple comparisons; repeats/paraphrases are clustered by source scenario. Do not label a single favorable interval as definitive proof.
 
+### Development pilot v1 findings and v2 amendments (2026-10-30)
+
+The first 108-episode pilot completed with unchanged data. Its original results are retained with a [validity notice](evidence/research-runs/pilot-v1/validity-notice.json): manual dispatch startup caused three timeouts, R0 lacked the shared user/calculation evidence adapter, and the shared planner grammar exposed the wrong backend operations to Wren. These are development defects, so pilot-v1 is not eligible to select an architecture despite its complete snapshot check.
+
+The next development version applies the same deterministic answer validator to R0, without additional model calls or changed production tools; exposes only each backend's allowed query field; supplies Wren's actual typed logical model; and formats backend instructions separately. Two exploratory R6 probes after the grammar change were preserved: one used a numeric boolean without typed context, and another misspelled a column after types were supplied. Rejection of invalid SQL remains mandatory; no automatic retry or SQL repair was added. Provider per-call timing is exported to distinguish complete service measurements, partial sums and unknown durations.
+
+The supplementary [common-capability subgroup](research/COMMON_CAPABILITIES.md) was defined from tool capabilities and question texts during development, before any held-out run; it does not change the six-family primary endpoint. It has six held-out groups and is descriptive, with limited precision. Source-hash amendments must explicitly preserve its original membership rationale. Human clarity/adjudication remains unavailable.
+
 ## Objective and honest baseline
 
 Determine which architecture broadens useful financial assistance while retaining financial correctness, source grounding, workspace isolation, reasonable latency and explainable operating cost. Produce a reproducible engineering study, not a promise of perfect accuracy or publication-grade statistical power.

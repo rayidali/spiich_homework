@@ -149,3 +149,9 @@ Open the UI, post a clearly labeled test entry, restart the app, and confirm tha
 ## Hosting-specific regressions resolved
 
 The hosting build now installs development compilation dependencies explicitly; the API bundles internal TypeScript imports as native ESM; both wrapper imports are checked in CI; and the scheduler uses an Express request wrapper before bearer validation. Live checks subsequently passed. See [hosting](HOSTING.md) for configuration, credential scope, the daily-worker tradeoff and remaining operational checks.
+
+## Research engineering checkpoint — 2026-10-30
+
+The isolated comparative harness was published as `07469a6ab8d2ca32b075bfb99ccbd264ddc05672`. [CI 41135032615](https://github.com/rayidali/spiich_homework/actions/runs/41135032615) passed `verify`, `compose` and `research-native`; the opt-in application `live-ai` job was skipped. The native research job booted its separate pgvector Compose service, executed real Wren/custom SQL and access-boundary checks, compared pre-index fixture contents and ran deterministic security checks without provider keys. It does not establish embedding quality or model accuracy.
+
+The local checkpoint passed **306 isolated tests**, production build and global formatting. The pinned Wren engine separately passed **22 Python tests**. A later supplemental analysis test suite is additional work, not silently added to this recorded count. See [sanitized CI status evidence](evidence/research-ci.json). The live 108-episode development pilot and larger held-out study are separate measurement stages; no research winner or complete held-out score is claimed at this checkpoint. No production deployment changed.

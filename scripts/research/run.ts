@@ -158,6 +158,10 @@ let snapshotIntegrity: SnapshotIntegrity = {
   reason: 'Final complete ledger/document/embedding fingerprint is pending.',
 };
 function saveReport() {
+  atomicJson(
+    `${path}/usage.json`,
+    budget.records.filter((record) => record.episode.startsWith(`${runId}:`)),
+  );
   writeReport(
     path,
     buildReport(episodes, budget.records, questions, {

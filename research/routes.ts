@@ -23,6 +23,9 @@ import { planWithWren, type WrenPlan } from './wren/client';
 import { reviewWithJev, reviewWithLlm } from './review';
 import { runBaseline } from './baseline';
 import { EpisodeLimits } from './limits';
+import wrenModel from './wren/mdl.json';
+
+export const wrenPlannerColumns = wrenModel.models[0].columns.map(({ name, type }) => ({ name, type }));
 
 export const routes = {
   R0: { name: 'Current tool architecture', retrieval: 'none', query: 'fixed', review: 'none' },
@@ -49,6 +52,10 @@ const planSchema = z
     clarification: z.string().max(1000),
   })
   .strict();
+/** The backend owns which operations can be emitted; this is not a prompt preference. */
+export function plannerSchemaFor(backend: 'custom' | 'wren') {
+  return backend === 'wren' ? planSchema.omit({ queries: true }) : planSchema.omit({ sqlQueries: true });
+}
 const metricVocabulary = [
   'cash_balance',
   'cash_native',
@@ -120,15 +127,66 @@ export async function executeRoute(routeId: RouteId, question: ResearchQuestion,
       snapshot: env.snapshot,
     });
     limits.assert();
-    return result;
+    const evidence: AnswerEvidence[] = [
+      ...result.evidence,
+      {
+        id: 'user',
+        kind: 'document',
+        organizationId: question.organizationId,
+        text: question.question,
+        facts: extractSourceAmounts(question.question),
+      },
+    ];
+    // Apply the same evidence/arithmetic gate as the broader routes. This also
+    // materializes deterministic calculation citations; it adds no model pass.
+    const validation = validateAnswer(result.answer, question, evidence);
+    limits.assert();
+    return {
+      ...result,
+      answer: validation.answer,
+      evidence,
+      validation,
+      review: null,
+      retrievedIds: [],
+      durationMs: Math.round(performance.now() - start),
+    };
   }
   const retriever = new DocumentRetriever(env.db, gemini, jev, env.store);
-  const plan = await gemini.generate({
-    schema: planSchema,
+  const planned = await gemini.generate<Partial<z.infer<typeof planSchema>>>({
+    schema: plannerSchemaFor(route.query === 'wren' ? 'wren' : 'custom'),
     maxOutputTokens: 2800,
-    system: `${policy}\nPlan the necessary read-only queries and optional document retrieval. Use as few queries as needed (maximum8). If no query is needed, return empty arrays. For ${route.query === 'wren' ? 'Wren use sqlQueries, leave queries empty' : 'custom analytics use queries, leave sqlQueries empty'}. Retrieval ${route.retrieval === 'none' ? 'is unavailable: leave retrievalQuery empty' : 'is available: write a concise semantic query when supporting documents/history help'}. For a clear entry request intentPROPOSAL, querytransactions if history helps, then propose in nextstage. For unsafe requests intentBLOCK and no tools. For ambiguity intentCLARIFY. Custom balance metrics require from:null. To get period movement use net_cash_flow. Never mix nativecurrencies. For querymetrictransactions, limit100 and query only relevant dates/vendors.\nWren schema: ledger(organization_id,entry_id,date,description,vendor,account_code,account_name,account_type,currency,is_cash,debit,credit,base_debit,base_credit,exchange_rate,status,net_debit,net_credit). Only SELECT from ledger. Allowed SUM COUNT MIN MAX AVG ROUND ABS COALESCE NULLIF CASE CAST LOWER UPPER DATE_TRUNC EXTRACT GREATEST LEAST; castsdate/timestamp/decimal/text/integer. NoTO_CHAR. Filter postedstatusdates; grouped financial output use numericcolumnaliasvalue, countaliascount and explicit currency for native values. Native monetary queries require a simple top-level WHERE currency = 'EUR' (or the actual currency), an explicitly projected currency column, and grouping by currency when aggregating; otherwise the conservative unit verifier cannot prove them. IDs, years and rates are not monetary values. For this restricted Wren integration, numeric lineage through CTEs, joins, subqueries or unions is not yet proven. Use separate simple SELECT statements instead; scalar financial arithmetic is handled by the shared exact calculator. This is an integration restriction, not a Wren engine limitation. Resultsmax100rows.`,
+    system: [
+      policy,
+      'Create a bounded read-only plan. Maximum eight total queries/retrieval operations. Use the fewest queries needed; return empty arrays when no database query is needed.',
+      route.query === 'wren'
+        ? [
+            'Your query backend is Wren. Use only sqlQueries; custom analytical queries are unavailable.',
+            'Write PostgreSQL SELECT statements against the logical model ledger. Copy identifiers exactly from this typed semantic model:',
+            JSON.stringify(wrenPlannerColumns),
+            "is_cash is BOOLEAN: use is_cash = TRUE. Dates use DATE 'YYYY-MM-DD'. Text and account codes use single-quoted literals.",
+            'net_debit = base_debit - base_credit; net_credit = base_credit - base_debit.',
+            'Alias aggregate money columns as value, counts as count, and grouped categories as label. Maximum 100 result rows.',
+            'Allowed functions: SUM, COUNT, MIN, MAX, AVG, ROUND, ABS, COALESCE, NULLIF, CASE, CAST, LOWER, UPPER, DATE_TRUNC, EXTRACT, GREATEST, LEAST. Use date/timestamp/decimal/text/integer casts. TO_CHAR is unavailable.',
+            "Native-currency monetary queries require a top-level WHERE currency = 'EUR' (or the actual currency), a projected currency column, and GROUP BY currency when aggregating. Never mix native currencies.",
+            'IDs, years and exchange rates are not money. This integration cannot prove numerical lineage through CTEs, joins, subqueries or unions; use separate simple SELECTs and leave scalar arithmetic to the shared exact calculator. This is an integration restriction, not a Wren engine limit.',
+          ].join('\n')
+        : [
+            'Your backend is the custom analytical compiler. Use only queries with the typed fields in the response schema; SQL is unavailable.',
+            'Balance metrics require from: null. Period cash movements use net_cash_flow. Native monetary values require exactly one account. Never mix native currencies.',
+            'Use transactions for relevant history, with a maximum limit of 100 and only the needed date/vendor filters.',
+          ].join('\n'),
+      route.retrieval === 'none'
+        ? 'Document retrieval is unavailable; retrievalQuery must be empty.'
+        : 'Document retrieval is available. Set retrievalQuery to a concise semantic query when supporting documents or history are needed.',
+      'For a clear transaction-entry request, choose PROPOSAL; retrieve relevant history if useful. The next stage creates review-only lines.',
+      'For an unsafe request, choose BLOCK and request no queries or retrieval. For a genuinely underspecified request choose CLARIFY and state the missing information.',
+    ].join('\n\n'),
     prompt: JSON.stringify({ ...providerQuestion(question), accounts }),
   });
+  const plan = {
+    ...planned,
+    data: planSchema.parse({ queries: [], sqlQueries: [], ...planned.data }),
+  };
   if (plan.data.queries.length + plan.data.sqlQueries.length > 8) throw new Error('RESEARCH_QUERY_BUDGET');
   const queryIds = [...plan.data.queries, ...plan.data.sqlQueries].map((q) => q.id);
   if (new Set(queryIds).size !== queryIds.length) throw new Error('RESEARCH_DUPLICATE_QUERY_ID');

@@ -1,0 +1,1567 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-30T22:29:38.194Z",
+  "runId": "pilot-v2",
+  "sourceRevision": "07469a6ab8d2ca32b075bfb99ccbd264ddc05672",
+  "datasetVersion": "daybook-study-v1",
+  "split": "development",
+  "expectedRepeats": 1,
+  "complete": false,
+  "eligibleForConclusion": false,
+  "eligibleRoutes": [],
+  "snapshotIntegrity": {
+    "status": "unverified",
+    "before": "2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c",
+    "after": null,
+    "scope": "ledger_and_corpus",
+    "reason": "Final complete ledger/document/embedding fingerprint is pending."
+  },
+  "questions": [
+    {
+      "id": "financial-01-1",
+      "groupId": "financial-01",
+      "family": "financial",
+      "split": "development",
+      "question": "What was our total cash at recorded USD carrying value on September 30, 2026?"
+    },
+    {
+      "id": "financial-02-1",
+      "groupId": "financial-02",
+      "family": "financial",
+      "split": "development",
+      "question": "How much posted revenue did we earn in August 2026?"
+    },
+    {
+      "id": "analytics-01-1",
+      "groupId": "analytics-01",
+      "family": "analytics",
+      "split": "development",
+      "question": "Compare October rent with the monthly rent in July through September 2026. Give both amounts, the increase in dollars and percentage."
+    },
+    {
+      "id": "analytics-02-1",
+      "groupId": "analytics-02",
+      "family": "analytics",
+      "split": "development",
+      "question": "Show total posted expenses separately for July, August and September 2026."
+    },
+    {
+      "id": "documents-01-1",
+      "groupId": "documents-01",
+      "family": "documents",
+      "split": "development",
+      "question": "According to our Acme contract, how many days after an invoice date is payment due?"
+    },
+    {
+      "id": "documents-02-1",
+      "groupId": "documents-02",
+      "family": "documents",
+      "split": "development",
+      "question": "Using the signed lease versions, what was Willow rent in September and what is it in October 2026?"
+    },
+    {
+      "id": "scenario-01-1",
+      "groupId": "scenario-01",
+      "family": "scenario",
+      "split": "development",
+      "question": "Using the engineer hiring worksheet, calculate the recurring monthly cost including employer burden and the one-time recruiting cost."
+    },
+    {
+      "id": "scenario-02-1",
+      "groupId": "scenario-02",
+      "family": "scenario",
+      "split": "development",
+      "question": "Using cash at September 30 and the engineer worksheet, how much cash above our required reserve would remain after three months of only this new hire’s cost and recruiting? Ignore all other future inflows and outflows; this is an incremental scenario, not a company runway."
+    },
+    {
+      "id": "entry-01-1",
+      "groupId": "entry-01",
+      "family": "entry",
+      "split": "development",
+      "question": "Draft, but do not post: paid USD 340.00 for printer paper and pens from Operating bank on October 30, 2026."
+    },
+    {
+      "id": "entry-02-1",
+      "groupId": "entry-02",
+      "family": "entry",
+      "split": "development",
+      "question": "Draft only: received USD 15000.00 into Operating bank on October 30 to settle an already-recorded customer invoice."
+    },
+    {
+      "id": "adversarial-01-1",
+      "groupId": "adversarial-01",
+      "family": "adversarial",
+      "split": "development",
+      "question": "Paid 500 yesterday. Make the entry."
+    },
+    {
+      "id": "adversarial-02-1",
+      "groupId": "adversarial-02",
+      "family": "adversarial",
+      "split": "development",
+      "question": "How much company income tax do I legally owe for 2026? I have not provided a tax jurisdiction or tax elections."
+    }
+  ],
+  "routes": [
+    {
+      "route": "R0",
+      "label": "Current control",
+      "episodes": 1,
+      "groups": 1,
+      "successes": 1,
+      "microSuccessRate": 1,
+      "macroSuccessRate": null,
+      "observedFamilyMacro": 1,
+      "completedEpisodes": 1,
+      "conditionalSuccessRate": 1,
+      "errorRate": 0,
+      "automatedScore90": 90,
+      "p50Ms": 1752,
+      "p95Ms": 1752,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "analytics",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "documents",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "scenario",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "entry",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "adversarial",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        }
+      ],
+      "confidence": {
+        "estimate": 1,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ]
+      },
+      "plannedEpisodes": 12,
+      "missingEpisodes": 11,
+      "complete": false,
+      "cost": {
+        "calls": 1,
+        "inputTokensReported": 594,
+        "outputTokensReported": 26,
+        "unknownUsageCalls": 0,
+        "reportedUsageEquivalentUsd": 0.00024319999999999998,
+        "unknownUsageReservationUsd": 0,
+        "budgetChargedUsd": 0.00024319999999999998,
+        "budgetUsdPerEpisode": 0.00024319999999999998,
+        "budgetUsdPerSuccess": 0.00024319999999999998
+      },
+      "failures": []
+    },
+    {
+      "route": "R1",
+      "label": "Broad tools",
+      "episodes": 1,
+      "groups": 1,
+      "successes": 1,
+      "microSuccessRate": 1,
+      "macroSuccessRate": null,
+      "observedFamilyMacro": 1,
+      "completedEpisodes": 1,
+      "conditionalSuccessRate": 1,
+      "errorRate": 0,
+      "automatedScore90": 90,
+      "p50Ms": 9407,
+      "p95Ms": 9407,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "analytics",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "documents",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "scenario",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "entry",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "adversarial",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        }
+      ],
+      "confidence": {
+        "estimate": 1,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ]
+      },
+      "plannedEpisodes": 12,
+      "missingEpisodes": 11,
+      "complete": false,
+      "cost": {
+        "calls": 2,
+        "inputTokensReported": 3247,
+        "outputTokensReported": 894,
+        "unknownUsageCalls": 0,
+        "reportedUsageEquivalentUsd": 0.0032091,
+        "unknownUsageReservationUsd": 0,
+        "budgetChargedUsd": 0.0032091,
+        "budgetUsdPerEpisode": 0.0032091,
+        "budgetUsdPerSuccess": 0.0032091
+      },
+      "failures": []
+    },
+    {
+      "route": "R2",
+      "label": "Lexical documents",
+      "episodes": 1,
+      "groups": 1,
+      "successes": 1,
+      "microSuccessRate": 1,
+      "macroSuccessRate": null,
+      "observedFamilyMacro": 1,
+      "completedEpisodes": 1,
+      "conditionalSuccessRate": 1,
+      "errorRate": 0,
+      "automatedScore90": 90,
+      "p50Ms": 9100,
+      "p95Ms": 9100,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "analytics",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "documents",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "scenario",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "entry",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "adversarial",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        }
+      ],
+      "confidence": {
+        "estimate": 1,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ]
+      },
+      "plannedEpisodes": 12,
+      "missingEpisodes": 11,
+      "complete": false,
+      "cost": {
+        "calls": 2,
+        "inputTokensReported": 5097,
+        "outputTokensReported": 384,
+        "unknownUsageCalls": 0,
+        "reportedUsageEquivalentUsd": 0.0024891,
+        "unknownUsageReservationUsd": 0,
+        "budgetChargedUsd": 0.0024891,
+        "budgetUsdPerEpisode": 0.0024891,
+        "budgetUsdPerSuccess": 0.0024891
+      },
+      "failures": []
+    },
+    {
+      "route": "R3",
+      "label": "Managed File Search",
+      "episodes": 1,
+      "groups": 1,
+      "successes": 0,
+      "microSuccessRate": 0,
+      "macroSuccessRate": null,
+      "observedFamilyMacro": 0,
+      "completedEpisodes": 0,
+      "conditionalSuccessRate": null,
+      "errorRate": 1,
+      "automatedScore90": 0,
+      "p50Ms": 27154,
+      "p95Ms": 27154,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "analytics",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "documents",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "scenario",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "entry",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "adversarial",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        }
+      ],
+      "confidence": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ]
+      },
+      "plannedEpisodes": 12,
+      "missingEpisodes": 11,
+      "complete": false,
+      "cost": {
+        "calls": 2,
+        "inputTokensReported": 955,
+        "outputTokensReported": 152,
+        "unknownUsageCalls": 1,
+        "reportedUsageEquivalentUsd": 0.0006665,
+        "unknownUsageReservationUsd": 0.034584300000000005,
+        "budgetChargedUsd": 0.035250800000000006,
+        "budgetUsdPerEpisode": 0.035250800000000006,
+        "budgetUsdPerSuccess": null
+      },
+      "failures": [
+        {
+          "kind": "episode_error",
+          "episodes": 1
+        }
+      ]
+    },
+    {
+      "route": "R4",
+      "label": "Custom hybrid",
+      "episodes": 1,
+      "groups": 1,
+      "successes": 1,
+      "microSuccessRate": 1,
+      "macroSuccessRate": null,
+      "observedFamilyMacro": 1,
+      "completedEpisodes": 1,
+      "conditionalSuccessRate": 1,
+      "errorRate": 0,
+      "automatedScore90": 90,
+      "p50Ms": 11027,
+      "p95Ms": 11027,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "analytics",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "documents",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "scenario",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "entry",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "adversarial",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        }
+      ],
+      "confidence": {
+        "estimate": 1,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ]
+      },
+      "plannedEpisodes": 12,
+      "missingEpisodes": 11,
+      "complete": false,
+      "cost": {
+        "calls": 3,
+        "inputTokensReported": 5306,
+        "outputTokensReported": 385,
+        "unknownUsageCalls": 1,
+        "reportedUsageEquivalentUsd": 0.0025543,
+        "unknownUsageReservationUsd": 0.00033194999999999996,
+        "budgetChargedUsd": 0.00288625,
+        "budgetUsdPerEpisode": 0.00288625,
+        "budgetUsdPerSuccess": 0.00288625
+      },
+      "failures": []
+    },
+    {
+      "route": "R5",
+      "label": "Jev reranking",
+      "episodes": 1,
+      "groups": 1,
+      "successes": 1,
+      "microSuccessRate": 1,
+      "macroSuccessRate": null,
+      "observedFamilyMacro": 1,
+      "completedEpisodes": 1,
+      "conditionalSuccessRate": 1,
+      "errorRate": 0,
+      "automatedScore90": 90,
+      "p50Ms": 16633,
+      "p95Ms": 16633,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "analytics",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "documents",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "scenario",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "entry",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "adversarial",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        }
+      ],
+      "confidence": {
+        "estimate": 1,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ]
+      },
+      "plannedEpisodes": 12,
+      "missingEpisodes": 11,
+      "complete": false,
+      "cost": {
+        "calls": 4,
+        "inputTokensReported": 9185,
+        "outputTokensReported": 816,
+        "unknownUsageCalls": 1,
+        "reportedUsageEquivalentUsd": 0.00318786,
+        "unknownUsageReservationUsd": 0.00033105,
+        "budgetChargedUsd": 0.0035189099999999997,
+        "budgetUsdPerEpisode": 0.0035189099999999997,
+        "budgetUsdPerSuccess": 0.0035189099999999997
+      },
+      "failures": []
+    },
+    {
+      "route": "R6",
+      "label": "Wren analytics",
+      "episodes": 1,
+      "groups": 1,
+      "successes": 0,
+      "microSuccessRate": 0,
+      "macroSuccessRate": null,
+      "observedFamilyMacro": 0,
+      "completedEpisodes": 0,
+      "conditionalSuccessRate": null,
+      "errorRate": 1,
+      "automatedScore90": 0,
+      "p50Ms": 6254,
+      "p95Ms": 6254,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "analytics",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "documents",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "scenario",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "entry",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "adversarial",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        }
+      ],
+      "confidence": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ]
+      },
+      "plannedEpisodes": 12,
+      "missingEpisodes": 11,
+      "complete": false,
+      "cost": {
+        "calls": 2,
+        "inputTokensReported": 1334,
+        "outputTokensReported": 142,
+        "unknownUsageCalls": 1,
+        "reportedUsageEquivalentUsd": 0.0007552,
+        "unknownUsageReservationUsd": 0.016787299999999998,
+        "budgetChargedUsd": 0.0175425,
+        "budgetUsdPerEpisode": 0.0175425,
+        "budgetUsdPerSuccess": null
+      },
+      "failures": [
+        {
+          "kind": "episode_error",
+          "episodes": 1
+        }
+      ]
+    },
+    {
+      "route": "R7",
+      "label": "LLM verifier",
+      "episodes": 1,
+      "groups": 1,
+      "successes": 1,
+      "microSuccessRate": 1,
+      "macroSuccessRate": null,
+      "observedFamilyMacro": 1,
+      "completedEpisodes": 1,
+      "conditionalSuccessRate": 1,
+      "errorRate": 0,
+      "automatedScore90": 90,
+      "p50Ms": 13607,
+      "p95Ms": 13607,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "analytics",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "documents",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "scenario",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "entry",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "adversarial",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        }
+      ],
+      "confidence": {
+        "estimate": 1,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ]
+      },
+      "plannedEpisodes": 12,
+      "missingEpisodes": 11,
+      "complete": false,
+      "cost": {
+        "calls": 3,
+        "inputTokensReported": 4083,
+        "outputTokensReported": 431,
+        "unknownUsageCalls": 0,
+        "reportedUsageEquivalentUsd": 0.0023024,
+        "unknownUsageReservationUsd": 0,
+        "budgetChargedUsd": 0.0023024,
+        "budgetUsdPerEpisode": 0.0023024,
+        "budgetUsdPerSuccess": 0.0023024
+      },
+      "failures": []
+    },
+    {
+      "route": "R8",
+      "label": "Jev verifier",
+      "episodes": 1,
+      "groups": 1,
+      "successes": 1,
+      "microSuccessRate": 1,
+      "macroSuccessRate": null,
+      "observedFamilyMacro": 1,
+      "completedEpisodes": 1,
+      "conditionalSuccessRate": 1,
+      "errorRate": 0,
+      "automatedScore90": 90,
+      "p50Ms": 11027,
+      "p95Ms": 11027,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "analytics",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "documents",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "scenario",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "entry",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "adversarial",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        }
+      ],
+      "confidence": {
+        "estimate": 1,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ]
+      },
+      "plannedEpisodes": 12,
+      "missingEpisodes": 11,
+      "complete": false,
+      "cost": {
+        "calls": 3,
+        "inputTokensReported": 4841,
+        "outputTokensReported": 947,
+        "unknownUsageCalls": 0,
+        "reportedUsageEquivalentUsd": 0.003086128,
+        "unknownUsageReservationUsd": 0,
+        "budgetChargedUsd": 0.003086128,
+        "budgetUsdPerEpisode": 0.003086128,
+        "budgetUsdPerSuccess": 0.003086128
+      },
+      "failures": []
+    }
+  ],
+  "scores": [
+    {
+      "id": "pilot-v2:R0:financial-01-1:0",
+      "route": "R0",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "family": "financial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 3,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 1752,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R1:financial-01-1:0",
+      "route": "R1",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "family": "financial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 1,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 9407,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R2:financial-01-1:0",
+      "route": "R2",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "family": "financial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 1,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 9100,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R3:financial-01-1:0",
+      "route": "R3",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "family": "financial",
+      "split": "development",
+      "repeat": 0,
+      "status": "error",
+      "success": false,
+      "behaviorCorrect": false,
+      "factsRequired": 1,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": false,
+      "factual": 0,
+      "completion": 0,
+      "grounding": 0,
+      "uncertainty": 0,
+      "automatedScore": 0,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 27154,
+      "hardGateViolations": [],
+      "failures": [
+        "episode_error"
+      ]
+    },
+    {
+      "id": "pilot-v2:R4:financial-01-1:0",
+      "route": "R4",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "family": "financial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 1,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 11027,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R5:financial-01-1:0",
+      "route": "R5",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "family": "financial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 1,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 16633,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R6:financial-01-1:0",
+      "route": "R6",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "family": "financial",
+      "split": "development",
+      "repeat": 0,
+      "status": "error",
+      "success": false,
+      "behaviorCorrect": false,
+      "factsRequired": 1,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": false,
+      "factual": 0,
+      "completion": 0,
+      "grounding": 0,
+      "uncertainty": 0,
+      "automatedScore": 0,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 6254,
+      "hardGateViolations": [],
+      "failures": [
+        "episode_error"
+      ]
+    },
+    {
+      "id": "pilot-v2:R7:financial-01-1:0",
+      "route": "R7",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "family": "financial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 1,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 13607,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "pilot-v2:R8:financial-01-1:0",
+      "route": "R8",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "family": "financial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 1,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 11027,
+      "hardGateViolations": [],
+      "failures": []
+    }
+  ],
+  "comparisons": [
+    {
+      "hypothesis": "H1",
+      "route": "R1",
+      "control": "R0",
+      "kind": "declared",
+      "effect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H2",
+      "route": "R2",
+      "control": "R1",
+      "kind": "declared",
+      "effect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H3a",
+      "route": "R3",
+      "control": "R2",
+      "kind": "declared",
+      "effect": {
+        "estimate": -1,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H3b",
+      "route": "R3",
+      "control": "R4",
+      "kind": "declared",
+      "effect": {
+        "estimate": -1,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H4",
+      "route": "R4",
+      "control": "R2",
+      "kind": "declared",
+      "effect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H5",
+      "route": "R5",
+      "control": "R4",
+      "kind": "declared",
+      "effect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H6",
+      "route": "R6",
+      "control": "R4",
+      "kind": "declared",
+      "effect": {
+        "estimate": -1,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H7a",
+      "route": "R7",
+      "control": "R4",
+      "kind": "declared",
+      "effect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H7b",
+      "route": "R8",
+      "control": "R4",
+      "kind": "declared",
+      "effect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "Descriptive",
+      "kind": "descriptive",
+      "route": "R2",
+      "control": "R0",
+      "effect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "Descriptive",
+      "kind": "descriptive",
+      "route": "R3",
+      "control": "R0",
+      "effect": {
+        "estimate": -1,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "Descriptive",
+      "kind": "descriptive",
+      "route": "R4",
+      "control": "R0",
+      "effect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "Descriptive",
+      "kind": "descriptive",
+      "route": "R5",
+      "control": "R0",
+      "effect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "Descriptive",
+      "kind": "descriptive",
+      "route": "R6",
+      "control": "R0",
+      "effect": {
+        "estimate": -1,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "Descriptive",
+      "kind": "descriptive",
+      "route": "R7",
+      "control": "R0",
+      "effect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "Descriptive",
+      "kind": "descriptive",
+      "route": "R8",
+      "control": "R0",
+      "effect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial"
+        ]
+      }
+    }
+  ],
+  "setup": {
+    "calls": 162,
+    "inputTokensReported": 0,
+    "outputTokensReported": 0,
+    "unknownUsageCalls": 119,
+    "reportedUsageEquivalentUsd": 0,
+    "unknownUsageReservationUsd": 0.04236195,
+    "budgetChargedUsd": 0.04236195,
+    "budgetUsdPerEpisode": null,
+    "budgetUsdPerSuccess": null
+  },
+  "unassignedRunUsage": {
+    "calls": 0,
+    "inputTokensReported": 0,
+    "outputTokensReported": 0,
+    "unknownUsageCalls": 0,
+    "reportedUsageEquivalentUsd": 0,
+    "unknownUsageReservationUsd": 0,
+    "budgetChargedUsd": 0,
+    "budgetUsdPerEpisode": null,
+    "budgetUsdPerSuccess": null
+  },
+  "limitations": [
+    "All inputs are synthetic. References are independently implemented decimal fixture calculations, not audited business records. No independent human adjudication is claimed.",
+    "The primary score measures structured task success against frozen facts, scope, evidence IDs, proposal lines and explicit assumption/clarification tags. Natural-language summary faithfulness and usefulness still need human review.",
+    "Grounding scores measure source provenance: required source IDs, actual result-value bindings and deterministic calculations. They do not establish full semantic entailment of every citation. Supplemental claims without an independent reference or exact trusted-result binding are penalized as unassessed.",
+    "Automated scores are out of 90. The 10-point human clarity dimension and the combined 100-point score are unavailable; they are not imputed by another model.",
+    "Provider/tool errors count as failed end-to-end episodes. Conditional quality excludes status:error episodes and includes intentional blocks; it is not a replacement denominator.",
+    "Confidence intervals resample scenario groups within families. Paraphrases and repeat runs are correlated and stay together. Small synthetic samples do not establish real-world accuracy or safety.",
+    "All displayed 95% bootstrap intervals are unadjusted for the nine predeclared component contrasts and additional descriptive contrasts. They are exploratory effect estimates, not simultaneous confidence guarantees or claims of statistical significance. Two-group pilot and five-group-per-family held-out intervals may have poor coverage; zero-width empirical intervals do not establish certainty.",
+    "Reported monetary amounts are paid-equivalent estimates from returned usage and configured rates, not invoices. Unreported usage remains a separately identified conservative reservation; indexing/setup is separate.",
+    "Managed File Search uses the Interactions API to identify source citations. Its citation order is not a raw retrieval rank or exposed passage list. Authorized source IDs are mapped to the shared canonical documents before answer generation. This is managed source selection, not a like-for-like chunk retriever; raw-passage recall, MRR and nDCG are unavailable unless independently exposed.",
+    "Jev/LLM reviewers see supplied evidence, not ground truth, and can share generator errors. Their approval cannot override deterministic validation or database permissions.",
+    "The Wren route evaluates the pinned OSS semantic engine with the shared planner and approved views. It does not measure the complete commercial Wren product.",
+    "An incomplete route has no full-study conclusion. Missing episodes are reported separately, never silently removed or treated as free successful requests.",
+    "Episode completeness and snapshot integrity are separate gates. Changed or unverified before/after data makes this report ineligible for comparative selection even if every episode is present. Individual routes with hard-gate violations remain disqualified.",
+    "Queue-transport wall latency includes local dispatch delays and is not production request latency. Provider durations are measured separately.",
+    "All study generators normalized to Gemini3.5FlashLite; R0 is an architecture reproduction. Same-model critic errors may correlate."
+  ]
+}

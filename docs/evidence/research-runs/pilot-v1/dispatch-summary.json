@@ -1,0 +1,46 @@
+{
+  "scope": "Continuous-dispatch period only; excludes earlier startup delays and the first bounded loop",
+  "requests": 319,
+  "geminiRequests": 218,
+  "httpStatuses": {
+    "200": 319
+  },
+  "curlExitCodes": {
+    "0": 319
+  },
+  "geminiPreCurlStartGapMs": {
+    "n": 217,
+    "min": 4586,
+    "p50": 4619,
+    "p95": 4624,
+    "max": 7095
+  },
+  "queueWaitMs": {
+    "n": 319,
+    "min": 300,
+    "p50": 2344,
+    "p95": 3549,
+    "max": 18798
+  },
+  "networkDurationMs": {
+    "n": 319,
+    "min": 66,
+    "p50": 1163,
+    "p95": 2437,
+    "max": 6083
+  },
+  "runnerLockExists": false,
+  "readyRequests": 0,
+  "measurementLimit": "Start gaps are recorded immediately before curl invocation, not packet-capture timestamps.",
+  "pilotAfter": {
+    "fingerprint": "2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c",
+    "unchanged": true,
+    "complete": true
+  },
+  "episodes": 108,
+  "episodeStatuses": {
+    "error": 10,
+    "ok": 87,
+    "blocked": 11
+  }
+}

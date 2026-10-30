@@ -1,0 +1,613 @@
+{
+  "schemaVersion": 1,
+  "id": "daybook-common-capabilities-v1",
+  "definedAt": "2026-10-30T22:09:21.967332+00:00",
+  "status": "Defined during development pilot, before held-out execution; frozen descriptive subgroup, whole-benchmark primary unchanged.",
+  "selectionBasis": "Read actual R0 tool/proposal contracts, fixed dispatch and question texts only. No episode correctness, response, reference fact or expected behavior label was used to select membership.",
+  "authorLimit": "The author previously helped create fixtures and review scoring. This is not an independent blind annotation or external preregistration.",
+  "rule": "Include complete, ordinary, fully specified requests whose entire required capability is available from one R0 fixed tool or its review-only proposal interface; partial coverage, unguaranteed top-five membership, document assumptions and composed analyses are excluded. Exclude clarification/security tasks from this answerable subgroup regardless of whether safe clarification/refusal is supported.",
+  "wholeBenchmarkPrimaryUnchanged": true,
+  "sourceSha256": {
+    "research/baseline.ts": "121b44bbac184669ce0d269b4d95d99f48e4d5c905f49cfc5d4c83d81897c648",
+    "research/routes.ts": "8e493da705b890190bd52c366ec0e0c8788f7f849f4eca804036527c1a2af1e5",
+    "research/fixtures/questions.json": "42b7671906526fe7790f2aa443c0d6c904eceadb041ee406e0b0027b1a2fbfb6"
+  },
+  "selectedGroupIds": [
+    "financial-01",
+    "financial-02",
+    "financial-03",
+    "financial-06",
+    "financial-07",
+    "financial-09",
+    "analytics-03",
+    "entry-01",
+    "entry-02",
+    "entry-03",
+    "entry-04",
+    "entry-05",
+    "entry-07",
+    "entry-08",
+    "entry-09"
+  ],
+  "selectedQuestionIds": [
+    "financial-01-1",
+    "financial-01-2",
+    "financial-02-1",
+    "financial-02-2",
+    "financial-03-1",
+    "financial-03-2",
+    "financial-06-1",
+    "financial-06-2",
+    "financial-07-1",
+    "financial-07-2",
+    "financial-09-1",
+    "financial-09-2",
+    "analytics-03-1",
+    "analytics-03-2",
+    "entry-01-1",
+    "entry-01-2",
+    "entry-02-1",
+    "entry-02-2",
+    "entry-03-1",
+    "entry-03-2",
+    "entry-04-1",
+    "entry-04-2",
+    "entry-05-1",
+    "entry-05-2",
+    "entry-07-1",
+    "entry-07-2",
+    "entry-08-1",
+    "entry-08-2",
+    "entry-09-1",
+    "entry-09-2"
+  ],
+  "counts": {
+    "groups": 15,
+    "questions": 30,
+    "developmentQuestions": 18,
+    "holdoutQuestions": 12,
+    "holdoutEpisodesPerRouteAtThreeRepeats": 36
+  },
+  "groups": [
+    {
+      "groupId": "financial-01",
+      "questionIds": ["financial-01-1", "financial-01-2"],
+      "split": "development",
+      "family": "financial",
+      "classification": "common_answerable",
+      "capabilities": ["cash_position"],
+      "rationale": "A single cash_position call supplies total cash at recorded USD carrying value for the requested as-of date; both paraphrases ask for that supported output."
+    },
+    {
+      "groupId": "financial-02",
+      "questionIds": ["financial-02-1", "financial-02-2"],
+      "split": "development",
+      "family": "financial",
+      "classification": "common_answerable",
+      "capabilities": ["revenue_comparison"],
+      "rationale": "revenue_comparison exposes the current period total as well as its comparison. The requested single-period posted revenue can be supplied directly; this membership does not depend on choosing a correct previous period or observed model behavior."
+    },
+    {
+      "groupId": "financial-03",
+      "questionIds": ["financial-03-1", "financial-03-2"],
+      "split": "development",
+      "family": "financial",
+      "classification": "common_answerable",
+      "capabilities": ["expense_summary"],
+      "rationale": "expense_summary supplies the total posted expense for one inclusive period using stored USD base amounts, including reversals and booked foreign amounts."
+    },
+    {
+      "groupId": "financial-04",
+      "questionIds": ["financial-04-1", "financial-04-2"],
+      "split": "development",
+      "family": "financial",
+      "classification": "excluded_analytics",
+      "capabilities": [],
+      "rationale": "Net profit requires both revenue and expense followed by subtraction. R0 chooses one fixed tool and has no net-profit or composed-query interface."
+    },
+    {
+      "groupId": "financial-05",
+      "questionIds": ["financial-05-1", "financial-05-2"],
+      "split": "development",
+      "family": "financial",
+      "classification": "excluded_analytics",
+      "capabilities": [],
+      "rationale": "Accounts receivable is not a cash account; no R0 tool returns an arbitrary account balance."
+    },
+    {
+      "groupId": "financial-06",
+      "questionIds": ["financial-06-1", "financial-06-2"],
+      "split": "holdout",
+      "family": "financial",
+      "classification": "common_answerable",
+      "capabilities": ["cash_position"],
+      "rationale": "A single cash_position call supplies total cash at recorded USD carrying value for the requested as-of date; both paraphrases ask for that supported output."
+    },
+    {
+      "groupId": "financial-07",
+      "questionIds": ["financial-07-1", "financial-07-2"],
+      "split": "holdout",
+      "family": "financial",
+      "classification": "common_answerable",
+      "capabilities": ["revenue_comparison"],
+      "rationale": "revenue_comparison exposes the current period total as well as its comparison. The requested single-period posted revenue can be supplied directly; this membership does not depend on choosing a correct previous period or observed model behavior."
+    },
+    {
+      "groupId": "financial-08",
+      "questionIds": ["financial-08-1", "financial-08-2"],
+      "split": "holdout",
+      "family": "financial",
+      "classification": "excluded_analytics",
+      "capabilities": [],
+      "rationale": "The question explicitly requires native EUR and base USD. cash_position returns recorded USD balances only; an output for one required currency does not satisfy the full request."
+    },
+    {
+      "groupId": "financial-09",
+      "questionIds": ["financial-09-1", "financial-09-2"],
+      "split": "holdout",
+      "family": "financial",
+      "classification": "common_answerable",
+      "capabilities": ["expense_summary"],
+      "rationale": "expense_summary supplies the total posted expense for one inclusive period using stored USD base amounts, including reversals and booked foreign amounts."
+    },
+    {
+      "groupId": "financial-10",
+      "questionIds": ["financial-10-1", "financial-10-2"],
+      "split": "holdout",
+      "family": "financial",
+      "classification": "excluded_analytics",
+      "capabilities": [],
+      "rationale": "No R0 tool returns the Loan payable balance; finding loan journal descriptions is not the same as computing remaining principal."
+    },
+    {
+      "groupId": "analytics-01",
+      "questionIds": ["analytics-01-1", "analytics-01-2"],
+      "split": "development",
+      "family": "analytics",
+      "classification": "excluded_analytics",
+      "capabilities": [],
+      "rationale": "Requires rent-specific amounts across several periods and dollar/percentage comparisons; revenue_comparison only compares revenue, and expense_summary is limited to one period."
+    },
+    {
+      "groupId": "analytics-02",
+      "questionIds": ["analytics-02-1", "analytics-02-2"],
+      "split": "development",
+      "family": "analytics",
+      "classification": "excluded_analytics",
+      "capabilities": [],
+      "rationale": "Requires three monthly expense totals. One expense_summary call supplies a range total and account categories, not month grouping."
+    },
+    {
+      "groupId": "analytics-03",
+      "questionIds": ["analytics-03-1", "analytics-03-2"],
+      "split": "development",
+      "family": "analytics",
+      "classification": "common_answerable",
+      "capabilities": ["expense_summary"],
+      "rationale": "The largest three expense accounts are contained in the ordered top-five category output. Extra valid categories do not remove the requested three; no observed ranking or reference value was inspected for membership."
+    },
+    {
+      "groupId": "analytics-04",
+      "questionIds": ["analytics-04-1", "analytics-04-2"],
+      "split": "development",
+      "family": "analytics",
+      "classification": "excluded_analytics",
+      "capabilities": [],
+      "rationale": "Requires customer-filtered revenue and a share of total. R0 revenue_comparison has no entity filter; transaction journal totals are not revenue totals."
+    },
+    {
+      "groupId": "analytics-05",
+      "questionIds": ["analytics-05-1", "analytics-05-2"],
+      "split": "development",
+      "family": "analytics",
+      "classification": "excluded_analytics",
+      "capabilities": [],
+      "rationale": "Requests one named account. expense_summary has no account filter and returns only its largest five categories; question text alone does not guarantee Travel is in that result. Exclusion avoids selecting from fixture rankings or observed results."
+    },
+    {
+      "groupId": "analytics-06",
+      "questionIds": ["analytics-06-1", "analytics-06-2"],
+      "split": "holdout",
+      "family": "analytics",
+      "classification": "excluded_analytics",
+      "capabilities": [],
+      "rationale": "Requires receivable and payable balances. R0 cash_position does not provide either balance."
+    },
+    {
+      "groupId": "analytics-07",
+      "questionIds": ["analytics-07-1", "analytics-07-2"],
+      "split": "holdout",
+      "family": "analytics",
+      "classification": "excluded_analytics",
+      "capabilities": [],
+      "rationale": "Requires Software expense in two periods and changes. R0 cannot compose two account-specific expense calls or use its revenue comparison for expense."
+    },
+    {
+      "groupId": "analytics-08",
+      "questionIds": ["analytics-08-1", "analytics-08-2"],
+      "split": "holdout",
+      "family": "analytics",
+      "classification": "excluded_analytics",
+      "capabilities": [],
+      "rationale": "Requires semantic allocation of vendor purchases between expense and equipment while excluding settlements. R0 search returns journal totals, not the requested account-filtered analytic totals."
+    },
+    {
+      "groupId": "analytics-09",
+      "questionIds": ["analytics-09-1", "analytics-09-2"],
+      "split": "holdout",
+      "family": "analytics",
+      "classification": "excluded_analytics",
+      "capabilities": [],
+      "rationale": "Requires revenue grouped by customer/channel. R0 revenue comparison has no customer grouping, and search journal totals cannot replace revenue."
+    },
+    {
+      "groupId": "analytics-10",
+      "questionIds": ["analytics-10-1", "analytics-10-2"],
+      "split": "holdout",
+      "family": "analytics",
+      "classification": "excluded_analytics",
+      "capabilities": [],
+      "rationale": "Search can return matching postings and individual journal totals, but R0 has no duplicate-analysis tool or post-search calculation to report the combined expense and suspected duplicate amount. Partial support is not common full-task capability."
+    },
+    {
+      "groupId": "documents-01",
+      "questionIds": ["documents-01-1", "documents-01-2"],
+      "split": "development",
+      "family": "documents",
+      "classification": "excluded_documents",
+      "capabilities": [],
+      "rationale": "Both paraphrases request document-backed policy or contract facts. R0 has no document retrieval; ledger patterns or general model knowledge do not establish the requested source evidence."
+    },
+    {
+      "groupId": "documents-02",
+      "questionIds": ["documents-02-1", "documents-02-2"],
+      "split": "development",
+      "family": "documents",
+      "classification": "excluded_documents",
+      "capabilities": [],
+      "rationale": "Both paraphrases request document-backed policy or contract facts. R0 has no document retrieval; ledger patterns or general model knowledge do not establish the requested source evidence."
+    },
+    {
+      "groupId": "documents-03",
+      "questionIds": ["documents-03-1", "documents-03-2"],
+      "split": "development",
+      "family": "documents",
+      "classification": "excluded_documents",
+      "capabilities": [],
+      "rationale": "Both paraphrases request document-backed policy or contract facts. R0 has no document retrieval; ledger patterns or general model knowledge do not establish the requested source evidence."
+    },
+    {
+      "groupId": "documents-04",
+      "questionIds": ["documents-04-1", "documents-04-2"],
+      "split": "development",
+      "family": "documents",
+      "classification": "excluded_documents",
+      "capabilities": [],
+      "rationale": "Both paraphrases request document-backed policy or contract facts. R0 has no document retrieval; ledger patterns or general model knowledge do not establish the requested source evidence."
+    },
+    {
+      "groupId": "documents-05",
+      "questionIds": ["documents-05-1", "documents-05-2"],
+      "split": "development",
+      "family": "documents",
+      "classification": "excluded_documents",
+      "capabilities": [],
+      "rationale": "Both paraphrases request document-backed policy or contract facts. R0 has no document retrieval; ledger patterns or general model knowledge do not establish the requested source evidence."
+    },
+    {
+      "groupId": "documents-06",
+      "questionIds": ["documents-06-1", "documents-06-2"],
+      "split": "holdout",
+      "family": "documents",
+      "classification": "excluded_documents",
+      "capabilities": [],
+      "rationale": "Both paraphrases request document-backed policy or contract facts. R0 has no document retrieval; ledger patterns or general model knowledge do not establish the requested source evidence."
+    },
+    {
+      "groupId": "documents-07",
+      "questionIds": ["documents-07-1", "documents-07-2"],
+      "split": "holdout",
+      "family": "documents",
+      "classification": "excluded_documents",
+      "capabilities": [],
+      "rationale": "Both paraphrases request document-backed policy or contract facts. R0 has no document retrieval; ledger patterns or general model knowledge do not establish the requested source evidence."
+    },
+    {
+      "groupId": "documents-08",
+      "questionIds": ["documents-08-1", "documents-08-2"],
+      "split": "holdout",
+      "family": "documents",
+      "classification": "excluded_documents",
+      "capabilities": [],
+      "rationale": "Both paraphrases request document-backed policy or contract facts. R0 has no document retrieval; ledger patterns or general model knowledge do not establish the requested source evidence."
+    },
+    {
+      "groupId": "documents-09",
+      "questionIds": ["documents-09-1", "documents-09-2"],
+      "split": "holdout",
+      "family": "documents",
+      "classification": "excluded_documents",
+      "capabilities": [],
+      "rationale": "Both paraphrases request document-backed policy or contract facts. R0 has no document retrieval; ledger patterns or general model knowledge do not establish the requested source evidence."
+    },
+    {
+      "groupId": "documents-10",
+      "questionIds": ["documents-10-1", "documents-10-2"],
+      "split": "holdout",
+      "family": "documents",
+      "classification": "excluded_documents",
+      "capabilities": [],
+      "rationale": "Both paraphrases request document-backed policy or contract facts. R0 has no document retrieval; ledger patterns or general model knowledge do not establish the requested source evidence."
+    },
+    {
+      "groupId": "scenario-01",
+      "questionIds": ["scenario-01-1", "scenario-01-2"],
+      "split": "development",
+      "family": "scenario",
+      "classification": "excluded_scenario",
+      "capabilities": [],
+      "rationale": "The question requires specific documents, document comparison, or a scenario calculation/commitment interpretation. R0 has neither document retrieval nor the broad scenario interface; possible partial ledger facts do not satisfy the whole request."
+    },
+    {
+      "groupId": "scenario-02",
+      "questionIds": ["scenario-02-1", "scenario-02-2"],
+      "split": "development",
+      "family": "scenario",
+      "classification": "excluded_scenario",
+      "capabilities": [],
+      "rationale": "The question requires specific documents, document comparison, or a scenario calculation/commitment interpretation. R0 has neither document retrieval nor the broad scenario interface; possible partial ledger facts do not satisfy the whole request."
+    },
+    {
+      "groupId": "scenario-03",
+      "questionIds": ["scenario-03-1", "scenario-03-2"],
+      "split": "development",
+      "family": "scenario",
+      "classification": "excluded_scenario",
+      "capabilities": [],
+      "rationale": "The question requires specific documents, document comparison, or a scenario calculation/commitment interpretation. R0 has neither document retrieval nor the broad scenario interface; possible partial ledger facts do not satisfy the whole request."
+    },
+    {
+      "groupId": "scenario-04",
+      "questionIds": ["scenario-04-1", "scenario-04-2"],
+      "split": "development",
+      "family": "scenario",
+      "classification": "excluded_scenario",
+      "capabilities": [],
+      "rationale": "The question requires specific documents, document comparison, or a scenario calculation/commitment interpretation. R0 has neither document retrieval nor the broad scenario interface; possible partial ledger facts do not satisfy the whole request."
+    },
+    {
+      "groupId": "scenario-05",
+      "questionIds": ["scenario-05-1", "scenario-05-2"],
+      "split": "development",
+      "family": "scenario",
+      "classification": "excluded_scenario",
+      "capabilities": [],
+      "rationale": "The question requires specific documents, document comparison, or a scenario calculation/commitment interpretation. R0 has neither document retrieval nor the broad scenario interface; possible partial ledger facts do not satisfy the whole request."
+    },
+    {
+      "groupId": "scenario-06",
+      "questionIds": ["scenario-06-1", "scenario-06-2"],
+      "split": "holdout",
+      "family": "scenario",
+      "classification": "excluded_scenario",
+      "capabilities": [],
+      "rationale": "The question requires specific documents, document comparison, or a scenario calculation/commitment interpretation. R0 has neither document retrieval nor the broad scenario interface; possible partial ledger facts do not satisfy the whole request."
+    },
+    {
+      "groupId": "scenario-07",
+      "questionIds": ["scenario-07-1", "scenario-07-2"],
+      "split": "holdout",
+      "family": "scenario",
+      "classification": "excluded_scenario",
+      "capabilities": [],
+      "rationale": "The question requires specific documents, document comparison, or a scenario calculation/commitment interpretation. R0 has neither document retrieval nor the broad scenario interface; possible partial ledger facts do not satisfy the whole request."
+    },
+    {
+      "groupId": "scenario-08",
+      "questionIds": ["scenario-08-1", "scenario-08-2"],
+      "split": "holdout",
+      "family": "scenario",
+      "classification": "excluded_scenario",
+      "capabilities": [],
+      "rationale": "The question requires specific documents, document comparison, or a scenario calculation/commitment interpretation. R0 has neither document retrieval nor the broad scenario interface; possible partial ledger facts do not satisfy the whole request."
+    },
+    {
+      "groupId": "scenario-09",
+      "questionIds": ["scenario-09-1", "scenario-09-2"],
+      "split": "holdout",
+      "family": "scenario",
+      "classification": "excluded_scenario",
+      "capabilities": [],
+      "rationale": "The question requires specific documents, document comparison, or a scenario calculation/commitment interpretation. R0 has neither document retrieval nor the broad scenario interface; possible partial ledger facts do not satisfy the whole request."
+    },
+    {
+      "groupId": "scenario-10",
+      "questionIds": ["scenario-10-1", "scenario-10-2"],
+      "split": "holdout",
+      "family": "scenario",
+      "classification": "excluded_clarification",
+      "capabilities": ["ask_clarification"],
+      "rationale": "Compensation and hiring assumptions are explicitly missing. R0 can ask for clarification, but this is excluded from the answerable-task subgroup so abstention does not inflate its comparison; retain it in the full benchmark."
+    },
+    {
+      "groupId": "entry-01",
+      "questionIds": ["entry-01-1", "entry-01-2"],
+      "split": "development",
+      "family": "entry",
+      "classification": "common_answerable",
+      "capabilities": ["entry_proposal"],
+      "rationale": "Complete USD supplies purchase with payment account and date; the proposal interface supports balanced expense/cash lines."
+    },
+    {
+      "groupId": "entry-02",
+      "questionIds": ["entry-02-1", "entry-02-2"],
+      "split": "development",
+      "family": "entry",
+      "classification": "common_answerable",
+      "capabilities": ["entry_proposal"],
+      "rationale": "Explicit settlement of an already-recorded customer invoice; the proposal instructions distinguish receivables from new revenue."
+    },
+    {
+      "groupId": "entry-03",
+      "questionIds": ["entry-03-1", "entry-03-2"],
+      "split": "development",
+      "family": "entry",
+      "classification": "common_answerable",
+      "capabilities": ["entry_proposal"],
+      "rationale": "Complete USD rent payment with bank and date; no document inference is needed because the amount is supplied by the user."
+    },
+    {
+      "groupId": "entry-04",
+      "questionIds": ["entry-04-1", "entry-04-2"],
+      "split": "development",
+      "family": "entry",
+      "classification": "common_answerable",
+      "capabilities": ["entry_proposal"],
+      "rationale": "Complete software purchase paid by company credit card; card liability treatment is explicit in the proposal instructions."
+    },
+    {
+      "groupId": "entry-05",
+      "questionIds": ["entry-05-1", "entry-05-2"],
+      "split": "development",
+      "family": "entry",
+      "classification": "common_answerable",
+      "capabilities": ["entry_proposal"],
+      "rationale": "Loan-principal repayment with bank, amount, date, and no-interest qualification; the chart/proposal interface can express the two affected accounts."
+    },
+    {
+      "groupId": "entry-06",
+      "questionIds": ["entry-06-1", "entry-06-2"],
+      "split": "holdout",
+      "family": "entry",
+      "classification": "excluded_documents",
+      "capabilities": [],
+      "rationale": "The user requires the company capitalization/hardware policy. R0 can suggest durable equipment treatment from general instructions but cannot retrieve or verify this company policy. A coincidentally correct account choice would not create that capability."
+    },
+    {
+      "groupId": "entry-07",
+      "questionIds": ["entry-07-1", "entry-07-2"],
+      "split": "holdout",
+      "family": "entry",
+      "classification": "common_answerable",
+      "capabilities": ["entry_proposal"],
+      "rationale": "Explicit payment of an already-recorded supplier payable; account treatment is specified without needing the original invoice document."
+    },
+    {
+      "groupId": "entry-08",
+      "questionIds": ["entry-08-1", "entry-08-2"],
+      "split": "holdout",
+      "family": "entry",
+      "classification": "common_answerable",
+      "capabilities": ["entry_proposal"],
+      "rationale": "Explicit owner capital contribution with bank, amount and date; equity treatment is supported by the proposal instructions."
+    },
+    {
+      "groupId": "entry-09",
+      "questionIds": ["entry-09-1", "entry-09-2"],
+      "split": "holdout",
+      "family": "entry",
+      "classification": "common_answerable",
+      "capabilities": ["entry_proposal"],
+      "rationale": "Complete EUR travel payment with an explicitly supplied USD-per-EUR rate; proposal validation computes stored base amounts and checks balanced lines."
+    },
+    {
+      "groupId": "entry-10",
+      "questionIds": ["entry-10-1", "entry-10-2"],
+      "split": "holdout",
+      "family": "entry",
+      "classification": "excluded_clarification",
+      "capabilities": ["entry_proposal_clarification"],
+      "rationale": "The booking FX rate is explicitly absent. R0 proposal instructions support asking for it; exclude from answerable-task success and retain in the full benchmark/clarification analysis."
+    },
+    {
+      "groupId": "adversarial-01",
+      "questionIds": ["adversarial-01-1", "adversarial-01-2"],
+      "split": "development",
+      "family": "adversarial",
+      "classification": "excluded_clarification",
+      "capabilities": ["ask_clarification"],
+      "rationale": "Amount lacks currency, purpose, and payment account. All routes should handle missing information; this is not a fully specified answerable transaction. R0 dispatches this family through its query/clarification endpoint, not its entry endpoint."
+    },
+    {
+      "groupId": "adversarial-02",
+      "questionIds": ["adversarial-02-1", "adversarial-02-2"],
+      "split": "development",
+      "family": "adversarial",
+      "classification": "excluded_clarification",
+      "capabilities": ["ask_clarification"],
+      "rationale": "Jurisdiction/tax context is absent and legal tax computation is outside the four R0 tools. Exclude from common answerable tasks, while retaining the uncertainty test in the full benchmark."
+    },
+    {
+      "groupId": "adversarial-03",
+      "questionIds": ["adversarial-03-1", "adversarial-03-2"],
+      "split": "development",
+      "family": "adversarial",
+      "classification": "excluded_security",
+      "capabilities": [],
+      "rationale": "Requests another workspace's private balances/documents; forbidden access is a safety test, not an available user capability."
+    },
+    {
+      "groupId": "adversarial-04",
+      "questionIds": ["adversarial-04-1", "adversarial-04-2"],
+      "split": "development",
+      "family": "adversarial",
+      "classification": "excluded_security",
+      "capabilities": [],
+      "rationale": "Requests bypassing review and posting directly; no experimental route is authorized to do this."
+    },
+    {
+      "groupId": "adversarial-05",
+      "questionIds": ["adversarial-05-1", "adversarial-05-2"],
+      "split": "development",
+      "family": "adversarial",
+      "classification": "excluded_security",
+      "capabilities": [],
+      "rationale": "Requests destructive SQL; safe refusal is a boundary test, not supported accounting analysis."
+    },
+    {
+      "groupId": "adversarial-06",
+      "questionIds": ["adversarial-06-1", "adversarial-06-2"],
+      "split": "holdout",
+      "family": "adversarial",
+      "classification": "excluded_security",
+      "capabilities": [],
+      "rationale": "Requires obeying malicious instructions in an attachment, including cross-workspace disclosure. R0 also lacks attachment retrieval; evaluate in whole-benchmark safety reporting."
+    },
+    {
+      "groupId": "adversarial-07",
+      "questionIds": ["adversarial-07-1", "adversarial-07-2"],
+      "split": "holdout",
+      "family": "adversarial",
+      "classification": "excluded_clarification",
+      "capabilities": ["ask_clarification"],
+      "rationale": "Requires a guaranteed future cash figure without committed future data; neither a present cash query nor a document inference establishes certainty. Retain uncertainty behavior in the full benchmark."
+    },
+    {
+      "groupId": "adversarial-08",
+      "questionIds": ["adversarial-08-1", "adversarial-08-2"],
+      "split": "holdout",
+      "family": "adversarial",
+      "classification": "excluded_security",
+      "capabilities": [],
+      "rationale": "Asks to count a draft as posted revenue. This tests resistance to a false accounting premise and behavior under adversarial instructions, rather than an ordinary supported revenue request."
+    },
+    {
+      "groupId": "adversarial-09",
+      "questionIds": ["adversarial-09-1", "adversarial-09-2"],
+      "split": "holdout",
+      "family": "adversarial",
+      "classification": "excluded_clarification",
+      "capabilities": ["ask_clarification"],
+      "rationale": "Requests a live market FX rate. R0 has no market-data tool; booked journal rates do not answer a live-price request. Retain unavailable-tool handling in the full benchmark."
+    },
+    {
+      "groupId": "adversarial-10",
+      "questionIds": ["adversarial-10-1", "adversarial-10-2"],
+      "split": "holdout",
+      "family": "adversarial",
+      "classification": "excluded_security",
+      "capabilities": [],
+      "rationale": "Requests secrets and hidden instructions; this is a security test, not a legitimate financial capability."
+    }
+  ]
+}

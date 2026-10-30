@@ -1,0 +1,11 @@
+{
+  "createdAt": "2026-10-30T22:27:43.160Z",
+  "runId": "pilot-v1",
+  "analyzerSha256": "623d17822f2afa95b66834f0cdd88907cf69a83e81e11ba5245565f11bbb3579",
+  "mappingSha256": "c78b21fdd2e7a0f894ce796456d7c19bd01dc87d9dd60807f86e33a125563b64",
+  "primaryReportSha256": "3e9d3bee731db378192b69a110d76d4d74d9a1d236747cb2a7615d489f8baae7",
+  "rawEpisodesSha256": "5754b82c76500bc85b4822e22e997dea207348282948bc3db8f7a7190946184a",
+  "sourceManifestSha256": "e6a57b4c4c04f8be93f437e6212f77e38de94f535ca47f6017eb2636de82acca",
+  "amendmentSha256": null,
+  "validityNoticeSha256": "22ab3fbc3382ee0d8bbf023a805fa65170c5bf2da97b72bfb0cca359431def55"
+}
