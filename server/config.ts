@@ -16,5 +16,5 @@ export const config = {
   aiKey:
     (selectedProvider === 'gemini' ? process.env.GEMINI_API_KEY : process.env.OPENAI_API_KEY)?.trim() ?? '',
   aiModel:
-    process.env.AI_MODEL?.trim() || (selectedProvider === 'gemini' ? 'gemini-3.8-flash' : 'gpt-6-luna'),
+    process.env.AI_MODEL?.trim() || (selectedProvider === 'gemini' ? 'gemini-3.1-flash-lite' : 'gpt-6-luna'),
 };

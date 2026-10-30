@@ -238,6 +238,16 @@ function responseParts(response: GeminiResponse) {
   if (!parts?.length) throw invalid();
   return parts;
 }
+function geminiProposalSchema(schema: z.ZodType) {
+  // Large array maxima can exceed Gemini's constrained-decoding state budget.
+  // Keep the complete Zod schema for response validation below; omit only the
+  // provider grammar's array maxima. Output tokens still bound generation.
+  return JSON.parse(
+    JSON.stringify(z.toJSONSchema(schema), (key, value) =>
+      key === 'maxItems' && typeof value === 'number' ? undefined : value,
+    ),
+  ) as Record<string, unknown>;
+}
 async function geminiRequest(
   instructions: string,
   messages: ModelMessages,
@@ -288,7 +298,7 @@ export async function generateProposal<T extends z.ZodType>(
         messages,
         {
           generationConfig: {
-            responseFormat: { text: { mimeType: 'APPLICATION_JSON', schema: z.toJSONSchema(schema) } },
+            responseFormat: { text: { mimeType: 'APPLICATION_JSON', schema: geminiProposalSchema(schema) } },
           },
         },
         4000,

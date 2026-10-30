@@ -113,6 +113,31 @@ describe('Gemini transport and response contract (no live calls)', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
+  it('omits array maxima from Gemini grammar while preserving the structured shape', async () => {
+    const bounded = z.strictObject({
+      lines: z.array(z.strictObject({ memo: z.string() })).max(100),
+      maxItems: z.string(),
+    });
+    response(gemini([{ text: JSON.stringify({ lines: [{ memo: 'rent' }], maxItems: 'field name' }) }]));
+    await generateProposal(bounded, 'Prepare a draft.', input);
+    const sent = JSON.parse(fetchMock.mock.calls[0][1].body).generationConfig.responseFormat.text.schema;
+    expect(sent.properties.lines.maxItems).toBeUndefined();
+    expect(sent.properties.lines.items.additionalProperties).toBe(false);
+    expect(sent.properties.maxItems.type).toBe('string');
+    expect(sent.required).toEqual(['lines', 'maxItems']);
+  });
+
+  it('still rejects responses exceeding the original array maximum locally', async () => {
+    const bounded = z.strictObject({ lines: z.array(z.strictObject({ memo: z.string() })).max(100) });
+    response(
+      gemini([{ text: JSON.stringify({ lines: Array.from({ length: 101 }, () => ({ memo: 'x' })) }) }]),
+    );
+    await expect(generateProposal(bounded, 'Prepare a draft.', input)).rejects.toMatchObject({
+      code: 'AI_INVALID_RESPONSE',
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
   it.each([
     ['invalid JSON', '{bad json'],
     ['wrong monetary type', '{"amount":25,"action":"READY"}'],

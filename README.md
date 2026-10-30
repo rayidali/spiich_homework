@@ -29,13 +29,13 @@ AI_PROVIDER=gemini
 GEMINI_API_KEY=your_key_here
 ```
 
-Leave `AI_MODEL` empty to use the provider default: `gemini-3.8-flash` or `gpt-6-luna`. For OpenAI, set `AI_PROVIDER=openai` and `OPENAI_API_KEY`. Remove any stale model override when switching providers. Keys remain on the server and are excluded from version control, Docker images, and the submission. Restart the local server after changing `.env`, or recreate the Compose app:
+Leave `AI_MODEL` empty to use the provider default: `gemini-3.1-flash-lite` or `gpt-6-luna`. For OpenAI, set `AI_PROVIDER=openai` and `OPENAI_API_KEY`. Remove any stale model override when switching providers. Keys remain on the server and are excluded from version control, Docker images, and the submission. Restart the local server after changing `.env`, or recreate the Compose app:
 
 ```sh
 docker compose up -d --force-recreate app
 ```
 
-Use a model your project can access. Gemini's default was selected from Google's current [model documentation](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash). An authenticated model-metadata request succeeded; the hosted financial-chat test hit the 25-second timeout. Successful generation, live quality, token usage and billing remain unverified. The key is configured server-side on Vercel as well as locally, but no GitHub Actions key secret was configured. With no key, manual accounting, reports, recurrence, and statistical alerts continue working.
+Use a model your project can access. Gemini's default was selected from Google's current [model documentation](https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-lite). An authenticated model-metadata request succeeded; the hosted financial-chat test hit the 25-second timeout. Successful generation, live quality, token usage and billing remain unverified. The key is configured server-side on Vercel as well as locally, but no GitHub Actions key secret was configured. With no key, manual accounting, reports, recurrence, and statistical alerts continue working.
 
 Start with the bounded four-case smoke evaluation against a running, migrated database:
 
