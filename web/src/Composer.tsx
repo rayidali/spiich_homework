@@ -565,7 +565,11 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
                     </label>
                     <label className="field">
                       {quickKind === 'transfer' ? 'To account' : 'What was it for?'}
-                      <select value={quickCategory} onChange={(e) => setQuickCategory(e.target.value)}>
+                      <select
+                        aria-label={quickKind === 'transfer' ? 'To account' : 'What was it for?'}
+                        value={quickCategory}
+                        onChange={(e) => setQuickCategory(e.target.value)}
+                      >
                         <option value="">
                           {quickKind === 'transfer' ? 'Choose destination' : 'Choose category or account'}
                         </option>
