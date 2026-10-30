@@ -42,7 +42,7 @@ jobs:
       - name: Verify native hosted API module
         run: |
           npm run hosting:bundle
-          node -e "import('./api/index.js').then(() => process.exit(0))"
+          node -e "Promise.all([import('./api/index.js'), import('./api/cron.js')]).then(() => process.exit(0))"
       - run: npm run db:migrate
       - run: npm test
       - run: npx playwright install --with-deps chromium
