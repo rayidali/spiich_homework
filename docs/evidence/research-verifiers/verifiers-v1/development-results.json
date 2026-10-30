@@ -1,0 +1,401 @@
+{
+  "protocol": "daybook-verifiers-v1",
+  "threshold": 0.8,
+  "cases": 80,
+  "correctCases": 40,
+  "flawedCases": 40,
+  "complete": true,
+  "methods": [
+    {
+      "method": "deterministic",
+      "plannedCases": 80,
+      "measuredCases": 80,
+      "missingCases": 0,
+      "errors": 0,
+      "conditionalSemantic": {
+        "episodes": 80,
+        "correct": 40,
+        "flawed": 40,
+        "falseAccepts": 28,
+        "falseRejects": 0,
+        "falseAcceptanceRate": 0.7,
+        "falseRejectionRate": 0,
+        "sensitivity": 0.30000000000000004,
+        "specificity": 1,
+        "balancedAccuracy": 0.65,
+        "brierScore": null,
+        "brierSamples": 0,
+        "flawedCaughtByCode": 12,
+        "flawedMissedByCode": 28,
+        "semanticEscapesAfterCode": 28,
+        "prevalenceIsSynthetic": true
+      },
+      "operationalFailClosed": {
+        "episodes": 80,
+        "correct": 40,
+        "flawed": 40,
+        "falseAccepts": 28,
+        "falseRejects": 0,
+        "falseAcceptanceRate": 0.7,
+        "falseRejectionRate": 0,
+        "sensitivity": 0.30000000000000004,
+        "specificity": 1,
+        "balancedAccuracy": 0.65,
+        "brierScore": null,
+        "brierSamples": 0,
+        "flawedCaughtByCode": 12,
+        "flawedMissedByCode": 28,
+        "semanticEscapesAfterCode": 28,
+        "prevalenceIsSynthetic": true
+      },
+      "combinedWithDeterministic": {
+        "episodes": 80,
+        "correct": 40,
+        "flawed": 40,
+        "falseAccepts": 28,
+        "falseRejects": 0,
+        "falseAcceptanceRate": 0.7,
+        "falseRejectionRate": 0,
+        "sensitivity": 0.30000000000000004,
+        "specificity": 1,
+        "balancedAccuracy": 0.65,
+        "brierScore": null,
+        "brierSamples": 0,
+        "flawedCaughtByCode": 12,
+        "flawedMissedByCode": 28,
+        "semanticEscapesAfterCode": 28,
+        "prevalenceIsSynthetic": true
+      },
+      "byFault": [
+        {
+          "faultType": "wrong_amount",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 0
+        },
+        {
+          "faultType": "wrong_period",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 4
+        },
+        {
+          "faultType": "wrong_entity",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 4
+        },
+        {
+          "faultType": "wrong_currency",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 0
+        },
+        {
+          "faultType": "unsupported_citation",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 0
+        },
+        {
+          "faultType": "obsolete_clause",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 4
+        },
+        {
+          "faultType": "invoice_as_payment",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 4
+        },
+        {
+          "faultType": "missing_assumption",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 4
+        },
+        {
+          "faultType": "unjustified_certainty",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 4
+        },
+        {
+          "faultType": "instruction_in_evidence",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 4
+        }
+      ],
+      "probabilityCalibration": {
+        "available": false,
+        "reason": "No calibrated probability output."
+      }
+    },
+    {
+      "method": "llm",
+      "plannedCases": 80,
+      "measuredCases": 80,
+      "missingCases": 0,
+      "errors": 4,
+      "conditionalSemantic": {
+        "episodes": 76,
+        "correct": 38,
+        "flawed": 38,
+        "falseAccepts": 8,
+        "falseRejects": 2,
+        "falseAcceptanceRate": 0.21052631578947367,
+        "falseRejectionRate": 0.05263157894736842,
+        "sensitivity": 0.7894736842105263,
+        "specificity": 0.9473684210526316,
+        "balancedAccuracy": 0.868421052631579,
+        "brierScore": null,
+        "brierSamples": 0,
+        "flawedCaughtByCode": 12,
+        "flawedMissedByCode": 26,
+        "semanticEscapesAfterCode": 8,
+        "prevalenceIsSynthetic": true
+      },
+      "operationalFailClosed": {
+        "episodes": 80,
+        "correct": 40,
+        "flawed": 40,
+        "falseAccepts": 8,
+        "falseRejects": 4,
+        "falseAcceptanceRate": 0.2,
+        "falseRejectionRate": 0.1,
+        "sensitivity": 0.8,
+        "specificity": 0.9,
+        "balancedAccuracy": 0.8500000000000001,
+        "brierScore": null,
+        "brierSamples": 0,
+        "flawedCaughtByCode": 12,
+        "flawedMissedByCode": 28,
+        "semanticEscapesAfterCode": 8,
+        "prevalenceIsSynthetic": true
+      },
+      "combinedWithDeterministic": {
+        "episodes": 80,
+        "correct": 40,
+        "flawed": 40,
+        "falseAccepts": 8,
+        "falseRejects": 4,
+        "falseAcceptanceRate": 0.2,
+        "falseRejectionRate": 0.1,
+        "sensitivity": 0.8,
+        "specificity": 0.9,
+        "balancedAccuracy": 0.8500000000000001,
+        "brierScore": null,
+        "brierSamples": 0,
+        "flawedCaughtByCode": 12,
+        "flawedMissedByCode": 28,
+        "semanticEscapesAfterCode": 8,
+        "prevalenceIsSynthetic": true
+      },
+      "byFault": [
+        {
+          "faultType": "wrong_amount",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 0
+        },
+        {
+          "faultType": "wrong_period",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 0
+        },
+        {
+          "faultType": "wrong_entity",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 2
+        },
+        {
+          "faultType": "wrong_currency",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 0
+        },
+        {
+          "faultType": "unsupported_citation",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 0
+        },
+        {
+          "faultType": "obsolete_clause",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 0
+        },
+        {
+          "faultType": "invoice_as_payment",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 3
+        },
+        {
+          "faultType": "missing_assumption",
+          "measured": 4,
+          "providerErrors": 1,
+          "accepted": 0
+        },
+        {
+          "faultType": "unjustified_certainty",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 0
+        },
+        {
+          "faultType": "instruction_in_evidence",
+          "measured": 4,
+          "providerErrors": 1,
+          "accepted": 3
+        }
+      ],
+      "probabilityCalibration": {
+        "available": false,
+        "reason": "No calibrated probability output."
+      }
+    },
+    {
+      "method": "jev",
+      "plannedCases": 80,
+      "measuredCases": 80,
+      "missingCases": 0,
+      "errors": 0,
+      "conditionalSemantic": {
+        "episodes": 80,
+        "correct": 40,
+        "flawed": 40,
+        "falseAccepts": 14,
+        "falseRejects": 2,
+        "falseAcceptanceRate": 0.35,
+        "falseRejectionRate": 0.05,
+        "sensitivity": 0.65,
+        "specificity": 0.95,
+        "balancedAccuracy": 0.8,
+        "brierScore": null,
+        "brierSamples": 0,
+        "flawedCaughtByCode": 12,
+        "flawedMissedByCode": 28,
+        "semanticEscapesAfterCode": 11,
+        "prevalenceIsSynthetic": true
+      },
+      "operationalFailClosed": {
+        "episodes": 80,
+        "correct": 40,
+        "flawed": 40,
+        "falseAccepts": 14,
+        "falseRejects": 2,
+        "falseAcceptanceRate": 0.35,
+        "falseRejectionRate": 0.05,
+        "sensitivity": 0.65,
+        "specificity": 0.95,
+        "balancedAccuracy": 0.8,
+        "brierScore": null,
+        "brierSamples": 0,
+        "flawedCaughtByCode": 12,
+        "flawedMissedByCode": 28,
+        "semanticEscapesAfterCode": 11,
+        "prevalenceIsSynthetic": true
+      },
+      "combinedWithDeterministic": {
+        "episodes": 80,
+        "correct": 40,
+        "flawed": 40,
+        "falseAccepts": 11,
+        "falseRejects": 2,
+        "falseAcceptanceRate": 0.275,
+        "falseRejectionRate": 0.05,
+        "sensitivity": 0.725,
+        "specificity": 0.95,
+        "balancedAccuracy": 0.8374999999999999,
+        "brierScore": null,
+        "brierSamples": 0,
+        "flawedCaughtByCode": 12,
+        "flawedMissedByCode": 28,
+        "semanticEscapesAfterCode": 11,
+        "prevalenceIsSynthetic": true
+      },
+      "byFault": [
+        {
+          "faultType": "wrong_amount",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 0
+        },
+        {
+          "faultType": "wrong_period",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 0
+        },
+        {
+          "faultType": "wrong_entity",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 0
+        },
+        {
+          "faultType": "wrong_currency",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 0
+        },
+        {
+          "faultType": "unsupported_citation",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 3
+        },
+        {
+          "faultType": "obsolete_clause",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 0
+        },
+        {
+          "faultType": "invoice_as_payment",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 4
+        },
+        {
+          "faultType": "missing_assumption",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 3
+        },
+        {
+          "faultType": "unjustified_certainty",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 0
+        },
+        {
+          "faultType": "instruction_in_evidence",
+          "measured": 4,
+          "providerErrors": 0,
+          "accepted": 4
+        }
+      ],
+      "probabilityCalibration": {
+        "available": false,
+        "reason": "Hazard-specific gold probabilities/labels were not independently adjudicated; maximum hazard is not an overall probability."
+      }
+    }
+  ],
+  "limitations": [
+    "Synthetic stress cases have 50% flawed prevalence; these results do not estimate production precision.",
+    "Correct/flawed pairs share source scenarios. Reused templates and fault patterns reduce independence; no publication-grade statistical power is claimed.",
+    "The deterministic baseline checks schema, citation existence and exact source amount/currency pairs. It intentionally cannot detect semantic period/entity/narrative contradictions.",
+    "Each semantic reviewer is run on every candidate, including code-detectable faults. Combined pipeline metrics show their additional contribution after code checks.",
+    "Provider errors are separate from semantic decisions. The operational column blocks on errors; the conditional column includes only completed reviewer responses.",
+    "Jev thresholds are selected only on development cases and frozen before holdout. Maximum hazard is an uncalibrated risk score; overall Brier calibration is unavailable.",
+    "LLM critic and main generator use the same Gemini3.5FlashLite weights in separate contexts; their errors are not statistically independent.",
+    "Reference fault labels are synthetic authored cases, not independently adjudicated human judgments. Narrative flaws are measured by these labels, not a judge-model truth claim."
+  ]
+}

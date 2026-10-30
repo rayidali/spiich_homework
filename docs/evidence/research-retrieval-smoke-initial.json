@@ -1,0 +1,55 @@
+{
+  "results": [
+    {
+      "kind": "lexical",
+      "ok": true,
+      "retrieved": [
+        {
+          "id": "acme-contract",
+          "rank": 1,
+          "score": 7
+        },
+        {
+          "id": "acme-oct-invoice",
+          "rank": 2,
+          "score": 4
+        },
+        {
+          "id": "lease-v1",
+          "rank": 3,
+          "score": 4
+        },
+        {
+          "id": "station-receipt",
+          "rank": 4,
+          "score": 2
+        },
+        {
+          "id": "bank-loan",
+          "rank": 5,
+          "score": 1
+        },
+        {
+          "id": "correction-hosting",
+          "rank": 6,
+          "score": 1
+        }
+      ]
+    },
+    {
+      "kind": "hybrid",
+      "ok": false,
+      "error": "RESEARCH_DATABASE_ERROR:42704"
+    },
+    {
+      "kind": "rerank",
+      "ok": false,
+      "error": "RESEARCH_DATABASE_ERROR:42704"
+    },
+    {
+      "kind": "managed",
+      "ok": false,
+      "retrieved": []
+    }
+  ]
+}

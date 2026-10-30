@@ -1,0 +1,309 @@
+"""Bounded JSON-lines adapter around the real Wren Rust semantic engine.
+
+This process only plans SQL. The TypeScript evaluator executes successful plans
+with its separately provisioned, workspace-scoped, read-only PostgreSQL role.
+Neither database credentials nor a database connection enter this process.
+"""
+
+from __future__ import annotations
+
+import base64
+from decimal import Decimal
+import hashlib
+from importlib.metadata import version
+import json
+from pathlib import Path
+import sys
+import time
+
+import sqlglot
+from sqlglot import exp
+from sqlglot.optimizer.scope import Scope, traverse_scope
+import wren_core
+
+
+CORE_VERSION = "0.8.2"
+SQLGLOT_VERSION = "30.27.0"
+MAX_INPUT_BYTES = 16_384
+MAX_ROWS = 100
+MODEL = "ledger"
+PHYSICAL_SCHEMA = "research"
+PHYSICAL_VIEW = "scoped_ledger"
+FUNCTIONS = frozenset({
+    "SUM", "COUNT", "MIN", "MAX", "AVG", "ROUND", "ABS", "COALESCE",
+    "NULLIF", "CASE", "IF", "CAST", "LOWER", "UPPER", "TIMESTAMP_TRUNC",
+    "DATE_TRUNC", "EXTRACT", "GREATEST", "LEAST", "AND", "OR",
+})
+CAST_TYPES = frozenset({
+    "TEXT", "VARCHAR", "CHAR", "DATE", "TIMESTAMP", "TIMESTAMPTZ",
+    "DECIMAL", "INT", "BIGINT", "SMALLINT", "BOOLEAN",
+})
+NATIVE_CURRENCIES = frozenset({"USD", "EUR", "GBP", "CAD", "JPY"})
+
+
+class PolicyError(ValueError):
+    """An untrusted plan exceeded the declared SQL language or resource budget."""
+
+
+def column_units(ast: exp.Expression, expanded: exp.Expression | None = None) -> dict:
+    """Derive numeric units from expressions, never names chosen by the model.
+
+    This is deliberately narrower than the SQL planner. Unsupported lineage
+    can execute, but its numeric output cannot be evidence for a typed claim.
+    """
+    simple_source = (
+        isinstance(ast, exp.Select)
+        and not ast.args.get("with_")
+        and not list(ast.find_all(exp.Join))
+        and not list(ast.find_all(exp.Subquery))
+        and not any(alias.args.get("columns") for alias in ast.find_all(exp.TableAlias))
+        and len(list(ast.find_all(exp.Table))) == 1
+    )
+    if not isinstance(ast, exp.Select):
+        return {"columnUnits": {}, "unitProvenance": "ast-v1"}
+    output = expanded if expanded is not None else ast
+    if not isinstance(output, exp.Select) or len(output.expressions) != len(ast.expressions):
+        return {"columnUnits": {}, "unitProvenance": "ast-v1"}
+
+    def unalias(node):
+        while isinstance(node, (exp.Alias, exp.Paren)):
+            node = node.this
+        return node
+
+    def output_name(node):
+        if node.alias:
+            return node.alias
+        node = unalias(node)
+        if isinstance(node, exp.Column):
+            return node.name
+        if isinstance(node, (exp.Count, exp.Sum, exp.Avg, exp.Min, exp.Max, exp.Round, exp.Abs)):
+            return node.sql_name().lower()
+        return None
+
+    def conjuncts(node):
+        node = unalias(node)
+        if isinstance(node, exp.And):
+            return [*conjuncts(node.this), *conjuncts(node.expression)]
+        return [node]
+
+    currencies = set()
+    where = ast.args.get("where")
+    if simple_source and where:
+        for predicate in conjuncts(where.this):
+            if not isinstance(predicate, exp.EQ):
+                continue
+            left, right = predicate.this, predicate.expression
+            if isinstance(left, exp.Literal):
+                left, right = right, left
+            if isinstance(left, exp.Column) and left.name.lower() == "currency" and isinstance(right, exp.Literal) and right.is_string and right.this in NATIVE_CURRENCIES:
+                currencies.add(right.this)
+    names = [output_name(node) for node in output.expressions]
+    currency_columns = [names[index] for index, node in enumerate(ast.expressions) if isinstance(unalias(node), exp.Column) and unalias(node).name.lower() == "currency" and names[index] and names.count(names[index]) == 1]
+    grouped = ast.args.get("group")
+    grouped_currency = grouped and any(isinstance(unalias(node), exp.Column) and unalias(node).name.lower() == "currency" for node in grouped.expressions)
+    needs_group = any(True for _ in ast.find_all(exp.AggFunc))
+    native_currency = next(iter(currencies)) if len(currencies) == 1 and currency_columns and (not needs_group or grouped_currency) else None
+
+    def common(units):
+        effective = set(units) - {"zero"}
+        return next(iter(effective)) if len(effective) == 1 else "zero" if not effective else "unsupported"
+
+    def unit(node):
+        if node is None or isinstance(node, exp.Null):
+            return "zero"
+        node = unalias(node)
+        if isinstance(node, exp.Column):
+            if not simple_source:
+                return "unsupported"
+            name = node.name.lower()
+            if name in {"base_debit", "base_credit", "net_debit", "net_credit"}:
+                return "USD"
+            if name in {"debit", "credit"} and native_currency:
+                return "native"
+            return "unsupported"
+        if isinstance(node, exp.Literal):
+            if not node.is_number:
+                return "unsupported"
+            return "zero" if Decimal(node.this).is_zero() else "scalar"
+        if isinstance(node, exp.Neg):
+            return unit(node.this)
+        if isinstance(node, exp.Count):
+            return "count"
+        if isinstance(node, exp.Cast):
+            target = node.args.get("to")
+            if isinstance(target, exp.DataType) and getattr(target.this, "name", None) in {"TEXT", "VARCHAR", "CHAR", "DECIMAL", "INT", "BIGINT", "SMALLINT"}:
+                return unit(node.this)
+            return "unsupported"
+        if isinstance(node, (exp.Sum, exp.Avg, exp.Min, exp.Max, exp.Round, exp.Abs)):
+            return unit(node.this)
+        if isinstance(node, exp.Nullif):
+            return unit(node.this)
+        if isinstance(node, (exp.Coalesce, exp.Greatest, exp.Least)):
+            return common([unit(node.this), *(unit(value) for value in node.expressions)])
+        if isinstance(node, exp.Case):
+            return common([unit(branch.args.get("true")) for branch in node.args.get("ifs", [])] + [unit(node.args.get("default"))])
+        if isinstance(node, exp.If):
+            return common([unit(node.args.get("true")), unit(node.args.get("false"))])
+        if isinstance(node, (exp.Add, exp.Sub)):
+            return common([unit(node.this), unit(node.expression)])
+        if isinstance(node, exp.Mul):
+            left, right = unit(node.this), unit(node.expression)
+            if "unsupported" in {left, right}:
+                return "unsupported"
+            if left in {"scalar", "zero", "count"}:
+                return right
+            if right in {"scalar", "zero", "count"}:
+                return left
+            return "unsupported"
+        if isinstance(node, exp.Div):
+            left, right = unit(node.this), unit(node.expression)
+            if "unsupported" in {left, right} or right == "zero":
+                return "unsupported"
+            if left == right and left in {"USD", "native", "count"}:
+                return "count"
+            if right in {"scalar", "count"}:
+                return left
+            return "unsupported"
+        return "unsupported"
+
+    columns = {}
+    for expression, name in zip(ast.expressions, names):
+        if not name or name in {"__proto__", "prototype", "constructor"}:
+            continue
+        value = unit(expression)
+        if name in columns or value not in {"USD", "count", "native"}:
+            value = "unsupported"
+        columns[name] = value
+    result = {"columnUnits": columns, "unitProvenance": "ast-v1"}
+    if native_currency:
+        result["nativeCurrency"] = native_currency
+        result["currencyColumn"] = currency_columns[0]
+    return result
+
+
+def checked_ast(sql: str, *, planned: bool = False) -> exp.Expression:
+    if not isinstance(sql, str) or not sql.strip() or len(sql.encode()) > MAX_INPUT_BYTES:
+        raise PolicyError("SQL_SIZE")
+    try:
+        statements = sqlglot.parse(sql, read="postgres")
+    except sqlglot.errors.ParseError as error:
+        raise PolicyError("SQL_PARSE") from error
+    if len(statements) != 1 or not isinstance(statements[0], (exp.Select, exp.Union)):
+        raise PolicyError("SELECT_ONLY")
+    ast = statements[0]
+    nodes = list(ast.walk())
+    if len(nodes) > (1_600 if planned else 500):
+        raise PolicyError("SQL_COMPLEXITY")
+    forbidden = (exp.DML, exp.DDL, exp.Command, exp.Into, exp.Lock, exp.Dot,
+                 exp.Placeholder, exp.Parameter)
+    for node in nodes:
+        if isinstance(node, forbidden):
+            raise PolicyError("SQL_OPERATION")
+        if isinstance(node, exp.With) and node.args.get("recursive"):
+            raise PolicyError("RECURSIVE_QUERY")
+        if isinstance(node, exp.Func) and node.sql_name().upper() not in FUNCTIONS:
+            raise PolicyError("FUNCTION_NOT_ALLOWED")
+        if isinstance(node, exp.Cast):
+            target = node.args.get("to")
+            if not isinstance(target, exp.DataType) or getattr(target.this, "name", None) not in CAST_TYPES:
+                raise PolicyError("CAST_NOT_ALLOWED")
+        if isinstance(node, (exp.Limit, exp.Offset)):
+            value = node.expression
+            maximum = MAX_ROWS if isinstance(node, exp.Limit) else 1_000
+            if not isinstance(value, exp.Literal) or not value.is_int or not 0 <= int(value.this) <= maximum:
+                raise PolicyError("ROW_BUDGET")
+        if isinstance(node, exp.Literal) and len(str(node.this)) > 1_000:
+            raise PolicyError("LITERAL_BUDGET")
+    if not planned and (len(list(ast.find_all(exp.Join))) > 2 or len(list(ast.find_all(exp.Select))) > 8):
+        raise PolicyError("SQL_COMPLEXITY")
+    has_approved_source = False
+    for scope in traverse_scope(ast):
+        for source in scope.sources.values():
+            if isinstance(source, Scope):
+                continue
+            if not isinstance(source, exp.Table) or not isinstance(source.this, exp.Identifier):
+                raise PolicyError("SOURCE_NOT_ALLOWED")
+            if planned:
+                permitted = source.name == PHYSICAL_VIEW and source.db == PHYSICAL_SCHEMA and not source.catalog
+            else:
+                permitted = source.name == MODEL and not source.db and not source.catalog
+            if not permitted:
+                raise PolicyError("SOURCE_NOT_ALLOWED")
+            has_approved_source = True
+    if not has_approved_source:
+        raise PolicyError("MODEL_REQUIRED")
+    # COUNT(*) is useful; bare SELECT * can return excessive/unreviewed columns.
+    for star in ast.find_all(exp.Star):
+        if not isinstance(star.parent, exp.Count):
+            raise PolicyError("EXPLICIT_COLUMNS_REQUIRED")
+    return ast
+
+
+class Planner:
+    def __init__(self) -> None:
+        if version("wren-core-py") != CORE_VERSION or version("sqlglot") != SQLGLOT_VERSION:
+            raise RuntimeError("PINNED_DEPENDENCIES_REQUIRED")
+        manifest_bytes = Path(__file__).with_name("mdl.json").read_bytes()
+        self.manifest_hash = hashlib.sha256(manifest_bytes).hexdigest()
+        self.session = wren_core.SessionContext(
+            base64.b64encode(manifest_bytes).decode(), None, None, "postgres"
+        )
+
+    def plan(self, sql: str) -> dict:
+        start = time.perf_counter()
+        ast = checked_ast(sql)
+        # The returned SQL always has a bounded final result, including aggregates.
+        if ast.args.get("limit") is None:
+            ast = ast.limit(MAX_ROWS)
+        canonical = ast.sql(dialect="postgres")
+        # This is Wren's actual MDL expansion; never replace failures with custom SQL.
+        expanded = self.session.transform_sql(canonical)
+        expanded_ast = checked_ast(expanded, planned=True)
+        return {
+            "ok": True,
+            "engine": "wren-core-py",
+            "engineVersion": CORE_VERSION,
+            "sqlglotVersion": SQLGLOT_VERSION,
+            "plannedSql": expanded,
+            "inputSha256": hashlib.sha256(sql.encode()).hexdigest(),
+            "manifestSha256": self.manifest_hash,
+            "planningMs": round((time.perf_counter() - start) * 1000, 3),
+            "maxRows": MAX_ROWS,
+            **column_units(ast, expanded_ast),
+        }
+
+
+def main() -> int:
+    try:
+        planner = Planner()
+    except Exception:
+        print(json.dumps({"ok": False, "error": "WREN_UNAVAILABLE"}), flush=True)
+        return 1
+    # Bounded binary readline prevents an oversized line from allocating unbounded RAM.
+    while line := sys.stdin.buffer.readline(MAX_INPUT_BYTES + 1):
+        if len(line) > MAX_INPUT_BYTES:
+            print(json.dumps({"ok": False, "error": "REQUEST_SIZE"}), flush=True)
+            return 1
+        request_id = None
+        try:
+            request = json.loads(line)
+            if not isinstance(request, dict) or set(request) - {"id", "sql"}:
+                raise PolicyError("REQUEST_SCHEMA")
+            request_id = request.get("id")
+            if request_id is not None and (not isinstance(request_id, str) or len(request_id) > 80):
+                raise PolicyError("REQUEST_ID")
+            result = planner.plan(request.get("sql"))
+        except PolicyError as error:
+            result = {"ok": False, "error": str(error)}
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            result = {"ok": False, "error": "REQUEST_JSON"}
+        except Exception:
+            # Rust planner errors can contain the original query; do not echo raw errors.
+            result = {"ok": False, "error": "WREN_PLANNING_FAILED"}
+        result["id"] = request_id
+        print(json.dumps(result, separators=(",", ":")), flush=True)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

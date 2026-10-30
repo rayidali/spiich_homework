@@ -1,0 +1,123 @@
+{
+  "results": [
+    {
+      "kind": "lexical",
+      "ok": true,
+      "retrieved": [
+        {
+          "id": "acme-contract",
+          "rank": 1,
+          "score": 7
+        },
+        {
+          "id": "acme-oct-invoice",
+          "rank": 2,
+          "score": 4
+        },
+        {
+          "id": "lease-v1",
+          "rank": 3,
+          "score": 4
+        },
+        {
+          "id": "station-receipt",
+          "rank": 4,
+          "score": 2
+        },
+        {
+          "id": "bank-loan",
+          "rank": 5,
+          "score": 1
+        },
+        {
+          "id": "correction-hosting",
+          "rank": 6,
+          "score": 1
+        }
+      ]
+    },
+    {
+      "kind": "hybrid",
+      "ok": true,
+      "retrieved": [
+        {
+          "id": "acme-contract",
+          "rank": 1,
+          "score": 0.03278688524590164
+        },
+        {
+          "id": "acme-oct-invoice",
+          "rank": 2,
+          "score": 0.03200204813108039
+        },
+        {
+          "id": "station-receipt",
+          "rank": 3,
+          "score": 0.03125
+        },
+        {
+          "id": "lease-v1",
+          "rank": 4,
+          "score": 0.030798389007344232
+        },
+        {
+          "id": "zephyr-contract",
+          "rank": 5,
+          "score": 0.0304147465437788
+        },
+        {
+          "id": "bank-loan",
+          "rank": 6,
+          "score": 0.015384615384615385
+        }
+      ]
+    },
+    {
+      "kind": "rerank",
+      "ok": true,
+      "retrieved": [
+        {
+          "id": "acme-contract",
+          "rank": 1,
+          "score": 0.98
+        },
+        {
+          "id": "acme-oct-invoice",
+          "rank": 2,
+          "score": 0.16
+        },
+        {
+          "id": "draft-note",
+          "rank": 3,
+          "score": 0.06
+        },
+        {
+          "id": "station-receipt",
+          "rank": 4,
+          "score": 0.04
+        },
+        {
+          "id": "zephyr-contract",
+          "rank": 5,
+          "score": 0.02
+        },
+        {
+          "id": "bank-loan",
+          "rank": 6,
+          "score": 0.02
+        }
+      ]
+    },
+    {
+      "kind": "managed",
+      "ok": true,
+      "retrieved": [
+        {
+          "id": "acme-contract",
+          "rank": 1,
+          "score": null
+        }
+      ]
+    }
+  ]
+}

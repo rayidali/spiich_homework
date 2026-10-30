@@ -1,0 +1,204 @@
+{
+  "purpose": "Exploratory integration preflight; not held-out evidence",
+  "episode": {
+    "id": "route-preflight-R1-financial-01-1-1793395365267",
+    "route": "R1",
+    "questionId": "financial-01-1",
+    "groupId": "financial-01",
+    "family": "financial",
+    "split": "development",
+    "repeat": 0,
+    "status": "ok",
+    "durationMs": 4818,
+    "organizationId": "11111111-1111-4111-8111-111111111111",
+    "answer": {
+      "behavior": "ANSWER",
+      "summary": "Total cash at recorded USD carrying value on September 30, 2026, was $164,615.00.",
+      "facts": [
+        {
+          "key": "cash_balance",
+          "value": "164615.00",
+          "unit": "USD",
+          "evidenceIds": [
+            "query:cash_sep_2026"
+          ],
+          "entity": null,
+          "from": null,
+          "to": "2026-09-30",
+          "asOf": "2026-09-30"
+        }
+      ],
+      "evidenceIds": [
+        "query:cash_sep_2026"
+      ],
+      "assumptions": [],
+      "assumptionTags": [],
+      "clarificationTopics": [],
+      "clarificationTopicTags": [],
+      "proposalLines": [],
+      "calculations": []
+    },
+    "evidence": [
+      {
+        "id": "query:cash_sep_2026",
+        "kind": "ledger",
+        "organizationId": "11111111-1111-4111-8111-111111111111",
+        "text": "{\"id\":\"query:cash_sep_2026\",\"plan\":{\"id\":\"cash_sep_2026\",\"metric\":\"cash_balance\",\"from\":null,\"to\":\"2026-09-30\",\"groupBy\":\"none\",\"accountCodes\":[],\"search\":\"\",\"limit\":1,\"order\":\"value_desc\"},\"sqlHash\":\"0f79122d0f2c045e8f7e2114e100121c4bce02705440e08890082e501126a2ac\",\"rows\":[{\"label\":\"total\",\"value\":\"164615.00\"}],\"snapshot\":\"4b592dc46098c58025c9cc21b1fdb4246a33d1e603f13f521455af318da7480d\"}",
+        "facts": [
+          {
+            "key": "cash_balance",
+            "value": "164615.00",
+            "unit": "USD",
+            "to": "2026-09-30",
+            "asOf": "2026-09-30"
+          }
+        ]
+      },
+      {
+        "id": "user",
+        "kind": "document",
+        "organizationId": "11111111-1111-4111-8111-111111111111",
+        "text": "What was our total cash at recorded USD carrying value on September 30, 2026?",
+        "facts": []
+      }
+    ],
+    "queries": [
+      {
+        "id": "query:cash_sep_2026",
+        "plan": {
+          "id": "cash_sep_2026",
+          "metric": "cash_balance",
+          "from": null,
+          "to": "2026-09-30",
+          "groupBy": "none",
+          "accountCodes": [],
+          "search": "",
+          "limit": 1,
+          "order": "value_desc"
+        },
+        "sqlHash": "0f79122d0f2c045e8f7e2114e100121c4bce02705440e08890082e501126a2ac",
+        "rows": [
+          {
+            "label": "total",
+            "value": "164615.00"
+          }
+        ],
+        "snapshot": "4b592dc46098c58025c9cc21b1fdb4246a33d1e603f13f521455af318da7480d"
+      }
+    ],
+    "validation": {
+      "answer": {
+        "behavior": "ANSWER",
+        "summary": "Total cash at recorded USD carrying value on September 30, 2026, was $164,615.00.",
+        "facts": [
+          {
+            "key": "cash_balance",
+            "value": "164615.00",
+            "unit": "USD",
+            "evidenceIds": [
+              "query:cash_sep_2026"
+            ],
+            "entity": null,
+            "from": null,
+            "to": "2026-09-30",
+            "asOf": "2026-09-30"
+          }
+        ],
+        "evidenceIds": [
+          "query:cash_sep_2026"
+        ],
+        "assumptions": [],
+        "assumptionTags": [],
+        "clarificationTopics": [],
+        "clarificationTopicTags": [],
+        "proposalLines": [],
+        "calculations": []
+      },
+      "valid": true,
+      "reasons": [],
+      "calculations": {}
+    },
+    "review": null,
+    "retrievedIds": [],
+    "metadata": [
+      {
+        "provider": "gemini",
+        "requestedModel": "gemini-3.5-flash-lite",
+        "model": "gemini-3.5-flash-lite",
+        "kind": "generate",
+        "elapsedMs": 1427,
+        "usage": {
+          "inputTokens": 1046,
+          "outputTokens": 137,
+          "thinkingTokens": 142,
+          "totalTokens": 1325
+        }
+      },
+      {
+        "provider": "gemini",
+        "requestedModel": "gemini-3.5-flash-lite",
+        "model": "gemini-3.5-flash-lite",
+        "kind": "generate",
+        "elapsedMs": 2376,
+        "usage": {
+          "inputTokens": 2176,
+          "outputTokens": 227,
+          "thinkingTokens": 0,
+          "totalTokens": 2403
+        }
+      }
+    ],
+    "plan": {
+      "intent": "ANSWER",
+      "queries": [
+        {
+          "id": "cash_sep_2026",
+          "metric": "cash_balance",
+          "from": null,
+          "to": "2026-09-30",
+          "groupBy": "none",
+          "accountCodes": [],
+          "search": "",
+          "limit": 1,
+          "order": "value_desc"
+        }
+      ],
+      "sqlQueries": [],
+      "retrievalQuery": "",
+      "clarification": ""
+    }
+  },
+  "score": {
+    "id": "route-preflight-R1-financial-01-1-1793395365267",
+    "route": "R1",
+    "questionId": "financial-01-1",
+    "groupId": "financial-01",
+    "family": "financial",
+    "split": "development",
+    "repeat": 0,
+    "status": "ok",
+    "success": true,
+    "behaviorCorrect": true,
+    "factsRequired": 1,
+    "factsMatched": 1,
+    "factsEmitted": 1,
+    "unsupportedFacts": 0,
+    "missingDocumentIds": [],
+    "unresolvedCitationIds": [],
+    "missingAssumptionTags": [],
+    "missingClarificationTopicTags": [],
+    "ledgerGrounded": true,
+    "factual": 40,
+    "completion": 20,
+    "grounding": 20,
+    "uncertainty": 10,
+    "automatedScore": 90,
+    "automatedMaximum": 90,
+    "humanClarityScore": null,
+    "overallScore100": null,
+    "narrativeReviewed": false,
+    "durationMs": 4818,
+    "hardGateViolations": [],
+    "failures": []
+  }
+}

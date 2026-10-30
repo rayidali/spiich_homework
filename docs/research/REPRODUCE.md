@@ -1,0 +1,111 @@
+# Reproducing the research study
+
+The experimental database can run on ordinary PostgreSQL with pgvector. A private Neon account, the hosted Daybook demo and Vercel access are not required. The existing application continues to use its own Compose configuration and `spiich_postgres_data` volume.
+
+Use a fresh checkout or clean source copy for a new reproduction. The ignored `.tools/research/` directory contains database credentials, provider index identifiers, accumulated usage and resume state from one run. Do not copy someone else's private state into a new run or overwrite an active study's state to switch databases.
+
+## 1. Install the local dependencies
+
+Requirements are Node.js 22.12 or newer, Docker Compose and Python 3.11 or newer for route R6. Run from the repository root:
+
+```sh
+npm ci
+python3 -m venv .tools/research/wren/venv
+.tools/research/wren/venv/bin/python -m pip install --require-hashes -r research/wren/requirements.txt
+.tools/research/wren/venv/bin/python research/wren/test_bridge.py
+docker compose -f compose.research.yaml up -d --wait
+```
+
+The separate [research Compose file](../../compose.research.yaml) exposes PostgreSQL only at `127.0.0.1:5433` and persists it in `daybook_research_data`. It pins the supported `pgvector/pgvector:0.8.7-pg18` version tag. This is a version tag, not an immutable image digest; record the pulled image digest when reproducing infrastructure exactly. The tag is listed in the [official pgvector Docker instructions](https://github.com/pgvector/pgvector#docker).
+
+This Compose file starts the research database. Node.js runs the study commands below; it does not start the Daybook application or publish a service. The local password in the Compose file is for this loopback-only synthetic environment.
+
+## 2. Configure the research environment
+
+Create a private, gitignored `.env` in the fresh checkout with these values. Supply provider keys locally before the model/indexing steps:
+
+```dotenv
+RESEARCH_DB_TRANSPORT=postgres
+RESEARCH_OWNER_URL=postgresql://daybook_research_owner:daybook_research_local_only@127.0.0.1:5433/daybook_research
+RESEARCH_TRANSPORT=fetch
+GEMINI_API_KEY=replace-locally
+TYPESAFE_API_KEY=replace-locally
+```
+
+`RESEARCH_DB_TRANSPORT` selects database transport. `postgres` uses the installed `pg` driver and a PostgreSQL URL; the default `neon-http` still permits only Neon hosts. There is no automatic host guessing or HTTP fallback to arbitrary addresses. The optional third `ResearchDatabase` constructor argument can explicitly select either transport.
+
+`RESEARCH_TRANSPORT` separately controls provider HTTP. In a normal local environment, `fetch` calls providers directly. The `queue` option exists for the original restricted execution environment and needs an external approved request dispatcher; it is not needed for this reproduction.
+
+The commands below use `--env-file=.env` so every CLI, including database-only checks, receives these settings. Never pass the owner URL or provider keys in model prompts, checked-in result files or command output.
+
+## 3. Provision the isolated fixture and check the database
+
+```sh
+node --env-file=.env --import tsx scripts/research/setup.ts
+node --env-file=.env --import tsx scripts/research/database-check.ts
+node --env-file=.env --import tsx scripts/research/security.ts
+```
+
+Setup creates the `research` schema, fixture tables, required extensions, a generated reader password and a `daybook_research_reader` role. It saves the reader connection in `.tools/research/database-private.json` with private file permissions. Analytical routes use that reader; setup and indexing use the owner URL. The reader can select only the scoped research views. Its default transactions are read-only, its statement timeout is three seconds, and its views restrict organization and posted-entry visibility.
+
+The database check compares custom and actual Wren results with an independent fixture oracle, checks reader restrictions and compares fingerprints before and after. On a fresh standalone database, `public.journal_entries` does not exist: this is recorded as `NOT_APPLICABLE`, with `passed: null` and SQLSTATE `42P01`, rather than credited as a permission denial. Research base-table, write and schema restrictions still have to pass. On a database with the demo table, its reader-denial check remains applicable. Setup/check metadata identifies native PostgreSQL or Neon HTTP transport without inferring physical server isolation from the URL.
+
+The security suite checks deterministic boundaries and records unsupported checks explicitly. It is not a claim that all natural-language prompt attacks were tested against every live model.
+
+## 4. Build both document indexes
+
+These steps make provider requests and consume the configured provider allowance. The vector index uses all 40 synthetic documents; analytical readers see 39 documents belonging to the permitted organization. The managed File Search store contains only those 39 permitted documents.
+
+```sh
+node --env-file=.env --import tsx scripts/research/index.ts vectors
+node --env-file=.env --import tsx scripts/research/index.ts files
+node --env-file=.env --import tsx scripts/research/fixture-check.ts
+```
+
+The fixture check compares complete stored ledger and document contents with the source fixture and verifies the authorized embeddings have the expected dimensions. Run it after vector indexing; missing embeddings correctly produce an incomplete result before indexing. An embedding's presence does not prove its semantic quality.
+
+Indexing resumes from `.tools/research/index-state.json`. Keep that file with its matching database and provider store. If source fixture content changes, use a new study version and run state; setup intentionally does not overwrite existing fixture rows. Re-indexing or changing documents during a measured run changes the experimental condition.
+
+## 5. Run the controlled comparison
+
+Inspect the protocol in [PLAN.md](../PLAN.md), the route definitions and the current budget limits before launching live runs. The budget ledger is `.tools/research/usage.json`; it reserves cost before each request and keeps failures visible. Estimates are not provider invoices, and the existence of a free tier does not guarantee a request is free.
+
+The following commands use distinct run IDs. The smoke and pilot sets contain only development questions. The verifier development step selects and freezes its threshold before held-out evaluation:
+
+```sh
+node --env-file=.env --import tsx scripts/research/run.ts smoke local-smoke-v1
+node --env-file=.env --import tsx scripts/research/verifiers.ts development local-verifiers-v1
+node --env-file=.env --import tsx scripts/research/run.ts pilot local-pilot-v1
+node --env-file=.env --import tsx scripts/research/run.ts development local-development-v1
+node --env-file=.env --import tsx scripts/research/freeze.ts
+node --env-file=.env --import tsx scripts/research/run.ts holdout local-holdout-v1
+node --env-file=.env --import tsx scripts/research/verifiers.ts holdout local-verifiers-v1
+```
+
+By default the runner selects R0–R8. `RESEARCH_ROUTES=R0,R1` can restrict an exploratory run; label such a run as a subset rather than a completed nine-route comparison. Routes R3, R4–R8 and the verifier suite require their corresponding indexes/providers. A subset's results do not establish the missing routes' quality.
+
+The freeze command binds the preserved development outcomes and selected threshold to the complete executable source and reference-case hashes. Run it after all development amendments; both held-out runners reject missing or stale bindings. Generation starts are paced at least 4,200 ms apart for the observed free-tier quota, without automatic retry. Queue expiry counts against request deadlines.
+
+Do not tune prompts, thresholds, fixture data or executable research source after inspecting held-out results. A resumed run checks its source/configuration/data manifest and preserves previously completed or interrupted episodes. Use the same command and run ID to resume unchanged work. A changed implementation requires a new run ID and a clear experimental version, not editing old result rows.
+
+Results are written under `docs/evidence/research-runs/<run-id>/`, including episodes, manifests, before/after fingerprints and report artifacts. Verifier artifacts are under `docs/evidence/research-verifiers/<run-id>/`. Keep incomplete runs and failures when comparing methods; do not present completed-only scores as overall reliability.
+
+## Native transport guarantees and verification limits
+
+Each native operation opens a bounded connection and closes it in `finally`. Connections have a five-second timeout and queries a fifteen-second client timeout; the restricted reader's shorter server timeout remains intact. Batches use one connection with `BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY`, sequential parameterized queries, and `COMMIT`, with rollback attempted on failure. Owner provisioning can explicitly request a read-write batch. Per-client parsers retain exact numeric/bigint strings and date strings without changing global PostgreSQL parser behavior. Driver errors expose only a safe SQLSTATE category.
+
+The route-level tool budget applies independently of transport. A native query or cleanup can finish after the episode deadline; stage checks reject a late answer, but this is not hard real-time cancellation at the exact deadline. Native and queued-HTTP transport latencies are different experimental environments and should not be mixed into one performance claim.
+
+Fifteen mocked-driver tests cover opt-in/default behavior, exact values, transaction sequencing, error classification, rollback and cleanup. The 25 existing core tests also pass with the HTTP default. These tests validate the adapter contract; they do not establish a successful Docker boot or live native PostgreSQL execution. The research container was not started in the original restricted session. Record a real local/CI startup and database check separately before claiming native end-to-end verification.
+
+The [`research-native` CI job](../../.github/workflows/ci.yml) provisions the separate pgvector container, installs and tests the real pinned Wren engine, checks complete fixture source contents before indexing, executes Wren/custom SQL through the restricted reader, and exercises deterministic security boundaries. It receives no provider keys and does not create embeddings, managed indexes or model answers. Its source-content check explicitly leaves embedding completeness unassessed. Six additional check-report tests distinguish absence, actual denial, readable tables, unrelated errors and changed fingerprints.
+
+CI uploads only newly generated, sanitized evidence under `research-native-evidence`: source commit and fixture checks, the pulled database image digest, Wren test output, setup counts, database checks and security results. It excludes private reader state, owner credentials and provider state. Adding this job is not evidence that the job passed; use a completed workflow result and its artifact for that claim.
+
+Stop the research container while retaining its fixture with:
+
+```sh
+docker compose -f compose.research.yaml down
+```
+
+Avoid deleting the research volume during ordinary resume. The application volume and local `.tools/postgres` data directory are unrelated to this reproduction.

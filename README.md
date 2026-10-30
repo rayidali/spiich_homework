@@ -4,6 +4,8 @@
 
 A React and TypeScript accounting workspace backed by PostgreSQL. Every posted journal entry is balanced and immutable at the database level. AI prepares entries for review and selects read-only financial queries; the ledger and SQL own the financial numbers.
 
+An isolated comparative research implementation now explores nine AI architectures: the current tool control, broader analytics, lexical documents, managed File Search, Gemini embeddings with pgvector, Jev reranking, Wren, and two answer reviewers. See the [experimental protocol](docs/PLAN.md) and [research checkpoint](CHECKPOINT.md). Integration checks are passing; the controlled pilot and held-out score study are still in progress. These experimental routes are not deployed as the production assistant, and no study winner is claimed yet.
+
 ![Daybook financial dashboard](docs/evidence/dashboard.png)
 
 The screenshot records the earlier design. Fresh screenshots of Home / Transactions / Reports / Settings are generated in the browser-evidence artifact of the [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs/40999183176); they still need visual review before replacing these images.

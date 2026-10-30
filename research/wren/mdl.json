@@ -1,0 +1,42 @@
+{
+  "catalog": "daybook",
+  "schema": "public",
+  "models": [
+    {
+      "name": "ledger",
+      "tableReference": { "schema": "research", "table": "scoped_ledger" },
+      "columns": [
+        { "name": "organization_id", "type": "varchar" },
+        { "name": "entry_id", "type": "varchar" },
+        { "name": "date", "type": "date" },
+        { "name": "description", "type": "varchar" },
+        { "name": "vendor", "type": "varchar" },
+        { "name": "account_code", "type": "varchar" },
+        { "name": "account_name", "type": "varchar" },
+        { "name": "account_type", "type": "varchar" },
+        { "name": "currency", "type": "varchar" },
+        { "name": "debit", "type": "decimal" },
+        { "name": "credit", "type": "decimal" },
+        { "name": "base_debit", "type": "decimal" },
+        { "name": "base_credit", "type": "decimal" },
+        { "name": "exchange_rate", "type": "decimal" },
+        { "name": "status", "type": "varchar" },
+        { "name": "is_cash", "type": "boolean" },
+        {
+          "name": "net_debit",
+          "type": "decimal",
+          "isCalculated": true,
+          "expression": "base_debit - base_credit"
+        },
+        {
+          "name": "net_credit",
+          "type": "decimal",
+          "isCalculated": true,
+          "expression": "base_credit - base_debit"
+        }
+      ]
+    }
+  ],
+  "relationships": [],
+  "views": []
+}

@@ -1,0 +1,19 @@
+{
+  "upstream": "https://github.com/Canner/WrenAI",
+  "license": "Apache-2.0",
+  "inspectedMainRevision": "8edc086b1f8f9f2974b9faf8ab7c639c85851b46",
+  "core": {
+    "distribution": "wren-core-py",
+    "version": "0.8.2",
+    "releaseRevision": "86fcca2d26cb20bcca9c09aa59a97286290abd3f",
+    "macosArm64WheelSha256": "809a1eca6e10fe748a4bb24f81f9f8e11099c2e96344587fdea44455bc616a1a"
+  },
+  "cliInspectedOnly": {
+    "distribution": "wrenai",
+    "version": "0.17.1",
+    "releaseRevision": "5911a6d3700ce2ec8d5dc0e14fb2b9bb1c44788e",
+    "wheelSha256": "ae5797f1f14202a3e35d6042133e6366d8189891f6ee4e4f7621748917dcd3b0"
+  },
+  "boundary": "R6 uses the actual Wren semantic planning engine with the same Gemini planner as other routes; it does not evaluate the Wren CLI, Wren commercial features, or Wren's optional memory stack.",
+  "verifiedAt": "2026-10-30"
+}

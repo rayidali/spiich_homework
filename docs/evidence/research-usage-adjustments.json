@@ -1,0 +1,11 @@
+{
+  "at": "2026-10-30T21:30:23.978577+00:00",
+  "adjustments": [
+    {
+      "recordId": "aeba3ab0-26d2-4999-a2fc-913df4ad8191",
+      "reason": "Interactions reports File Search tool-use input tokens separately; include all1871 retrieved tokens in paid-equivalent input estimate.",
+      "previousEstimateUsd": 0.0001338,
+      "correctedEstimateUsd": 0.0006951
+    }
+  ]
+}

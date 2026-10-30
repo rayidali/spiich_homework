@@ -21,7 +21,13 @@
     "format:check": "prettier --check .",
     "ai:evaluate": "node --import tsx scripts/evaluate-ai.ts",
     "hosting:prepare": "node --import tsx scripts/prepare-hosting.ts",
-    "hosting:bundle": "node scripts/bundle-hosting.mjs"
+    "hosting:bundle": "node scripts/bundle-hosting.mjs",
+    "research:setup": "node --import tsx scripts/research/setup.ts",
+    "research:index": "node --import tsx scripts/research/index.ts",
+    "research:run": "node --import tsx scripts/research/run.ts",
+    "research:verifiers": "node --import tsx scripts/research/verifiers.ts",
+    "research:security": "node --import tsx scripts/research/security.ts",
+    "research:fixture-check": "node --import tsx scripts/research/fixture-check.ts"
   },
   "dependencies": {
     "@vercel/functions": "2.2.0",

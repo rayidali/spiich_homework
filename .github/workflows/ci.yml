@@ -80,6 +80,93 @@ jobs:
       - if: always()
         run: docker compose down
 
+  research-native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      RESEARCH_DB_TRANSPORT: postgres
+      RESEARCH_OWNER_URL: postgres://daybook_research_owner:daybook_research_local_only@127.0.0.1:5433/daybook_research
+      RESEARCH_TRANSPORT: fetch
+      GEMINI_API_KEY: ''
+      TYPESAFE_API_KEY: ''
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci --no-audit --no-fund
+      - name: Install the pinned actual Wren engine
+        run: |
+          python -m venv .tools/research/wren/venv
+          .tools/research/wren/venv/bin/python -m pip install --require-hashes -r research/wren/requirements.txt
+          mkdir -p .tools/research-ci-evidence
+      - name: Run native transport and actual Wren tests
+        run: |
+          node node_modules/vitest/vitest.mjs run tests/research-database-native.test.ts tests/research-database-check.test.ts tests/research-security.test.ts
+          set -o pipefail
+          .tools/research/wren/venv/bin/python research/wren/test_bridge.py 2>&1 | tee .tools/research-ci-evidence/wren-tests.log
+      - name: Start the isolated research database
+        run: |
+          docker compose -f compose.research.yaml config --quiet
+          docker compose -f compose.research.yaml up -d --wait --wait-timeout 120
+          docker image inspect pgvector/pgvector:0.8.7-pg18 --format '{{json .RepoDigests}}' > .tools/research-ci-evidence/database-image.json
+      - name: Provision synthetic research fixtures with no provider keys
+        run: |
+          node --import tsx scripts/research/setup.ts
+          cp .tools/research/database-setup.json .tools/research-ci-evidence/database-setup.json
+      - name: Check stored source contents before indexing
+        run: |
+          node --import tsx --input-type=module <<'JS'
+          import { readFileSync } from 'node:fs';
+          import { ResearchDatabase } from './research/database.ts';
+          import { httpTransport, atomicJson } from './research/io.ts';
+          import { checkStoredFixture } from './research/fixture-check.ts';
+          const { readerUrl } = JSON.parse(readFileSync('.tools/research/database-private.json', 'utf8'));
+          const report = await checkStoredFixture(new ResearchDatabase(readerUrl, httpTransport()));
+          const failures = report.failures.filter((failure) => failure.section !== 'embeddings');
+          const passed = report.contentMatches && failures.length === 0 && report.observed.embeddingsPresent === 0;
+          atomicJson('.tools/research-ci-evidence/fixture-source-check.json', {
+            at: report.at, sourceCommit: process.env.GITHUB_SHA,
+            scope: 'Pre-index fixture contents only; no provider requests or embedding-quality check',
+            passed, contentMatches: report.contentMatches, embeddingCompletenessAssessed: false,
+            expected: report.expected, observed: report.observed, failures,
+            snapshotSha256: report.snapshotSha256,
+          });
+          if (!passed) throw new Error('RESEARCH_PRE_INDEX_CONTENT_CHECK_FAILED');
+          JS
+      - name: Execute actual Wren SQL and database permission checks
+        run: |
+          rm -f docs/evidence/research-database-check.json
+          check_status=0
+          node --import tsx scripts/research/database-check.ts || check_status=$?
+          if [ -f docs/evidence/research-database-check.json ]; then
+            cp docs/evidence/research-database-check.json .tools/research-ci-evidence/database-check.json
+          fi
+          exit "$check_status"
+      - name: Exercise deterministic security boundaries
+        run: |
+          rm -f docs/evidence/research-security.json
+          check_status=0
+          node --import tsx scripts/research/security.ts || check_status=$?
+          if [ -f docs/evidence/research-security.json ]; then
+            cp docs/evidence/research-security.json .tools/research-ci-evidence/security.json
+          fi
+          exit "$check_status"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: research-native-evidence
+          if-no-files-found: warn
+          path: .tools/research-ci-evidence/
+          include-hidden-files: true
+      - if: always()
+        run: docker compose -f compose.research.yaml down
+
   live-ai:
     if: github.event_name == 'workflow_dispatch' && inputs.live_ai
     needs: [verify, compose]

@@ -1,0 +1,20 @@
+{
+  "recordedAt": "2026-10-30T21:28:31.110586+00:00",
+  "scope": "Actual Wren planning and subprocess protocol only; no PostgreSQL execution or model accuracy claim",
+  "python": "3.15.0",
+  "wrenCore": "0.8.2",
+  "sqlglot": "30.27.0",
+  "testsRun": 22,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "files": {
+    "research/wren/bridge.py": "d6ebc39d368fd9c5d7f314873352a8deb2a83b11cc92e2c95c0328518c973b47",
+    "research/wren/mdl.json": "a1e77b8430987b4c0ccccfeba958121d693d128191f1565f06e5084e41ebd30c",
+    "research/wren/test_bridge.py": "c3a03cb3a0b49705ef55abab5ba3577fb382b998718bd3b8f7484cb9779d1938",
+    "research/wren/client.ts": "3eb136face2832e094289a4507daab59da8f34741275c777c98f32c79ade9316",
+    "research/wren/requirements.txt": "cdf21d0a597641acca687472c94f288bc7b46b94ceea4f1591af47fb5ede8b55"
+  },
+  "unitProvenance": "ast-v1",
+  "typeScriptSubprocessUnitSmoke": "passed count, base-money and scoped native-money checks"
+}

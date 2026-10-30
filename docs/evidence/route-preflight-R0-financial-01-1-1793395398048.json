@@ -1,0 +1,207 @@
+{
+  "purpose": "Exploratory integration preflight; not held-out evidence",
+  "episode": {
+    "id": "route-preflight-R0-financial-01-1-1793395398048",
+    "route": "R0",
+    "questionId": "financial-01-1",
+    "groupId": "financial-01",
+    "family": "financial",
+    "split": "development",
+    "repeat": 0,
+    "status": "ok",
+    "durationMs": 1349,
+    "organizationId": "11111111-1111-4111-8111-111111111111",
+    "answer": {
+      "behavior": "ANSWER",
+      "summary": "Your cash and bank book balance as of 2026-09-30 is $164,615.00 USD. Foreign balances use the exchange rates recorded in your journal.",
+      "facts": [
+        {
+          "key": "cash_balance",
+          "value": "164615.00",
+          "unit": "USD",
+          "evidenceIds": [
+            "query:cash"
+          ],
+          "entity": null,
+          "from": null,
+          "to": null,
+          "asOf": "2026-09-30"
+        },
+        {
+          "key": "cash_account_balance",
+          "value": "163735.00",
+          "unit": "USD",
+          "evidenceIds": [
+            "query:cash_accounts"
+          ],
+          "entity": "Operating bank",
+          "from": null,
+          "to": null,
+          "asOf": "2026-09-30"
+        },
+        {
+          "key": "cash_account_balance",
+          "value": "880.00",
+          "unit": "USD",
+          "evidenceIds": [
+            "query:cash_accounts"
+          ],
+          "entity": "Euro bank",
+          "from": null,
+          "to": null,
+          "asOf": "2026-09-30"
+        }
+      ],
+      "evidenceIds": [
+        "query:cash",
+        "query:cash_accounts"
+      ],
+      "assumptions": [],
+      "assumptionTags": [],
+      "clarificationTopics": [],
+      "clarificationTopicTags": [],
+      "proposalLines": [],
+      "calculations": []
+    },
+    "evidence": [
+      {
+        "id": "query:cash",
+        "kind": "ledger",
+        "organizationId": "11111111-1111-4111-8111-111111111111",
+        "text": "{\"id\":\"query:cash\",\"plan\":{\"id\":\"cash\",\"metric\":\"cash_balance\",\"from\":null,\"to\":\"2026-09-30\",\"groupBy\":\"none\",\"limit\":100,\"search\":\"\",\"accountCodes\":[],\"order\":\"value_desc\"},\"sqlHash\":\"6cdceb950a3cbfc79c4a509d91d03ca79c03cb7e8a6781a9ccd66469c8c3f4ba\",\"rows\":[{\"label\":\"total\",\"value\":\"164615.00\"}],\"snapshot\":\"4b592dc46098c58025c9cc21b1fdb4246a33d1e603f13f521455af318da7480d\",\"facts\":[{\"key\":\"cash_balance\",\"value\":\"164615.00\",\"unit\":\"USD\",\"evidenceIds\":[\"query:cash\"],\"entity\":null,\"from\":null,\"to\":null,\"asOf\":\"2026-09-30\"}]}",
+        "facts": [
+          {
+            "key": "cash_balance",
+            "value": "164615.00",
+            "unit": "USD",
+            "asOf": "2026-09-30"
+          }
+        ]
+      },
+      {
+        "id": "query:cash_accounts",
+        "kind": "ledger",
+        "organizationId": "11111111-1111-4111-8111-111111111111",
+        "text": "{\"id\":\"query:cash_accounts\",\"plan\":{\"id\":\"cash_accounts\",\"metric\":\"cash_balance\",\"from\":null,\"to\":\"2026-09-30\",\"groupBy\":\"account\",\"limit\":100,\"search\":\"\",\"accountCodes\":[],\"order\":\"value_desc\"},\"sqlHash\":\"85874334c5c7b5f512d26e4db3b1f597b67fc6897d100e99180d3e5dd46d851d\",\"rows\":[{\"label\":\"1000 Operating bank\",\"value\":\"163735.00\"},{\"label\":\"1010 Euro bank\",\"value\":\"880.00\"}],\"snapshot\":\"4b592dc46098c58025c9cc21b1fdb4246a33d1e603f13f521455af318da7480d\",\"facts\":[{\"key\":\"cash_account_balance\",\"value\":\"163735.00\",\"unit\":\"USD\",\"evidenceIds\":[\"query:cash_accounts\"],\"entity\":\"Operating bank\",\"from\":null,\"to\":null,\"asOf\":\"2026-09-30\"},{\"key\":\"cash_account_balance\",\"value\":\"880.00\",\"unit\":\"USD\",\"evidenceIds\":[\"query:cash_accounts\"],\"entity\":\"Euro bank\",\"from\":null,\"to\":null,\"asOf\":\"2026-09-30\"}]}",
+        "facts": [
+          {
+            "key": "cash_account_balance",
+            "value": "163735.00",
+            "unit": "USD",
+            "entity": "Operating bank",
+            "asOf": "2026-09-30"
+          },
+          {
+            "key": "cash_account_balance",
+            "value": "880.00",
+            "unit": "USD",
+            "entity": "Euro bank",
+            "asOf": "2026-09-30"
+          }
+        ]
+      }
+    ],
+    "queries": [
+      {
+        "id": "query:cash",
+        "plan": {
+          "id": "cash",
+          "metric": "cash_balance",
+          "from": null,
+          "to": "2026-09-30",
+          "groupBy": "none",
+          "limit": 100,
+          "search": "",
+          "accountCodes": [],
+          "order": "value_desc"
+        },
+        "sqlHash": "6cdceb950a3cbfc79c4a509d91d03ca79c03cb7e8a6781a9ccd66469c8c3f4ba",
+        "rows": [
+          {
+            "label": "total",
+            "value": "164615.00"
+          }
+        ],
+        "snapshot": "4b592dc46098c58025c9cc21b1fdb4246a33d1e603f13f521455af318da7480d"
+      },
+      {
+        "id": "query:cash_accounts",
+        "plan": {
+          "id": "cash_accounts",
+          "metric": "cash_balance",
+          "from": null,
+          "to": "2026-09-30",
+          "groupBy": "account",
+          "limit": 100,
+          "search": "",
+          "accountCodes": [],
+          "order": "value_desc"
+        },
+        "sqlHash": "85874334c5c7b5f512d26e4db3b1f597b67fc6897d100e99180d3e5dd46d851d",
+        "rows": [
+          {
+            "label": "1000 Operating bank",
+            "value": "163735.00"
+          },
+          {
+            "label": "1010 Euro bank",
+            "value": "880.00"
+          }
+        ],
+        "snapshot": "4b592dc46098c58025c9cc21b1fdb4246a33d1e603f13f521455af318da7480d"
+      }
+    ],
+    "metadata": {
+      "provider": "gemini",
+      "requestedModel": "gemini-3.5-flash-lite",
+      "model": "gemini-3.5-flash-lite",
+      "kind": "generate",
+      "elapsedMs": 626,
+      "usage": {
+        "inputTokens": 594,
+        "outputTokens": 26,
+        "thinkingTokens": 0,
+        "totalTokens": 620
+      }
+    },
+    "selectedTool": {
+      "name": "cash_position",
+      "args": {
+        "asOf": "2026-09-30"
+      }
+    }
+  },
+  "score": {
+    "id": "route-preflight-R0-financial-01-1-1793395398048",
+    "route": "R0",
+    "questionId": "financial-01-1",
+    "groupId": "financial-01",
+    "family": "financial",
+    "split": "development",
+    "repeat": 0,
+    "status": "ok",
+    "success": true,
+    "behaviorCorrect": true,
+    "factsRequired": 1,
+    "factsMatched": 1,
+    "factsEmitted": 3,
+    "unsupportedFacts": 0,
+    "missingDocumentIds": [],
+    "unresolvedCitationIds": [],
+    "missingAssumptionTags": [],
+    "missingClarificationTopicTags": [],
+    "ledgerGrounded": true,
+    "factual": 40,
+    "completion": 20,
+    "grounding": 20,
+    "uncertainty": 10,
+    "automatedScore": 90,
+    "automatedMaximum": 90,
+    "humanClarityScore": null,
+    "overallScore100": null,
+    "narrativeReviewed": false,
+    "durationMs": 1349,
+    "hardGateViolations": [],
+    "failures": []
+  }
+}

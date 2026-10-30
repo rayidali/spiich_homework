@@ -1,0 +1,3 @@
+# Wren's actual Rust/DataFusion semantic engine, not a reimplementation.
+wren-core-py==0.8.2
+sqlglot==30.27.0

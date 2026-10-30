@@ -1,0 +1,35 @@
+{
+  "datasetVersion": "daybook-study-v1",
+  "frozenDate": "2026-10-30",
+  "inputs": [
+    {
+      "path": "research/fixtures/ledger.json",
+      "sha256": "22d1213004cf9771bf4e1c8019894304d9074feb3efd202c7c00669bdff86a08"
+    },
+    {
+      "path": "research/fixtures/documents.json",
+      "sha256": "7f6b0d1e6ddf27be8ee5c2524d9d97d1c47e3250254310af2de5d240e9d39aac"
+    },
+    {
+      "path": "research/fixtures/questions.json",
+      "sha256": "42b7671906526fe7790f2aa443c0d6c904eceadb041ee406e0b0027b1a2fbfb6"
+    },
+    {
+      "path": "research/reference.ts",
+      "sha256": "ad627c92e73b84755f1ca825a6bdb99c6d5de0ace047d03e5a995ed65b36d8e4"
+    }
+  ],
+  "counts": {
+    "accounts": 19,
+    "entries": 60,
+    "documents": 40,
+    "questions": 120,
+    "groups": 60,
+    "developmentQuestions": 60,
+    "holdoutQuestions": 60,
+    "reviewCases": 160,
+    "securityCases": 60
+  },
+  "referenceReview": "AI-authored synthetic labels; independent integer-cent assertions passed; human adjudication not performed",
+  "modelEvaluation": "Not run by fixture construction"
+}

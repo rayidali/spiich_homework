@@ -1,6 +1,26 @@
 # Daybook comparative AI research plan
 
-> **Planning only — 2026-10-30.** The user explicitly requested multiple experimental routes, a validation agent and paper-style comparison, and explicitly said **do not implement yet**. This document authorizes no integration, provider spend, indexing, migration, deployment or experiment execution. The current working application remains the baseline. Read [CHECKPOINT.md](../CHECKPOINT.md) for runtime and verification state.
+> **Implementation authorized — 2026-10-30.** After approving the planning checkpoint, the user explicitly requested implementation, automatic checkpoint tests, all route comparisons, a control, comparable scientific-style scores, graphs and a detailed report. The original design below is the preregistration. Amendments must be dated and explained before held-out results are examined. The deployed application remains the baseline. Read [CHECKPOINT.md](../CHECKPOINT.md) for current state.
+
+### Implementation amendments before any held-out run
+
+- The local sandbox denies both TCP and Unix database sockets. An authenticated Neon SQL HTTP probe succeeded and confirmed pgvector availability. Use a separate research schema, synthetic data and a dedicated role restricted to scoped analytical views, rather than connect experiments to demo tables. The physical database may be shared; the report must disclose this distinction from a physically separate database.
+- R6 uses the actual open-source Wren Rust semantic engine (`wren-core-py` 0.8.2), with source/provenance pinned and the same Gemini planner model. It evaluates Wren semantic planning, not the complete Wren commercial application or an extra Wren agent.
+- R3's managed File Search exposes retrieval through generation, not a raw comparable top-k API. Its additional generation call and opaque ranking are counted and disclosed; only actual Interactions File Search citations are used to select authorized original documents as evidence. Generated prose is never substituted for a retrieved passage, and citation order is not raw search ranking.
+- Jev is pinned to `jev-1.14.0`. The user saved its key privately and funded $5; the experiment uses a $4 tracked reservation cap. Unknown usage retains its conservative reservation. No subscription upgrade is needed.
+- The 10-point clarity dimension requires human review. Until an actual blinded human review is available, publish automated scores out of 90 plus exact task success, and mark clarity/100-point totals unavailable. Never fill the missing human score with an AI judgment.
+- Before any development or held-out score run, two live `gemini-3.1-flash-lite` preflights returned high-demand errors; `gemini-3.5-flash-lite` succeeded twice. Normalize **all nine experimental routes** to 3.5 Flash-Lite at temperature 0. R0 reproduces the deployed tool architecture, with fixed fixture date/IDs and normalized inference settings; it is not a byte-identical test of the production deployment. Production model remains unchanged. The reviewer uses a separate 3.5 Flash-Lite invocation and prompt; same-model correlated errors are a limitation, not independent-model evidence.
+- Use a $10 tracked Gemini allowance and $4 Jev allowance. Charges derived from reported usage are paid-equivalent estimates, not invoices. Embedding/index endpoints can omit token usage; retain conservative reservations and show them separately. Failed generations retain an input-byte-plus-overhead/output-limit reservation and count as failed episodes; three consecutive unknown-usage generations trip a persisted circuit. This explicit amendment allows transient failures to remain measured without pretending they were free. No automatic episode retry or silent failure replacement is allowed.
+
+### Additional amendments before held-out evaluation (2026-10-30)
+
+- Development reviewer requests encountered four Gemini rate-limit errors. Raw failures remain in the development record. The observed free-tier quota is 15 generation requests/minute; all subsequent runners enforce at least 4,200 ms between Gemini generation, managed-search and critic starts. Embeddings and Jev are separate. Pacing and dispatch waiting count in harness wall latency; actual HTTP service duration is reported separately. No paid-tier upgrade is assumed.
+- Queue transport now expires work inside the request/episode deadline and removes undispatched expired requests. The earlier development reviewer run used a longer operational queue allowance. This timing amendment does not change reviewer prompts, case labels or the selected Jev threshold.
+- The fixed output protocol uses named metric keys and typed facts. A correct amount under the wrong key can fail structured task completion; report protocol mismatch separately from numerical mismatch where possible. Prose factual faithfulness has no independent human score.
+- All non-PASS reviewer outcomes withhold the candidate; this implementation does not generate a new clarification conversation or repair the answer. Report false withholding as well as accepted errors.
+- Wren runs real semantic planning and bounded SQL. Its current financial-unit provenance supports direct aggregate/projection queries; complex CTE/join/union lineage is not implemented and fails closed as financial evidence. This is a limitation of this integration, not an inherent limit of Wren.
+- Native reproduction uses a separate pgvector Compose database on port 5433. The live sandbox uses restricted Neon HTTP views. Record runtime/transport and fingerprint the complete scoped ledger, documents and embeddings before/after a run; an absent or changed snapshot makes conclusions ineligible.
+- Primary comparisons follow H1–H7. Additional baseline comparisons are descriptive. Confidence intervals are exploratory and unadjusted for multiple comparisons; repeats/paraphrases are clustered by source scenario. Do not label a single favorable interval as definitive proof.
 
 ## Objective and honest baseline
 
@@ -8,7 +28,7 @@ Determine which architecture broadens useful financial assistance while retainin
 
 The current application uses Gemini `gemini-3.1-flash-lite`, four financial query families plus clarification, structured transaction proposals, PostgreSQL text/history/correction retrieval, strict Zod/account/money validation and immutable posted bookkeeping. Full CI on `7ecb435c421862dba5efd4e3b6f743c93fd1888e` passed **103 backend tests, 10 browser workflows, native hosted imports and Docker startup/persistence**. Selected live questions and a review-only proposal passed; intermittent provider errors were observed. Those are engineering checks, not a completed live-model benchmark.
 
-File Search, custom embeddings/pgvector, Jev, Wren, multi-step analytical planning, scenario analysis and a second-model validator are **proposed, not implemented**. The previous 40-case harness is a useful regression fixture, not sufficient evidence for the broader research questions.
+File Search, custom embeddings/pgvector, Jev, Wren, multi-step analytical planning, scenario analysis and a separate-invocation validator are implemented in the isolated research harness; their comparative evaluation is in progress. They are not enabled in the deployed product. The previous 40-case harness is a useful regression fixture, not sufficient evidence for the broader research questions.
 
 ## Questions and hypotheses
 
@@ -64,7 +84,7 @@ All new routes below share the broader capability foundation defined in the next
 | **R4 Custom hybrid**       | Same as R1                                       | Gemini embeddings + pgvector and lexical search + existing context  | None                    | Explicit semantic/hybrid retrieval                    |
 | **R5 Jev reranking**       | Same as R1                                       | Same R4 candidate pool, with Jev reranking only                     | None                    | Evidence ranking, not answer verification             |
 | **R6 Wren analytics**      | Wren-backed queries; same scenario calculator    | Same as R4                                                          | None                    | Query/semantic-layer backend                          |
-| **R7 LLM verifier**        | Same as R1                                       | Same as R4                                                          | Independent LLM critic  | Added answer verification                             |
+| **R7 LLM verifier**        | Same as R1                                       | Same as R4                                                          | Separate LLM invocation | Added answer verification                             |
 | **R8 Jev verifier**        | Same as R1                                       | Same as R4                                                          | Jev checks              | Alternative semantic verifier                         |
 
 R4 is the fixed reference for R5–R8 so that retrieval selection does not confound the first component comparisons. Once development results are available, at most two finalists may receive a combined configuration selected by a rule written before held-out testing. If both reranking and verification appear useful, remove each separately from that combined configuration to measure its contribution. Do not add combinations after seeing held-out failures without a new evaluation version.
@@ -140,7 +160,7 @@ Use synthetic ledger snapshots and a proposed 30–50 document corpus: contracts
 
 Reference financial answers come from independently reviewed SQL/calculations and fixtures, not the same candidate query generator or verifier. Compare executed results on multiple data variants; SQL string equality is not correctness. Label expected evidence passages, assumptions, accepted alternative interpretations and when clarification is necessary. Specify currency/rounding and percentage tolerances per case in advance.
 
-One human reviewer labels all references; a second reviews a stratified 20% plus every disputed/critical case. Resolve disagreements before freezing the set and retain an adjudication log. Synthetic annotations do not make this an audited accounting dataset or human financial advice.
+The original proposal called for two human reviewers. No human adjudication has occurred: current labels are synthetic AI-authored cases with separately implemented exact arithmetic and fixture tests. This is a protocol limitation, not human-reviewed ground truth. Human review of references, disputed cases and prose remains unavailable and must be disclosed in every final report.
 
 ### Separate validator stress set: proposed 160 candidates
 
@@ -197,7 +217,7 @@ A proposed development-stage selection rule is at least **five percentage points
 
 Show a quality/cost/latency Pareto comparison. An extra service can be rejected even with a small quality gain if it greatly increases latency, failures or operational burden. No component is selected because it has more agents, stars or vendor confidence.
 
-## Execution sequence after a later implementation instruction
+## Authorized execution sequence
 
 | Stage                | Work                                                                                            | Exit condition                                                                      |
 | -------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
@@ -212,7 +232,7 @@ Show a quality/cost/latency Pareto comparison. An extra service can be rejected 
 
 Proposed per-episode ceilings: **four generator model calls**, **one semantic-verifier call**, **eight read-only data/retrieval tool calls**, bounded result sizes and a **60-second end-to-end deadline**. No automatic repair loop. Query embedding and Jev reranking calls are explicitly additional provider operations with their own one-request-per-step caps and reported costs; do not hide them in tool counts. Concurrency starts at one and only rises after provider quota behavior is measured, given the observed intermittent failures.
 
-The 1,620 main episodes could reach 8,100 generator/verifier calls under those ceilings, plus declared retrieval/embedding/reranking operations and indexing. This is an upper request-count illustration, not a monetary quote. Estimate current model/service prices and set an explicit dollar ceiling before any execution; do not assume paid/free quotas from the existing key. Stop scheduling on budget exhaustion/unknown usage, reserve for in-flight work, and use provider-side spending controls where supported. No budget has been spent or authorized by writing this plan.
+The 1,620 main episodes could reach 8,100 generator/verifier calls under those ceilings, plus declared retrieval/embedding/reranking operations and indexing. This is an upper request-count illustration, not a monetary quote. Estimate current model/service prices and set an explicit dollar ceiling before any execution; do not assume paid/free quotas from the existing key. Stop scheduling on budget exhaustion/unknown usage, reserve for in-flight work, and use provider-side spending controls where supported. The original planning document itself authorized no spend; the later implementation request authorized the explicit $10 Gemini / $4 Jev tracked limits recorded above.
 
 Run a tiny smoke integration before the 108-episode pilot; the pilot itself is optional if budgets/time are too tight. Do not run the whole matrix simply because it exists. A focused pilot might fit **one to two days** after references/access are ready; a defensible nine-route implementation plus labeling/analysis is more realistically **several focused days, potentially a week or more**. These are estimates, contingent on integration compatibility and annotation effort, not promises. The working assignment submission stays usable throughout.
 
@@ -242,11 +262,9 @@ No results table should contain invented scores. Proposed columns are route, sup
 
 This anchor is retained for older documentation links. The previous delivery allocation is preserved locally at `.tools/checkpoints/delivery-plan-before-research-2026-10-30.md`. The active plan is now the staged comparison above, not an instruction to add every candidate immediately. A one-to-two-day effort is a pilot with a clear scope/cost limit; it is not a full-scale research claim.
 
-## Preconditions and current stop point
+## Current execution boundary
 
-Before later implementation: agree the experimental tier and dollar/call ceiling, settle the reviewed metrics/reference corpus, confirm Jev access and the pinned Wren integration/feature set, select embedding/generator/reviewer model versions, and prepare isolated evaluation resources. Do not ask for keys in chat; use private local/server configuration when needed. Paid components are acceptable when justified, but no account/service change is authorized by this discussion.
-
-**Stop now at the plan.** No application code, dependency, schema, provider configuration, hosted deployment or dataset/index was changed or created for this planning task. No agent was launched to execute a route; “validation agent” describes a future application component. Preserve the current production demo, database history and existing named Compose volume.
+Implementation and bounded provider evaluation are authorized by the later user request. Both keys are privately configured. The research dataset, indexes and nine route implementations exist; development measurements are in progress. Freeze source, protocol, corpus and reviewer configuration before held-out evaluation. Preserve every failed attempt and report missing work explicitly. Do not silently tune on held-out answers. The deployed product, posted history, original migrations and named application Compose volume remain unchanged. No account billing-plan upgrade has been performed.
 
 ## Primary sources checked for planning
 
@@ -254,4 +272,4 @@ Before later implementation: agree the experimental tier and dollar/call ceiling
 - [Gemini embeddings](https://ai.google.dev/gemini-api/docs/embeddings): embedding generation for semantic retrieval; model/dimension fixed per run.
 - [pgvector](https://github.com/pgvector/pgvector): PostgreSQL vector storage/search; permissions and record freshness remain application concerns.
 - [TypeSafe documentation index](https://docs.typesafe.ai/llms.txt), [Noul](https://docs.typesafe.ai/primitives/noul), [Choice](https://docs.typesafe.ai/primitives/choice), [Confidence](https://docs.typesafe.ai/confidence): narrow typed semantic decisions; no vendor certainty substitutes for a measured financial success rate.
-- [WrenAI repository](https://github.com/Canner/WrenAI) and [README](https://github.com/Canner/WrenAI/blob/main/README.md): semantic/context layer, governed querying and documented OSS/commercial boundaries. Research described capabilities; the software was not installed, pinned for execution or tested here.
+- [WrenAI repository](https://github.com/Canner/WrenAI) and [README](https://github.com/Canner/WrenAI/blob/main/README.md): semantic/context layer, governed querying and documented OSS/commercial boundaries. The later implementation pins and executes OSS Wren core; see [Wren provenance](research/WREN.md) for its exact scope and tests.

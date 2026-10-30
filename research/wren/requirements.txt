@@ -1,0 +1,9 @@
+# Pin and hashes from PyPI, verified 2026-10-30. No network required at runtime.
+wren-core-py==0.8.2 \
+    --hash=sha256:9af21b41fa54b6f787b5a3ca772a6e124cefd2b9028712512a12bdae8c5991ef \
+    --hash=sha256:809a1eca6e10fe748a4bb24f81f9f8e11099c2e96344587fdea44455bc616a1a \
+    --hash=sha256:c8bd81272198a574e7127eb062d7097ab42286e97ae166d749524714dbc630a9 \
+    --hash=sha256:54cf19fb9a646e4ef3700781a2177a9d09284684202a8dca2aea0e0fcc3cf553 \
+    --hash=sha256:38e015e9ea33b1daaeb32838edab10f6cf31cc83b1fd9b4833ff87f41f731549
+sqlglot==30.27.0 \
+    --hash=sha256:b630686fc167762e20960ad3d007ad03d81af0a804c9f7d117f1fe06433c839e

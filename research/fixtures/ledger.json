@@ -1,0 +1,1879 @@
+{
+  "accounts": [
+    {
+      "code": "1000",
+      "name": "Operating bank",
+      "type": "ASSET",
+      "currency": "USD",
+      "isCash": true
+    },
+    {
+      "code": "1010",
+      "name": "Euro bank",
+      "type": "ASSET",
+      "currency": "EUR",
+      "isCash": true
+    },
+    {
+      "code": "1100",
+      "name": "Accounts receivable",
+      "type": "ASSET",
+      "currency": "USD",
+      "isCash": false
+    },
+    {
+      "code": "1500",
+      "name": "Equipment",
+      "type": "ASSET",
+      "currency": "USD",
+      "isCash": false
+    },
+    {
+      "code": "2000",
+      "name": "Accounts payable",
+      "type": "LIABILITY",
+      "currency": "USD",
+      "isCash": false
+    },
+    {
+      "code": "2100",
+      "name": "Company credit card",
+      "type": "LIABILITY",
+      "currency": "USD",
+      "isCash": false
+    },
+    {
+      "code": "2300",
+      "name": "Loan payable",
+      "type": "LIABILITY",
+      "currency": "USD",
+      "isCash": false
+    },
+    {
+      "code": "3000",
+      "name": "Owner equity",
+      "type": "EQUITY",
+      "currency": "USD",
+      "isCash": false
+    },
+    {
+      "code": "4000",
+      "name": "Services revenue",
+      "type": "REVENUE",
+      "currency": "USD",
+      "isCash": false
+    },
+    {
+      "code": "4100",
+      "name": "Product revenue",
+      "type": "REVENUE",
+      "currency": "USD",
+      "isCash": false
+    },
+    {
+      "code": "5000",
+      "name": "Rent",
+      "type": "EXPENSE",
+      "currency": "USD",
+      "isCash": false
+    },
+    {
+      "code": "5010",
+      "name": "Payroll",
+      "type": "EXPENSE",
+      "currency": "USD",
+      "isCash": false
+    },
+    {
+      "code": "5020",
+      "name": "Software",
+      "type": "EXPENSE",
+      "currency": "USD",
+      "isCash": false
+    },
+    {
+      "code": "5030",
+      "name": "Office supplies",
+      "type": "EXPENSE",
+      "currency": "USD",
+      "isCash": false
+    },
+    {
+      "code": "5040",
+      "name": "Travel",
+      "type": "EXPENSE",
+      "currency": "USD",
+      "isCash": false
+    },
+    {
+      "code": "5050",
+      "name": "Insurance",
+      "type": "EXPENSE",
+      "currency": "USD",
+      "isCash": false
+    },
+    {
+      "code": "5060",
+      "name": "Bank fees",
+      "type": "EXPENSE",
+      "currency": "USD",
+      "isCash": false
+    },
+    {
+      "code": "5070",
+      "name": "Meals",
+      "type": "EXPENSE",
+      "currency": "USD",
+      "isCash": false
+    },
+    {
+      "code": "5080",
+      "name": "Repairs",
+      "type": "EXPENSE",
+      "currency": "USD",
+      "isCash": false
+    }
+  ],
+  "entries": [
+    {
+      "id": "opening",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-07-01",
+      "status": "POSTED",
+      "description": "Owner investment, not revenue",
+      "vendor": "Owner",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1000",
+          "debit": "100000.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "100000.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "3000",
+          "debit": "0.00",
+          "credit": "100000.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "100000.00"
+        }
+      ]
+    },
+    {
+      "id": "loan",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-07-02",
+      "status": "POSTED",
+      "description": "Bank loan principal, not revenue",
+      "vendor": "Harbor Bank",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1000",
+          "debit": "20000.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "20000.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "2300",
+          "debit": "0.00",
+          "credit": "20000.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "20000.00"
+        }
+      ]
+    },
+    {
+      "id": "acme-07",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-07-05",
+      "status": "POSTED",
+      "description": "Acme support services paid",
+      "vendor": "Acme Corp",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1000",
+          "debit": "18000.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "18000.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "4000",
+          "debit": "0.00",
+          "credit": "18000.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "18000.00"
+        }
+      ]
+    },
+    {
+      "id": "zephyr-invoice-07",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-07-10",
+      "status": "POSTED",
+      "description": "Zephyr project invoice Z-07",
+      "vendor": "Zephyr Labs",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1100",
+          "debit": "7000.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "7000.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "4000",
+          "debit": "0.00",
+          "credit": "7000.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "7000.00"
+        }
+      ]
+    },
+    {
+      "id": "zephyr-payment-07",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-07-24",
+      "status": "POSTED",
+      "description": "Receipt for existing Zephyr invoice Z-07",
+      "vendor": "Zephyr Labs",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1000",
+          "debit": "7000.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "7000.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1100",
+          "debit": "0.00",
+          "credit": "7000.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "7000.00"
+        }
+      ]
+    },
+    {
+      "id": "products-07",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-07-14",
+      "status": "POSTED",
+      "description": "Web store product sales",
+      "vendor": "Web store",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1000",
+          "debit": "4900.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "4900.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "4100",
+          "debit": "0.00",
+          "credit": "4900.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "4900.00"
+        }
+      ]
+    },
+    {
+      "id": "rent-07",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-07-01",
+      "status": "POSTED",
+      "description": "Willow office rent",
+      "vendor": "Willow Properties",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5000",
+          "debit": "2400.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "2400.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "2400.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "2400.00"
+        }
+      ]
+    },
+    {
+      "id": "payroll-07",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-07-28",
+      "status": "POSTED",
+      "description": "Payroll paid including existing employer costs",
+      "vendor": "Payroll provider",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5010",
+          "debit": "12000.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "12000.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "12000.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "12000.00"
+        }
+      ]
+    },
+    {
+      "id": "software-07",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-07-03",
+      "status": "POSTED",
+      "description": "CloudDesk team subscription",
+      "vendor": "CloudDesk",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5020",
+          "debit": "300.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "300.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "2100",
+          "debit": "0.00",
+          "credit": "300.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "300.00"
+        }
+      ]
+    },
+    {
+      "id": "supplies-07",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-07-17",
+      "status": "POSTED",
+      "description": "Station House printer paper and pens",
+      "vendor": "Station House",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "320.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "320.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "2100",
+          "debit": "0.00",
+          "credit": "320.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "320.00"
+        }
+      ]
+    },
+    {
+      "id": "insurance-07",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-07-04",
+      "status": "POSTED",
+      "description": "Safe Harbor monthly insurance",
+      "vendor": "Safe Harbor",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5050",
+          "debit": "200.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "200.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "200.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "200.00"
+        }
+      ]
+    },
+    {
+      "id": "fees-07",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-07-30",
+      "status": "POSTED",
+      "description": "Bank service fee",
+      "vendor": "Harbor Bank",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5060",
+          "debit": "25.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "25.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "25.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "25.00"
+        }
+      ]
+    },
+    {
+      "id": "acme-08",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-08-05",
+      "status": "POSTED",
+      "description": "Acme support services paid",
+      "vendor": "Acme Corp",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1000",
+          "debit": "21000.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "21000.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "4000",
+          "debit": "0.00",
+          "credit": "21000.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "21000.00"
+        }
+      ]
+    },
+    {
+      "id": "zephyr-invoice-08",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-08-10",
+      "status": "POSTED",
+      "description": "Zephyr project invoice Z-08",
+      "vendor": "Zephyr Labs",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1100",
+          "debit": "8000.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "8000.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "4000",
+          "debit": "0.00",
+          "credit": "8000.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "8000.00"
+        }
+      ]
+    },
+    {
+      "id": "products-08",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-08-14",
+      "status": "POSTED",
+      "description": "Web store product sales",
+      "vendor": "Web store",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1000",
+          "debit": "6100.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "6100.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "4100",
+          "debit": "0.00",
+          "credit": "6100.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "6100.00"
+        }
+      ]
+    },
+    {
+      "id": "rent-08",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-08-01",
+      "status": "POSTED",
+      "description": "Willow office rent",
+      "vendor": "Willow Properties",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5000",
+          "debit": "2400.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "2400.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "2400.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "2400.00"
+        }
+      ]
+    },
+    {
+      "id": "payroll-08",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-08-28",
+      "status": "POSTED",
+      "description": "Payroll paid including existing employer costs",
+      "vendor": "Payroll provider",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5010",
+          "debit": "12000.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "12000.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "12000.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "12000.00"
+        }
+      ]
+    },
+    {
+      "id": "software-08",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-08-03",
+      "status": "POSTED",
+      "description": "CloudDesk team subscription",
+      "vendor": "CloudDesk",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5020",
+          "debit": "300.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "300.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "2100",
+          "debit": "0.00",
+          "credit": "300.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "300.00"
+        }
+      ]
+    },
+    {
+      "id": "supplies-08",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-08-17",
+      "status": "POSTED",
+      "description": "Station House printer paper and pens",
+      "vendor": "Station House",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "440.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "440.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "2100",
+          "debit": "0.00",
+          "credit": "440.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "440.00"
+        }
+      ]
+    },
+    {
+      "id": "insurance-08",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-08-04",
+      "status": "POSTED",
+      "description": "Safe Harbor monthly insurance",
+      "vendor": "Safe Harbor",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5050",
+          "debit": "200.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "200.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "200.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "200.00"
+        }
+      ]
+    },
+    {
+      "id": "fees-08",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-08-30",
+      "status": "POSTED",
+      "description": "Bank service fee",
+      "vendor": "Harbor Bank",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5060",
+          "debit": "25.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "25.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "25.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "25.00"
+        }
+      ]
+    },
+    {
+      "id": "acme-09",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-09-05",
+      "status": "POSTED",
+      "description": "Acme support services paid",
+      "vendor": "Acme Corp",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1000",
+          "debit": "16000.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "16000.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "4000",
+          "debit": "0.00",
+          "credit": "16000.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "16000.00"
+        }
+      ]
+    },
+    {
+      "id": "zephyr-invoice-09",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-09-10",
+      "status": "POSTED",
+      "description": "Zephyr project invoice Z-09",
+      "vendor": "Zephyr Labs",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1100",
+          "debit": "9000.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "9000.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "4000",
+          "debit": "0.00",
+          "credit": "9000.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "9000.00"
+        }
+      ]
+    },
+    {
+      "id": "zephyr-payment-09",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-09-24",
+      "status": "POSTED",
+      "description": "Receipt for existing Zephyr invoice Z-09",
+      "vendor": "Zephyr Labs",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1000",
+          "debit": "9000.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "9000.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1100",
+          "debit": "0.00",
+          "credit": "9000.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "9000.00"
+        }
+      ]
+    },
+    {
+      "id": "products-09",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-09-14",
+      "status": "POSTED",
+      "description": "Web store product sales",
+      "vendor": "Web store",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1000",
+          "debit": "5700.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "5700.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "4100",
+          "debit": "0.00",
+          "credit": "5700.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "5700.00"
+        }
+      ]
+    },
+    {
+      "id": "rent-09",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-09-01",
+      "status": "POSTED",
+      "description": "Willow office rent",
+      "vendor": "Willow Properties",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5000",
+          "debit": "2400.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "2400.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "2400.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "2400.00"
+        }
+      ]
+    },
+    {
+      "id": "payroll-09",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-09-28",
+      "status": "POSTED",
+      "description": "Payroll paid including existing employer costs",
+      "vendor": "Payroll provider",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5010",
+          "debit": "13500.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "13500.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "13500.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "13500.00"
+        }
+      ]
+    },
+    {
+      "id": "software-09",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-09-03",
+      "status": "POSTED",
+      "description": "CloudDesk team subscription",
+      "vendor": "CloudDesk",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5020",
+          "debit": "300.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "300.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "2100",
+          "debit": "0.00",
+          "credit": "300.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "300.00"
+        }
+      ]
+    },
+    {
+      "id": "supplies-09",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-09-17",
+      "status": "POSTED",
+      "description": "Station House printer paper and pens",
+      "vendor": "Station House",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "350.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "350.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "2100",
+          "debit": "0.00",
+          "credit": "350.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "350.00"
+        }
+      ]
+    },
+    {
+      "id": "insurance-09",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-09-04",
+      "status": "POSTED",
+      "description": "Safe Harbor monthly insurance",
+      "vendor": "Safe Harbor",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5050",
+          "debit": "200.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "200.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "200.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "200.00"
+        }
+      ]
+    },
+    {
+      "id": "fees-09",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-09-30",
+      "status": "POSTED",
+      "description": "Bank service fee",
+      "vendor": "Harbor Bank",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5060",
+          "debit": "25.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "25.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "25.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "25.00"
+        }
+      ]
+    },
+    {
+      "id": "acme-10",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-10-05",
+      "status": "POSTED",
+      "description": "Acme support services paid",
+      "vendor": "Acme Corp",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1000",
+          "debit": "19000.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "19000.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "4000",
+          "debit": "0.00",
+          "credit": "19000.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "19000.00"
+        }
+      ]
+    },
+    {
+      "id": "zephyr-invoice-10",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-10-10",
+      "status": "POSTED",
+      "description": "Zephyr project invoice Z-10",
+      "vendor": "Zephyr Labs",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1100",
+          "debit": "11000.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "11000.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "4000",
+          "debit": "0.00",
+          "credit": "11000.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "11000.00"
+        }
+      ]
+    },
+    {
+      "id": "products-10",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-10-14",
+      "status": "POSTED",
+      "description": "Web store product sales",
+      "vendor": "Web store",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1000",
+          "debit": "7200.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "7200.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "4100",
+          "debit": "0.00",
+          "credit": "7200.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "7200.00"
+        }
+      ]
+    },
+    {
+      "id": "rent-10",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-10-01",
+      "status": "POSTED",
+      "description": "Willow office rent",
+      "vendor": "Willow Properties",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5000",
+          "debit": "2640.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "2640.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "2640.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "2640.00"
+        }
+      ]
+    },
+    {
+      "id": "payroll-10",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-10-28",
+      "status": "POSTED",
+      "description": "Payroll paid including existing employer costs",
+      "vendor": "Payroll provider",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5010",
+          "debit": "13500.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "13500.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "13500.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "13500.00"
+        }
+      ]
+    },
+    {
+      "id": "software-10",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-10-03",
+      "status": "POSTED",
+      "description": "CloudDesk team subscription",
+      "vendor": "CloudDesk",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5020",
+          "debit": "360.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "360.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "2100",
+          "debit": "0.00",
+          "credit": "360.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "360.00"
+        }
+      ]
+    },
+    {
+      "id": "supplies-10",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-10-17",
+      "status": "POSTED",
+      "description": "Station House printer paper and pens",
+      "vendor": "Station House",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "410.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "410.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "2100",
+          "debit": "0.00",
+          "credit": "410.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "410.00"
+        }
+      ]
+    },
+    {
+      "id": "insurance-10",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-10-04",
+      "status": "POSTED",
+      "description": "Safe Harbor monthly insurance",
+      "vendor": "Safe Harbor",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5050",
+          "debit": "200.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "200.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "200.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "200.00"
+        }
+      ]
+    },
+    {
+      "id": "fees-10",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-10-30",
+      "status": "POSTED",
+      "description": "Bank service fee",
+      "vendor": "Harbor Bank",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5060",
+          "debit": "25.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "25.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "25.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "25.00"
+        }
+      ]
+    },
+    {
+      "id": "zephyr-aug-payment",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-09-08",
+      "status": "POSTED",
+      "description": "Receipt settles August invoice Z-08",
+      "vendor": "Zephyr Labs",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1000",
+          "debit": "8000.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "8000.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1100",
+          "debit": "0.00",
+          "credit": "8000.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "8000.00"
+        }
+      ]
+    },
+    {
+      "id": "travel-jul",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-07-19",
+      "status": "POSTED",
+      "description": "Rail journey to client workshop",
+      "vendor": "Metro Rail",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5040",
+          "debit": "180.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "180.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "180.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "180.00"
+        }
+      ]
+    },
+    {
+      "id": "travel-aug",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-08-20",
+      "status": "POSTED",
+      "description": "Client flight booking",
+      "vendor": "Northstar Air",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5040",
+          "debit": "640.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "640.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "2100",
+          "debit": "0.00",
+          "credit": "640.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "640.00"
+        }
+      ]
+    },
+    {
+      "id": "travel-sep-error",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-09-16",
+      "status": "POSTED",
+      "description": "Cancelled flight accidentally expensed",
+      "vendor": "Northstar Air",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5040",
+          "debit": "600.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "600.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "600.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "600.00"
+        }
+      ]
+    },
+    {
+      "id": "travel-sep-reversal",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-09-17",
+      "status": "POSTED",
+      "description": "Reverse cancelled flight in full",
+      "vendor": "Northstar Air",
+      "reversalOf": "travel-sep-error",
+      "lines": [
+        {
+          "accountCode": "1000",
+          "debit": "600.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "600.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "5040",
+          "debit": "0.00",
+          "credit": "600.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "600.00"
+        }
+      ]
+    },
+    {
+      "id": "travel-sep",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-09-22",
+      "status": "POSTED",
+      "description": "Client train journey",
+      "vendor": "Metro Rail",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5040",
+          "debit": "210.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "210.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "210.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "210.00"
+        }
+      ]
+    },
+    {
+      "id": "travel-oct",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-10-20",
+      "status": "POSTED",
+      "description": "Conference hotel",
+      "vendor": "Eastgate Hotel",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5040",
+          "debit": "780.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "780.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "2100",
+          "debit": "0.00",
+          "credit": "780.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "780.00"
+        }
+      ]
+    },
+    {
+      "id": "equipment-aug",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-08-12",
+      "status": "POSTED",
+      "description": "Company laptops capitalized",
+      "vendor": "Station House",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1500",
+          "debit": "3600.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "3600.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "2000",
+          "debit": "0.00",
+          "credit": "3600.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "3600.00"
+        }
+      ]
+    },
+    {
+      "id": "equipment-payment-sep",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-09-12",
+      "status": "POSTED",
+      "description": "Paid Station House laptop invoice",
+      "vendor": "Station House",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "2000",
+          "debit": "3600.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "3600.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "3600.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "3600.00"
+        }
+      ]
+    },
+    {
+      "id": "repair-oct",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-10-11",
+      "status": "POSTED",
+      "description": "Desk repair invoice unpaid",
+      "vendor": "Fixwell",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5080",
+          "debit": "450.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "450.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "2000",
+          "debit": "0.00",
+          "credit": "450.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "450.00"
+        }
+      ]
+    },
+    {
+      "id": "card-payment-sep",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-09-29",
+      "status": "POSTED",
+      "description": "Partial credit card settlement",
+      "vendor": "Card issuer",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "2100",
+          "debit": "1500.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "1500.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "1500.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "1500.00"
+        }
+      ]
+    },
+    {
+      "id": "meals-aug",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-08-23",
+      "status": "POSTED",
+      "description": "Client team lunch",
+      "vendor": "Maple Cafe",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5070",
+          "debit": "120.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "120.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "2100",
+          "debit": "0.00",
+          "credit": "120.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "120.00"
+        }
+      ]
+    },
+    {
+      "id": "meals-sep-1",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-09-23",
+      "status": "POSTED",
+      "description": "Client lunch reference MC-93",
+      "vendor": "Maple Cafe",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5070",
+          "debit": "140.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "140.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "2100",
+          "debit": "0.00",
+          "credit": "140.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "140.00"
+        }
+      ]
+    },
+    {
+      "id": "meals-sep-2",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-09-23",
+      "status": "POSTED",
+      "description": "Client lunch reference MC-93 duplicate posted",
+      "vendor": "Maple Cafe",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5070",
+          "debit": "140.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "140.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "2100",
+          "debit": "0.00",
+          "credit": "140.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "140.00"
+        }
+      ]
+    },
+    {
+      "id": "eur-transfer",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-08-02",
+      "status": "POSTED",
+      "description": "Move USD 1100 to EUR account at 1.10 USD per EUR",
+      "vendor": "Harbor Bank",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1010",
+          "debit": "1000.00",
+          "credit": "0.00",
+          "currency": "EUR",
+          "exchangeRate": "1.10",
+          "baseDebit": "1100.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "1100.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "1100.00"
+        }
+      ]
+    },
+    {
+      "id": "eur-trip",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-08-21",
+      "status": "POSTED",
+      "description": "EUR 200 travel paid from Euro bank at stored rate 1.10",
+      "vendor": "Europa Rail",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5040",
+          "debit": "220.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "220.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0.00",
+          "credit": "200.00",
+          "currency": "EUR",
+          "exchangeRate": "1.10",
+          "baseDebit": "0.00",
+          "baseCredit": "220.00"
+        }
+      ]
+    },
+    {
+      "id": "draft-big-expense",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-09-30",
+      "status": "DRAFT",
+      "description": "Unposted proposal to buy equipment",
+      "vendor": "Draft Vendor",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "5080",
+          "debit": "99000.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "99000.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "1000",
+          "debit": "0.00",
+          "credit": "99000.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "99000.00"
+        }
+      ]
+    },
+    {
+      "id": "draft-revenue",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-10-15",
+      "status": "DRAFT",
+      "description": "Unposted estimate, not earned revenue",
+      "vendor": "Acme Corp",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1100",
+          "debit": "75000.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "75000.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "4000",
+          "debit": "0.00",
+          "credit": "75000.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "75000.00"
+        }
+      ]
+    },
+    {
+      "id": "future-receipt",
+      "organizationId": "11111111-1111-4111-8111-111111111111",
+      "date": "2026-11-02",
+      "status": "POSTED",
+      "description": "November-only customer payment",
+      "vendor": "Future Customer",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1000",
+          "debit": "100000.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "100000.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "4000",
+          "debit": "0.00",
+          "credit": "100000.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "100000.00"
+        }
+      ]
+    },
+    {
+      "id": "foreign-org-cash",
+      "organizationId": "22222222-2222-4222-8222-222222222222",
+      "date": "2026-07-01",
+      "status": "POSTED",
+      "description": "Other organization secret opening amount",
+      "vendor": "Other owner",
+      "reversalOf": null,
+      "lines": [
+        {
+          "accountCode": "1000",
+          "debit": "777777.00",
+          "credit": "0.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "777777.00",
+          "baseCredit": "0.00"
+        },
+        {
+          "accountCode": "3000",
+          "debit": "0.00",
+          "credit": "777777.00",
+          "currency": "USD",
+          "exchangeRate": "1",
+          "baseDebit": "0.00",
+          "baseCredit": "777777.00"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+name: daybook-research
+
+services:
+  research-db:
+    image: pgvector/pgvector:0.8.7-pg18
+    environment:
+      POSTGRES_USER: daybook_research_owner
+      POSTGRES_PASSWORD: daybook_research_local_only
+      POSTGRES_DB: daybook_research
+    ports:
+      - '127.0.0.1:5433:5432'
+    volumes:
+      - research_data:/var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U daybook_research_owner -d daybook_research']
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+volumes:
+  research_data:
+    name: daybook_research_data

@@ -1,0 +1,55 @@
+{
+  "at": "2026-10-30T21:04:41.367Z",
+  "checks": [
+    {
+      "name": "custom SQL vs independent decimal oracle",
+      "passed": true,
+      "details": [
+        {
+          "label": "total",
+          "value": "164615.00"
+        }
+      ]
+    },
+    {
+      "name": "actual Wren plan executed by restricted PostgreSQL reader",
+      "passed": true,
+      "details": [
+        {
+          "value": "164615.00"
+        }
+      ]
+    },
+    {
+      "name": "fixed workspace view excludes other tenant",
+      "passed": true
+    },
+    {
+      "name": "research base table denied",
+      "passed": true
+    },
+    {
+      "name": "demo ledger denied",
+      "passed": true
+    },
+    {
+      "name": "write denied",
+      "passed": true
+    },
+    {
+      "name": "schema creation denied",
+      "passed": true
+    },
+    {
+      "name": "complete ledger fingerprint unchanged",
+      "passed": true
+    }
+  ],
+  "before": "4b592dc46098c58025c9cc21b1fdb4246a33d1e603f13f521455af318da7480d",
+  "after": "4b592dc46098c58025c9cc21b1fdb4246a33d1e603f13f521455af318da7480d",
+  "wren": {
+    "version": "0.8.2",
+    "manifestHash": "a1e77b8430987b4c0ccccfeba958121d693d128191f1565f06e5084e41ebd30c"
+  },
+  "isolation": "Dedicated restricted role and scoped research schema on shared physical Neon database"
+}

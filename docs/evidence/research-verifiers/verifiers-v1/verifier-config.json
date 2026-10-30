@@ -1,0 +1,98 @@
+{
+  "protocol": "daybook-verifiers-v1",
+  "threshold": 0.8,
+  "feasible": true,
+  "selectedOn": "development",
+  "developmentCases": 80,
+  "correctCases": 40,
+  "flawedCases": 40,
+  "successfulJevDecisions": 80,
+  "deterministicFalseRejectionRate": 0,
+  "maxAdditionalFalseRejection": 0.05,
+  "grid": [
+    {
+      "threshold": 0.5,
+      "falseAccepts": 7,
+      "falseRejects": 16,
+      "falseRejectionRate": 0.4,
+      "feasible": false
+    },
+    {
+      "threshold": 0.6,
+      "falseAccepts": 7,
+      "falseRejects": 12,
+      "falseRejectionRate": 0.3,
+      "feasible": false
+    },
+    {
+      "threshold": 0.7,
+      "falseAccepts": 8,
+      "falseRejects": 8,
+      "falseRejectionRate": 0.2,
+      "feasible": false
+    },
+    {
+      "threshold": 0.75,
+      "falseAccepts": 12,
+      "falseRejects": 7,
+      "falseRejectionRate": 0.175,
+      "feasible": false
+    },
+    {
+      "threshold": 0.8,
+      "falseAccepts": 14,
+      "falseRejects": 2,
+      "falseRejectionRate": 0.05,
+      "feasible": true
+    },
+    {
+      "threshold": 0.85,
+      "falseAccepts": 19,
+      "falseRejects": 1,
+      "falseRejectionRate": 0.025,
+      "feasible": true
+    },
+    {
+      "threshold": 0.9,
+      "falseAccepts": 23,
+      "falseRejects": 0,
+      "falseRejectionRate": 0,
+      "feasible": true
+    },
+    {
+      "threshold": 0.95,
+      "falseAccepts": 32,
+      "falseRejects": 0,
+      "falseRejectionRate": 0,
+      "feasible": true
+    },
+    {
+      "threshold": 0.98,
+      "falseAccepts": 39,
+      "falseRejects": 0,
+      "falseRejectionRate": 0,
+      "feasible": true
+    },
+    {
+      "threshold": 0.99,
+      "falseAccepts": 39,
+      "falseRejects": 0,
+      "falseRejectionRate": 0,
+      "feasible": true
+    },
+    {
+      "threshold": 1,
+      "falseAccepts": 40,
+      "falseRejects": 0,
+      "falseRejectionRate": 0,
+      "feasible": true
+    }
+  ],
+  "selectionRule": "Among thresholds adding at most 5 percentage points of correct-candidate rejection versus deterministic checks, minimize flawed acceptance; ties minimize false rejection, then choose the higher threshold. If none qualifies, retain the least-rejecting threshold only for measurement and mark feasibility false.",
+  "probabilityCalibration": "Maximum of seven hazard probabilities is an uncalibrated risk score, not probability that the entire answer is invalid. No overall Brier score is inferred.",
+  "runId": "verifiers-v1",
+  "frozenAt": "2026-10-30T21:50:17.710Z",
+  "sourceHash": "ba44936a52a595a1fecc9e3142f67fb14ceac63f81e14f05fe2dc5bf3466eb47",
+  "developmentInputHash": "849c044906859b2e5b27cef4af6ae4ec6343e9ff0bc63bf0a2664a0defeae9f6",
+  "developmentResultsHash": "4eaf2d0b16a17a6731eef786c98049dac8bda54593076c7af7fee14cd80c19bb"
+}

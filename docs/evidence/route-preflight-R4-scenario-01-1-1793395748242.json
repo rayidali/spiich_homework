@@ -1,0 +1,365 @@
+{
+  "purpose": "Exploratory integration preflight; not held-out evidence",
+  "episode": {
+    "id": "route-preflight-R4-scenario-01-1-1793395748242",
+    "route": "R4",
+    "questionId": "scenario-01-1",
+    "groupId": "scenario-01",
+    "family": "scenario",
+    "split": "development",
+    "repeat": 0,
+    "status": "ok",
+    "durationMs": 5431,
+    "organizationId": "11111111-1111-4111-8111-111111111111",
+    "answer": {
+      "behavior": "ANSWER",
+      "summary": "Based on the engineer hiring worksheet, the monthly gross salary is USD 6000.00 and employer benefits/taxes are USD 1080.00, resulting in a recurring monthly hire cost of USD 7080.00. The one-time recruiting cost is USD 3000.00.",
+      "facts": [
+        {
+          "key": "monthly_hire_cost",
+          "value": "7080.00",
+          "unit": "USD",
+          "evidenceIds": [
+            "calc:monthly_hire_cost"
+          ],
+          "entity": "Engineer",
+          "from": "2026-11-01",
+          "to": null,
+          "asOf": null
+        },
+        {
+          "key": "recruiting_cost",
+          "value": "3000.00",
+          "unit": "USD",
+          "evidenceIds": [
+            "payroll-engineer"
+          ],
+          "entity": "Engineer",
+          "from": "2026-11-01",
+          "to": null,
+          "asOf": null
+        }
+      ],
+      "evidenceIds": [
+        "payroll-engineer"
+      ],
+      "assumptions": [
+        "These are planning assumptions, not committed cash flows."
+      ],
+      "assumptionTags": [
+        "PLANNING_ESTIMATE"
+      ],
+      "clarificationTopics": [],
+      "clarificationTopicTags": [],
+      "proposalLines": [],
+      "calculations": [
+        {
+          "id": "monthly_hire_cost",
+          "operation": "sum",
+          "operands": [
+            "6000.00",
+            "1080.00"
+          ],
+          "evidenceIds": [
+            "payroll-engineer"
+          ],
+          "scale": 2,
+          "unit": "USD",
+          "operandUnits": [
+            "USD",
+            "USD"
+          ]
+        }
+      ]
+    },
+    "evidence": [
+      {
+        "id": "payroll-engineer",
+        "kind": "document",
+        "organizationId": "11111111-1111-4111-8111-111111111111",
+        "documentId": "payroll-engineer",
+        "text": "A proposed full-time engineer costs USD 6000.00 monthly gross salary. Employer benefits and payroll taxes are estimated at 18 percent of salary, totaling USD 1080.00 monthly. Recruiting is USD 3000.00 once at start. These are planning assumptions, not committed cash flows. Proposed start date is 2026-11-01.",
+        "facts": [
+          {
+            "key": "source_amount",
+            "value": "6000.00",
+            "unit": "USD"
+          },
+          {
+            "key": "source_amount",
+            "value": "1080.00",
+            "unit": "USD"
+          },
+          {
+            "key": "source_amount",
+            "value": "3000.00",
+            "unit": "USD"
+          },
+          {
+            "key": "source_quantity",
+            "value": "18",
+            "unit": "percent"
+          }
+        ]
+      },
+      {
+        "id": "payroll-support",
+        "kind": "document",
+        "organizationId": "11111111-1111-4111-8111-111111111111",
+        "documentId": "payroll-support",
+        "text": "A proposed support specialist has monthly salary USD 4000.00 plus employer costs of 20 percent of salary. One-time recruiting costs USD 1500.00. Start date is 2026-11-01. Use these assumptions only when explicitly evaluating this role.",
+        "facts": [
+          {
+            "key": "source_amount",
+            "value": "4000.00",
+            "unit": "USD"
+          },
+          {
+            "key": "source_amount",
+            "value": "1500.00",
+            "unit": "USD"
+          },
+          {
+            "key": "source_quantity",
+            "value": "20",
+            "unit": "percent"
+          }
+        ]
+      },
+      {
+        "id": "old-hiring-draft",
+        "kind": "document",
+        "organizationId": "11111111-1111-4111-8111-111111111111",
+        "documentId": "old-hiring-draft",
+        "text": "An obsolete engineer budget guessed monthly salary USD 5000.00 with no employer burden. This unsigned sketch was superseded by payroll-engineer effective 2026-10-01. Do not use this old figure for November hiring.",
+        "facts": [
+          {
+            "key": "source_amount",
+            "value": "5000.00",
+            "unit": "USD"
+          }
+        ]
+      },
+      {
+        "id": "contractor-plan",
+        "kind": "document",
+        "organizationId": "11111111-1111-4111-8111-111111111111",
+        "documentId": "contractor-plan",
+        "text": "A temporary contractor offers 3 months of service for USD 4500.00 per month beginning 2026-11-01. There is no recruiting charge and no employer payroll burden in this quote. The engagement is not yet signed.",
+        "facts": [
+          {
+            "key": "source_amount",
+            "value": "4500.00",
+            "unit": "USD"
+          },
+          {
+            "key": "source_quantity",
+            "value": "3",
+            "unit": "months"
+          },
+          {
+            "key": "source_count",
+            "value": "3",
+            "unit": "count"
+          }
+        ]
+      },
+      {
+        "id": "staffing-target",
+        "kind": "document",
+        "organizationId": "11111111-1111-4111-8111-111111111111",
+        "documentId": "staffing-target",
+        "text": "For a hiring comparison use the role worksheet, treasury reserve policy and historical ledger. Show a no-new-revenue scenario separately from a scenario that assumes historical receipts continue. Never describe hypothetical revenue as guaranteed.",
+        "facts": []
+      },
+      {
+        "id": "insurance-policy",
+        "kind": "document",
+        "organizationId": "11111111-1111-4111-8111-111111111111",
+        "documentId": "insurance-policy",
+        "text": "Safe Harbor coverage costs USD 200.00 monthly. Coverage renews on 2027-07-01. Cancellation requires 15 calendar days notice. There is no promise of a refund for an already covered month.",
+        "facts": [
+          {
+            "key": "source_amount",
+            "value": "200.00",
+            "unit": "USD"
+          },
+          {
+            "key": "source_quantity",
+            "value": "15",
+            "unit": "days"
+          }
+        ]
+      },
+      {
+        "id": "user",
+        "kind": "document",
+        "organizationId": "11111111-1111-4111-8111-111111111111",
+        "text": "Using the engineer hiring worksheet, calculate the recurring monthly cost including employer burden and the one-time recruiting cost.",
+        "facts": []
+      },
+      {
+        "id": "calc:monthly_hire_cost",
+        "kind": "calculation",
+        "organizationId": "11111111-1111-4111-8111-111111111111",
+        "text": "7080.00",
+        "facts": [
+          {
+            "key": "monthly_hire_cost",
+            "value": "7080.00",
+            "unit": "USD"
+          }
+        ]
+      }
+    ],
+    "queries": [],
+    "validation": {
+      "answer": {
+        "behavior": "ANSWER",
+        "summary": "Based on the engineer hiring worksheet, the monthly gross salary is USD 6000.00 and employer benefits/taxes are USD 1080.00, resulting in a recurring monthly hire cost of USD 7080.00. The one-time recruiting cost is USD 3000.00.",
+        "facts": [
+          {
+            "key": "monthly_hire_cost",
+            "value": "7080.00",
+            "unit": "USD",
+            "evidenceIds": [
+              "calc:monthly_hire_cost"
+            ],
+            "entity": "Engineer",
+            "from": "2026-11-01",
+            "to": null,
+            "asOf": null
+          },
+          {
+            "key": "recruiting_cost",
+            "value": "3000.00",
+            "unit": "USD",
+            "evidenceIds": [
+              "payroll-engineer"
+            ],
+            "entity": "Engineer",
+            "from": "2026-11-01",
+            "to": null,
+            "asOf": null
+          }
+        ],
+        "evidenceIds": [
+          "payroll-engineer"
+        ],
+        "assumptions": [
+          "These are planning assumptions, not committed cash flows."
+        ],
+        "assumptionTags": [
+          "PLANNING_ESTIMATE"
+        ],
+        "clarificationTopics": [],
+        "clarificationTopicTags": [],
+        "proposalLines": [],
+        "calculations": [
+          {
+            "id": "monthly_hire_cost",
+            "operation": "sum",
+            "operands": [
+              "6000.00",
+              "1080.00"
+            ],
+            "evidenceIds": [
+              "payroll-engineer"
+            ],
+            "scale": 2,
+            "unit": "USD",
+            "operandUnits": [
+              "USD",
+              "USD"
+            ]
+          }
+        ]
+      },
+      "valid": true,
+      "reasons": [],
+      "calculations": {
+        "calc:monthly_hire_cost": {
+          "value": "7080.00",
+          "unit": "USD"
+        }
+      }
+    },
+    "review": null,
+    "retrievedIds": [
+      "payroll-engineer",
+      "payroll-support",
+      "old-hiring-draft",
+      "contractor-plan",
+      "staffing-target",
+      "insurance-policy"
+    ],
+    "metadata": [
+      {
+        "provider": "gemini",
+        "requestedModel": "gemini-3.5-flash-lite",
+        "model": "gemini-3.5-flash-lite",
+        "kind": "generate",
+        "elapsedMs": 1466,
+        "usage": {
+          "inputTokens": 1150,
+          "outputTokens": 54,
+          "thinkingTokens": 188,
+          "totalTokens": 1392
+        }
+      },
+      {
+        "provider": "gemini",
+        "requestedModel": "gemini-3.5-flash-lite",
+        "model": "gemini-3.5-flash-lite",
+        "kind": "generate",
+        "elapsedMs": 1994,
+        "usage": {
+          "inputTokens": 3756,
+          "outputTokens": 497,
+          "thinkingTokens": 0,
+          "totalTokens": 4253
+        }
+      }
+    ],
+    "plan": {
+      "intent": "ANSWER",
+      "queries": [],
+      "sqlQueries": [],
+      "retrievalQuery": "engineer hiring worksheet recurring monthly cost employer burden one-time recruiting cost",
+      "clarification": ""
+    }
+  },
+  "score": {
+    "id": "route-preflight-R4-scenario-01-1-1793395748242",
+    "route": "R4",
+    "questionId": "scenario-01-1",
+    "groupId": "scenario-01",
+    "family": "scenario",
+    "split": "development",
+    "repeat": 0,
+    "status": "ok",
+    "success": true,
+    "behaviorCorrect": true,
+    "factsRequired": 2,
+    "factsMatched": 2,
+    "factsEmitted": 2,
+    "unsupportedFacts": 0,
+    "missingDocumentIds": [],
+    "unresolvedCitationIds": [],
+    "missingAssumptionTags": [],
+    "missingClarificationTopicTags": [],
+    "ledgerGrounded": true,
+    "factual": 40,
+    "completion": 20,
+    "grounding": 20,
+    "uncertainty": 10,
+    "automatedScore": 90,
+    "automatedMaximum": 90,
+    "humanClarityScore": null,
+    "overallScore100": null,
+    "narrativeReviewed": false,
+    "durationMs": 5431,
+    "hardGateViolations": [],
+    "failures": []
+  }
+}

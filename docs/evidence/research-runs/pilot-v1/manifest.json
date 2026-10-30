@@ -1,0 +1,52 @@
+{
+  "runId": "pilot-v1",
+  "suite": "pilot",
+  "split": "development",
+  "repeats": 1,
+  "routeIds": [
+    "R0",
+    "R1",
+    "R2",
+    "R3",
+    "R4",
+    "R5",
+    "R6",
+    "R7",
+    "R8"
+  ],
+  "questionIds": [
+    "financial-01-1",
+    "financial-02-1",
+    "analytics-01-1",
+    "analytics-02-1",
+    "documents-01-1",
+    "documents-02-1",
+    "scenario-01-1",
+    "scenario-02-1",
+    "entry-01-1",
+    "entry-02-1",
+    "adversarial-01-1",
+    "adversarial-02-1"
+  ],
+  "createdAt": "2026-10-30T21:58:19.711Z",
+  "transport": "queue",
+  "generator": "gemini-3.5-flash-lite",
+  "critic": "gemini-3.5-flash-lite",
+  "jev": "jev-1.14.0",
+  "embedding": "gemini-embedding-001",
+  "dimensions": 768,
+  "minimumGeminiStartSpacingMs": 4200,
+  "sourceRevision": "a328f9db02f5649431722c7b285625a28b048c12",
+  "protocolHash": "39da5944fe09cf2e87120cda1fa3b7d5136ce901226451a8c4333c6245a3273e",
+  "datasetHash": "9103a8a057e514d8515390a585866e751460714f4a057bde85e7758f962775fd",
+  "sourceHash": "c3f78da588251ad5e3571b8143e32539d1a5d195deef43e981f783261bf877df",
+  "runtime": {
+    "node": "v22.23.4",
+    "platform": "darwin",
+    "architecture": "arm64"
+  },
+  "indexHash": "5f70fc955987540455490d79d0825a20178d8830f94d06d933690854b45a8648",
+  "verifierThreshold": 0.8,
+  "verifierConfigHash": "d44bc306028ba66bb1cb7877db05bf1c95d9938768e144781a05e58df96e64db",
+  "sourceRevisionMeaning": "Last published ancestor; sourceHash identifies actual working source"
+}
