@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.tools/
+test-results/
+playwright-report/
+coverage/
+package-lock.json
+db/migrations/
+.env
+.env.*

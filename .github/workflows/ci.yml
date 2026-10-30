@@ -1,0 +1,110 @@
+name: Accounting correctness and application checks
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      live_ai:
+        description: Run the bounded Gemini smoke suite using the repository GEMINI_API_KEY secret
+        type: boolean
+        default: false
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_USER: spiich
+          POSTGRES_PASSWORD: spiich
+          POSTGRES_DB: spiich
+        ports: [5432:5432]
+        options: >-
+          --health-cmd "pg_isready -U spiich -d spiich"
+          --health-interval 3s --health-timeout 3s --health-retries 20
+    env:
+      DATABASE_URL: postgres://spiich_app:spiich_app_local@127.0.0.1:5432/spiich
+      MIGRATION_DATABASE_URL: postgres://spiich:spiich@127.0.0.1:5432/spiich
+      NODE_ENV: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run format:check
+      - run: npm run build
+      - run: npm run db:migrate
+      - run: npm test
+      - run: npx playwright install --with-deps chromium
+      - run: npm run dev -- --test-browser --production
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-evidence
+          path: |
+            docs/evidence/*.png
+            test-results/
+
+  compose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: verify
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker compose config --quiet
+      - run: docker compose up --build --wait --wait-timeout 120
+      - run: curl --fail http://localhost:3001/api/health
+      - run: docker compose --profile test run --rm tests
+      - run: node scripts/check-compose-persistence.mjs --execute
+      - if: failure()
+        run: docker compose logs --no-color
+      - if: always()
+        run: docker compose down
+
+  live-ai:
+    if: github.event_name == 'workflow_dispatch' && inputs.live_ai
+    needs: [verify, compose]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_USER: spiich
+          POSTGRES_PASSWORD: spiich
+          POSTGRES_DB: spiich
+        ports: [5432:5432]
+        options: >-
+          --health-cmd "pg_isready -U spiich -d spiich"
+          --health-interval 3s --health-timeout 3s --health-retries 20
+    env:
+      DATABASE_URL: postgres://spiich_app:spiich_app_local@127.0.0.1:5432/spiich
+      MIGRATION_DATABASE_URL: postgres://spiich:spiich@127.0.0.1:5432/spiich
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run db:migrate
+      - name: Run four live Gemini cases with explicit limits
+        env:
+          AI_PROVIDER: gemini
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          AI_MODEL: ${{ vars.DAYBOOK_GEMINI_MODEL }}
+        run: npm run ai:evaluate -- --suite smoke --max-attempts 4 --max-total-tokens 32000
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gemini-smoke-evidence
+          if-no-files-found: warn
+          path: |
+            docs/evidence/ai-evaluation.json
+            docs/evidence/ai-evaluations/*.json

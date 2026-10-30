@@ -1,0 +1,1586 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Daybook — Architecture, explained</title>
+    <style>
+      :root {
+        --ink: #20352e;
+        --muted: #596b62;
+        --paper: #fbfaf6;
+        --line: #d6ddd4;
+        --green: #286648;
+        --pale: #eaf1e8;
+        --clay: #9e4e32;
+        --sand: #f5e9db;
+        --amber: #825c19;
+        --blue: #365e83;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: #e6e9e2;
+        color: var(--ink);
+        font:
+          16px/1.5 Arial,
+          Helvetica,
+          sans-serif;
+      }
+      a {
+        color: inherit;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+      }
+      button {
+        font: inherit;
+        cursor: pointer;
+      }
+      button:focus-visible,
+      a:focus-visible {
+        outline: 3px solid var(--blue);
+        outline-offset: 4px;
+      }
+      .toolbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: #20352ef5;
+        color: #fff;
+        padding: 13px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+      }
+      .toolbar nav {
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+        font-size: 13px;
+      }
+      .toolbar .print-button {
+        background: #fff;
+        border: 0;
+        color: var(--ink);
+        padding: 8px 14px;
+        border-radius: 3px;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      .sheet {
+        width: 1120px;
+        min-height: 790px;
+        margin: 26px auto;
+        background: var(--paper);
+        padding: 44px 50px 64px;
+        position: relative;
+        box-shadow: 0 6px 28px #20352e12;
+        scroll-margin-top: 80px;
+      }
+      .eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 18px;
+      }
+      .brand {
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        text-transform: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .book {
+        display: inline-block;
+        width: 15px;
+        height: 19px;
+        border: 2px solid var(--clay);
+        border-left-width: 5px;
+        border-radius: 2px;
+      }
+      .sheet h1,
+      .sheet h2,
+      .sheet h3,
+      .sheet p {
+        margin-top: 0;
+      }
+      .sheet h1 {
+        font:
+          56px/1.05 Georgia,
+          serif;
+        letter-spacing: -1.4px;
+        max-width: 820px;
+        margin-bottom: 18px;
+      }
+      .sheet h2 {
+        font:
+          36px/1.14 Georgia,
+          serif;
+        letter-spacing: -0.6px;
+        margin-bottom: 12px;
+      }
+      .sheet h3 {
+        font-size: 18px;
+        line-height: 1.25;
+        margin-bottom: 9px;
+      }
+      .lede {
+        font-size: 18px;
+        line-height: 1.45;
+        color: var(--muted);
+        max-width: 890px;
+        margin-bottom: 24px;
+      }
+      .small {
+        font-size: 12px;
+        line-height: 1.45;
+        color: var(--muted);
+      }
+      .tiny {
+        font-size: 10px;
+        line-height: 1.4;
+        color: var(--muted);
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+      }
+      .grid3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+      }
+      .grid4 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+      .card {
+        padding: 20px;
+        border: 1px solid var(--line);
+        background: #fff;
+      }
+      .card p:last-child {
+        margin-bottom: 0;
+      }
+      .tint {
+        background: var(--pale);
+      }
+      .sand {
+        background: var(--sand);
+      }
+      .callout {
+        border-left: 3px solid var(--green);
+        padding: 12px 18px;
+        background: var(--pale);
+        margin: 20px 0;
+        font-size: 15px;
+      }
+      .callout.clay {
+        border-color: var(--clay);
+        background: var(--sand);
+      }
+      .tag {
+        display: inline-block;
+        padding: 3px 8px;
+        border: 1px solid currentColor;
+        font-size: 10px;
+        letter-spacing: 0.7px;
+        text-transform: uppercase;
+        font-weight: 700;
+        line-height: 1.3;
+        vertical-align: middle;
+      }
+      .built {
+        color: var(--green);
+        background: #edf3ec;
+      }
+      .proposed {
+        color: var(--clay);
+        background: #faf0e7;
+        border-style: dashed;
+      }
+      .pending {
+        color: var(--amber);
+        background: #fff5db;
+      }
+      .future {
+        color: var(--blue);
+        background: #edf2f7;
+      }
+      .legend {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin: 12px 0 24px;
+      }
+      .foot {
+        position: absolute;
+        bottom: 22px;
+        left: 50px;
+        right: 50px;
+        display: flex;
+        justify-content: space-between;
+        border-top: 1px solid var(--line);
+        padding-top: 9px;
+        font-size: 10px;
+        color: var(--muted);
+        gap: 20px;
+      }
+      .big-number {
+        font:
+          42px/1 Georgia,
+          serif;
+        color: var(--green);
+        margin-bottom: 7px;
+      }
+      .source {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 12px;
+      }
+      .flow {
+        display: flex;
+        align-items: stretch;
+        gap: 0;
+        margin: 18px 0;
+      }
+      .node {
+        flex: 1;
+        border: 1px solid var(--line);
+        padding: 16px;
+        background: #fff;
+        min-width: 0;
+      }
+      .node strong {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 15px;
+      }
+      .node small {
+        display: block;
+        font-size: 12px;
+        line-height: 1.4;
+        color: var(--muted);
+      }
+      .arrow {
+        align-self: center;
+        color: var(--green);
+        font-size: 25px;
+        padding: 0 11px;
+      }
+      .node.core {
+        background: var(--ink);
+        color: #fff;
+        border-color: var(--ink);
+      }
+      .node.core small {
+        color: #d0ded2;
+      }
+      .node.ai {
+        background: var(--sand);
+        border: 1px dashed var(--clay);
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 13px;
+      }
+      th {
+        text-align: left;
+        font-size: 11px;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        color: var(--muted);
+        padding: 10px 9px;
+        border-bottom: 2px solid var(--ink);
+      }
+      td {
+        padding: 10px 9px;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+      td strong {
+        display: block;
+      }
+      .matrix td {
+        font-size: 12px;
+        padding: 9px;
+      }
+      .matrix th {
+        font-size: 10px;
+      }
+      .diagram {
+        width: 100%;
+        display: block;
+        margin: 12px 0;
+      }
+      .diagram text {
+        font-family: Arial, Helvetica, sans-serif;
+        fill: var(--ink);
+      }
+      .diagram .label {
+        font-size: 15px;
+        font-weight: 700;
+      }
+      .diagram .sub {
+        font-size: 12px;
+        fill: var(--muted);
+      }
+      .diagram .box {
+        fill: #fff;
+        stroke: var(--line);
+        stroke-width: 1.5;
+      }
+      .diagram .ai-box {
+        fill: var(--sand);
+        stroke: var(--clay);
+        stroke-dasharray: 5 4;
+      }
+      .diagram .db {
+        fill: var(--ink);
+        stroke: var(--ink);
+      }
+      .diagram .white {
+        fill: #fff;
+      }
+      .diagram .wire {
+        fill: none;
+        stroke: var(--green);
+        stroke-width: 2;
+      }
+      .diagram .dashed {
+        stroke-dasharray: 5 5;
+      }
+      .quote {
+        font:
+          25px/1.35 Georgia,
+          serif;
+      }
+      .steps {
+        display: flex;
+        gap: 5px;
+        margin: 12px 0;
+      }
+      .step {
+        flex: 1;
+        border: 1px solid var(--line);
+        background: #fff;
+        padding: 12px 8px;
+        text-align: left;
+        color: var(--ink);
+      }
+      .step.active {
+        border-color: var(--green);
+        background: var(--pale);
+      }
+      .step b {
+        display: block;
+        font-size: 22px;
+        font-family: Georgia, serif;
+      }
+      .step span {
+        font-size: 12px;
+      }
+      .explanation {
+        min-height: 108px;
+        padding: 16px;
+        background: var(--pale);
+        font-size: 14px;
+      }
+      .journal {
+        font-variant-numeric: tabular-nums;
+      }
+      .journal td:last-child,
+      .journal th:last-child {
+        text-align: right;
+      }
+      .journey {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        margin: 13px 0;
+        font-size: 14px;
+      }
+      .round {
+        flex-shrink: 0;
+        width: 27px;
+        height: 27px;
+        border: 1px solid var(--green);
+        border-radius: 50%;
+        text-align: center;
+        line-height: 25px;
+        font-size: 12px;
+      }
+      .journey p {
+        margin: 0;
+      }
+      .toolcard {
+        padding: 15px;
+        border-top: 3px solid var(--line);
+        background: white;
+        min-height: 138px;
+      }
+      .toolcard h3 {
+        font-size: 16px;
+      }
+      .toolcard p {
+        font-size: 12px;
+        margin-bottom: 8px;
+      }
+      .toolcard .tag {
+        font-size: 9px;
+      }
+      .mock {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        border: 1px solid var(--line);
+        background: white;
+        min-height: 345px;
+      }
+      .mocknav {
+        background: #eeeee4;
+        border-right: 1px solid var(--line);
+        padding: 22px 14px;
+        font-size: 13px;
+      }
+      .mocknav div {
+        padding: 9px 8px;
+        margin-bottom: 5px;
+      }
+      .mocknav .selected {
+        background: #dce8db;
+        font-weight: 700;
+      }
+      .mockbody {
+        padding: 24px;
+      }
+      .mockinput {
+        padding: 14px;
+        border: 1px solid var(--green);
+        font-size: 14px;
+        margin: 14px 0;
+        background: #fbfcf8;
+      }
+      .mocksummary {
+        display: flex;
+        gap: 32px;
+        margin: 16px 0;
+      }
+      .mocksummary span {
+        display: block;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .mocksummary b {
+        font-size: 23px;
+        font-weight: 500;
+        font-family: Georgia, serif;
+      }
+      .mockrow {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        font-size: 13px;
+        padding: 11px 0;
+        border-top: 1px solid var(--line);
+      }
+      .actionlabel {
+        background: var(--ink);
+        padding: 6px 10px;
+        color: #fff;
+        font-size: 11px;
+        display: inline-block;
+      }
+      .timeline {
+        display: grid;
+        grid-template-columns: 90px 1fr 1.1fr;
+        gap: 0;
+        font-size: 12px;
+      }
+      .timeline > div {
+        border-bottom: 1px solid var(--line);
+        padding: 9px 8px;
+      }
+      .timeline .hour {
+        font-family: Georgia, serif;
+        font-size: 17px;
+      }
+      .eval {
+        display: grid;
+        grid-template-columns: 1fr 32px 1fr 32px 1fr;
+        align-items: center;
+        gap: 5px;
+        margin: 15px 0;
+      }
+      .eval .card {
+        padding: 14px;
+        font-size: 12px;
+      }
+      .references {
+        columns: 2;
+        column-gap: 30px;
+        font-size: 11px;
+        line-height: 1.5;
+        padding-left: 19px;
+      }
+      .references li {
+        break-inside: avoid;
+        margin-bottom: 7px;
+      }
+      .scale {
+        display: flex;
+        align-items: stretch;
+        gap: 10px;
+      }
+      .scale .card {
+        flex: 1;
+        padding: 15px;
+        font-size: 12px;
+      }
+      .scale h3 {
+        font-size: 15px;
+      }
+      .print-notes {
+        display: none;
+      }
+      .sources-row {
+        display: flex;
+        gap: 16px;
+        font-size: 11px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+      }
+      .print-button {
+        white-space: nowrap;
+      }
+      @media (max-width: 1150px) {
+        .sheet {
+          width: calc(100% - 28px);
+          padding: 34px 30px 65px;
+        }
+        .foot {
+          left: 30px;
+          right: 30px;
+        }
+        .sheet h1 {
+          font-size: 44px;
+        }
+        .grid4 {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 700px) {
+        .toolbar {
+          position: relative;
+          align-items: flex-start;
+          padding: 12px;
+        }
+        .toolbar nav {
+          gap: 8px;
+          font-size: 11px;
+        }
+        .toolbar .brand {
+          display: none;
+        }
+        .sheet {
+          padding: 25px 22px 70px;
+        }
+        .sheet h1 {
+          font-size: 37px;
+        }
+        .sheet h2 {
+          font-size: 29px;
+        }
+        .lede {
+          font-size: 16px;
+        }
+        .grid2,
+        .grid3 {
+          grid-template-columns: 1fr;
+        }
+        .grid4 {
+          grid-template-columns: 1fr 1fr;
+        }
+        .flow {
+          flex-direction: column;
+        }
+        .arrow {
+          transform: rotate(90deg);
+          padding: 0;
+        }
+        .node {
+          min-height: 70px;
+        }
+        .foot {
+          left: 22px;
+          right: 22px;
+        }
+        .mock {
+          grid-template-columns: 110px 1fr;
+        }
+        .mockbody {
+          padding: 14px;
+        }
+        .mocksummary {
+          gap: 15px;
+        }
+        .mocksummary b {
+          font-size: 18px;
+        }
+        .mockrow {
+          flex-wrap: wrap;
+        }
+        .mocknav {
+          padding: 15px 8px;
+        }
+        .tablewrap {
+          overflow-x: auto;
+        }
+        .matrix {
+          min-width: 650px;
+        }
+        .references {
+          columns: 1;
+        }
+        .scale {
+          flex-direction: column;
+        }
+        .timeline {
+          grid-template-columns: 65px 1fr;
+        }
+        .timeline .exit {
+          grid-column: 2;
+          padding-top: 0;
+          color: var(--muted);
+        }
+        .eval {
+          grid-template-columns: 1fr;
+        }
+        .eval .arrow {
+          display: none;
+        }
+        .step {
+          padding: 8px 5px;
+        }
+        .step span {
+          font-size: 10px;
+        }
+        .diagram .sub {
+          font-size: 13px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+      }
+      @page {
+        size: A4 landscape;
+        margin: 0;
+      }
+      @media print {
+        body {
+          background: white;
+          font-size: 14px;
+          line-height: 1.4;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        .toolbar {
+          display: none;
+        }
+        .sheet {
+          width: 297mm;
+          height: 210mm;
+          min-height: 0;
+          margin: 0;
+          box-shadow: none;
+          padding: 12mm 13mm 16mm;
+          break-after: page;
+          overflow: visible;
+        }
+        .sheet:last-child {
+          break-after: auto;
+        }
+        .sheet h1 {
+          font-size: 49px;
+        }
+        .sheet h2 {
+          font-size: 32px;
+        }
+        .lede {
+          font-size: 16px;
+          margin-bottom: 18px;
+        }
+        .foot {
+          bottom: 6mm;
+          left: 13mm;
+          right: 13mm;
+        }
+        .grid4 {
+          grid-template-columns: repeat(4, 1fr);
+        }
+        .card {
+          padding: 17px;
+        }
+        .diagram {
+          max-height: 320px;
+        }
+        .interactive-only {
+          display: none;
+        }
+        .print-notes {
+          display: block;
+          font-size: 12px;
+        }
+        .explanation {
+          min-height: 80px;
+        }
+        .source {
+          font-size: 10px;
+        }
+        .references {
+          font-size: 10px;
+        }
+        .tag {
+          font-size: 9px;
+        }
+        .timeline > div {
+          padding: 7px 8px;
+        }
+        a {
+          color: inherit;
+        }
+        .toolcard {
+          min-height: 128px;
+        }
+        .callout {
+          margin: 15px 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="toolbar">
+      <span class="brand"><i class="book" aria-hidden="true"></i> Daybook / Field notes</span>
+      <nav aria-label="Report sections">
+        <a href="#lessons">Lessons</a><a href="#status">Status</a><a href="#architecture">Architecture</a
+        ><a href="#journeys">Walkthrough</a><a href="#choices">Tools</a><a href="#interface">Interface</a
+        ><a href="#plan">Plan</a><a href="#scale">Scale & sources</a>
+      </nav>
+      <a class="print-button" href="architecture-review.pdf" download>Download PDF</a>
+    </header>
+
+    <section class="sheet" id="lessons">
+      <div class="eyebrow">
+        <span class="brand"><i class="book" aria-hidden="true"></i> Daybook</span
+        ><span>Planning snapshot · 29 October 2026</span>
+      </div>
+      <h1>A reliable ledger.<br />A helpful assistant.</h1>
+      <p class="lede">
+        What we learned from Spiich, Midday and Actual—and how those lessons shape a focused, explainable
+        accounting product.
+      </p>
+      <div class="flow">
+        <div class="node">
+          <strong>You describe the work</strong><small>“Paid $2,400 rent from checking.”</small>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node ai">
+          <strong>AI interprets it</strong><small>Suggests accounts; asks when facts are missing.</small>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node">
+          <strong>Application controls it</strong><small>Review, validation and permitted operations.</small>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node core">
+          <strong>Database protects it</strong
+          ><small>Balanced postings, exact values, preserved history.</small>
+        </div>
+      </div>
+      <div class="grid3" style="margin-top: 27px">
+        <article class="card">
+          <span class="tag built">Spiich → product pattern</span>
+          <h3 style="margin-top: 16px">Language becomes useful work.</h3>
+          <p>Connect a request to the right business record and a permitted action.</p>
+          <p class="small">
+            Sales records for Spiich; accounting records for Daybook. Hiring relevance is our inference.
+          </p>
+        </article>
+        <article class="card">
+          <span class="tag built">Midday → assistant design</span>
+          <h3 style="margin-top: 16px">Tools retrieve the facts.</h3>
+          <p>Use authored financial functions and show supporting records beside the answer.</p>
+          <p class="small">Its founders announced a Ramp transition and hosted-product wind-down.</p>
+        </article>
+        <article class="card">
+          <span class="tag built">Actual → everyday usability</span>
+          <h3 style="margin-top: 16px">Repeated choices become rules.</h3>
+          <p>Make familiar categories easy to apply, inspect and correct.</p>
+          <p class="small">Its SQLite budgeting model differs from our required PostgreSQL journal.</p>
+        </article>
+      </div>
+      <div class="callout">
+        Recommendation: complete a Gemini baseline on the existing ledger, simplify the main tasks, and let
+        measured failures decide whether another component earns its place.
+      </div>
+      <p class="small">
+        Planning snapshot before the Gemini/interface implementation. See
+        <a href="../../CHECKPOINT.md">CHECKPOINT.md</a> for current status. Examples are illustrative, not
+        live financial data. Sources and reading links are on page 8.
+      </p>
+      <div class="foot">
+        <span>DAYBOOK · Engineering explained in plain language</span><span>01 / 08 · The main idea</span>
+      </div>
+    </section>
+
+    <section class="sheet" id="status">
+      <div class="eyebrow">
+        <span>Start from the application we have</span><span>Evidence, not assumptions</span>
+      </div>
+      <h2>Built, proposed, and still to verify.</h2>
+      <p class="lede">
+        “The code exists” and “we have proved it works in the real environment” are different claims.
+      </p>
+      <div class="legend">
+        <span class="tag built">Built</span><span class="small">Implemented baseline</span
+        ><span class="tag proposed">Proposed</span><span class="small">Next design choice</span
+        ><span class="tag pending">Verify</span><span class="small">Evidence still needed</span>
+      </div>
+      <div class="tablewrap">
+        <table class="matrix">
+          <thead>
+            <tr>
+              <th style="width: 17%">Area</th>
+              <th style="width: 32%">Built today</th>
+              <th style="width: 27%">Proposed next</th>
+              <th>Still to verify</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Ledger & reports</strong></td>
+              <td>
+                PostgreSQL; exact money; balanced posting; immutable history; reversals; four SQL reports.
+              </td>
+              <td>Preserve the engine. Make results easier to understand.</td>
+              <td>Relevant regressions after any changes.</td>
+            </tr>
+            <tr>
+              <td><strong>AI entry & chat</strong></td>
+              <td>OpenAI adapter, structured proposals, clarification and four financial query families.</td>
+              <td>Gemini adapter; stronger complete-entry and evidence assertions.</td>
+              <td>No key configured. Live model behavior has not been tested.</td>
+            </tr>
+            <tr>
+              <td><strong>Categorization</strong></td>
+              <td>Text retrieval of relevant history and confirmed corrections.</td>
+              <td>Explicit confirmed rules; optional semantic retrieval comparison.</td>
+              <td>Whether the proposed additions improve suggestions.</td>
+            </tr>
+            <tr>
+              <td><strong>Background work</strong></td>
+              <td>Recurring drafts; duplicate, amount and category alerts; durable jobs and retries.</td>
+              <td>Retain the current bounded processing approach.</td>
+              <td>Operational behavior in the final deployment environment.</td>
+            </tr>
+            <tr>
+              <td><strong>Interface</strong></td>
+              <td>All assignment workflows and the Daybook redesign.</td>
+              <td>Simpler record → review → understand flows.</td>
+              <td>Revised flows; a physical phone check.</td>
+            </tr>
+            <tr>
+              <td><strong>Docker & delivery</strong></td>
+              <td>Compose files, configuration check, source archive and documentation.</td>
+              <td>Run clean startup, health checks and restart/persistence checks.</td>
+              <td>Actual Docker build/start has not run.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="grid3" style="margin-top: 23px">
+        <div>
+          <div class="big-number">29</div>
+          <strong>Database / app tests</strong>
+          <p class="small">Against real PostgreSQL.</p>
+        </div>
+        <div>
+          <div class="big-number">8</div>
+          <strong>Provider-contract tests</strong>
+          <p class="small">Controlled responses; not live model accuracy.</p>
+        </div>
+        <div>
+          <div class="big-number">8</div>
+          <strong>Browser workflows</strong>
+          <p class="small">Production bundle; not a physical-device audit.</p>
+        </div>
+      </div>
+      <p class="tiny">
+        Saved test baseline from the checkpoint. Creating this report did not rerun the application suites.
+        Authentication, million-user capacity and disaster recovery are not implemented/verified production
+        claims.
+      </p>
+      <div class="foot">
+        <span>Source: CHECKPOINT.md and docs/VERIFICATION.md</span><span>02 / 08 · Honest status</span>
+      </div>
+    </section>
+
+    <section class="sheet" id="architecture">
+      <div class="eyebrow">
+        <span>System design · planning snapshot</span><span>Logical modules—not deployed microservices</span>
+      </div>
+      <h2>Keep authority where it can be enforced.</h2>
+      <p class="lede">
+        AI proposes an interpretation. The user confirms it. Server code and PostgreSQL enforce the posting
+        rules. Manual entry skips the model and uses the same review and posting checks.
+      </p>
+      <svg class="diagram" viewBox="0 0 1020 325" role="img" aria-labelledby="arch-title arch-desc">
+        <title id="arch-title">Daybook accounting and AI boundaries</title>
+        <desc id="arch-desc">
+          The React interface sends REST requests. AI produces proposals for human review. Server validation
+          precedes PostgreSQL posting. Read-only reporting queries use posted records. Background jobs follow
+          a durable posting job record and create alerts; recurrence creates drafts.
+        </desc>
+        <defs>
+          <marker
+            id="head"
+            viewBox="0 0 10 10"
+            refX="9"
+            refY="5"
+            markerWidth="6"
+            markerHeight="6"
+            orient="auto-start-reverse"
+          >
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#286648" />
+          </marker>
+        </defs>
+        <rect class="box" x="0" y="25" width="180" height="80" rx="3" />
+        <text class="label" x="18" y="55">React interface</text>
+        <text class="sub" x="18" y="77">AI-assisted entry</text>
+        <text class="sub" x="18" y="94">REST API</text>
+        <rect class="ai-box" x="220" y="25" width="210" height="80" rx="3" />
+        <text class="label" x="237" y="53">Interpret / clarify</text>
+        <text class="sub" x="237" y="76">Current: OpenAI adapter</text>
+        <text class="sub" x="237" y="94">Proposed: Gemini adapter</text>
+        <rect class="box" x="470" y="25" width="180" height="80" rx="3" />
+        <text class="label" x="487" y="55">User review</text>
+        <text class="sub" x="487" y="78">Accounts, amount, date</text>
+        <text class="sub" x="487" y="95">Confirm the proposal</text>
+        <rect class="box" x="690" y="25" width="160" height="80" rx="3" />
+        <text class="label" x="706" y="55">Server checks</text>
+        <text class="sub" x="706" y="78">Validity + revision</text>
+        <text class="sub" x="706" y="95">Retry identity</text>
+        <path class="wire" d="M180 65H216 M430 65H466 M650 65H686" marker-end="url(#head)" />
+        <rect class="db" x="690" y="152" width="330" height="94" rx="3" />
+        <text class="label white" x="708" y="180">PostgreSQL · authoritative journal</text>
+        <text class="sub white" x="708" y="202">Atomic posting + durable analysis job</text>
+        <text class="sub white" x="708" y="224">Exact amounts · balanced base currency</text>
+        <path class="wire" d="M770 105V148" marker-end="url(#head)" />
+        <rect class="box" x="220" y="164" width="210" height="70" rx="3" />
+        <text class="label" x="237" y="191">Approved report functions</text>
+        <text class="sub" x="237" y="215">SQL reads posted history</text>
+        <path class="wire" d="M180 85V199H216 M430 199H686" marker-end="url(#head)" />
+        <text class="sub" x="472" y="189">read path</text>
+        <rect class="box" x="220" y="267" width="430" height="48" rx="3" />
+        <text class="label" x="237" y="287">Background modules</text>
+        <text class="sub" x="237" y="305">Anomaly jobs → alerts · Recurring schedules → drafts</text>
+        <path class="wire dashed" d="M855 246V291H654" marker-end="url(#head)" />
+        <text class="sub" x="0" y="269">Shared API process today.</text>
+        <text class="sub" x="0" y="288">Separate workers are</text>
+        <text class="sub" x="0" y="307">a future deployment option.</text>
+      </svg>
+      <div class="grid3">
+        <div class="card">
+          <h3>Protect the money</h3>
+          <p class="small">
+            Balance is required at posting, in base currency. Posted records stay unchanged; corrections use
+            reversals. Drafts can still be incomplete.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Protect the meaning</h3>
+          <p class="small">
+            Balanced does not mean correct. An invoice payment may reduce money owed, rather than create
+            revenue again. Missing facts require clarification.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Protect the operation</h3>
+          <p class="small">
+            Retries must not double-post. A stale review must be rejected. Job retries are safe through stored
+            identities and uniqueness—not exactly-once delivery.
+          </p>
+        </div>
+      </div>
+      <div class="callout clay">
+        The application has organization-scoped records today. Production authorization would additionally
+        require authenticated users and enforced organization membership.
+      </div>
+      <div class="foot">
+        <span>Existing engine with a proposed provider replacement · No direct AI-to-post path</span
+        ><span>03 / 08 · Responsibility boundaries</span>
+      </div>
+    </section>
+
+    <section class="sheet" id="journeys">
+      <div class="eyebrow">
+        <span>Walk through the behavior</span><span>Illustrative examples · no live data connection</span>
+      </div>
+      <h2>Recording money and answering questions.</h2>
+      <p class="lede">
+        A write changes the books. A read explains the books. Keep those paths easy to distinguish.
+      </p>
+      <div class="grid2">
+        <article class="card">
+          <span class="tag built">Write path · built, live AI pending</span>
+          <p class="quote" style="margin-top: 18px">“Paid $2,400 rent from checking on March 1.”</p>
+          <div class="steps" aria-label="Explore payment stages">
+            <button class="step active" data-step="0" aria-pressed="true">
+              <b>1</b><span>Interpret</span></button
+            ><button class="step" data-step="1" aria-pressed="false"><b>2</b><span>Validate</span></button
+            ><button class="step" data-step="2" aria-pressed="false"><b>3</b><span>Review</span></button
+            ><button class="step" data-step="3" aria-pressed="false"><b>4</b><span>Post</span></button
+            ><button class="step" data-step="4" aria-pressed="false"><b>5</b><span>Explain</span></button>
+          </div>
+          <div id="step-explanation" class="explanation" aria-live="polite">
+            Identify the rent expense account, checking account, amount and date. Ask for the year or other
+            context if it is not already established.
+          </div>
+          <p class="small interactive-only" style="margin-top: 9px">
+            Select a stage to see who is responsible.
+          </p>
+          <table class="journal" style="margin-top: 15px">
+            <thead>
+              <tr>
+                <th>Proposed line</th>
+                <th>Debit</th>
+                <th>Credit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Rent expense</td>
+                <td>$2,400.00</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>Checking</td>
+                <td>—</td>
+                <td>$2,400.00</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="small" style="margin-top: 13px">
+            After confirmation: expenses rise by $2,400; checking falls by $2,400. For this example, both
+            accounts and reporting use USD.
+          </p>
+          <p class="print-notes">
+            Stages: interpret → server validation → user review → revalidate and post atomically → show the
+            saved entry and report effects.
+          </p>
+        </article>
+        <article class="card">
+          <span class="tag built">Read path · built, live AI pending</span>
+          <p class="quote" style="margin-top: 18px">“What were my top expenses last month?”</p>
+          <div class="journey">
+            <span class="round">1</span>
+            <p>
+              <strong>Interpret the period.</strong><br /><span class="muted"
+                >Resolve the dates using the business context.</span
+              >
+            </p>
+          </div>
+          <div class="journey">
+            <span class="round">2</span>
+            <p>
+              <strong>Choose an approved function.</strong><br /><span class="muted"
+                >Expense summary, not arbitrary generated SQL.</span
+              >
+            </p>
+          </div>
+          <div class="journey">
+            <span class="round">3</span>
+            <p>
+              <strong>Query the posted journal.</strong><br /><span class="muted"
+                >SQL applies organization, date and account filters.</span
+              >
+            </p>
+          </div>
+          <div class="journey">
+            <span class="round">4</span>
+            <p>
+              <strong>Return facts with evidence.</strong><br /><span class="muted"
+                >Show dates, currency and supporting entries. Current Daybook composes its numeric answer in
+                application code.</span
+              >
+            </p>
+          </div>
+          <div class="callout" style="margin-bottom: 0">
+            <strong>Anomaly example:</strong> several prior rent payments are $2,400; a new one is $4,800. The
+            statistical rule can flag the change for review. Historical records suffice; a streaming platform
+            is unnecessary.
+          </div>
+        </article>
+      </div>
+      <p class="small" style="margin-top: 17px">
+        A useful failure demonstration: omit the payment account or FX rate and show a clarification. Alerts
+        are review hints, not proof of fraud. A model's confidence score is not an accuracy guarantee.
+      </p>
+      <div class="foot">
+        <span>UI clarity + factual evidence + server enforcement</span
+        ><span>04 / 08 · Follow one request</span>
+      </div>
+    </section>
+
+    <section class="sheet" id="choices">
+      <div class="eyebrow">
+        <span>Architecture choices</span><span>Every addition needs a specific job</span>
+      </div>
+      <h2>These tools solve different problems.</h2>
+      <p class="lede">
+        Start with a complete baseline. Add a component when a requirement or a repeatable failure explains
+        why it is needed.
+      </p>
+      <div class="grid4">
+        <div class="toolcard" style="border-color: var(--green)">
+          <h3>PostgreSQL</h3>
+          <span class="tag built">Keep · built</span>
+          <p style="margin-top: 10px">
+            Authoritative money records, constraints and exact reporting queries.
+          </p>
+        </div>
+        <div class="toolcard" style="border-color: var(--clay)">
+          <h3>Gemini</h3>
+          <span class="tag proposed">Proposed baseline</span>
+          <p style="margin-top: 10px">
+            Interpret sentences and select approved tools. Needs a provider adapter and live evaluation.
+          </p>
+        </div>
+        <div class="toolcard">
+          <h3>Mastra</h3>
+          <span class="tag proposed">Conditional</span>
+          <p style="margin-top: 10px">
+            Organize model calls, tools, workflows and tracing when our coordination code needs it.
+          </p>
+        </div>
+        <div class="toolcard">
+          <h3>Jev</h3>
+          <span class="tag proposed">Conditional</span>
+          <p style="margin-top: 10px">
+            A narrow category decision or semantic check. Compare its errors, cost and latency.
+          </p>
+        </div>
+        <div class="toolcard">
+          <h3>pgvector</h3>
+          <span class="tag proposed">Experiment</span>
+          <p style="margin-top: 10px">
+            Find similar corrections or historical examples. SQL still calculates financial totals.
+          </p>
+        </div>
+        <div class="toolcard">
+          <h3>Managed file search</h3>
+          <span class="tag proposed">If documents added</span>
+          <p style="margin-top: 10px">
+            A hosted way to index and retrieve uploaded material. Document ingestion is extra scope.
+          </p>
+        </div>
+        <div class="toolcard">
+          <h3>Wren</h3>
+          <span class="tag proposed">Broader analytics</span>
+          <p style="margin-top: 10px">
+            Business definitions and query infrastructure if questions exceed our four approved families.
+          </p>
+        </div>
+        <div class="toolcard">
+          <h3>n8n / load balancer</h3>
+          <span class="tag future">Different layers</span>
+          <p style="margin-top: 10px">
+            n8n connects automation steps. A load balancer distributes requests across server copies.
+          </p>
+        </div>
+      </div>
+      <div class="grid2" style="margin-top: 22px">
+        <div class="card tint">
+          <h3>Lesson from Midday</h3>
+          <p>
+            Its chat retrieves relevant <strong>tool descriptions</strong> with embeddings. Current receipt
+            matching uses names, dates, amounts and feedback. Retrieval is designed for a specific selection
+            problem.
+          </p>
+        </div>
+        <div class="card sand">
+          <h3>Lesson from Actual</h3>
+          <p>
+            A confirmed rule such as “this payee → this category” can be understandable and repeatable. Our
+            proposed rule editor would be new work; current Daybook already retrieves confirmed corrections.
+          </p>
+        </div>
+      </div>
+      <p class="small" style="margin-top: 17px">
+        Gemini, Jev, pgvector, Mastra, Wren and managed document search have not been integrated. Paid options
+        are acceptable when justified; no purchase or provider spend has occurred during this research.
+      </p>
+      <div class="foot">
+        <span>Models ≠ workflow frameworks ≠ retrieval ≠ financial authority</span
+        ><span>05 / 08 · Choose by responsibility</span>
+      </div>
+    </section>
+
+    <section class="sheet" id="interface">
+      <div class="eyebrow">
+        <span>Product design</span><span class="tag proposed">Concept sketch · not implemented</span>
+      </div>
+      <h2>Make the next action obvious.</h2>
+      <p class="lede">
+        Use everyday tasks as the entrance. Reveal accounting detail when it helps someone review or
+        understand an action.
+      </p>
+      <div class="mock">
+        <aside class="mocknav">
+          <strong style="display: block; margin: 3px 8px 25px">▤ Daybook</strong>
+          <div class="selected">Home</div>
+          <div>Transactions</div>
+          <div>Reports</div>
+          <div>Settings</div>
+          <p class="small" style="margin: 30px 8px 0">Visible labels.<br />Stable locations.</p>
+        </aside>
+        <div class="mockbody">
+          <div style="display: flex; justify-content: space-between; gap: 15px">
+            <h3
+              style="
+                font:
+                  26px Georgia,
+                  serif;
+              "
+            >
+              Your books, at a glance.
+            </h3>
+            <span class="tag pending">2 need review</span>
+          </div>
+          <div class="mocksummary">
+            <div><span>Cash balance</span><b>$22,600</b></div>
+            <div><span>Period profit</span><b>$12,260</b></div>
+          </div>
+          <div class="mockinput">＋ Record money in or out…</div>
+          <div class="mockrow">
+            <div>
+              <strong>Rent payment</strong><br /><span class="small"
+                >Checking · $2,400 · ready for your review</span
+              >
+            </div>
+            <span class="actionlabel">Review entry</span>
+          </div>
+          <div class="mockrow">
+            <div>
+              <strong>Rent is higher than usual</strong><br /><span class="small"
+                >Open the evidence before deciding what to do.</span
+              >
+            </div>
+            <span class="actionlabel">View details</span>
+          </div>
+          <p class="tiny" style="margin-top: 15px">
+            Illustrative layout and amounts. This is a sketch, not a live app screen.
+          </p>
+        </div>
+      </div>
+      <div class="grid3" style="margin-top: 23px">
+        <div>
+          <h3>Record</h3>
+          <p class="small">
+            A short everyday form or sentence. Review the full accounting lines before posting. Manual entry
+            remains available.
+          </p>
+        </div>
+        <div>
+          <h3>Review</h3>
+          <p class="small">
+            Drafts and alerts lead to their evidence. Transactions contains history and scheduled entries.
+            Corrections clearly explain reversals.
+          </p>
+        </div>
+        <div>
+          <h3>Understand</h3>
+          <p class="small">
+            Reports show their period and currency. Ask about the books from the same area. Account management
+            remains reachable in Settings.
+          </p>
+        </div>
+      </div>
+      <div class="callout">
+        Usability check: a new user can record a payment, confirm it, find it again, and explain its effect
+        without learning the entire accounting vocabulary first.
+      </div>
+      <div class="foot">
+        <span>Keep advanced functions available; reveal them in the relevant task</span
+        ><span>06 / 08 · Proposed user experience</span>
+      </div>
+    </section>
+
+    <section class="sheet" id="plan">
+      <div class="eyebrow">
+        <span>Delivery plan</span><span>12 focused hours + up to 4 hours of reserve</span>
+      </div>
+      <h2>Finish the baseline. Then test one change.</h2>
+      <p class="lede">
+        Planning estimates for one or two days—not a completion promise. Docker access and live-provider
+        behavior can change the schedule.
+      </p>
+      <div class="grid2">
+        <div>
+          <div class="timeline">
+            <div class="hour">0–0.5h</div>
+            <div><strong>Preserve the baseline</strong></div>
+            <div class="exit">Version control, fixture and provider-call limits.</div>
+            <div class="hour">0.5–3h</div>
+            <div><strong>Add Gemini adapter</strong></div>
+            <div class="exit">Proposal, clarification and query paths can run.</div>
+            <div class="hour">3–5h</div>
+            <div><strong>Live evaluation</strong></div>
+            <div class="exit">Check complete entries and evidence; record failures.</div>
+            <div class="hour">5–7h</div>
+            <div><strong>Simplify the UI</strong></div>
+            <div class="exit">Record, review, find and understand a payment.</div>
+            <div class="hour">7–9h</div>
+            <div><strong>Docker verification</strong></div>
+            <div class="exit">Healthy startup and persistence after restart.</div>
+            <div class="hour">9–10h</div>
+            <div><strong>Regression checks</strong></div>
+            <div class="exit">Accounting and affected browser workflows pass.</div>
+            <div class="hour">10–11h</div>
+            <div><strong>Phone + important fixes</strong></div>
+            <div class="exit">Check keyboard, forms and drawers on a device.</div>
+            <div class="hour">11–12h</div>
+            <div><strong>Rehearse and package</strong></div>
+            <div class="exit">Demo, evidence, README and fresh archive.</div>
+          </div>
+          <div class="callout clay">
+            <strong>Reserve hours 12–16:</strong> finish core verification first. If it is complete, compare
+            one retrieval change. Framework migration is not a prerequisite.
+          </div>
+        </div>
+        <div>
+          <span class="tag proposed">Experiment design · results pending</span>
+          <div class="eval">
+            <div class="card">
+              <strong>A · Baseline</strong>
+              <p style="margin: 8px 0 0">Gemini + current text retrieval.</p>
+            </div>
+            <div class="arrow">→</div>
+            <div class="card tint">
+              <strong>Same cases</strong>
+              <p style="margin: 8px 0 0">Same model, ledger, dates and checks.</p>
+            </div>
+            <div class="arrow">←</div>
+            <div class="card">
+              <strong>B · Challenger</strong>
+              <p style="margin: 8px 0 0">Add semantic retrieval only.</p>
+            </div>
+          </div>
+          <p class="small">
+            <strong>Proposed dataset:</strong> 40 labeled cases: 20 development and 20 held out. Repeat
+            held-out cases three times per candidate within explicit call/token limits.
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Measure</th>
+                <th>A</th>
+                <th>B</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Exact task success</td>
+                <td>Not run</td>
+                <td>Not run</td>
+              </tr>
+              <tr>
+                <td>Correct clarification / evidence</td>
+                <td>Not run</td>
+                <td>Not run</td>
+              </tr>
+              <tr>
+                <td>Latency and observed cost</td>
+                <td>Not run</td>
+                <td>Not run</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="small" style="margin-top: 15px">
+            Acceptance requirement: no unconfirmed postings, invalid accepted money or cross-organization
+            evidence observed in the proposed suite. Small tests do not prove zero production risk.
+          </p>
+          <p class="small">
+            Keep an added component only for repeatable benefit without critical regressions. Jev is a
+            separate later comparison if category errors justify it.
+          </p>
+        </div>
+      </div>
+      <div class="foot">
+        <span>Cutline: correctness, live AI, usable UI, Docker and demo before optional infrastructure</span
+        ><span>07 / 08 · Proposed finish and evaluation</span>
+      </div>
+    </section>
+
+    <section class="sheet" id="scale">
+      <div class="eyebrow">
+        <span>Growth and evidence</span><span class="tag future">Production path · not a capacity claim</span>
+      </div>
+      <h2>Design a path to growth. Measure the need.</h2>
+      <p class="lede">
+        A million registered users does not specify the workload. Measure active users, posting rate, report
+        sizes, peak traffic and model costs.
+      </p>
+      <div class="scale">
+        <div class="card tint">
+          <h3>Today · assignment</h3>
+          <p>One modular API process, PostgreSQL, exact accounting, bounded jobs and shared posting rules.</p>
+        </div>
+        <div class="arrow">→</div>
+        <div class="card">
+          <h3>Before production</h3>
+          <p>
+            Authentication and permissions, backups and restore drills, monitoring, rate/cost limits and
+            realistic benchmarks.
+          </p>
+        </div>
+        <div class="arrow">→</div>
+        <div class="card">
+          <h3>When measurements justify it</h3>
+          <p>
+            Separate worker deployment, more API copies behind a load balancer, controlled connections, report
+            summaries and replicas.
+          </p>
+        </div>
+      </div>
+      <div class="grid3" style="margin-top: 20px">
+        <div>
+          <h3>Accuracy has layers</h3>
+          <p class="small">
+            Database checks protect structure. Tests and review protect meaning. Source records support
+            explanations.
+          </p>
+        </div>
+        <div>
+          <h3>Simple has a purpose</h3>
+          <p class="small">
+            A small complete system is easier to debug, test and explain. Added infrastructure brings
+            operating work.
+          </p>
+        </div>
+        <div>
+          <h3>Evidence has limits</h3>
+          <p class="small">
+            No live provider accuracy, million-user capacity, failover or physical-device success is claimed
+            by this report.
+          </p>
+        </div>
+      </div>
+      <h3 style="margin-top: 16px; font-size: 15px">Follow the evidence</h3>
+      <ol class="references">
+        <li>
+          <a href="../ARCHITECTURE.md">Daybook architecture and source-review notes</a> · implemented
+          boundaries and proposals.
+        </li>
+        <li><a href="../../CHECKPOINT.md">Saved checkpoint</a> · status, recovery and historical checks.</li>
+        <li>
+          <a href="../PLAN.md">Delivery and evaluation plan</a> · full comparison controls and acceptance
+          conditions.
+        </li>
+        <li>
+          <a href="https://spiich.ai/help/getting-started/what-is-spiich">Spiich product</a> and
+          <a href="https://spiich.ai/careers/founding-ai-engineer">engineering role</a> · public product/stack
+          evidence; hiring intent is inferred.
+        </li>
+        <li>
+          <a href="https://midday.ai/updates/joining-ramp/">Midday's Ramp transition</a> · hosted-product
+          wind-down announcement.
+        </li>
+        <li>
+          <a
+            href="https://github.com/midday-ai/midday/blob/51587319f26a0ffaa9dfccab1920373cb65689b7/apps/api/src/chat/assistant-runtime.ts"
+            >Midday chat runtime</a
+          >,
+          <a
+            href="https://github.com/midday-ai/midday/blob/51587319f26a0ffaa9dfccab1920373cb65689b7/apps/api/src/chat/tools.ts"
+            >tool selection</a
+          >, and
+          <a
+            href="https://github.com/midday-ai/midday/blob/51587319f26a0ffaa9dfccab1920373cb65689b7/packages/db/src/queries/transaction-matching.ts"
+            >receipt matching</a
+          >
+          · inspected June 13 source snapshot.
+        </li>
+        <li>
+          <a href="https://actualbudget.org/docs/budgeting/rules/">Actual rules</a>,
+          <a href="https://actualbudget.org/docs/contributing/project-details/architecture/"
+            >local architecture</a
+          >
+          and <a href="https://actualbudget.org/docs/budgeting/multi-currency/">currency limitations</a> ·
+          budgeting design, not our journal model.
+        </li>
+        <li>
+          <a href="https://ai.google.dev/gemini-api/docs/function-calling">Gemini function calling</a> and
+          <a href="https://ai.google.dev/gemini-api/docs/structured-output">structured-output limits</a> ·
+          application validation still matters.
+        </li>
+        <li>
+          <a href="https://mastra.ai/docs">Mastra</a>,
+          <a href="https://docs.typesafe.ai/models">TypeSafe Jev</a>,
+          <a href="https://github.com/pgvector/pgvector">pgvector</a> and
+          <a href="https://github.com/Canner/WrenAI">Wren</a> · candidates, not dependencies adopted by
+          Daybook.
+        </li>
+      </ol>
+      <p class="tiny">
+        Public research and source inspection from 29 October 2026. Upstream products were not executed or
+        audited in full. Numerical examples are illustrative. Report controls only change explanatory text;
+        they do not call a model, post entries or change the application.
+      </p>
+      <div class="foot">
+        <span>Next implementation work begins after the architecture discussion</span
+        ><span>08 / 08 · Growth, limits and sources</span>
+      </div>
+    </section>
+    <script>
+      const descriptions = [
+        'Identify the rent expense account, checking account, amount and date. Ask for the year or other context if it is not already established.',
+        'The server checks account IDs, allowed currencies, amounts and balance. A valid shape can still describe the wrong business event, so meaning needs evaluation and review.',
+        'The user sees the exact lines and confirms this proposal. Review is an application step, not merely an instruction asking the model to be careful.',
+        'The server revalidates the current revision. PostgreSQL posts all lines and the analysis job together. Retry identity prevents a repeated request from creating another posting.',
+        'Show the saved entry and the report effects. Posted history stays unchanged; corrections use a linked reversal. Statistical analysis can later raise a review alert.',
+      ];
+      document.querySelectorAll('[data-step]').forEach((button) =>
+        button.addEventListener('click', () => {
+          document.querySelectorAll('[data-step]').forEach((b) => {
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed', 'false');
+          });
+          button.classList.add('active');
+          button.setAttribute('aria-pressed', 'true');
+          document.getElementById('step-explanation').textContent = descriptions[Number(button.dataset.step)];
+        }),
+      );
+    </script>
+  </body>
+</html>

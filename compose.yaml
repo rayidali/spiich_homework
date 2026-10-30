@@ -1,0 +1,93 @@
+name: daybook
+services:
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: spiich
+      POSTGRES_PASSWORD: spiich
+      POSTGRES_DB: spiich
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U spiich -d spiich']
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  migrate:
+    build: .
+    environment:
+      MIGRATION_DATABASE_URL: postgres://spiich:spiich@db:5432/spiich
+      DATABASE_URL: postgres://spiich_app:spiich_app_local@db:5432/spiich
+      SEED_DEMO: ${SEED_DEMO:-true}
+    command: ['sh', '-c', 'npm run db:migrate && npm run db:seed']
+    depends_on:
+      db:
+        condition: service_healthy
+
+  app:
+    build: .
+    ports:
+      - '127.0.0.1:3001:3001'
+    environment:
+      DATABASE_URL: postgres://spiich_app:spiich_app_local@db:5432/spiich
+      PORT: 3001
+      WEB_ORIGIN: http://localhost:3001
+      AI_PROVIDER: ${AI_PROVIDER:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      AI_MODEL: ${AI_MODEL:-}
+      SEED_DEMO: ${SEED_DEMO:-true}
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:3001/api/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  tests:
+    profiles: [test]
+    build:
+      context: .
+      target: build
+    environment:
+      NODE_ENV: test
+      DATABASE_URL: postgres://spiich_app:spiich_app_local@db:5432/spiich
+      MIGRATION_DATABASE_URL: postgres://spiich:spiich@db:5432/spiich
+    command: ['npm', 'test']
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  evaluate:
+    profiles: [evaluate]
+    build: .
+    environment:
+      # Fixture creation needs the migration role; the normal app keeps its restricted role.
+      DATABASE_URL: postgres://spiich_app:spiich_app_local@db:5432/spiich
+      MIGRATION_DATABASE_URL: postgres://spiich:spiich@db:5432/spiich
+      AI_PROVIDER: ${AI_PROVIDER:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      AI_MODEL: ${AI_MODEL:-}
+    volumes:
+      - ./docs/evidence:/app/docs/evidence
+    command: ['npm', 'run', 'ai:evaluate', '--', '--suite', 'smoke']
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+volumes:
+  postgres_data:
+    # Retain the original volume identifier so the product rename keeps existing data.
+    name: spiich_postgres_data

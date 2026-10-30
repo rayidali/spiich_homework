@@ -1,0 +1,46 @@
+{
+  "checkedAt": "2026-10-30T02:08:06.331Z",
+  "environment": "restricted local session",
+  "checks": {
+    "fullTestCommand": {
+      "command": "npm test",
+      "exitCode": 1,
+      "totalTests": 94,
+      "passedTests": 51,
+      "skippedTests": 43,
+      "failedSuiteSetup": 2,
+      "blocker": "PostgreSQL connection denied: EPERM 127.0.0.1:55432"
+    },
+    "productionBuild": {
+      "command": "npm run build",
+      "exitCode": 0,
+      "warning": "Two previously documented upstream Zod annotation warnings"
+    },
+    "liveSmoke": {
+      "command": "npm run ai:evaluate -- --suite smoke --max-attempts 4 --max-total-tokens 16000",
+      "exitCode": 1,
+      "stage": "database fixture setup",
+      "providerCalls": 0
+    },
+    "providerDns": {
+      "status": "blocked",
+      "code": "ENOTFOUND"
+    },
+    "browserLaunch": {
+      "status": "blocked",
+      "stage": "before page load"
+    },
+    "docker": {
+      "status": "not executed",
+      "reason": "No Docker runtime available"
+    }
+  },
+  "remoteCi": {
+    "status": "prepared, not executed",
+    "requires": "Local Git metadata write access for the user-requested Terminal workflow; local rayidali login has ADMIN access to rayidali/spiich_homework. Live job additionally requires repository GEMINI_API_KEY secret."
+  },
+  "limitations": [
+    "Skipped database tests are not passing tests.",
+    "No live model accuracy, current browser workflow success or Docker startup is claimed."
+  ]
+}

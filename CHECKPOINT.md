@@ -1,0 +1,119 @@
+# Daybook session checkpoint
+
+Updated **2026-10-29** after the user authorized implementation following the visual architecture report. Read this file first; continue the existing application rather than rebuilding it.
+
+## Current state
+
+Latest user request: run the checks autonomously; Vercel access was offered as an alternative. Re-ran `npm test`: **51 passed, 43 skipped, two suites failed during PostgreSQL setup (`EPERM`)**. The production build passed. The bounded live smoke command stopped during database setup before provider calls; DNS and browser launch remain blocked. Sanitized results are saved in [verification-attempt.json](docs/evidence/verification-attempt.json).
+
+Prepared manual GitHub Actions execution and an opt-in, bounded live Gemini job after database/browser/Docker checks. The user created and authorized `https://github.com/rayidali/spiich_homework` as the target; it is currently public. The GitHub connector uses `gulfmarvel` and reports `push: false`, but **local `gh auth status` confirms `rayidali`, and `gh repo view` confirms ADMIN access**. The user explicitly wants the local Terminal/Git workflow and asked us to run initialization ourselves. We attempted `git init -b main`: it returned `.git: Operation not permitted`; this session's filesystem policy grants `.git` read-only access. A direct local `gh api` read also failed to connect, whereas the approved `gh repo view` command succeeded. Do not ask for a GitHub account permission change or repeat unchanged failed initialization attempts. Continue the local workflow when session permissions allow Git metadata writes. The live job additionally requires its `GEMINI_API_KEY` repository secret. No source was uploaded, remote CI started, key transferred, or Vercel deployment created. Vercel was found in the plugin directory but is not connected.
+
+**Gemini/OpenAI support, stronger evaluation and the simpler interface are implemented in source.** The user saved the Gemini key in the local `.env`; it must never be displayed or copied into source, documentation, screenshots or the archive. The key has not been validated against Google because this session cannot resolve the provider hostname.
+
+- Product: **Daybook**. Spiich is the assignment recipient, not the product name.
+- Workspace: `/Users/rayidali/Desktop/spiich_codinghw`.
+- Package/archive root: `daybook-ledger`; Compose project: `daybook`.
+- Preview: `http://localhost:5173`; API: `127.0.0.1:3001`; development PostgreSQL: `55432`.
+- No Git repository or commit: `git init` failed with a filesystem permission error. The previous submission is preserved at `.tools/checkpoints/before-gemini-implementation-2026-10-29.zip`. Do not restore it over current work during normal resumption.
+- Paid providers/Jev are acceptable when justified. No purchase or subscription was made. Jev, pgvector, Mastra, Wren and managed document retrieval are **not integrated**.
+
+The previous discussion-only instruction is superseded: the user said to take the clipboard key and begin. Clipboard access failed, so the user saved the key locally instead. One minimal structured-output connection attempt failed without a provider response; a credential-free host check returned `ENOTFOUND`. Key validity, provider token usage and charges cannot be confirmed from that failure. No live financial evaluation ran.
+
+## New implementation
+
+- `server/ai-provider.ts`: native Gemini REST and retained OpenAI Responses adapters, configurable provider/model, 25-second timeout, no automatic retries, four-request concurrency limit, strict response validation, one allowed financial call, safe error codes, usage/model metadata and evaluation budgets. No new application dependency.
+- Gemini default: `gemini-3.8-flash`; OpenAI default: `gpt-6-luna`. Both are configurable with `AI_MODEL`; remove a stale override when switching provider. `.env.example` and Compose support both keys.
+- `server/ai.ts`: shared account/decimal/balance checks, strict financial arguments that reject attempted organization overrides, retrieved history/correction IDs, and exact SQL-derived financial answers. Provider output never posts itself.
+- `scripts/evaluate-ai.ts` and `scripts/evaluation/`: 40 labeled cases (20 development, 20 reserved holdout), four-case smoke mode, exact full-line/date/rate checks, exact query/evidence checks, correction before/after probes and organization-isolation evidence. Runs create new synthetic workspaces and predefined fixture postings, never mutate the demo or post model outputs. Clarification meaning explicitly needs human review.
+- UI: Home / Transactions / Reports / Settings; Home prioritizes cash, profit, recording and review. Details remain expandable. Short USD money-in/out/transfer form leads to explicit account-effects review and confirmation. Receivable/equity/liability cases remain distinct from revenue/expenses; full journal mode supports foreign currencies and splits. AI clarification precedes its review screen.
+- `web/src/quick-entry.ts`: eligible account choices/defaults independent of chart codes. An independent review caught and fixed invalid default selection on customized charts and editing races during preparation/posting.
+- Browser launcher disables the model key. Ten browser workflows are authored, including short-form accounting and mocked AI review with no automatic posting.
+- Compose has a separate `evaluate` profile for synthetic fixture creation; normal app credentials remain restricted. `scripts/check-compose-persistence.mjs --execute` recreates app/database containers and checks an existing complete posted entry without journal writes or volume deletion. CI includes it.
+
+## Verification: current versus historical
+
+| Check                                       | Current evidence                                                                              |
+| ------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Offline provider tests                      | **22 passing** with mocked transport                                                          |
+| Evaluation scorer/options/dataset tests     | **23 passing** without model/database calls                                                   |
+| Simple-entry selection tests                | **6 passing**                                                                                 |
+| Strict TypeScript / production bundle       | Passed; two known nonfatal upstream Zod annotation warnings                                   |
+| Formatting / Compose configuration          | Passed                                                                                        |
+| Current PostgreSQL suites                   | **Pending**: 29 accounting + 14 AI contracts authored; local socket connection failed `EPERM` |
+| Current browser suite                       | **Pending**: 10 workflows listed; browser aborts before page load                             |
+| Live provider access / accounting accuracy  | **Pending**: key saved, provider DNS blocked                                                  |
+| Full Docker startup / persistence           | **Pending**: no Docker runtime/socket installed                                               |
+| Physical phone / Safari / Firefox           | Not verified                                                                                  |
+| Million-user capacity / production failover | Not measured or claimed                                                                       |
+
+The previous verified baseline was 29 database/application tests, 8 provider contracts and 8 production browser workflows. Those results and saved screenshots apply to the earlier source. Do not claim the new database/browser suites passed or use the old screenshots as evidence of the new layout. The current isolated total is **51 passing tests**; it is not a live accuracy score.
+
+## Environment and data preservation
+
+At implementation startup, Node PID `2666` listened on `3001`/`5173` and PostgreSQL PID `2669` on `55432`. Recheck before acting; PIDs are observations, not permanent identities. The processes were not stopped/restarted during this iteration, so the existing API can still have the old provider configuration until restarted. Frontend hot reload does not reload the API or `.env`.
+
+This session cannot connect to the existing local database (`EPERM`), launch the test browser, resolve Google API DNS, read the macOS clipboard, or create `.git`. Do not bypass those restrictions or repeatedly retry unchanged failures. Complete runtime verification from a normal Terminal or an environment with the necessary access. No Docker Desktop, OrbStack, Rancher Desktop or Docker socket was found.
+
+Preserve:
+
+- `.tools/postgres`: actual development data.
+- Database/role compatibility identifiers: `spiich` / `spiich_app`.
+- Compose named volume: **`spiich_postgres_data`**.
+- Applied, checksummed migrations `001_ledger.sql` through `004_provenance.sql`; none changed in this iteration.
+- Default organization `00000000-0000-4000-8000-000000000001`. Previous clean seed: 72 posted entries, one draft and three alerts; current counts could not be queried in this restricted session.
+- Posted history: never edit/delete it to reset a demo; corrections use linked reversals.
+
+## Resume and verify
+
+1. Read this checkpoint, [README](README.md), [verification](docs/VERIFICATION.md), and the latest [build log](docs/BUILD_LOG.md).
+2. Inspect listeners before starting another server:
+
+   ```sh
+   lsof -nP -iTCP:5173 -iTCP:3001 -iTCP:55432 -sTCP:LISTEN
+   ```
+
+3. In a capable Terminal, restart the existing dev process to load the new server and key. If all ports are free, use `npm run dev`. If only PostgreSQL remains running, use `npm run dev -- --reuse-db`. Preserve the database directory; never start a second PostgreSQL against it.
+4. With PostgreSQL running, verify current source:
+
+   ```sh
+   npm test
+   npm run build
+   npm run dev -- --test-browser --reuse-db --production
+   npm run format:check
+   npm run ai:evaluate -- --suite smoke
+   ```
+
+5. Inspect smoke results and the proposed entries/clarifications. Then run `npm run ai:evaluate -- --suite development`. Freeze model, cases, contexts and settings before `npm run ai:evaluate -- --suite holdout --repeats 3`. Record failures; once holdout failures guide tuning, report that reuse rather than claiming unseen results.
+6. On a Docker-enabled host:
+
+   ```sh
+   docker compose up --build --wait
+   docker compose --profile test run --build --rm tests
+   node scripts/check-compose-persistence.mjs --execute
+   docker compose --profile evaluate run --build --rm evaluate
+   ```
+
+7. Inspect desktop/phone flows, update screenshots and evidence, rehearse the demo, and refresh the ZIP after changes. Optional retrieval/Jev comparisons follow successful baseline verification; they are not prerequisites.
+
+The smoke suite has four cases and defaults to eight attempts / 32,000 observed tokens. Development defaults to 32 attempts / 150,000 tokens; holdout to 96 attempts / 400,000 tokens. Use lower CLI limits as needed. No automatic retries. Unknown usage or access/quota failures stop the run. The token threshold stops subsequent requests; an in-flight response can exceed it, so it is not an absolute billing ceiling. Provider calls may be billed. Run `npm run ai:evaluate -- --help` for options.
+
+## Design and research continuity
+
+The project-local Emil Kowalski guidance is at `.tools/design-skills/skills-main`, revision `a81dbca07f2217b7103e510c0f13f8d5b017afc9`. It is not a globally installed skill. Provenance and applied design/mobile rules are in [design](docs/DESIGN.md).
+
+The [PDF report](docs/reports/architecture-review.pdf) and [interactive HTML](docs/reports/architecture-review.html) are the planning snapshot before this implementation. They explain Spiich/Midday/Actual lessons, system boundaries, examples, proposed UI and the 12-hour core + four-hour reserve allocation. Follow this checkpoint for current status. Public research, pinned source reviews and their limits are recorded in [architecture](docs/ARCHITECTURE.md); no upstream product was installed or incorporated.
+
+## Documentation and submission
+
+- [README](README.md): startup, provider setup and scope.
+- [Architecture](docs/ARCHITECTURE.md): invariants, adapters, research and scaling boundaries.
+- [Plan](docs/PLAN.md): delivery allocation and controlled comparison.
+- [API](docs/API.md): REST contracts and errors.
+- [Design](docs/DESIGN.md): simpler flow, guidance provenance and historical screenshots.
+- [Verification](docs/VERIFICATION.md): executed checks and outstanding runtime work.
+- [Accounting walkthrough](docs/ACCOUNTING_WALKTHROUGH.md): beginner examples.
+- [Interview guide](docs/INTERVIEW_GUIDE.md): explanations and demonstration.
+- [Build log](docs/BUILD_LOG.md): actual changes and decisions.
+- [AGENTS.md](AGENTS.md): concise continuation instructions.
+
+The submission ZIP uses the `daybook-ledger/` root and excludes `.env`, `.tools`, `.git`, dependency/build/test directories and credentials. Refresh it after changes. Authentication, invoice/bank-feed/tax workflows, period-end FX revaluation and measured production capacity remain explicit boundaries.
