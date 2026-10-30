@@ -12,7 +12,7 @@ The [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs
 
 The live Gemini job is opt-in and requires the repository's `GEMINI_API_KEY` secret. The local key has not been transferred, and no live evaluation has run. Fresh browser screenshots are in the successful run's browser-evidence artifact; checked-in images still show the earlier design and need replacement after visual review.
 
-The user asked about Vercel access. The Vercel CLI is installed (65.2.0), but `vercel whoami` failed on a network request; local login status is unconfirmed. The Vercel plugin is available but not connected; an installation/connection option was offered. No token was requested in chat and no deployment or hosted database was created.
+The user requires **local Terminal/CLI authentication for both GitHub and Vercel**; they cannot connect those accounts through this chat's plugins. This supersedes the earlier Vercel plugin suggestion. The Vercel CLI is already installed (65.2.0), but `vercel whoami` failed on a network request; local login status is unconfirmed. Use `vercel whoami` in the user's normal Terminal, and `vercel login` if login is needed, completing the provider's authorization locally. A network failure is not evidence of a missing login. No token was requested in chat and no deployment or hosted database was created.
 
 **Gemini/OpenAI support, stronger evaluation and the simpler interface are implemented in source.** The user saved the Gemini key in the local `.env`; it must never be displayed or copied into source, documentation, screenshots or the archive. The key has not been validated against Google because this session cannot resolve the provider hostname.
 

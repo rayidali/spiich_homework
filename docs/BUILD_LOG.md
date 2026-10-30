@@ -165,6 +165,8 @@ Data boundaries, correctness under concurrency, bounded work, and operational vi
 
 ## Remaining external verification
 
+- Authentication preference clarified: use local Terminal/CLI sessions for GitHub and Vercel. The earlier Vercel plugin suggestion is superseded. Verified the installed Vercel CLI's login help; no plugin account connection, token transfer or deployment was performed.
+
 1. Configure the live evaluation environment without exposing keys, validate Gemini access, and run smoke/development/holdout cases with the existing bounds. Inspect required clarifications manually.
 2. Inspect the fresh CI screenshots and replace historical images after review. Check a physical phone and additional browsers.
 3. Production load/failover/restore testing and identity/authorization remain outside the verified scope.
