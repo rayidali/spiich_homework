@@ -6,7 +6,7 @@ The hosted model and source default are now **`gemini-3.1-flash-lite`**. Direct 
 
 Selected hosted checks succeeded: cash **$125,620.00**, **12 Acme Corp entries**, September expenses **$9,265.00**, and a review-only **$340 Supplies debit / Company credit card credit** proposal. Cash/search/expense values matched independent endpoints, and the 73-entry journal list was unchanged. An initial expense timeout succeeded on manual repeat, while a later search failed; **intermittent provider failures remain**. No automatic retry, paid-plan change or accuracy guarantee was introduced.
 
-Local build/native imports and **60 isolated tests** passed, including two new schema regressions. Full CI for source `7ecb435c421862dba5efd4e3b6f743c93fd1888e` is [queued](https://github.com/rayidali/spiich_homework/actions/runs/41103851106); the previous 101-test full run remains the last completed regression evidence. These selected checks are not the full 40-case live evaluation. [Detailed evidence](evidence/chat-recovery-verification.json) records successes and failures. Earlier timeout-only notes below describe the 2026-10-29 snapshot.
+Local build/native imports and **60 isolated tests** passed, including two new schema regressions. [Full CI](https://github.com/rayidali/spiich_homework/actions/runs/41103851106) for source `7ecb435c421862dba5efd4e3b6f743c93fd1888e` **passed 103 backend tests, 10 browser workflows, native hosted imports and Docker startup/persistence**; the opt-in live evaluation job was skipped. These selected checks are not the full 40-case live evaluation. [Detailed evidence](evidence/chat-recovery-verification.json) records successes and failures. Earlier timeout-only notes below describe the 2026-10-29 snapshot.
 
 > Saved 2026-10-29 America/New_York. Full CI on executable commit `576a2468feacf9bd1d040c75bb1c5ff203f28dae` **succeeded**: [run 40999183176](https://github.com/rayidali/spiich_homework/actions/runs/40999183176). Hosted HTTP checks are recorded separately. Live generation/accuracy, fresh visual inspection and physical-device checks remain pending.
 
@@ -15,8 +15,8 @@ Local build/native imports and **60 isolated tests** passed, including two new s
 | Check                 | Evidence                      | Result / scope                                                                                                            |
 | --------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | PostgreSQL/accounting | CI verify and container tests | 29 accounting + 14 AI/database contracts                                                                                  |
-| Isolated tests        | CI and local execution        | 22 provider + 23 evaluation + 6 simple-entry + 7 scheduler                                                                |
-| Backend total         | `npm test`                    | **101 passing**; provider responses controlled                                                                            |
+| Isolated tests        | CI and local execution        | 24 provider + 23 evaluation + 6 simple-entry + 7 scheduler                                                                |
+| Backend total         | `npm test`                    | **103 passing**; provider responses controlled                                                                            |
 | Production browser    | CI Chromium                   | **10 passing**; real accounting flows, mocked AI review, desktop/mobile emulation                                         |
 | Build                 | CI                            | Formatting, strict TypeScript, Vite production output, both native hosted module imports                                  |
 | Docker                | CI compose job                | Image build, complete startup, health, containerized tests, unchanged posted-entry persistence after container recreation |
@@ -26,7 +26,7 @@ Local build/native imports and **60 isolated tests** passed, including two new s
 | Live financial chat   | Hosted API request            | **504 `AI_TIMEOUT` after 25 seconds**; successful generation not established                                              |
 | Automatic timer       | Configuration only            | Daily 06:00 UTC cron; automatic firing not observed                                                                       |
 
-The backend total is 29 + 14 + 22 + 23 + 6 + 7 = 101. The 58 isolated tests are included, not additional tests. The ten browser workflows are separate. CI's live-AI job was skipped. Browser checks disable the live key and do not measure model accuracy. Native import checks establish that both hosted modules load; live HTTP smoke independently established deployed API/report/scheduler behavior.
+The backend total is 29 + 14 + 24 + 23 + 6 + 7 = 103. The 60 isolated tests are included, not additional tests. The ten browser workflows are separate. CI's live-AI job was skipped. Browser checks disable the live key and do not measure model accuracy. Native import checks establish that both hosted modules load; live HTTP smoke independently established deployed API/report/scheduler behavior.
 
 Evidence files:
 

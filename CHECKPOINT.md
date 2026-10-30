@@ -8,7 +8,7 @@ The user reported failed chat, then asked whether Vercel needed a Git connection
 
 Selected hosted cash/search/expense questions and a review-only supplies proposal succeeded. Independent endpoints matched the returned values and the journal list stayed unchanged. Provider failures are still intermittent: an expense timeout passed on manual repeat, and a later search failed after an earlier success. Do not present this as universal availability or a completed live accuracy evaluation. See [chat recovery evidence](docs/evidence/chat-recovery-verification.json).
 
-New executable source is `7ecb435c421862dba5efd4e3b6f743c93fd1888e`; local build, native imports and **60 isolated tests passed**, with two added schema regression tests. [Full CI 41103851106](https://github.com/rayidali/spiich_homework/actions/runs/41103851106) is queued; the previous 101-test run below is the last completed full regression. The new expected full count is 103, not yet claimed passing. Hosting is updated to deployment `dpl_HQefAFAGwPS2x52c1nXPetRYovKq`. Vercel was deployed directly with local authentication, so GitHub not being connected to Vercel is expected: GitHub stores source/runs CI but pushes do not auto-deploy.
+New executable source is `7ecb435c421862dba5efd4e3b6f743c93fd1888e`; local build, native imports and **60 isolated tests passed**, with two added schema regression tests. [Full CI 41103851106](https://github.com/rayidali/spiich_homework/actions/runs/41103851106) **passed 103 backend tests, 10 browser workflows, native module imports and Docker startup/persistence**. The user reported the fix worked; an independent hosted Acme search returned HTTP 200 in 1.679 seconds with 12 entries, matching the transaction-list endpoint. Previous provider failures remain recorded; the full live evaluation is still pending. Hosting is updated to deployment `dpl_HQefAFAGwPS2x52c1nXPetRYovKq`. Vercel was deployed directly with local authentication, so GitHub not being connected to Vercel is expected: GitHub stores source/runs CI but pushes do not auto-deploy.
 
 | Item                                         | Saved state                                                                                                                     |
 | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
@@ -16,14 +16,14 @@ New executable source is `7ecb435c421862dba5efd4e3b6f743c93fd1888e`; local build
 | Working source                               | `/Users/rayidali/Desktop/spiich_codinghw`                                                                                       |
 | Hosted app                                   | [daybook-ledger-delta.vercel.app](https://daybook-ledger-delta.vercel.app), Vercel login required                               |
 | Repository                                   | [rayidali/spiich_homework](https://github.com/rayidali/spiich_homework), public                                                 |
-| Tested executable commit                     | `576a2468feacf9bd1d040c75bb1c5ff203f28dae`                                                                                      |
-| Successful full CI                           | [40999183176](https://github.com/rayidali/spiich_homework/actions/runs/40999183176)                                             |
+| Tested executable commit                     | `7ecb435c421862dba5efd4e3b6f743c93fd1888e`                                                                                      |
+| Successful full CI                           | [41103851106](https://github.com/rayidali/spiich_homework/actions/runs/41103851106)                                             |
 | Latest remote before this documentation save | `5dbcfdb21d99934a8772b448f5a59ad7cb9a6cd1`; this save adds a documentation-only commit                                          |
-| Verified totals                              | **101 backend tests and 10 browser workflows**, native hosted module loading, Docker startup/health/container tests/persistence |
+| Verified totals                              | **103 backend tests and 10 browser workflows**, native hosted module loading, Docker startup/health/container tests/persistence |
 | Live AI                                      | Selected live financial questions and an entry proposal passed with Flash-Lite; intermittent provider errors remain             |
 | Submission                                   | `submission.zip`, root `daybook-ledger/`, refreshed from reviewed source/docs with credential and integrity checks              |
 
-The previous full CI passed after the hosting changes; the new model/schema fix has separate local/live evidence and queued CI. The earlier 94-test baseline is historical, preserved in [cloud-verification-before-hosting.json](docs/evidence/cloud-verification-before-hosting.json). Current evidence is [cloud-verification.json](docs/evidence/cloud-verification.json); live hosting evidence is [hosting-verification.json](docs/evidence/hosting-verification.json).
+The previous full CI passed after the hosting changes; the new model/schema fix also passed full CI and selected live confirmation. The earlier 94-test baseline is historical, preserved in [cloud-verification-before-hosting.json](docs/evidence/cloud-verification-before-hosting.json). Current evidence is [cloud-verification.json](docs/evidence/cloud-verification.json); live hosting evidence is [hosting-verification.json](docs/evidence/hosting-verification.json).
 
 ## User preferences and authorization
 
@@ -81,7 +81,7 @@ Successful API mutations register bounded durable job processing through `waitUn
 | Evaluation unit tests       | 23 passing                                                                                                                                              |
 | Simple-entry tests          | 6 passing                                                                                                                                               |
 | Hosted scheduler tests      | 7 passing: authorization, methods, sequencing, safe errors                                                                                              |
-| Total backend               | **101 passing in CI**; 58 isolated tests also passed locally                                                                                            |
+| Total backend               | **103 passing in CI**; 60 isolated tests also passed locally                                                                                            |
 | Browser                     | **10 production Chromium workflows passing in CI**; desktop/mobile emulation and keyboard checks                                                        |
 | Build/config                | Formatting, strict TypeScript, production bundle, native hosted-module imports, migrations and Compose validation passed                                |
 | Docker                      | Build, complete stack startup/health, containerized tests and posted-entry persistence after app/database container recreation passed                   |

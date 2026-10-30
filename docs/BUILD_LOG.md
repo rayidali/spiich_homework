@@ -211,3 +211,9 @@ The submission should describe these limits plainly. No guarantee of hiring acce
 - Production build and native hosted imports passed. New full CI run 41103851106 for 7ecb435 is queued; previous full CI remains historical until the new result arrives. Saved sanitized recovery evidence, updated active documentation/checkpoint, and refreshed private local deployment state without exposing credentials.
 
 - Updated documentation and the secret-excluded submission archive after the fix; source publication and hosting remain separate. The full evaluation harness, fresh hosted browser review and continuous availability are still unverified. No journal entry was created or posted by these AI checks.
+
+## 2026 10 30 User confirmation and final regression result
+
+- The user reported the assistant worked and asked for an independent check. Sent one hosted Acme transaction question; it returned HTTP 200 in 1.679 seconds (provider duration 1,243ms), selected the scoped transaction-search tool and returned 12 posted entries. The independent transaction-list endpoint returned the same count. No posting or data mutation was requested.
+- Full CI run 41103851106 on 7ecb435 completed successfully: verify/compose passed, including 103 backend tests (24 provider tests after the two new regressions), 10 browser workflows, native imports and Docker startup/health/containerized tests/persistence. The separate live-evaluation job was skipped. Preserved prior CI evidence, updated current sanitized evidence and checkpoint, and refreshed the submission archive.
+- Earlier intermittent failures remain documented; this confirmation does not establish a full model accuracy score or continuous availability. No further application/configuration/deployment change or retry was made.

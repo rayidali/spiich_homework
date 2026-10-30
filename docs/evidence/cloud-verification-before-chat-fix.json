@@ -1,0 +1,287 @@
+{
+  "checkedAt": "2026-10-30T03:53:40.744177+00:00",
+  "repository": "rayidali/spiich_homework",
+  "commit": "576a2468feacf9bd1d040c75bb1c5ff203f28dae",
+  "runId": 40999183176,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/40999183176",
+  "conclusion": "success",
+  "backendTests": 101,
+  "backendBreakdown": {
+    "accounting": 29,
+    "aiDatabaseContracts": 14,
+    "provider": 22,
+    "evaluation": 23,
+    "simpleEntry": 6,
+    "hostedCron": 7
+  },
+  "browserWorkflows": 10,
+  "jobs": [
+    {
+      "id": 123879324418,
+      "name": "verify",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rayidali/spiich_homework/actions/runs/40999183176/job/123879324418",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-30T03:45:56Z",
+          "completed_at": "2026-10-30T03:45:57Z"
+        },
+        {
+          "name": "Initialize containers",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-30T03:45:57Z",
+          "completed_at": "2026-10-30T03:46:11Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-30T03:46:11Z",
+          "completed_at": "2026-10-30T03:46:12Z"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-30T03:46:12Z",
+          "completed_at": "2026-10-30T03:46:16Z"
+        },
+        {
+          "name": "Run npm ci --no-audit --no-fund",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-30T03:46:16Z",
+          "completed_at": "2026-10-30T03:46:22Z"
+        },
+        {
+          "name": "Run npm run format:check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-30T03:46:22Z",
+          "completed_at": "2026-10-30T03:46:25Z"
+        },
+        {
+          "name": "Run npm run build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-30T03:46:25Z",
+          "completed_at": "2026-10-30T03:46:32Z"
+        },
+        {
+          "name": "Verify native hosted API module",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-30T03:46:32Z",
+          "completed_at": "2026-10-30T03:46:32Z"
+        },
+        {
+          "name": "Run npm run db:migrate",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-30T03:46:32Z",
+          "completed_at": "2026-10-30T03:46:33Z"
+        },
+        {
+          "name": "Run npm test",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-30T03:46:33Z",
+          "completed_at": "2026-10-30T03:46:40Z"
+        },
+        {
+          "name": "Run npx playwright install --with-deps chromium",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-30T03:46:40Z",
+          "completed_at": "2026-10-30T03:47:07Z"
+        },
+        {
+          "name": "Run production browser workflows",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-10-30T03:47:07Z",
+          "completed_at": "2026-10-30T03:47:25Z"
+        },
+        {
+          "name": "Surface browser startup and failure details",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 13,
+          "started_at": "2026-10-30T03:47:25Z",
+          "completed_at": "2026-10-30T03:47:25Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-30T03:47:25Z",
+          "completed_at": "2026-10-30T03:47:26Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 26,
+          "started_at": "2026-10-30T03:47:26Z",
+          "completed_at": "2026-10-30T03:47:26Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 27,
+          "started_at": "2026-10-30T03:47:26Z",
+          "completed_at": "2026-10-30T03:47:26Z"
+        },
+        {
+          "name": "Stop containers",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 28,
+          "started_at": "2026-10-30T03:47:26Z",
+          "completed_at": "2026-10-30T03:47:29Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29,
+          "started_at": "2026-10-30T03:47:29Z",
+          "completed_at": "2026-10-30T03:47:30Z"
+        }
+      ]
+    },
+    {
+      "id": 123879782483,
+      "name": "compose",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rayidali/spiich_homework/actions/runs/40999183176/job/123879782483",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-30T03:47:34Z",
+          "completed_at": "2026-10-30T03:47:34Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-30T03:47:34Z",
+          "completed_at": "2026-10-30T03:47:35Z"
+        },
+        {
+          "name": "Run docker compose config --quiet",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-30T03:47:35Z",
+          "completed_at": "2026-10-30T03:47:36Z"
+        },
+        {
+          "name": "Run docker compose up --build --wait --wait-timeout 120",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-30T03:47:36Z",
+          "completed_at": "2026-10-30T03:48:24Z"
+        },
+        {
+          "name": "Run curl --fail http://localhost:3001/api/health",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-30T03:48:24Z",
+          "completed_at": "2026-10-30T03:48:24Z"
+        },
+        {
+          "name": "Run docker compose --profile test run --rm tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-30T03:48:24Z",
+          "completed_at": "2026-10-30T03:48:35Z"
+        },
+        {
+          "name": "Run node scripts/check-compose-persistence.mjs --execute",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-30T03:48:35Z",
+          "completed_at": "2026-10-30T03:48:56Z"
+        },
+        {
+          "name": "Run docker compose logs --no-color",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 8,
+          "started_at": "2026-10-30T03:48:56Z",
+          "completed_at": "2026-10-30T03:48:56Z"
+        },
+        {
+          "name": "Run docker compose down",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-30T03:48:56Z",
+          "completed_at": "2026-10-30T03:48:57Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18,
+          "started_at": "2026-10-30T03:48:57Z",
+          "completed_at": "2026-10-30T03:48:57Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19,
+          "started_at": "2026-10-30T03:48:57Z",
+          "completed_at": "2026-10-30T03:48:58Z"
+        }
+      ]
+    },
+    {
+      "id": 123880203873,
+      "name": "live-ai",
+      "status": "completed",
+      "conclusion": "skipped",
+      "html_url": "https://github.com/rayidali/spiich_homework/actions/runs/40999183176/job/123880203873",
+      "steps": []
+    }
+  ],
+  "previousEvidence": "cloud-verification-before-hosting.json",
+  "hostingEvidence": "hosting-verification.json",
+  "limits": [
+    "Live AI job skipped; hosted financial chat returned AI_TIMEOUT. No live accuracy score.",
+    "Hosted API/report/scheduler smoke checks are separate from Chromium workflows against CI infrastructure.",
+    "Fresh CI screenshots have not been visually inspected; checked-in screenshots remain historical.",
+    "Physical devices, other browsers, load capacity, failover and restore drills remain unverified.",
+    "Daily cron is configured; automatic firing has not yet been observed."
+  ]
+}

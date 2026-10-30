@@ -55,14 +55,26 @@
   "localIsolatedTests": 60,
   "ci": {
     "runId": 41103851106,
-    "status": "queued",
-    "conclusion": null,
-    "url": "https://github.com/rayidali/spiich_homework/actions/runs/41103851106"
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/rayidali/spiich_homework/actions/runs/41103851106",
+    "backendTests": 103,
+    "browserWorkflows": 10
   },
   "limits": [
     "Intermittent provider failures remain; no continuous availability guarantee.",
     "Selected live checks, not a completed 40-case evaluation or an accuracy estimate.",
     "No hosted browser visual test or physical-device check performed.",
     "Timed-out request usage/billing unknown; no plan/subscription changed."
-  ]
+  ],
+  "confirmation": {
+    "checkedAt": "2026-10-30T18:23:00.517501+00:00",
+    "userReportedSuccess": true,
+    "question": "Show me all transactions with Acme Corp",
+    "status": 200,
+    "requestSeconds": 1.679322,
+    "providerDurationMs": 1243,
+    "postedEntryCount": 12,
+    "matchedIndependentEntriesEndpoint": true
+  }
 }

@@ -1,6 +1,6 @@
 # Daybook · Accounting workspace
 
-> Updated 2026-10-30: hosted AI uses `gemini-3.1-flash-lite`; cash, transaction search, expenses and a review-only entry proposal passed selected live checks. Provider failures remain intermittent. The journal-schema compatibility fix passes 60 isolated tests; [new full CI](https://github.com/rayidali/spiich_homework/actions/runs/41103851106) is queued. The previous full CI passed 101 backend tests and 10 browser workflows. See [recovery evidence](docs/evidence/chat-recovery-verification.json) and [checkpoint](CHECKPOINT.md).
+> Updated 2026-10-30: hosted AI uses `gemini-3.1-flash-lite`; cash, transaction search, expenses and a review-only entry proposal passed selected live checks. Provider failures remain intermittent. The journal-schema compatibility fix passes 60 isolated tests; [new full CI](https://github.com/rayidali/spiich_homework/actions/runs/41103851106) passed **103 backend tests, 10 browser workflows and Docker startup/persistence**. See [recovery evidence](docs/evidence/chat-recovery-verification.json) and [checkpoint](CHECKPOINT.md).
 
 A React and TypeScript accounting workspace backed by PostgreSQL. Every posted journal entry is balanced and immutable at the database level. AI prepares entries for review and selects read-only financial queries; the ledger and SQL own the financial numbers.
 
@@ -117,7 +117,7 @@ node scripts/check-compose-persistence.mjs --execute
 
 The persistence command recreates app/database containers and checks that a complete existing posted entry survives; it preserves the named volume and makes no journal writes. Run it after Compose startup. This check passed in the [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs/40999183176).
 
-Current CI passed **101 backend tests** (29 accounting, 14 AI/database contracts, 22 provider, 23 evaluation, 6 simple-entry and 7 hosted scheduler tests), **10 production browser workflows**, Docker build/startup/health, containerized backend tests, and posted-entry persistence across app/database container recreation. Provider responses in automated tests are controlled; this is not a live model accuracy result. See [verification details](docs/VERIFICATION.md).
+Current CI passed **103 backend tests** (29 accounting, 14 AI/database contracts, 24 provider, 23 evaluation, 6 simple-entry and 7 hosted scheduler tests), **10 production browser workflows**, Docker build/startup/health, containerized backend tests, and posted-entry persistence across app/database container recreation. Provider responses in automated tests are controlled; this is not a live model accuracy result. See [verification details](docs/VERIFICATION.md).
 
 ## Reading the code
 
