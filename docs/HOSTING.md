@@ -1,14 +1,16 @@
 # Hosting Daybook
 
-## 2026-10-31 entry provider repair — rollout in progress
+## 2026-10-31 entry repair — deployed and checked
 
-A hosted review-only proposal reproduced HTTP 502 in 1.16 seconds; database health passed. A tiny request using the saved production credential and `gemini-3.1-flash-lite` returned Google HTTP 503 in 0.51 seconds. This identifies an upstream service failure in the reproduction; the original user request text/time is unavailable.
+Source `de67b49dfce110f560840d0b9106d628f30f5d52` passed [full CI 41213514203](https://github.com/rayidali/spiich_homework/actions/runs/41213514203) and deployment `dpl_GopCJGQi67eHqSXLtRiVywVRRLbZ` is READY. The stable protected URL uses Gemini 3.5 Flash-Lite. The original user later supplied approximate friend/party wording; the original timestamp and raw response remain unavailable. A representative hosted failure and same-key direct upstream 503 were reproduced on the earlier 3.1 model. The replacement passed bounded compatibility checks; this does not recover the exact original request's cause.
 
-With that same key, `gemini-3.5-flash-lite` returned HTTP 200 for a tiny text probe (1.01 seconds, seven reported tokens) and the complete application entry grammar (1.47 seconds, 4,511 reported tokens). The latter proposed Office supplies debit USD 340 and Company credit card credit USD 340 with the supplied account IDs. These are bounded compatibility checks, not an accuracy benchmark; no journal was posted. See Google's [model documentation](https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite).
+The first repaired deployment returned correct USD 340 Supplies/Card lines and a cash answer of USD 125,620 matching the dashboard. Its rent-without-payment-account check failed by guessing the bank. That failure is retained. After a prompt change forbidding history/defaults from filling missing funding accounts, the final hosted tests returned the correct supplies entry, a payment-account question for rent, and payment-account/personal-business questions for “gave $800 to a friend to party.” No proposal was posted; all 73 journal records and the full dashboard response remained unchanged. [Evidence and limits](evidence/entry-provider-recovery.json).
 
-Source now defaults to 3.5. Upstream 5xx responses map to `AI_SERVICE_UNAVAILABLE`, fetch-boundary failures to `AI_CONNECTION_ERROR`, and timeouts retain `AI_TIMEOUT`. Diagnostics record only provider, model, operation, status/class, duration and an allowlisted network code; no prompts, raw errors, response bodies, headers or secrets. They currently lack application request-ID correlation. Single-attempt behavior is unchanged. Thirty-four provider tests, TypeScript/production build and bundling pass locally. Fresh cloud CI and hosted rollout/checks remain in progress.
+Upstream 5xx responses map to `AI_SERVICE_UNAVAILABLE`, fetch-boundary failures to `AI_CONNECTION_ERROR`, and timeouts retain `AI_TIMEOUT`. Logs retain safe provider/status metadata without payloads. Application request-ID correlation remains missing; the [assignment review](ASSIGNMENT_REVIEW.md) identifies that and correction-learning gaps as the next core work. Requests are not automatically retried. These selected HTTP checks are not full live accuracy or hosted browser verification.
 
-The user refreshed expired local Vercel authentication. CLI networking still fails here, so authorized HTTPS with that local credential verified the exact existing team/project before using the established deployment API flow. No chat connector, new project, key rotation or database replacement is involved. Deployment protection remains enabled.
+The user refreshed local Vercel authentication. CLI networking still failed, so authorized HTTPS with the local credential verified the existing team/project and performed deployment. Protection remains enabled. No connector, new project, key rotation or database replacement was used.
+
+This provider/prompt repair deploys **58 byte-identical source files plus one declared configuration overlay**: only `vercel.json.buildCommand` becomes `npm run build && npm run hosting:bundle`. Vercel's file configuration overrides request-level project settings, so the overlay prevents unintended migration/seed/role preparation. All migration files are unchanged; no owner credential is included. Original/deployed configuration hashes and the request hash are recorded in the receipt; private preparation provenance retains every file hash. The repository's full-provisioning build below remains unchanged.
 
 ## 2026-10-30 live AI recovery update
 
@@ -27,7 +29,7 @@ Local build/native imports and **60 isolated tests** passed, including two new s
 | Owner               | Local CLI identity `rayidali`, team `rayidalis-projects`                    |
 | Vercel project      | `daybook-ledger`; Hobby plan observed during provisioning                   |
 | Stable URL          | https://daybook-ledger-delta.vercel.app                                     |
-| Verified deployment | `dpl_HQefAFAGwPS2x52c1nXPetRYovKq`, production, READY                       |
+| Verified deployment | `dpl_GopCJGQi67eHqSXLtRiVywVRRLbZ`, production, READY                       |
 | Database            | Separate Neon `daybook-db`, free plan through an existing integration       |
 | Region              | `iad1`                                                                      |
 | Protection          | Vercel Authentication for all deployments; anonymous requests reach sign-in |
@@ -55,7 +57,7 @@ flowchart LR
 
 `api/index.js` and `api/cron.js` are tiny exports; their application code is TypeScript in `server/hosting/`. `scripts/bundle-hosting.mjs` compiles the internal extensionless imports into native Node ESM in ignored `.vercel-build/`, with npm packages external for dependency tracing. `vercel.json` includes these generated bundles, serves `dist`, routes API requests before the SPA fallback, sets the region and allows 60 seconds per function. CI imports both native modules before running database/browser tests.
 
-The configured build is:
+The repository default for a full provisioning build is:
 
 ```sh
 npm ci --include=dev --no-audit --no-fund
@@ -82,7 +84,7 @@ Use a generated password of at least 32 characters for hosted `spiich_app`. `scr
 
 The owner integration is connected to the project's **development environment only**. Production/runtime and build values were supplied as **deployment overrides**. They were not committed or assumed to be persistent production project variables. The Gemini key was supplied to Vercel server-side, but no GitHub Actions secret was configured.
 
-A new CLI deployment must receive the appropriate runtime variables and build-only owner variable through an authorized private mechanism. Do not assume `vercel --prod` from a fresh checkout will inherit them. Do not put secrets in `vercel.json`, command-line flags, `VITE_*` variables or source files. Review existing private local deployment state without printing it. A repository push currently supplies CI evidence; no Git-triggered Vercel auto-deploy connection has been established.
+A new CLI deployment must receive the appropriate runtime variables through an authorized private mechanism. The default full-provisioning build additionally requires the build-only owner variable; the recorded provider-only overlay above deliberately omits that preparation and credential. Do not assume `vercel --prod` from a fresh checkout will inherit them. Do not put secrets in `vercel.json`, command-line flags, `VITE_*` variables or source files. Review existing private local deployment state without printing it. A repository push currently supplies CI evidence; no Git-triggered Vercel auto-deploy connection has been established.
 
 ## Background behavior and limitations
 

@@ -1,8 +1,12 @@
 # Verification record
 
-## Product entry provider repair — 2026-10-31
+## Core assignment review and product entry repair — 2026-10-31
 
-Hosted entry reproduced HTTP 502; a tiny request with the saved production key/model 3.1 returned upstream HTTP 503. Model 3.5 passed the tiny probe and full entry grammar with expected USD 340 debit/credit lines. Source now defaults to 3.5 and distinguishes service failures, connection failures and timeouts without exposing provider payloads. Thirty-four provider tests pass, covering classification, single attempts, unknown-usage budget stops and secret exclusion. TypeScript/production build and hosted bundling pass. Fresh full CI and deployed checks are pending rollout; prior research results remain historical measurements of frozen source.
+The [assignment review](ASSIGNMENT_REVIEW.md) separates real database/browser evidence, mocked AI behavior and unproven product claims. Its findings about error correlation, correction trust/persistence and reversed history remain open. The nine-route research study does not establish Jev categorization or improved accuracy after corrections.
+
+Source `de67b49dfce110f560840d0b9106d628f30f5d52` passed [CI 41213514203](https://github.com/rayidali/spiich_homework/actions/runs/41213514203): verify, native research and Compose succeeded; optional live AI was skipped. Deployment `dpl_GopCJGQi67eHqSXLtRiVywVRRLbZ` reached READY. Three separate hosted API checks passed on the changed prompt: exact USD 340 Supplies/Card entry, clarification for rent without a payment account, and clarification for the user's friend/party example. All 73 journal records and the complete dashboard response remained unchanged. The cash question matched the independent dashboard in the first repaired deployment. The [sanitized receipt](evidence/entry-provider-recovery.json) binds results and limitations.
+
+The first repair's rent check failed by guessing a bank account. That outcome remains recorded; its later success follows a source change, not an invisible retry. The initial CI failed a historical-source assertion; fixed nonexecuted source snapshots retain the original study hashes. Thirty-four provider tests and 58 combined provider/baseline tests passed locally; these overlap and must not be added together. TypeScript, build, native imports and formatting passed. Hosted checks used HTTP, not a browser; local browser launch was unavailable. CI browser workflows mock AI responses. Neither small live regressions nor prompt wording prove general semantic accuracy.
 
 ## Completed frozen study — 2026-10-31
 

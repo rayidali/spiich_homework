@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-31T15:17:56.131560+00:00",
+  "scope": "Post-study product reliability repair and selected hosted HTTP checks; not an accuracy benchmark",
+  "reportedExample": "gave $800 to a friend to party",
+  "originalRequestReconstructed": false,
+  "incident": {
+    "hostedRepresentativeProposalHttpStatus": 502,
+    "previousModel": "gemini-3.1-flash-lite",
+    "sameCredentialDirectProbeHttpStatus": 503,
+    "newModel": "gemini-3.5-flash-lite",
+    "newModelDirectProbeHttpStatus": 200,
+    "originalTimestampAndRawErrorUnavailable": true
+  },
+  "sourceCommit": "de67b49dfce110f560840d0b9106d628f30f5d52",
+  "ci": {
+    "runId": 41213514203,
+    "url": "https://github.com/rayidali/spiich_homework/actions/runs/41213514203",
+    "conclusion": "success",
+    "jobs": {
+      "research-native": "success",
+      "verify": "success",
+      "compose": "success",
+      "live-ai": "skipped"
+    }
+  },
+  "preservedEarlierChecks": {
+    "failedCiRun": 41212297412,
+    "failure": "historical source assertion incorrectly compared current product provider with old source",
+    "correctedCiRun": 41212856345,
+    "firstDeployment": "dpl_5U8raa1Yw9Dqy267e9tE1avQ2cbU",
+    "firstCompleteEntry": "passed",
+    "firstCashQuestion": {
+      "result": "passed",
+      "matchedDashboardCashUsd": "125620.00",
+      "ai": {
+        "provider": "gemini",
+        "model": "gemini-3.5-flash-lite",
+        "modelVersion": "gemini-3.5-flash-lite",
+        "durationMs": 669,
+        "usage": {
+          "inputTokens": 590,
+          "outputTokens": 26,
+          "thinkingTokens": 0,
+          "totalTokens": 616
+        }
+      }
+    },
+    "firstAmbiguousRent": {
+      "result": "failed",
+      "httpStatus": 200,
+      "actual": "READY; assumed operating bank instead of asking",
+      "ai": {
+        "provider": "gemini",
+        "model": "gemini-3.5-flash-lite",
+        "modelVersion": "gemini-3.5-flash-lite",
+        "durationMs": 1390,
+        "usage": {
+          "inputTokens": 1503,
+          "outputTokens": 252,
+          "thinkingTokens": 0,
+          "totalTokens": 1755
+        }
+      }
+    },
+    "resolution": "Added explicit prompt instruction: examples and defaults do not establish omitted funding accounts; retested separately on new source",
+    "localDnsFailureBeforeHttp": true
+  },
+  "deployment": {
+    "id": "dpl_GopCJGQi67eHqSXLtRiVywVRRLbZ",
+    "readyState": "READY",
+    "stableUrl": "https://daybook-ledger-delta.vercel.app",
+    "target": "production",
+    "model": "gemini-3.5-flash-lite",
+    "protectionRetained": true,
+    "runtimeCredentialsChanged": false,
+    "migrationsSeedOrRoleSetupExecuted": false,
+    "fileCount": 59,
+    "exactSourceFiles": 58,
+    "configurationOverlay": {
+      "file": "vercel.json",
+      "jsonPointer": "/buildCommand",
+      "sourceSha256": "74168234edc2270b60d6efd5520bbe257b3d374b0f4416792a6d171315054c4e",
+      "deployedSha256": "291e16ca02f05918b46e64e03e0576948be3a400bae995abc0d1a295daf0615c",
+      "oldValue": "npm run hosting:prepare && npm run build && npm run hosting:bundle",
+      "newValue": "npm run build && npm run hosting:bundle",
+      "reason": "Provider/configuration repair; unchanged migrations, role setup and seed must not run."
+    },
+    "requestSha256": "fae15c23546be6ef8e8cbe1a0f44b16a211433282e8919d87d9a812a34f16ff6"
+  },
+  "finalHostedChecks": [
+    {
+      "name": "complete supplies purchase",
+      "httpStatus": 200,
+      "seconds": 1.610808,
+      "action": "READY",
+      "meaning": "Office supplies5030 debit340; Company credit card2100 credit340; selected date retained",
+      "questions": [],
+      "ai": {
+        "provider": "gemini",
+        "model": "gemini-3.5-flash-lite",
+        "modelVersion": "gemini-3.5-flash-lite",
+        "durationMs": 1467,
+        "usage": {
+          "inputTokens": 2398,
+          "outputTokens": 268,
+          "thinkingTokens": 0,
+          "totalTokens": 2666
+        }
+      },
+      "posted": false
+    },
+    {
+      "name": "rent without payment account",
+      "httpStatus": 200,
+      "seconds": 1.379803,
+      "action": "CLARIFY",
+      "meaning": "Asks which account paid the rent; no proposed entry",
+      "questions": ["Which account was used to pay the USD 2400 rent?"],
+      "ai": {
+        "provider": "gemini",
+        "model": "gemini-3.5-flash-lite",
+        "modelVersion": "gemini-3.5-flash-lite",
+        "durationMs": 1211,
+        "usage": {
+          "inputTokens": 1646,
+          "outputTokens": 110,
+          "thinkingTokens": 135,
+          "totalTokens": 1891
+        }
+      },
+      "posted": false
+    },
+    {
+      "name": "user friend/party example",
+      "httpStatus": 200,
+      "seconds": 1.932748,
+      "action": "CLARIFY",
+      "meaning": "Asks payment account and personal/business meaning; no proposed entry",
+      "questions": [
+        "Which account was used to pay the $800 (e.g., Operating bank)?",
+        "Is this expense business-related, or should it be categorized as an owner draw?"
+      ],
+      "ai": {
+        "provider": "gemini",
+        "model": "gemini-3.5-flash-lite",
+        "modelVersion": "gemini-3.5-flash-lite",
+        "durationMs": 1510,
+        "usage": {
+          "inputTokens": 1486,
+          "outputTokens": 140,
+          "thinkingTokens": 133,
+          "totalTokens": 1759
+        }
+      },
+      "posted": false
+    }
+  ],
+  "dataPreservation": {
+    "journalRecordsBefore": 73,
+    "journalRecordsAfter": 73,
+    "fullListedRecordsEqual": true,
+    "cursorBefore": null,
+    "cursorAfter": null,
+    "dashboardResponseUnchanged": true,
+    "health": "ok",
+    "postingRequestsMade": 0
+  },
+  "localChecks": {
+    "providerTests": 34,
+    "providerAndHistoricalBaselineTestsCombined": 58,
+    "typecheck": "passed",
+    "productionBuildAndNativeBundleImports": "passed",
+    "historicalSourceSnapshotHashes": "matched unchanged study provenance"
+  },
+  "limitations": [
+    "Selected checks are one observed response per case, not general model accuracy.",
+    "The rent failure is retained; it was rechecked after an explicit prompt change, not silently rerun under the same version.",
+    "Hosted checks used HTTP APIs; local browser launch was unavailable. CI browser workflows passed with AI responses mocked.",
+    "Clarification policy is prompt guidance plus human confirmation, not a proof against every semantic mistake.",
+    "Error-reference propagation, feedback trust and correction-learning accuracy remain open assignment findings.",
+    "No Jev categorization integration/evaluation or new research trial occurred.",
+    "Failed calls have unknown billed usage; recorded tokens are not an invoice.",
+    "The completed architecture study remains bound to its historical source; no old score measures this repair."
+  ]
+}
