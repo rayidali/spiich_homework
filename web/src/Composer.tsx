@@ -164,6 +164,12 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
     [frequency, setFrequency] = useState(state.template?.frequency ?? 'MONTHLY'),
     [endDate, setEndDate] = useState(state.template?.end_date ?? '');
   const quickOptions = quickEntryOptions(accounts, quickKind, quickAccount);
+  const quickPaymentLabel =
+    quickKind === 'in'
+      ? 'Received into'
+      : quickKind === 'transfer'
+        ? 'From account'
+        : 'Paid from / charged to';
   const simple = mode === 'simple',
     aiReady = mode === 'ai' && Boolean(proposal?.entry),
     reviewing = (simple && quickReview) || aiReady;
@@ -652,12 +658,9 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
                   </label>
                   <div className="form-grid">
                     <label className="field">
-                      {quickKind === 'in'
-                        ? 'Received into'
-                        : quickKind === 'transfer'
-                          ? 'From account'
-                          : 'Paid from / charged to'}
+                      {quickPaymentLabel}
                       <select
+                        aria-label={quickPaymentLabel}
                         value={quickAccount}
                         onChange={(e) => {
                           invalidateCategory();

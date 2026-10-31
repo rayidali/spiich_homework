@@ -34,7 +34,7 @@ async function open(page: Page, description: string) {
   const form = page.getByRole('dialog');
   await form.getByLabel('Description', { exact: true }).fill(description);
   await form.getByLabel('Amount in USD', { exact: true }).fill('340');
-  await form.getByLabel('Paid from / charged to', { exact: true }).selectOption(ids['2100']);
+  await form.getByRole('combobox', { name: 'Paid from / charged to', exact: true }).selectOption(ids['2100']);
   return { form, meta, ids };
 }
 test.beforeEach(async ({ baseURL }) => {
@@ -51,6 +51,14 @@ test('category suggestion clarifies purpose, preserves a category-only correctio
   let postedId: string | undefined;
   const description = `Office supplies paper ${randomUUID()}`;
   const { form, meta, ids } = await open(page, description);
+  // The visible payment caption and accessible name must change together.
+  await form.getByRole('button', { name: 'Money in', exact: true }).click();
+  await expect(form.getByRole('combobox', { name: 'Received into', exact: true })).toBeVisible();
+  await form.getByRole('button', { name: 'Transfer', exact: true }).click();
+  await expect(form.getByRole('combobox', { name: 'From account', exact: true })).toBeVisible();
+  await expect(form.getByRole('combobox', { name: 'To account', exact: true })).toBeVisible();
+  await form.getByRole('button', { name: 'Money out', exact: true }).click();
+  await form.getByRole('combobox', { name: 'Paid from / charged to', exact: true }).selectOption(ids['2100']);
   const proposals: string[] = [];
   await page.route('**/api/ai/category', async (route) => {
     // Exercise the real scoped service/repositories with its offline reference.
