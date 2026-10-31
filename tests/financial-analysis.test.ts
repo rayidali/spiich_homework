@@ -15,6 +15,7 @@ import {
   type FinancialQuery,
 } from '../server/financial-analysis';
 import type { EntryInput } from '../shared/schema';
+import { executeFinancialScenario } from '../server/financial-calculation';
 
 function plan(change: Partial<FinancialQuery> = {}): FinancialQuery {
   return {
@@ -170,6 +171,77 @@ describe('Financial analysis empty group compiler (offline)', () => {
       ),
     ).toThrow('one account type');
     expect(compileFinancialQuery('org', plan({ accountCodes: ['5000'] }), groups).selected).toEqual([]);
+  });
+});
+
+describe('Financial analysis cash identity (offline)', () => {
+  const chart: AnalysisAccount[] = [
+    { ...compilerChart[1], is_cash: true, archived: true },
+    {
+      ...compilerChart[1],
+      id: '00000000-0000-4000-8000-000000000010',
+      code: '1020',
+      name: 'Euro bank',
+      currency: 'EUR',
+      is_cash: true,
+    },
+    {
+      ...compilerChart[1],
+      id: '00000000-0000-4000-8000-000000000011',
+      code: '1100',
+      name: 'Cash',
+      is_cash: false,
+    },
+    {
+      ...compilerChart[1],
+      id: '00000000-0000-4000-8000-000000000012',
+      code: '1000',
+      name: 'Assets',
+      is_group: true,
+      is_cash: true,
+    },
+    {
+      ...compilerChart[1],
+      id: '00000000-0000-4000-8000-000000000013',
+      code: '2000',
+      name: 'Credit facility',
+      type: 'LIABILITY',
+      is_cash: true,
+    },
+  ];
+  const cash = plan({ metric: 'cash_balance', from: null });
+  it('selects every cash asset leaf by server metadata and a second SQL predicate, never names or all assets', () => {
+    const compiled = compileFinancialQuery('org', cash, chart);
+    expect(compiled.selected.map((a) => a.code)).toEqual(['1010', '1020']);
+    expect(compiled.params[4]).toEqual(chart.slice(0, 2).map((a) => a.id));
+    expect(compiled.params[11]).toEqual(['ASSET']);
+    expect(compiled.sql).toContain('AND a.is_cash AND NOT a.is_group AND a.id=ANY($5::uuid[])');
+    expect(compiled.sql).not.toContain('e.date >= $2');
+    const native = compileFinancialQuery('org', { ...cash, currencyMode: 'native', currency: 'EUR' }, chart);
+    expect(native.selected.map((a) => a.code)).toEqual(['1020']);
+    expect(native.sql).toContain('(l.debit-l.credit) AS amount');
+    expect(native.sql).toContain('a.currency=$13 AND l.currency=$13');
+    expect(compileFinancialQuery('org', cash, []).params[4]).toEqual([]);
+  });
+  it('does not permit model-selected cash subsets or activity filters', () => {
+    for (const override of [
+      { accountCodes: ['1000'] },
+      { accountCodes: ['1010'] },
+      { status: 'DRAFT' },
+      { from: '2026-01-01' },
+      { aggregation: 'average_per_entry' },
+      { groupBy: 'entry' },
+      { minimumAmount: '0' },
+      { cooccurringAccountCodes: ['1100'] },
+      { descriptionSearch: 'bank' },
+      { counterparty: { mode: 'exact', value: 'Acme' } },
+    ])
+      expect(() => compileFinancialQuery('org', { ...cash, ...override }, chart)).toThrow();
+    // Ordinary asset reporting remains available and keeps its actual meaning.
+    expect(
+      compileFinancialQuery('org', { ...cash, metric: 'account_balance', accountCodes: ['1100'] }, chart)
+        .selected[0].is_cash,
+    ).toBe(false);
   });
 });
 
@@ -613,5 +685,141 @@ describe('Financial analysis against real PostgreSQL', () => {
     expect(result.evidence[0].rows[0].href).toBe(`/transactions?entry=${saved.id}`);
     expect(await snapshot()).toEqual(before);
     await expect(run(plan(), plan())).rejects.toMatchObject({ code: 'INVALID_ANALYSIS_SCOPE' });
+  });
+
+  it('keeps cash distinct from nonzero receivables/equipment and executes a cash-sourced hiring scenario', async () => {
+    await post(input('1010', '3010', '10000', '1899-12-31'));
+    await post(input('1100', '4010', '8000', '2026-03-01'));
+    await post(input('1200', '2100', '5000', '2026-03-02'));
+    // A misleading name does not change the account's actual cash designation.
+    await query("UPDATE accounts SET name='Cash buffer' WHERE organization_id=$1 AND code='1100'", [org]);
+    await createEntry(org, input('1010', '3010', '90000'), randomUUID());
+    const cash = plan({ id: 'opening', metric: 'cash_balance', from: null });
+    const generic = { ...cash, id: 'cash_query', metric: 'account_balance' as const, accountCodes: ['1000'] };
+    const result = await run(cash, generic);
+    expect(result.facts.map((f) => f.rows[0].value)).toEqual(['10000.00', '23000.00']);
+    const expectedIds = (await accounts(org))
+      .filter((a) => a.type === 'ASSET' && a.is_cash && !a.is_group)
+      .map((a) => a.id)
+      .sort();
+    expect(result.facts[0].scope.resolvedAccountIds.slice().sort()).toEqual(expectedIds);
+    expect(
+      result.facts[0].scope.cashBalanceSource?.accounts.every(
+        (a) => a.type === 'ASSET' && a.is_cash && !a.is_group,
+      ),
+    ).toBe(true);
+    expect(result.evidence[0].scope).toContain(
+      'receivables, equipment and other noncash assets are excluded',
+    );
+    const scenario = {
+      queries: [cash],
+      assumptions: [
+        { id: 'salary', value: '1000', unit: 'USD_per_month', sourceText: '$1,000 per month' },
+        { id: 'duration', value: '3', unit: 'months', sourceText: 'three months' },
+        { id: 'reserve', value: '2000', unit: 'USD', sourceText: '$2,000 reserve' },
+      ],
+      calculations: [
+        {
+          id: 'cost',
+          operation: 'multiply',
+          operands: [
+            { source: 'assumption', id: 'salary', rowId: null, field: 'value' },
+            { source: 'assumption', id: 'duration', rowId: null, field: 'value' },
+          ],
+        },
+        {
+          id: 'remaining',
+          operation: 'subtract',
+          operands: [
+            { source: 'query', id: 'opening', rowId: 'total:total', field: 'value' },
+            { source: 'calculation', id: 'cost', rowId: null, field: 'value' },
+          ],
+        },
+        {
+          id: 'above_reserve',
+          operation: 'subtract',
+          operands: [
+            { source: 'calculation', id: 'remaining', rowId: null, field: 'value' },
+            { source: 'assumption', id: 'reserve', rowId: null, field: 'value' },
+          ],
+        },
+      ],
+    };
+    const messages = [
+      {
+        role: 'user' as const,
+        content: 'Using current cash, subtract $1,000 per month for three months, then a $2,000 reserve.',
+      },
+    ];
+    const answer = await executeFinancialScenario(org, scenario, messages);
+    expect(answer.answer).toContain('$5,000.00');
+    expect(answer.facts.at(-1)).toMatchObject({
+      value: '5000.00',
+      cashSources: [
+        {
+          queryId: 'opening',
+          rowId: 'total:total',
+          asOf: '2026-03-31',
+          accountIds: expect.arrayContaining(expectedIds),
+        },
+      ],
+    });
+    await expect(
+      executeFinancialScenario(org, { ...scenario, queries: [{ ...generic, id: 'opening' }] }, messages),
+    ).rejects.toMatchObject({ code: 'INVALID_SCENARIO' });
+  });
+
+  it('retains archived/foreign-currency cash, dated reversals and negative balances without tenant or draft leakage', async () => {
+    const created = await query<{ id: string; code: string }>(
+      `INSERT INTO accounts(organization_id,code,name,type,currency,parent_id,is_cash) VALUES
+      ($1,'1070','Euro bank','ASSET','EUR',$2,true),($1,'1071','Cash named receivable','ASSET','EUR',$2,false) RETURNING id,code`,
+      [org, ids['1000']],
+    );
+    for (const account of created) ids[account.code] = account.id;
+    const euro = input('1070', '3010', '100', '2026-01-01');
+    euro.lines[0].exchangeRate = '1.2';
+    euro.lines[1].credit = '120';
+    const original = await post(euro);
+    await reverseEntry(org, original.id, '2026-04-01', randomUUID());
+    await post(input('5030', '1010', '20', '2026-03-01'));
+    const noncash = input('1071', '3010', '1000');
+    noncash.lines[0].exchangeRate = '1.5';
+    noncash.lines[1].credit = '1500';
+    await post(noncash);
+    await createEntry(org, input('1010', '3010', '9999'), randomUUID());
+    await query('UPDATE accounts SET archived=true WHERE organization_id=$1 AND id=$2', [org, ids['1070']]);
+    const foreign = randomUUID();
+    await admin.query("INSERT INTO organizations(id,name) VALUES($1,'Foreign cash test')", [foreign]);
+    await seedChart(foreign);
+    const foreignIds = Object.fromEntries((await accounts(foreign)).map((a) => [a.code, a.id]));
+    const other = input('1010', '3010', '8888');
+    other.lines[0].accountId = foreignIds['1010'];
+    other.lines[1].accountId = foreignIds['3010'];
+    await createEntry(foreign, other, randomUUID(), { post: true });
+    const cash = plan({ metric: 'cash_balance', from: null });
+    const result = await run(
+      { ...cash, id: 'base' },
+      { ...cash, id: 'native', currencyMode: 'native', currency: 'EUR' },
+      { ...cash, id: 'months', groupBy: 'month', from: '2026-02-01', to: '2026-04-30' },
+      { ...cash, id: 'zero', currencyMode: 'native', currency: 'JPY' },
+    );
+    expect(value(result)).toBe('100.00');
+    expect(value(result, 1)).toBe('100.00');
+    expect(value(result, 3)).toBe('0');
+    expect(result.facts[2].rows.map((r) => r.value)).toEqual(['120.00', '100.00', '-20.00']);
+    expect(result.facts[1].scope.cashBalanceSource?.accounts).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ id: ids['1070'], archived: true, currency: 'EUR', is_cash: true }),
+      ]),
+    );
+    expect(result.facts[1].scope.resolvedAccountIds.slice().sort()).toEqual(
+      [ids['1020'], ids['1070']].sort(),
+    );
+    expect(result.facts[3].scope.cashBalanceSource?.accounts).toEqual([]);
+    expect(result.facts[2].rows.map((r) => r.balanceAsOf)).toEqual([
+      '2026-02-28',
+      '2026-03-31',
+      '2026-04-30',
+    ]);
   });
 });

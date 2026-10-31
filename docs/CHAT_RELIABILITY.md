@@ -1,6 +1,6 @@
 # Financial-chat reliability work
 
-Status: active, 2026-10-31. The focused repair is deployed and verified; the broader candidate remains undeployed. [Release receipt](evidence/chat-scope-release.json).
+Status: active, 2026-10-31. The broader candidate passed CI but failed hosted acceptance on cash-source identity. The stable alias has been rolled back to the verified focused repair. [Current stable release](evidence/chat-scope-release.json), [blocked release and rollback](evidence/chat-broad-blocked-release.json).
 
 ## The failure
 
@@ -27,7 +27,7 @@ Evaluate a bounded semantic query plan that can compose filters, grouping and ca
 
 No guarantee of universal question coverage, perfect AI accuracy or production-scale capacity is made. The goal is a precise, evidence-backed answer when data and validated operations suffice, and a clear limitation or clarification when they do not.
 
-## Broader flow (release verification in progress)
+## Broader flow (candidate blocked; source repair in progress)
 
 ```mermaid
 flowchart LR
@@ -50,4 +50,14 @@ After separately recorded internal-AI wording review, the conservative primary s
 
 Two primary candidate misses remain recorded. One was a valid $385 average whose complete expense-account group differed syntactically from the evaluator's unfiltered selection. Two independent account-set reviews proved exact semantic equivalence; a separately reported sensitivity is19/20, while the primary18/20 remains unchanged. The other was a rejected hiring-calculation plan, which supplied a noncanonical balance-field name and paraphrased a word quantity. No financial answer was executed for that rejected plan. [Wording/safety review](evidence/chat-query-runs/holdout-v1/rubric-review.json), [account-set proof](evidence/chat-query-runs/holdout-v1/account-equivalence-review.json).
 
-The predeclared comparison gate favors composable queries for separate product verification. A later parser-compatibility repair is a new source version: it accepts a balance-field alias only for an explicitly bound balance query and supports bounded English cardinal quantities while retaining the actual user's quoted text and span. It does not inherit or overwrite the held-out score. Final source CI and a new eight-call/$0.10 hosted acceptance cohort are being prepared. All earlier studies and the23-request repair cohort stay closed.
+The predeclared comparison gate favors composable queries for separate product verification. A later parser-compatibility repair is a new source version: it accepts a balance-field alias only for an explicitly bound balance query and supports bounded English cardinal quantities while retaining the actual user's quoted text and span. It does not inherit or overwrite the held-out score. Its full source CI passed, but the separate hosted acceptance stopped after seven of eight requests. All earlier studies and the 23-request repair cohort stay closed.
+
+## Hosted acceptance exposed a cash-source error
+
+Candidate `7be9224` reached READY and passed full CI41237787408. B01–B05 retained the requested category, follow-up period, ranking, combined vendor filter and monthly totals. B06 also answered the receivable balance correctly: its raw evaluator failure was an account-grouping mismatch, and a separate review proved the selected account was one posting leaf with no truncation. The original automatic result remains preserved.
+
+B07 was a real source-identity failure. Asked to start a hiring projection from cash, the model selected the Assets group, which includes receivables and equipment. Those noncash balances happened to net to zero at the requested date, so the dollar result coincided with the cash-only calculation. Exact arithmetic and valid account permissions did not establish that the selected economic quantity was cash. The acceptance check correctly stopped the release; B08 was not called.
+
+The cohort is terminally closed: seven settled requests, six reviewed passes, one source failure, $0.0253555 known-use estimate and no unknown reservation or retry. All 74 journal records and 22 accounts were unchanged. Each response reference matched both its selected-tool event and HTTP event on the exact source/deployment. The protected stable alias now points back to `e7a514e`; no database rollback was performed, and additive migration007 remains applied.
+
+The next repair must provide a server-owned cash source, preserve its identity through calculation ancestry and prevent a cash objective from accepting generic assets. Equal numbers or a query named “cash” are insufficient. Nonzero and offsetting noncash balances must be covered by regression tests. This is separate product verification; the frozen comparison and its report are unchanged. [Sanitized incident receipt](evidence/chat-broad-blocked-release.json).

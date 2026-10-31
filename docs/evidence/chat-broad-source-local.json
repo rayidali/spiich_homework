@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-31",
+  "sourceCommit": "7be9224d4ff4b5d767b717c08e7b5dbfe3e7324b",
+  "targetedOfflineTests": {
+    "calculator": 117,
+    "authoredExpenseChat": 25,
+    "diagnostics": 18,
+    "routeSelection": 4,
+    "total": 164
+  },
+  "typescript": "passed",
+  "productionBuild": "passed",
+  "repositoryFormatting": "passed",
+  "scope": "Post-comparison parser compatibility and route-default repair; no inherited model-accuracy score. Full database/browser/Compose evidence is in the separately bound CI receipt.",
+  "independentReviews": [
+    "constrained balance alias",
+    "actual user quotation spans for bounded cardinals",
+    "fraction/range/sign/unit-cropping regressions",
+    "distinct-unit conjunctions retained"
+  ],
+  "providerCalls": 0
+}

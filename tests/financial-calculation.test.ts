@@ -88,7 +88,7 @@ function calculationFacts(result: ReturnType<typeof evaluateFinancialScenario>) 
 function cashQuery(id = 'cash'): FinancialQuery {
   return {
     id,
-    metric: 'account_balance',
+    metric: 'cash_balance',
     aggregation: 'sum',
     from: null,
     to: '2026-10-31',
@@ -96,7 +96,7 @@ function cashQuery(id = 'cash'): FinancialQuery {
     currencyMode: 'base',
     currency: null,
     groupBy: 'total',
-    accountCodes: ['1010'],
+    accountCodes: [],
     cooccurringAccountCodes: [],
     counterparty: { mode: 'any', value: '' },
     descriptionSearch: '',
@@ -114,18 +114,162 @@ function queryFact(plan: FinancialQuery, value = '10000.00'): AnalysisFacts {
     grain: plan.groupBy,
     unit: 'USD',
     currency: 'USD',
-    rows: [{ rowId: 'total:total', label: 'Total', value, entryCount: '2', from: plan.from, to: plan.to }],
+    rows: [
+      {
+        rowId: 'total:total',
+        label: 'Total',
+        value,
+        entryCount: '2',
+        from: plan.from,
+        to: plan.to,
+        ...(plan.metric === 'cash_balance' ? { balanceAsOf: plan.to } : {}),
+      },
+    ],
     truncated: false,
     scope: {
       organizationId: org,
       plan,
       resolvedAccountIds: ['bank'],
       cooccurringAccountIds: [],
-      amountBasis: 'selected_metric_lines',
+      amountBasis:
+        plan.metric === 'cash_balance'
+          ? `inception_to_closing_date_${plan.currencyMode}_lines`
+          : 'selected_metric_lines',
       statusMeaning: plan.status === 'POSTED' ? 'booked' : 'unposted_projection',
+      ...(plan.metric === 'cash_balance'
+        ? {
+            cashBalanceSource: {
+              selection: 'all_cash_asset_posting_accounts' as const,
+              accounts: [
+                {
+                  id: 'bank',
+                  code: '1010',
+                  type: 'ASSET' as const,
+                  currency: 'USD' as const,
+                  is_cash: true,
+                  is_group: false,
+                  archived: false,
+                },
+              ],
+            },
+          }
+        : {}),
     },
   };
 }
+
+describe('Scenario cash source boundary', () => {
+  const messages: ModelMessages = [
+    { role: 'user', content: 'Keep a $2,000 reserve and calculate cash above it.' },
+  ];
+  function cashPlan(): FinancialScenario {
+    return {
+      queries: [cashQuery('opening')],
+      assumptions: [{ id: 'reserve', value: '2000', unit: 'USD', sourceText: '$2,000 reserve' }],
+      calculations: [
+        { id: 'remaining', operation: 'subtract', operands: [query('opening'), assumption('reserve')] },
+        { id: 'wrapped', operation: 'subtract', operands: [calculation('remaining'), assumption('reserve')] },
+      ],
+    };
+  }
+  it.each(['1000', '1100', '1010'])(
+    'rejects generic balance %s before DB execution even when named cash or numerically identical',
+    async (code) => {
+      const input = cashPlan();
+      input.queries[0] = { ...input.queries[0], metric: 'account_balance', accountCodes: [code] };
+      const fact = queryFact(input.queries[0], '10000.00');
+      expect(() => evaluateFinancialScenario(input, [fact], messages)).toThrow('cash_balance');
+      mocks.executeFinancialAnalysis.mockClear();
+      await expect(executeFinancialScenario(org, input, messages)).rejects.toMatchObject({
+        code: 'INVALID_SCENARIO',
+      });
+      expect(mocks.executeFinancialAnalysis).not.toHaveBeenCalled();
+    },
+  );
+  it('keeps cash source identity across multiple calculations without relying on a query name', () => {
+    const input = cashPlan();
+    input.queries[0].id = 'unhelpful_name';
+    input.calculations[0].operands[0] = query('unhelpful_name');
+    const answer = evaluateFinancialScenario(input, [queryFact(input.queries[0])], messages);
+    expect(calculationFacts(answer).map((f) => f.value)).toEqual(['8000.00', '6000.00']);
+    for (const fact of calculationFacts(answer))
+      expect(fact.cashSources).toEqual([
+        { queryId: 'unhelpful_name', rowId: 'total:total', asOf: '2026-10-31', accountIds: ['bank'] },
+      ]);
+  });
+  it.each([
+    'missing_proof',
+    'wrong_selection',
+    'noncash',
+    'liability',
+    'group',
+    'wrong_ids',
+    'duplicate_ids',
+    'filtered',
+    'draft',
+    'wrong_basis',
+    'wrong_date',
+    'foreign_native',
+  ] as const)('rejects unproved cash lineage: %s', (problem) => {
+    const input = cashPlan(),
+      fact = queryFact(input.queries[0]);
+    if (problem === 'missing_proof') delete fact.scope.cashBalanceSource;
+    if (problem === 'wrong_selection') fact.scope.cashBalanceSource!.selection = 'model_named_cash' as never;
+    if (problem === 'noncash') fact.scope.cashBalanceSource!.accounts[0].is_cash = false;
+    if (problem === 'liability') fact.scope.cashBalanceSource!.accounts[0].type = 'LIABILITY';
+    if (problem === 'group') fact.scope.cashBalanceSource!.accounts[0].is_group = true;
+    if (problem === 'wrong_ids') fact.scope.resolvedAccountIds = ['receivable'];
+    if (problem === 'duplicate_ids')
+      fact.scope.cashBalanceSource!.accounts.push({ ...fact.scope.cashBalanceSource!.accounts[0] });
+    if (problem === 'filtered') {
+      input.queries[0].accountCodes = ['1010'];
+      fact.scope.plan = input.queries[0];
+    }
+    if (problem === 'draft') {
+      input.queries[0].status = 'DRAFT';
+      fact.scope.plan = input.queries[0];
+      fact.scope.statusMeaning = 'unposted_projection';
+    }
+    if (problem === 'wrong_basis') fact.scope.amountBasis = 'selected_metric_base_lines';
+    if (problem === 'wrong_date') fact.rows[0].balanceAsOf = '2026-09-30';
+    if (problem === 'foreign_native') {
+      input.queries[0].currencyMode = 'native';
+      input.queries[0].currency = 'USD';
+      fact.scope.amountBasis = 'inception_to_closing_date_native_lines';
+      fact.scope.plan = input.queries[0];
+      fact.scope.cashBalanceSource!.accounts[0].currency = 'EUR';
+    }
+    expect(() => evaluateFinancialScenario(input, [fact], messages)).toThrow('verified cash');
+  });
+  it('allows a verified empty cash set without substituting another asset and does not treat zero as a missing source', () => {
+    const input = cashPlan(),
+      fact = queryFact(input.queries[0], '0.00');
+    fact.scope.resolvedAccountIds = [];
+    fact.scope.cashBalanceSource!.accounts = [];
+    fact.rows[0].entryCount = '0';
+    const last = calculationFacts(evaluateFinancialScenario(input, [fact], messages)).at(-1)!;
+    expect(last.value).toBe('-4000.00');
+    expect(last.cashSources?.[0].accountIds).toEqual([]);
+  });
+  it('keeps an account-group cash row scoped to its actual cash account rather than every cash account', () => {
+    const input = cashPlan();
+    input.queries[0].groupBy = 'account';
+    input.calculations[0].operands[0] = query('opening', 'account:bank');
+    const fact = queryFact(input.queries[0]);
+    fact.rows[0].rowId = 'account:bank';
+    fact.scope.cashBalanceSource!.accounts.push({
+      ...fact.scope.cashBalanceSource!.accounts[0],
+      id: 'cash_box',
+      code: '1090',
+    });
+    fact.scope.resolvedAccountIds.push('cash_box');
+    const last = calculationFacts(evaluateFinancialScenario(input, [fact], messages)).at(-1)!;
+    expect(last.cashSources?.[0].accountIds).toEqual(['bank']);
+    fact.rows[0].rowId = 'account:receivable';
+    input.calculations[0].operands[0] = query('opening', 'account:receivable');
+    expect(() => evaluateFinancialScenario(input, [fact], messages)).toThrow('verified cash');
+  });
+});
 function monthlyAverage() {
   const total: FinancialQuery = {
     ...cashQuery('expense_total'),

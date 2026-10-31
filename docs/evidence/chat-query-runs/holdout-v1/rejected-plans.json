@@ -1,0 +1,226 @@
+[
+  {
+    "slot": "holdout/composable/H17",
+    "status": "invalid_response",
+    "errorCode": "INVALID_TOOL_OR_SCHEMA",
+    "sourceHash": "ae6814f6ffb77308e71b19e970d0d274ab8fc728d157573f2b90f63512510970",
+    "rawResponseSha256": "c12c036c4e3e2d2dd3e3d6d07eb2904e32bbcc46714f03ae22817b85f4150cd5",
+    "functionCalls": [
+      {
+        "name": "financial_scenario",
+        "args": {
+          "queries": [
+            {
+              "limit": 5,
+              "id": "cash_bal",
+              "currency": null,
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "order": "label_asc",
+              "accountCodes": [
+                "1010",
+                "1020",
+                "1200"
+              ],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "groupBy": "total",
+              "metric": "account_balance",
+              "from": null,
+              "cooccurringAccountCodes": [],
+              "currencyMode": "base",
+              "to": "2026-06-30",
+              "status": "POSTED",
+              "maximumAmount": null,
+              "aggregation": "sum"
+            }
+          ],
+          "calculations": [
+            {
+              "id": "base_salary",
+              "operation": "multiply",
+              "operands": [
+                {
+                  "rowId": null,
+                  "field": "value",
+                  "source": "assumption",
+                  "id": "salary"
+                },
+                {
+                  "source": "assumption",
+                  "id": "months",
+                  "rowId": null,
+                  "field": "value"
+                }
+              ]
+            },
+            {
+              "id": "burden",
+              "operands": [
+                {
+                  "source": "calculation",
+                  "field": "value",
+                  "rowId": null,
+                  "id": "base_salary"
+                },
+                {
+                  "field": "value",
+                  "rowId": null,
+                  "source": "assumption",
+                  "id": "burden_pct"
+                }
+              ],
+              "operation": "multiply"
+            },
+            {
+              "operands": [
+                {
+                  "rowId": null,
+                  "field": "value",
+                  "id": "base_salary",
+                  "source": "calculation"
+                },
+                {
+                  "id": "burden",
+                  "source": "calculation",
+                  "field": "value",
+                  "rowId": null
+                }
+              ],
+              "operation": "add",
+              "id": "total_salary"
+            },
+            {
+              "id": "total_cost",
+              "operation": "add",
+              "operands": [
+                {
+                  "source": "calculation",
+                  "id": "total_salary",
+                  "field": "value",
+                  "rowId": null
+                },
+                {
+                  "source": "assumption",
+                  "field": "value",
+                  "rowId": null,
+                  "id": "setup"
+                }
+              ]
+            },
+            {
+              "operation": "subtract",
+              "operands": [
+                {
+                  "id": "cash_bal",
+                  "field": "balance",
+                  "rowId": "total:total",
+                  "source": "query"
+                },
+                {
+                  "source": "calculation",
+                  "rowId": null,
+                  "field": "value",
+                  "id": "total_cost"
+                }
+              ],
+              "id": "remaining_cash"
+            },
+            {
+              "id": "above_reserve",
+              "operation": "subtract",
+              "operands": [
+                {
+                  "id": "remaining_cash",
+                  "source": "calculation",
+                  "field": "value",
+                  "rowId": null
+                },
+                {
+                  "id": "reserve",
+                  "source": "assumption",
+                  "rowId": null,
+                  "field": "value"
+                }
+              ]
+            }
+          ],
+          "assumptions": [
+            {
+              "sourceText": "$3,000 monthly salary",
+              "id": "salary",
+              "value": "3000",
+              "unit": "USD_per_month"
+            },
+            {
+              "sourceText": "3 months",
+              "unit": "months",
+              "value": "3",
+              "id": "months"
+            },
+            {
+              "value": "0.20",
+              "unit": "ratio",
+              "sourceText": "20% employer costs",
+              "id": "burden_pct"
+            },
+            {
+              "sourceText": "$600 setup cost",
+              "unit": "USD",
+              "value": "600",
+              "id": "setup"
+            },
+            {
+              "id": "reserve",
+              "sourceText": "$15,000 reserve",
+              "unit": "USD",
+              "value": "15000"
+            }
+          ]
+        }
+      }
+    ],
+    "executed": false,
+    "scope": "Sanitized failed tool instructions only; opaque provider signatures and other raw response metadata are excluded."
+  },
+  {
+    "slot": "holdout/authored/H13",
+    "status": "invalid_response",
+    "errorCode": "INVALID_TOOL_OR_SCHEMA",
+    "sourceHash": "ae6814f6ffb77308e71b19e970d0d274ab8fc728d157573f2b90f63512510970",
+    "rawResponseSha256": "f52d12b509c0dd6f2cbe55f1a51c9fce63fcb0ffeab0c5ea724b5374feb2be51",
+    "functionCalls": [
+      {
+        "name": "expense_summary",
+        "args": {
+          "view": "total",
+          "to": "2026-04-30",
+          "from": "2026-04-01",
+          "limit": null
+        }
+      },
+      {
+        "name": "expense_summary",
+        "args": {
+          "view": "total",
+          "from": "2026-05-01",
+          "limit": null,
+          "to": "2026-05-31"
+        }
+      },
+      {
+        "name": "expense_summary",
+        "args": {
+          "view": "total",
+          "from": "2026-06-01",
+          "limit": null,
+          "to": "2026-06-30"
+        }
+      }
+    ],
+    "executed": false,
+    "scope": "Sanitized failed tool instructions only; opaque provider signatures and other raw response metadata are excluded."
+  }
+]

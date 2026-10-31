@@ -1,0 +1,26 @@
+{
+  "sourceCommit": "7be9224d4ff4b5d767b717c08e7b5dbfe3e7324b",
+  "runId": 41237787408,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41237787408",
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "verify",
+      "conclusion": "success"
+    },
+    {
+      "name": "research-native",
+      "conclusion": "success"
+    },
+    {
+      "name": "compose",
+      "conclusion": "success"
+    },
+    {
+      "name": "live-ai",
+      "conclusion": "skipped"
+    }
+  ],
+  "scope": "Post-comparison parser/default-route repair; full actual PostgreSQL, browser, Docker startup, recurring/anomaly lifecycle and persistence. Provider accuracy remains separate from CI."
+}
