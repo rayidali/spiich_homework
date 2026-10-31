@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-31T04:17:05.233200+00:00",
+  "scope": "external operational transport recovery; frozen inference unchanged",
+  "frozenSourceHash": "fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08",
+  "files": {
+    "scripts/recover-study-transport.ts": "faa94ebac9bd3bab18afe8a652bff1bf06e711986f749baf0cc9799cda572d8e",
+    "tests/research-transport-recovery.test.ts": "d05c3256f580a5ba66de308e66765a9778a2b7f83a69c16c1e78218a8da9d551"
+  },
+  "checks": {
+    "newRecoveryTests": 35,
+    "existingRecoveryTests": 28,
+    "targetedTotal": 63,
+    "strictTypeScript": "passed",
+    "formatting": "passed",
+    "independentNewTestsWorkspace": 35,
+    "independentNewTestsCleanCheckoutWithoutPrivateTools": 35,
+    "launchGuardTests": 22,
+    "launchGuardLocalFileOnlyInvocation": "passed"
+  },
+  "countingNote": "Independent reruns overlap; do not sum them as distinct tests. The original511 isolated inference/application tests are historical unchanged-source evidence.",
+  "liveProviderCalls": 0,
+  "realUsageOrPolicyMutations": 0,
+  "frozenProtocolChanged": false,
+  "review": "Internal AI-assisted engineering review; not human scientific adjudication",
+  "launchGuardSha256": "98d622fe3a240ffb0315266595d0a6e9d5e3d01114fddb816de4cf63294f1e5b"
+}

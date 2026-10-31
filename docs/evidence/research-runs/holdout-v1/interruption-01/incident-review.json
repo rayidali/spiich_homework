@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "daybook-dispatch-incident-review-v1",
+  "runId": "holdout-v1",
+  "interruptionId": "interruption-01",
+  "reviewedAt": "2026-10-31T04:06:26.102Z",
+  "reviewType": "Internal read-only review of sanitized operational artifacts",
+  "files": [
+    {
+      "file": "dispatcher-summary.json",
+      "bytes": 1658,
+      "sha256": "ffdd2974858e8792db2584580a1903047218536539cd47d278107ba32891c906"
+    },
+    {
+      "file": "dispatch-delay-diagnostic.json",
+      "bytes": 3063,
+      "sha256": "41eeb01df34ff1a312b04ac0f8fb11dfdb097c8cdaae880e4e87fbf0637ec2be"
+    }
+  ],
+  "findings": [
+    "Dispatcher records 2,939 completed HTTP 200 requests. This denominator excludes requests never dispatched and is not an answer-success rate.",
+    "The last generation completed after its caller timed out. The observed gap after its pre-curl timestamp was 116,844 ms while curl reported 1,508 ms network time; underlying execution-platform suspension is an inference.",
+    "Two following generation configurations and the final database-read configuration have no observed claim/completion. Their failed or unavailable outcomes remain preserved.",
+    "No retries, inference-source changes, helper changes or budget-record changes were made during the interrupted segment.",
+    "The original three timeout outcomes, fourth circuit-open outcome and $0.0265945 in unknown reservations remain unchanged. Late HTTP 200 is not substituted for an original failed episode."
+  ],
+  "limitations": [
+    "This is a forensic artifact review, not a packet-level trace or proof of the execution platform cause.",
+    "No provider/database request was made for this review; the final full data fingerprint remains unavailable.",
+    "No route quality comparison or held-out tuning is authorized by this review."
+  ],
+  "links": {
+    "snapshot": "snapshot.json",
+    "initialChecksums": "sha256-manifest.json"
+  }
+}

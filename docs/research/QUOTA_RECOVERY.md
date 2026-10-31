@@ -1,5 +1,7 @@
 # Recovery, the key check and funded study continuation
 
+**Current transport incident:** the held-out run stopped at777/1,620 after a dispatcher timing gap and three unknown-use timeouts. The quota helper below does not apply. A separate, bounded operational recovery is documented in [TRANSPORT_INCIDENT.md](TRANSPORT_INCIDENT.md); it preserves the existing allowance, failed outcomes and frozen inference source. No new live recovery has yet been executed.
+
 **The user has authorized full study continuation under an additional $6.40 Gemini / $0.10 Jev allowance and at most 7,000 additional requests.** The original cumulative $10 Gemini / $4 Jev ceilings still apply. The user reported adding $5 and having about $8 of Gemini credit; that balance and the account's billing tier are not independently verified. No automatic refill is authorized. The funded transition is installed and survives restarts; see the [resumption evidence](../evidence/research-funded-resumption.json).
 
 The earlier one-cent policy remains intact as the parent of the new study policy. Its consumed probe is historical; the approved child policy now permits bounded study requests. Both policies retain every previous cost and unknown-use reservation.

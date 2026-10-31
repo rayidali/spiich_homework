@@ -1,168 +1,229 @@
-# Explain and demonstrate what you built
+# Explain and demonstrate Daybook
 
-## 2026-10-30 live AI recovery update
+**Current checkpoint: 2026-10-30, America/New_York.** The accounting application is implemented and hosted. A separate nine-route AI architecture study is implemented, frozen and running its held-out evaluation. The **1,620 route episodes and 240 reviewer outcomes are planned denominators**, not a completed accuracy result. There is no final architecture winner yet. Use the [research report](reports/research-study.md) for the current study state and, once complete, the measured conclusion.
 
-The hosted model and source default are now **`gemini-3.1-flash-lite`**. Direct API testing reproduced the earlier model's generation timeouts and confirmed working text/JSON/tool calls on Flash-Lite. A separate journal-proposal rejection was traced to the 100-line `maxItems` constraint in Gemini's decoding grammar: the transport now omits array maxima, while the full original Zod limit, account checks and exact-money/balance rules remain enforced locally.
-
-Selected hosted checks succeeded: cash **$125,620.00**, **12 Acme Corp entries**, September expenses **$9,265.00**, and a review-only **$340 Supplies debit / Company credit card credit** proposal. Cash/search/expense values matched independent endpoints, and the 73-entry journal list was unchanged. An initial expense timeout succeeded on manual repeat, while a later search failed; **intermittent provider failures remain**. No automatic retry, paid-plan change or accuracy guarantee was introduced.
-
-Local build/native imports and **60 isolated tests** passed, including two new schema regressions. [Full CI](https://github.com/rayidali/spiich_homework/actions/runs/41103851106) for source `7ecb435c421862dba5efd4e3b6f743c93fd1888e` **passed 103 backend tests, 10 browser workflows, native hosted imports and Docker startup/persistence**; the opt-in live evaluation job was skipped. These selected checks are not the full 40-case live evaluation. [Detailed evidence](evidence/chat-recovery-verification.json) records successes and failures. Earlier timeout-only notes below describe the 2026-10-29 snapshot.
-
-> Saved 2026-10-29. Daybook is hosted behind Vercel login, with separate Neon PostgreSQL. Full CI passed 101 backend tests, 10 browser workflows, native hosted imports and Docker persistence. Hosted reports/scheduler passed HTTP checks. Google model metadata was accessible, but live financial chat timed out. Fresh visual/physical-device review and successful live evaluation remain pending. See [checkpoint](../CHECKPOINT.md).
-
-Use the [visual architecture report](reports/architecture-review.pdf) to rehearse with diagrams, or open the [interactive HTML walkthrough](reports/architecture-review.html#journeys) to step through a rent payment. It records the earlier planning snapshot. Gemini support and the simpler interface are implemented in the application, with backend, browser and Docker checks passing in CI. The separate [nine-route research study](reports/research-study.md) now implements retrieval and reviewer experiments. Its first pilot exposed study defects; the second stopped at 101/108 episodes after Gemini's daily quota was exhausted. Both are diagnostic, and the 1,620 held-out route episodes and 240 held-out reviewer outcomes remain unrun. No research route has been enabled in production chat.
+The earlier missing-key, timeout-only and V2 daily-quota-stop notes are historical. Selected hosted chat/proposal checks subsequently succeeded, provider failures remain recorded, the research allowance was funded, and the frozen study resumed. Research retrieval and reviewer routes have **not** been enabled in the deployed assistant.
 
 ## Your 30-second explanation
 
-“I built Daybook, an accounting workspace whose source of truth is an immutable double-entry journal in PostgreSQL. React provides manual and AI-assisted entry, account management, reports, recurring drafts, and review alerts. PostgreSQL enforces balanced postings even when the API is bypassed. The AI proposes entries and chooses approved read-only financial tools; it never posts on its own or calculates the reported financial amounts. I focused on correctness under retries and concurrency, and kept the architecture small enough to run with Docker Compose.”
+> “I built Daybook with AI assistance. It is a TypeScript accounting application with React, a REST API and PostgreSQL. Its foundation is an immutable double-entry journal: the database rejects invalid postings, even if someone bypasses the interface.
+>
+> “The AI can interpret a transaction and prepare a proposal, but the user reviews it and the normal accounting rules still apply. For financial chat, the deployed app uses four approved read-only tools whose numbers come from SQL. Separately, I built a controlled experiment to test broader analytics, document retrieval and reviewers before deciding which extra components are worth adding.”
 
-This implementation was built with AI assistance. Explain that honestly if asked. Your strongest evidence is understanding the decisions and demonstrating the tests, not pretending every line was handwritten.
+Do not claim that every line was handwritten. Explain the parts you directed, inspected and verified. Knowing why a constraint exists—and showing a test that would fail without it—is stronger evidence than memorizing generated code.
 
-## Explaining hallucination defenses accurately
+## Keep the two systems distinct
 
-The implemented boundary is: the model proposes an entry or chooses an approved read-only financial function; application code validates accounts, dates, amounts, and balance; PostgreSQL rejects invalid postings; SQL and application code supply reported monetary values and evidence links. Structured output prevents some format errors but cannot establish that the category or interpreted period is correct. User confirmation and clarification remain necessary.
+|                        | Implemented accounting application                                            | Isolated research study                                                                                       |
+| ---------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Purpose                | Let someone keep books and inspect their finances                             | Compare alternative AI architectures on the same synthetic tasks                                              |
+| Data                   | Application ledger and its demo workspace                                     | Separate research schema, synthetic ledger/documents, restricted views                                        |
+| Interface              | Home / Transactions / Reports / Settings; manual and AI-assisted entry        | Evaluation scripts and preserved reports; not an added production UI                                          |
+| AI path                | Gemini or OpenAI adapter; four financial tool families and reviewed proposals | Nine routes: broader typed analytics, lexical search, File Search, pgvector, Jev, Wren and optional reviewers |
+| Current Gemini setting | `gemini-3.1-flash-lite` default in the application                            | `gemini-3.5-flash-lite` shared study generator and optional same-model reviewer                               |
+| Posting authority      | User-confirmed application actions, subject to service and database checks    | No model-generated financial posting; proposals remain review-only                                            |
+| Evidence of quality    | Accounting/browser/Compose tests and selected live hosted checks              | Development diagnostics plus a frozen held-out run now in progress                                            |
 
-Gemini and OpenAI adapters share the same validation and financial functions. The application's bounded 40-case harness tests exact complete entries, tool arguments, evidence and correction retrieval in isolated workspaces. Its unit tests establish scoring behavior, not live model quality. The key is saved locally and supplied server-side to Vercel. Selected hosted generation checks succeeded after the model/schema fixes described above; intermittent provider failures and the incomplete full live evaluation remain limitations. The isolated research implementation adds Jev, vector retrieval, managed File Search, Wren and answer-review routes, but its incomplete or invalid pilots cannot establish an accuracy rate or justify a production change.
+The live research schema is logically isolated on the existing Neon database server; do not call that a separate physical server. Local research reproduction uses its own pgvector Compose database and volume. Neither path gives the model database owner credentials. The hosted product stays unchanged while the experiment runs.
 
-For the new UI, explain: “A beginner chooses money in, money out or transfer, then explicitly selects what it was for. The review shows which accounts change before posting. Paying an existing invoice credits receivables, so the same revenue is not counted twice. Complex and foreign entries still have the full journal form.” Checked-in screenshots predate this flow; behavioral browser checks passed and fresh CI captures need visual inspection before replacement.
+## Explain it like an organized notebook
 
-## Relating the work to Spiich
+There are five kinds of accounts: **assets** (what the business owns), **liabilities** (what it owes), **equity** (the owner's stake), **revenue** (money earned), and **expenses** (costs). One business event explains at least two account changes. “Debit” and “credit” are accounting column names; they do not universally mean money in and money out.
 
-The public [fullstack role](https://spiich.ai/careers/fullstack-engineer) and [AI role](https://spiich.ai/careers/founding-ai-engineer) describe overlapping work on business data, usable interfaces, agents, and reliability. The accounting exercise is plausibly a test of the same engineering judgment. That is an inference; do not claim to know their private hiring rationale or that they are building an accounting product.
+- **React is the desk:** where people view, enter and review information.
+- **The REST API is the clerk:** it validates requests, runs the appropriate operation and returns understandable errors.
+- **PostgreSQL is the permanent notebook:** posted financial history obeys rules below the UI.
+- **A database transaction is a sealed envelope:** all related changes commit together, or none do.
+- **An idempotency key is a receipt number:** repeating the same request does not create a second purchase.
+- **A draft revision is a version number:** an old browser tab cannot approve a changed draft accidentally.
+- **The outbox is a durable to-do list:** posting records both the entry and the need for background analysis.
+- **The model is an assistant at the desk:** it can propose an interpretation; it does not own the notebook's rules.
 
-A useful explanation is: “I treated language interpretation as fallible. The application owns the business rules and the database owns financial consistency. I implemented a separate comparison of retrieval and validation approaches using shared synthetic cases, then used development runs to find weaknesses in the study itself. Those runs are not valid evidence for selecting a winner. I would keep additional components only after the frozen held-out evaluation demonstrates a useful improvement.” The preregistered comparison and its acceptance criteria are in [the plan](PLAN.md#proposed-one-to-two-day-finish-and-comparison); measured limitations are in the [research report](reports/research-study.md).
+Read the [worked accounting example](ACCOUNTING_WALKTHROUGH.md) before rehearsing the technical answers.
 
-## Understand it like an organized notebook
+## Walkthrough 1: a $340 card purchase
 
-Think of five kinds of buckets: things the business owns, things it owes, the owner's stake, money earned, and costs. Every business event explains at least two bucket changes. The accounting walkthrough shows exactly how $10,000 investment, a $15,000 customer invoice/payment, $2,400 rent, and $340 card supplies turn into a balanced set of reports.
+Say: **“Bought office supplies for $340 with the company credit card.”**
 
-- **React is the desk:** where you view and enter information.
-- **The API is the clerk:** checks that a request makes sense and explains errors.
-- **PostgreSQL is the permanent notebook and its rules:** it refuses invalid posted records.
-- **A transaction is a sealed envelope:** all related changes commit together, or none do.
-- **An idempotency key is a receipt number for a request:** resending it does not create another purchase.
-- **A draft revision is a version number:** it stops you approving an older copy after someone edited it.
-- **The outbox is a durable to-do list:** posting records both the financial event and the need to analyze it.
-- **The AI is an assistant at the desk:** it can prepare a suggestion, but the clerk and notebook still enforce the rules.
+1. The model sees the active chart of accounts and relevant history/corrections. It proposes debit Supplies $340 and credit Company credit card $340. It has not posted anything.
+2. Code validates the account IDs, currency, decimal amounts, exchange-rate requirements and equal debits/credits. Missing or ambiguous information produces clarification rather than a guessed posting.
+3. The UI shows the account effects. The user reviews the proposal and confirms through the normal application flow.
+4. The API checks the reviewed draft revision and posts atomically. PostgreSQL performs its own checks and prevents later edits to posted history.
+5. The expense increases profit-and-loss expenses, and the card liability increases. Bank cash stays unchanged until the card is paid.
+6. If the entry was wrong, create a linked reversal. Keep both records; do not erase the original.
 
-Read [the full worked accounting example](ACCOUNTING_WALKTHROUGH.md) before the technical sections below.
+A useful question to ask yourself: **“Why didn't cash fall?”** Because the company borrowed from the card issuer to make the purchase. This is why guessing accounting from the word “paid” is dangerous.
 
-## A six-minute demo
+For a customer invoice, explain the different path: issuing the invoice records revenue and a receivable; receiving its payment increases bank cash and reduces the receivable. Recording revenue again would double-count the sale.
 
-| Time      | Show                                 | Explain                                                                                                                                        |
-| --------- | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0:00–0:40 | Dashboard                            | All metrics come from posted PostgreSQL journal lines. Drafts are excluded. Cash and profit differ.                                            |
-| 0:40–1:40 | New manual entry                     | Enter $340 supplies, debit Supplies, credit Company credit card. Show the live balance check, save/post, and open the immutable record.        |
-| 1:40–2:30 | P&L → balance sheet → account ledger | The expense increases card debt; it does not immediately reduce bank cash. Open a number and follow the supporting history.                    |
-| 2:30–3:10 | Reverse the demo entry               | Keep the original and its linked opposite entry. Show that earlier as-of reports still reflect the original history.                           |
-| 3:10–3:50 | Review alerts                        | Explain the doubled rent's median/history and a potential duplicate. Mark an alert reviewed; no journal entry is silently deleted.             |
-| 3:50–4:30 | Recurring schedules                  | Show the rent template. Due instances become drafts. Explain calendar anchors, rate review, and editing only future occurrences.               |
-| 4:30–5:30 | AI workflows                         | Describe a card purchase; inspect the suggested accounts before confirming. Ask for cash or last month's expenses, and open the evidence link. |
-| 5:30–6:00 | Tests and SQL constraint             | Show a direct-SQL imbalance rejection and the edit/post race test. Explain why correctness lives below the UI.                                 |
+## Why SQL, retrieval and a reviewer do different jobs
 
-Before the demonstration, check that the provider is available; selected hosted checks have succeeded, but availability remains intermittent. Keep those live observations separate from contract tests and the still-incomplete evaluations. A configured key alone is not proof of a working provider, and mocked responses are not a successful live demonstration.
+| Job                      | Analogy                                                  | Why the other tools do not replace it                                                                                           |
+| ------------------------ | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| SQL and exact arithmetic | Read the official notebook and use a calculator          | A nearest-neighbor search can miss rows. It cannot safely total every posted debit and credit.                                  |
+| Retrieval                | Find the right page in a filing cabinet                  | A SQL balance does not tell you the salary in a hiring worksheet or the terms of a contract.                                    |
+| Semantic review          | Ask another reader to inspect the candidate and evidence | Another model can miss a mistake or repeat the generator's misunderstanding. Its approval cannot override a failed calculation. |
+
+**RAG** means retrieving relevant source material for an answer. Word search can be RAG; vector search is one retrieval method, not the definition of RAG. An embedding turns text into numbers useful for matching meaning. pgvector stores/searches those embeddings in PostgreSQL. Neither is an accounting calculator.
+
+The deployed chat selects a custom-built, approved financial tool. It does **not** generate arbitrary executable SQL. In the experiment, R1–R5 and R7–R8 use typed plans compiled by our code; R6 uses model-proposed SQL through the actual Wren engine and restrictive SQL/provenance checks. Be precise about which path you are discussing.
+
+### Walkthrough 2: “Can I afford another employee?”
+
+Start by clarifying salary, employer costs, time horizon, reserve requirements and what other cash movements should be considered. A bare “yes” from the cash balance would be an unsupported financial conclusion.
+
+For the **synthetic development example** in the [research report](reports/research-study.md#1-problem-and-a-worked-example):
+
+| Evidence                                                            | Source                                       |
+| ------------------------------------------------------------------- | -------------------------------------------- |
+| September-end cash: $164,615                                        | Posted ledger queried with the explicit date |
+| Salary: $6,000/month; employer burden: 18%; recruiting: $3,000 once | Current hiring worksheet                     |
+| Minimum reserve: $50,000                                            | Reserve policy                               |
+| Three months; ignore other future movements                         | Explicit user scenario                       |
+
+The exact calculator computes `$6,000 × 1.18 = $7,080/month`, then `$7,080 × 3 + $3,000 = $24,240`. Cash above the reserve becomes `$164,615 − $24,240 − $50,000 = $90,375`.
+
+The answer should say: **“Under those assumptions, $90,375 remains above the reserve.”** It must say that normal operating costs, future receipts and other obligations were excluded. This is an incremental scenario, not a complete cash-flow forecast or a recommendation to hire. These are research-fixture amounts, not the current hosted application's balances, and the walkthrough is not a claim that every route answered it successfully.
+
+An optional reviewer can check for missing assumptions or unsupported claims. The mandatory code checks still enforce the arithmetic and evidence boundaries. A reviewer cannot supply a missing document, infer an unknown salary with certainty, or authorize a posting.
+
+## What we wrote, and what external tools supply
+
+| Component                 | Custom Daybook work                                                                                                                    | External building block                                                                                    |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Accounting engine         | Schema/migrations, posting/reversal services, database guards, exact-money rules, reports                                              | PostgreSQL; `decimal.js`                                                                                   |
+| Application               | React workflows, REST endpoints, validations, recurring drafts, anomaly review, idempotency and job handling                           | React, TypeScript, Express, Zod; Docker Compose for local execution                                        |
+| Deployed financial tools  | Four tool schemas, validated parameters, SQL/report queries, numerical responses and evidence links                                    | Gemini/OpenAI model calls interpret the request; those financial tools are **not built-in provider tools** |
+| Categorization            | Retrieve confirmed corrections and relevant history by organization; validate suggested accounts                                       | Language model proposes the category; no model fine-tuning                                                 |
+| Broad research analytics  | Typed query compiler, exact calculator, source/period/entity validation, restricted database execution                                 | PostgreSQL                                                                                                 |
+| Custom document retrieval | Authorized ingestion, lexical/hybrid search, source/version mapping, retrieval tests                                                   | Gemini embeddings and pgvector                                                                             |
+| Managed retrieval         | File upload/index workflow, authorized citation resolution and common final-answer adapter                                             | Gemini File Search via its Interactions API                                                                |
+| Reranking and review      | Candidate/check definitions, orchestration, schema validation, development threshold selection, comparison metrics                     | Jev `jev-1.14.0`; separate Gemini reviewer invocation                                                      |
+| Wren route                | Business-model configuration, subprocess bridge, SQL allowlist, units/scope validation and read-only execution                         | Actual pinned Wren core engine and SQL parser                                                              |
+| Evaluation                | Synthetic fixtures, independent financial references, route harness, frozen controls, budget records, scoring, uncertainty and reports | Testing/plotting libraries and provider APIs; no external human judge                                      |
+| Hosting                   | Shared application services, native hosted adapters, scheduler/job integration, deployment checks                                      | Vercel and Neon                                                                                            |
+
+Do not say “Google handles correctness” because it offers structured output, Files or embeddings. Google supplies model/retrieval capabilities; the application still has to decide which data the model may see, what a financial quantity means, how to verify it, and when to withhold an answer. Do not say Jev or Wren has been added to production categorization: those components are isolated experimental routes.
+
+## Explain the safety boundaries without overclaiming
+
+**Database correctness and answer correctness are different.** The database can reject an unbalanced journal, while a chatbot can still misunderstand which period a question asks about. A perfectly balanced entry can also have the wrong expense category. Use layered checks and user review without describing them as a guarantee against every mistake.
+
+**Structured output is a format contract.** Valid JSON can contain the wrong account, wrong date or wrong amount. Zod/schema validation is followed by business checks and evidence verification.
+
+**A citation must support the actual claim.** A document containing a $6,000 monthly salary does not by itself support a $24,240 three-month total. The derived fact must cite its verified calculation. A July amount cannot prove October's expense merely because the values happen to be equal.
+
+**Grouping changes meaning.** A vendor's slice of rent is not the whole rent total. A day's cash movement is not the cumulative cash balance. The research scope checks preserve date ranges and identity grain. Unsupported or ambiguous source lineage is withheld; multiplying by one cannot create broader evidence.
+
+**False withholding matters.** A correct-looking answer may fail because it omitted an exact tag, cited the document instead of its calculation, or used equal-valued operands whose source scopes could not be identified uniquely. That is lost task completion, not automatically “improved safety.” Report these cases separately from wrong financial numbers.
+
+**Another agent is fallible.** R7 uses the same Gemini weights in a second call, so its errors can be correlated. Jev checks are not a calibrated probability that the whole answer is wrong. Both can reject a good answer or miss a bad one; both depend on the evidence they receive. Review failures withhold output, but a timeout is not successful semantic flaw detection.
+
+## Explain the experiment in 90 seconds
+
+> “I did not install every component and assume the bigger stack was better. I created nine controlled alternatives: the existing narrow control; broader analytics; lexical documents; managed File Search; custom hybrid retrieval; Jev reranking; Wren analytics; and two reviewer variants.
+>
+> “Each route gets the same question instances, synthetic data, study generator and mandatory checks. Components have declared comparisons, so I can ask what changed when I added retrieval or a reviewer. R4 is the control for reranking, Wren and the two reviewers.
+>
+> “Development runs found defects in the experiment itself. For example, the original control adapter omitted evidence, and date scopes were not represented consistently across query backends. I preserved those failures and corrected the shared contract before freezing. I do not call those pilot scores a final ranking.
+>
+> “The held-out design uses 60 questions in 30 scenario groups, three repeats and nine routes. Rewordings and repeats of the same scenario are correlated, so uncertainty is clustered by scenario group. A separate 80-candidate held-out stress test compares three reviewer methods.
+>
+> “The primary result is success across all six task families. I also show errors, evidence, cost, latency and the reviewer tradeoff between escaped mistakes and blocked correct answers. Final results are pending; any favorable result is a candidate for another product experiment, not proof of production reliability.”
+
+Do not confuse **1,620 planned route episodes** with 1,620 API calls or 1,620 independent scenarios. Routes use different numbers of provider calls; there are 30 held-out scenario groups. Similarly, the reviewer study's 240 planned outcomes include deterministic checks that make no provider call.
+
+The automated rubric totals 90; the unmeasured 10-point human clarity dimension is not invented. Synthetic document/semantic labels and narrative quality have not received independent human adjudication. The implementation and internal reviews were AI-assisted. Contract tests and model review are not substitutes for external human evaluation.
+
+The [pre-holdout rules](research/PRE_HOLDOUT_REVIEW.md) require complete valid measurements and hard-gate checks before conclusions. Query/retrieval candidates need the fixed targeted-family +5-percentage-point benefit with conservative uncertainty screens; reviewer candidates must reduce flawed acceptance without more than +5 points of additional correct-answer withholding. These are declared practical criteria, not a post-hoc “best score” or a formal significance claim. No unmeasured combination of favorable components is automatically recommended.
+
+## A six-minute application demo
+
+Prepare a demo workspace and rehearse the sequence. The frozen research run is not an interactive demo and should not be restarted casually for a presentation.
+
+| Time      | Show                                      | Explain                                                                                                                                |
+| --------- | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| 0:00–0:40 | Home                                      | Metrics come from posted journal lines. Drafts are excluded; cash and profit differ.                                                   |
+| 0:40–1:40 | A $340 card-supplies entry                | Show the account-effects review and balance check. Post through the normal flow, then open the immutable record.                       |
+| 1:40–2:30 | P&L, balance sheet, account ledger        | The expense and card debt rise while bank cash stays unchanged. Trace a displayed amount to its entries.                               |
+| 2:30–3:10 | Reverse the example                       | Preserve the original plus its linked opposite. Explain how the reversal date affects as-of reports.                                   |
+| 3:10–3:50 | Review alerts                             | Show a possible duplicate or unusually large rent. Review the evidence; no alert silently deletes financial history.                   |
+| 3:50–4:30 | Recurring schedules                       | Due occurrences become drafts. Explain calendar anchors, review and safe repeated generation.                                          |
+| 4:30–5:20 | AI entry or financial chat                | Inspect a proposal before confirming, or ask for cash/expenses and follow its period and evidence.                                     |
+| 5:20–6:00 | A meaningful test and the research report | Show the database invariant or stale-revision test, then distinguish engineering verification from pending model-quality measurements. |
+
+Selected hosted generation checks have succeeded, and failures are also recorded. Check availability for the actual demo without presenting a mocked response as live evidence. If a provider fails, show the handled error and the still-working manual accounting path. Never display keys, connection strings, private HTTP bodies or authentication state.
 
 ## Questions you should be able to answer
 
-**Why is crediting the bank correct when paying rent?**
+**REST or GraphQL?** REST with JSON over Express. Accounts, entries, reports, recurring schedules and alerts are resources; posting and reversal are explicit operations. TypeScript is used on both sides, with runtime validation at the boundary. GraphQL was not required for these workflows.
 
-The bank is an asset. Debits increase assets; credits decrease them. Rent is an expense, increased with a debit. Debit and credit are column names, not universal synonyms for “money in” and “money out.”
+**Why enforce double-entry in PostgreSQL as well as the API?** API validation gives a useful error, but another write path could bypass it. A per-row `CHECK` cannot express the final sum of all journal lines. Deferred constraint triggers inspect the transaction's completed state. Locks and concurrency tests protect the parent-entry transitions as well as ordinary single requests.
 
-**Why doesn't collecting an invoice count as new revenue?**
+**How does the balance sheet include revenue and expenses?** The ledger balances across all five account types. Accumulated unclosed profit is included in equity in the balance-sheet calculation. Read the worked example and explain the signs rather than memorizing a seeded total.
 
-The invoice already recognized revenue and a receivable. Collecting it moves value from receivable to bank. Crediting revenue again would double-count earnings. The AI asks when this context is ambiguous.
+**What happens on double-clicks, retries or an old browser tab?** A repeated create request uses the same idempotency key and request-content hash. Same key/same content returns the same result; changed content conflicts. Draft edits/posting compare the expected revision under a lock, so a stale confirmation cannot post a changed draft. A lost edit response can require a refresh.
 
-**How do the books balance when revenue and expenses exist?**
+**Why exact decimals and stored exchange rates?** Floating-point arithmetic is unsuitable for deciding whether money balances. Amounts use exact decimal handling; each base-currency line is rounded under the defined rule and totals must match. The transaction's rate is persisted. Reversals use the original amounts/rate, not today's exchange rate.
 
-The raw ledger balances across all five account types. On the balance sheet, accumulated unclosed profit is included in equity. In the worked example, $22,600 assets equal $340 liabilities plus $22,260 equity, which includes $12,260 profit.
+**Do anomalies require a live stream?** No. Historical posted entries already form a comparison dataset. A job can compare a new entry with prior similar entries. Daybook uses explainable duplicate, amount-history and category-pattern rules; synthetic unusual entries make their behavior demonstrable. A continuous bank feed would be another input source, not a prerequisite. No fraud-detection accuracy is claimed.
 
-**Why a trigger instead of just a `CHECK` or application validation?**
+**Does categorization actually learn?** Confirmed corrections are stored by organization and retrieved with relevant history for later suggestions. That is retrieval-based adaptation, not retraining or fine-tuning. It can improve context, but a measured improvement still requires evaluation. Jev is being tested for reranking/review, not silently used for production categorization.
 
-A per-row check cannot safely express the sum of all journal lines. A deferred constraint trigger sees the transaction's final state. API validation helps the user; the database constraint protects every write path. A race test verifies the shared parent-row lock.
+**What if a worker crashes after the entry posts?** The job is committed with the financial operation. A lease permits recovery and unique effect keys make reprocessing safe. That is at-least-once execution with idempotent effects, not exactly-once delivery.
 
-**What happens if the user double-clicks, the network times out, or two requests arrive together?**
+**Why not microservices or a load balancer first?** A posting is one tightly coupled database transaction. Splitting it prematurely adds distributed failure modes. A load balancer distributes requests; it does not understand accounting, retrieve contracts or verify answers. The API and worker can be deployed separately when measured workloads justify it.
 
-The client reuses a create key. The unique key/hash combination returns the same entry for the same request and rejects changed contents. Posting is safe to repeat. Draft edits/posting compare the reviewed revision under a lock. A lost edit response may require a refresh.
+**Could a million people use it today?** No measured claim supports that. First define active users, requests per second, history size, tenant skew and acceptable latency; then load-test. A real service also needs identity/authorization, tested tenant isolation, backups and restore drills, observability, connection budgets, continuously serviced workers, and distributed rate/cost limits. The current in-process AI concurrency limit is not global across replicas.
 
-**How can an old browser tab be dangerous?**
+**Did we build Docker Compose?** Yes. Application startup, health/container checks and posted-entry persistence have passed CI. Research has a separate pgvector Compose setup that exercises the actual Wren engine and database restrictions. Local Docker availability on the author's machine is a separate question from the checked-in runnable setup and cloud CI evidence.
 
-Someone could change $100 to $1,000 after another person reviewed the draft. A stale confirmation cannot post the changed version: its expected revision no longer matches, so the server returns 409 and asks for a reload.
+**What would you do next?** Finish the unchanged held-out evaluation and report, then decide whether a component merits a separate product experiment. Do not tune prompts or thresholds while reading held-out outcomes. Product work still includes the recorded visual/device and scheduler-observation gaps, reviewer access, and real-service operational requirements. There is no need to “restore the old V2 quota” as the current next step: funded research has resumed.
 
-**How do you prevent currency rounding errors?**
+## Explain hosting and the interface accurately
 
-Use exact decimals, persist the transaction rate, round each base line to cents, and require the rounded totals to match. No JavaScript floating-point arithmetic decides whether an entry balances. A reversal uses the old rate, not today's rate.
+Daybook is the product name; Spiich is the assignment recipient. The simpler interface uses Home / Transactions / Reports / Settings. A beginner chooses money in, money out or transfer and reviews the account effects. Advanced journals remain available for more complex cases. The [design record](DESIGN.md) explains the decisions and verification limits. Browser workflow tests do not establish real-phone ergonomics or a fresh human visual review.
 
-**What does the AI learn from corrections?**
+> “Docker and the hosted demo share accounting services. Vercel serves the React build and runs the Express API through a native ESM adapter. Neon stores the demo data. The runtime has a restricted database role; migration/setup uses separately held owner access. The same financial constraints apply.”
 
-Confirmed changes to suggested accounts are stored by organization and retrieved for similar future descriptions/vendors. Those examples guide later suggestions. This is retrieval-based adaptation, not model retraining, and live improvement still needs evaluation.
+The configured daily scheduler catches up recurring drafts and processes bounded background jobs; successful mutations can also trigger a bounded analysis batch. Durable PostgreSQL jobs retain retry state. Successful authorized scheduler HTTP checks do not prove that automatic firing has been observed, or that this arrangement handles a production-sized backlog.
 
-**Can the AI hallucinate the cash balance?**
+Vercel login protects one shared writable demo workspace. It is not application-user authentication or tenant authorization. The assignment did not require login, but reviewer sharing still needs deliberate handling. Do not disable protection or describe the demo as a public multi-user product.
 
-The numerical answer is constructed by code from a validated SQL tool result. The model can still choose the wrong intent/date, so the UI exposes the period and evidence. It cannot run arbitrary SQL or post through the chat endpoint.
+A green build alone does not prove the hosted API can run. Earlier invocation and scheduler-adapter failures led to native-wrapper import tests and actual endpoint checks. Explain that lesson with the preserved evidence rather than saying the current app still has the original timeout-only state.
 
-**Why statistical anomaly detection?**
+## Evidence worth showing
 
-Duplicates and a doubled rent amount have understandable rules and evidence. They are cheap, reproducible, and work without a key. They can produce false positives; review stays with the user. A future model could add context after accuracy and cost are evaluated.
+| Evidence                                                                                                                                                                                    | What you can claim                                                                                                                                                                         | What you cannot infer                                                 |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------- |
+| [Application CI for deployed executable 7ecb435c](https://github.com/rayidali/spiich_homework/actions/runs/41103851106)                                                                     | 103 backend tests, ten browser workflows, native hosted imports and Docker startup/persistence passed for that revision                                                                    | Complete live model accuracy or physical-device quality               |
+| [Latest frozen-study CI](https://github.com/rayidali/spiich_homework/actions/runs/41155033249) and [receipt](evidence/research-ci-v4.json)                                                  | Application verification, Compose and native Wren/pgvector jobs passed for the recorded source; live-AI job was skipped                                                                    | That CI executed the held-out provider experiment                     |
+| [Frozen local checks](evidence/research-local-v4.json)                                                                                                                                      | 511 isolated TypeScript tests, 35 actual Wren Python tests, nine PDF-exporter tests, build and formatting passed; database-dependent suites were excluded locally and exercised through CI | Model answer accuracy, or independent human adjudication              |
+| [Hosted chat recovery evidence](evidence/chat-recovery-verification.json)                                                                                                                   | Selected cash/search/expense answers and a review-only proposal succeeded; numerical checks matched independent endpoints; failures remain recorded                                        | A full 40-case live evaluation or a guarantee of current availability |
+| [Hosting evidence](evidence/hosting-verification.json)                                                                                                                                      | Protected health/report/scheduler checks at the recorded snapshot                                                                                                                          | Observed automatic cron firing, capacity or current account balances  |
+| [Held-out manifest](evidence/research-runs/holdout-v1/manifest.json), [freeze](evidence/research-verifiers/verifiers-v1/verifier-freeze.json), [research report](reports/research-study.md) | A defined, frozen comparison with declared controls and pending final results                                                                                                              | A final accuracy rate or architecture winner while incomplete         |
 
-**What happens if the worker crashes after posting?**
-
-The job was committed with the journal entry. Its lease expires, another worker reclaims it, and unique alert keys make reprocessing safe. That is at-least-once execution with idempotent effects, not a claim of exactly-once delivery.
-
-**Why not use microservices immediately?**
-
-Posting is one tightly coupled database transaction. Splitting it prematurely adds failure modes without helping the assignment. API and worker modules can be deployed separately when measurements justify it. Scale depends on workload, indexes, connection budgets, and operational controls.
-
-**Would this support a million people today?**
-
-“The code has useful growth foundations, but I would not claim a capacity we have not measured. I would first specify active users, writes and reads per second, history size and tenant skew, then load-test those workloads. Production also needs authentication, authorization, backups, restore drills, monitoring, distributed quotas, and operational ownership.”
-
-**What would you build next?**
-
-Start with the verified gaps: restore research quota capacity, test the corrected development revision, complete the held-out comparison, inspect fresh screenshots, observe the automatic hosted schedule and decide reviewer access. Selected hosted chat recovery succeeded; remaining provider availability still needs measurement. Container startup/persistence already passed in CI. For a real service, prioritize identity/authorization, operational recovery, observability, measured load tests, and financial closing/revaluation policies. Product expansion would follow customer needs such as invoice management, bank imports/reconciliation, and tax.
-
-## Explain the interface
-
-Daybook is the product; Spiich is the assignment's recipient. The overview follows the daily bookkeeping loop: balances, journal entries, and outstanding drafts or anomalies. The assistant is available from the header and relevant entry flows. Monthly bars expose exact values through a keyboard-accessible data table. On phones, recent-entry amounts remain visible beside each transaction.
-
-The [design record](DESIGN.md) documents the source skills, before/after decisions, keyboard and motion rules, and verification limits. Explain the work as a set of choices about accounting tasks and interaction frequency. Physical phone testing is still pending.
+The historical architecture [PDF](reports/architecture-review.pdf) and [HTML walkthrough](reports/architecture-review.html#journeys) can help explain the original design, but record an earlier planning snapshot. Use the current [research narrative](reports/research-study.md) for implemented experiments, scope limits and final measurements when available. Old invalid/incomplete pilots remain diagnostic; their graphs cannot select a winner.
 
 ## Code paths to rehearse
 
-1. `web/src/Composer.tsx` → `server/app.ts` → `server/ledger.ts` → SQL triggers in `db/migrations/`.
-2. `server/reports.ts`: explain opening balances, P&L signs, and earnings in equity.
-3. `server/ai.ts`: show proposal validation, correction retrieval, and the closed set of insight tools.
-4. `server/recurring.ts`: show the transaction, savepoint, occurrence key, and anchor calculation.
-5. `tests/accounting.test.ts`: explain what would break if the locking or database guards were removed.
+| Path                                                                                                                                                | Be able to explain                                                                                          |
+| --------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| [Composer](../web/src/Composer.tsx) → [API](../server/app.ts) → [ledger](../server/ledger.ts) → [ledger migration](../db/migrations/001_ledger.sql) | Review, validation, posting, database invariants and immutability                                           |
+| [Reports](../server/reports.ts)                                                                                                                     | Posted-only balances, signs, opening history and profit in equity                                           |
+| [Application AI](../server/ai.ts)                                                                                                                   | Custom financial tools, structured proposals, correction retrieval and provider failures                    |
+| [Recurring](../server/recurring.ts) / [anomalies](../server/anomalies.ts)                                                                           | Occurrence keys, scheduling anchors, durable jobs and explainable review alerts                             |
+| [Accounting tests](../tests/accounting.test.ts)                                                                                                     | Direct-SQL invalid writes, concurrency/revision races and exact-money behavior                              |
+| [Research routes](../research/routes.ts) / [answer checks](../research/answer.ts) / [scope checks](../research/scope.ts)                            | Controlled substitutions; calculation citations; dates, identities and grouping grain                       |
+| [Research scoring](../research/scoring.ts) / [decision analysis](../scripts/analyze-study-decisions.ts)                                             | Independent references, correlated scenarios, primary versus secondary metrics and conservative conclusions |
 
-## Before submitting
+## Rehearsal and submission checklist
 
-Run the commands in [verification](VERIFICATION.md), supply keys through private server-side configuration (local `.env` or an authorized hosted environment), investigate the timeout and run the live AI evaluations, and rehearse the exact demo once. Include the README and lockfile. Keep `.env`, database files, `node_modules`, and local tooling out of the submission. Report actual test results and limitations without claiming unperformed production testing.
+- Walk through a real request and point to where each guarantee lives: UI, API, transaction, database or measured evaluation.
+- Use current report values in a demo; legitimate postings can change seeded balances. Keep application examples separate from research fixtures.
+- Explain one failure honestly: an invalid balanced-but-miscategorized proposal, provider timeout, wrong citation, or unnecessary withholding. State what the system detects and what still needs judgment.
+- Follow [verification](VERIFICATION.md) and [the checkpoint](../CHECKPOINT.md) for current checks. While the held-out run is active, preserve its frozen source, protocol, data, index and threshold.
+- Use local/server-side configuration for secrets. Keep `.env`, credentials, private provider responses, database files and local tooling out of the submission and screen recording.
+- Update the final measured paragraph from the completed report. Until then, say “the held-out evaluation is running,” not “this route is the most accurate.”
 
-## Explain the hosted architecture
-
-“I kept the accounting services shared between Docker and the hosted app. Vercel serves the React build and runs Express through a small native ESM adapter. Neon holds a separate demo database. The runtime uses a restricted database role; only the build gets owner access for migrations and idempotent setup. Posted history still goes through the same constraints.”
-
-“The free hosting plan runs the scheduled catch-up daily. Successful writes also trigger a bounded anomaly batch after the response. Durable PostgreSQL jobs hold retry state, so the work is recoverable, but a big queue can take multiple invocations. I would give a production workload continuously serviced workers, global quotas and connection budgeting after measuring demand.”
-
-**Why does the hosted app ask for Vercel login if authentication was excluded?**
-
-The assignment did not require application users. The demo is one shared writable workspace and contains a provider key on the server, so deployment protection gates access. It is not tenant/user authorization. Reviewer sharing remains a specific next step; no public multi-user service is claimed.
-
-**Does a green build mean the hosted API works?**
-
-No. An early READY deployment still failed invocation. Native ESM bundling and wrapper-load checks were added, then the actual protected health/report/scheduler endpoints were tested. The scheduler also needed an Express wrapper for its request methods. These are examples of checking the complete request path rather than stopping at build success.
-
-**What exactly can you say about AI today?**
-
-“The adapters and validation are implemented, controlled-response tests pass, and the key can access model metadata. The live financial question hit our timeout. I handle that safely and keep manual accounting available, but I have not established successful generation or an accuracy score. My next step is to isolate the timeout, then run the already-written evaluation cases.”
-
-Do not describe the timeout as a hallucination, a proven invalid key, a successful live answer or a measured billing result. Metadata access and generation are separate checks. The LLM does not translate arbitrary text into executable SQL; it selects a reviewed tool and validated parameters.
-
-## Evidence you can show immediately
-
-- [Full CI run](https://github.com/rayidali/spiich_homework/actions/runs/40999183176): 101 backend tests, 10 browser workflows, native wrapper imports, Docker startup and persisted posted history.
-- [Protected hosted app](https://daybook-ledger-delta.vercel.app): manual accounting, reports and review alerts. October demo trial balance was $190,072.00 per side; balance sheet difference was $0.00 at the saved observation. These are seeded example amounts, not the beginner fixture.
-- [Sanitized hosting evidence](evidence/hosting-verification.json): endpoint checks, scheduler authorization and the observed AI timeout, with limits explicit.
-- [Build log](BUILD_LOG.md) and [architecture](ARCHITECTURE.md): reasons for database constraints, exact arithmetic, explicit tool boundaries and the small deployable architecture.
-
-Use current source and numbers from the actual report during a demo; legitimate postings can change the saved sample totals. Never show credentials, private HTTP payloads, authentication state or provider keys during a screen recording.
+The assignment demonstrates engineering judgment: strong accounting invariants, understandable workflows, explicit AI authority boundaries and evidence proportionate to the claim. Do not claim to know Spiich's private hiring rationale or guarantee that any implementation makes rejection impossible.

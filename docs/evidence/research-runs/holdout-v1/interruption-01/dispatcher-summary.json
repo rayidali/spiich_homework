@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "runId": "holdout-v1",
+  "startedAt": "2026-10-31T01:39:59.029551+00:00",
+  "endedAt": "2026-10-31T03:59:25.172380+00:00",
+  "requests": 2939,
+  "googleRequests": 1771,
+  "statuses": {
+    "200": 2939
+  },
+  "requestClasses": {
+    "database": 1049,
+    "gemini_generation": 1522,
+    "gemini_embedding": 249,
+    "jev": 119
+  },
+  "incompleteFooter": 0,
+  "nonzeroCurlExit": 0,
+  "expiredWithoutDispatchRecordedByHelper": 0,
+  "googlePreCurlStartGapMs": {
+    "min": 4501,
+    "p50": 4595.0,
+    "p95": 4670,
+    "max": 16879
+  },
+  "queueWaitMsBeforeToolDispatch": {
+    "min": 16,
+    "p50": 2035,
+    "p95": 3790,
+    "max": 4029
+  },
+  "networkDurationMs": {
+    "min": 65,
+    "p50": 907,
+    "p95": 2404,
+    "max": 16320
+  },
+  "ownerLockExists": false,
+  "runnerLockExists": false,
+  "readyRequestsRemaining": 0,
+  "claimedWithoutDoneRemaining": 0,
+  "watcherFinalPhase": "stop-requested",
+  "watcherFinalTimestamp": "2026-10-31T03:59:05.484624+00:00",
+  "watcherExitCode": "not separately available after completed functions cell; no live watcher session remains",
+  "helperSha256": "6ba272427fe573c5a3a345eb5351907d5029dddc472741f07ebde8559d966f33",
+  "sourceOrHelperEditedDuringRun": false,
+  "limitations": [
+    "All200 counts describe dispatched responses, not all episode outcomes or answer accuracy.",
+    "Pre-curl timestamps precede external tool execution and are not actual network packet timestamps.",
+    "One late final generation completed after caller timeout; three following queued requests expired undelivered.",
+    "Final database fingerprint unavailable; no unchanged-data claim for this run."
+  ]
+}

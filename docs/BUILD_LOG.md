@@ -1,8 +1,6 @@
 # Build log
 
-> Current save: 2026-10-29 America/New_York. This log is chronological: earlier failures, pending checks and proposed tools describe their point in time. [CHECKPOINT.md](../CHECKPOINT.md), [verification](VERIFICATION.md) and [hosting](HOSTING.md) hold the reconciled latest state. Latest full CI passed 101 backend tests, 10 browser workflows and Docker persistence; the protected hosted demo is live, while Gemini generation timed out.
-
-> Checkpoint updated 2026-10-29. The user requested a session checkpoint after the completed Daybook redesign. Current state, continuation instructions, and outstanding checks are saved in [CHECKPOINT.md](../CHECKPOINT.md).
+> Current save: 2026-10-30 America/New_York. This is a chronological engineering record. Earlier failures and pending checks describe their point in time; [CHECKPOINT.md](../CHECKPOINT.md) holds the current state. The corrected research runtime passed full CI, the final development freeze is complete, and the held-out comparison is running. The deployed accounting application remains unchanged.
 
 This is the running engineering record for Daybook, built for the Spiich assignment. Completed work and observed checks are recorded separately from plans. No scale or verification claim is implied by a planned item.
 
@@ -343,3 +341,21 @@ Published executable `0fe267b03b7baa0a2ff43c58165301b74261afa9`; full CI 4115503
 Internal review confirmed symmetric custom/Wren scope handling, real reviewer calls and retained usage. No new measurement blocker was found. Conservative ambiguous-operand withholding, wrong derived citations, missing formal tags and absent baseline capabilities remain failures. R2's correctly cited hiring calculation succeeded, demonstrating that the arithmetic/citation guard can accept the valid scenario. These reused development cases do not provide a held-out accuracy estimate or select an architecture.
 
 Final freezing succeeded at source hash `fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08`, binding the preserved development calibration and threshold 0.8 before any held-out attempt. The corrected smoke used $0.14623505 Gemini and $0.000755538 Jev; additional funded totals are $0.3494256/$0.001807722, including unknown-use reservations. The remaining task is the full frozen 1,620/240 comparison, final statistical/visual report, recommendation and evidence publication. Production is unchanged.
+
+### 2026-10-30 — Held-out comparison started under frozen conditions
+
+After publishing the development freeze checkpoint as `2b9b854f7169b3e6ee692bb3adfe966b60935414`, started `holdout-v1` at 2026-10-31T01:40:11.152Z. All nine routes, 60 held-out questions and three repetitions are scheduled, totaling 1,620 episodes. The continuous dispatcher was active first; runner, protocol, source, fixture, index and reviewer threshold bindings remain fixed. No runtime or threshold tuning is permitted based on these outcomes. Blocks, provider errors and unknown-use reservations remain visible.
+
+Prepared the final report structure and interview explanation while evaluation runs. These distinguish the deployed product from research integrations, exact financial evidence from retrieval, and model review from proof. No partial result is used to name a winner. A separate 240-outcome held-out reviewer evaluation, final integrity audit, analyses, visual report inspection, recommendation and source/archive publication remain required.
+
+### 2026-10-30 — First held-out pass integrity checkpoint
+
+The first 540 planned episodes completed and the unchanged runner continued into repetition two. A read-only internal audit verified all 60 questions × nine routes × repeat zero exactly once, complete scoring of those outcomes, preserved errors, fixed source/protocol/data/index/reviewer bindings, real route-specific provider calls and reconciled costs/reservations. The sanitized receipt is `docs/evidence/research-holdout-first-pass-check.json`. No provider or database request was added for this audit, and no partial ranking or implementation change was made. The full 1,620-trial run, final data fingerprint and separate reviewer holdout remain pending.
+
+### 2026-10-31 UTC — Transport interruption preserved; bounded recovery prepared
+
+The main held-out runner stopped at777/1,620 after three transport timeouts opened its persisted circuit. The last dispatched request completed roughly116.8seconds after the helper's pre-tool timestamp, while curl measured1.508seconds of network time. Tool-orchestration delay is an inference; the exact platform cause is unknown. Two later generation requests and the final database check were never dispatched. Archived every original outcome/report/usage/fingerprint artifact and retained all unknown reservations. No failed episode was retried.
+
+Prepared a separate local launch guard that checks absolute expiry at actual command launch;22 synthetic tests, a harmless file-only invocation and independent review passed. Implemented an external one-shot transport recovery tool with unchanged financial caps and frozen inference source. Initial34 new plus28 existing recovery tests and TypeScript checks passed; root found and is correcting a clean-checkout test portability dependency before live use. This operational amendment neither changes a model route nor fabricates quota evidence. The provider probe, fresh data fingerprint, remaining843trials, reviewer holdout and final report remain pending. See [incident and recovery record](research/TRANSPORT_INCIDENT.md).
+
+The clean-checkout dependency was corrected before any live recovery. Final35 new and28 existing recovery tests (63total), strict TypeScript and formatting passed. Independent review reran35tests in both the workspace and a clean checkout without private `.tools`; both passed. Tool SHA`faa94ebac9bd3bab18afe8a652bff1bf06e711986f749baf0cc9799cda572d8e`. The frozen inference hash remains`fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08`. Publication/cloud verification follows before any permit or provider probe.

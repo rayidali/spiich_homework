@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "daybook-interruption-snapshot-v1",
+  "runId": "holdout-v1",
+  "interruptionId": "interruption-01",
+  "archivedAt": "2026-10-31T04:05:21.394Z",
+  "state": "incomplete",
+  "recordedEpisodes": 777,
+  "plannedEpisodes": 1620,
+  "remainingEpisodes": 843,
+  "sourceHash": "fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08",
+  "protocolHash": "525016c029d869198d0129f676f40e282fc3f7cc9ff60059f4fde68528a25d49",
+  "indexHash": "f0420b1c0fc1dda49d4cbc937f2fce4c57f43660688de0c5a4914d001279a2a1",
+  "verifierConfigHash": "d44bc306028ba66bb1cb7877db05bf1c95d9938768e144781a05e58df96e64db",
+  "verifierThreshold": 0.8,
+  "sourceRevision": "2b9b854f7169b3e6ee692bb3adfe966b60935414",
+  "finalFingerprintVerified": false,
+  "snapshotIntegrity": {
+    "status": "unverified",
+    "before": "2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c",
+    "after": null,
+    "scope": "ledger_and_corpus",
+    "reason": "AFTER_CHECK_UNAVAILABLE"
+  },
+  "originalLastFailures": [
+    {
+      "id": "holdout-v1:R7:documents-08-2:1",
+      "status": "error",
+      "error": "RESEARCH_HTTP_TIMEOUT",
+      "durationMs": 25021
+    },
+    {
+      "id": "holdout-v1:R0:documents-09-1:1",
+      "status": "error",
+      "error": "RESEARCH_HTTP_TIMEOUT",
+      "durationMs": 25024
+    },
+    {
+      "id": "holdout-v1:R1:documents-09-1:1",
+      "status": "error",
+      "error": "RESEARCH_HTTP_TIMEOUT",
+      "durationMs": 25029
+    },
+    {
+      "id": "holdout-v1:R2:documents-09-1:1",
+      "status": "error",
+      "error": "RESEARCH_PROVIDER_CIRCUIT_OPEN",
+      "durationMs": 13
+    }
+  ],
+  "unknownGenerationReservations": {
+    "totalUsd": 0.0265945,
+    "records": [
+      {
+        "id": "2c576b4e-eb4f-4410-b2fc-6a41f748a944",
+        "episode": "holdout-v1:R7:documents-08-2:1",
+        "provider": "gemini",
+        "kind": "generate",
+        "model": "gemini-3.5-flash-lite",
+        "status": null,
+        "estimatedUsd": null,
+        "reserveUsd": 0.0094699,
+        "durationMs": null
+      },
+      {
+        "id": "59238ad3-2e32-4b3d-bd9a-772fd7ee6b19",
+        "episode": "holdout-v1:R0:documents-09-1:1",
+        "provider": "gemini",
+        "kind": "generate",
+        "model": "gemini-3.5-flash-lite",
+        "status": null,
+        "estimatedUsd": null,
+        "reserveUsd": 0.007676,
+        "durationMs": null
+      },
+      {
+        "id": "c653b931-9988-4527-91ce-a3a16466aa63",
+        "episode": "holdout-v1:R1:documents-09-1:1",
+        "provider": "gemini",
+        "kind": "generate",
+        "model": "gemini-3.5-flash-lite",
+        "status": null,
+        "estimatedUsd": null,
+        "reserveUsd": 0.0094486,
+        "durationMs": null
+      }
+    ]
+  },
+  "integrity": {
+    "episodePrefixSHA256": "ede8f360706dfca231ddfcef614bf1d1aeaf339221744157b2cc81b45ade0584",
+    "originalOutcomesPreserved": true,
+    "existingArtifactsModified": false,
+    "providerOrDatabaseCalls": 0
+  },
+  "notes": [
+    "Exact copies of the stopped public artifacts; later same-ID continuation may replace top-level summaries but must preserve this interruption snapshot and the777-record episode prefix.",
+    "The final full ledger/document/vector fingerprint was unavailable. No final snapshot equality or whole-run completion is claimed.",
+    "The three transport-timeout generations retain unknown usage and conservative reservations. Their absent service durations are unknown, not measured zero.",
+    "The fourth failure is the locally recorded open-circuit stop. All four remain failed episodes; continuation must not replace them.",
+    "Dispatcher cause and recovery evidence are separate reviewed operational artifacts; this snapshot alone does not establish whether a timed-out request reached the provider.",
+    "No route ranking, quality interpretation, reference-label inspection or tuning is part of this archive."
+  ]
+}

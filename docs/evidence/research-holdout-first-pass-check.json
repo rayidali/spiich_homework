@@ -1,0 +1,202 @@
+{
+  "schemaVersion": "daybook-holdout-milestone-v1",
+  "checkedAt": "2026-10-31T03:16:17.571Z",
+  "runId": "holdout-v1",
+  "milestone": "first complete pass: repeat 0 only",
+  "verdict": "PASS",
+  "scope": "Read-only artifact and current local source/configuration integrity audit; no database/provider request, final fingerprint claim, quality ranking or tuning.",
+  "sourceHash": "fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08",
+  "protocolHash": "525016c029d869198d0129f676f40e282fc3f7cc9ff60059f4fde68528a25d49",
+  "datasetHash": "9103a8a057e514d8515390a585866e751460714f4a057bde85e7758f962775fd",
+  "indexHash": "f0420b1c0fc1dda49d4cbc937f2fce4c57f43660688de0c5a4914d001279a2a1",
+  "verifierConfigHash": "d44bc306028ba66bb1cb7877db05bf1c95d9938768e144781a05e58df96e64db",
+  "verifierThreshold": 0.8,
+  "expectedWholeRunEpisodes": 1620,
+  "observedAtRead": {
+    "episodes": 551,
+    "scoredEpisodes": 549,
+    "usageRecords": 1317
+  },
+  "firstPass": {
+    "episodes": 540,
+    "questionCount": 60,
+    "routeCount": 9,
+    "repeat": 0,
+    "familyCoverage": {
+      "adversarial": 90,
+      "analytics": 90,
+      "documents": 90,
+      "entry": 90,
+      "financial": 90,
+      "scenario": 90
+    },
+    "statusCounts": {
+      "blocked": 89,
+      "error": 7,
+      "ok": 444
+    },
+    "errorEpisodeIds": [
+      "holdout-v1:R6:analytics-07-2:0",
+      "holdout-v1:R3:analytics-08-1:0",
+      "holdout-v1:R6:scenario-06-1:0",
+      "holdout-v1:R4:scenario-06-2:0",
+      "holdout-v1:R3:scenario-06-2:0",
+      "holdout-v1:R7:scenario-08-1:0",
+      "holdout-v1:R0:entry-09-1:0"
+    ],
+    "hardGateEpisodes": 0,
+    "usageRecords": 1298,
+    "providerCallKinds": {
+      "gemini:critic": 43,
+      "gemini:embed": 170,
+      "gemini:file-search-query": 36,
+      "gemini:generate": 969,
+      "jev:jev-rerank": 36,
+      "jev:jev-verify": 44
+    },
+    "unknownUsageKinds": {
+      "gemini:embed": 170
+    },
+    "providerStatusCounts": {
+      "200": 1298
+    },
+    "perRouteAccounting": [
+      {
+        "route": "R0",
+        "episodes": 60,
+        "calls": 60,
+        "reviewedEpisodes": 0,
+        "reportedUsageEquivalentUsd": 0.0895217,
+        "unknownUsageReservationUsd": 0,
+        "budgetChargedUsd": 0.0895217
+      },
+      {
+        "route": "R1",
+        "episodes": 60,
+        "calls": 113,
+        "reviewedEpisodes": 0,
+        "reportedUsageEquivalentUsd": 0.1435541,
+        "unknownUsageReservationUsd": 0,
+        "budgetChargedUsd": 0.1435541
+      },
+      {
+        "route": "R2",
+        "episodes": 60,
+        "calls": 114,
+        "reviewedEpisodes": 0,
+        "reportedUsageEquivalentUsd": 0.1809342,
+        "unknownUsageReservationUsd": 0,
+        "budgetChargedUsd": 0.1809342
+      },
+      {
+        "route": "R3",
+        "episodes": 60,
+        "calls": 149,
+        "reviewedEpisodes": 0,
+        "reportedUsageEquivalentUsd": 0.2814658,
+        "unknownUsageReservationUsd": 0,
+        "budgetChargedUsd": 0.2814658
+      },
+      {
+        "route": "R4",
+        "episodes": 60,
+        "calls": 149,
+        "reviewedEpisodes": 0,
+        "reportedUsageEquivalentUsd": 0.17625,
+        "unknownUsageReservationUsd": 0.0116961,
+        "budgetChargedUsd": 0.1879461
+      },
+      {
+        "route": "R5",
+        "episodes": 60,
+        "calls": 185,
+        "reviewedEpisodes": 0,
+        "reportedUsageEquivalentUsd": 0.177140384,
+        "unknownUsageReservationUsd": 0.01202505,
+        "budgetChargedUsd": 0.189165434
+      },
+      {
+        "route": "R6",
+        "episodes": 60,
+        "calls": 141,
+        "reviewedEpisodes": 0,
+        "reportedUsageEquivalentUsd": 0.1637045,
+        "unknownUsageReservationUsd": 0.00901395,
+        "budgetChargedUsd": 0.17271845
+      },
+      {
+        "route": "R7",
+        "episodes": 60,
+        "calls": 192,
+        "reviewedEpisodes": 43,
+        "reportedUsageEquivalentUsd": 0.2016388,
+        "unknownUsageReservationUsd": 0.01170825,
+        "budgetChargedUsd": 0.21334705
+      },
+      {
+        "route": "R8",
+        "episodes": 60,
+        "calls": 195,
+        "reviewedEpisodes": 44,
+        "reportedUsageEquivalentUsd": 0.177489954,
+        "unknownUsageReservationUsd": 0.01237095,
+        "budgetChargedUsd": 0.189860904
+      }
+    ]
+  },
+  "checks": {
+    "exact540FirstPass": true,
+    "questionMembershipMatchesSource": true,
+    "metadataMatchesSource": true,
+    "balancedRouteCoverage": true,
+    "balancedFamilyCoverage": true,
+    "everyFirstPassOutcomeScored": true,
+    "failedEpisodesNotDropped": true,
+    "allDurationsRecorded": true,
+    "uniqueUsageRecords": true,
+    "knownAndUnknownCostsRetained": true,
+    "reviewCallsMatchSavedReviews": true,
+    "componentCallPathsMatchDeclaredRoutes": true,
+    "modelsMatchManifest": true,
+    "sourceUnchanged": true,
+    "protocolUnchanged": true,
+    "datasetManifestUnchanged": true,
+    "indexBindingUnchanged": true,
+    "verifierConfigUnchanged": true,
+    "freezeMatchesSourceAndThreshold": true,
+    "wholeRunCorrectlyIncomplete": true,
+    "checkpointDenominatorConsistent": true
+  },
+  "failedChecks": [],
+  "artifactHashes": {
+    "manifestFile": "670ddd021f4a805641bbe43002f25f7b27c25f724b0c099998627aa4cc9c0dcd",
+    "first540EpisodeRecords": "2308cc571b71d5a580d8a8d698d8a7b777864d6fc4978099e07e41d0402858f5",
+    "firstPassUsageRecords": "b4e08340298dccc3ed22e0c94210ceefcc7c9de38e02481c341fc59fd3e9ca10",
+    "checkpointResultsFile": "597fb7007f3986ad8bdfbbd0a354f60371a50653c8e03950542edc87f2adaf23",
+    "verifierFreezeFile": "91828d73e723c0e8cd79c64c5107dcb34cc0458aea9e8bf4f10fb65bd4c709e5"
+  },
+  "snapshotIntegrity": {
+    "status": "unverified",
+    "before": "2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c",
+    "after": null,
+    "scope": "ledger_and_corpus",
+    "reason": "Final complete ledger/document/embedding fingerprint is pending."
+  },
+  "limitations": [
+    "The runner remains active. Records after the first540 are outside this milestone; checkpoint report and usage files may advance immediately after this read.",
+    "The before fingerprint is recorded, but no database read was made for this audit and the final complete ledger/document/vector fingerprint remains pending.",
+    "All statuses, including blocked and error, remain outcomes. This receipt does not rank routes or interpret partial quality scores.",
+    "Paid-equivalent estimates and conservative unknown-usage reservations are not provider invoices. Unknown embedding usage is retained as a reservation.",
+    "This is an internal automated-artifact audit, not independent human adjudication of answers."
+  ],
+  "checkpointCostReconciliation": {
+    "checkedAt": "2026-10-31T03:16:59.835Z",
+    "checkpointScoredEpisodes": 549,
+    "checkpointResultsHash": "597fb7007f3986ad8bdfbbd0a354f60371a50653c8e03950542edc87f2adaf23",
+    "allRouteCallCountsMatch": true,
+    "allRouteBudgetChargesMatch": true,
+    "allRouteUnknownReservationsMatch": true,
+    "absoluteUsdTolerance": 1e-9,
+    "note": "May be a later active-run checkpoint than the first-pass capture; all route totals reconcile to the same checkpoint scored episode IDs."
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "runId": "holdout-v1",
+  "createdAt": "2026-10-31T04:00:51.539939+00:00",
+  "lastRecordedDispatch": {
+    "runId": "holdout-v1",
+    "at": "2026-10-31T03:59:24.971154+00:00",
+    "kind": "gemini_generation",
+    "google": true,
+    "startMs": 1793419048127,
+    "queueWaitMs": 3248,
+    "googleStartGapMs": 4646,
+    "completeFooter": true,
+    "status": 200,
+    "durationMs": 1508,
+    "exitCode": 0
+  },
+  "queueObservations": [
+    {
+      "configCreatedAt": "2026-10-31T03:57:24.879230+00:00",
+      "metadataCreatedAt": "2026-10-31T03:57:24.879Z",
+      "expiresAtMs": 1793419069879,
+      "kind": "gemini_generation",
+      "claimed": true,
+      "completeFooterPresent": true,
+      "completionFooter": "200 1.507801 0 DAYBOOK_HTTP_DONE_V1",
+      "completionFileAt": "2026-10-31T03:59:24.905198+00:00",
+      "responseFileAt": "2026-10-31T03:59:24.904207+00:00"
+    },
+    {
+      "configCreatedAt": "2026-10-31T03:57:50.109577+00:00",
+      "metadataCreatedAt": null,
+      "expiresAtMs": null,
+      "kind": "gemini_generation",
+      "claimed": false,
+      "completeFooterPresent": false,
+      "completionFooter": null,
+      "completionFileAt": null,
+      "responseFileAt": null
+    },
+    {
+      "configCreatedAt": "2026-10-31T03:58:15.148249+00:00",
+      "metadataCreatedAt": null,
+      "expiresAtMs": null,
+      "kind": "gemini_generation",
+      "claimed": false,
+      "completeFooterPresent": false,
+      "completionFooter": null,
+      "completionFileAt": null,
+      "responseFileAt": null
+    },
+    {
+      "configCreatedAt": "2026-10-31T03:58:40.175020+00:00",
+      "metadataCreatedAt": null,
+      "expiresAtMs": null,
+      "kind": "database",
+      "claimed": false,
+      "completeFooterPresent": false,
+      "completionFooter": null,
+      "completionFileAt": null,
+      "responseFileAt": null
+    }
+  ],
+  "interpretation": {
+    "classification": "dispatch_orchestration_delay",
+    "certainty": "The late completion and unclaimed subsequent requests are observed; underlying execution-platform suspension is inferred.",
+    "providerSlowResponseSupported": false,
+    "observedPostStartToCompletionMs": 116844,
+    "reportedNetworkDurationMs": 1508,
+    "networkStartEstimate": "About 03:59:23.397Z from completion file mtime minus curl total_time; an inference, not a packet-level timestamp.",
+    "originalTimedOutEpisodes": [
+      "holdout-v1:R7:documents-08-2:1",
+      "holdout-v1:R0:documents-09-1:1",
+      "holdout-v1:R1:documents-09-1:1"
+    ],
+    "subsequentCircuitOpenEpisode": "holdout-v1:R2:documents-09-1:1",
+    "finalRead": "Queued 03:58:40.175Z, unclaimed, final fingerprint unavailable.",
+    "lateSuccessfulRequest": "Retain original timeout outcome and unknown-use reservation; do not convert it into a successful episode."
+  },
+  "actions": {
+    "retries": 0,
+    "sourceChanges": 0,
+    "helperChanges": 0,
+    "budgetOrReservationChanges": 0,
+    "dispatcherRestarted": false
+  },
+  "helperSha256": "6ba272427fe573c5a3a345eb5351907d5029dddc472741f07ebde8559d966f33"
+}

@@ -1,12 +1,22 @@
 # Verification record
 
+## Current frozen study — 2026-10-30
+
+Executable `0fe267b03b7baa0a2ff43c58165301b74261afa9` passed [full CI 41155033249](https://github.com/rayidali/spiich_homework/actions/runs/41155033249): application/backend/browser verification, Docker startup/persistence and native Wren/pgvector checks. Live-AI was skipped in CI. The matching local source passed **511 isolated TypeScript tests, 35 actual Wren Python tests, nine PDF exporter tests, strict TypeScript/production build and formatting**. [Local evidence](evidence/research-local-v4.json), [CI evidence](evidence/research-ci-v4.json).
+
+The final corrected development smoke completed **54/54**: 40 execution successes, 13 withheld responses and one preserved response-contract error; 28 structured task successes. All 190 transport requests returned HTTP 200 with complete footers; this does not make every model response valid. Source/protocol and the full scoped ledger/document/vector fingerprint remained unchanged. Internal review found no new measurement blocker, while conservative scope/citation limitations remain documented. [Smoke evidence](evidence/research-smoke-v4-check.json), [run explanation](evidence/research-runs/smoke-v4/README.md).
+
+Final source hash `fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08` and reviewer threshold **0.8** were frozen before held-out attempts. **The 1,620-episode main held-out run is active; the separate 240-outcome reviewer evaluation and final analyses remain pending.** Partial outcomes cannot establish final accuracy or an architecture winner. [Pre-run freeze](evidence/research-verifiers/verifiers-v1/verifier-freeze.json), [main manifest](evidence/research-runs/holdout-v1/manifest.json).
+
+The sections below are chronological evidence from earlier checkpoints. Their statements about pending work apply to those dates, not to the current run. Original failures and incomplete runs are preserved.
+
 ## Shared evidence-scope correction — 2026-10-30
 
 The complete funded smoke recorded 54/54 episodes with unchanged source/data, 47 execution successes, seven validation blocks and zero execution errors. Its [validity notice](evidence/research-runs/smoke-v3/validity-notice.json) identifies asymmetric period metadata between custom and Wren evidence; it cannot select an architecture.
 
 The correction derives row period/identity/grain from validated plans or supported Wren ASTs, applies the same checks to both backends and R0, and fails closed on ambiguous scope. Internal code review found and corrected daily movements masquerading as balances, omitted raw-row identity, grouped vendor collapse and arithmetic wrappers erasing source scope. This is qualifier/provenance verification, not complete economic semantics or human prose adjudication.
 
-Source hash `fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08` passed **511 isolated tests in 32 files**, strict TypeScript/production build, global formatting, **35 actual Wren Python tests** and **nine PDF exporter tests**. [Local evidence](evidence/research-local-v4.json). The common-capability source amendment preserves all membership. Prompts, reference labels, fixtures and previous outcomes are unchanged. Fresh full CI and `smoke-v4` follow; no held-out result is claimed.
+Source hash `fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08` passed **511 isolated tests in 32 files**, strict TypeScript/production build, global formatting, **35 actual Wren Python tests** and **nine PDF exporter tests**. [Local evidence](evidence/research-local-v4.json). The common-capability source amendment preserves all membership. Prompts, reference labels, fixtures and previous outcomes are unchanged. Full CI and `smoke-v4` subsequently completed as recorded above; no final held-out result is claimed.
 
 ## Funded continuation checks — 2026-10-30
 
@@ -22,9 +32,9 @@ The following one-request restriction was superseded by the explicit funded allo
 
 The replacement local Gemini key passed exactly one fixed availability request: HTTP 200, 878 ms, 14 input/5 output tokens, $0.0000167 paid-equivalent estimated usage. [Receipt](evidence/gemini-key-check-2026-10-30.json). No study questions, documents, indexing, Jev requests or hosted deployment were involved. Account balance, project identity, remaining quota and existing File Search access are unverified.
 
-A persistent one-request/$0.01 additional Gemini/$0 Jev policy remains in force after the success. A reconstructed default-budget instance rejected an ordinary call before reaching transport; all 840 previous usage records are preserved, with one new probe record. [Policy verification](evidence/gemini-frugal-checkpoint.json). Missing/malformed policy, changed history, wrong key, extra requests and unknown usage have offline coverage. The new revision passed **417 tests in 27 files** and strict TypeScript/production build. Published revision `675a7c4` passed [full CI 41147321748](https://github.com/rayidali/spiich_homework/actions/runs/41147321748): application/browser, Docker/persistence and native Wren/pgvector jobs succeeded; live-AI was skipped. [Sanitized CI evidence](evidence/research-ci-key-guard.json). The cloud result in the historical section below predates this guard.
+At that historical checkpoint, a persistent one-request/$0.01 additional Gemini/$0 Jev policy remained in force after the success. A reconstructed default-budget instance rejected an ordinary call before reaching transport; all 840 previous usage records are preserved, with one new probe record. [Policy verification](evidence/gemini-frugal-checkpoint.json). Missing/malformed policy, changed history, wrong key, extra requests and unknown usage have offline coverage. The new revision passed **417 tests in 27 files** and strict TypeScript/production build. Published revision `675a7c4` passed [full CI 41147321748](https://github.com/rayidali/spiich_homework/actions/runs/41147321748): application/browser, Docker/persistence and native Wren/pgvector jobs succeeded; live-AI was skipped. [Sanitized CI evidence](evidence/research-ci-key-guard.json). The cloud result in the historical section below predates this guard.
 
-No larger budget answer or additional study run exists. The following section records the previous published checkpoint.
+At that checkpoint, no larger budget answer or additional study run existed. The subsequent funded allowance superseded this stop while preserving its records. The following section records the earlier published checkpoint.
 
 ## Previous research checkpoint — 2026-10-30
 

@@ -1,18 +1,22 @@
-# Daybook AI accounting architecture: progress report, held-out results pending
+# Evaluating AI architectures for accounting: the Daybook nine-route study
 
-**Status: 2026-10-30.** The nine experimental routes are implemented. The development reviewer study and first 108-episode route pilot are recorded. The first pilot exposed adapter and planner defects; the second, `pilot-v2`, stopped at **101/108 episodes** after Gemini's daily free-tier quota was exhausted. Both are **ineligible for architecture selection**. V2's complete scoped data fingerprint was unchanged, but missing attempts, an inferred completion-read race and a control-metadata limitation prevent a fair final ranking. Post-pilot corrections passed offline verification; their live effect on study outcomes is unmeasured. A replacement key passed one tiny availability probe. The user subsequently funded Gemini and authorized continuation under a $6.40 additional tracked allowance. The current-key managed index is verified at 39 active authorized documents. The final funded development smoke completed 54/54 episodes with unchanged data, but exposed a date-scope evidence asymmetry that is being corrected before another separately named development check and final freezing. **The planned 1,620 held-out route episodes and 240 held-out reviewer outcomes have not run.** This report names no winning architecture.
+**In progress — 2026-10-30, America/New_York.** The final `holdout-v1` evaluation has started: **1,620 planned route episodes**, followed by **240 planned held-out reviewer outcomes**. These are planned denominators, not completed measurements. The runtime, data, index, protocol and reviewer threshold are frozen. This document is a report scaffold while evaluation runs; it does not interpret partial outcomes, report final accuracy or select a winner.
 
-The deployed Daybook application remains separate and unchanged by these experiments. Research routes use a synthetic workspace, restricted database access, and review-only entry proposals. They have not been enabled in the production chat.
+The [run manifest](../evidence/research-runs/holdout-v1/manifest.json) binds the evaluated source to `fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08`. The [public pre-run freeze](../evidence/research-verifiers/verifiers-v1/verifier-freeze.json) preserves the development-selected Jev threshold of **0.8** and the reference/calibration hashes. The last development check, [smoke-v4](../evidence/research-runs/smoke-v4/README.md), completed before this freeze. Its results are development evidence, not held-out accuracy.
+
+The main run was temporarily stopped at **777/1,620** after an observed dispatcher timing gap caused three timeouts and a circuit-open stop. Its exact interruption is archived; [bounded transport recovery](../research/TRANSPORT_INCIDENT.md) is being prepared without changing the frozen inference source or retrying failed trials. The final data fingerprint is currently unavailable.
+
+The deployed accounting application is unchanged. Research uses synthetic data, restricted read-only financial access, and review-only entry proposals. No research route has been promoted into production chat.
 
 ## Abstract
 
-An accounting assistant must do two different jobs: calculate correctly from the books and understand information written in documents. A language model can help interpret a question, retrieve relevant evidence, and explain an answer, but plausible wording does not establish financial correctness. We implemented nine controlled configurations to compare broader analytical tools, document retrieval, Gemini File Search, Gemini embeddings with PostgreSQL vector search, Jev reranking, Wren semantic queries, and additional answer reviewers.
+An accounting assistant must combine exact financial calculations with interpretation of documents and questions. A plausible explanation is insufficient: an answer can use the wrong period, confuse an invoice with a cash receipt, retrieve an obsolete policy, or cite a number that does not support its claim. We implement nine controlled configurations to measure the contribution of broader analytical tools, lexical retrieval, managed Gemini File Search, Gemini embeddings with pgvector, Jev reranking, Wren analytics, and two optional semantic reviewers.
 
-The benchmark contains 120 questions in 60 paraphrase groups across six task families. Development and held-out sets contain separate scenario groups. Financial references use independently implemented exact decimal calculations; documentary and semantic labels are synthetic and have not received independent human adjudication. The primary outcome is structured task success. Additional measures include error rates, provenance, latency, cost, and unsafe acceptance versus unnecessary withholding. Human prose quality remains unmeasured.
+The main benchmark contains 120 synthetic questions in 60 paraphrase groups across six task families. Development and held-out groups are disjoint. The held-out design evaluates 60 questions three times through each route. A separate reviewer study evaluates correct and deliberately flawed candidates against identical supplied evidence. Independent exact-decimal reference arithmetic checks financial values; document and semantic labels have not received independent human adjudication.
 
-Development reviewer testing produced 240 recorded outcomes: 80 candidates evaluated by each of three methods. Four Gemini requests returned HTTP 429 and remain errors in the record. The initial route pilot recorded all 108 planned outcomes with unchanged data, but diagnosed implementation and measurement defects make its scores unsuitable for architecture selection. V2 recorded 101 outcomes before a 500-request daily project/model quota and the persistent failure circuit stopped further work. Its data remained unchanged. These development records support debugging and failure analysis; they do not establish which complete route should ship. Final conclusions require completed held-out measurements, unchanged source/data fingerprints, and no disqualifying safety failure.
+The primary outcome is six-family macro structured task success, with errors retained in the denominator. Secondary outcomes include paired component effects, evidence coverage, unsafe acceptance, unnecessary withholding, latency, and tracked provider cost. Controls, practical-benefit thresholds, and conservative interpretation rules were fixed before held-out evaluation. **Results and the architecture recommendation remain pending complete, eligible measurements.** Development failures are preserved separately and cannot substitute for that evidence.
 
-## 1. The idea, explained through one business
+## 1. Problem and a worked example
 
 Imagine you run a small design studio. Daybook is the notebook that records its money, and the chatbot is an assistant who can read the notebook and the studio's documents.
 
@@ -47,228 +51,268 @@ A useful answer is: **“Under your stated assumptions, this hire leaves $90,375
 
 The numbers are traceable to the [synthetic source documents](../../research/fixtures/documents.json), [independent reference implementation](../../research/reference.ts), and [fixture verification](../evidence/research-fixture-check.json). They illustrate the intended reasoning; they are not a claim that every route successfully answered the question.
 
-## 2. Why three different tools are involved
+## 2. System architecture and authority boundaries
 
-Think of these as three separate helpers:
+The product separates three jobs that are easy to confuse:
 
-| Helper                             | Everyday analogy                         | Its real responsibility                                                                                           |
-| ---------------------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| Accounting database and calculator | The official notebook plus a calculator  | Retrieve posted entries, respect dates/currencies, and calculate exact totals.                                    |
-| Retrieval                          | A librarian finding the relevant pages   | Find the current hiring worksheet, signed contract, or policy.                                                    |
-| Semantic reviewer                  | A second person checking the explanation | Look for a wrong interpretation, missing assumption, unsupported statement, or malicious instruction in evidence. |
+| Responsibility                     | Plain-language explanation                                                 | Implementation                                                               |
+| ---------------------------------- | -------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Financial truth                    | The official notebook and calculator                                       | Posted journal entries in PostgreSQL; exact-decimal queries and calculations |
+| Finding relevant information       | A librarian locating the right document                                    | Lexical search, managed File Search, or custom hybrid retrieval              |
+| Interpreting and checking language | An assistant drafting an explanation, optionally checked by another reader | Gemini planning/answer generation; optional Gemini or Jev review             |
 
-An embedding is a numerical representation of text that helps find related meanings. It can connect “employer burden” with “benefits and payroll taxes” even when the words differ. **pgvector** stores and searches those representations inside PostgreSQL. It does not replace accounting calculations or automatically determine whether a document is current.
+An **embedding** represents text as numbers that help find related meanings. It can connect “employer burden” to “benefits and payroll taxes.” **pgvector** searches those representations within PostgreSQL. Neither embeddings nor vector distance compute an account balance or establish that a contract is current.
 
-**Gemini File Search** supplies a managed alternative for finding documents. In this implementation, its Interactions API returns source citations; the harness resolves those citations to the authorized original documents. Google manages that search path, while our application still controls the workspace, evidence handling, calculations, and answer checks. Its citation order does not expose a raw ranking of all retrieved passages.
+**Gemini File Search** is the managed retrieval alternative. This implementation uploads/indexes the authorized document corpus and uses the Interactions API for source selection. The harness resolves returned citations to authorized original documents before the shared answer stage. Its source citations do not expose a raw ranking of all passages, so we do not invent ranking metrics for that path. Accounting balances remain database queries, not documents exported for the model to sum.
 
-**Jev reranking** asks which candidate passages are more relevant after an initial search. **Jev verification** asks whether the proposed answer exhibits specified problems. They are separate roles in separate routes. **Wren** is tested as the semantic query backend: it turns queries over declared business models into SQL over approved views. It does not replace document retrieval or supply a universal correctness guarantee.
-
-The question is therefore not whether one vendor has “all the features.” It is whether a particular component improves a measured part of our product enough to justify its cost, latency, and maintenance.
-
-## 3. Implemented architecture
+**Jev reranking** scores relevance among retrieved candidates. **Jev verification** checks a candidate answer for specified problems. They are separate interventions. **Wren** expands queries over a declared business model into SQL over approved views; in R6 it replaces the custom analytical compiler while retaining R4's retrieval. It is not an additional database of financial truth.
 
 ```mermaid
 flowchart TD
-    U[User question and trusted workspace] --> P[Gemini: interpret question and propose bounded plan]
-    P --> Q{Analytical route}
-    Q --> C[Custom typed plan to parameterized SQL]
-    Q --> W[Wren semantic planning and SQL checks]
+    U[Question and trusted workspace] --> P[Gemini chooses a bounded plan]
+    P --> Q{Declared analytical backend}
+    Q --> C[Typed plan compiled to parameterized SQL]
+    Q --> W[Wren planning and SQL checks]
     C --> DB[(Restricted PostgreSQL views)]
     W --> DB
-    P --> R{Document route}
+    P --> R{Declared document retrieval}
     R --> L[Lexical search]
-    R --> F[Gemini File Search source selection]
-    R --> H[Lexical plus Gemini embeddings in pgvector]
+    R --> F[Managed File Search]
+    R --> H[Lexical plus embeddings in pgvector]
     H --> J[Optional Jev reranking]
-    L --> E[Authorized evidence with IDs and versions]
+    L --> E[Authorized sources with IDs and versions]
     F --> E
     H --> E
     J --> E
-    DB --> CALC[Exact decimal calculations and typed source facts]
-    E --> A[Gemini structured answer with citations and assumptions]
-    CALC --> A
-    A --> V[Mandatory code validation]
-    V --> PASS{Optional semantic review}
-    PASS --> G[Separate Gemini reviewer]
-    PASS --> JV[Jev reviewer]
-    PASS --> OUT[Release validated answer or withhold]
-    G --> OUT
-    JV --> OUT
-    V --> BLOCK[Reject invalid output]
+    DB --> T[Typed financial evidence]
+    E --> A[Gemini drafts facts, citations and calculations]
+    T --> A
+    A --> V[Code verifies arithmetic, scope and invariants]
+    V --> S{Optional semantic review}
+    S --> G[Separate Gemini call]
+    S --> JV[Jev checks]
+    S --> O[Answer or explicit withholding]
+    G --> O
+    JV --> O
 ```
 
-_Figure 1. Shared responsibilities and controlled substitutions. Each route selects its declared branches; it does not run every component. The existing narrow control uses its original tool interface. All routes retain mandatory checks._
+_Figure 1. Controlled substitutions within shared boundaries. Each route follows its declared branches; it does not invoke every component. R0 retains its narrower existing tool interface. Invalid output is withheld at the mandatory code gate before optional review._
 
-The language model may choose a permitted query or propose a plan. It does not receive database owner credentials, the ability to post an entry, or an unrestricted SQL terminal. The custom query layer compiles approved fields, metrics, and filters. Wren output passes its own bounded SQL and unit-provenance checks. The reader role is restricted to the study workspace's views.
+### Where the model has authority
 
-Posted journal entries remain the accounting source of truth. Invoices, cash receipts, loans, owner investments, drafts, reversals, and foreign-currency transactions are deliberately different things. For example, collecting an already-recorded invoice reduces receivables and increases cash; counting it again as revenue would overstate sales.
+The custom path lets Gemini choose typed metrics and filters; code constructs parameterized SQL. The Wren path permits model-proposed SQL only within a checked read-only subset, expands it through the actual pinned Wren engine, and revalidates the output. Models receive neither database owner credentials nor a financial posting tool. The database reader can access only the authorized research views.
 
-Code checks enforce schema, amounts, currencies, query/source references, calculation inputs, and proposal balancing. A semantic reviewer can withhold an answer after these checks; it cannot approve an invalid calculation or authorize a financial write. In the current implementation, a non-PASS review withholds the candidate rather than starting a repair conversation.
+The accounting engine remains responsible for balanced entries and immutable posted history. For example, invoicing a client creates revenue and a receivable. Collecting that already-recorded invoice increases cash and reduces the receivable; treating the payment as new revenue would count the sale twice. A chatbot must respect that distinction even when both descriptions mention the same client and amount.
 
-## 4. The nine configurations
+For a scenario, the model proposes an arithmetic structure and cites operands. Code recomputes the result using exact decimals. A calculated $24,240 total must cite its calculation; pointing to a document containing a $6,000 monthly salary is insufficient. A semantic reviewer may withhold a candidate after these checks, but cannot override failed arithmetic, authorize a write, or make a missing source appear. Non-PASS review withholds the answer; this experiment does not run an automatic repair dialogue.
 
-The corrected design applies the same study model, synthetic data, question instances, output protocol, and mandatory validation to all routes. The first pilot exposed an omitted R0 shared-validation/evidence adapter; its original results remain preserved and are qualified in Section 6. R0 reproduces the deployed control architecture with normalized study settings; production still uses its existing model. R4 is the component control for R5–R8.
+### What a citation proves
 
-| Route                       | What it can use                                                                        | What this comparison asks                                                     |
-| --------------------------- | -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| **R0: current control**     | Existing four financial tool families and review-only proposals; no document retrieval | How far does the simpler existing architecture go?                            |
-| **R1: broad tools**         | Typed analytical plans and exact scenario calculations                                 | Does more flexible analysis improve coverage?                                 |
-| **R2: lexical documents**   | R1 plus document search by words                                                       | How much does adding document evidence help before using embeddings?          |
-| **R3: managed File Search** | R1 plus Gemini managed source selection                                                | How does managed search compare with our document retrieval?                  |
-| **R4: custom hybrid**       | R1 plus lexical retrieval and Gemini embeddings searched in pgvector                   | Do semantic matches add useful evidence?                                      |
-| **R5: Jev reranking**       | R4 candidate evidence, reordered by Jev                                                | Does a second relevance decision improve selection?                           |
-| **R6: Wren analytics**      | R4 retrieval and calculator, with Wren for analytical queries                          | Does a semantic query engine improve analytical coverage or correctness?      |
-| **R7: LLM reviewer**        | R4 plus a separate Gemini reviewer call                                                | Does a second reading reduce accepted mistakes without excessive withholding? |
-| **R8: Jev reviewer**        | R4 plus Jev checks                                                                     | How does a specialized decision model perform as the extra reviewer?          |
+A correct-looking amount is not enough. Financial evidence carries machine-derived date bounds, account/entity identity, currency and supported query grain. For example, three equal monthly rent observations can support a monthly-rate statement across those months; one month's amount cannot prove a three-month total. A daily cash movement cannot be labeled a cumulative bank balance.
 
-These are controlled alternatives. Installing everything at once would make it difficult to tell which component helped or harmed the result.
+Custom-query scope comes from the validated compiler contract. Wren scope and units come from supported parsed expressions and the actual expanded output names, not from aliases chosen by the model. Unsupported SQL lineage fails closed. Calculation evidence retains the scopes of its operands; multiplying by one cannot create a different date or remove a grouping identity. Ambiguous equal-valued operands can therefore cause a valid calculation to be withheld. That limitation counts against task success—it is not evidence of better answer quality.
 
-## 5. What has actually been tested
+These checks establish bounded numeric and qualifier provenance. They do not prove that every sentence or economic interpretation is correct. An optional reviewer has the same limitation in a different form: it can also miss mistakes.
 
-The following evidence exists independently of the unfinished main comparison:
+## 3. Configurations and controlled hypotheses
 
-| Check                                                     | Observed result                                                                                                               | What it does not establish                                        |
-| --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| Restricted database access and basic analytical execution | Custom and actual Wren queries returned the expected $164,615.00 cash figure; boundary checks passed                          | General SQL correctness on every question                         |
-| Live fixture comparison                                   | 114 posted scoped lines, 57 posted entries, and 39 authorized documents matched; all 39 authorized vectors had 768 dimensions | Retrieval quality or prose accuracy                               |
-| Retrieval integration smoke                               | Four document retrieval variants found Acme's contract                                                                        | A benchmark-wide retrieval score                                  |
-| Component security suite                                  | 57 PASS, 0 FAIL, 3 UNASSESSED                                                                                                 | Proof that all natural-language attacks fail across every route   |
-| Reviewer development study                                | 240 outcomes across three methods on 80 candidates                                                                            | Held-out reliability or production error prevalence               |
-| Initial nine-route pilot                                  | 108/108 recorded; 10 errors, 11 blocked, 87 completed without a runtime block; known validity defects                         | A valid architecture ranking                                      |
-| Second nine-route pilot                                   | 101/108 recorded; 9 errors, 9 blocked, 83 completed without a runtime block; daily-quota stop and known validity limits       | The seven missing attempts, held-out accuracy or a winner         |
-| Native research CI                                        | Separate pgvector startup, actual Wren tests and restricted database/security checks passed for the recorded revision         | Provider capacity, live answer accuracy or post-pilot corrections |
+All configurations use the same study generator, synthetic workspace, question instances, output vocabulary and mandatory validation. R0 reproduces the production architecture with normalized study settings and metadata; it is not a byte-identical production deployment. The production model remains separate. R4 supplies the component control for R5–R8.
 
-Source evidence: [database checks](../evidence/research-database-check.json), [fixture checks](../evidence/research-fixture-check.json), [retrieval smoke](../evidence/research-retrieval-smoke.json), [initial retrieval failures](../evidence/research-retrieval-smoke-initial.json), [component security results](../evidence/research-security.json), and [research CI](../evidence/research-ci-v2.json). Retaining the initial failures prevents the final successful probe from erasing the integration history.
+| Route                        | Available components                                                                   | Question being tested                                               |
+| ---------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| **R0 — current control**     | Four existing financial tool families and review-only proposals; no document retrieval | How far does the existing simpler architecture go?                  |
+| **R1 — broad tools**         | Typed analytical plans and exact scenario calculations                                 | Does broader analysis improve useful coverage?                      |
+| **R2 — lexical documents**   | R1 plus word-based document search                                                     | What does document evidence add before embeddings?                  |
+| **R3 — managed File Search** | R1 plus Gemini managed source selection and the common final answer stage              | How does managed retrieval compare with our retrieval paths?        |
+| **R4 — custom hybrid**       | R1 plus lexical search and Gemini embeddings in pgvector                               | Does semantic retrieval add useful evidence?                        |
+| **R5 — Jev reranking**       | R4 with Jev reordering retrieved candidates                                            | Does an extra relevance decision improve selection?                 |
+| **R6 — Wren analytics**      | R4 retrieval; Wren replaces the custom analytical compiler                             | Does this bounded semantic-query integration improve analysis?      |
+| **R7 — Gemini reviewer**     | R4 plus another Gemini invocation                                                      | Does review reduce accepted mistakes without excessive withholding? |
+| **R8 — Jev reviewer**        | R4 plus the development-calibrated Jev checks                                          | How does the specialized decision model perform as a reviewer?      |
 
-### Development reviewer results
+| Hypothesis | Declared paired comparison | Fixed targeted families                                |
+| ---------- | -------------------------- | ------------------------------------------------------ |
+| H1         | R1 − R0                    | Financial + analytics                                  |
+| H2         | R2 − R1                    | Documents + scenario                                   |
+| H3a / H3b  | R3 − R2 / R3 − R4          | Documents + scenario                                   |
+| H4         | R4 − R2                    | Documents + scenario                                   |
+| H5         | R5 − R4                    | Documents + scenario                                   |
+| H6         | R6 − R4                    | Financial + analytics                                  |
+| H7a / H7b  | R7 − R4 / R8 − R4          | All six families, plus the separate reviewer criterion |
 
-The stress set used **40 correct candidates and 40 deliberately flawed candidates**. Each of the three methods reviewed all 80, producing **240 recorded outcomes**. There were 236 successful method executions and four Gemini `RATE_LIMIT` errors; the usage record identifies four HTTP 429 responses. The deterministic checks made no provider requests, so 240 outcomes do not mean 240 API calls.
+Additional comparisons with R0 are descriptive. The targeted summaries cannot replace the primary whole-benchmark result, and entry/adversarial effects remain visible for every comparison. R4 and R5 independently generate retrieval queries: their contrast measures the route configurations, not reranking identical cached candidates. The R7 reviewer uses the same model weights in a separate invocation, so its errors need not be independent of the generator's.
 
-The following table uses **operational fail-closed behavior**: a request error withholds the answer. “Accepted flawed” is bad because a mistake escaped. “Withheld correct” is also bad because a useful answer was stopped.
+## 4. Experimental methods
 
-| Development configuration         |        Recorded outcomes | Provider errors | Accepted flawed candidates | Withheld correct candidates |
-| --------------------------------- | -----------------------: | --------------: | -------------------------: | --------------------------: |
-| Deterministic stress checks alone |                    80/80 |               0 |          28/40 = **70.0%** |             0/40 = **0.0%** |
-| Gemini reviewer alone             |                    80/80 |               4 |           8/40 = **20.0%** |            4/40 = **10.0%** |
-| Jev reviewer alone, threshold 0.8 |                    80/80 |               0 |          14/40 = **35.0%** |             2/40 = **5.0%** |
-| Code checks followed by Gemini    | Same recorded candidates |          Same 4 |           8/40 = **20.0%** |            4/40 = **10.0%** |
-| Code checks followed by Jev       | Same recorded candidates |               0 |          11/40 = **27.5%** |             2/40 = **5.0%** |
+### Data, splits and planned denominators
 
-The last two rows combine existing recorded decisions; they are not extra provider runs. Two Gemini failures occurred on correct candidates and two on flawed ones. Among its **76 completed responses**, conditional false acceptance was **8/38 = 21.1%** and conditional false rejection was **2/38 = 5.3%**. Blocking a request that failed is operational protection, not evidence that the model detected a semantic flaw.
+The fixture contains **19 accounts, 60 journals, 40 documents, and 120 questions**. One journal and one document belong to another workspace as isolation canaries. The authorized workspace has 59 journals, including two drafts, and 39 documents; 57 entries and 114 lines are posted. The data include invoice/payment distinctions, reversals, duplicates, stored foreign-exchange rates, loans, owner contributions, superseded documents and unsigned material. This is a small synthetic ledger, not customer data. See the [fixture specification](../../research/fixtures/README.md).
 
-These deterministic stress checks deliberately cover schema, citation existence, and exact amount/currency pairs. Their 70% missed-flaw rate must not be presented as the failure rate of Daybook's full accounting engine or complete answer validator. The injected set also contains semantic contradictions these particular checks do not attempt to recognize.
+Whole scenario groups are split between development and holdout. Each split contains 30 groups with two paraphrases each: 60 questions, ten per family. Holding whole groups apart prevents one wording of a scenario from becoming a development example while its paraphrase becomes the held-out test.
 
-The Jev threshold was selected on development data from a declared grid. A threshold of **0.8** met the rule limiting additional correct-answer rejection to five percentage points while minimizing flawed acceptance among feasible choices. This is a frozen operating setting, not an “80% accurate” claim. Jev's combined hazard score is not a calibrated probability that a whole financial answer is wrong.
+| Study            | Held-out units                                          | Repetitions / methods       |                Planned outcomes |
+| ---------------- | ------------------------------------------------------- | --------------------------- | ------------------------------: |
+| Main routes      | 60 questions in 30 groups; six families                 | Three repeats × nine routes |     **1,620**, or 180 per route |
+| Each main family | Ten questions in five groups                            | Three repeats × nine routes | **270**, or 30 per route/family |
+| Reviewer stress  | 80 candidates: 40 correct, 40 flawed, grouped by source | Deterministic, Gemini, Jev  |       **240**, or 80 per method |
 
-The data are synthetic and the fault labels are **not independently human-adjudicated**. The artificial 50% flawed prevalence and repeated source scenarios prevent these rates from being interpreted as real-user precision. They motivate the held-out test; they do not name a winner. Full counts, fault breakdowns, and settings are in the [development reviewer report](../evidence/research-verifiers/verifiers-v1/development-report.md), [structured results](../evidence/research-verifiers/verifiers-v1/development-results.json), [preserved outcomes](../evidence/research-verifiers/verifiers-v1/development.jsonl), [usage record](../evidence/research-verifiers/verifiers-v1/development-usage.json), and [frozen threshold configuration](../evidence/research-verifiers/verifiers-v1/verifier-config.json).
+The separate reviewer pack totals 160 candidates across development and holdout. Its expected decisions and fault labels are evaluator-side; providers receive only the candidate, question and authorized evidence. The main references and required per-question tags are also excluded from provider inputs. Public vocabulary is shared across routes. Repository maintainers can inspect labels, so this is a frozen engineering split, not an externally secret benchmark.
 
-## 6. Development pilots; held-out comparison unrun
+### References and outcome definitions
 
-### Initial pilot: complete attempts, invalid for selection
+Financial references reduce fixture amounts using an independent exact-decimal implementation, separate from the candidate query compiler; tests also use integer-cent sums. USD/EUR amounts and counts must match exactly under their declared units. Percentages and months permit 0.01 of the output unit for rounding. Expected entity and date qualifiers matter. Synthetic document and semantic labels have **not** received independent human adjudication.
 
-The initial development pilot, `pilot-v1`, recorded **108/108 planned episodes**: 12 questions × nine routes. The raw outcomes contain **87 `ok`, 11 `blocked`, and 10 `error`** records. An `ok` execution does not necessarily mean a correct answer. The full ledger-and-corpus fingerprint was unchanged.
+The **primary metric** is structured task success, macro-averaged equally across the six families. Success requires all applicable behavior, facts, evidence, scope, assumptions/clarification, proposal and deterministic-validation requirements. An HTTP 200, an `ok` execution, or a well-written sentence is not itself success. Provider and harness errors stay in end-to-end denominators; missing attempts stay missing and prevent a complete-study conclusion. Conditional results exclude execution errors and disclose their smaller denominators.
 
-**This pilot cannot select a winning architecture.** Completing every attempt and preserving data establish coverage and integrity, but they do not make a faulty measurement adapter fair. The [validity notice](../evidence/research-runs/pilot-v1/validity-notice.json) and [pilot interpretation](../evidence/research-runs/pilot-v1/README.md) supersede the original generated report's mechanical eligibility flag. The notice records a SHA-256 digest of the preserved original results.
+The supplementary automated rubric totals **90 points**: factual correctness 40, completion 20, grounding 20 and uncertainty 10. The missing human clarity dimension is not imputed, and no combined 100-point score is reported. Exact metric-key or tag failures are distinguished from wrong financial amounts. A correct structured tag does not establish that surrounding prose expresses it faithfully.
 
-| Diagnosed issue          | What happened                                                                                                                                                                                                 | What the development correction changes                                                                                                                                 |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Control evidence adapter | R0 proposals cited the user input, but the adapter did not supply a user-evidence record. Revenue calculations also lacked materialized calculation evidence. Valid candidates could fail provenance scoring. | Apply the shared validator, attach the user evidence, and create checked calculation-source nodes. The original tools and one-model-call architecture remain unchanged. |
-| Planner backend grammar  | A shared grammar exposed both custom and Wren query fields. Wren repeatedly produced custom plans that its backend gate correctly rejected.                                                                   | Expose only the permitted backend schema and the actual typed Wren columns; keep the read-only query gate.                                                              |
-| Dispatcher startup gaps  | Three early requests expired during the transition from manual to continuous dispatch.                                                                                                                        | Use the continuously serviced dispatcher and preserve the original timeout records. These cases are harness failures, not established provider outages.                 |
+A predeclared [common-capability subset](../research/COMMON_CAPABILITIES.md) contains 12 held-out questions in six groups across two families. It helps compare shared capabilities without removing harder tasks from the primary benchmark. Its membership is fixed, with source amendments preserving that membership. Fixed alternative rubric weights provide sensitivity analysis; the most favorable weighting cannot be selected as a new objective. The [statistical review](../research/STATISTICAL_REVIEW.md) and [pre-holdout decision specification](../research/PRE_HOLDOUT_REVIEW.md) define these secondary analyses.
 
-R0's original **0/12 structured successes** is therefore **not a valid estimate of the deployed baseline's ability**. It includes missing-evidence penalties introduced by the study adapter. Likewise, poor Wren routing cannot fairly establish the quality of Wren's query engine when the planner was offered the wrong backend grammar. The 319 requests in the continuous dispatcher log all returned HTTP 200; that observation does not erase the earlier startup failures or prove semantic correctness.
+### Frozen settings, execution and uncertainty
 
-The corrected R0 adapter passed four targeted tests covering actual proposal scoring, derived revenue citations, unchanged cash evidence, and withholding of unsupported candidates. Together with the baseline and route suites, **48 tests passed**, followed by TypeScript validation. These tests verify the correction; they do not retroactively change the first pilot's scores or establish improved live accuracy. A new development run receives its own name, source hashes, costs, and outcomes. No old episode is silently replaced, and no held-out result informed these fixes.
+The [manifest](../evidence/research-runs/holdout-v1/manifest.json) pins **Gemini `gemini-3.5-flash-lite`** for generation and optional review, **Jev `jev-1.14.0`**, **Gemini `gemini-embedding-001` at 768 dimensions**, and the fixed threshold **0.8**. Wren core is **0.8.2** with its pinned parser. A threshold of 0.8 is an operating setting selected on development data, not “80% accuracy” or a calibrated probability that the whole answer is wrong.
 
-The held-out main study remains planned for **1,620 episodes**: 60 questions × three repetitions × nine routes. The held-out reviewer study plans **240 method outcomes**: 80 stress candidates × three methods. Neither has run at this checkpoint.
+Route order rotates within question/repetition blocks. Bounds include a 60-second episode deadline, at most four generator calls, one reviewer call and eight logical tool calls, with separately limited retrieval operations. Gemini generation/review starts are paced by at least 4,200 ms; the research dispatcher adds its own guard. Queue and pacing waits are part of measured harness wall time. No failed scored episode is silently retried into success.
 
-The [preserved initial pilot report](../evidence/research-runs/pilot-v1/report.html) contains self-contained SVG figures and original completeness/integrity status. Read it alongside the [superseding validity notice](../evidence/research-runs/pilot-v1/validity-notice.json); its scores are diagnostic rather than evidence for selecting a component. The [pilot manifest](../evidence/research-runs/pilot-v1/manifest.json) records models, question IDs, timing settings, threshold, and hashes. The [working-source manifest](../evidence/research-runs/pilot-v1/source-manifest.json) identifies the evaluated code; the listed published ancestor alone is not the tested working tree.
+Paired differences match the same question and repetition. Main uncertainty resamples scenario groups within families, retaining paraphrases and repeats within their blocks. Reviewer differences use paired source-group blocks within correct/flawed strata. The analysis uses 2,000 deterministic-seed empirical bootstrap samples. There are only five held-out groups per family; coverage may be poor and degenerate intervals do not imply certainty. Intervals are unadjusted and descriptive, not formal significance, noninferiority or simultaneous-confidence tests. Sharing a small ledger and corpus can create dependence beyond those groups.
 
-The [printable pilot report](../evidence/research-runs/pilot-v1/study-report.pdf) includes the known-defect warning and a dedicated validity discussion. It preserves the diagnostic figures while marking them unsuitable for architecture selection.
+Source, dependency/runtime, protocol, data, index and reviewer settings are bound in saved artifacts. Full scoped ledger/document/embedding fingerprints are checked before and after execution. Changed or unverified state, missing planned episodes, or a known measurement defect prevents a final comparison; a route hard-gate violation disqualifies that route. The live research schema is logically isolated on the existing Neon server. Local reproduction uses a separate pgvector Compose database and volume. Neither arrangement gives the model owner credentials.
 
-### Second pilot: incomplete because of daily quota
+## 5. Held-out results — awaiting complete measurements
 
-`pilot-v2` evaluated the corrected control evidence adapter and backend-specific planner contracts. It recorded **101 of 108 planned episodes: 83 `ok`, 9 `blocked`, and 9 `error`**. Seven planned attempts were not made. An `ok` status means the execution completed without a runtime block; it does not mean the answer satisfied every reference criterion. The full scoped ledger, document contents and embeddings fingerprint was unchanged before and after this partial run.
+**No final values are inserted here while the run is active.** The final report must first establish complete matching source/configuration and before/after fingerprints. Any overriding validity notice must accompany the original results. The sections below specify what to fill, not what the experiment has already found.
 
-The provider explicitly reported `GenerateRequestsPerDayPerProjectPerModel-FreeTier`, limit **500**, with an initial retry delay of **29,601 seconds**, about 8 hours 13 minutes. This is a daily project/model allowance. Slower minute-level pacing cannot restore an exhausted daily allowance. No billing-tier upgrade or replacement key was made by this study, and no old failure was retried into a successful result.
+### 5.1 Primary task success and family coverage
 
-The dispatcher recorded **365 requests: 360 HTTP 200, one HTTP 504, and four HTTP 429**. Every curl process exited normally. Gemini pre-curl start gaps were at least 4.594 seconds; queue delay was 1.592 seconds at p50 and 3.646 seconds at p95. HTTP 200 establishes transport completion, not answer correctness or successful ingestion by the runner. These are measurements of the queued research harness, not production latency. [Dispatch and quota evidence](../evidence/dispatch-pilot-v2.json).
+| Route | Planned episodes | Recorded / successes | Six-family macro success [interval] | Execution errors | p95 harness time | Tracked USD per success |
+| ----- | ---------------: | -------------------- | ----------------------------------- | ---------------- | ---------------- | ----------------------- |
+| R0    |              180 | Pending              | Pending                             | Pending          | Pending          | Pending                 |
+| R1    |              180 | Pending              | Pending                             | Pending          | Pending          | Pending                 |
+| R2    |              180 | Pending              | Pending                             | Pending          | Pending          | Pending                 |
+| R3    |              180 | Pending              | Pending                             | Pending          | Pending          | Pending                 |
+| R4    |              180 | Pending              | Pending                             | Pending          | Pending          | Pending                 |
+| R5    |              180 | Pending              | Pending                             | Pending          | Pending          | Pending                 |
+| R6    |              180 | Pending              | Pending                             | Pending          | Pending          | Pending                 |
+| R7    |              180 | Pending              | Pending                             | Pending          | Pending          | Pending                 |
+| R8    |              180 | Pending              | Pending                             | Pending          | Pending          | Pending                 |
 
-One R6 cash episode returned `RESEARCH_HTTP_FAILURE` even though its completed curl footer later contained HTTP 200 and exit 0. The queue reader checked file existence before parsing the footer; curl wrote that file directly. This supports an **inferred partial-read race**, but the exact bytes at the original read were not captured. The original failed episode and unknown-usage reservation remain unchanged. A separate R3 call returned the genuine upstream 504. Those are different failure classes. [Race diagnostic](../evidence/queue-completion-race-pilot-v2.json).
+_Figure 2, pending: route macro success with clustered intervals. Figure 3, pending: six-family success heatmap._ Report micro success, conditional success, actual denominators, incomplete attempts and hard-gate violations beside these figures. Display the common-capability and weight-sensitivity tables as secondary results, never as replacements for an unfavorable primary outcome.
 
-The [V2 validity notice](../evidence/research-runs/pilot-v2/validity-notice.json) also records a pre-holdout audit finding: R0 lacked model-output fields and advertised vocabulary for the required assumption and clarification tags. Its penalties therefore include a study-adapter limitation. Development amendments normalize those metadata fields within R0's existing single call, add complete-footer parsing, and clarify shared instructions about draft proposals versus posted historical facts. They do not add control tools or retrieval, weaken financial checks, consult held-out answers, or rewrite either pilot. Offline verification and a small authorized live development check are needed before final freezing; live improvement has not been measured.
+### 5.2 Paired component effects
 
-The [V2 HTML report](../evidence/research-runs/pilot-v2/report.html), [12-page PDF](../evidence/research-runs/pilot-v2/study-report.pdf), and [supplemental retrieval/failure analysis](../evidence/research-runs/pilot-v2/supplemental/index.html) are **diagnostic and incomplete**. Read them with the [interpretation](../evidence/research-runs/pilot-v2/README.md) and validity notice. Their figures preserve recorded values; unequal attempt counts and the identified issues prohibit selecting a winner from visual rank. The [manifest](../evidence/research-runs/pilot-v2/manifest.json), [source manifest](../evidence/research-runs/pilot-v2/source-manifest.json), [original episodes](../evidence/research-runs/pilot-v2/episodes.jsonl) and [per-call usage](../evidence/research-runs/pilot-v2/usage.json) make the evaluated snapshot inspectable.
+_Figure 4 and decision table, pending:_ H1–H7 targeted effects, their full-benchmark effects, separate entry/adversarial effects, paired episode/group counts and intervals. The fixed comparison mapping is in Section 3. The final table must separate **point gain at least +5 percentage points** from **uncertainty resolved enough to justify another experiment**.
 
-### Funded development smoke: transport works, scope proof needs repair
+Prespecified candidate language is deliberately conservative. Query/retrieval candidates require the +5-point targeted benefit, an available interval with no negative lower bound, valid measurement and no treatment/control hard gate. An interval spanning harm and useful benefit is inconclusive. These are interpretation screens, not significance tests. See the [complete decision rules](../research/PRE_HOLDOUT_REVIEW.md#external-decision-supplement-and-conservative-uncertainty-rules).
 
-The separately identified `smoke-v3` run completed all **54/54** preselected episodes: **47 ok, seven blocked, zero execution errors**. Every route answered one representative from each family, with unchanged source and complete scoped ledger/document/vector fingerprints. The continuously serviced dispatcher completed 197 requests, all HTTP 200, with no curl failures or expired dispatches. The recorded incremental study cost was $0.17572225 Gemini and $0.001052184 Jev, using paid-equivalent usage and retained reservations. [Run evidence](../evidence/research-smoke-v3-check.json), [dispatcher evidence](../evidence/dispatch-smoke-v3.json).
+For every contrast, show additional successful tasks, model calls, tracked cost, recorded error rate and p95 harness latency. A gain that costs more time or maintenance must remain visible as a tradeoff. Observed Pareto dominance is descriptive and uses both overall/targeted quality and operational measures; it does not establish population superiority.
 
-This smoke is still **ineligible for selecting an architecture**. Its [bound notice](../evidence/research-runs/smoke-v3/validity-notice.json) records an asymmetric evidence adapter: custom monthly rent results inherited the whole query date range, while Wren result facts omitted dates and received weaker scope matching. Seven routes returned the required rent values but lost provenance credit because their correct subperiod claims did not match the adapter's broad dates. Scope is being derived consistently from validated query plans or supported parsed Wren ASTs; absent scope cannot become a wildcard.
+### 5.3 Reviewer stress results
 
-For example, July, August and September each contain $2,400 rent, while October contains $2,640. A claim about July–September's monthly amount needs those three month intervals, not one evidence label saying July–October. Missing months, partial bounds and equal-value amounts in the wrong period must be distinguished. This is a measurement and validation correction; the independent reference amounts and old outcomes are preserved.
+| Method / policy             |                 Planned method outcomes | Accepted flawed / flawed cases | Withheld correct / correct cases | Provider errors          | Conditional paired semantic result |
+| --------------------------- | --------------------------------------: | ------------------------------ | -------------------------------- | ------------------------ | ---------------------------------- |
+| Deterministic stress checks |                                      80 | Pending                        | Pending                          | Pending                  | Control                            |
+| Gemini reviewer alone       |                                      80 | Pending                        | Pending                          | Pending                  | Pending                            |
+| Jev reviewer alone          |                                      80 | Pending                        | Pending                          | Pending                  | Pending                            |
+| Deterministic AND Gemini    | Derived from the same recorded outcomes | Pending                        | Pending                          | Same underlying requests | Pending                            |
+| Deterministic AND Jev       | Derived from the same recorded outcomes | Pending                        | Pending                          | Same underlying requests | Pending                            |
 
-Other observed failures remain legitimate: hiring answers cited the source document instead of the calculation that produced the total; one exact entity field abbreviated `Acme Corp` to `Acme`; clarification tags were missing; narrower routes lacked requested capabilities. R0 also used “Recorded” in proposal prose despite producing a review-only proposal and making no write. That illustrates why structured success does not certify narrative quality. No aliases, tags or favorable answers are inferred to rescue these outcomes.
+_Figure 5, pending: false-acceptance and correct-withholding rates, with paired differences and uncertainty._ Artificially flawed candidates are a stress test; their prevalence is not real-user prevalence. The limited deterministic stress checker is not the entire accounting engine or complete answer validator.
 
-The corrected development version retains the same fixed representatives and no held-out tuning. Engineering checks and additional scope regressions must pass before final freezing. [Original diagnostic HTML](../evidence/research-runs/smoke-v3/report.html) and [PDF with the validity warning](../evidence/research-runs/smoke-v3/study-report.pdf) remain available; their mechanical completeness is not evidence of a valid winner.
+The candidate reviewer policy must lower operational acceptance of flawed candidates while adding no more than +5 points of withholding on correct candidates. The conservative uncertainty screen additionally requires a false-acceptance-difference interval with upper bound below zero, a correct-withholding-difference interval with upper bound at most +5 points, and observed improvement among successful request pairs. A timeout that withholds an answer is operational protection, not semantic detection. R7/R8 also need nonnegative end-to-end task-success evidence versus R4; stress performance alone cannot qualify a product change.
 
-### Work still required for a final conclusion
+### 5.4 Retrieval and failure analysis
 
-| Final result section      | Status and intended content                                                                                  |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| Held-out task success     | Pending: micro and equal-family macro success, errors included                                               |
-| Component effects         | Pending: paired differences for H1–H7 and group-bootstrap intervals                                          |
-| Failure examples          | Pending: wrong amounts, schema mismatches, missing evidence, unsupported claims, and unnecessary withholding |
-| Retrieval analysis        | Pending: only metrics actually observable for each backend                                                   |
-| Latency and cost          | Pending: end-to-end and provider durations, usage estimates, reservations, and setup costs                   |
-| Held-out verifier results | Pending: accepted flaws, withheld correct answers, provider errors, fault families                           |
-| Product recommendation    | Pending: quality, safety gates, latency, cost, and implementation burden considered together                 |
+_Retrieval table and Figure 6, pending:_ recall@6, mean reciprocal rank and nDCG where ranked results and required-document labels are actually observable; separate end-to-end document availability. R3 exposes citation-selected source coverage, while its raw passage rank metrics remain **unavailable**. Unknown retrieval stages after errors are not imputed as empty searches or zero recall. Conditional retrieval performance and all-attempt evidence availability use different denominators and must be labeled accordingly.
 
-_Figure plan._ The generated report provides four views: macro success with uncertainty, family success heatmap, p50/p95 latency, and quality versus cost. Paired effects appear in a separate table. Incomplete or disqualified configurations can still be displayed descriptively; their visual position does not make them eligible for selection.
+_Failure table, pending:_ numerical mistakes, metric-key/schema mismatches, missing/obsolete evidence, unsupported scopes or calculation inputs, omitted assumptions, unnecessary withholding, actual hard gates, and infrastructure/provider failures. Observed categories may overlap; they are not automatically causal diagnoses. Include matched examples that show both what code catches and where a reviewer fails. Do not label every protocol mismatch a financial hallucination, or a structured success as verified prose.
 
-The [supplemental retrieval and failure analysis](../evidence/research-runs/pilot-v1/supplemental/index.html) adds a retrieval figure and structured failure details from the available pilot records. It separates retrieval among completed operations from document availability across all applicable episodes. For R3, the observable measure is coverage of citation-selected sources; raw search ranking metrics remain unavailable. Its [analysis provenance](../evidence/research-runs/pilot-v1/supplemental/analysis-provenance.json) identifies the analyzed snapshot. The supplemental analysis inherits the initial pilot's validity limitations; a technically complete figure cannot repair a biased adapter.
+### 5.5 Latency, cost and implementation burden
 
-## 7. What I would explain in an interview
+_Figure 7, pending: p50/p95 paced-harness wall time and separately labeled provider HTTP duration sums. Figure 8, pending: quality versus tracked cost._ Report timing completeness: known full HTTP sums, measured partial sums, missing timing and no-provider-call cases. Legacy missing-duration values must not become measured zeros. Show all-attempt and non-error timing distributions separately. These sequential harness measurements are not production or concurrent-user latency.
 
-> “I started with an accounting system whose database enforces balanced, immutable posted entries. I kept the language model outside that authority boundary. It can interpret a question and propose a bounded plan, but code and restricted database views supply the financial values.
+Final costs must distinguish scored route calls, reviewer calls, first-time setup/indexing, historical debugging/reindexing, and interrupted requests without a completed episode. Report configured-rate usage estimates and unknown-use reservations separately. Tracked amounts are neither invoices nor verified account balances. Show cost per attempted and successful task with explicit denominators; zero successes do not imply zero cost per success.
+
+The operational-complexity table must describe what would have to be maintained: typed analytical contracts, source/version management, embeddings and vector indexes, a managed search store, another provider integration, the pinned Wren engine/Python runtime and semantic model, or reviewer settings. No invented engineering-hour score is needed. R6 replaces the analytical backend; it does not run both compilers for each answer.
+
+## 6. Discussion and architecture decision — pending
+
+**Current decision: keep the deployed application unchanged while the complete study is evaluated.** There is no final ranking, retained-component claim or automatic deployment recommendation.
+
+The final discussion will answer four questions using the complete tables above:
+
+1. Which additional capabilities improved their predefined task families, and what happened to whole-benchmark success and adversarial/entry behavior?
+2. Were improvements large enough for the declared five-point target, and did uncertainty leave plausible harm unresolved?
+3. Did reviewers prevent flawed acceptance while preserving correct answers, including actual end-to-end completion rather than only the artificial stress set?
+4. Which remaining tradeoffs justify another product experiment after considering errors, latency, cost and maintenance?
+
+A favorable configuration can become a **candidate for further experiment**. The small synthetic study does not justify an unconditional production-reliability claim. Gains below the target or inconclusive evidence favor fewer services. Combining separate favorable components would create an unmeasured configuration and requires its own experiment.
+
+## 7. Limitations
+
+- **Reference and prose quality.** Documents and semantic labels are synthetic and have not been independently human-adjudicated. Exact arithmetic is stronger evidence than unreviewed semantic labels. Human clarity and full narrative faithfulness remain unmeasured.
+- **Small, inspectable dataset.** Thirty held-out scenario groups share one small ledger/corpus. Repetitions do not create new businesses. This cannot establish general financial accuracy, fraud detection, tax/legal advice, or million-user capacity.
+- **Different retrieval observability.** Managed File Search citation selection and custom ranked retrieval expose different outputs. The report must not imply identical raw retrieval control or invent missing rank metrics.
+- **Conservative scope support.** The Wren integration and shared calculation checks withhold unsupported SQL lineage and ambiguous scope. A correct answer may therefore be lost. This evaluates our bounded integration, not every capability of Wren or every possible calculator design.
+- **Review is conditional on available evidence.** A reviewer can miss a source never retrieved, share generator errors, or block a correct answer. The Gemini reviewer uses the same model weights. Jev's combined hazard score is not a calibrated probability of whole-answer invalidity.
+- **Formal interaction contract.** Exact keys, qualifiers and tags are evaluated. Clarification is a scored response behavior; this study does not establish success across a real multi-turn clarification/repair conversation.
+- **Incomplete security breadth.** The separate component suite recorded 57 PASS, zero FAIL and three UNASSESSED; it is not a completed execution of every proposed natural-language attack through every route. Main adversarial tasks and permission checks add evidence without erasing that gap. Zero observed violations is not a production guarantee.
+- **Operational environment.** Provider load, quotas, model changes, dispatch queues and pacing affect cost, availability and timing. No concurrent production load test was performed. Live research uses logical isolation on a shared physical database.
+- **Scenario interpretation.** A simplified expense proxy or incremental hiring calculation is not a cash-flow forecast. Payment timing, taxes, liabilities and plausible future receipts can change a real decision.
+
+## 8. A short explanation to rehearse
+
+> “I built the accounting engine first, because the books have to be correct regardless of the AI. The database enforces balanced postings, and corrections preserve history.
 >
-> “Broader questions need both accounting facts and document evidence. For a hiring question, the ledger supplies cash, documents supply salary and policy assumptions, and an exact calculator connects them. The answer must state its assumptions rather than turn a scenario into a guaranteed forecast.
+> “Then I separated three jobs: finding financial facts, finding documents, and explaining the result. A hiring question needs cash from the ledger, salary and reserve assumptions from documents, and exact arithmetic connecting them. Vector search helps find the right page; it does not calculate the bank balance.
 >
-> “I tested retrieval, analytical backends, and reviewers separately with shared controls. A reviewer can still miss a mistake or block a correct answer, so I measured both, preserved provider failures, and separated development tuning from held-out evaluation. I would add a component to the product only after the evidence justifies the extra complexity.”
+> “The AI proposes a bounded plan and an answer. Code checks values, currencies, periods, identities and calculations. An optional reviewer can stop an answer, but it cannot override failed checks or post money movements.
+>
+> “I compared components separately using shared controls and held-out scenario groups. I measure both escaped mistakes and correct answers that get blocked, keep provider failures in the record, and show uncertainty, cost and latency. A second agent is another fallible check, not a guarantee.
+>
+> “At this checkpoint the held-out evaluation is running. I will only claim a component is worth another experiment if the completed evidence supports it. I am not claiming production-scale reliability from a small synthetic benchmark.”
 
-That is an implemented design and a testable argument. The final sentence is still a decision rule: this progress report does not claim the experiments have already justified a particular addition.
+Replace the last paragraph with the actual supported final conclusion only after Section 6 is complete. The explanation should be rehearsable without memorizing implementation names: **database for the books, retrieval for documents, calculator for math, model for interpretation, and measured checks before release.**
 
-## Appendix A. Methods for a technical reviewer
+## Appendix A. Development history and diagnostic evidence
 
-**Data.** The shared fixture contains 19 accounts, 60 journals, 40 documents, and 120 questions. One journal and one document belong to a foreign workspace as isolation canaries. The authorized workspace has 59 journals, including two drafts, and 39 documents. Posted entries include invoice/payment distinctions, reversals, deliberate duplicates, foreign-currency amounts and stored rates, loans, and owner contributions. Document versions include superseded and unsigned material. Dataset details and limitations are recorded in the [fixture README](../../research/fixtures/README.md).
+Development runs were used to discover implementation defects and freeze settings. They remain separate, append-only records. None is pooled into held-out results or used as a valid final architecture ranking.
 
-**Splits.** Sixty scenario groups each have two paraphrases. Whole groups are assigned to development or holdout, giving 60 questions in each split, balanced across financial, analytics, documents, scenario, entry, and adversarial families. The separate reviewer pack contains 160 candidates: 80 correct and 80 flawed, divided into 80 development and 80 held-out candidates by source group. Gold facts, fault labels, and per-question required tags stay outside provider-visible inputs. The labels remain inspectable in this repository: this is a frozen engineering split, not an externally secret benchmark.
+| Stage                       | Recorded development evidence                                                                                                                                                              | Consequence and preserved sources                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Integration and permissions | Custom/Wren queries returned the expected cash total; 114 posted lines, 57 posted entries and 39 authorized documents/vectors matched. Four retrieval variants found the contract example. | Integration checks establish capability, not benchmark accuracy. [Database](../evidence/research-database-check.json), [fixtures](../evidence/research-fixture-check.json), [retrieval smoke](../evidence/research-retrieval-smoke.json), [initial failures](../evidence/research-retrieval-smoke-initial.json), [security scope](../evidence/research-security.json).                                                                                                                                                       |
+| `pilot-v1`                  | 108/108 attempts: 87 ok, 11 blocked, ten errors; unchanged data.                                                                                                                           | Invalid for selection: missing R0 user/calculation evidence, wrong Wren planner grammar, early dispatcher gaps. [Interpretation](../evidence/research-runs/pilot-v1/README.md), [bound validity notice](../evidence/research-runs/pilot-v1/validity-notice.json), [original HTML](../evidence/research-runs/pilot-v1/report.html), [diagnostic PDF](../evidence/research-runs/pilot-v1/study-report.pdf).                                                                                                                    |
+| `pilot-v2`                  | 101/108 attempts: 83 ok, nine blocked, nine errors; unchanged data.                                                                                                                        | Incomplete and invalid for selection: daily free-tier quota stop, an inferred partial-footer read race, and R0 metadata limitations. [Interpretation](../evidence/research-runs/pilot-v2/README.md), [notice](../evidence/research-runs/pilot-v2/validity-notice.json), [HTML](../evidence/research-runs/pilot-v2/report.html), [PDF](../evidence/research-runs/pilot-v2/study-report.pdf), [dispatch/quota receipt](../evidence/dispatch-pilot-v2.json), [race diagnosis](../evidence/queue-completion-race-pilot-v2.json). |
+| `smoke-v3`                  | 54/54 fixed development attempts: 47 ok, seven blocked, no execution errors; unchanged data.                                                                                               | Invalid for selection: custom monthly evidence inherited broad query dates while Wren lacked matching scope proof. [Receipt](../evidence/research-smoke-v3-check.json), [notice](../evidence/research-runs/smoke-v3/validity-notice.json), [HTML](../evidence/research-runs/smoke-v3/report.html), [PDF](../evidence/research-runs/smoke-v3/study-report.pdf).                                                                                                                                                               |
+| `smoke-v4`                  | 54/54 fixed development attempts: 40 ok, 13 blocked, one response-contract error; 28 structured successes; no recorded hard gate.                                                          | Internal review found no remaining concrete measurement blocker; full source/data/protocol remained unchanged, then the final freeze was recorded. Conservative scope rejections remain counted as lost success. [Interpretation](../evidence/research-runs/smoke-v4/README.md), [receipt](../evidence/research-smoke-v4-check.json), [original report](../evidence/research-runs/smoke-v4/report.html), [dispatch evidence](../evidence/dispatch-smoke-v4.json).                                                            |
 
-**Reference arithmetic.** The reference module reduces exact decimal fixture amounts independently of the candidate query compiler. Tests also sum integer cents. USD/EUR financial values and counters must match exactly under their declared units; percentages and months allow 0.01 of the output unit for the declared rounding. Expected entity and period qualifiers matter. A correct number with a wrong metric key is recorded as a protocol mismatch separately from a numeric mismatch.
+An `ok` execution in this history does not mean a correct answer. In particular, R0's original zero successes in pilot-v1 is not an estimate of the production baseline's capability: the study adapter omitted required evidence. Post-pilot fixes preserve the original tools, results and failures; they do not retroactively validate old rankings.
 
-**Primary score.** Structured success requires all applicable fact, behavior, evidence, scope, assumption/clarification, proposal, and deterministic validation checks. Automated rubric points total 90: factual 40, task completion 20, grounding 20, and uncertainty 10. The unavailable human clarity dimension is not filled by another model, and no combined 100-point score is reported. A correct tag cannot establish that contradictory prose is faithful; prose review remains pending.
+The V2 footer race is an inference supported by final HTTP 200 completion after a runner read failure; the original bytes at the early read were not captured. A separate upstream HTTP 504 was a different event. The subsequent framed-completion reader waits for the terminal marker. Daily quota exhaustion was also distinct from minute-level pacing. These distinctions prevent a single “provider failure” category from hiding known harness defects.
 
-**Common capabilities.** A supplementary subset was defined during development, before holdout, from the original tool contracts and question texts rather than observed correctness. It includes 30 questions (18 development, 12 held-out), with explicit exclusions for unavailable document/analytic capabilities and clarification/security tasks. The held-out subset has only six groups and two represented families. Its observed-family macro is not the primary six-family macro. The [definition and rationale](../research/COMMON_CAPABILITIES.md) and [static mapping](../research/common-capabilities-v1.json) remain fixed. The [v2 route-source amendment](../research/common-capabilities-amendment-v2.json) binds the source used for pilot-v2 to the original mapping. The [v3 amendment](../research/common-capabilities-amendment-v3.json) separately binds the post-pilot baseline metadata normalization and shared route-contract corrections, before held-out execution. The [v4 amendment](../research/common-capabilities-amendment-v4.json) binds the later shared row-scope normalization after smoke-v3. All preserve every membership decision; none rescores or validates an earlier diagnostic run. Whole-benchmark safety gates still apply.
+Scope corrections before the final freeze derive row periods and grouping identity consistently for both query backends. Tests reject wrong-month values, missing months, partial coverage, raw/daily movements presented as balances, grouped vendor slices presented as whole-account totals, and calculation wrappers that widen scope. More conservative checks can lower observed completion even while repairing the measurement contract; old outcomes are not rewritten.
 
-**Controls.** H1 compares R1−R0; H2 R2−R1; H3 R3−R2 and R3−R4; H4 R4−R2; H5 R5−R4; H6 R6−R4; H7 R7−R4 and R8−R4. Additional R0 contrasts are descriptive. Settings are pinned to Gemini 3.5 Flash-Lite, Jev 1.14.0, Gemini embedding 001 at 768 dimensions, and Wren core 0.8.2. A separate invocation of the same Gemini model is a second review, not an independent set of model weights.
+Historical supplemental artifacts remain available: [pilot-v1 retrieval/failures/timing](../evidence/research-runs/pilot-v1/supplemental/index.html), [pilot-v2 supplement](../evidence/research-runs/pilot-v2/supplemental/index.html), [pilot-v1 weight sensitivity](../evidence/research-runs/pilot-v1/sensitivity/report.md), and [pilot-v2 sensitivity](../evidence/research-runs/pilot-v2/sensitivity/report.md). Their validity notices remain controlling.
 
-**Budgets and operations.** Each route has bounded calls and tool results, a 60-second episode deadline, at most four generator calls, one reviewer call, and eight logical tool calls, with separately limited embedding/reranking operations. Subsequent Gemini starts are paced by at least 4,200 ms, with the observed dispatcher using a 4,500 ms guard. That pacing does not prevent the documented daily quota. Queue and pacing delays count in harness wall time. Returned usage produces configured-rate cost estimates; unknown usage retains conservative reservations. The original tracked allowances were $10 Gemini and $4 Jev, with setup/indexing separate and no account billing-plan upgrade inferred. On 2026-10-30 the user replaced the Gemini key and requested frugal use. A temporary one-probe policy allowed a fixed availability check costing an estimated $0.0000167. The user then funded the project and explicitly authorized continuation; a parent-bound study policy now allows $6.40 additional Gemini and $0.10 additional Jev, retaining the original cumulative $10/$4 ceilings and all prior records. The user reported about $8 available, but the account tier/balance is not independently verified. The current-key managed store has 39 active authorized documents. Key validity alone does not establish billing balance or resource access. Errors are preserved, not silently retried into success. The persistent circuit remains a separate guard from dollar allowances; apparent remaining budget is not permission to bypass exhausted provider capacity.
+## Appendix B. Development-only reviewer calibration
 
-**Database boundary.** The live sandbox uses a separate research schema and restricted reader on the existing Neon server. This is logical isolation on a shared physical database. The reproducible local alternative uses a separate pgvector Compose database and volume. Neither model receives owner credentials. Existing application tables, applied migrations, and the application's Compose volume are preserved. See [reproduction instructions](../research/REPRODUCE.md).
+Eighty development candidates—40 correct and 40 flawed—were reviewed by each method, producing 240 outcomes. Four Gemini requests returned HTTP 429. The following operational rates treat a failed request as withholding; they are **not held-out results**.
 
-**Run integrity.** Source, dependency/runtime, protocol, dataset, index, and verifier settings are recorded in manifests. The full scoped ledger, document contents/versions/dates, and embeddings are fingerprinted before and after runs. A changed or unverified snapshot, source drift, missing planned episodes, or a route's hard-gate violation prevents the relevant comparative selection. Unknown or interrupted request costs remain visible.
+| Development policy                | Recorded outcomes | Provider errors | Accepted flawed | Withheld correct |
+| --------------------------------- | ----------------: | --------------: | --------------: | ---------------: |
+| Deterministic stress checks       |                80 |               0 |   28/40 (70.0%) |      0/40 (0.0%) |
+| Gemini reviewer alone             |                80 |               4 |    8/40 (20.0%) |     4/40 (10.0%) |
+| Jev reviewer alone, threshold 0.8 |                80 |               0 |   14/40 (35.0%) |      2/40 (5.0%) |
+| Deterministic AND Gemini          |     Same outcomes |          Same 4 |    8/40 (20.0%) |     4/40 (10.0%) |
+| Deterministic AND Jev             |     Same outcomes |               0 |   11/40 (27.5%) |      2/40 (5.0%) |
 
-**Uncertainty.** Repeats and paraphrases of one scenario are correlated. Paired effects match question/repeat IDs and resample scenario groups within families. The pilot has two groups per family and the held-out set has five; empirical bootstrap coverage may be poor. Zero-width empirical intervals do not imply certainty. All intervals are exploratory and unadjusted for multiple comparisons. Sharing one small ledger and corpus can introduce dependence beyond the scenario grouping. See the [statistical review](../research/STATISTICAL_REVIEW.md).
+Two Gemini failures were on correct candidates and two on flawed candidates. Among 76 completed responses, false acceptance was 8/38 (21.1%) and false rejection was 2/38 (5.3%). These conditional figures illustrate why a failed request cannot count as a model detecting a flaw. The limited deterministic checker deliberately misses semantic contradictions; its missed-flaw rate is not Daybook accounting-engine failure prevalence.
 
-## Appendix B. Limits that affect the eventual recommendation
+Jev's threshold 0.8 was selected from the declared development grid to minimize flawed acceptance subject to the additional-correct-withholding constraint. It is preserved without held-out retuning. Full [development report](../evidence/research-verifiers/verifiers-v1/development-report.md), [structured results](../evidence/research-verifiers/verifiers-v1/development-results.json), [raw outcomes](../evidence/research-verifiers/verifiers-v1/development.jsonl), [usage](../evidence/research-verifiers/verifiers-v1/development-usage.json), [threshold artifact](../evidence/research-verifiers/verifiers-v1/verifier-config.json), and [final source binding](../evidence/research-verifiers/verifiers-v1/verifier-freeze.json) are preserved.
 
-1. Synthetic, AI-authored labels and documents have not received independent human adjudication. Some semantic judgments may be imperfect even when financial arithmetic is exact.
-2. A small, inspectable benchmark cannot establish general financial accuracy, production fraud detection, legal/tax advice, or million-user capacity.
-3. Managed File Search exposes source selection differently from custom retrieval. Its citations do not justify invented raw-passage recall or ranking metrics.
-4. The Wren integration conservatively withholds monetary evidence whose complex SQL lineage it cannot prove. This evaluates our bounded integration, not all capabilities of Wren.
-5. Semantic reviewers inspect supplied evidence. They can share generator errors or miss a document that was never retrieved. They are additional checks, not omniscient validators.
-6. Provider load, free-tier quotas, pacing, queue transport, and model drift affect latency and availability. The measured environment is not a concurrent production load test.
-7. A simplified expense-based cash-burn scenario is not a cash-flow forecast. A real hiring decision would need payment timing, taxes, obligations, and plausible future receipts.
-8. No experiment may post model-generated financial entries. Product integration and any deployment decision remain separate from this comparative study.
+## Appendix C. Reproduction, budgets and artifact provenance
 
-The [preregistered plan and dated amendments](../PLAN.md), [core review](../research/CORE_REVIEW.md), [statistical review](../research/STATISTICAL_REVIEW.md), and preserved run artifacts define what was tested and what remains uncertain. Held-out results should be inserted into Section 6 without rewriting development failures or expanding claims beyond the evidence.
+The [active protocol](../PLAN.md), [core review](../research/CORE_REVIEW.md), [statistical review](../research/STATISTICAL_REVIEW.md), [pre-holdout decision rules](../research/PRE_HOLDOUT_REVIEW.md), and [reproduction instructions](../research/REPRODUCE.md) define the evaluated system. The [common-capability mapping](../research/common-capabilities-v1.json) is unchanged across the [v2](../research/common-capabilities-amendment-v2.json), [v3](../research/common-capabilities-amendment-v3.json), and [v4](../research/common-capabilities-amendment-v4.json) source amendments. None of those amendments validates an earlier defective pilot.
+
+The active additional tracked allowance is **$6.40 Gemini / $0.10 Jev**, within cumulative **$10 / $4** ceilings. Historical records, failed-request reservations, the consumed one-probe policy and its parent policy history are retained. The user reported funding; this is not an independently verified account balance or billing tier. The old managed store was inaccessible to the replacement key, so the same 39 authorized documents were indexed in a new store while existing vectors were retained. Key availability, resource access and model quality are separate checks. Details are in [quota and policy recovery](../research/QUOTA_RECOVERY.md), [funded indexing](../evidence/research-funded-index-ready.json), and [funded fixture verification](../evidence/research-funded-fixture-check.json).
+
+Final reporting should attach the original route/reviewer results, raw outcomes and per-call usage; manifests and before/after fingerprints; common-capability, sensitivity, retrieval/timing/failure and decision supplements; and a printable PDF. Every supplement must retain the primary run ID and input/analyzer hashes, with any validity notice. Final values and conclusions belong in Sections 5–6; historical diagnostic evidence remains intact.
