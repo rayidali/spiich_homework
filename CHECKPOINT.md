@@ -1,6 +1,8 @@
 # Daybook session checkpoint
 
-Saved **2026-10-31, America/New_York**. Read this first on continuation. The product repairs, focused category comparison and hosted acceptance are complete. Do not rebuild the application, restart completed provider runs or reopen their budgets.
+Saved **2026-10-31, America/New_York**. **New work is active:** the user reported that a specific Office supplies question received an overall expense answer. The source now contains a scoped-query repair and new regressions, pending fresh CI/live verification and deployment. The user subsequently set a broader financial-assistant goal; see [CHAT_RELIABILITY.md](docs/CHAT_RELIABILITY.md). Earlier completion claims below describe the preceding release only.
+
+Previous save: Read this first on continuation. The product repairs, focused category comparison and hosted acceptance are complete. Do not rebuild the application, restart completed provider runs or reopen their budgets.
 
 ## Current product delivery
 

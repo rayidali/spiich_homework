@@ -138,6 +138,35 @@ afterEach(() => {
 });
 
 describe('Request-correlated diagnostics without business content', () => {
+  it('records the selected financial query with the request reference, without conversation or arguments', async () => {
+    fetchMock.mockResolvedValue(
+      providerResponse([{ functionCall: { name: 'ask_clarification', args: { question: privateText } } }]),
+    );
+    const flow = requestFlow(() => financialChat(org, userMessages), '/api/ai/chat');
+    await flow.done;
+    expect(flow.res.statusCode).toBe(200);
+    expect(logs().find((entry) => entry.event === 'ai_financial_query')).toMatchObject({
+      requestId: flow.headers.get('X-Request-Id'),
+      tool: 'ask_clarification',
+      provider: 'gemini',
+      operation: 'financial_tool',
+      deploymentRevision: 'a'.repeat(40),
+    });
+    expect(JSON.stringify(logs())).not.toContain(privateText);
+    expect(logs().every((entry) => !('args' in entry))).toBe(true);
+  });
+
+  it('rejects unrecognized query names in diagnostics and preserves the safe expense-account failure code', () => {
+    diagnostic('ai_financial_query', { tool: privateText });
+    diagnostic('request_error', { code: 'INVALID_EXPENSE_ACCOUNT', stage: 'financial_tool' });
+    expect(logs().find((entry) => entry.event === 'ai_financial_query')).not.toHaveProperty('tool');
+    expect(logs().find((entry) => entry.event === 'request_error')).toMatchObject({
+      code: 'INVALID_EXPENSE_ACCOUNT',
+      stage: 'financial_tool',
+    });
+    expect(JSON.stringify(logs())).not.toContain(privateText);
+  });
+
   it('keeps two interleaved provider failures bound to the matching response/header/HTTP event', async () => {
     const pending: ((value: Response) => void)[] = [];
     fetchMock.mockImplementation(() => new Promise<Response>((resolve) => pending.push(resolve)));

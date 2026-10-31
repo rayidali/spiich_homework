@@ -47,6 +47,100 @@ export async function incomeStatement(org: string, from: string, to: string, db?
     netIncome: money(totalRevenue.minus(totalExpenses)),
   };
 }
+export type ExpenseAccount = {
+  id: string;
+  code: string;
+  name: string;
+  currency: string;
+  parent_id: string | null;
+  is_group: boolean;
+  archived: boolean;
+};
+
+/** Historical reporting needs archived accounts too. No balances enter model context. */
+export async function expenseAccountChart(org: string, db?: Db): Promise<ExpenseAccount[]> {
+  const chart = await query<ExpenseAccount>(
+    `SELECT id,code,name,currency,parent_id,is_group,archived FROM accounts
+     WHERE organization_id=$1 AND type='EXPENSE' ORDER BY code,id LIMIT 251`,
+    [org],
+    db,
+  );
+  if (chart.length > 250)
+    throw new AppError(
+      422,
+      'CHART_TOO_LARGE',
+      'Expense questions currently support up to 250 expense accounts. Select an account in Reports instead.',
+    );
+  return chart;
+}
+
+export type ExpenseAccountSummary = {
+  from: string;
+  to: string;
+  currency: 'USD';
+  account: ExpenseAccount;
+  totalExpenses: string;
+  expenses: { id: string; code: string; name: string; amount: string }[];
+};
+
+/** Net posted expense, using recorded USD base amounts and each entry's own date.
+ * A reversal belongs to its posting period; its original remains in earlier periods. */
+export async function expenseAccountSummary(
+  org: string,
+  accountCode: string,
+  from: string,
+  to: string,
+  db?: Db,
+): Promise<ExpenseAccountSummary> {
+  z.object({ from: z.iso.date(), to: z.iso.date() })
+    .refine((range) => range.from <= range.to, 'The start date must not follow the end date')
+    .parse({ from, to });
+  if (!db) return reportSnapshot((snapshot) => expenseAccountSummary(org, accountCode, from, to, snapshot));
+  const chart = await expenseAccountChart(org, db);
+  const account = chart.find((item) => item.code === accountCode);
+  if (!account)
+    throw new AppError(
+      422,
+      'INVALID_EXPENSE_ACCOUNT',
+      'Choose an expense account from this workspace. No broader expense total was substituted.',
+    );
+
+  const children = new Map<string, ExpenseAccount[]>();
+  for (const item of chart) {
+    if (!item.parent_id) continue;
+    const siblings = children.get(item.parent_id) ?? [];
+    siblings.push(item);
+    children.set(item.parent_id, siblings);
+  }
+  const selected = new Set([account.id]);
+  const pending = [account.id];
+  while (pending.length) {
+    for (const child of children.get(pending.pop()!) ?? []) {
+      if (selected.has(child.id)) continue;
+      selected.add(child.id);
+      pending.push(child.id);
+    }
+  }
+  // Reuse the accounting engine, without its UI's top-five presentation limit.
+  const statement = await incomeStatement(org, from, to, db);
+  const amounts = new Map(statement.expenses.map((row) => [row.id, row.amount]));
+  const expenses = chart
+    .filter((item) => selected.has(item.id) && !item.is_group)
+    .map((item) => ({
+      id: item.id,
+      code: item.code,
+      name: item.name,
+      amount: money(amounts.get(item.id) ?? '0'),
+    }));
+  return {
+    from,
+    to,
+    currency: 'USD',
+    account,
+    totalExpenses: money(sum(expenses.map((row) => row.amount))),
+    expenses,
+  };
+}
 export async function trialBalance(org: string, from: string, to: string, db?: Db) {
   const rows = await query<{
     id: string;

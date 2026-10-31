@@ -54,7 +54,7 @@ AI_SERVICE_UNAVAILABLE AI_TIMEOUT AI_USAGE_UNAVAILABLE UNSUPPORTED_TOOL CHART_TO
 ACCOUNTING_RULE ACCOUNT_LIMIT BODY_TOO_LARGE CONCURRENT_CHANGE DATABASE_UNAVAILABLE
 IDEMPOTENCY_KEY_REQUIRED INTERNAL_ERROR INVALID_DATE_RANGE INVALID_INPUT INVALID_JSON NOT_FOUND
 QUERY_TIMEOUT RECORD_IN_USE DUPLICATE_RECORD AMOUNT_TOO_SMALL CONFIRM_EXCHANGE_RATES CURRENCY_PRECISION
-IDEMPOTENCY_CONFLICT IMMUTABLE_ENTRY INVALID_ACCOUNT INVALID_AMOUNT INVALID_CURSOR INVALID_EXCHANGE_RATE
+IDEMPOTENCY_CONFLICT IMMUTABLE_ENTRY INVALID_ACCOUNT INVALID_EXPENSE_ACCOUNT INVALID_AMOUNT INVALID_CURSOR INVALID_EXCHANGE_RATE
 INVALID_REVERSAL_DATE NOT_POSTED STALE_DRAFT UNBALANCED_ENTRY INVALID_SCHEDULE SCHEDULE_ANCHOR_FIXED
 SCHEDULE_LIMIT STALE_SCHEDULE GROUP_LEDGER METHOD_NOT_ALLOWED SCHEDULE_UNAVAILABLE UNAUTHORIZED
 INVALID_PROPOSAL PROPOSAL_NOT_FOUND PROPOSAL_BINDING_INVALID PROPOSAL_ALREADY_USED PROPOSAL_EXPIRED
@@ -92,10 +92,12 @@ type DiagnosticEvent =
   | 'ai_provider_failure'
   | 'ai_request_failed'
   | 'ai_category_result'
+  | 'ai_financial_query'
   | 'database_pool'
   | 'database_rollback_failed'
   | 'worker_error';
 type DiagnosticFields = {
+  tool?: string;
   code?: string;
   stage?: FailureStage;
   status?: number;
@@ -155,6 +157,19 @@ export function diagnostic(
   if (count(fields.durationMs)) output.durationMs = fields.durationMs;
   if (
     [
+      'expense_summary',
+      'expense_by_account',
+      'income_summary',
+      'period_comparison',
+      'revenue_comparison',
+      'find_transactions',
+      'cash_position',
+      'ask_clarification',
+    ].includes(fields.tool ?? '')
+  )
+    output.tool = fields.tool;
+  if (
+    [
       'category',
       'proposal',
       'financial_tool',
@@ -195,6 +210,7 @@ export function diagnostic(
   // Database callers supply only databaseCode() output; this second gate excludes free-form messages.
   const safeDatabaseCode = databaseCode({ code: fields.databaseCode });
   if (safeDatabaseCode) output.databaseCode = safeDatabaseCode;
-  if (event === 'http_request' || event === 'ai_category_result') console.log(JSON.stringify(output));
+  if (event === 'http_request' || event === 'ai_category_result' || event === 'ai_financial_query')
+    console.log(JSON.stringify(output));
   else console.error(JSON.stringify(output));
 }
