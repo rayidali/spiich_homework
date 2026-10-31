@@ -195,4 +195,52 @@ describe('external curl chat controller (zero network)', () => {
     expect(JSON.stringify(result)).not.toContain('PRIVATE_PROVIDER_ERROR_SENTINEL');
     expect(readFileSync(file, 'utf8')).toBe(body);
   });
+  it.each(['missing', 'different'])(
+    'retains the reservation and halts for %s returned model identity despite valid token math',
+    (kind) => {
+      const p = setup(),
+        a = prepare(p, 'setup', 'composable', 'P01');
+      claim(p, a.id, 'synthetic-key');
+      const body: Record<string, unknown> = raw();
+      if (kind === 'missing') delete body.modelVersion;
+      else body.modelVersion = 'gemini-other-version';
+      writeFileSync(join(p, 'attempts', a.id, 'response.json'), JSON.stringify(body));
+      const result = complete(p, a.id, '200 0.10 0 CHAT_HTTP_DONE_V1\n', 0);
+      expect(result.outcome).toMatchObject({
+        status: 'invalid_response',
+        errorCode: 'MODEL_IDENTITY_UNVERIFIED',
+        usage: null,
+      });
+      expect(result.outcome.call).toBeUndefined();
+      expect(result.totals.unknownReservedUsd).toBe(a.reservedUsd);
+      expect(result.haltReason).toBe('CHAT_USAGE_UNKNOWN');
+    },
+  );
+  it.each(['invalid_call', 'known_cost_5xx'])(
+    'counts %s as a failed development trial, retains its cost and permits the next distinct slot',
+    (kind) => {
+      const p = setup(),
+        probe = prepare(p, 'setup', 'composable', 'P01');
+      claim(p, probe.id, 'synthetic-key');
+      writeFileSync(join(p, 'attempts', probe.id, 'response.json'), JSON.stringify(raw()));
+      complete(p, probe.id, '200 0.10 0 CHAT_HTTP_DONE_V1\n', 0);
+      const a = prepare(p, 'development', 'authored', 'D01');
+      claim(p, a.id, 'synthetic-key');
+      const body = raw();
+      body.candidates[0].content.parts[0].functionCall.name = 'not_an_allowed_tool';
+      writeFileSync(join(p, 'attempts', a.id, 'response.json'), JSON.stringify(body));
+      const result = complete(
+        p,
+        a.id,
+        `${kind === 'known_cost_5xx' ? '503' : '200'} 0.10 0 CHAT_HTTP_DONE_V1\n`,
+        0,
+      );
+      expect(result.outcome.status).toBe(kind === 'known_cost_5xx' ? 'provider_error' : 'invalid_response');
+      expect(result.outcome.call).toBeUndefined();
+      expect(result.haltReason).toBeNull();
+      expect(result.totals.knownUsd).toBe('0.000160000000');
+      expect(() => prepare(p, 'development', 'authored', 'D01')).toThrow('CHAT_NO_RETRY');
+      expect(prepare(p, 'development', 'composable', 'D01').slot).toBe('development/composable/D01');
+    },
+  );
 });

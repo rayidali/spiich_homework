@@ -3,7 +3,14 @@ import { join, resolve, relative } from 'node:path';
 import { homedir } from 'node:os';
 import { ChatBudget, reserveEstimate, totals } from './budget';
 import { exclusiveJson, hash, readJson, withLock } from './io';
-import { MAX_RESPONSE_BYTES, MODEL, parsePlan, plannerRequest, reportedUsage } from './planner';
+import {
+  MAX_RESPONSE_BYTES,
+  MODEL,
+  modelIdentityMatches,
+  parsePlan,
+  plannerRequest,
+  reportedUsage,
+} from './planner';
 import type { ChatRoute, EvaluationCase, Fixture, Phase, RecordedOutcome } from './types';
 export type RunManifest = {
   version: 'daybook-chat-evaluation-v1';
@@ -291,6 +298,7 @@ export function complete(path: string, id: string, footer: string, curlExit: num
       outcome.status = 'transport_error';
       outcome.errorCode = `CURL_${curlExit}`;
     } else if (invalidBody || raw === undefined) outcome.errorCode = 'RESPONSE_JSON_OR_SIZE';
+    else if (!modelIdentityMatches(raw)) outcome.errorCode = 'MODEL_IDENTITY_UNVERIFIED';
     else {
       try {
         if (sourceFingerprint().hash !== p.sourceHash) throw Error('CHAT_SOURCE_DRIFT');

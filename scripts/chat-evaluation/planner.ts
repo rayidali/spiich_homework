@@ -25,9 +25,12 @@ export function plannerRequest(route: ChatRoute, fixture: Fixture, messages: Mod
   const request = buildGeminiFinancialRequest(input.tools, input.instructions, messages, MODEL);
   return { ...request, tools: input.tools, hash: hash(JSON.stringify(request.body)) };
 }
-/** Billing metadata is recovered even if the tool call is malformed. Additive metadata is allowed. */
+export function modelIdentityMatches(raw: unknown): boolean {
+  return !!raw && typeof raw === 'object' && 'modelVersion' in raw && raw.modelVersion === MODEL;
+}
+/** Billing is settled only for the pinned returned identity, even if its tool call is malformed. */
 export function reportedUsage(raw: unknown): TokenUsage | null {
-  if (!raw || typeof raw !== 'object' || !('usageMetadata' in raw)) return null;
+  if (!modelIdentityMatches(raw) || !raw || typeof raw !== 'object' || !('usageMetadata' in raw)) return null;
   const u = raw.usageMetadata as Record<string, unknown> | undefined;
   if (!u || typeof u !== 'object') return null;
   const values = [u.promptTokenCount, u.candidatesTokenCount, u.thoughtsTokenCount ?? 0, u.totalTokenCount];
@@ -40,6 +43,7 @@ export function parsePlan(
   request: ReturnType<typeof plannerRequest>,
   raw: unknown,
 ): { call: RecordedCall; modelVersion?: string } {
+  if (!modelIdentityMatches(raw)) throw Error('MODEL_IDENTITY_UNVERIFIED');
   const parsed = parseGeminiFinancialResponse(request.tools, raw);
   return {
     call: { name: parsed.call.name, args: parseInsightArgs(parsed.call.name, parsed.call.args) },
