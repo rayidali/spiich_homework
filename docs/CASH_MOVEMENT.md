@@ -1,5 +1,11 @@
 # Cash change: what the new query means
 
+## Current verified release
+
+Source **`012f2976bb67a9078e31fa8532012b3dde39bde1` is promoted** at [Daybook](https://daybook-ledger-delta.vercel.app), deployment `dpl_HqLGk4BcGtfnGDoUoH2Yq148KAnG`. [Full CI 41249500987](https://github.com/rayidali/spiich_homework/actions/runs/41249500987) passed verification, native research and Compose; live-AI was skipped. The actual stable alias and project production target match this READY/PROMOTED deployment, with all-deployment protection retained. [Release evidence](evidence/cash-movement-release.json).
+
+Exact-source CI passed **1,530 tests across 81 files and all 28 browser workflows**. The 75 named cash-movement cases—26 compiler/output, seven chat, 30 calculator and 12 real-PostgreSQL tests—are included in that total. Provider responses in engineering tests are stubbed; actual database cases use independently specified arithmetic. Browser checks run against the CI build, not the hosted demo. No provider inference, new model-accuracy score or reopened budget was involved. Protected health, metadata and SPA GETs verify deployment, not hosted browser behavior or model understanding. No fresh full-ledger comparison was made; unchanged current books are not claimed. Earlier studies and live-model results remain bound to their original source.
+
 Suppose the business starts March with $100 in its bank account. A customer pays $50, the business pays $20 for supplies, and it moves $30 from the bank to petty cash.
 
 | Event             | Bank change | Petty-cash change | Combined cash change |
