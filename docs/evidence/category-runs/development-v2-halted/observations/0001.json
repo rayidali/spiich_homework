@@ -1,0 +1,47 @@
+{
+  "caseId": "meaning-invoice-dev:c0",
+  "selector": "gemini",
+  "inputHash": "cbec610c2236cf61b5dabc6cf2a95674a13de9dfe7e5d59670abbe787c6a9818",
+  "status": "ok",
+  "result": {
+    "decision": "UNSUPPORTED",
+    "reason": "unsupported_description",
+    "message": "This needs the full journal-entry review. A simple category suggestion cannot safely describe all account effects."
+  },
+  "attempts": 1,
+  "latencyMs": 2091,
+  "reportedCostUsd": "0.000257100000",
+  "reservedUnknownUsd": null,
+  "slotId": "gemini:meaning-invoice-dev:c0",
+  "index": 1,
+  "sourceHash": "4ae49bce1d51137581614b41b2248b9a5a7117f3740b75b195cc0d293ba498df",
+  "manifestHash": "3505f78714bea7f5ba0e18069c1e98d081c943edccaef58ff8fab2ee33fa3496",
+  "snapshotHash": "239c2f4c1cad426f37bdb778da0933ff25c0bcff3c4a772a2bb32f0bea5cde66",
+  "startedAt": "2026-10-31T17:42:28.357Z",
+  "finishedAt": "2026-10-31T17:42:30.453Z",
+  "metadata": {
+    "provider": "gemini",
+    "requestedModel": "gemini-3.5-flash-lite",
+    "returnedModel": "gemini-3.5-flash-lite",
+    "contractVersion": "category-selector-v1",
+    "snapshotHash": "239c2f4c1cad426f37bdb778da0933ff25c0bcff3c4a772a2bb32f0bea5cde66",
+    "attempts": 1,
+    "durationMs": 2090,
+    "usage": {
+      "inputTokens": 757,
+      "outputTokens": 12,
+      "thinkingTokens": 0,
+      "totalTokens": 769
+    }
+  },
+  "basis": "model",
+  "httpStatus": 200,
+  "exitCode": 0,
+  "networkMs": 873,
+  "claimed": true,
+  "dispatched": true,
+  "localFailure": null,
+  "previousHash": "651f1c68ee73b055bfa89a568763b19bc2884265c7d02ef98ebafe289490b8f6",
+  "failureDisposition": "none",
+  "recordHash": "213235d040d60f93504570e69caea9765f58a141225e5586203759b041cc529a"
+}

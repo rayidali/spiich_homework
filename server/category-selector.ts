@@ -567,6 +567,25 @@ const jevSchema = z.object({
   usage: z.object({ input_tokens: countSchema, output_tokens: countSchema }),
 });
 
+function plausibleRoundedProbabilityMass(probabilities: number[]) {
+  // TypeSafe's published Choice examples and the observed pinned API response
+  // round signals to two decimals. This is a compatibility allowance, not a
+  // promised wire precision: preserve finer reported precision when present.
+  // https://docs.typesafe.ai/primitives/choice
+  // Check that some normalized distribution fits the rounding intervals; do
+  // not rewrite the vendor's signals or treat them as calibrated accuracy.
+  let lower = new Decimal(0),
+    upper = new Decimal(0);
+  for (const probability of probabilities) {
+    const value = new Decimal(probability);
+    const halfUnit = new Decimal(10).pow(-Math.max(2, value.decimalPlaces())).div(2);
+    lower = lower.plus(Decimal.max(0, value.minus(halfUnit)));
+    upper = upper.plus(Decimal.min(1, value.plus(halfUnit)));
+  }
+  const floatTolerance = new Decimal(Number.EPSILON).times(4 * probabilities.length);
+  return lower.lte(new Decimal(1).plus(floatTolerance)) && upper.gte(new Decimal(1).minus(floatTolerance));
+}
+
 export async function selectCategory(
   snapshot: CategorySnapshot,
   options: CategorySelectorOptions,
@@ -695,15 +714,15 @@ export async function selectCategory(
       )
         invalidResponse();
       const probabilities = keys.map((k) => answer.probabilities[k]);
-      const top = Math.max(...probabilities),
-        sum = probabilities.reduce((a, b) => a + b, 0);
+      const top = Math.max(...probabilities);
       if (
         !keys.includes(answer.choice) ||
-        Math.abs(sum - 1) > 1e-5 ||
-        Math.abs(answer.probabilities[answer.choice] - top) > 1e-6 ||
-        Math.abs(answer.confidence - (top - 1 / keys.length) / (1 - 1 / keys.length)) > 1e-5
+        !plausibleRoundedProbabilityMass(probabilities) ||
+        top - answer.probabilities[answer.choice] > 4 * Number.EPSILON
       )
         invalidResponse();
+      // Equal reported maxima may hide a rounded tie. Confidence is separately
+      // rounded and unused for control flow, so do not recompute its formula.
       metadata.returnedModel = data.model;
       metadata.usage = {
         inputTokens: data.usage.input_tokens,

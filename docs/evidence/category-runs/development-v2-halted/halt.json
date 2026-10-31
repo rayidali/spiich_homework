@@ -1,0 +1,7 @@
+{
+  "slotId": "jev:repeat-paper-dev:c1",
+  "errorCode": "AI_INVALID_RESPONSE",
+  "sourceHash": "4ae49bce1d51137581614b41b2248b9a5a7117f3740b75b195cc0d293ba498df",
+  "recordedAt": "2026-10-31T17:42:32.765Z",
+  "resume": "Requires explicit reviewed continuation; no automatic retry or source rebinding."
+}

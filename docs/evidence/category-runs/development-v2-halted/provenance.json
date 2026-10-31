@@ -1,0 +1,48 @@
+{
+  "at": "2026-10-31T17:46:32.919604+00:00",
+  "sourceCommit": "b7677f5de1eff1416342d4e4a35a4511664b400d",
+  "scope": "Preserved incomplete development version; never pooled into repaired-version accuracy.",
+  "result": "Halted after ancillary confidence arithmetic rejected rounded Jev signals.",
+  "observedSlots": 5,
+  "plannedDevelopmentSlots": 54,
+  "thisVersionPaidAttempts": {
+    "gemini": 2,
+    "jev": 2
+  },
+  "cumulativeCosts": {
+    "gemini": {
+      "attempts": 3,
+      "knownUsd": "0.001095400000",
+      "unknownReservedUsd": "0.000000000000",
+      "chargedUsd": "0.001095400000"
+    },
+    "jev": {
+      "attempts": 2,
+      "knownUsd": "0.000188076000",
+      "unknownReservedUsd": "0.000000000000",
+      "chargedUsd": "0.000188076000"
+    }
+  },
+  "heldoutCalls": 0,
+  "ledgerClosed": true,
+  "sourceHashes": {
+    "manifest.json": "cd0d78eb001738d605ced6f19d651d7ca346b5e9ec04421ebbeed1e997588fd1",
+    "budget.json": "3621759308e75c3ef66407828a334c3fbbc6cefdb646d174d722bec8e1b1c5eb",
+    "halt.json": "27562dfd2911bfc8026bdcaade6d584dfb255f4ada50efc779fe5ac6d24296f2",
+    "closure.json": "520cafbb72afec8bb06795d0fac003477888930e5c9793045e64937ed0557862",
+    "finished.json": "8ea393cd3592577d7efe0e07f9efaa5cf8dd89ba14f0b6644d5ac5092fa41ac0",
+    "observations/0000.json": "8898b3c4b96ef9835a24d1f6af7e819501b97e2bb9caf3c44daa952fcd856028",
+    "observations/0001.json": "87d26b0bcc31f634fa58ea802b56f8d062e9937c90b84b5242b21cad4fa2b116",
+    "observations/0002.json": "064f044f89ab3143ea2e901ef1fe7aa333b54188759bb8967ec8f6d3e3da43b9",
+    "observations/0003.json": "9de12b2214f667607d3dfb622fcafe8b76785b0af96cb7adf5b745c3c6389561",
+    "observations/0004.json": "8d793971a5e02cf0bc92c81225a7e7882dc675e8b6dfbd38a21df776bb2d1d18",
+    "development/results.json": "b44667c67ef4eee9f5738fc3030871c316a43920a5146565b0204baa69984238",
+    "development/report.md": "b0ef9a1a0ae44cd4c7d727fb8887769d2bcf494439c62ee8217439c194111b24",
+    "development/report.html": "dc26c364ba5adcc0cb38fbe048b3ed914c1f93faec2c52c57b3bcbdf7ee37731"
+  },
+  "exclusions": [
+    "API keys and private configuration",
+    "Raw authenticated requests/headers/provider responses",
+    "Local transport paths and authentication files"
+  ]
+}

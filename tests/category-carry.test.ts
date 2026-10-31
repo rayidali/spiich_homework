@@ -7,6 +7,7 @@ import {
   CATEGORY_LIMITS,
   CategoryBudget,
   categoryBudgetTotals,
+  addCategoryTotals,
   verifyCategoryCarry,
   type CategoryCarryReceipt,
   type CategoryCarryOptions,
@@ -98,7 +99,150 @@ function fixture(
   return { dir, old, current, path, receiptPath, receipt, options: saveReceipt(), saveReceipt };
 }
 
+function fixtureV3(
+  seed: (budget: CategoryBudget) => void = (budget) => {
+    budget.reserve('v2:gemini', 'gemini', gemini);
+    budget.settle('v2:gemini', { inputTokens: 100, outputTokens: 10 });
+  },
+) {
+  const first = fixture();
+  const secondBudget = new CategoryBudget(first.path, newSource, 'create', first.options);
+  seed(secondBudget);
+  const opening = secondBudget.snapshot().openingCarry!;
+  secondBudget.release(true);
+  const second = first.current;
+  mkdirSync(join(second, 'observations'));
+  writeFileSync(
+    join(second, 'manifest.json'),
+    JSON.stringify({
+      run: 'category-learning-20261031-v2',
+      version: 'daybook-category-learning-v2',
+      source: { sourceHash: newSource, files: { 'docs/CATEGORIZATION_PROTOCOL.md': 'd'.repeat(64) } },
+      openingCarry: opening,
+    }),
+  );
+  writeFileSync(
+    join(second, 'private-config.json'),
+    JSON.stringify({ keyFingerprints: first.options.keyFingerprints, openingCarry: opening }),
+  );
+  writeFileSync(join(second, 'halt.json'), '{"reason":"synthetic rounded confidence adapter failure"}');
+  writeFileSync(join(second, 'closure.json'), '{"closed":true}');
+  writeFileSync(join(second, 'observations/0000.json'), '{"status":"error","fixture":true}');
+  const current = join(first.dir, 'category-learning-20261031-v3');
+  mkdirSync(current);
+  const path = join(current, 'budget.json'),
+    receiptPath = join(first.dir, 'v3-approval.json');
+  const ledger = JSON.parse(readFileSync(first.path, 'utf8'));
+  const receipt: CategoryCarryReceipt = {
+    ...first.receipt,
+    reason: 'jev-rounded-confidence-compatibility',
+    fromRun: 'category-learning-20261031-v2',
+    toRun: 'category-learning-20261031-v3',
+    fromVersion: 'daybook-category-learning-v2',
+    toVersion: 'daybook-category-learning-v3',
+    targetSourceHash: 'e'.repeat(64),
+    targetLedgerPath: path,
+    ancestorReceipt: { receiptPath: first.receiptPath, receiptSha256: first.options.receiptSha256 },
+    predecessorLedgerSha256: hash(readFileSync(first.path, 'utf8')),
+    predecessorSourceHash: newSource,
+    predecessorProtocolSha256: 'd'.repeat(64),
+    artifactHashes: Object.fromEntries(
+      ['manifest.json', 'private-config.json', 'halt.json', 'closure.json', 'observations/0000.json'].map(
+        (file) => [file, hash(readFileSync(join(second, file), 'utf8'))],
+      ),
+    ),
+    totals: addCategoryTotals(categoryBudgetTotals(ledger.records), opening.totals),
+  };
+  const saveReceipt = () => {
+    writeFileSync(receiptPath, JSON.stringify(receipt));
+    return {
+      receiptPath,
+      receiptSha256: hash(readFileSync(receiptPath, 'utf8')),
+      keyFingerprints: first.options.keyFingerprints,
+    };
+  };
+  return {
+    dir: first.dir,
+    old: second,
+    current,
+    path,
+    receiptPath,
+    receipt,
+    options: saveReceipt(),
+    saveReceipt,
+    first,
+  };
+}
+
 describe('Finite reviewed v1 to v2 category carry', () => {
+  it('verifies both fixed ancestor approvals and adds their records exactly once', () => {
+    const f = fixtureV3();
+    const carry = verifyCategoryCarry(f.path, 'e'.repeat(64), f.options);
+    expect(carry.totals.gemini).toMatchObject({ attempts: 2, knownUsd: '0.000110000000' });
+    expect(carry.ancestorCarry!.totals.gemini.attempts).toBe(1);
+    const budget = new CategoryBudget(f.path, 'e'.repeat(64), 'create', f.options);
+    budget.reserve('v3:new', 'gemini', gemini);
+    budget.settle('v3:new', null);
+    expect(budget.accounting().cumulative.gemini.attempts).toBe(3);
+    expect(Number(budget.accounting().cumulative.gemini.unknownReservedUsd)).toBeGreaterThan(0);
+    budget.release();
+  });
+  it('rejects modified ancestors, omitted ancestors, undercounted or double-counted totals and repeated transitions', () => {
+    for (const mutation of [
+      'ancestor-ledger',
+      'ancestor-approval',
+      'ancestor-output',
+      'missing',
+      'undercount',
+      'duplicate',
+      'cycle',
+      'manifest-carry',
+    ]) {
+      const f = fixtureV3();
+      if (mutation === 'ancestor-ledger') writeFileSync(join(f.first.old, 'budget.json'), '{}');
+      if (mutation === 'ancestor-approval') writeFileSync(f.first.receiptPath, '{}');
+      if (mutation === 'ancestor-output') writeFileSync(join(f.first.old, 'observations/0000.json'), '{}');
+      if (mutation === 'missing') delete f.receipt.ancestorReceipt;
+      if (mutation === 'undercount') f.receipt.totals = f.first.receipt.totals;
+      if (mutation === 'duplicate')
+        f.receipt.totals = addCategoryTotals(f.receipt.totals, f.first.receipt.totals);
+      if (mutation === 'cycle')
+        f.receipt.ancestorReceipt = { receiptPath: f.receiptPath, receiptSha256: f.options.receiptSha256 };
+      if (mutation === 'manifest-carry') {
+        const path = join(f.old, 'manifest.json'),
+          body = JSON.parse(readFileSync(path, 'utf8'));
+        body.openingCarry.totals.gemini.attempts = 0;
+        writeFileSync(path, JSON.stringify(body));
+        f.receipt.artifactHashes['manifest.json'] = hash(readFileSync(path, 'utf8'));
+      }
+      expect(() => verifyCategoryCarry(f.path, 'e'.repeat(64), f.saveReceipt()), mutation).toThrow(
+        'BUDGET_CARRY_BINDING',
+      );
+    }
+  });
+  it('deducts attempts and unknown costs from both earlier versions against unchanged ceilings', () => {
+    const f = fixtureV3((budget) => {
+      for (let i = 0; i < 70; i++) {
+        budget.reserve(`v2:${i}`, 'gemini', gemini);
+        budget.settle(`v2:${i}`, { inputTokens: 0, outputTokens: 0 });
+      }
+    });
+    const budget = new CategoryBudget(f.path, 'e'.repeat(64), 'create', f.options);
+    budget.reserve('last', 'gemini', gemini);
+    budget.settle('last', { inputTokens: 0, outputTokens: 0 });
+    expect(budget.accounting().cumulative.gemini.attempts).toBe(72);
+    expect(() => budget.reserve('extra', 'gemini', gemini)).toThrow('BUDGET_EXHAUSTED');
+    budget.release();
+    const unknown = fixtureV3((b) => {
+      for (let i = 0; i < 7; i++) {
+        b.reserve(`u:${i}`, 'jev', jev);
+        b.settle(`u:${i}`, null);
+      }
+    });
+    const u = new CategoryBudget(unknown.path, 'e'.repeat(64), 'create', unknown.options);
+    expect(() => u.reserve('extra', 'jev', jev)).toThrow('BUDGET_EXHAUSTED');
+    u.release();
+  });
   it('keeps the predecessor bytes untouched and separates known carry from new records and cohort totals', () => {
     const f = fixture(),
       original = readFileSync(join(f.old, 'budget.json'), 'utf8');
@@ -249,8 +393,8 @@ describe('Finite reviewed v1 to v2 category carry', () => {
     ).rejects.toThrow('RUN_CARRY_REQUIRED');
     expect(readdirSync(f.dir)).not.toContain('unapproved');
   });
-  it('binds the reviewed carry to both runner phases while keeping prior attempts out of v2 accuracy', async () => {
-    const f = fixture();
+  it('binds the reviewed carry to both v3 runner phases while keeping both earlier runs out of accuracy', async () => {
+    const f = fixtureV3();
     writeFileSync(join(f.dir, 'frozen.txt'), 'synthetic frozen v2 source');
     f.receipt.targetSourceHash = categorySourceBinding(f.dir, ['frozen.txt']).sourceHash;
     const carry = f.saveReceipt();
@@ -300,7 +444,7 @@ describe('Finite reviewed v1 to v2 category carry', () => {
       };
     const options = {
       root: f.dir,
-      run: 'category-learning-20261031-v2',
+      run: 'category-learning-20261031-v3',
       directory: f.current,
       split: 'development' as const,
       mode: 'create' as const,
@@ -311,16 +455,16 @@ describe('Finite reviewed v1 to v2 category carry', () => {
     };
     const dev = await runCategoryEvaluation(options, { transport });
     expect(dev.observed).toBe(9);
-    expect(dev.accounting.cohort!.predecessor.gemini.attempts).toBe(1);
+    expect(dev.accounting.cohort!.predecessor.gemini.attempts).toBe(2);
     expect(dev.accounting.cohort!.currentRun.gemini.attempts).toBe(3);
-    expect(dev.accounting.cohort!.cumulative.gemini.attempts).toBe(4);
+    expect(dev.accounting.cohort!.cumulative.gemini.attempts).toBe(5);
     const holdout = await runCategoryEvaluation(
       { ...options, split: 'holdout', mode: 'resume' },
       { transport },
     );
     expect(holdout.observed).toBe(9);
     expect(holdout.scores).toHaveLength(9);
-    expect(holdout.accounting.cohort!.cumulative.gemini.attempts).toBe(7);
+    expect(holdout.accounting.cohort!.cumulative.gemini.attempts).toBe(8);
     expect(holdout.accounting.priorAccuracyPooled).toBe(false);
     expect(holdout.selectors.find((s) => s.selector === 'gemini')!.costs.actualAttempts).toBe(3);
     expect(readFileSync(join(f.old, 'budget.json'), 'utf8')).toBe(prior);

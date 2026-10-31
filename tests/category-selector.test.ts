@@ -384,10 +384,13 @@ describe('provider response contract', () => {
     'unknown',
     'missing',
     'negative',
+    'above_one',
     'nan',
     'sum',
     'choice_not_max',
-    'confidence',
+    'negative_confidence',
+    'above_one_confidence',
+    'nonfinite_confidence',
     'model',
     'tokens',
     'negative_output',
@@ -399,10 +402,13 @@ describe('provider response contract', () => {
       if (defect === 'unknown') body.answers.category.choice = 'account_foreign';
       if (defect === 'missing') delete body.answers.category.probabilities.clarify_category;
       if (defect === 'negative') body.answers.category.probabilities.clarify_category = -1;
+      if (defect === 'above_one') body.answers.category.probabilities.clarify_category = 1.1;
       if (defect === 'nan') body.answers.category.probabilities.clarify_category = NaN;
       if (defect === 'sum') body.answers.category.probabilities.clarify_category = 0.1;
       if (defect === 'choice_not_max') body.answers.category.choice = 'clarify_category';
-      if (defect === 'confidence') body.answers.category.confidence = 0.6;
+      if (defect === 'negative_confidence') body.answers.category.confidence = -0.1;
+      if (defect === 'above_one_confidence') body.answers.category.confidence = 1.1;
+      if (defect === 'nonfinite_confidence') body.answers.category.confidence = Infinity;
       if (defect === 'model') body.model = 'jev-1.13.0';
       if (defect === 'tokens') body.usage.input_tokens = 1.5;
       if (defect === 'negative_output') body.usage.output_tokens = -1;
@@ -415,6 +421,118 @@ describe('provider response contract', () => {
     ).rejects.toMatchObject({ code: 'AI_INVALID_RESPONSE' });
     expect(transport).toHaveBeenCalledTimes(1);
   });
+  it('accepts the observed eleven-option Jev response with independently rounded confidence', async () => {
+    const ctx = context();
+    const printing = id(20);
+    for (let i = 0; i < 6; i++) {
+      ctx.accounts.push({
+        ...ctx.accounts[2],
+        id: id(20 + i),
+        code: String(5300 + i),
+        name: i ? `Expense ${i}` : 'Printing',
+      });
+    }
+    const transport = vi.fn<CategoryTransport>().mockImplementation(async (request) => {
+      const body = jevBody(request, key(printing));
+      const answer = body.answers.category;
+      expect(Object.keys(answer.probabilities)).toHaveLength(11);
+      for (const option of Object.keys(answer.probabilities)) answer.probabilities[option] = 0;
+      answer.probabilities[key(printing)] = 0.65;
+      answer.probabilities[key(supplies)] = 0.28;
+      answer.probabilities[key(rent)] = 0.07;
+      answer.confidence = 0.62;
+      return { status: 200, body };
+    });
+    const result = await selectCategory(snapshot({}, ctx), { provider: 'jev', apiKey: 'test', transport });
+    expect(result).toMatchObject({
+      decision: 'SELECT',
+      accountId: printing,
+      reviewRequired: true,
+      signals: {
+        confidence: 0.62,
+        probabilities: { [key(printing)]: 0.65 },
+        interpretation: 'uncalibrated_model_signal',
+      },
+    });
+    expect(transport).toHaveBeenCalledTimes(1);
+  });
+  it.each([
+    [0.33, 0.33, 0.33],
+    [0.34, 0.33, 0.34],
+  ])('accepts rounding-compatible probability mass without normalizing %j', async (a, b, c) => {
+    const transport = vi.fn<CategoryTransport>().mockImplementation(async (request) => {
+      const body = jevBody(request);
+      body.answers.category.probabilities = {
+        [key(supplies)]: a,
+        [key(rent)]: b,
+        clarify_purpose: c,
+        clarify_category: 0,
+        unsupported: 0,
+      };
+      body.answers.category.confidence = 0.12;
+      return { status: 200, body };
+    });
+    const result = await selectCategory(snapshot(), { provider: 'jev', apiKey: 'test', transport });
+    expect(result).toMatchObject({ decision: 'SELECT', accountId: supplies, signals: { confidence: 0.12 } });
+    expect(result.signals?.probabilities[key(supplies)]).toBe(a);
+    expect(Object.values(result.signals!.probabilities).reduce((sum, p) => sum + p, 0)).not.toBe(1);
+  });
+  it.each([supplies, rent])('accepts either equal rounded maximum %s', async (chosen) => {
+    const transport = vi.fn<CategoryTransport>().mockImplementation(async (request) => {
+      const body = jevBody(request, key(chosen));
+      Object.assign(body.answers.category.probabilities, { [key(supplies)]: 0.5, [key(rent)]: 0.5 });
+      return { status: 200, body };
+    });
+    expect(await selectCategory(snapshot(), { provider: 'jev', apiKey: 'test', transport })).toMatchObject({
+      decision: 'SELECT',
+      accountId: chosen,
+    });
+  });
+  it.each([0.1999, 0.2001])(
+    'rejects incompatible mass at finer reported precision %s',
+    async (probability) => {
+      const transport = vi.fn<CategoryTransport>().mockImplementation(async (request) => {
+        const body = jevBody(request);
+        for (const option of Object.keys(body.answers.category.probabilities))
+          body.answers.category.probabilities[option] = probability;
+        return { status: 200, body };
+      });
+      await expect(
+        selectCategory(snapshot(), { provider: 'jev', apiKey: 'test', transport }),
+      ).rejects.toMatchObject({ code: 'AI_INVALID_RESPONSE' });
+    },
+  );
+  it('allows floating-point serialization noise without treating a smaller choice as a rounded tie', async () => {
+    let alternative = 0.5000000000000001;
+    const transport = vi.fn<CategoryTransport>().mockImplementation(async (request) => {
+      const body = jevBody(request);
+      Object.assign(body.answers.category.probabilities, { [key(supplies)]: 0.5, [key(rent)]: alternative });
+      return { status: 200, body };
+    });
+    expect(await selectCategory(snapshot(), { provider: 'jev', apiKey: 'test', transport })).toMatchObject({
+      decision: 'SELECT',
+      accountId: supplies,
+    });
+    alternative = 0.51;
+    await expect(
+      selectCategory(snapshot(), { provider: 'jev', apiKey: 'test', transport }),
+    ).rejects.toMatchObject({ code: 'AI_INVALID_RESPONSE' });
+  });
+  it.each([0.19999999999999998, 0.20000000000000004])(
+    'allows machine-precision drift in summed probabilities %s',
+    async (probability) => {
+      const transport = vi.fn<CategoryTransport>().mockImplementation(async (request) => {
+        const body = jevBody(request);
+        for (const option of Object.keys(body.answers.category.probabilities))
+          body.answers.category.probabilities[option] = probability;
+        return { status: 200, body };
+      });
+      expect(await selectCategory(snapshot(), { provider: 'jev', apiKey: 'test', transport })).toMatchObject({
+        decision: 'SELECT',
+        accountId: supplies,
+      });
+    },
+  );
   it.each([
     'foreign',
     'json',

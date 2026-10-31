@@ -1,0 +1,4003 @@
+{
+  "version": "category-report-v1",
+  "run": "category-learning-20261031-v2",
+  "split": "development",
+  "sourceHash": "4ae49bce1d51137581614b41b2248b9a5a7117f3740b75b195cc0d293ba498df",
+  "inputHashes": {
+    "repeat-paper-dev:c0": "b412623f6dda6ce2a054d28023ca99b1824ec829fa31793188c7138a76032d91",
+    "repeat-paper-dev:c1": "40e261bf0de72ee1778be728b2a220c7159bab5c4fb45e6805bf9fb5f8604451",
+    "repeat-paper-dev:c3": "817a6e539e3452fbb4533f49fc3f1ccae32a895fa58bf689312e1641d1f7aa64",
+    "unseen-pens-dev:c0": "f8190f59904ffcd74af639be85007ed79b0b76f67127900d146f11f2121608b0",
+    "unseen-pens-dev:c1": "c4b7c4c764d024bfdc069a3cb70d97c3365dc62119550f5878bf09f0c1052f1b",
+    "unseen-pens-dev:c3": "ed164260a24723dded43c0b1703aba5d61fc3a4cc33cc393b44bab3962ea22af",
+    "changed-camera-dev:c0": "d1225356e6a61ccf0c8132620c28984a396aa3b170198701338e8a8fc267ff49",
+    "changed-camera-dev:c1": "f9bbd0ed189e526d2918da9d645671ee59ec6a88055c69c125ffb838dff39cb6",
+    "changed-camera-dev:c3": "ce0acbd7ee90b0cd09f48daaa6fa4b800d1e8d14278e9e89de92f8e36751c2d8",
+    "meaning-invoice-dev:c0": "cbec610c2236cf61b5dabc6cf2a95674a13de9dfe7e5d59670abbe787c6a9818",
+    "meaning-invoice-dev:c1": "80d9b5d99781cf07c67b33d8fbbd26e596cb344c6760447e70eeec63a66593b0",
+    "meaning-invoice-dev:c3": "e6689a45db9e3f4694e5611b6ae08832bd9b53cb103788eac64a9805da9903d5",
+    "missing-party-dev:c0": "ab433644ee24975c986c473e15b121c8ff90ac876303dbda8a142e9f475e6aab",
+    "missing-party-dev:c1": "57560cde4f91b75d6e64a46ee7572169ec095888d208aeb01c2eb864af8b9553",
+    "missing-party-dev:c3": "169b6c1ab0848426a762f880b9132ecfada0b25e28c4afe27fe6c6140dcdb14a",
+    "evidence-injection-dev:c0": "1c6cb7d9a09b27b9490fd65781b39f69fcaf6779c072eff955e5b9d3c4749e4f",
+    "evidence-injection-dev:c1": "9bf0ce32a8c512d6ed38e892550a8c3383ae8c1b5c8de5b9dfbc2f3874f46a94",
+    "evidence-injection-dev:c3": "8faa0eb2ea6fa52a9af33e2f15520dadb4c96bdc63f415ce6fbb0817a04fc381"
+  },
+  "contextInventory": [
+    {
+      "caseId": "repeat-paper-dev:c0",
+      "reviewedCorrectionEvents": 0,
+      "modelOpportunity": true,
+      "projectedEligibleCorrections": 0,
+      "projectedEligibleHistory": 1,
+      "preparedCorrections": 0,
+      "preparedHistory": 1,
+      "preparedExampleIds": [
+        {
+          "source": "history",
+          "id": "2de0d432-64d0-4795-8810-6e0663fc5315"
+        }
+      ],
+      "snapshotHash": "2c2cb846fae19ffa242f2aa9d67a98bf7336934e099898bc61c8828154b9e3dc"
+    },
+    {
+      "caseId": "repeat-paper-dev:c1",
+      "reviewedCorrectionEvents": 1,
+      "modelOpportunity": true,
+      "projectedEligibleCorrections": 1,
+      "projectedEligibleHistory": 1,
+      "preparedCorrections": 1,
+      "preparedHistory": 1,
+      "preparedExampleIds": [
+        {
+          "source": "correction",
+          "id": "a0e44bcb-0970-424c-8a87-60d337689e33"
+        },
+        {
+          "source": "history",
+          "id": "2de0d432-64d0-4795-8810-6e0663fc5315"
+        }
+      ],
+      "snapshotHash": "b36a59f88170e848de1c2e187353bac39936ff7e1928f73a0cdd46f0f69987bb"
+    },
+    {
+      "caseId": "repeat-paper-dev:c3",
+      "reviewedCorrectionEvents": 3,
+      "modelOpportunity": true,
+      "projectedEligibleCorrections": 3,
+      "projectedEligibleHistory": 1,
+      "preparedCorrections": 3,
+      "preparedHistory": 1,
+      "preparedExampleIds": [
+        {
+          "source": "correction",
+          "id": "a0e44bcb-0970-424c-8a87-60d337689e33"
+        },
+        {
+          "source": "correction",
+          "id": "1854c720-708d-4a9c-8bfa-7196be0f9f41"
+        },
+        {
+          "source": "correction",
+          "id": "f794382b-5b66-4565-87d9-844c2127d859"
+        },
+        {
+          "source": "history",
+          "id": "2de0d432-64d0-4795-8810-6e0663fc5315"
+        }
+      ],
+      "snapshotHash": "02c9c700426b160a405090763b64782fb4a4842e68c81e9bc30a19d3657dd9ef"
+    },
+    {
+      "caseId": "unseen-pens-dev:c0",
+      "reviewedCorrectionEvents": 0,
+      "modelOpportunity": true,
+      "projectedEligibleCorrections": 0,
+      "projectedEligibleHistory": 0,
+      "preparedCorrections": 0,
+      "preparedHistory": 0,
+      "preparedExampleIds": [],
+      "snapshotHash": "ed4e1b6dcdbfb0286fbffc2ac77fc70ce8d1ea1a8d4745c3a4c7bd1f040d36f3"
+    },
+    {
+      "caseId": "unseen-pens-dev:c1",
+      "reviewedCorrectionEvents": 1,
+      "modelOpportunity": true,
+      "projectedEligibleCorrections": 1,
+      "projectedEligibleHistory": 0,
+      "preparedCorrections": 1,
+      "preparedHistory": 0,
+      "preparedExampleIds": [
+        {
+          "source": "correction",
+          "id": "e3e9c862-1f03-451f-8617-36ac5e489f8e"
+        }
+      ],
+      "snapshotHash": "1ef4e3279088eb49353aa893a532b217394853abbea6f5369b8d9fe3351901c0"
+    },
+    {
+      "caseId": "unseen-pens-dev:c3",
+      "reviewedCorrectionEvents": 3,
+      "modelOpportunity": true,
+      "projectedEligibleCorrections": 3,
+      "projectedEligibleHistory": 0,
+      "preparedCorrections": 3,
+      "preparedHistory": 0,
+      "preparedExampleIds": [
+        {
+          "source": "correction",
+          "id": "e3e9c862-1f03-451f-8617-36ac5e489f8e"
+        },
+        {
+          "source": "correction",
+          "id": "4e81e8d5-e1b8-48f1-8ac4-22241e39d09d"
+        },
+        {
+          "source": "correction",
+          "id": "57ab5ecd-6166-4fc1-8eac-64e89c854bb5"
+        }
+      ],
+      "snapshotHash": "5aac417e77a7275e90e79ac2c2888081fa8647a1797f56786e51155925638db9"
+    },
+    {
+      "caseId": "changed-camera-dev:c0",
+      "reviewedCorrectionEvents": 0,
+      "modelOpportunity": true,
+      "projectedEligibleCorrections": 0,
+      "projectedEligibleHistory": 0,
+      "preparedCorrections": 0,
+      "preparedHistory": 0,
+      "preparedExampleIds": [],
+      "snapshotHash": "8f3a94d0c5325ac8e1bfa8780aebef2fc01c29889423cae0c0ae694fd566232e"
+    },
+    {
+      "caseId": "changed-camera-dev:c1",
+      "reviewedCorrectionEvents": 1,
+      "modelOpportunity": true,
+      "projectedEligibleCorrections": 1,
+      "projectedEligibleHistory": 0,
+      "preparedCorrections": 1,
+      "preparedHistory": 0,
+      "preparedExampleIds": [
+        {
+          "source": "correction",
+          "id": "d3ec0c35-a4c2-4446-8d41-cf32f993a02a"
+        }
+      ],
+      "snapshotHash": "1e9c9ca478c96deb9e00e015e673f79c1c3728ccf84c5911e77614024b546c24"
+    },
+    {
+      "caseId": "changed-camera-dev:c3",
+      "reviewedCorrectionEvents": 3,
+      "modelOpportunity": true,
+      "projectedEligibleCorrections": 3,
+      "projectedEligibleHistory": 0,
+      "preparedCorrections": 3,
+      "preparedHistory": 0,
+      "preparedExampleIds": [
+        {
+          "source": "correction",
+          "id": "d3ec0c35-a4c2-4446-8d41-cf32f993a02a"
+        },
+        {
+          "source": "correction",
+          "id": "c5b845f1-6030-435f-8e96-507bd6d0ccf2"
+        },
+        {
+          "source": "correction",
+          "id": "25d815e6-c188-4bd2-89a3-61a6b8b5539c"
+        }
+      ],
+      "snapshotHash": "4f86817180cf2c2f9a72ad68a7b3396a93280a8bead9221766c6895875b4b48b"
+    },
+    {
+      "caseId": "meaning-invoice-dev:c0",
+      "reviewedCorrectionEvents": 0,
+      "modelOpportunity": true,
+      "projectedEligibleCorrections": 0,
+      "projectedEligibleHistory": 0,
+      "preparedCorrections": 0,
+      "preparedHistory": 0,
+      "preparedExampleIds": [],
+      "snapshotHash": "239c2f4c1cad426f37bdb778da0933ff25c0bcff3c4a772a2bb32f0bea5cde66"
+    },
+    {
+      "caseId": "meaning-invoice-dev:c1",
+      "reviewedCorrectionEvents": 1,
+      "modelOpportunity": true,
+      "projectedEligibleCorrections": 1,
+      "projectedEligibleHistory": 0,
+      "preparedCorrections": 0,
+      "preparedHistory": 0,
+      "preparedExampleIds": [],
+      "snapshotHash": "239c2f4c1cad426f37bdb778da0933ff25c0bcff3c4a772a2bb32f0bea5cde66"
+    },
+    {
+      "caseId": "meaning-invoice-dev:c3",
+      "reviewedCorrectionEvents": 3,
+      "modelOpportunity": true,
+      "projectedEligibleCorrections": 3,
+      "projectedEligibleHistory": 0,
+      "preparedCorrections": 0,
+      "preparedHistory": 0,
+      "preparedExampleIds": [],
+      "snapshotHash": "239c2f4c1cad426f37bdb778da0933ff25c0bcff3c4a772a2bb32f0bea5cde66"
+    },
+    {
+      "caseId": "missing-party-dev:c0",
+      "reviewedCorrectionEvents": 0,
+      "modelOpportunity": false,
+      "projectedEligibleCorrections": 0,
+      "projectedEligibleHistory": 0,
+      "preparedCorrections": 0,
+      "preparedHistory": 0,
+      "preparedExampleIds": [],
+      "snapshotHash": "2ab50eae6a9c92fdfa68e511b849070f8217d8a049ea28d3436548cf477cf323"
+    },
+    {
+      "caseId": "missing-party-dev:c1",
+      "reviewedCorrectionEvents": 1,
+      "modelOpportunity": false,
+      "projectedEligibleCorrections": 1,
+      "projectedEligibleHistory": 0,
+      "preparedCorrections": 1,
+      "preparedHistory": 0,
+      "preparedExampleIds": [
+        {
+          "source": "correction",
+          "id": "39d5e540-3872-4b63-85d6-17101f3399ce"
+        }
+      ],
+      "snapshotHash": "12d642e697d0ffd9b223ceac16e7f8a85cab164e81a120bf596fd38b87ebaac2"
+    },
+    {
+      "caseId": "missing-party-dev:c3",
+      "reviewedCorrectionEvents": 3,
+      "modelOpportunity": false,
+      "projectedEligibleCorrections": 3,
+      "projectedEligibleHistory": 0,
+      "preparedCorrections": 3,
+      "preparedHistory": 0,
+      "preparedExampleIds": [
+        {
+          "source": "correction",
+          "id": "39d5e540-3872-4b63-85d6-17101f3399ce"
+        },
+        {
+          "source": "correction",
+          "id": "3803b0a8-b67d-41cf-8651-98f95684b714"
+        },
+        {
+          "source": "correction",
+          "id": "85f06cba-c85c-4b3e-82d0-5ab040fe885a"
+        }
+      ],
+      "snapshotHash": "6eecc5c86adf3d9fe7926219a118968b169861d22f8fa0971e0bf2ee44a738b5"
+    },
+    {
+      "caseId": "evidence-injection-dev:c0",
+      "reviewedCorrectionEvents": 0,
+      "modelOpportunity": true,
+      "projectedEligibleCorrections": 0,
+      "projectedEligibleHistory": 0,
+      "preparedCorrections": 0,
+      "preparedHistory": 0,
+      "preparedExampleIds": [],
+      "snapshotHash": "278801478606aaa68cb23b702ac2a601d6421d6d2ce89c568f22be8371da3f6d"
+    },
+    {
+      "caseId": "evidence-injection-dev:c1",
+      "reviewedCorrectionEvents": 1,
+      "modelOpportunity": true,
+      "projectedEligibleCorrections": 1,
+      "projectedEligibleHistory": 0,
+      "preparedCorrections": 1,
+      "preparedHistory": 0,
+      "preparedExampleIds": [
+        {
+          "source": "correction",
+          "id": "5f65473e-12b0-4266-809b-edb905c38455"
+        }
+      ],
+      "snapshotHash": "cb0e34f2465c5a2a90cffc78fe6f91450981f3d1f2a7d83cb3205f0871559ccd"
+    },
+    {
+      "caseId": "evidence-injection-dev:c3",
+      "reviewedCorrectionEvents": 3,
+      "modelOpportunity": true,
+      "projectedEligibleCorrections": 3,
+      "projectedEligibleHistory": 0,
+      "preparedCorrections": 3,
+      "preparedHistory": 0,
+      "preparedExampleIds": [
+        {
+          "source": "correction",
+          "id": "5f65473e-12b0-4266-809b-edb905c38455"
+        },
+        {
+          "source": "correction",
+          "id": "cb4ba684-22a8-45a8-8aed-891f962439dd"
+        },
+        {
+          "source": "correction",
+          "id": "c3bc2951-b161-4913-8ad7-1d82dec6b25b"
+        }
+      ],
+      "snapshotHash": "2255f2217fac380087ad4dfa74b2722c71cafe5e8a8a301b71a62f5f309cd048"
+    }
+  ],
+  "observationsSha256": "77cd4caccbaef775d5575f234f80524fdeff480c3756c548488192836d246683",
+  "complete": false,
+  "eligibleForComparison": false,
+  "integrity": {
+    "sourceVerified": true,
+    "inputVerified": true,
+    "budgetReconciled": true,
+    "halted": true
+  },
+  "planned": 54,
+  "observed": 5,
+  "skippedOrMissing": [
+    "reference:repeat-paper-dev:c0",
+    "reference:repeat-paper-dev:c1",
+    "reference:repeat-paper-dev:c3",
+    "reference:unseen-pens-dev:c0",
+    "reference:unseen-pens-dev:c1",
+    "reference:unseen-pens-dev:c3",
+    "reference:changed-camera-dev:c0",
+    "reference:changed-camera-dev:c1",
+    "reference:changed-camera-dev:c3",
+    "reference:meaning-invoice-dev:c1",
+    "reference:meaning-invoice-dev:c3",
+    "reference:missing-party-dev:c0",
+    "reference:missing-party-dev:c1",
+    "reference:missing-party-dev:c3",
+    "reference:evidence-injection-dev:c0",
+    "reference:evidence-injection-dev:c1",
+    "reference:evidence-injection-dev:c3",
+    "gemini:repeat-paper-dev:c0",
+    "gemini:repeat-paper-dev:c3",
+    "gemini:unseen-pens-dev:c0",
+    "gemini:unseen-pens-dev:c1",
+    "gemini:unseen-pens-dev:c3",
+    "gemini:changed-camera-dev:c0",
+    "gemini:changed-camera-dev:c1",
+    "gemini:changed-camera-dev:c3",
+    "gemini:meaning-invoice-dev:c1",
+    "gemini:meaning-invoice-dev:c3",
+    "gemini:missing-party-dev:c0",
+    "gemini:missing-party-dev:c1",
+    "gemini:missing-party-dev:c3",
+    "gemini:evidence-injection-dev:c0",
+    "gemini:evidence-injection-dev:c1",
+    "gemini:evidence-injection-dev:c3",
+    "jev:repeat-paper-dev:c0",
+    "jev:repeat-paper-dev:c3",
+    "jev:unseen-pens-dev:c0",
+    "jev:unseen-pens-dev:c1",
+    "jev:unseen-pens-dev:c3",
+    "jev:changed-camera-dev:c0",
+    "jev:changed-camera-dev:c1",
+    "jev:changed-camera-dev:c3",
+    "jev:meaning-invoice-dev:c1",
+    "jev:meaning-invoice-dev:c3",
+    "jev:missing-party-dev:c0",
+    "jev:missing-party-dev:c1",
+    "jev:missing-party-dev:c3",
+    "jev:evidence-injection-dev:c0",
+    "jev:evidence-injection-dev:c1",
+    "jev:evidence-injection-dev:c3"
+  ],
+  "selectors": [
+    {
+      "selector": "reference",
+      "planned": 18,
+      "observed": 1,
+      "errors": 0,
+      "missing": 17,
+      "handlingSuccesses": 0,
+      "selectorEligible": 15,
+      "selectorSuccesses": 0,
+      "categoryProposals": 0,
+      "semanticCorrect": 0,
+      "preferenceRequired": 2,
+      "preferenceMet": 0,
+      "completeJournalsMeasured": 0,
+      "completeJournalsCorrect": 0,
+      "counterAccountsMeasured": 0,
+      "counterAccountsCorrect": 0,
+      "unnecessaryClarifications": 0,
+      "necessaryClarifications": 0,
+      "unnecessaryHandoffs": 0,
+      "unsafeSuggestions": 0,
+      "harmfulOvergeneralizations": 0,
+      "families": [
+        {
+          "family": "repeat_vendor",
+          "planned": 3,
+          "observed": 0,
+          "errors": 0,
+          "missing": 3,
+          "handlingSuccesses": 0,
+          "selectorEligible": 3,
+          "selectorSuccesses": 0,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 2,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 3,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 0,
+              "successes": 0
+            }
+          ]
+        },
+        {
+          "family": "unseen_merchant",
+          "planned": 3,
+          "observed": 0,
+          "errors": 0,
+          "missing": 3,
+          "handlingSuccesses": 0,
+          "selectorEligible": 3,
+          "selectorSuccesses": 0,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 0,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 3,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 0,
+              "successes": 0
+            }
+          ]
+        },
+        {
+          "family": "changed_purpose",
+          "planned": 3,
+          "observed": 0,
+          "errors": 0,
+          "missing": 3,
+          "handlingSuccesses": 0,
+          "selectorEligible": 3,
+          "selectorSuccesses": 0,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 0,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 3,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 0,
+              "successes": 0
+            }
+          ]
+        },
+        {
+          "family": "transaction_meaning",
+          "planned": 3,
+          "observed": 1,
+          "errors": 0,
+          "missing": 2,
+          "handlingSuccesses": 0,
+          "selectorEligible": 3,
+          "selectorSuccesses": 0,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 0,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 3,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 0,
+              "successes": 0
+            }
+          ]
+        },
+        {
+          "family": "missing_facts",
+          "planned": 3,
+          "observed": 0,
+          "errors": 0,
+          "missing": 3,
+          "handlingSuccesses": 0,
+          "selectorEligible": 0,
+          "selectorSuccesses": 0,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 0,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 3,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 0,
+              "successes": 0
+            }
+          ]
+        },
+        {
+          "family": "evidence_quality",
+          "planned": 3,
+          "observed": 0,
+          "errors": 0,
+          "missing": 3,
+          "handlingSuccesses": 0,
+          "selectorEligible": 3,
+          "selectorSuccesses": 0,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 0,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 3,
+              "successes": 0
+            }
+          ]
+        }
+      ],
+      "categoryTasks": 9,
+      "categoryAndPreferenceCorrect": 0,
+      "categoryAndPreferenceRate": 0,
+      "necessaryClarificationTasks": 3,
+      "correctionStates": [
+        {
+          "reviewedCorrectionEvents": 0,
+          "planned": 6,
+          "observed": 1,
+          "errors": 0,
+          "missing": 5,
+          "handlingSuccesses": 0,
+          "selectorEligible": 5,
+          "selectorSuccesses": 0,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 0,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 1,
+              "successes": 0
+            }
+          ]
+        },
+        {
+          "reviewedCorrectionEvents": 1,
+          "planned": 6,
+          "observed": 0,
+          "errors": 0,
+          "missing": 6,
+          "handlingSuccesses": 0,
+          "selectorEligible": 5,
+          "selectorSuccesses": 0,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 1,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 1,
+              "successes": 0
+            }
+          ]
+        },
+        {
+          "reviewedCorrectionEvents": 3,
+          "planned": 6,
+          "observed": 0,
+          "errors": 0,
+          "missing": 6,
+          "handlingSuccesses": 0,
+          "selectorEligible": 5,
+          "selectorSuccesses": 0,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 1,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 1,
+              "successes": 0
+            }
+          ]
+        }
+      ],
+      "costs": {
+        "reportedUsd": "0",
+        "reservedUnknownUsd": "0",
+        "trackedUsd": "0",
+        "actualAttempts": 0,
+        "unknownCostAttempts": 0,
+        "unreservedUnknownAttempts": 0,
+        "paidLatencyObserved": 0,
+        "paidLatencyMissing": 0,
+        "paidLatencyP50Ms": null,
+        "paidLatencyP95Ms": null
+      },
+      "trackedCostPerCorrectCategoryUsd": null,
+      "timing": {
+        "allAttemptOrchestration": {
+          "observed": 0,
+          "missing": 0,
+          "p50Ms": null,
+          "p95Ms": null
+        },
+        "successfulAttemptOrchestration": {
+          "observed": 0,
+          "missing": 0,
+          "p50Ms": null,
+          "p95Ms": null
+        },
+        "allAttemptNetwork": {
+          "observed": 0,
+          "missing": 0,
+          "p50Ms": null,
+          "p95Ms": null
+        },
+        "successfulAttemptNetwork": {
+          "observed": 0,
+          "missing": 0,
+          "p50Ms": null,
+          "p95Ms": null
+        },
+        "localDecision": {
+          "observed": 1,
+          "missing": 0,
+          "p50Ms": 1,
+          "p95Ms": 1
+        }
+      },
+      "learning": {
+        "pairs": [
+          {
+            "sequenceId": "repeat-paper-dev",
+            "handlingGain": 0,
+            "taughtTarget": "5070",
+            "preferenceAdoptionBefore": false,
+            "preferenceAdoptionAfter": false,
+            "preferenceAdoptionGain": 0,
+            "beforeSemanticCorrect": false,
+            "afterSemanticCorrect": false,
+            "harmfulAfterTeaching": false
+          },
+          {
+            "sequenceId": "unseen-pens-dev",
+            "handlingGain": 0,
+            "taughtTarget": null,
+            "preferenceAdoptionBefore": null,
+            "preferenceAdoptionAfter": null,
+            "preferenceAdoptionGain": null,
+            "beforeSemanticCorrect": false,
+            "afterSemanticCorrect": false,
+            "harmfulAfterTeaching": false
+          },
+          {
+            "sequenceId": "changed-camera-dev",
+            "handlingGain": 0,
+            "taughtTarget": null,
+            "preferenceAdoptionBefore": null,
+            "preferenceAdoptionAfter": null,
+            "preferenceAdoptionGain": null,
+            "beforeSemanticCorrect": null,
+            "afterSemanticCorrect": null,
+            "harmfulAfterTeaching": false
+          },
+          {
+            "sequenceId": "meaning-invoice-dev",
+            "handlingGain": 0,
+            "taughtTarget": null,
+            "preferenceAdoptionBefore": null,
+            "preferenceAdoptionAfter": null,
+            "preferenceAdoptionGain": null,
+            "beforeSemanticCorrect": null,
+            "afterSemanticCorrect": null,
+            "harmfulAfterTeaching": false
+          },
+          {
+            "sequenceId": "missing-party-dev",
+            "handlingGain": 0,
+            "taughtTarget": null,
+            "preferenceAdoptionBefore": null,
+            "preferenceAdoptionAfter": null,
+            "preferenceAdoptionGain": null,
+            "beforeSemanticCorrect": null,
+            "afterSemanticCorrect": null,
+            "harmfulAfterTeaching": false
+          },
+          {
+            "sequenceId": "evidence-injection-dev",
+            "handlingGain": 0,
+            "taughtTarget": null,
+            "preferenceAdoptionBefore": null,
+            "preferenceAdoptionAfter": null,
+            "preferenceAdoptionGain": null,
+            "beforeSemanticCorrect": false,
+            "afterSemanticCorrect": false,
+            "harmfulAfterTeaching": false
+          }
+        ],
+        "groups": 6,
+        "handlingGain": 0,
+        "handlingGainInterval": [
+          0,
+          0
+        ],
+        "taughtPreferenceGroups": 1,
+        "preferenceAdoptionGain": 0,
+        "preferenceAdoptionInterval": null
+      }
+    },
+    {
+      "selector": "gemini",
+      "planned": 18,
+      "observed": 2,
+      "errors": 0,
+      "missing": 16,
+      "handlingSuccesses": 2,
+      "selectorEligible": 15,
+      "selectorSuccesses": 2,
+      "categoryProposals": 1,
+      "semanticCorrect": 1,
+      "preferenceRequired": 2,
+      "preferenceMet": 1,
+      "completeJournalsMeasured": 0,
+      "completeJournalsCorrect": 0,
+      "counterAccountsMeasured": 0,
+      "counterAccountsCorrect": 0,
+      "unnecessaryClarifications": 0,
+      "necessaryClarifications": 0,
+      "unnecessaryHandoffs": 0,
+      "unsafeSuggestions": 0,
+      "harmfulOvergeneralizations": 0,
+      "families": [
+        {
+          "family": "repeat_vendor",
+          "planned": 3,
+          "observed": 1,
+          "errors": 0,
+          "missing": 2,
+          "handlingSuccesses": 1,
+          "selectorEligible": 3,
+          "selectorSuccesses": 1,
+          "categoryProposals": 1,
+          "semanticCorrect": 1,
+          "preferenceRequired": 2,
+          "preferenceMet": 1,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 3,
+              "successes": 1
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 0,
+              "successes": 0
+            }
+          ]
+        },
+        {
+          "family": "unseen_merchant",
+          "planned": 3,
+          "observed": 0,
+          "errors": 0,
+          "missing": 3,
+          "handlingSuccesses": 0,
+          "selectorEligible": 3,
+          "selectorSuccesses": 0,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 0,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 3,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 0,
+              "successes": 0
+            }
+          ]
+        },
+        {
+          "family": "changed_purpose",
+          "planned": 3,
+          "observed": 0,
+          "errors": 0,
+          "missing": 3,
+          "handlingSuccesses": 0,
+          "selectorEligible": 3,
+          "selectorSuccesses": 0,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 0,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 3,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 0,
+              "successes": 0
+            }
+          ]
+        },
+        {
+          "family": "transaction_meaning",
+          "planned": 3,
+          "observed": 1,
+          "errors": 0,
+          "missing": 2,
+          "handlingSuccesses": 1,
+          "selectorEligible": 3,
+          "selectorSuccesses": 1,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 0,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 3,
+              "successes": 1
+            },
+            {
+              "family": "missing_facts",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 0,
+              "successes": 0
+            }
+          ]
+        },
+        {
+          "family": "missing_facts",
+          "planned": 3,
+          "observed": 0,
+          "errors": 0,
+          "missing": 3,
+          "handlingSuccesses": 0,
+          "selectorEligible": 0,
+          "selectorSuccesses": 0,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 0,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 3,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 0,
+              "successes": 0
+            }
+          ]
+        },
+        {
+          "family": "evidence_quality",
+          "planned": 3,
+          "observed": 0,
+          "errors": 0,
+          "missing": 3,
+          "handlingSuccesses": 0,
+          "selectorEligible": 3,
+          "selectorSuccesses": 0,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 0,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 3,
+              "successes": 0
+            }
+          ]
+        }
+      ],
+      "categoryTasks": 9,
+      "categoryAndPreferenceCorrect": 1,
+      "categoryAndPreferenceRate": 0.1111111111111111,
+      "necessaryClarificationTasks": 3,
+      "correctionStates": [
+        {
+          "reviewedCorrectionEvents": 0,
+          "planned": 6,
+          "observed": 1,
+          "errors": 0,
+          "missing": 5,
+          "handlingSuccesses": 1,
+          "selectorEligible": 5,
+          "selectorSuccesses": 1,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 0,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 1,
+              "successes": 1
+            },
+            {
+              "family": "missing_facts",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 1,
+              "successes": 0
+            }
+          ]
+        },
+        {
+          "reviewedCorrectionEvents": 1,
+          "planned": 6,
+          "observed": 1,
+          "errors": 0,
+          "missing": 5,
+          "handlingSuccesses": 1,
+          "selectorEligible": 5,
+          "selectorSuccesses": 1,
+          "categoryProposals": 1,
+          "semanticCorrect": 1,
+          "preferenceRequired": 1,
+          "preferenceMet": 1,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 1,
+              "successes": 1
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 1,
+              "successes": 0
+            }
+          ]
+        },
+        {
+          "reviewedCorrectionEvents": 3,
+          "planned": 6,
+          "observed": 0,
+          "errors": 0,
+          "missing": 6,
+          "handlingSuccesses": 0,
+          "selectorEligible": 5,
+          "selectorSuccesses": 0,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 1,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 1,
+              "successes": 0
+            }
+          ]
+        }
+      ],
+      "costs": {
+        "reportedUsd": "0.0008383",
+        "reservedUnknownUsd": "0",
+        "trackedUsd": "0.0008383",
+        "actualAttempts": 2,
+        "unknownCostAttempts": 0,
+        "unreservedUnknownAttempts": 0,
+        "paidLatencyObserved": 2,
+        "paidLatencyMissing": 0,
+        "paidLatencyP50Ms": 1154,
+        "paidLatencyP95Ms": 2091
+      },
+      "trackedCostPerCorrectCategoryUsd": "0.0008383",
+      "timing": {
+        "allAttemptOrchestration": {
+          "observed": 2,
+          "missing": 0,
+          "p50Ms": 1154,
+          "p95Ms": 2091
+        },
+        "successfulAttemptOrchestration": {
+          "observed": 2,
+          "missing": 0,
+          "p50Ms": 1154,
+          "p95Ms": 2091
+        },
+        "allAttemptNetwork": {
+          "observed": 2,
+          "missing": 0,
+          "p50Ms": 873,
+          "p95Ms": 886
+        },
+        "successfulAttemptNetwork": {
+          "observed": 2,
+          "missing": 0,
+          "p50Ms": 873,
+          "p95Ms": 886
+        },
+        "localDecision": {
+          "observed": 0,
+          "missing": 0,
+          "p50Ms": null,
+          "p95Ms": null
+        }
+      },
+      "learning": {
+        "pairs": [
+          {
+            "sequenceId": "repeat-paper-dev",
+            "handlingGain": 0,
+            "taughtTarget": "5070",
+            "preferenceAdoptionBefore": false,
+            "preferenceAdoptionAfter": false,
+            "preferenceAdoptionGain": 0,
+            "beforeSemanticCorrect": false,
+            "afterSemanticCorrect": false,
+            "harmfulAfterTeaching": false
+          },
+          {
+            "sequenceId": "unseen-pens-dev",
+            "handlingGain": 0,
+            "taughtTarget": null,
+            "preferenceAdoptionBefore": null,
+            "preferenceAdoptionAfter": null,
+            "preferenceAdoptionGain": null,
+            "beforeSemanticCorrect": false,
+            "afterSemanticCorrect": false,
+            "harmfulAfterTeaching": false
+          },
+          {
+            "sequenceId": "changed-camera-dev",
+            "handlingGain": 0,
+            "taughtTarget": null,
+            "preferenceAdoptionBefore": null,
+            "preferenceAdoptionAfter": null,
+            "preferenceAdoptionGain": null,
+            "beforeSemanticCorrect": null,
+            "afterSemanticCorrect": null,
+            "harmfulAfterTeaching": false
+          },
+          {
+            "sequenceId": "meaning-invoice-dev",
+            "handlingGain": -1,
+            "taughtTarget": null,
+            "preferenceAdoptionBefore": null,
+            "preferenceAdoptionAfter": null,
+            "preferenceAdoptionGain": null,
+            "beforeSemanticCorrect": null,
+            "afterSemanticCorrect": null,
+            "harmfulAfterTeaching": false
+          },
+          {
+            "sequenceId": "missing-party-dev",
+            "handlingGain": 0,
+            "taughtTarget": null,
+            "preferenceAdoptionBefore": null,
+            "preferenceAdoptionAfter": null,
+            "preferenceAdoptionGain": null,
+            "beforeSemanticCorrect": null,
+            "afterSemanticCorrect": null,
+            "harmfulAfterTeaching": false
+          },
+          {
+            "sequenceId": "evidence-injection-dev",
+            "handlingGain": 0,
+            "taughtTarget": null,
+            "preferenceAdoptionBefore": null,
+            "preferenceAdoptionAfter": null,
+            "preferenceAdoptionGain": null,
+            "beforeSemanticCorrect": false,
+            "afterSemanticCorrect": false,
+            "harmfulAfterTeaching": false
+          }
+        ],
+        "groups": 6,
+        "handlingGain": -0.16666666666666666,
+        "handlingGainInterval": [
+          -0.5,
+          0
+        ],
+        "taughtPreferenceGroups": 1,
+        "preferenceAdoptionGain": 0,
+        "preferenceAdoptionInterval": null
+      }
+    },
+    {
+      "selector": "jev",
+      "planned": 18,
+      "observed": 2,
+      "errors": 1,
+      "missing": 16,
+      "handlingSuccesses": 1,
+      "selectorEligible": 15,
+      "selectorSuccesses": 1,
+      "categoryProposals": 0,
+      "semanticCorrect": 0,
+      "preferenceRequired": 2,
+      "preferenceMet": 0,
+      "completeJournalsMeasured": 0,
+      "completeJournalsCorrect": 0,
+      "counterAccountsMeasured": 0,
+      "counterAccountsCorrect": 0,
+      "unnecessaryClarifications": 0,
+      "necessaryClarifications": 0,
+      "unnecessaryHandoffs": 0,
+      "unsafeSuggestions": 0,
+      "harmfulOvergeneralizations": 0,
+      "families": [
+        {
+          "family": "repeat_vendor",
+          "planned": 3,
+          "observed": 1,
+          "errors": 1,
+          "missing": 2,
+          "handlingSuccesses": 0,
+          "selectorEligible": 3,
+          "selectorSuccesses": 0,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 2,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 3,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 0,
+              "successes": 0
+            }
+          ]
+        },
+        {
+          "family": "unseen_merchant",
+          "planned": 3,
+          "observed": 0,
+          "errors": 0,
+          "missing": 3,
+          "handlingSuccesses": 0,
+          "selectorEligible": 3,
+          "selectorSuccesses": 0,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 0,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 3,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 0,
+              "successes": 0
+            }
+          ]
+        },
+        {
+          "family": "changed_purpose",
+          "planned": 3,
+          "observed": 0,
+          "errors": 0,
+          "missing": 3,
+          "handlingSuccesses": 0,
+          "selectorEligible": 3,
+          "selectorSuccesses": 0,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 0,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 3,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 0,
+              "successes": 0
+            }
+          ]
+        },
+        {
+          "family": "transaction_meaning",
+          "planned": 3,
+          "observed": 1,
+          "errors": 0,
+          "missing": 2,
+          "handlingSuccesses": 1,
+          "selectorEligible": 3,
+          "selectorSuccesses": 1,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 0,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 3,
+              "successes": 1
+            },
+            {
+              "family": "missing_facts",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 0,
+              "successes": 0
+            }
+          ]
+        },
+        {
+          "family": "missing_facts",
+          "planned": 3,
+          "observed": 0,
+          "errors": 0,
+          "missing": 3,
+          "handlingSuccesses": 0,
+          "selectorEligible": 0,
+          "selectorSuccesses": 0,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 0,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 3,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 0,
+              "successes": 0
+            }
+          ]
+        },
+        {
+          "family": "evidence_quality",
+          "planned": 3,
+          "observed": 0,
+          "errors": 0,
+          "missing": 3,
+          "handlingSuccesses": 0,
+          "selectorEligible": 3,
+          "selectorSuccesses": 0,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 0,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 0,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 3,
+              "successes": 0
+            }
+          ]
+        }
+      ],
+      "categoryTasks": 9,
+      "categoryAndPreferenceCorrect": 0,
+      "categoryAndPreferenceRate": 0,
+      "necessaryClarificationTasks": 3,
+      "correctionStates": [
+        {
+          "reviewedCorrectionEvents": 0,
+          "planned": 6,
+          "observed": 1,
+          "errors": 0,
+          "missing": 5,
+          "handlingSuccesses": 1,
+          "selectorEligible": 5,
+          "selectorSuccesses": 1,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 0,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 1,
+              "successes": 1
+            },
+            {
+              "family": "missing_facts",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 1,
+              "successes": 0
+            }
+          ]
+        },
+        {
+          "reviewedCorrectionEvents": 1,
+          "planned": 6,
+          "observed": 1,
+          "errors": 1,
+          "missing": 5,
+          "handlingSuccesses": 0,
+          "selectorEligible": 5,
+          "selectorSuccesses": 0,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 1,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 1,
+              "successes": 0
+            }
+          ]
+        },
+        {
+          "reviewedCorrectionEvents": 3,
+          "planned": 6,
+          "observed": 0,
+          "errors": 0,
+          "missing": 6,
+          "handlingSuccesses": 0,
+          "selectorEligible": 5,
+          "selectorSuccesses": 0,
+          "categoryProposals": 0,
+          "semanticCorrect": 0,
+          "preferenceRequired": 1,
+          "preferenceMet": 0,
+          "completeJournalsMeasured": 0,
+          "completeJournalsCorrect": 0,
+          "counterAccountsMeasured": 0,
+          "counterAccountsCorrect": 0,
+          "unnecessaryClarifications": 0,
+          "necessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "families": [
+            {
+              "family": "repeat_vendor",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "unseen_merchant",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "changed_purpose",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "transaction_meaning",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "missing_facts",
+              "planned": 1,
+              "successes": 0
+            },
+            {
+              "family": "evidence_quality",
+              "planned": 1,
+              "successes": 0
+            }
+          ]
+        }
+      ],
+      "costs": {
+        "reportedUsd": "0.000188076",
+        "reservedUnknownUsd": "0",
+        "trackedUsd": "0.000188076",
+        "actualAttempts": 2,
+        "unknownCostAttempts": 0,
+        "unreservedUnknownAttempts": 0,
+        "paidLatencyObserved": 2,
+        "paidLatencyMissing": 0,
+        "paidLatencyP50Ms": 374,
+        "paidLatencyP95Ms": 740
+      },
+      "trackedCostPerCorrectCategoryUsd": null,
+      "timing": {
+        "allAttemptOrchestration": {
+          "observed": 2,
+          "missing": 0,
+          "p50Ms": 374,
+          "p95Ms": 740
+        },
+        "successfulAttemptOrchestration": {
+          "observed": 1,
+          "missing": 0,
+          "p50Ms": 374,
+          "p95Ms": 374
+        },
+        "allAttemptNetwork": {
+          "observed": 2,
+          "missing": 0,
+          "p50Ms": 152,
+          "p95Ms": 520
+        },
+        "successfulAttemptNetwork": {
+          "observed": 1,
+          "missing": 0,
+          "p50Ms": 152,
+          "p95Ms": 152
+        },
+        "localDecision": {
+          "observed": 0,
+          "missing": 0,
+          "p50Ms": null,
+          "p95Ms": null
+        }
+      },
+      "learning": {
+        "pairs": [
+          {
+            "sequenceId": "repeat-paper-dev",
+            "handlingGain": 0,
+            "taughtTarget": "5070",
+            "preferenceAdoptionBefore": false,
+            "preferenceAdoptionAfter": false,
+            "preferenceAdoptionGain": 0,
+            "beforeSemanticCorrect": false,
+            "afterSemanticCorrect": false,
+            "harmfulAfterTeaching": false
+          },
+          {
+            "sequenceId": "unseen-pens-dev",
+            "handlingGain": 0,
+            "taughtTarget": null,
+            "preferenceAdoptionBefore": null,
+            "preferenceAdoptionAfter": null,
+            "preferenceAdoptionGain": null,
+            "beforeSemanticCorrect": false,
+            "afterSemanticCorrect": false,
+            "harmfulAfterTeaching": false
+          },
+          {
+            "sequenceId": "changed-camera-dev",
+            "handlingGain": 0,
+            "taughtTarget": null,
+            "preferenceAdoptionBefore": null,
+            "preferenceAdoptionAfter": null,
+            "preferenceAdoptionGain": null,
+            "beforeSemanticCorrect": null,
+            "afterSemanticCorrect": null,
+            "harmfulAfterTeaching": false
+          },
+          {
+            "sequenceId": "meaning-invoice-dev",
+            "handlingGain": -1,
+            "taughtTarget": null,
+            "preferenceAdoptionBefore": null,
+            "preferenceAdoptionAfter": null,
+            "preferenceAdoptionGain": null,
+            "beforeSemanticCorrect": null,
+            "afterSemanticCorrect": null,
+            "harmfulAfterTeaching": false
+          },
+          {
+            "sequenceId": "missing-party-dev",
+            "handlingGain": 0,
+            "taughtTarget": null,
+            "preferenceAdoptionBefore": null,
+            "preferenceAdoptionAfter": null,
+            "preferenceAdoptionGain": null,
+            "beforeSemanticCorrect": null,
+            "afterSemanticCorrect": null,
+            "harmfulAfterTeaching": false
+          },
+          {
+            "sequenceId": "evidence-injection-dev",
+            "handlingGain": 0,
+            "taughtTarget": null,
+            "preferenceAdoptionBefore": null,
+            "preferenceAdoptionAfter": null,
+            "preferenceAdoptionGain": null,
+            "beforeSemanticCorrect": false,
+            "afterSemanticCorrect": false,
+            "harmfulAfterTeaching": false
+          }
+        ],
+        "groups": 6,
+        "handlingGain": -0.16666666666666666,
+        "handlingGainInterval": [
+          -0.5,
+          0
+        ],
+        "taughtPreferenceGroups": 1,
+        "preferenceAdoptionGain": 0,
+        "preferenceAdoptionInterval": null
+      }
+    }
+  ],
+  "scores": [
+    {
+      "caseId": "repeat-paper-dev:c0",
+      "sequenceId": "repeat-paper-dev",
+      "family": "repeat_vendor",
+      "split": "development",
+      "correctionEvents": 0,
+      "selector": "reference",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "repeat-paper-dev:c1",
+      "sequenceId": "repeat-paper-dev",
+      "family": "repeat_vendor",
+      "split": "development",
+      "correctionEvents": 1,
+      "selector": "reference",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": false,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "repeat-paper-dev:c3",
+      "sequenceId": "repeat-paper-dev",
+      "family": "repeat_vendor",
+      "split": "development",
+      "correctionEvents": 3,
+      "selector": "reference",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": false,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "unseen-pens-dev:c0",
+      "sequenceId": "unseen-pens-dev",
+      "family": "unseen_merchant",
+      "split": "development",
+      "correctionEvents": 0,
+      "selector": "reference",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "unseen-pens-dev:c1",
+      "sequenceId": "unseen-pens-dev",
+      "family": "unseen_merchant",
+      "split": "development",
+      "correctionEvents": 1,
+      "selector": "reference",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "unseen-pens-dev:c3",
+      "sequenceId": "unseen-pens-dev",
+      "family": "unseen_merchant",
+      "split": "development",
+      "correctionEvents": 3,
+      "selector": "reference",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "changed-camera-dev:c0",
+      "sequenceId": "changed-camera-dev",
+      "family": "changed_purpose",
+      "split": "development",
+      "correctionEvents": 0,
+      "selector": "reference",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "changed-camera-dev:c1",
+      "sequenceId": "changed-camera-dev",
+      "family": "changed_purpose",
+      "split": "development",
+      "correctionEvents": 1,
+      "selector": "reference",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "changed-camera-dev:c3",
+      "sequenceId": "changed-camera-dev",
+      "family": "changed_purpose",
+      "split": "development",
+      "correctionEvents": 3,
+      "selector": "reference",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "meaning-invoice-dev:c0",
+      "sequenceId": "meaning-invoice-dev",
+      "family": "transaction_meaning",
+      "split": "development",
+      "correctionEvents": 0,
+      "selector": "reference",
+      "status": "ok",
+      "inputVerified": true,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "wrong_decision"
+      ]
+    },
+    {
+      "caseId": "meaning-invoice-dev:c1",
+      "sequenceId": "meaning-invoice-dev",
+      "family": "transaction_meaning",
+      "split": "development",
+      "correctionEvents": 1,
+      "selector": "reference",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "meaning-invoice-dev:c3",
+      "sequenceId": "meaning-invoice-dev",
+      "family": "transaction_meaning",
+      "split": "development",
+      "correctionEvents": 3,
+      "selector": "reference",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "missing-party-dev:c0",
+      "sequenceId": "missing-party-dev",
+      "family": "missing_facts",
+      "split": "development",
+      "correctionEvents": 0,
+      "selector": "reference",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": false,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": null,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "missing-party-dev:c1",
+      "sequenceId": "missing-party-dev",
+      "family": "missing_facts",
+      "split": "development",
+      "correctionEvents": 1,
+      "selector": "reference",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": false,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": null,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "missing-party-dev:c3",
+      "sequenceId": "missing-party-dev",
+      "family": "missing_facts",
+      "split": "development",
+      "correctionEvents": 3,
+      "selector": "reference",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": false,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": null,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "evidence-injection-dev:c0",
+      "sequenceId": "evidence-injection-dev",
+      "family": "evidence_quality",
+      "split": "development",
+      "correctionEvents": 0,
+      "selector": "reference",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "evidence-injection-dev:c1",
+      "sequenceId": "evidence-injection-dev",
+      "family": "evidence_quality",
+      "split": "development",
+      "correctionEvents": 1,
+      "selector": "reference",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "evidence-injection-dev:c3",
+      "sequenceId": "evidence-injection-dev",
+      "family": "evidence_quality",
+      "split": "development",
+      "correctionEvents": 3,
+      "selector": "reference",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "repeat-paper-dev:c0",
+      "sequenceId": "repeat-paper-dev",
+      "family": "repeat_vendor",
+      "split": "development",
+      "correctionEvents": 0,
+      "selector": "gemini",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "repeat-paper-dev:c1",
+      "sequenceId": "repeat-paper-dev",
+      "family": "repeat_vendor",
+      "split": "development",
+      "correctionEvents": 1,
+      "selector": "gemini",
+      "status": "ok",
+      "inputVerified": true,
+      "selectorEligible": true,
+      "decisionCorrect": true,
+      "semanticCategoryCorrect": true,
+      "preferenceAgreement": true,
+      "selectorSuccess": true,
+      "workflowHandlingSuccess": true,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": true,
+      "selectedCategoryCode": "5070",
+      "failures": []
+    },
+    {
+      "caseId": "repeat-paper-dev:c3",
+      "sequenceId": "repeat-paper-dev",
+      "family": "repeat_vendor",
+      "split": "development",
+      "correctionEvents": 3,
+      "selector": "gemini",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": false,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "unseen-pens-dev:c0",
+      "sequenceId": "unseen-pens-dev",
+      "family": "unseen_merchant",
+      "split": "development",
+      "correctionEvents": 0,
+      "selector": "gemini",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "unseen-pens-dev:c1",
+      "sequenceId": "unseen-pens-dev",
+      "family": "unseen_merchant",
+      "split": "development",
+      "correctionEvents": 1,
+      "selector": "gemini",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "unseen-pens-dev:c3",
+      "sequenceId": "unseen-pens-dev",
+      "family": "unseen_merchant",
+      "split": "development",
+      "correctionEvents": 3,
+      "selector": "gemini",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "changed-camera-dev:c0",
+      "sequenceId": "changed-camera-dev",
+      "family": "changed_purpose",
+      "split": "development",
+      "correctionEvents": 0,
+      "selector": "gemini",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "changed-camera-dev:c1",
+      "sequenceId": "changed-camera-dev",
+      "family": "changed_purpose",
+      "split": "development",
+      "correctionEvents": 1,
+      "selector": "gemini",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "changed-camera-dev:c3",
+      "sequenceId": "changed-camera-dev",
+      "family": "changed_purpose",
+      "split": "development",
+      "correctionEvents": 3,
+      "selector": "gemini",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "meaning-invoice-dev:c0",
+      "sequenceId": "meaning-invoice-dev",
+      "family": "transaction_meaning",
+      "split": "development",
+      "correctionEvents": 0,
+      "selector": "gemini",
+      "status": "ok",
+      "inputVerified": true,
+      "selectorEligible": true,
+      "decisionCorrect": true,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": true,
+      "workflowHandlingSuccess": true,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": []
+    },
+    {
+      "caseId": "meaning-invoice-dev:c1",
+      "sequenceId": "meaning-invoice-dev",
+      "family": "transaction_meaning",
+      "split": "development",
+      "correctionEvents": 1,
+      "selector": "gemini",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "meaning-invoice-dev:c3",
+      "sequenceId": "meaning-invoice-dev",
+      "family": "transaction_meaning",
+      "split": "development",
+      "correctionEvents": 3,
+      "selector": "gemini",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "missing-party-dev:c0",
+      "sequenceId": "missing-party-dev",
+      "family": "missing_facts",
+      "split": "development",
+      "correctionEvents": 0,
+      "selector": "gemini",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": false,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": null,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "missing-party-dev:c1",
+      "sequenceId": "missing-party-dev",
+      "family": "missing_facts",
+      "split": "development",
+      "correctionEvents": 1,
+      "selector": "gemini",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": false,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": null,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "missing-party-dev:c3",
+      "sequenceId": "missing-party-dev",
+      "family": "missing_facts",
+      "split": "development",
+      "correctionEvents": 3,
+      "selector": "gemini",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": false,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": null,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "evidence-injection-dev:c0",
+      "sequenceId": "evidence-injection-dev",
+      "family": "evidence_quality",
+      "split": "development",
+      "correctionEvents": 0,
+      "selector": "gemini",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "evidence-injection-dev:c1",
+      "sequenceId": "evidence-injection-dev",
+      "family": "evidence_quality",
+      "split": "development",
+      "correctionEvents": 1,
+      "selector": "gemini",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "evidence-injection-dev:c3",
+      "sequenceId": "evidence-injection-dev",
+      "family": "evidence_quality",
+      "split": "development",
+      "correctionEvents": 3,
+      "selector": "gemini",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "repeat-paper-dev:c0",
+      "sequenceId": "repeat-paper-dev",
+      "family": "repeat_vendor",
+      "split": "development",
+      "correctionEvents": 0,
+      "selector": "jev",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "repeat-paper-dev:c1",
+      "sequenceId": "repeat-paper-dev",
+      "family": "repeat_vendor",
+      "split": "development",
+      "correctionEvents": 1,
+      "selector": "jev",
+      "status": "error",
+      "inputVerified": true,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": false,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "AI_INVALID_RESPONSE"
+      ]
+    },
+    {
+      "caseId": "repeat-paper-dev:c3",
+      "sequenceId": "repeat-paper-dev",
+      "family": "repeat_vendor",
+      "split": "development",
+      "correctionEvents": 3,
+      "selector": "jev",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": false,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "unseen-pens-dev:c0",
+      "sequenceId": "unseen-pens-dev",
+      "family": "unseen_merchant",
+      "split": "development",
+      "correctionEvents": 0,
+      "selector": "jev",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "unseen-pens-dev:c1",
+      "sequenceId": "unseen-pens-dev",
+      "family": "unseen_merchant",
+      "split": "development",
+      "correctionEvents": 1,
+      "selector": "jev",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "unseen-pens-dev:c3",
+      "sequenceId": "unseen-pens-dev",
+      "family": "unseen_merchant",
+      "split": "development",
+      "correctionEvents": 3,
+      "selector": "jev",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "changed-camera-dev:c0",
+      "sequenceId": "changed-camera-dev",
+      "family": "changed_purpose",
+      "split": "development",
+      "correctionEvents": 0,
+      "selector": "jev",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "changed-camera-dev:c1",
+      "sequenceId": "changed-camera-dev",
+      "family": "changed_purpose",
+      "split": "development",
+      "correctionEvents": 1,
+      "selector": "jev",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "changed-camera-dev:c3",
+      "sequenceId": "changed-camera-dev",
+      "family": "changed_purpose",
+      "split": "development",
+      "correctionEvents": 3,
+      "selector": "jev",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "meaning-invoice-dev:c0",
+      "sequenceId": "meaning-invoice-dev",
+      "family": "transaction_meaning",
+      "split": "development",
+      "correctionEvents": 0,
+      "selector": "jev",
+      "status": "ok",
+      "inputVerified": true,
+      "selectorEligible": true,
+      "decisionCorrect": true,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": true,
+      "workflowHandlingSuccess": true,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": []
+    },
+    {
+      "caseId": "meaning-invoice-dev:c1",
+      "sequenceId": "meaning-invoice-dev",
+      "family": "transaction_meaning",
+      "split": "development",
+      "correctionEvents": 1,
+      "selector": "jev",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "meaning-invoice-dev:c3",
+      "sequenceId": "meaning-invoice-dev",
+      "family": "transaction_meaning",
+      "split": "development",
+      "correctionEvents": 3,
+      "selector": "jev",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "missing-party-dev:c0",
+      "sequenceId": "missing-party-dev",
+      "family": "missing_facts",
+      "split": "development",
+      "correctionEvents": 0,
+      "selector": "jev",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": false,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": null,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "missing-party-dev:c1",
+      "sequenceId": "missing-party-dev",
+      "family": "missing_facts",
+      "split": "development",
+      "correctionEvents": 1,
+      "selector": "jev",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": false,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": null,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "missing-party-dev:c3",
+      "sequenceId": "missing-party-dev",
+      "family": "missing_facts",
+      "split": "development",
+      "correctionEvents": 3,
+      "selector": "jev",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": false,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": null,
+      "preferenceAgreement": null,
+      "selectorSuccess": null,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "evidence-injection-dev:c0",
+      "sequenceId": "evidence-injection-dev",
+      "family": "evidence_quality",
+      "split": "development",
+      "correctionEvents": 0,
+      "selector": "jev",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "evidence-injection-dev:c1",
+      "sequenceId": "evidence-injection-dev",
+      "family": "evidence_quality",
+      "split": "development",
+      "correctionEvents": 1,
+      "selector": "jev",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    },
+    {
+      "caseId": "evidence-injection-dev:c3",
+      "sequenceId": "evidence-injection-dev",
+      "family": "evidence_quality",
+      "split": "development",
+      "correctionEvents": 3,
+      "selector": "jev",
+      "status": "missing",
+      "inputVerified": false,
+      "selectorEligible": true,
+      "decisionCorrect": false,
+      "semanticCategoryCorrect": false,
+      "preferenceAgreement": null,
+      "selectorSuccess": false,
+      "workflowHandlingSuccess": false,
+      "completeJournalCorrect": null,
+      "counterAccountCorrect": null,
+      "necessaryClarification": false,
+      "unnecessaryClarification": false,
+      "unsupportedInsteadOfAnswer": false,
+      "harmfulOvergeneralization": false,
+      "unsafeSuggestion": false,
+      "proposed": false,
+      "selectedCategoryCode": null,
+      "failures": [
+        "missing_attempt"
+      ]
+    }
+  ],
+  "accounting": {
+    "accuracyScope": "Only this version and split; predecessor outcomes are preserved separately, never pooled.",
+    "phase": {
+      "reference": {
+        "reportedUsd": "0",
+        "reservedUnknownUsd": "0",
+        "trackedUsd": "0",
+        "actualAttempts": 0,
+        "unknownCostAttempts": 0,
+        "unreservedUnknownAttempts": 0,
+        "paidLatencyObserved": 0,
+        "paidLatencyMissing": 0,
+        "paidLatencyP50Ms": null,
+        "paidLatencyP95Ms": null
+      },
+      "gemini": {
+        "reportedUsd": "0.0008383",
+        "reservedUnknownUsd": "0",
+        "trackedUsd": "0.0008383",
+        "actualAttempts": 2,
+        "unknownCostAttempts": 0,
+        "unreservedUnknownAttempts": 0,
+        "paidLatencyObserved": 2,
+        "paidLatencyMissing": 0,
+        "paidLatencyP50Ms": 1154,
+        "paidLatencyP95Ms": 2091
+      },
+      "jev": {
+        "reportedUsd": "0.000188076",
+        "reservedUnknownUsd": "0",
+        "trackedUsd": "0.000188076",
+        "actualAttempts": 2,
+        "unknownCostAttempts": 0,
+        "unreservedUnknownAttempts": 0,
+        "paidLatencyObserved": 2,
+        "paidLatencyMissing": 0,
+        "paidLatencyP50Ms": 374,
+        "paidLatencyP95Ms": 740
+      }
+    },
+    "cohort": {
+      "predecessor": {
+        "gemini": {
+          "attempts": 1,
+          "knownUsd": "0.000257100000",
+          "unknownReservedUsd": "0.000000000000",
+          "chargedUsd": "0.000257100000"
+        },
+        "jev": {
+          "attempts": 0,
+          "knownUsd": "0.000000000000",
+          "unknownReservedUsd": "0.000000000000",
+          "chargedUsd": "0.000000000000"
+        }
+      },
+      "currentRun": {
+        "gemini": {
+          "attempts": 2,
+          "knownUsd": "0.000838300000",
+          "unknownReservedUsd": "0.000000000000",
+          "chargedUsd": "0.000838300000"
+        },
+        "jev": {
+          "attempts": 2,
+          "knownUsd": "0.000188076000",
+          "unknownReservedUsd": "0.000000000000",
+          "chargedUsd": "0.000188076000"
+        }
+      },
+      "cumulative": {
+        "gemini": {
+          "attempts": 3,
+          "knownUsd": "0.001095400000",
+          "unknownReservedUsd": "0.000000000000",
+          "chargedUsd": "0.001095400000"
+        },
+        "jev": {
+          "attempts": 2,
+          "knownUsd": "0.000188076000",
+          "unknownReservedUsd": "0.000000000000",
+          "chargedUsd": "0.000188076000"
+        }
+      },
+      "limits": {
+        "gemini": {
+          "usd": "0.50",
+          "attempts": 72
+        },
+        "jev": {
+          "usd": "0.03",
+          "attempts": 72
+        }
+      },
+      "openingCarry": {
+        "receiptSha256": "9bf89c75c8df0749fb67c408e28c9e900c9df46da973caf52a172e37801b35dd",
+        "fromRun": "category-learning-20261031-v1",
+        "predecessorLedgerSha256": "1bafd168888662d80e59f12de91be03e1a915f34e7973260e89290542436d672",
+        "predecessorSourceHash": "24f54f82e5c958930bc8ff090ceb811e77582dd9bb7cd56c13057bc6a0d1dfdd",
+        "predecessorProtocolSha256": "62d29e415bc29ccab70e92ca39b0cea6c8884bc2523435e499f6969b3513ff38",
+        "artifactHashes": {
+          "closure.json": "6fa5351def718b28ee4ca83ba88ecde680b43dc93a3ca593ae258b1a46ec1eb9",
+          "halt.json": "b92b1c9aba85e9d2aca21c06339a95ca72de5123c3bbe2feb2f8eafd2b255a98",
+          "manifest.json": "44c9619a9b463d87bf306cfbfc308b73c7e40b74c03a1b89d5d6a5095880957c",
+          "observations/0000.json": "027673cf1522453032c8c7538a0451c058c451336dffe5448286340eff882d34",
+          "observations/0001.json": "efd5df8fb329b02fc604a269470eb62717bf96a9f6c740099dd8433ae1d601e2",
+          "private-config.json": "df6b27a7d17c6473f287fef4be7a8c6cba5d9efc4c71f3a95dea55ecc7fc22d8"
+        },
+        "totals": {
+          "gemini": {
+            "attempts": 1,
+            "knownUsd": "0.000257100000",
+            "unknownReservedUsd": "0.000000000000",
+            "chargedUsd": "0.000257100000"
+          },
+          "jev": {
+            "attempts": 0,
+            "knownUsd": "0.000000000000",
+            "unknownReservedUsd": "0.000000000000",
+            "chargedUsd": "0.000000000000"
+          }
+        }
+      }
+    },
+    "priorAccuracyPooled": false
+  },
+  "comparison": {
+    "contrast": "Jev minus Gemini, category-and-preference success",
+    "groups": 3,
+    "difference": -0.1111111111111111,
+    "interval": [
+      -0.3333333333333333,
+      0
+    ],
+    "intervalMethod": "Paired sequence bootstrap; 2000 resamples; seed 20261031; exploratory unadjusted 95% interval",
+    "costSaving": null,
+    "lostAppropriateClarificationIds": [],
+    "efficacyCriterionMet": false,
+    "economyCriterionMet": false,
+    "safetyCriterionMet": true,
+    "screenPassed": false,
+    "recommendation": "NO_SELECTION_INCOMPLETE_DEVELOPMENT_OR_UNVERIFIED",
+    "workflowAcceptanceVerified": false
+  },
+  "limitations": [
+    "Synthetic AI-authored cases and labels; no independent human adjudication or production accuracy claim.",
+    "The three correction states are paired hypothetical contexts, not independent users or longitudinal training.",
+    "Curated eligible context is supplied equally; this does not measure database retrieval quality.",
+    "Reference rules and local input gates are not paid model capabilities.",
+    "The selector does not generate journals. Exact journal, posting and end-to-end workflow correctness remain unmeasured here.",
+    "Provider/network latency is distinct from orchestration-inclusive wall time; missing measurements are not zero.",
+    "No automatic routing or production adoption follows from this report. Workflow integration evidence is required separately."
+  ]
+}

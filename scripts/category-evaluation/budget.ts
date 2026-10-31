@@ -36,11 +36,12 @@ export type CategoryCarryOptions = {
 export type CategoryCarryReceipt = {
   schema: 'category-reviewed-carry-v1';
   approved: true;
-  reason: 'gemini-additive-billing-metadata-compatibility';
-  fromRun: 'category-learning-20261031-v1';
-  toRun: 'category-learning-20261031-v2';
-  fromVersion: 'daybook-category-learning-v1';
-  toVersion: 'daybook-category-learning-v2';
+  reason: 'gemini-additive-billing-metadata-compatibility' | 'jev-rounded-confidence-compatibility';
+  fromRun: 'category-learning-20261031-v1' | 'category-learning-20261031-v2';
+  toRun: 'category-learning-20261031-v2' | 'category-learning-20261031-v3';
+  fromVersion: 'daybook-category-learning-v1' | 'daybook-category-learning-v2';
+  toVersion: 'daybook-category-learning-v2' | 'daybook-category-learning-v3';
+  ancestorReceipt?: Pick<CategoryCarryOptions, 'receiptPath' | 'receiptSha256'>;
   targetSourceHash: string;
   targetLedgerPath: string;
   predecessorLedgerSha256: string;
@@ -59,6 +60,7 @@ export type CategoryOpeningCarry = {
   predecessorProtocolSha256: string;
   artifactHashes: Record<string, string>;
   totals: CategoryTotals;
+  ancestorCarry?: CategoryOpeningCarry;
 };
 type Reservation = {
   id: string;
@@ -112,6 +114,21 @@ export function categoryBudgetTotals(records: Reservation[]): CategoryTotals {
     }),
   ) as CategoryTotals;
 }
+export function addCategoryTotals(left: CategoryTotals, right: CategoryTotals): CategoryTotals {
+  return Object.fromEntries(
+    (['gemini', 'jev'] as const).map((provider) => [
+      provider,
+      {
+        attempts: left[provider].attempts + right[provider].attempts,
+        knownUsd: new Decimal(left[provider].knownUsd).plus(right[provider].knownUsd).toFixed(12),
+        unknownReservedUsd: new Decimal(left[provider].unknownReservedUsd)
+          .plus(right[provider].unknownReservedUsd)
+          .toFixed(12),
+        chargedUsd: new Decimal(left[provider].chargedUsd).plus(right[provider].chargedUsd).toFixed(12),
+      },
+    ]),
+  ) as CategoryTotals;
+}
 function validateRecords(records: Reservation[], allowPending: boolean) {
   if (!Array.isArray(records)) throw new Error('BUDGET_RECORD');
   const ids = new Set<string>();
@@ -147,26 +164,41 @@ function validateRecords(records: Reservation[], allowPending: boolean) {
   }
 }
 
-/** Exactly one reviewed v1→v2 continuation. This is not a generic refill API.
+/** Only reviewed v1→v2 and v2→v3 continuations. This is not a generic refill API.
  * Receipt/path/hash bindings are rechecked before every reservation. */
 export function verifyCategoryCarry(
   path: string,
   sourceHash: string,
   options: CategoryCarryOptions,
+  depth = 0,
 ): CategoryOpeningCarry {
   try {
     const raw = readFileSync(options.receiptPath, 'utf8');
     if (!/^[a-f0-9]{64}$/.test(options.receiptSha256) || sha(raw) !== options.receiptSha256)
       throw new Error();
     const receipt = JSON.parse(raw) as CategoryCarryReceipt;
+    const first =
+      receipt.fromRun === 'category-learning-20261031-v1' &&
+      receipt.toRun === 'category-learning-20261031-v2' &&
+      receipt.fromVersion === 'daybook-category-learning-v1' &&
+      receipt.toVersion === 'daybook-category-learning-v2' &&
+      receipt.reason === 'gemini-additive-billing-metadata-compatibility';
+    const second =
+      receipt.fromRun === 'category-learning-20261031-v2' &&
+      receipt.toRun === 'category-learning-20261031-v3' &&
+      receipt.fromVersion === 'daybook-category-learning-v2' &&
+      receipt.toVersion === 'daybook-category-learning-v3' &&
+      receipt.reason === 'jev-rounded-confidence-compatibility';
     if (
+      !Number.isInteger(depth) ||
+      depth < 0 ||
+      depth > 1 ||
+      (!first && !second) ||
+      (depth === 1 && !first) ||
+      (first && receipt.ancestorReceipt !== undefined) ||
+      (second && !receipt.ancestorReceipt) ||
       receipt.schema !== 'category-reviewed-carry-v1' ||
       receipt.approved !== true ||
-      receipt.reason !== 'gemini-additive-billing-metadata-compatibility' ||
-      receipt.fromRun !== 'category-learning-20261031-v1' ||
-      receipt.toRun !== 'category-learning-20261031-v2' ||
-      receipt.fromVersion !== 'daybook-category-learning-v1' ||
-      receipt.toVersion !== 'daybook-category-learning-v2' ||
       receipt.targetSourceHash !== sourceHash ||
       receipt.targetLedgerPath !== resolve(path) ||
       basename(dirname(resolve(path))) !== receipt.toRun ||
@@ -182,19 +214,32 @@ export function verifyCategoryCarry(
     if (sha(ledgerRaw) !== receipt.predecessorLedgerSha256) throw new Error();
     const ledger = JSON.parse(ledgerRaw) as Omit<Ledger, 'version'> & { version: number };
     if (
-      ledger.version !== 1 ||
+      ledger.version !== (first ? 1 : 2) ||
       ledger.state !== 'closed' ||
       ledger.sourceHash !== receipt.predecessorSourceHash ||
       !/^[a-f0-9]{64}$/.test(ledger.sourceHash) ||
       ledger.priceDate !== CATEGORY_PRICE_DATE ||
       JSON.stringify(ledger.prices) !== JSON.stringify(CATEGORY_PRICES) ||
       JSON.stringify(ledger.limits) !== JSON.stringify(CATEGORY_LIMITS) ||
-      ledger.openingCarry !== undefined
+      (first ? ledger.openingCarry !== undefined : !ledger.openingCarry)
     )
       throw new Error();
     validateRecords(ledger.records, false);
     if (!ledger.records.length) throw new Error();
-    const totals = categoryBudgetTotals(ledger.records);
+    const ancestorCarry = second
+      ? verifyCategoryCarry(
+          join(predecessor, 'budget.json'),
+          ledger.sourceHash,
+          { ...receipt.ancestorReceipt!, keyFingerprints: options.keyFingerprints },
+          depth + 1,
+        )
+      : undefined;
+    if (ancestorCarry && JSON.stringify(ledger.openingCarry) !== JSON.stringify(ancestorCarry))
+      throw new Error();
+    const totals = addCategoryTotals(
+      categoryBudgetTotals(ledger.records),
+      ancestorCarry?.totals ?? categoryBudgetTotals([]),
+    );
     if (
       JSON.stringify(totals) !== JSON.stringify(receipt.totals) ||
       Object.values(totals).some((t) => !count(t.attempts))
@@ -240,6 +285,12 @@ export function verifyCategoryCarry(
       throw new Error();
     const previousConfig = JSON.parse(readFileSync(join(predecessor, 'private-config.json'), 'utf8'));
     if (
+      ancestorCarry &&
+      (JSON.stringify(manifest.openingCarry) !== JSON.stringify(ancestorCarry) ||
+        JSON.stringify(previousConfig.openingCarry) !== JSON.stringify(ancestorCarry))
+    )
+      throw new Error();
+    if (
       JSON.stringify(previousConfig.keyFingerprints) !== JSON.stringify(options.keyFingerprints) ||
       Object.values(options.keyFingerprints).some((hash) => !/^[a-f0-9]{64}$/.test(hash)) ||
       Object.keys(options.keyFingerprints).sort().join(',') !== 'gemini,jev'
@@ -253,6 +304,7 @@ export function verifyCategoryCarry(
       predecessorProtocolSha256: receipt.predecessorProtocolSha256,
       artifactHashes: receipt.artifactHashes,
       totals,
+      ...(ancestorCarry ? { ancestorCarry } : {}),
     };
   } catch {
     throw new Error('BUDGET_CARRY_BINDING');

@@ -284,6 +284,7 @@ export async function runCategoryEvaluation(options: RunOptions, dependencies: D
     (['gemini', 'jev'] as const).filter((p) => selectors.includes(p)).map((p) => [p, sha(keys[p])]),
   );
   const carryOptions = options.carry ? { ...options.carry, keyFingerprints } : undefined;
+  if (carryOptions && run !== 'category-learning-20261031-v3') throw new Error('RUN_CARRY_VERSION');
   // Only injected provider-free tests can omit the reviewed predecessor. The
   // production CLI never supplies a transport injection or a fresh allowance.
   if (!carryOptions && selectors.some((s) => s !== 'reference') && !dependencies.transport)

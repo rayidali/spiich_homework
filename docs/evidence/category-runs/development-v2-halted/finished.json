@@ -1,0 +1,10 @@
+{
+  "run": "category-learning-20261031-v2",
+  "split": "development",
+  "complete": false,
+  "halted": true,
+  "budgetClosed": false,
+  "sourceHash": "4ae49bce1d51137581614b41b2248b9a5a7117f3740b75b195cc0d293ba498df",
+  "observed": 5,
+  "planned": 54
+}
