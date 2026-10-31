@@ -1,5 +1,7 @@
 # Daybook continuation instructions
 
+**Local candidate:** the opt-in `adaptive` route is being verified; it is not the promoted default and has no new live-model accuracy score. Read [ADAPTIVE_CHAT.md](docs/ADAPTIVE_CHAT.md) and the latest build-log entry before continuing. Do not reuse an old comparison score for this route or reopen a closed model cohort.
+
 Read [CHECKPOINT.md](CHECKPOINT.md) first. Saved **2026-10-31, America/New_York**. Continue the implemented application; do not rebuild it or rerun completed provider experiments.
 
 ## Current continuation state

@@ -1,5 +1,7 @@
 # Daybook session checkpoint
 
+**Local candidate in progress:** `adaptive` chat can inspect results before choosing another query or exact calculation. It is opt-in; the hosted/default `composable` route below is unchanged. Shared provider-attempt and time budgets, coherent rereads and original-user-only assumption checks are implemented. Actual execution evidence is in the latest build-log entry; CI and release status must be checked before claiming completion. [Walkthrough](docs/ADAPTIVE_CHAT.md).
+
 Saved **2026-10-31, America/New_York**. Continue the existing application.
 
 **Compound grouping deployed.** Questions can now group recorded amounts jointly by two or three ordered dimensions: account, person/business and month or quarter. Account/time views include every scoped posting account; person/business combinations fill missing periods only for tuples actually observed after the requested filters. Closing balances retain opening history. Exact arithmetic keeps each row’s account identity and period. The server caps the complete grid at 30,000 cells and 120 periods, then applies a global 50-row display limit with explicit truncation. This expands supported queries; it does not prove general question or formula intent. [Plain-language grouped-spending walkthrough](docs/COMPOUND_GROUPING.md).

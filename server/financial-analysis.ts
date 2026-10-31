@@ -545,6 +545,7 @@ export async function executeFinancialAnalysis(
   org: string,
   input: unknown,
   snapshot?: Db,
+  options: { deadline?: number } = {},
 ): Promise<{ answer: string; evidence: InsightEvidence[]; facts: AnalysisFacts[] }> {
   const request = financialAnalysisSchema.parse(input);
   if (new Set(request.queries.map((item) => item.id)).size !== request.queries.length)
@@ -552,14 +553,27 @@ export async function executeFinancialAnalysis(
   // A caller checking original-user scope can supply the same read-only
   // repeatable-read snapshot used to resolve the requested account identities.
   const execute = async (db: Db) => {
+    const boundStatement = async () => {
+      if (options.deadline === undefined) return;
+      const remaining = Math.floor(options.deadline - performance.now());
+      if (!Number.isFinite(remaining) || remaining < 1)
+        throw new AppError(
+          422,
+          'INSPECTION_LIMIT',
+          'The analysis reached its time limit before its next database read.',
+        );
+      await db.query("SELECT set_config('statement_timeout', $1, true)", [`${Math.min(3000, remaining)}ms`]);
+    };
     await db.query("SET LOCAL statement_timeout='3s'");
     await db.query("SET LOCAL lock_timeout='1s'");
+    await boundStatement();
     const chart = await financialAnalysisChart(org, db);
     const compiled = request.queries.map((plan) => compileFinancialQuery(org, plan, chart));
     const facts: AnalysisFacts[] = [],
       evidence: InsightEvidence[] = [],
       answers: string[] = [];
     for (const item of compiled) {
+      await boundStatement();
       const result = await query<RawRow>(item.sql, item.params, db),
         plan = item.plan;
       if (result.some((row) => row.scope_overflow))

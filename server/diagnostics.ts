@@ -54,7 +54,7 @@ AI_SERVICE_UNAVAILABLE AI_TIMEOUT AI_USAGE_UNAVAILABLE AI_REQUEST_LIMIT AI_ADMIS
 ACCOUNTING_RULE ACCOUNT_LIMIT BODY_TOO_LARGE CONCURRENT_CHANGE DATABASE_UNAVAILABLE
 IDEMPOTENCY_KEY_REQUIRED INTERNAL_ERROR INVALID_DATE_RANGE INVALID_INPUT INVALID_JSON NOT_FOUND
 QUERY_TIMEOUT RECORD_IN_USE DUPLICATE_RECORD AMOUNT_TOO_SMALL CONFIRM_EXCHANGE_RATES CURRENCY_PRECISION
-IDEMPOTENCY_CONFLICT IMMUTABLE_ENTRY INVALID_ACCOUNT INVALID_EXPENSE_ACCOUNT INVALID_ANALYSIS_SCOPE INVALID_ANALYSIS_ACCOUNT INVALID_SCENARIO REQUEST_SCOPE_MISMATCH INVALID_AMOUNT INVALID_CURSOR INVALID_EXCHANGE_RATE
+IDEMPOTENCY_CONFLICT IMMUTABLE_ENTRY INVALID_ACCOUNT INVALID_EXPENSE_ACCOUNT INVALID_ANALYSIS_SCOPE INVALID_ANALYSIS_ACCOUNT INVALID_SCENARIO REQUEST_SCOPE_MISMATCH INVALID_INSPECTION INSPECTION_CHANGED INSPECTION_LIMIT INVALID_AMOUNT INVALID_CURSOR INVALID_EXCHANGE_RATE
 INVALID_REVERSAL_DATE NOT_POSTED STALE_DRAFT UNBALANCED_ENTRY INVALID_SCHEDULE SCHEDULE_ANCHOR_FIXED
 SCHEDULE_LIMIT STALE_SCHEDULE GROUP_LEDGER METHOD_NOT_ALLOWED SCHEDULE_UNAVAILABLE UNAUTHORIZED
 INVALID_PROPOSAL PROPOSAL_NOT_FOUND PROPOSAL_BINDING_INVALID PROPOSAL_ALREADY_USED PROPOSAL_EXPIRED
@@ -213,6 +213,9 @@ export function diagnostic(
       'expense_by_account',
       'financial_analysis',
       'financial_scenario',
+      'inspect_financial_data',
+      'show_inspected_results',
+      'calculate_from_inspection',
       'request_details',
       'income_summary',
       'period_comparison',
@@ -256,8 +259,7 @@ export function diagnostic(
   )
     output.modelVersion = fields.modelVersion;
   if (['SELECT', 'CLARIFY', 'UNSUPPORTED'].includes(fields.decision ?? '')) output.decision = fields.decision;
-  if (fields.attempts === 0 || fields.attempts === 1 || fields.attempts === 2)
-    output.attempts = fields.attempts;
+  if (count(fields.attempts) && fields.attempts! <= 3) output.attempts = fields.attempts;
   if (fields.usage)
     output.usage = Object.fromEntries(
       ['inputTokens', 'outputTokens', 'thinkingTokens', 'totalTokens'].map((key) => {
@@ -265,7 +267,7 @@ export function diagnostic(
         return [key, count(value) ? value : null];
       }),
     );
-  if (count(fields.unreportedAttempts) && fields.unreportedAttempts! <= 2)
+  if (count(fields.unreportedAttempts) && fields.unreportedAttempts! <= 3)
     output.unreportedAttempts = fields.unreportedAttempts;
   if (
     ['not_needed', 'succeeded', 'failed', 'not_eligible', 'deadline', 'too_large'].includes(
