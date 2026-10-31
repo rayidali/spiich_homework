@@ -3748,3 +3748,16 @@ html[data-input='keyboard'] .assistant-top:active {
   min-width: 0;
   border: 0;
 }
+
+.error-reference {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 10px 0;
+  font-size: 12px;
+}
+.error-reference code {
+  user-select: all;
+  overflow-wrap: anywhere;
+}

@@ -4,8 +4,8 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, { failed: 
   static getDerivedStateFromError() {
     return { failed: true };
   }
-  componentDidCatch(error: Error) {
-    console.error('Workspace rendering failed', error.message);
+  componentDidCatch() {
+    console.error(JSON.stringify({ event: 'ui_render_failure' }));
   }
   render() {
     return this.state.failed ? (

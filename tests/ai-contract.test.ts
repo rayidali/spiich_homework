@@ -20,8 +20,9 @@ vi.mock('openai', () => {
 import { config } from '../server/config';
 import { pool, query } from '../server/db';
 import { seedChart } from '../scripts/seed';
-import { accounts, createEntry } from '../server/ledger';
+import { accounts, createEntry, postEntry } from '../server/ledger';
 import { proposeEntry, financialChat } from '../server/ai';
+import { recordProposal } from '../server/categorization-memory';
 
 const admin = new pg.Client({ connectionString: config.migrationUrl });
 const originalKey = config.aiKey;
@@ -113,22 +114,63 @@ describe('AI proposals stay outside the posting boundary', () => {
       code: 'UNBALANCED_ENTRY',
     });
   });
-  it('retrieves confirmed corrections from this workspace only', async () => {
-    const corrected = suggestion().lines;
-    await query(
-      'INSERT INTO categorization_feedback(organization_id,description,counterparty,proposed_lines,corrected_lines) VALUES($1,$2,$3,$4,$5)',
-      [org, 'Staples office supplies', 'Staples', '[]', JSON.stringify(corrected)],
+  it('retrieves an actual reviewed posting correction, excluding legacy and foreign-workspace examples', async () => {
+    const wrong = suggestion();
+    wrong.lines[0].accountId = ids['1200'];
+    provider.parse.mockResolvedValue({ output_parsed: wrong });
+    const proposed = await proposeEntry(org, messages, '2026-03-01');
+    if (!proposed.entry || !('proposalId' in proposed)) throw new Error('Expected a stored proposal');
+    const reviewed = { ...proposed.entry, lines: suggestion().lines };
+    const draft = await createEntry(org, reviewed, randomUUID(), { proposalId: proposed.proposalId });
+    const posted = await postEntry(org, draft.id, draft.revision);
+    expect(posted.categorizationLearning.status).toBe('LEARNED');
+    const foreignOrg = randomUUID();
+    await admin.query("INSERT INTO organizations(id,name) VALUES($1,'Foreign correction scope')", [
+      foreignOrg,
+    ]);
+    for (const scope of [org, foreignOrg]) {
+      await query(
+        'INSERT INTO categorization_feedback(organization_id,description,counterparty,proposed_lines,corrected_lines) VALUES($1,$2,$3,$4,$5)',
+        [scope, 'UNVERIFIED_PRIVATE_EXAMPLE', 'Staples', '[]', JSON.stringify(suggestion().lines)],
+      );
+    }
+    await seedChart(foreignOrg);
+    const foreignIds = Object.fromEntries((await accounts(foreignOrg)).map((a) => [a.code, a.id]));
+    const foreignProposal = {
+      ...reviewed,
+      description: 'FOREIGN_CONFIRMED_EXAMPLE',
+      lines: [
+        { accountId: foreignIds['1200'], debit: '340', credit: '0', exchangeRate: '1', memo: '' },
+        { accountId: foreignIds['2100'], debit: '0', credit: '340', exchangeRate: '1', memo: '' },
+      ],
+    };
+    const foreignProposalId = await recordProposal(foreignOrg, foreignProposal);
+    const foreignDraft = await createEntry(
+      foreignOrg,
+      {
+        ...foreignProposal,
+        lines: foreignProposal.lines.map((l, i) => (i === 0 ? { ...l, accountId: foreignIds['5030'] } : l)),
+      },
+      randomUUID(),
+      { proposalId: foreignProposalId },
     );
+    expect(
+      (await postEntry(foreignOrg, foreignDraft.id, foreignDraft.revision)).categorizationLearning.status,
+    ).toBe('LEARNED');
     provider.parse.mockResolvedValue({ output_parsed: suggestion() });
-    await proposeEntry(
+    provider.parse.mockClear();
+    const next = await proposeEntry(
       org,
       [{ role: 'user', content: 'Staples office supplies using the company card' }],
       '2026-03-01',
     );
     const prompt = provider.parse.mock.calls[0][0].instructions as string;
     expect(prompt).toContain('CONFIRMED CORRECTIONS: [{');
-    expect(prompt).toContain('Staples office supplies');
+    expect(prompt).toContain('Staples');
     expect(prompt).toContain(ids['5030']);
+    expect(prompt).not.toContain('UNVERIFIED_PRIVATE_EXAMPLE');
+    expect(prompt).not.toContain('FOREIGN_CONFIRMED_EXAMPLE');
+    expect(next.context.correctionIds).toEqual([posted.categorizationLearning.memoryId]);
   });
 });
 

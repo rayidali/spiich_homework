@@ -3,6 +3,8 @@ import { config } from './config';
 import { processJobs } from './anomalies';
 import { generateRecurring } from './recurring';
 import { pool } from './db';
+import { databaseCode, failureStage } from './errors';
+import { diagnostic } from './diagnostics';
 
 export async function startServer() {
   await pool.query('SELECT 1');
@@ -22,12 +24,11 @@ export async function startServer() {
       }
       await processJobs();
     } catch (error) {
-      console.error(
-        JSON.stringify({
-          event: 'worker_error',
-          message: error instanceof Error ? error.message : String(error),
-        }),
-      );
+      diagnostic('worker_error', {
+        code: 'WORKER_ERROR',
+        stage: failureStage(error) ?? 'background',
+        databaseCode: databaseCode(error),
+      });
     } finally {
       busy = false;
     }

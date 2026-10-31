@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AlertTriangle, Check, ChevronRight } from 'lucide-react';
-import { useResource, write } from './api';
+import { asUiError, type UiError, useResource, write } from './api';
 import { useWorkspace } from './context';
 import { Badge, Empty, ErrorState, Loading, Modal, shortDate } from './ui';
 type Alert = {
@@ -12,11 +12,14 @@ type Alert = {
   date: string;
   entry_description: string;
   status: string;
+  resolved_at: string | null;
+  resolution_reason: 'ENTRY_REVERSED' | 'NO_LONGER_MATCHES' | null;
+  resolution_entry_id: string | null;
 };
 export function Alerts({ onClose }: { onClose: () => void }) {
   const { revision, refresh, notify, openEntry } = useWorkspace(),
     [status, setStatus] = useState('OPEN'),
-    [error, setError] = useState(''),
+    [error, setError] = useState<UiError>(''),
     [busy, setBusy] = useState('');
   const resource = useResource<Alert[]>(`/alerts?status=${status}`, revision);
   async function dismiss(id: string) {
@@ -26,7 +29,7 @@ export function Alerts({ onClose }: { onClose: () => void }) {
       refresh();
       notify(status === 'OPEN' ? 'Alert marked as reviewed.' : 'Alert reopened.');
     } catch (e) {
-      setError((e as Error).message);
+      setError(asUiError(e));
     } finally {
       setBusy('');
     }
@@ -43,6 +46,9 @@ export function Alerts({ onClose }: { onClose: () => void }) {
           </button>
           <button className={status === 'DISMISSED' ? 'selected' : ''} onClick={() => setStatus('DISMISSED')}>
             Reviewed
+          </button>
+          <button className={status === 'RESOLVED' ? 'selected' : ''} onClick={() => setStatus('RESOLVED')}>
+            Resolved
           </button>
         </div>
         {error && <ErrorState message={error} />}
@@ -73,6 +79,14 @@ export function Alerts({ onClose }: { onClose: () => void }) {
                 </div>
                 <h3>{a.title}</h3>
                 <p>{a.explanation}</p>
+                {a.resolved_at && (
+                  <p className="alert-resolution">
+                    {a.resolution_reason === 'ENTRY_REVERSED'
+                      ? 'Resolved because this entry was reversed.'
+                      : 'Resolved because the updated history no longer matches this alert.'}{' '}
+                    The original alert is kept here for your records.
+                  </p>
+                )}
                 <span className="alert-date">
                   {shortDate(a.date)} · {a.entry_description}
                 </span>
@@ -81,14 +95,21 @@ export function Alerts({ onClose }: { onClose: () => void }) {
                     View entry
                     <ChevronRight size={15} />
                   </button>
-                  <button
-                    className="button small secondary"
-                    disabled={busy === a.id}
-                    onClick={() => dismiss(a.id)}
-                  >
-                    <Check size={14} />
-                    {status === 'OPEN' ? 'Mark reviewed' : 'Reopen'}
-                  </button>
+                  {a.resolution_entry_id && (
+                    <button className="text-button" onClick={() => openEntry(a.resolution_entry_id!)}>
+                      View reversal <ChevronRight size={15} />
+                    </button>
+                  )}
+                  {!a.resolved_at && a.status !== 'RESOLVED' && (
+                    <button
+                      className="button small secondary"
+                      disabled={busy === a.id}
+                      onClick={() => dismiss(a.id)}
+                    >
+                      <Check size={14} />
+                      {status === 'OPEN' ? 'Mark reviewed' : 'Reopen'}
+                    </button>
+                  )}
                 </div>
               </article>
             ))

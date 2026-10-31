@@ -1,4 +1,5 @@
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import type { UiError } from './api';
 import {
   AlertCircle,
   ArrowRight,
@@ -39,13 +40,40 @@ export function Loading() {
     </div>
   );
 }
-export function ErrorState({ message, retry }: { message: string; retry?: () => void }) {
+export function ErrorState({ message, retry }: { message: UiError; retry?: () => void }) {
+  const detail = typeof message === 'string' ? { message } : message;
+  const [copiedReference, setCopiedReference] = useState(''),
+    [failedReference, setFailedReference] = useState('');
+  async function copyReference() {
+    if (!detail.requestId) return;
+    try {
+      await navigator.clipboard.writeText(detail.requestId);
+      setCopiedReference(detail.requestId);
+      setFailedReference('');
+    } catch {
+      setFailedReference(detail.requestId);
+    }
+  }
   return (
     <div className="error-state" role="alert">
       <AlertCircle size={20} />
       <div>
         <strong>We couldn’t complete that</strong>
-        <p>{message}</p>
+        <p>{detail.message}</p>
+        {detail.requestId && (
+          <div className="error-reference">
+            <span>
+              Reference: <code>{detail.requestId}</code>
+            </span>
+            <button className="text-button" onClick={copyReference} type="button">
+              Copy error reference
+            </button>
+            {copiedReference === detail.requestId && <span role="status">Reference copied.</span>}
+            {failedReference === detail.requestId && (
+              <span role="status">Select the reference above to copy it.</span>
+            )}
+          </div>
+        )}
         {retry && (
           <button className="button small secondary" onClick={retry}>
             Try again

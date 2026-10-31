@@ -3,7 +3,7 @@ import { CalendarDays, Check, Pause, Play, Plus, RefreshCw, Repeat2 } from 'luci
 import type { RecurringTemplate } from '../../shared/schema';
 import { baseAmount, sum } from '../../shared/money';
 import { useWorkspace } from './context';
-import { useResource, write } from './api';
+import { asUiError, type UiError, useResource, write } from './api';
 import { Badge, Empty, ErrorState, Loading, Modal, PageHeader, Spinner, formatMoney, shortDate } from './ui';
 type Template = RecurringTemplate;
 export function Recurring() {
@@ -11,7 +11,7 @@ export function Recurring() {
     resource = useResource<Template[]>('/recurring', revision),
     [selected, setSelected] = useState<Template | null>(null),
     [busy, setBusy] = useState(''),
-    [error, setError] = useState('');
+    [error, setError] = useState<UiError>('');
   async function toggle(t: Template) {
     setBusy(t.id);
     try {
@@ -24,7 +24,7 @@ export function Recurring() {
           : 'Schedule resumed. Due entries will be generated as drafts.',
       );
     } catch (e) {
-      setError((e as Error).message);
+      setError(asUiError(e));
     } finally {
       setBusy('');
     }
@@ -42,7 +42,7 @@ export function Recurring() {
             : 'Your schedules are up to date. No new occurrences are due.',
       );
     } catch (e) {
-      setError((e as Error).message);
+      setError(asUiError(e));
     } finally {
       setBusy('');
     }

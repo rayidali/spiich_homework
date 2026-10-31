@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import type { Entry } from '../../shared/schema';
 import { sum } from '../../shared/money';
-import { downloadCsv, params, useResource, write } from './api';
+import { asUiError, type UiError, downloadCsv, params, useResource, write } from './api';
 import { useWorkspace } from './context';
 import {
   Badge,
@@ -258,7 +258,7 @@ export function EntryDetails({ id, onClose }: { id: string; onClose: () => void 
   const { revision, refresh, notify, openComposer, openEntry, meta } = useWorkspace(),
     resource = useResource<Entry>(`/entries/${id}`, revision);
   const [busy, setBusy] = useState(false),
-    [error, setError] = useState(''),
+    [error, setError] = useState<UiError>(''),
     [reversing, setReversing] = useState(false),
     [date, setDate] = useState(meta!.today),
     [confirmedRate, setConfirmedRate] = useState(false),
@@ -268,14 +268,18 @@ export function EntryDetails({ id, onClose }: { id: string; onClose: () => void 
     setBusy(true);
     setError('');
     try {
-      await write(`/entries/${id}/post`, {
+      const posted = await write<Entry>(`/entries/${id}/post`, {
         exchangeRatesConfirmed: confirmedRate,
         expectedRevision: entry?.revision,
       });
       refresh();
-      notify('Entry posted. Your reports are up to date.');
+      notify(
+        posted.categorizationLearning?.status === 'LEARNED'
+          ? 'Entry posted. Your category choice was remembered for similar purchases.'
+          : 'Entry posted. Your reports are up to date.',
+      );
     } catch (e) {
-      setError((e as Error).message);
+      setError(asUiError(e));
     } finally {
       setBusy(false);
     }
@@ -290,7 +294,22 @@ export function EntryDetails({ id, onClose }: { id: string; onClose: () => void 
       openEntry(result.id);
       setReversing(false);
     } catch (e) {
-      setError((e as Error).message);
+      setError(asUiError(e));
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function forgetExample() {
+    const memoryId = entry?.categorizationLearning?.memoryId;
+    if (!memoryId) return;
+    setBusy(true);
+    setError('');
+    try {
+      await write(`/ai/corrections/${memoryId}`, {}, 'DELETE');
+      refresh();
+      notify('This example will no longer be used for suggestions. Your journal entry is unchanged.');
+    } catch (error) {
+      setError(asUiError(error));
     } finally {
       setBusy(false);
     }
@@ -414,6 +433,22 @@ export function EntryDetails({ id, onClose }: { id: string; onClose: () => void 
                 <LockKeyhole size={16} />
                 <span>Posted {new Date(entry.posted_at!).toLocaleString()} · This record is immutable.</span>
               </div>
+            )}
+            {entry.categorizationLearning?.status === 'LEARNED' && (
+              <div className="info-note">
+                <span>Your category choice is remembered as an example for similar purchases.</span>
+                <button className="text-button" disabled={busy} onClick={forgetExample}>
+                  Forget this example
+                </button>
+              </div>
+            )}
+            {entry.categorizationLearning?.status === 'REVOKED' && (
+              <p className="muted">This example is no longer used for suggestions.</p>
+            )}
+            {entry.status === 'DRAFT' && entry.source === 'AI' && (
+              <p className="muted">
+                Category changes are remembered only after you review and post this entry.
+              </p>
             )}
             {entry.status === 'DRAFT' &&
               entry.source === 'RECURRING' &&

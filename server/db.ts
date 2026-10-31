@@ -1,5 +1,7 @@
 import pg, { type PoolClient, type QueryResultRow } from 'pg';
 import { config } from './config';
+import { databaseCode, duringStage, markFailure } from './errors';
+import { diagnostic } from './diagnostics';
 // DATE is a business calendar date, not a local-midnight JavaScript timestamp.
 pg.types.setTypeParser(1082, (value) => value);
 export const pool = new pg.Pool({
@@ -11,7 +13,11 @@ export const pool = new pg.Pool({
   application_name: 'daybook-api',
 });
 pool.on('error', (error) =>
-  console.error(JSON.stringify({ level: 'error', event: 'database_pool', message: error.message })),
+  diagnostic('database_pool', {
+    code: 'DATABASE_ERROR',
+    stage: 'database',
+    databaseCode: databaseCode(error),
+  }),
 );
 export type Db = Pick<PoolClient, 'query'>;
 export async function query<T extends QueryResultRow = QueryResultRow>(
@@ -19,19 +25,29 @@ export async function query<T extends QueryResultRow = QueryResultRow>(
   values: unknown[] = [],
   db: Db = pool,
 ): Promise<T[]> {
-  return (await db.query<T>(sql, values)).rows;
+  return duringStage('database', async () => (await db.query<T>(sql, values)).rows);
 }
 export async function transaction<T>(fn: (db: PoolClient) => Promise<T>): Promise<T> {
-  const client = await pool.connect();
+  const client = await duringStage('database', () => pool.connect());
+  let discardClient = false;
   try {
-    await client.query('BEGIN');
+    await duringStage('database', () => client.query('BEGIN'));
     const result = await fn(client);
-    await client.query('COMMIT');
+    await duringStage('database', () => client.query('COMMIT'));
     return result;
   } catch (error) {
-    await client.query('ROLLBACK');
-    throw error;
+    try {
+      await client.query('ROLLBACK');
+    } catch (rollbackError) {
+      discardClient = true;
+      diagnostic('database_rollback_failed', {
+        code: 'DATABASE_ERROR',
+        stage: 'database',
+        databaseCode: databaseCode(rollbackError),
+      });
+    }
+    throw databaseCode(error) ? markFailure(error, 'database') : error;
   } finally {
-    client.release();
+    client.release(discardClient);
   }
 }

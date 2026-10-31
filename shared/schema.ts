@@ -86,6 +86,10 @@ export type JournalLine = {
   memo: string;
 };
 export type Entry = {
+  categorizationLearning?: {
+    status: 'LEARNED' | 'NO_ACCOUNT_CHANGE' | 'NOT_APPLICABLE' | 'REVOKED' | 'SUPERSEDED';
+    memoryId?: string;
+  };
   revision: number;
   id: string;
   number: string;

@@ -225,10 +225,14 @@ describe('Gemini transport and response contract (no live calls)', () => {
     const diagnostic = JSON.parse(vi.mocked(console.error).mock.calls[0][0]);
     expect(diagnostic).toEqual({
       event: 'ai_provider_failure',
+      timestamp: expect.any(String),
+      deploymentRevision: expect.any(String),
       provider: 'gemini',
       model: config.aiModel,
       operation: 'proposal',
       code,
+      stage: 'provider_http',
+      status: (error as { status: number }).status,
       failureClass: 'http',
       upstreamStatus: Number(status),
       durationMs: expect.any(Number),
@@ -300,7 +304,10 @@ describe('Gemini transport and response contract (no live calls)', () => {
       code: 'AI_INVALID_RESPONSE',
     });
     expect(fetchMock).not.toHaveBeenCalled();
-    expect(console.error).not.toHaveBeenCalled();
+    expect(JSON.parse(vi.mocked(console.error).mock.calls[0][0])).toMatchObject({
+      event: 'ai_request_failed',
+      stage: 'internal',
+    });
   });
 
   it('does not misclassify response-processing TypeErrors as fetch failures', async () => {
@@ -314,7 +321,10 @@ describe('Gemini transport and response contract (no live calls)', () => {
       code: 'AI_INVALID_RESPONSE',
     });
     expect(fetchMock).toHaveBeenCalledTimes(1);
-    expect(console.error).not.toHaveBeenCalled();
+    expect(JSON.parse(vi.mocked(console.error).mock.calls[0][0])).toMatchObject({
+      event: 'ai_request_failed',
+      stage: 'model_response',
+    });
   });
 
   it('identifies financial-tool service failures without logging tool arguments', async () => {

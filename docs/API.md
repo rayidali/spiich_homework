@@ -1,5 +1,9 @@
 # REST API quick reference
 
+## Active core iteration — source changes awaiting CI/deployment
+
+The [product plan](PRODUCT_PLAN.md) tracks the active goal. New source retains `error.requestId`/`X-Request-Id` through the interface and safe backend diagnostics. A validated READY proposal now includes `proposalId`; AI entry create/update accepts that ID and binds it to the saved draft. Posting returns optional `categorizationLearning` and atomically remembers meaningful account changes from the server-issued proposal. Draft saving alone does not create a learning example. Entry detail includes learning status; `DELETE /api/ai/corrections/:id` forgets that example without changing the journal. `POST /api/ai/feedback` returns 410 `REVIEWED_POSTING_REQUIRED` and no longer accepts arbitrary training samples. Alerts support `RESOLVED`; automatically resolved alerts cannot be manually reopened. These changes require migrations 005/006 and are not yet the hosted API; the verified prior deployment is described below.
+
 ## Current product repair — 2026-10-31, selected hosted checks passed
 
 The hosted entry endpoint returned HTTP 502, and a direct request using the same production key reproduced an upstream HTTP 503 on `gemini-3.1-flash-lite`. Direct `gemini-3.5-flash-lite` probes then returned HTTP 200: a small availability request took about 1.0 second, and the full entry-response grammar took about 1.47 seconds. The user later recalled the original input as approximately “gave $800 to a friend to party”; its original timestamp and raw response are unavailable.

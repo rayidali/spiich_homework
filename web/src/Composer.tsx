@@ -4,7 +4,7 @@ import type { Entry, EntryInput, LineInput } from '../../shared/schema';
 import { baseAmount, Decimal, sum } from '../../shared/money';
 import type { ComposerState } from './context';
 import { useWorkspace } from './context';
-import { write } from './api';
+import { asUiError, type UiError, write } from './api';
 import {
   defaultQuickAccount,
   quickEntryOptions,
@@ -19,6 +19,7 @@ type Proposal = {
   explanation: string;
   questions: string[];
   entry: EntryInput | null;
+  proposalId?: string;
 };
 export function Composer({ state, onClose }: { state: ComposerState; onClose: () => void }) {
   const { meta, accounts, refresh, notify } = useWorkspace(),
@@ -62,7 +63,7 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
     [quickCategory, setQuickCategory] = useState(''),
     [quickReview, setQuickReview] = useState(false);
   const [saving, setSaving] = useState(false),
-    [error, setError] = useState(''),
+    [error, setError] = useState<UiError>(''),
     [draftId, setDraftId] = useState(state.entry?.id),
     [draftRevision, setDraftRevision] = useState(state.entry?.revision),
     [key] = useState(() => crypto.randomUUID());
@@ -130,6 +131,7 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
     setMessages(conversation);
     setAiText('');
     setAiBusy(true);
+    setProposal(null);
     setError('');
     try {
       const result = await write<Proposal>('/ai/entry', { messages: conversation, date });
@@ -149,7 +151,9 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
         setLines(result.entry.lines);
       }
     } catch (e) {
-      setError((e as Error).message);
+      setError(asUiError(e));
+      setAiText(conversation.at(-1)!.content);
+      setMessages(messages);
     } finally {
       setAiBusy(false);
     }
@@ -162,7 +166,7 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
       description,
       counterparty,
       reference,
-      source: proposal?.entry ? 'AI' : 'MANUAL',
+      source: proposal?.entry || state.entry?.source === 'AI' ? 'AI' : 'MANUAL',
       lines: lines.map((l) => ({ ...l, debit: l.debit || '0', credit: l.credit || '0' })),
     };
     try {
@@ -190,39 +194,30 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
       } else {
         const result = await write<Entry>(
           draftId ? `/entries/${draftId}` : '/entries',
-          { ...payload, expectedRevision: draftRevision },
+          { ...payload, expectedRevision: draftRevision, proposalId: proposal?.proposalId },
           draftId ? 'PUT' : 'POST',
           draftId ? undefined : key,
         );
         setDraftId(result.id);
         setDraftRevision(result.revision);
-        if (post)
-          await write(`/entries/${result.id}/post`, {
-            exchangeRatesConfirmed: true,
-            expectedRevision: result.revision,
-          });
-        if (proposal?.entry && JSON.stringify(proposal.entry.lines) !== JSON.stringify(payload.lines)) {
-          try {
-            await write('/ai/feedback', {
-              description: payload.description,
-              counterparty,
-              proposedLines: proposal.entry.lines,
-              correctedLines: payload.lines,
-            });
-          } catch {
-            notify('Entry saved. The categorization preference could not be saved.');
-          }
-        }
+        const saved = post
+          ? await write<Entry>(`/entries/${result.id}/post`, {
+              exchangeRatesConfirmed: true,
+              expectedRevision: result.revision,
+            })
+          : result;
         notify(
           post
-            ? 'Entry posted. Your books and reports are updated.'
+            ? saved.categorizationLearning?.status === 'LEARNED'
+              ? 'Entry posted. Your category choice was remembered for similar purchases.'
+              : 'Entry posted. Your books and reports are updated.'
             : 'Draft saved. Review and post it when you’re ready.',
         );
       }
       refresh();
       onClose();
     } catch (e) {
-      setError((e as Error).message);
+      setError(asUiError(e));
     } finally {
       setSaving(false);
     }
@@ -785,7 +780,12 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
               />
             </>
           )}
-          {error && <ErrorState message={error} />}
+          {error && (
+            <ErrorState
+              message={error}
+              retry={mode === 'ai' && aiText.trim() && !aiBusy ? suggest : undefined}
+            />
+          )}
         </fieldset>
       </div>
       <div className="modal-footer">

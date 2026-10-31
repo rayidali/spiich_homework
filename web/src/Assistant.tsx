@@ -11,7 +11,7 @@ import {
   Search,
 } from 'lucide-react';
 import type { InsightEvidence } from '../../server/ai';
-import { write } from './api';
+import { asUiError, type UiError, write } from './api';
 import { useWorkspace } from './context';
 import { ErrorState, Modal, Spinner } from './ui';
 type Message = { role: 'user' | 'assistant'; content: string; evidence?: InsightEvidence[] };
@@ -26,7 +26,7 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
     [messages, setMessages] = useState<Message[]>([]),
     [text, setText] = useState(initialText ?? ''),
     [busy, setBusy] = useState(false),
-    [error, setError] = useState(''),
+    [error, setError] = useState<UiError>(''),
     bottom = useRef<HTMLDivElement>(null);
   useEffect(() => {
     bottom.current?.scrollIntoView({ behavior: 'instant', block: 'end' });
@@ -44,7 +44,7 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
       });
       setMessages([...next, { role: 'assistant', content: result.answer, evidence: result.evidence }]);
     } catch (e) {
-      setError((e as Error).message);
+      setError(asUiError(e));
       setText(next.at(-1)!.content);
       setMessages(messages);
     } finally {

@@ -2,7 +2,8 @@ import OpenAI from 'openai';
 import { zodTextFormat } from 'openai/helpers/zod';
 import { z } from 'zod';
 import { config } from './config';
-import { AppError } from './errors';
+import { AppError, failureStage, markFailure, type FailureStage } from './errors';
+import { diagnostic } from './diagnostics';
 
 export type ModelMessages = { role: 'user' | 'assistant'; content: string }[];
 export type FinancialTool = {
@@ -63,11 +64,14 @@ export function getAiUsage() {
   return { ...totals };
 }
 
-const invalid = () =>
-  new AppError(
-    502,
-    'AI_INVALID_RESPONSE',
-    'The assistant returned an invalid response. Your books have not changed. Try adding more detail.',
+const invalid = (stage: FailureStage = 'model_response') =>
+  markFailure(
+    new AppError(
+      502,
+      'AI_INVALID_RESPONSE',
+      'The assistant returned an invalid response. Your books have not changed. Try adding more detail.',
+    ),
+    stage,
   );
 type ProviderDiagnostic = {
   failureClass: 'http' | 'transport' | 'timeout' | 'provider';
@@ -83,6 +87,16 @@ class ProviderFailure extends AppError {
     readonly diagnostic: ProviderDiagnostic,
   ) {
     super(status, code, message);
+    markFailure(
+      this,
+      diagnostic.failureClass === 'http'
+        ? 'provider_http'
+        : diagnostic.failureClass === 'transport'
+          ? 'provider_transport'
+          : diagnostic.failureClass === 'timeout'
+            ? 'provider_timeout'
+            : 'internal',
+    );
   }
 }
 function providerError(status?: number) {
@@ -132,7 +146,7 @@ function providerError(status?: number) {
     diagnostic,
   );
 }
-function transportFailure(error: TypeError) {
+function transportFailure(error: Error) {
   // Only explicitly recognized network codes are logged; messages and causes can contain secrets.
   const allowed = new Set([
     'ENOTFOUND',
@@ -208,7 +222,6 @@ async function withRequest<T>(
   } catch (error) {
     let failure: AppError;
     if (error instanceof AppError) failure = error;
-    else if (error instanceof OpenAI.APIError) failure = providerError(error.status);
     else if (
       error instanceof Error &&
       ['AbortError', 'TimeoutError', 'APIConnectionTimeoutError'].includes(error.name)
@@ -219,19 +232,28 @@ async function withRequest<T>(
         'The assistant took too long to respond. Your books have not changed. Try again or use manual entry.',
         { failureClass: 'timeout', upstreamStatus: null },
       );
-    else failure = invalid();
-    if (failure instanceof ProviderFailure)
-      console.error(
-        JSON.stringify({
-          event: 'ai_provider_failure',
-          provider: config.aiProvider,
-          model: /^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,159}$/.test(config.aiModel) ? config.aiModel : 'invalid',
-          operation,
-          code: failure.code,
-          ...failure.diagnostic,
-          durationMs: Math.round(performance.now() - start),
-        }),
+    else if (error instanceof Error && error.name === 'APIConnectionError') failure = transportFailure(error);
+    else if (error instanceof OpenAI.APIError) failure = providerError(error.status);
+    else
+      failure = invalid(
+        failureStage(error) ??
+          (error instanceof z.ZodError
+            ? 'model_schema'
+            : error instanceof SyntaxError
+              ? 'model_json'
+              : 'internal'),
       );
+    markFailure(failure, failureStage(error) ?? 'model_semantic');
+    diagnostic(failure instanceof ProviderFailure ? 'ai_provider_failure' : 'ai_request_failed', {
+      provider: config.aiProvider,
+      model: config.aiModel,
+      operation,
+      code: failure.code,
+      stage: failureStage(failure),
+      status: failure.status,
+      ...(failure instanceof ProviderFailure ? failure.diagnostic : {}),
+      durationMs: Math.round(performance.now() - start),
+    });
     throw failure;
   } finally {
     if (!recorded) totals.unreportedUsage++;
@@ -309,6 +331,20 @@ function responseParts(response: GeminiResponse) {
   if (!parts?.length) throw invalid();
   return parts;
 }
+function parseModelJson(text: string): unknown {
+  try {
+    return JSON.parse(text);
+  } catch (error) {
+    throw markFailure(error, 'model_json');
+  }
+}
+function parseModel<T extends z.ZodType>(schema: T, value: unknown): z.infer<T> {
+  try {
+    return schema.parse(value);
+  } catch (error) {
+    throw markFailure(error, 'model_schema');
+  }
+}
 function geminiProposalSchema(schema: z.ZodType) {
   // Large array maxima can exceed Gemini's constrained-decoding state budget.
   // Keep the complete Zod schema for response validation below; omit only the
@@ -361,7 +397,13 @@ async function geminiRequest(
     await response.body?.cancel().catch(() => {});
     throw providerError(response.status);
   }
-  return geminiResponseSchema.parse(await response.json());
+  let body: unknown;
+  try {
+    body = await response.json();
+  } catch (error) {
+    throw markFailure(error, error instanceof SyntaxError ? 'model_json' : 'model_response');
+  }
+  return parseModel(geminiResponseSchema, body);
 }
 
 export async function generateProposal<T extends z.ZodType>(
@@ -384,7 +426,7 @@ export async function generateProposal<T extends z.ZodType>(
       const ai = metadata(response.modelVersion, geminiUsage(response));
       const parts = responseParts(response);
       if (parts.some((part) => typeof part.text !== 'string' || part.functionCall)) throw invalid();
-      return { data: schema.parse(JSON.parse(parts.map((part) => part.text).join(''))) as z.infer<T>, ai };
+      return { data: parseModel(schema, parseModelJson(parts.map((part) => part.text).join(''))), ai };
     }
     const response = await openAIClient().responses.parse({
       model: config.aiModel,
@@ -397,7 +439,7 @@ export async function generateProposal<T extends z.ZodType>(
     });
     const ai = metadata(response.model, openAIUsage(response));
     if (response.status && response.status !== 'completed') throw invalid();
-    return { data: schema.parse(response.output_parsed) as z.infer<T>, ai };
+    return { data: parseModel(schema, response.output_parsed), ai };
   });
 }
 
@@ -454,6 +496,6 @@ export async function chooseFinancialTool(
     if (response.status && response.status !== 'completed') throw invalid();
     const calls = response.output.filter((part) => part.type === 'function_call');
     if (calls.length !== 1) throw invalid();
-    return { call: allowed({ name: calls[0].name, args: JSON.parse(calls[0].arguments) as unknown }), ai };
+    return { call: allowed({ name: calls[0].name, args: parseModelJson(calls[0].arguments) }), ai };
   });
 }

@@ -1,24 +1,15 @@
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
-import { randomUUID } from 'node:crypto';
 import { resolve } from 'node:path';
 import { existsSync } from 'node:fs';
 import { z, ZodError } from 'zod';
 import { config } from './config';
 import { query } from './db';
-import { AppError, required } from './errors';
-import {
-  accounts,
-  createEntry,
-  getEntry,
-  listEntries,
-  postEntry,
-  reverseEntry,
-  updateDraft,
-  validateLines,
-} from './ledger';
-import { accountSchema, entrySchema, recurringSchema, dateSchema, lineSchema } from '../shared/schema';
+import { AppError, databaseCode, failureStage, required } from './errors';
+import { diagnostic, requestDiagnostics } from './diagnostics';
+import { accounts, createEntry, getEntry, listEntries, postEntry, reverseEntry, updateDraft } from './ledger';
+import { accountSchema, entrySchema, recurringSchema, dateSchema } from '../shared/schema';
 import {
   accountLedger,
   balanceSheet,
@@ -31,32 +22,14 @@ import {
 } from './reports';
 import { createRecurring, generateRecurring, updateRecurring } from './recurring';
 import { financialChat, messagesSchema, proposeEntry } from './ai';
+import { learningForEntry, revokeCorrection } from './categorization-memory';
 
 export function createApp(org = config.organizationId) {
   const app = express();
   app.disable('x-powered-by');
+  app.use(requestDiagnostics);
   app.use(helmet());
-  app.use(cors({ origin: config.webOrigin }));
-  app.use((req, res, next) => {
-    const requestId = randomUUID(),
-      start = performance.now();
-    res.setHeader('X-Request-Id', requestId);
-    res.locals.requestId = requestId;
-    res.on('finish', () => {
-      if (process.env.NODE_ENV !== 'test')
-        console.log(
-          JSON.stringify({
-            event: 'http_request',
-            requestId,
-            method: req.method,
-            path: req.path,
-            status: res.statusCode,
-            durationMs: Math.round(performance.now() - start),
-          }),
-        );
-    });
-    next();
-  });
+  app.use(cors({ origin: config.webOrigin, exposedHeaders: ['X-Request-Id'] }));
   app.use(express.json({ limit: '128kb' }));
   const key = (req: express.Request) => {
     const result = z.string().min(8).max(128).safeParse(req.get('Idempotency-Key'));
@@ -184,9 +157,20 @@ export function createApp(org = config.organizationId) {
       throw new AppError(400, 'INVALID_DATE_RANGE', 'Start date must be before end date');
     res.json(await listEntries(org, filter));
   });
-  app.get('/api/entries/:id', async (req, res) => res.json(await getEntry(org, id(req))));
+  app.get('/api/entries/:id', async (req, res) => {
+    const entry = await getEntry(org, id(req));
+    res.json(
+      entry.source === 'AI' && entry.status === 'POSTED'
+        ? { ...entry, categorizationLearning: await learningForEntry(org, entry.id) }
+        : entry,
+    );
+  });
   app.post('/api/entries', async (req, res) =>
-    res.status(201).json(await createEntry(org, entrySchema.parse(req.body), key(req))),
+    res.status(201).json(
+      await createEntry(org, entrySchema.parse(req.body), key(req), {
+        proposalId: z.uuid().optional().parse(req.body.proposalId),
+      }),
+    ),
   );
   app.put('/api/entries/:id', async (req, res) =>
     res.json(
@@ -195,6 +179,7 @@ export function createApp(org = config.organizationId) {
         id(req),
         entrySchema.parse(req.body),
         z.number().int().positive().parse(req.body.expectedRevision),
+        z.uuid().optional().parse(req.body.proposalId),
       ),
     ),
   );
@@ -259,7 +244,7 @@ export function createApp(org = config.organizationId) {
   });
   app.post('/api/recurring/generate', async (_req, res) => res.json(await generateRecurring(org)));
   app.get('/api/alerts', async (req, res) => {
-    const status = z.enum(['OPEN', 'DISMISSED']).default('OPEN').parse(req.query.status);
+    const status = z.enum(['OPEN', 'DISMISSED', 'RESOLVED']).default('OPEN').parse(req.query.status);
     res.json(
       await query(
         `SELECT a.*,e.number,e.description AS entry_description,e.date FROM alerts a JOIN journal_entries e ON e.id=a.entry_id WHERE a.organization_id=$1 AND a.status=$2 ORDER BY a.created_at DESC LIMIT 100`,
@@ -269,17 +254,19 @@ export function createApp(org = config.organizationId) {
   });
   app.patch('/api/alerts/:id', async (req, res) => {
     const { status } = z.object({ status: z.enum(['OPEN', 'DISMISSED']) }).parse(req.body);
-    res.json(
-      required(
-        (
-          await query('UPDATE alerts SET status=$3 WHERE organization_id=$1 AND id=$2 RETURNING *', [
-            org,
-            id(req),
-            status,
-          ])
-        )[0],
-      ),
+    const updated = await query(
+      "UPDATE alerts SET status=$3 WHERE organization_id=$1 AND id=$2 AND resolved_at IS NULL AND status<>'RESOLVED' RETURNING *",
+      [org, id(req), status],
     );
+    if (!updated[0]) {
+      required((await query('SELECT id FROM alerts WHERE organization_id=$1 AND id=$2', [org, id(req)]))[0]);
+      throw new AppError(
+        409,
+        'ALERT_RESOLVED',
+        'This alert no longer applies. Refresh the list to see its resolution.',
+      );
+    }
+    res.json(updated[0]);
   });
   app.post('/api/ai/entry', async (req, res) => {
     const p = z.object({ messages: messagesSchema, date: dateSchema }).parse(req.body);
@@ -289,87 +276,125 @@ export function createApp(org = config.organizationId) {
     const p = z.object({ messages: messagesSchema }).parse(req.body);
     res.json(await financialChat(org, p.messages));
   });
-  app.post('/api/ai/feedback', async (req, res) => {
-    const p = z
-      .object({
-        description: z.string().min(1).max(500),
-        counterparty: z.string().max(100).default(''),
-        proposedLines: z.array(lineSchema).max(100),
-        correctedLines: z.array(lineSchema).min(2).max(100),
-      })
-      .parse(req.body);
-    await validateLines(org, p.correctedLines);
-    await query(
-      'INSERT INTO categorization_feedback(organization_id,description,counterparty,proposed_lines,corrected_lines) VALUES($1,$2,$3,$4,$5)',
-      [org, p.description, p.counterparty, JSON.stringify(p.proposedLines), JSON.stringify(p.correctedLines)],
+  app.post('/api/ai/feedback', async () => {
+    throw new AppError(
+      410,
+      'REVIEWED_POSTING_REQUIRED',
+      'Category choices are remembered when you post a reviewed AI entry. Separate feedback samples are no longer accepted.',
     );
-    res.status(201).json({ saved: true });
   });
-  app.use('/api', (_req, res) =>
-    res.status(404).json({ error: { code: 'NOT_FOUND', message: 'API route not found' } }),
-  );
+  app.delete('/api/ai/corrections/:id', async (req, res) => {
+    await revokeCorrection(org, id(req));
+    res.status(204).end();
+  });
+  app.use('/api', (_req, _res, next) => next(new AppError(404, 'NOT_FOUND', 'API route not found')));
   if (existsSync(resolve('dist/index.html'))) {
     app.use(express.static(resolve('dist')));
     app.get('/{*path}', (_req, res) => res.sendFile(resolve('dist/index.html')));
   }
-  app.use((error: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-    let status = 500,
-      code = 'INTERNAL_ERROR',
-      message = 'Something went wrong. Please try again.',
-      details: unknown;
-    if (error instanceof AppError) {
-      ({ status, code, message, details } = error);
-    } else if (error instanceof ZodError) {
-      status = 400;
-      code = 'INVALID_INPUT';
-      message = error.issues.map((i) => `${i.path.join('.') || 'input'}: ${i.message}`).join('; ');
-      details = error.issues;
-    } else if (error && typeof error === 'object' && 'status' in error && error.status === 413) {
-      status = 413;
-      code = 'BODY_TOO_LARGE';
-      message = 'The request body exceeds 128 KB';
-    } else if (error && typeof error === 'object' && 'code' in error) {
-      const pg = error as { code: string; message?: string };
-      if (pg.code === '23514') {
-        status = 422;
-        code = 'ACCOUNTING_RULE';
-        message = pg.message ?? 'This operation violates an accounting rule';
-      } else if (pg.code === '23505') {
-        status = 409;
-        code = 'DUPLICATE_RECORD';
-        message = 'This code or record already exists. An entry can only be reversed once.';
-      } else if (pg.code === '23503') {
-        status = 409;
-        code = 'RECORD_IN_USE';
-        message =
-          'This record is referenced by other records. Archive a used account instead of deleting it.';
-      } else if (pg.code === '57014') {
-        status = 503;
-        code = 'QUERY_TIMEOUT';
-        message = 'The query took too long. Try a narrower date range.';
-      } else if (['40P01', '40001'].includes(pg.code)) {
-        status = 409;
-        code = 'CONCURRENT_CHANGE';
-        message = 'Another change happened at the same time. Please retry this operation.';
-      } else if (['57P01', 'ECONNREFUSED', 'ECONNRESET', 'ETIMEDOUT'].includes(pg.code)) {
-        status = 503;
-        code = 'DATABASE_UNAVAILABLE';
-        message = 'The database is temporarily unavailable. Please try again shortly.';
-      }
-    } else if (error instanceof SyntaxError) {
-      status = 400;
-      code = 'INVALID_JSON';
-      message = 'The request body is not valid JSON';
-    }
-    if (status === 500)
-      console.error(
-        JSON.stringify({
-          event: 'unhandled_error',
-          requestId: res.locals.requestId,
-          message: error instanceof Error ? error.message : String(error),
-        }),
-      );
-    res.status(status).json({ error: { code, message, details, requestId: res.locals.requestId } });
-  });
+  app.use(apiErrorHandler);
   return app;
+}
+
+export function apiErrorHandler(
+  error: unknown,
+  req: express.Request,
+  res: express.Response,
+  _next: express.NextFunction,
+) {
+  let status = 500,
+    code = 'INTERNAL_ERROR',
+    message = 'Something went wrong. Please try again.',
+    details: unknown;
+  if (error instanceof AppError) {
+    ({ status, code, message, details } = error);
+  } else if (error instanceof ZodError) {
+    status = 400;
+    code = 'INVALID_INPUT';
+    message = error.issues.map((i) => `${i.path.join('.') || 'input'}: ${i.message}`).join('; ');
+    details = error.issues;
+  } else if (error && typeof error === 'object' && 'status' in error && error.status === 413) {
+    status = 413;
+    code = 'BODY_TOO_LARGE';
+    message = 'The request body exceeds 128 KB';
+  } else if (error && typeof error === 'object' && 'code' in error) {
+    const pg = error as { code: string };
+    if (pg.code === '23514') {
+      status = 422;
+      code = 'ACCOUNTING_RULE';
+      message = 'This operation violates an accounting rule';
+    } else if (pg.code === '23505') {
+      status = 409;
+      code = 'DUPLICATE_RECORD';
+      message = 'This code or record already exists. An entry can only be reversed once.';
+    } else if (pg.code === '23503') {
+      status = 409;
+      code = 'RECORD_IN_USE';
+      message = 'This record is referenced by other records. Archive a used account instead of deleting it.';
+    } else if (pg.code === '57014') {
+      status = 503;
+      code = 'QUERY_TIMEOUT';
+      message = 'The query took too long. Try a narrower date range.';
+    } else if (['40P01', '40001'].includes(pg.code)) {
+      status = 409;
+      code = 'CONCURRENT_CHANGE';
+      message = 'Another change happened at the same time. Please retry this operation.';
+    } else if (
+      [
+        '08000',
+        '08001',
+        '08003',
+        '08006',
+        '08004',
+        '08P01',
+        '53300',
+        '53400',
+        '57P01',
+        '57P02',
+        '57P03',
+        'ECONNREFUSED',
+        'ECONNRESET',
+        'ETIMEDOUT',
+        'ENOTFOUND',
+        'EAI_AGAIN',
+      ].includes(pg.code)
+    ) {
+      status = 503;
+      code = 'DATABASE_UNAVAILABLE';
+      message = 'The database is temporarily unavailable. Please try again shortly.';
+    }
+  } else if (error instanceof SyntaxError) {
+    status = 400;
+    code = 'INVALID_JSON';
+    message = 'The request body is not valid JSON';
+  }
+  const stage =
+    failureStage(error) ??
+    (databaseCode(error)
+      ? 'database'
+      : error instanceof AppError
+        ? 'application_validation'
+        : status < 500
+          ? 'http_validation'
+          : 'internal');
+  res.locals.errorCode = code;
+  res.locals.errorStage = stage;
+  const operation =
+    req.route?.path === '/api/ai/entry'
+      ? 'proposal'
+      : req.route?.path === '/api/ai/chat'
+        ? 'financial_tool'
+        : undefined;
+  diagnostic(
+    'request_error',
+    {
+      code,
+      stage,
+      status,
+      databaseCode: databaseCode(error),
+      ...(operation ? { operation, provider: config.aiProvider, model: config.aiModel } : {}),
+    },
+    res.locals.diagnosticContext,
+  );
+  res.status(status).json({ error: { code, message, details, requestId: res.locals.requestId } });
 }

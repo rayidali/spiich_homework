@@ -14,7 +14,7 @@ import {
 import { type Account, accountTypes, currencyCodes, type AccountInput } from '../../shared/schema';
 import { sum } from '../../shared/money';
 import { useWorkspace } from './context';
-import { api, params, useResource, write } from './api';
+import { asUiError, type UiError, api, params, useResource, write } from './api';
 import {
   Badge,
   Empty,
@@ -37,7 +37,7 @@ export function Accounts() {
     [archived, setArchived] = useState(false),
     [editor, setEditor] = useState<Account | 'new' | null>(null),
     [ledger, setLedger] = useState<string | null>(url.get('account')),
-    [error, setError] = useState(''),
+    [error, setError] = useState<UiError>(''),
     [collapsed, setCollapsed] = useState<Set<string>>(new Set());
   useEffect(() => {
     if (url.get('account')) setLedger(url.get('account'));
@@ -69,7 +69,7 @@ export function Accounts() {
       refresh();
       notify(a.archived ? 'Account restored.' : 'Account archived. Its history is preserved.');
     } catch (e) {
-      setError((e as Error).message);
+      setError(asUiError(e));
     }
   }
   const visible = accounts.filter(
@@ -252,7 +252,7 @@ function AccountEditor({ account, onClose }: { account?: Account; onClose: () =>
     isCash: account?.is_cash ?? false,
   });
   const [busy, setBusy] = useState(false),
-    [error, setError] = useState(''),
+    [error, setError] = useState<UiError>(''),
     [confirmDelete, setConfirmDelete] = useState(false);
   async function save() {
     setBusy(true);
@@ -262,7 +262,7 @@ function AccountEditor({ account, onClose }: { account?: Account; onClose: () =>
       notify(account ? 'Account updated.' : 'Account created.');
       onClose();
     } catch (e) {
-      setError((e as Error).message);
+      setError(asUiError(e));
     } finally {
       setBusy(false);
     }
@@ -275,7 +275,7 @@ function AccountEditor({ account, onClose }: { account?: Account; onClose: () =>
       notify('Unused account deleted.');
       onClose();
     } catch (e) {
-      setError((e as Error).message);
+      setError(asUiError(e));
     } finally {
       setBusy(false);
     }
