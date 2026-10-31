@@ -1,6 +1,6 @@
 # Daybook continuation instructions
 
-**Local candidate:** the opt-in `adaptive` route is being verified; it is not the promoted default and has no new live-model accuracy score. Read [ADAPTIVE_CHAT.md](docs/ADAPTIVE_CHAT.md) and the latest build-log entry before continuing. Do not reuse an old comparison score for this route or reopen a closed model cohort.
+**Adaptive candidate CI verified; not deployed.** Source `2b2de76` passed CI 41253615194: 1,741 tests in 90 files, 29 browser workflows, native research and Compose; live-AI was skipped. The 25 real-PostgreSQL inspection cases are included. Provider contract responses are scripted. Read [ADAPTIVE_CHAT.md](docs/ADAPTIVE_CHAT.md), [evidence](docs/evidence/adaptive-candidate-ci.json) and the latest build-log entry. The hosted/default route remains `composable` on `93a8617`. Next compare actual complete chat executions, not the old first-plan-only runner. Do not reuse an old model score or reopen a closed cohort.
 
 Read [CHECKPOINT.md](CHECKPOINT.md) first. Saved **2026-10-31, America/New_York**. Continue the implemented application; do not rebuild it or rerun completed provider experiments.
 

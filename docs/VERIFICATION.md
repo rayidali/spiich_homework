@@ -1,8 +1,12 @@
 # Verification record
 
-## Adaptive candidate — local verification in progress
+## Adaptive candidate — CI verified, not deployed
 
-The opt-in [adaptive route](ADAPTIVE_CHAT.md) adds provider-feedback and actual-PostgreSQL inspection tests. After the counterparty identity repair, local verification passed 419 focused tests in 15 files, TypeScript/production build and formatting, including 45 adaptive chat, five deadline, 24 identity-calculator and 12 identity-query cases. The 25 real-PostgreSQL inspection cases await the corrected source’s CI. Provider HTTP responses are scripted in engineering tests. Its real database concurrency fixtures must pass CI before database execution is claimed. The production release and old model measurements below remain unchanged; the candidate has no new accuracy score.
+Exact source `2b2de7673c65d2aedefd3cdc677cb2f78be0e2a3` passed [full CI 41253615194](https://github.com/rayidali/spiich_homework/actions/runs/41253615194): **1,741 tests across 90 files and all 29 browser workflows**. Native research and Compose also passed, including automatic recurring/anomaly workflows and persistence. Live-AI was skipped. [Audited candidate receipt](evidence/adaptive-candidate-ci.json).
+
+The aggregate includes 45 adaptive-chat, five deadline, 25 actual-PostgreSQL inspection, 24 identity-calculator and 12 identity-query cases, plus six historical-normalizer checks. The PostgreSQL fixtures independently specify amounts and exercise changed earlier results, coherent concurrent reads and exact counterparty identity. These named counts are included in the total, not additional tests. Local pre-publication verification passed 419 focused tests in 15 files, TypeScript/production build and formatting.
+
+Provider HTTP responses in engineering tests are scripted; browser workflows use the CI build. This is software and actual-database evidence, not a live-model accuracy score or hosted adaptive acceptance. The opt-in [adaptive route](ADAPTIVE_CHAT.md) has not replaced the deployed `composable` route on `93a8617`. A fresh control-plane capture confirmed the existing protected production target and alias. No deployment mutation, provider call, new spending cohort or fresh hosted-ledger comparison occurred in this candidate verification. Earlier model measurements retain their original source.
 
 ## Compound grouping — deployed and CI verified
 

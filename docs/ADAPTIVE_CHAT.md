@@ -1,6 +1,6 @@
 # Letting the assistant look before it calculates
 
-**Status:** implemented as an opt-in candidate, `FINANCIAL_CHAT_ROUTE=adaptive`. The deployed default remains `composable`. Current verification is recorded in [VERIFICATION.md](VERIFICATION.md). No new live-model accuracy score or winner is claimed.
+**Status:** opt-in candidate, `FINANCIAL_CHAT_ROUTE=adaptive`, verified in [CI 41253615194](https://github.com/rayidali/spiich_homework/actions/runs/41253615194) at source `2b2de76`. All 1,741 tests in 90 files, 29 browser workflows, native research and Compose passed, including 25 actual-PostgreSQL inspection cases. Provider responses were scripted and live-AI was skipped. The candidate is not deployed; the hosted default remains `composable`. [Verification and limits](VERIFICATION.md), [exact-source receipt](evidence/adaptive-candidate-ci.json). No new live-model accuracy score or winner is claimed.
 
 Imagine asking: **“Who was our largest expense counterparty in January, and how did our spending with them change in February?”** The name is not in your question. The assistant has to discover it before asking the second question.
 
@@ -47,12 +47,12 @@ The existing first-user expense-account safeguard also applies to inspection rea
 
 ## Limits and cost discipline
 
-- At most **three provider attempts** across the entire adaptive request, including at most one schema repair. Simple supported questions can still finish in one call.
+- At most **three provider attempts** across the entire adaptive request, including at most one schema repair. A repair uses one of these attempts, leaving fewer steps for inspection. Simple supported questions can still finish in one call.
 - At most **two inspection reads and four unique queries**. Repeated old queries count toward database work; this is not a four-SQL-execution limit.
 - One **40-second planning/inspection allowance** is shared across steps. Statement timeouts are capped by remaining time, and late results are withheld. Connection waits, direct report execution and cleanup mean this is not a guaranteed 40-second HTTP response time.
 - Complete feedback is capped at **64 KiB**. Oversized data is rejected; rows are not silently removed to fit.
 - Unknown usage prevents another inspection/provider continuation. A final answer may retain unknown usage metadata when no further call is needed. Provider errors do not trigger automatic retries.
-- Existing calculator restrictions still apply: exact supported units, original-user assumption evidence, no truncated operands, and no unsupported noncash-balance arithmetic.
+- Existing calculator restrictions still apply: exact supported units, original-user assumption evidence, no truncated operands, and no unsupported noncash-balance arithmetic. A visible row from truncated discovery can identify a counterparty, but arithmetic still needs complete operand results from a separate query.
 
 The workspace's HTTP admission limits remain in force. Three model attempts inside one admitted request can cost more than a one-call answer; request limits are not dollar-spend limits.
 
@@ -61,3 +61,5 @@ The workspace's HTTP admission limits remain in force. Three model attempts insi
 This is a new configuration. The older authored-versus-composable study and category comparison retain their original source and results. Their scores cannot be attached to this candidate.
 
 A new comparison should freeze the candidate and questions before model calls; run the same questions against the existing and adaptive routes; independently verify account/date/filter selection, exact values and calculation ancestry; and report failures, latency, calls and cost. Keep simple common questions separate from questions that genuinely need a discovered identity. Scripted-provider tests establish software behavior, not model accuracy. A new paid cohort requires its own bounded allowance and must not reopen a closed cohort.
+
+The existing comparison runner requests one model plan and executes it later. That does not exercise this candidate's feedback loop. The next comparison needs the real `financialChat` loop and real provider responses alongside disposable PostgreSQL, so the later decisions receive actual earlier results within the same request's limits. A dedicated manual CI run can provide that environment without using the production books. It must account for every actual provider attempt, including repairs, and retain unknown-cost reservations. This runner and live comparison are still outstanding.

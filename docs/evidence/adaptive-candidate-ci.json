@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-31T23:57:39.158655+00:00",
+  "status": "CANDIDATE_ENGINEERING_CI_PASSED",
+  "sourceCommit": "2b2de7673c65d2aedefd3cdc677cb2f78be0e2a3",
+  "ci": {
+    "runId": 41253615194,
+    "attempt": 1,
+    "verifyJobId": 124692048865,
+    "url": "https://github.com/rayidali/spiich_homework/actions/runs/41253615194",
+    "outcomes": {
+      "verify": "success",
+      "research-native": "success",
+      "compose": "success",
+      "live-ai": "skipped"
+    },
+    "tests": {
+      "passed": 1741,
+      "total": 1741,
+      "filesPassed": 90,
+      "filesTotal": 90,
+      "browserPassed": 29,
+      "browserTotal": 29,
+      "browserDurationSeconds": 50.2
+    }
+  },
+  "adaptiveSuites": {
+    "providerContract": {
+      "path": "tests/financial-adaptive-chat.test.ts",
+      "passed": 45
+    },
+    "statementDeadline": {
+      "path": "tests/financial-analysis-deadline.test.ts",
+      "passed": 5
+    },
+    "postgres": {
+      "path": "tests/financial-inspection-db.test.ts",
+      "passed": 25
+    },
+    "identityCalculator": {
+      "path": "tests/counterparty-identity-calculation.test.ts",
+      "passed": 24
+    },
+    "identityQuery": {
+      "path": "tests/counterparty-identity-query.test.ts",
+      "passed": 12
+    },
+    "historicalNormalizer": {
+      "path": "tests/chat-evaluation/normalize.test.ts",
+      "passed": 6
+    }
+  },
+  "namedTestsIncludedInAggregate": true,
+  "sourceHashes": {
+    "server/ai.ts": "b45f859513f19a6aac8349c24565d5aee6973e8962bf03afb00d3ff1e74f799c",
+    "server/financial-analysis.ts": "e8325412bb81c18f6641ed80a989b74933c14782ffddfd4d2b3ed4190c54c16f",
+    "server/diagnostics.ts": "881c44c1e614f73eb7c33864602e23e72e89bd3dd7241eb43543190358c62803",
+    "server/financial-inspection.ts": "9b195ef43edc256c802202bb18111027d709cbc0aea3f7bbf3c1aa1d1b26dbf0",
+    "server/financial-calculation.ts": "556e6ae9b141ba11e1213f52f79510518ad7b951b7d3f65334c8a1eb0c55cff6",
+    "scripts/chat-evaluation/normalize.ts": "117156f63b1831a9533060d65147c4fc091528631c8810021a9f8ab0b24908c4",
+    "tests/financial-adaptive-chat.test.ts": "0b147aac7790b677becff7d11d3660ce0f6f4149c37595182ffaf0a67ef9dc48",
+    "tests/financial-analysis-deadline.test.ts": "29f5987c54a1973ec850c11f4506eefca04c65d1cb472ced87190bc0f2142cac",
+    "tests/financial-inspection-db.test.ts": "5723f86d75800cfab91293c4d3004c9e0ecbe8439955ecd2fb4e85891d9d9496",
+    "tests/counterparty-identity-calculation.test.ts": "fa288389e1acf56319e09834d9816730365fbd1cd1b76b61269ad4f3e767451c",
+    "tests/counterparty-identity-query.test.ts": "3b57506900f6e6307cb44d4bd2bca97b1638414c9e4d7e48fa34b8e2ee6abddb",
+    "tests/chat-evaluation/normalize.test.ts": "84b5ee6104ef1d5f40a0ea272e44b0abf97b5352def56c69173230bf5ae84a8f"
+  },
+  "inputHashes": {
+    "adaptive-identity-ci-status.json": "fa00b0c11f913422c0224e2f84b4ab87a802c2fa2d8c1c967997cda72167fad9",
+    "adaptive-identity-ci-jobs.json": "d702f5f178a1cc4942ecd819e6f021fb44301512d56c144d0ae744dbe1b58a84",
+    "adaptive-identity-verify-job.json": "8d682d985b76fe235446422da36adfc1cb468a33afb45a491f5e591fe16994d1",
+    "adaptive-identity-verify-job.log": "6abd0449c76b6b692c0c000df51cbbc0c00efc097598f9fb8bf56a9b15503546",
+    "adaptive-identity-stable-project.json": "5077a84ccf7be283ed87d1763fd9003d2ea12100c914f0e5b3cc3914f14ff11e",
+    "adaptive-identity-stable-alias.json": "246a8c4b472401037a0a49a28d891a219bc8368df93630433f79fad361bd0e0e"
+  },
+  "helperSha256": "15d42784ba247f8278ab5c985187b47570a6565c349dc8ccae58ff86e11ce91e",
+  "priorProductionReceipt": {
+    "path": "docs/evidence/compound-grouping-release.json",
+    "sha256": "0213ffcab447834be272dd53c8de80f16eba79e9765c4d159af3baca3b0da0f9"
+  },
+  "currentStable": {
+    "checked": true,
+    "sourceCommit": "93a8617932daff772c5b5d9c836be15692a64979",
+    "deploymentId": "dpl_2Rh1j9ryaPzor5vsREcDvYJHgFSQ",
+    "route": "composable",
+    "allDeploymentProtection": true,
+    "scope": "Captured project production target and stable alias only; no deployment-inventory claim."
+  },
+  "supersededCandidate": {
+    "sourceCommit": "5e16a2f442fa727d2a2c07b80db7979ef9068995",
+    "ciRunId": 41252944536,
+    "knownIssue": "A copied counterparty name could case-fold distinct inspected groups during a follow-up read.",
+    "correctedTestsAttributedToEarlierSource": false,
+    "evidencePolicy": "Earlier CI artifacts are retained separately; their pass does not prove the corrected identity contract."
+  },
+  "candidate": {
+    "defaultRoute": "composable",
+    "adaptiveRouteOptIn": true,
+    "deployedByThisWork": false,
+    "newLiveModelAccuracyClaim": false,
+    "sharedProviderAttemptLimit": 3,
+    "maximumSchemaRepairs": 1,
+    "maximumReadRounds": 2,
+    "maximumQueries": 4,
+    "planningInspectionBudgetMs": 40000,
+    "hardHttpDeadlineClaim": false,
+    "counterpartyIdentity": {
+      "followupSelector": "prior_query_and_row_reference",
+      "rawKeyResolvedByServer": true,
+      "caseAndWhitespacePreserved": true,
+      "sqlEqualityCollation": "C",
+      "blankGroupingKeyPreserved": true,
+      "followupLiteralExactOrContainsAllowed": false,
+      "identityModeAdvertisedToModel": false,
+      "calculatorSourceProofRequired": true
+    }
+  },
+  "providerCallsByAudit": 0,
+  "networkCallsByAudit": 0,
+  "limitations": [
+    "Provider contract tests use stubbed HTTP responses; they do not measure model quality or billing.",
+    "Real PostgreSQL cases verify query execution and boundaries on isolated test data.",
+    "The 40-second planning/inspection budget withholds late results; it is not an HTTP wall-time SLA.",
+    "Browser workflows exercise the CI build, not a new hosted adaptive route.",
+    "The live-AI CI job was skipped. This receipt records no new provider inference or model-accuracy result.",
+    "No deployment mutation, fresh hosted ledger comparison or universal semantic/formula correctness is claimed."
+  ]
+}

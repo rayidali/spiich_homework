@@ -1,6 +1,8 @@
 # Daybook session checkpoint
 
-**Local candidate in progress:** `adaptive` chat can inspect results before choosing another query or exact calculation. It is opt-in; the hosted/default `composable` route below is unchanged. Shared provider-attempt and time budgets, coherent rereads and original-user-only assumption checks are implemented. Actual execution evidence is in the latest build-log entry; CI and release status must be checked before claiming completion. [Walkthrough](docs/ADAPTIVE_CHAT.md).
+**Adaptive candidate CI verified; not deployed.** Exact source `2b2de7673c65d2aedefd3cdc677cb2f78be0e2a3` passed [CI 41253615194](https://github.com/rayidali/spiich_homework/actions/runs/41253615194): **1,741 tests across 90 files, 29 browser workflows, native research and Docker Compose**, including 25 actual-PostgreSQL inspection cases. The opt-in route can inspect results before selecting another query or exact calculation, binds discovered counterparties to exact returned rows, and shares provider/time limits across the request. Provider responses in engineering tests are scripted; live-AI was skipped. No new model accuracy, hosted acceptance or provider spend is claimed. Production remains the `93a8617` / `composable` release below. [Walkthrough](docs/ADAPTIVE_CHAT.md), [candidate evidence](docs/evidence/adaptive-candidate-ci.json).
+
+**Next useful work:** compare the current composable and adaptive routes on frozen unseen questions through the complete `financialChat` loop with disposable PostgreSQL. The older one-plan-then-replay runner cannot measure feedback-driven reads or their actual deadlines. Use a new bounded cohort and preserve every closed study, failure and spending ledger. The broader question goal remains partial; passing engineering checks does not establish that the model chooses the right accounts, dates or formulas.
 
 Saved **2026-10-31, America/New_York**. Continue the existing application.
 

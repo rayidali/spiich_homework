@@ -61,7 +61,7 @@ docker compose --profile evaluate run --build --rm evaluate
 
 The product 40-case evaluation, the completed [focused category comparison](docs/CATEGORIZATION_PROTOCOL.md), and the completed nine-route research benchmark are separate. The category adapters and UI/API passed full CI, and the bounded live selector comparison is complete; the earlier category release passed 11 selected API checks; fresh hosted browser/device usability remains separate. Jev reranking/review, semantic vectors, managed File Search and Wren were exercised only in the isolated research harness; no retrieval/reviewer route is enabled in product chat. Mastra has not been added.
 
-A separate opt-in candidate, `FINANCIAL_CHAT_ROUTE=adaptive`, lets the assistant inspect results before selecting another query or exact calculation. It shares three total provider attempts across the request and does not hold a database connection while waiting for the model. It has no new live-model score and is not the hosted default. [Design, limits and comparison plan](docs/ADAPTIVE_CHAT.md).
+A separate opt-in candidate, `FINANCIAL_CHAT_ROUTE=adaptive`, lets the assistant inspect results before selecting another query or exact calculation. It shares three total provider attempts across the request and does not hold a database connection while waiting for the model. Source `2b2de76` passed full CI, including actual-PostgreSQL inspection and identity tests; provider responses were scripted. It has no new live-model score and is not deployed or the hosted default. [Design, verification and comparison plan](docs/ADAPTIVE_CHAT.md).
 
 ## Local development without Docker
 
