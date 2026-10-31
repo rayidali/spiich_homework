@@ -1,0 +1,39 @@
+{
+  "runId": "smoke-v4",
+  "startedAt": "2026-10-31T01:26:59.640325+00:00",
+  "endedAt": "2026-10-31T01:36:40.610462+00:00",
+  "requests": 190,
+  "googleRequests": 123,
+  "httpStatuses": {
+    "200": 190
+  },
+  "incompleteFooters": 0,
+  "nonzeroCurlExits": 0,
+  "expiredWithoutDispatch": 0,
+  "googlePreCurlStartGapsMs": {
+    "min": 4574,
+    "p50": 4588.0,
+    "p95": 4660,
+    "max": 4849
+  },
+  "queueWaitMs": {
+    "min": 29,
+    "p50": 2295.0,
+    "p95": 3703,
+    "max": 3903
+  },
+  "networkDurationMs": {
+    "min": 88,
+    "p50": 1050.5,
+    "p95": 2331,
+    "max": 4359
+  },
+  "ownerLockPresent": false,
+  "runnerLockPresent": false,
+  "readyJobs": 0,
+  "claimedWithoutDone": 0,
+  "watcherExitCode": 0,
+  "sourceEditedDuringRun": false,
+  "helperSha256": "6ba272427fe573c5a3a345eb5351907d5029dddc472741f07ebde8559d966f33",
+  "measurementLimit": "Queued harness timing, not production latency; pre-curl observations, not packet captures. HTTP 200 does not mean valid or correct model output."
+}

@@ -1,0 +1,58 @@
+{
+  "at": "2026-10-31T01:38:08.319793+00:00",
+  "runId": "smoke-v4",
+  "episodes": 54,
+  "plannedEpisodes": 54,
+  "statuses": {
+    "ok": 40,
+    "blocked": 13,
+    "error": 1
+  },
+  "structuredSuccesses": 28,
+  "sourceHash": "fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08",
+  "protocolHash": "525016c029d869198d0129f676f40e282fc3f7cc9ff60059f4fde68528a25d49",
+  "snapshotIntegrity": {
+    "status": "verified",
+    "before": "2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c",
+    "after": "2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c",
+    "scope": "ledger_and_corpus"
+  },
+  "hardGateViolations": 0,
+  "providerUsage": {
+    "gemini": {
+      "calls": 123,
+      "reportedUsageEquivalentUsd": 0.1412087,
+      "unknownUsageReservationUsd": 0.00502635,
+      "trackedUsd": 0.14623505
+    },
+    "jev": {
+      "calls": 7,
+      "reportedUsageEquivalentUsd": 0.000755538,
+      "unknownUsageReservationUsd": 0,
+      "trackedUsd": 0.000755538
+    }
+  },
+  "additionalFundedUsage": {
+    "gemini": {
+      "calls": 370,
+      "reportedUsageEquivalentUsd": 0.3115767,
+      "unknownUsageReservationUsd": 0.0378489,
+      "trackedUsd": 0.3494256
+    },
+    "jev": {
+      "calls": 16,
+      "reportedUsageEquivalentUsd": 0.001807722,
+      "unknownUsageReservationUsd": 0,
+      "trackedUsd": 0.001807722
+    }
+  },
+  "readyForFinalFreeze": true,
+  "heldoutResultsExist": false,
+  "review": "Internal read-only AI-assisted review; not independent human prose/reference adjudication. No remaining concrete measurement defect identified.",
+  "limits": [
+    "Development selection was reused; not a held-out accuracy estimate or architecture winner.",
+    "Conservative ambiguous operand scope may withhold correct arithmetic.",
+    "Wrong derived citations, missing formal tags, unavailable capabilities and one response-contract error remain recorded."
+  ],
+  "originalResultsSha256": "4f12979b29c49bbb24509410869d306e027da2f11ed409ffe24b25f76270996a"
+}

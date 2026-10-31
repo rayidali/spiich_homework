@@ -1,0 +1,17 @@
+{
+  "version": "daybook-verifier-freeze-v1",
+  "runId": "verifiers-v1",
+  "boundAt": "2026-10-31T01:38:08.251Z",
+  "amendmentReason": "Bind preserved development calibration to the complete source and labeled reference hashes after pre-holdout pacing, deadline, provenance, reporting and portability amendments. No reviewer prompt or threshold was retuned on held-out outcomes.",
+  "developmentFrozenAt": "2026-10-30T21:50:17.710Z",
+  "legacySourceHash": "ba44936a52a595a1fecc9e3142f67fb14ceac63f81e14f05fe2dc5bf3466eb47",
+  "frozenSourceHash": "fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08",
+  "referenceCasesHash": "3ecc20fd83aa572abf6713c4a5b60a0dd4b114c9792ffbe903509703457479a5",
+  "calibrationHash": "ec581b8012d9136b6a443f58e76600c43e66c657003bd7f339b5719ab053beb3",
+  "developmentInputHash": "849c044906859b2e5b27cef4af6ae4ec6343e9ff0bc63bf0a2664a0defeae9f6",
+  "developmentResultsHash": "4eaf2d0b16a17a6731eef786c98049dac8bda54593076c7af7fee14cd80c19bb",
+  "threshold": 0.8,
+  "feasible": true,
+  "developmentCases": 80,
+  "holdoutCases": 80
+}

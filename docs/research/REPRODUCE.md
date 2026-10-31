@@ -90,7 +90,7 @@ The fixture check compares complete stored ledger and document contents with the
 
 Indexing resumes from `.tools/research/index-state.json`. Keep that file with its matching database and provider store. If source fixture content changes, use a new study version and run state; setup intentionally does not overwrite existing fixture rows. Re-indexing or changing documents during a measured run changes the experimental condition.
 
-For this funded continuation, a read-only request with the verified current key returned HTTP 403 for the old File Search store. The old private index state was archived, the 40 stored vectors were retained, and a new managed store with the same 39 authorized documents is being indexed. No corpus expansion is intended. This rebuild is setup work before the next measured run; confirm its completion and document availability rather than treating the successful generation probe as proof of index access. Keep old index provenance and costs, and bind the actual new index state in the next run manifest.
+For this funded continuation, a read-only request with the verified current key returned HTTP 403 for the old File Search store. The old private index state was archived, the 40 stored vectors were retained, and a new managed store was verified with the same **39 active authorized documents, zero pending and zero failed**. No corpus expansion occurred. [Read-only index receipt](../evidence/research-funded-index-ready.json). Keep old index provenance and costs, and bind the actual new index state in the next run manifest. A successful generation probe alone does not establish index access.
 
 ## 5. Run the controlled comparison
 
@@ -123,6 +123,56 @@ The funded allowance and stop handling passed **453 isolated tests, the producti
 Do not tune prompts, thresholds, fixture data or executable research source after inspecting held-out results. A resumed run checks its source/configuration/data manifest and preserves previously completed or interrupted episodes. Use the same command and run ID to resume unchanged work. A changed implementation requires a new run ID and a clear experimental version, not editing old result rows.
 
 Results are written under `docs/evidence/research-runs/<run-id>/`, including episodes, manifests, before/after fingerprints and report artifacts. Verifier artifacts are under `docs/evidence/research-verifiers/<run-id>/`. Keep incomplete runs and failures when comparing methods; do not present completed-only scores as overall reliability.
+
+## 6. Produce the final analyses and printable report
+
+Run these postprocessors **after the final held-out runs finish**, using their unchanged frozen source. They make no provider requests. Replace run IDs consistently for a fresh reproduction. The v4 amendment applies to the recorded Daybook source; a different implementation needs its own reviewed source binding while retaining the original subgroup definition.
+
+```sh
+node --import tsx scripts/analyze-research.ts docs/evidence/research-runs/holdout-v1 --usage docs/evidence/research-runs/holdout-v1/usage.json
+node --import tsx scripts/analyze-common-capabilities.ts docs/evidence/research-runs/holdout-v1 docs/research/common-capabilities-amendment-v4.json
+node --import tsx scripts/analyze-weight-sensitivity.ts docs/evidence/research-runs/holdout-v1
+```
+
+Only after reviewer evaluation, make its evaluator-only label projection. This is never included in model input. The decision analyzer verifies it against the frozen full reference hash and the actual visible-input hashes, rather than trusting manually assigned labels:
+
+```sh
+node --import tsx --input-type=module <<'JS'
+import { writeFileSync } from 'node:fs';
+import { reviewCases } from './research/reference.ts';
+const labels = reviewCases.filter(c => c.split === 'holdout').map(c => ({
+  caseId: c.id, sourceGroupId: c.sourceGroupId, split: c.split, expected: c.expected,
+}));
+writeFileSync('.tools/research/holdout-reviewer-labels.json', JSON.stringify(labels, null, 2) + '\n');
+JS
+node --import tsx scripts/analyze-study-decisions.ts docs/evidence/research-runs/holdout-v1 --freeze docs/evidence/research-verifiers/verifiers-v1/verifier-freeze.json --reviewers docs/evidence/research-verifiers/verifiers-v1 --reviewer-labels .tools/research/holdout-reviewer-labels.json
+```
+
+The decision supplement checks complete coverage, source/protocol/threshold/fingerprint bindings, subgroup provenance and overriding validity notices. Its targeted effects, reviewer tradeoffs and complexity tables supplement the primary score. They do not create a production winner from an incomplete run. All intervals remain exploratory and unadjusted, with small synthetic samples.
+
+The local reporting environment contains ReportLab and PyMuPDF. The exporter generates standalone vector figures from explicit input JSON files, verifies the supplementary primary/reviewer bindings, and checks PDF text bounds:
+
+```sh
+.tools/report-render/bin/python scripts/export-research-report.py \
+  --main-results docs/evidence/research-runs/holdout-v1/results.json \
+  --verifier-results docs/evidence/research-verifiers/verifiers-v1/holdout-results.json \
+  --verifier-split holdout \
+  --supplement docs/evidence/research-runs/holdout-v1/supplemental/retrieval-and-failures.json \
+  --common docs/evidence/research-runs/holdout-v1/common-capabilities/common-capabilities.json \
+  --sensitivity docs/evidence/research-runs/holdout-v1/sensitivity/sensitivity.json \
+  --decisions docs/evidence/research-runs/holdout-v1/decisions/decisions.json \
+  --output docs/evidence/research-runs/holdout-v1/study-report.pdf \
+  --render-dir .tools/research/final-pdf-review
+```
+
+On another machine, create the separate reporting environment with the tested primary dependency versions:
+
+```sh
+python3 -m venv .tools/report-render
+.tools/report-render/bin/python -m pip install -r scripts/report-requirements.txt
+```
+
+Use Python 3.10 or later; transitive package resolution and platform rendering can vary. The private local environment is excluded from the submission. Inspect the rendered pages and reconcile the narrative with the actual held-out evidence. Passing bounds checks is not an independent human scientific review. Missing human clarity scores stay unavailable, and no chosen weighting may replace the preregistered task-success result.
 
 ## Native transport guarantees and verification limits
 
