@@ -56,7 +56,7 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
       <div className="assistant-status">
         <span className={`online-dot ${meta?.ai.available ? '' : 'inactive'}`} />
         <span>{meta?.ai.available ? 'Answers use your financial records' : 'Assistant not connected'}</span>
-        <span>USD</span>
+        <span>Base currency: {meta?.organization.base_currency ?? 'USD'}</span>
       </div>
       <div className="chat-scroll">
         {!messages.length && (
@@ -125,7 +125,11 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
                     ))}
                   </div>
                   <Link className="text-button" to={e.href} onClick={onClose}>
-                    View supporting records
+                    {e.href === '/reports' || e.href.startsWith('/reports?')
+                      ? 'Open reports'
+                      : e.href === '/transactions'
+                        ? 'Open transactions'
+                        : 'View supporting records'}
                     <ArrowUpRight size={14} />
                   </Link>
                 </div>

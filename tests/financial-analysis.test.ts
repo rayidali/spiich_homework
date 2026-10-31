@@ -115,6 +115,7 @@ describe('Financial analysis compiler (offline)', () => {
       }),
       plan({ metric: 'journal_total', groupBy: 'account' }),
       plan({ metric: 'journal_count', aggregation: 'average_per_entry' }),
+      plan({ aggregation: 'average_per_entry', groupBy: 'entry' }),
       plan({ accountCodes: ['1010'] }),
       plan({ from: '2026-04-01' }),
       plan({ minimumAmount: '10', maximumAmount: '9' }),

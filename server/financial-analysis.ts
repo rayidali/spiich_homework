@@ -68,7 +68,7 @@ journal_total is the FULL journal debit total, not cash or revenue; journal_coun
 cooccurringAccountCodes is only an entry-has-ANY-listed-account filter; it NEVER establishes allocated payment or which expense a funding line paid.
 counterparty exact is case-insensitive exact header text; contains and descriptionSearch are literal substrings, not entity resolution.
 minimumAmount/maximumAmount filter each entry's selected metric total BEFORE grouping; journal_count uses full journal debit totals for these thresholds.
-average_per_entry divides a group's net amount by its DISTINCT matching entries, including refunds and zero-net entries; it is not a monthly average. Counts and balances require sum.
+average_per_entry divides a group's net amount by its DISTINCT matching entries, including refunds and zero-net entries; it is not a monthly average. For one average across all matching transactions use groupBy:'total'. Use account/month/quarter/counterparty only when the question explicitly requests a separate average for each such group. Never combine average_per_entry with groupBy:'entry': each group then contains only one transaction, so it cannot answer an average across transactions. Counts and balances require sum.
 account_balance requires explicit accountCodes, POSTED and no amount, counterparty, description or co-occurrence filter. Grouping total/account requires from:null and includes all history through to. Grouping month/quarter requires a display from date and one account type; each row is the CLOSING balance including ALL earlier history through that clipped period end, never that month's movement. Total balances also require one account type. Filtered activity is not a full balance. Other metrics require from/to inclusive.
 Monthly/quarterly series include periods without activity, clip partial boundaries, and allow at most120 calendar buckets. limit is1..50; truncated results are explicitly marked. Base balances are historical carrying amounts at saved rates, not current exchange-rate revaluation. Native balances do not convert currencies. Money is presented in currency minor units; per-entry averages may be rounded.
 DRAFT values are hypothetical unposted amounts, never book balances. Allocation, forecasts and scenario calculations are not supported by this tool. Clarify unsupported meanings or missing material inputs rather than silently dropping filters.
@@ -174,6 +174,10 @@ export function compileFinancialQuery(org: string, input: unknown, chart: Analys
     unsupported('A flow or transaction query requires an explicit inclusive start date.');
   if (plan.aggregation === 'average_per_entry' && ['account_balance', 'journal_count'].includes(plan.metric))
     unsupported('Counts and balances cannot be averaged per entry.');
+  if (plan.aggregation === 'average_per_entry' && plan.groupBy === 'entry')
+    unsupported(
+      'An average across transactions requires total or a requested account, period or counterparty grouping, not one group per transaction.',
+    );
   if (isJournal && plan.groupBy === 'account')
     unsupported(
       'Journal totals and counts cannot be allocated to account groups. Choose entry, time or counterparty grouping.',

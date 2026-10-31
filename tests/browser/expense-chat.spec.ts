@@ -48,6 +48,7 @@ test('a supplies question retains its scope through clarification and shows only
   await page.goto('/');
   await page.getByRole('button', { name: 'Ask a question', exact: true }).click();
   const chat = page.getByRole('dialog', { name: 'Financial assistant' });
+  await expect(chat.getByText('Base currency: USD', { exact: true })).toBeVisible();
   const input = chat.getByLabel('Ask a financial question');
   await input.fill(question);
   await chat.getByRole('button', { name: 'Send question', exact: true }).click();
@@ -104,7 +105,7 @@ test('draft analysis is labeled separately and its calculation scope can be insp
             source: 'draft',
             scope: 'Drafts only. Office supplies at Acme. These amounts have not been added to your books.',
             rows: [{ label: 'Office supplies', value: '$300.00' }],
-            href: '/transactions?status=DRAFT',
+            href: '/reports?from=2026-09-01&to=2026-09-30',
           },
         ],
       },
@@ -120,6 +121,11 @@ test('draft analysis is labeled separately and its calculation scope can be insp
   const card = chat.locator('.evidence-card');
   await expect(card.getByText('DRAFTS · NOT POSTED', { exact: true })).toBeVisible();
   await expect(card.getByText('FROM YOUR BOOKS', { exact: true })).toHaveCount(0);
+  await expect(card.getByRole('link', { name: 'Open reports', exact: true })).toHaveAttribute(
+    'href',
+    '/reports?from=2026-09-01&to=2026-09-30',
+  );
+  await expect(card.getByRole('link', { name: 'View supporting records', exact: true })).toHaveCount(0);
   const scope = card.locator('.evidence-scope');
   await expect(scope.locator('p')).not.toBeVisible();
   await scope.locator('summary').click();
