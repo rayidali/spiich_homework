@@ -1,0 +1,7 @@
+{
+  "slotId": "gemini:meaning-invoice-dev:c0",
+  "errorCode": "AI_INVALID_RESPONSE",
+  "sourceHash": "24f54f82e5c958930bc8ff090ceb811e77582dd9bb7cd56c13057bc6a0d1dfdd",
+  "recordedAt": "2026-10-31T17:24:15.220Z",
+  "resume": "Requires explicit reviewed continuation; no automatic retry or source rebinding."
+}

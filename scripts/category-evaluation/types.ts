@@ -1,6 +1,8 @@
 import type { EntryInput, LineInput } from '../../shared/schema';
 
-export const CATEGORY_EVALUATION_VERSION = 'daybook-category-learning-v1';
+export const CATEGORY_EVALUATION_VERSION = 'daybook-category-learning-v2';
+// Adapter revision does not reorder the original declared case/provider plan.
+export const CATEGORY_ORDER_SEED = 'daybook-category-learning-v1';
 export const correctionStates = [0, 1, 3] as const;
 export const categoryFamilies = [
   'repeat_vendor',

@@ -1,0 +1,33 @@
+{
+  "at": "2026-10-31T17:34:43.394594+00:00",
+  "sourceCommit": "62743ae8d550180c86747f1750a9c4cbdd2f445a",
+  "scope": "Preserved incomplete development version; never pooled into repaired-version accuracy.",
+  "result": "Halted after strict usage schema rejected additive Gemini serviceTier metadata.",
+  "observedSlots": 2,
+  "plannedDevelopmentSlots": 54,
+  "paidAttempts": {
+    "gemini": 1,
+    "jev": 0
+  },
+  "heldoutCalls": 0,
+  "knownCostUsd": "0.000257100000",
+  "unknownReservedUsd": "0",
+  "ledgerClosed": true,
+  "sourceHashes": {
+    "manifest.json": "44c9619a9b463d87bf306cfbfc308b73c7e40b74c03a1b89d5d6a5095880957c",
+    "budget.json": "1bafd168888662d80e59f12de91be03e1a915f34e7973260e89290542436d672",
+    "halt.json": "b92b1c9aba85e9d2aca21c06339a95ca72de5123c3bbe2feb2f8eafd2b255a98",
+    "closure.json": "6fa5351def718b28ee4ca83ba88ecde680b43dc93a3ca593ae258b1a46ec1eb9",
+    "finished.json": "7e52cac424cea6197d6332ada037d1b0adea0afdfebef2e7e922814b505a2831",
+    "observations/0000.json": "027673cf1522453032c8c7538a0451c058c451336dffe5448286340eff882d34",
+    "observations/0001.json": "efd5df8fb329b02fc604a269470eb62717bf96a9f6c740099dd8433ae1d601e2",
+    "development/results.json": "a0a0f0f9b51cf168820cf41bac3c3c13db766794c71242f8b1088f9eb9fb2cc5",
+    "development/report.md": "c141eb1eafaf1366b2c1edd036a8cb8360bcb0286dfa50dad0c128c4b41fa79c",
+    "development/report.html": "60bcdee855abf258ab69880934c096c0821de9129c4a6e8099579ff1d39b5acd"
+  },
+  "exclusions": [
+    "API keys and private configuration",
+    "Raw authenticated requests/headers/provider responses",
+    "Local transport paths and authentication files"
+  ]
+}

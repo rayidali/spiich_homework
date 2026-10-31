@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-31T17:26:01.385Z",
+  "reason": "Development adapter rejected additive Gemini serviceTier usage metadata. Preserve failed cell; review new version with the same cumulative limits.",
+  "beforeLedgerSha256": "a9ae6576fb88634246e1cd5537eda057d649cc80acdf815424dd5220da432fb7",
+  "closedLedgerSha256": "1bafd168888662d80e59f12de91be03e1a915f34e7973260e89290542436d672",
+  "sourceHash": "24f54f82e5c958930bc8ff090ceb811e77582dd9bb7cd56c13057bc6a0d1dfdd",
+  "records": 1,
+  "knownUsd": "0.000257100000",
+  "unknownUsd": "0",
+  "providerAttempts": {
+    "gemini": 1,
+    "jev": 0
+  },
+  "originalOutcomePreserved": true
+}

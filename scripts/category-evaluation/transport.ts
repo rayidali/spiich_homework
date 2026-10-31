@@ -12,6 +12,15 @@ export function reportedUsage(provider: 'gemini' | 'jev', body: unknown) {
   const data = body as Record<string, unknown>;
   const usage = (provider === 'jev' ? data.usage : data.usageMetadata) as Record<string, unknown> | undefined;
   if (!usage || typeof usage !== 'object') return null;
+  // These rates are for the default standard tier. Harmless extra metadata is
+  // allowed by the selector, but a different billing tier cannot use this quote.
+  if (
+    provider === 'gemini' &&
+    usage.serviceTier !== undefined &&
+    usage.serviceTier !== 'standard' &&
+    usage.serviceTier !== 'unspecified'
+  )
+    return null;
   const input = provider === 'jev' ? usage.input_tokens : usage.promptTokenCount;
   const visible = provider === 'jev' ? usage.output_tokens : usage.candidatesTokenCount;
   const thinking = provider === 'jev' ? 0 : (usage.thoughtsTokenCount ?? 0);

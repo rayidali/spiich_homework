@@ -390,7 +390,9 @@ describe('provider response contract', () => {
     'confidence',
     'model',
     'tokens',
-    'extra_count',
+    'negative_output',
+    'extra_answer',
+    'extra_choice_field',
   ] as const)('rejects invalid Jev %s', async (defect) => {
     const transport = vi.fn<CategoryTransport>().mockImplementation(async (request) => {
       const body = jevBody(request);
@@ -403,7 +405,9 @@ describe('provider response contract', () => {
       if (defect === 'confidence') body.answers.category.confidence = 0.6;
       if (defect === 'model') body.model = 'jev-1.13.0';
       if (defect === 'tokens') body.usage.input_tokens = 1.5;
-      if (defect === 'extra_count') Object.assign(body.usage, { total_tokens: -1 });
+      if (defect === 'negative_output') body.usage.output_tokens = -1;
+      if (defect === 'extra_answer') Object.assign(body.answers, { other: body.answers.category });
+      if (defect === 'extra_choice_field') Object.assign(body.answers.category, { amount: '900' });
       return { status: 200, body };
     });
     await expect(
@@ -419,7 +423,8 @@ describe('provider response contract', () => {
     'tokens',
     'negative_details',
     'nonfinite',
-    'unknown_count',
+    'fractional_count',
+    'unsafe_count',
   ] as const)('rejects invalid Gemini %s', async (defect) => {
     const body = choiceBody(key(supplies));
     if (defect === 'foreign')
@@ -432,13 +437,86 @@ describe('provider response contract', () => {
     if (defect === 'negative_details')
       Object.assign(body.usageMetadata, { promptTokensDetails: [{ modality: 'TEXT', tokenCount: -1 }] });
     if (defect === 'nonfinite') body.usageMetadata.totalTokenCount = Infinity;
-    if (defect === 'unknown_count') Object.assign(body.usageMetadata, { inventedTokenCount: 1 });
+    if (defect === 'fractional_count') body.usageMetadata.candidatesTokenCount = 1.5;
+    if (defect === 'unsafe_count') body.usageMetadata.totalTokenCount = Number.MAX_SAFE_INTEGER + 1;
     const transport = vi.fn<CategoryTransport>().mockResolvedValue({ status: 200, body });
     await expect(
       selectCategory(snapshot(), { provider: 'gemini', apiKey: 'test', transport }),
     ).rejects.toMatchObject({ code: 'AI_INVALID_RESPONSE' });
     expect(transport).toHaveBeenCalledTimes(1);
   });
+  it('accepts Gemini additive metadata from the observed serviceTier response shape', async () => {
+    // Synthetic content with the same envelope/count fields as the retained HTTP 200 failure.
+    const body = {
+      modelVersion: CATEGORY_MODELS.gemini,
+      responseId: 'synthetic-response',
+      candidates: [
+        {
+          index: 0,
+          finishReason: 'STOP',
+          content: { role: 'model', parts: [{ text: '{"choice":"unsupported"}' }] },
+        },
+      ],
+      usageMetadata: {
+        promptTokenCount: 757,
+        candidatesTokenCount: 12,
+        totalTokenCount: 769,
+        promptTokensDetails: [{ modality: 'TEXT', tokenCount: 757 }],
+        serviceTier: 'standard',
+      },
+    };
+    const transport = vi.fn<CategoryTransport>().mockResolvedValue({ status: 200, body });
+    const result = await selectCategory(snapshot({ description: 'Paid an existing supplier invoice' }), {
+      provider: 'gemini',
+      apiKey: 'test',
+      transport,
+    });
+    expect(result).toMatchObject({
+      decision: 'UNSUPPORTED',
+      reason: 'unsupported_description',
+      metadata: {
+        attempts: 1,
+        returnedModel: CATEGORY_MODELS.gemini,
+        usage: { inputTokens: 757, outputTokens: 12, thinkingTokens: 0, totalTokens: 769 },
+      },
+    });
+    expect(transport).toHaveBeenCalledTimes(1);
+    expect(JSON.stringify(result)).not.toContain('serviceTier');
+    body.usageMetadata.candidatesTokenCount = -12;
+    await expect(
+      selectCategory(snapshot(), { provider: 'gemini', apiKey: 'test', transport }),
+    ).rejects.toMatchObject({ code: 'AI_INVALID_RESPONSE' });
+  });
+  it('ignores additive Jev envelope/usage metadata while validating the documented counts', async () => {
+    const transport = vi.fn<CategoryTransport>().mockImplementation(async (request) => ({
+      status: 200,
+      body: {
+        ...jevBody(request),
+        request_id: 'synthetic-request',
+        usage: { input_tokens: 100, output_tokens: 10, service_tier: 'standard' },
+      },
+    }));
+    const result = await selectCategory(snapshot(), { provider: 'jev', apiKey: 'test', transport });
+    expect(result).toMatchObject({
+      decision: 'SELECT',
+      accountId: supplies,
+      metadata: { usage: { inputTokens: 100, outputTokens: 10, thinkingTokens: 0, totalTokens: 110 } },
+    });
+    expect(transport).toHaveBeenCalledTimes(1);
+    expect(JSON.stringify(result)).not.toContain('service_tier');
+    expect(JSON.stringify(result)).not.toContain('request_id');
+  });
+  it.each([{}, { promptTokenCount: 50 }, { candidatesTokenCount: 8 }])(
+    'does not infer zero thinking from incomplete usage %j',
+    async (usageMetadata) => {
+      const transport = vi.fn<CategoryTransport>().mockResolvedValue({
+        status: 200,
+        body: { ...choiceBody(key(supplies)), usageMetadata: { ...usageMetadata, serviceTier: 'standard' } },
+      });
+      const result = await selectCategory(snapshot(), { provider: 'gemini', apiKey: 'test', transport });
+      expect(result.metadata.usage.thinkingTokens).toBeNull();
+    },
+  );
   it('accepts bounded thoughtSignature metadata but not function calls', async () => {
     const body = choiceBody(key(supplies));
     Object.assign(body.candidates[0].content.parts[0], { thoughtSignature: 'opaque-signature' });

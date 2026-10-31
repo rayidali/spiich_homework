@@ -514,7 +514,9 @@ function referenceChoice(state: State): { choice: string; basis: Basis } {
 }
 
 const tokenDetail = z.object({ modality: z.string(), tokenCount: countSchema });
-const geminiUsageSchema = z.strictObject({
+// Provider envelopes may gain metadata; validate known counts and discard additions.
+// The selected decision and content parts remain strict below.
+const geminiUsageSchema = z.object({
   promptTokenCount: countSchema.optional(),
   candidatesTokenCount: countSchema.optional(),
   thoughtsTokenCount: countSchema.optional(),
@@ -552,7 +554,7 @@ const geminiSchema = z.object({
     .length(1),
   usageMetadata: geminiUsageSchema.optional(),
 });
-const jevSchema = z.strictObject({
+const jevSchema = z.object({
   model: z.string(),
   answers: z.strictObject({
     category: z.strictObject({
@@ -562,7 +564,7 @@ const jevSchema = z.strictObject({
       probabilities: z.record(z.string(), probabilitySchema),
     }),
   }),
-  usage: z.strictObject({ input_tokens: countSchema, output_tokens: countSchema }),
+  usage: z.object({ input_tokens: countSchema, output_tokens: countSchema }),
 });
 
 export async function selectCategory(
@@ -733,10 +735,11 @@ export async function selectCategory(
     if (!selected.success) invalidResponse();
     metadata.returnedModel = data.modelVersion ?? null;
     const usage = data.usageMetadata;
+    const hasUsageCounts = usage?.promptTokenCount !== undefined && usage?.candidatesTokenCount !== undefined;
     metadata.usage = {
       inputTokens: usage?.promptTokenCount ?? null,
       outputTokens: usage?.candidatesTokenCount ?? null,
-      thinkingTokens: usage?.thoughtsTokenCount ?? null,
+      thinkingTokens: usage?.thoughtsTokenCount ?? (hasUsageCounts ? 0 : null),
       totalTokens: usage?.totalTokenCount ?? null,
     };
     return result(decisionFor(selected.data.choice, prepared.state.options), 'model');

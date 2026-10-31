@@ -21,7 +21,14 @@ import {
   type CategoryResult,
   type CategoryTransport,
 } from '../../server/category-selector';
-import { CATEGORY_PRICES, CATEGORY_PRICE_DATE, CategoryBudget } from './budget';
+import {
+  CATEGORY_PRICES,
+  CATEGORY_PRICE_DATE,
+  CategoryBudget,
+  verifyCategoryCarry,
+  type CategoryCarryOptions,
+  type CategoryOpeningCarry,
+} from './budget';
 import { categoryCases } from './fixtures';
 import {
   buildCategoryReport,
@@ -30,7 +37,13 @@ import {
   type ReportObservation,
 } from './report';
 import { privateJson, queuedTransport, type TransportObservation } from './transport';
-import { CATEGORY_EVALUATION_VERSION, type CategoryCase, type Selector, type Split } from './types';
+import {
+  CATEGORY_EVALUATION_VERSION,
+  CATEGORY_ORDER_SEED,
+  type CategoryCase,
+  type Selector,
+  type Split,
+} from './types';
 
 export const categorySourceFiles = [
   'server/category-selector.ts',
@@ -120,6 +133,7 @@ type Manifest = {
   configHash: string;
   plan: Slot[];
   createdAt: string;
+  openingCarry: CategoryOpeningCarry | null;
 };
 type RunOptions = {
   root: string;
@@ -133,6 +147,7 @@ type RunOptions = {
   selectors?: Selector[];
   cases?: CategoryCase[];
   sourceFiles?: string[];
+  carry?: Omit<CategoryCarryOptions, 'keyFingerprints'>;
 };
 type Dependencies = {
   transport?: (
@@ -156,8 +171,8 @@ export function plannedCategorySlots(cases: CategoryCase[], selectors: Selector[
     cases
       .filter((c) => c.split === split)
       .sort((a, b) =>
-        digest(`${CATEGORY_EVALUATION_VERSION}:${split}:${a.id}`).localeCompare(
-          digest(`${CATEGORY_EVALUATION_VERSION}:${split}:${b.id}`),
+        digest(`${CATEGORY_ORDER_SEED}:${split}:${a.id}`).localeCompare(
+          digest(`${CATEGORY_ORDER_SEED}:${split}:${b.id}`),
         ),
       ),
   );
@@ -264,6 +279,18 @@ export async function runCategoryEvaluation(options: RunOptions, dependencies: D
   const cases = options.cases ?? categoryCases;
   const plan = plannedCategorySlots(cases, selectors);
   const source = categorySourceBinding(root, options.sourceFiles);
+  const directory = options.directory ?? join(root, '.tools/category-evaluation', run);
+  const keyFingerprints = Object.fromEntries(
+    (['gemini', 'jev'] as const).filter((p) => selectors.includes(p)).map((p) => [p, sha(keys[p])]),
+  );
+  const carryOptions = options.carry ? { ...options.carry, keyFingerprints } : undefined;
+  // Only injected provider-free tests can omit the reviewed predecessor. The
+  // production CLI never supplies a transport injection or a fresh allowance.
+  if (!carryOptions && selectors.some((s) => s !== 'reference') && !dependencies.transport)
+    throw new Error('RUN_CARRY_REQUIRED');
+  const openingCarry = carryOptions
+    ? verifyCategoryCarry(join(directory, 'budget.json'), source.sourceHash, carryOptions)
+    : null;
   const config = {
     version: CATEGORY_EVALUATION_VERSION,
     selectors,
@@ -272,13 +299,11 @@ export async function runCategoryEvaluation(options: RunOptions, dependencies: D
     timeoutMs: 25000,
     maxPaidCallsPerProvider: 57,
     maxTotalPaidCalls: 114,
-    keyFingerprints: Object.fromEntries(
-      (['gemini', 'jev'] as const).filter((p) => selectors.includes(p)).map((p) => [p, sha(keys[p])]),
-    ),
+    keyFingerprints,
+    openingCarry,
     dataHash: digest(cases),
     planHash: digest(plan),
   };
-  const directory = options.directory ?? join(root, '.tools/category-evaluation', run);
   if (mode === 'create') mkdirSync(directory, { recursive: false, mode: 0o700 });
   if (!existsSync(directory)) throw new Error('RUN_NOT_FOUND');
   const lock = join(directory, 'runner.lock');
@@ -297,6 +322,7 @@ export async function runCategoryEvaluation(options: RunOptions, dependencies: D
         configHash: digest(config),
         plan,
         createdAt: new Date().toISOString(),
+        openingCarry,
       } satisfies Manifest);
     }
     const manifest = readJson<Manifest>(manifestPath),
@@ -307,6 +333,7 @@ export async function runCategoryEvaluation(options: RunOptions, dependencies: D
       manifest.configHash !== digest(config) ||
       digest(readJson(join(directory, 'private-config.json'))) !== digest(config) ||
       digest(manifest.source) !== digest(source) ||
+      digest(manifest.openingCarry) !== digest(openingCarry) ||
       digest(manifest.plan) !== digest(plan)
     )
       throw new Error('RUN_FREEZE_MISMATCH');
@@ -320,7 +347,7 @@ export async function runCategoryEvaluation(options: RunOptions, dependencies: D
     if (split === 'development' && records.some((r) => plan[r.index].split === 'holdout'))
       throw new Error('RUN_PHASE_ORDER');
     if (existsSync(join(directory, 'finished.json'))) unlinkSync(join(directory, 'finished.json'));
-    budget = new CategoryBudget(join(directory, 'budget.json'), source.sourceHash, mode);
+    budget = new CategoryBudget(join(directory, 'budget.json'), source.sourceHash, mode, carryOptions);
     const next = plan[records.length];
     reconcileBudget(
       records,
@@ -356,6 +383,7 @@ export async function runCategoryEvaluation(options: RunOptions, dependencies: D
           split,
           sourceHash: source.sourceHash,
           selectors,
+          cohortAccounting: budget!.accounting(),
           integrity: {
             sourceVerified: categorySourceBinding(root, options.sourceFiles).sourceHash === source.sourceHash,
             inputVerified: records.every(
@@ -542,7 +570,10 @@ export async function runCategoryEvaluation(options: RunOptions, dependencies: D
 }
 
 export function parseCategoryArguments(args: string[]) {
-  if (args.length !== 3 || args.some((arg) => !/^--(split|run|mode)=/.test(arg)))
+  if (
+    ![3, 5].includes(args.length) ||
+    args.some((arg) => !/^--(split|run|mode|carry-from|carry-sha256)=/.test(arg))
+  )
     throw new Error('RUN_ARGUMENTS');
   const values = Object.fromEntries(
     args.map((arg) => {
@@ -554,10 +585,21 @@ export function parseCategoryArguments(args: string[]) {
     !['development', 'holdout'].includes(values.split) ||
     !['create', 'resume'].includes(values.mode) ||
     !/^[a-z0-9-]{1,60}$/.test(values.run ?? '') ||
-    Object.keys(values).length !== 3
+    Object.keys(values).length !== args.length ||
+    (args.length === 5 &&
+      (!values['carry-from'] ||
+        /[\r\n\0]/.test(values['carry-from']) ||
+        !/^[a-f0-9]{64}$/.test(values['carry-sha256'] ?? '')))
   )
     throw new Error('RUN_ARGUMENTS');
-  return { split: values.split as Split, run: values.run, mode: values.mode as 'create' | 'resume' };
+  return {
+    split: values.split as Split,
+    run: values.run,
+    mode: values.mode as 'create' | 'resume',
+    ...(args.length === 5
+      ? { carry: { receiptPath: resolve(values['carry-from']), receiptSha256: values['carry-sha256'] } }
+      : {}),
+  };
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   try {

@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
 import { Decimal } from '../../shared/money';
+import type { CategoryBudget } from './budget';
 import { prepareCategorySnapshot } from '../../server/category-selector';
 import { categoryReference } from './references';
 import {
@@ -54,6 +55,7 @@ export function buildCategoryReport(
     sourceHash: string;
     selectors: Selector[];
     integrity: ReportIntegrity;
+    cohortAccounting?: ReturnType<CategoryBudget['accounting']>;
   },
 ) {
   if (!cases.length || cases.some((c) => c.split !== options.split)) throw new Error('REPORT_SPLIT');
@@ -194,6 +196,13 @@ export function buildCategoryReport(
     skippedOrMissing: scores.filter((s) => s.status === 'missing').map((s) => `${s.selector}:${s.caseId}`),
     selectors,
     scores,
+    accounting: {
+      accuracyScope:
+        'Only this version and split; predecessor outcomes are preserved separately, never pooled.',
+      phase: Object.fromEntries(selectors.map((s) => [s.selector, s.costs])),
+      cohort: options.cohortAccounting ?? null,
+      priorAccuracyPooled: false,
+    },
     comparison: {
       contrast: 'Jev minus Gemini, category-and-preference success',
       groups: groups.length,
@@ -248,7 +257,11 @@ export function categoryReportMarkdown(report: CategoryReport) {
         `| ${s.selector} | ${s.categoryAndPreferenceCorrect}/${s.categoryTasks} (${percent(s.categoryAndPreferenceRate)}) | ${s.selectorSuccesses}/${s.selectorEligible} | ${s.handlingSuccesses}/${s.planned} | ${s.errors} / ${s.missing} | ${s.costs.trackedUsd} |`,
     )
     .join('\n');
-  return `# Category learning comparison — ${report.split}\n\n${report.complete ? 'All planned observations recorded.' : 'INCOMPLETE: remaining slots are missing, not successful.'} ${report.eligibleForComparison ? 'Integrity checks permit the predefined comparison.' : 'No architecture or provider selection is justified by this snapshot.'}\n\nRun: \`${report.run}\`; source: \`${report.sourceHash}\`.\n\n| Selector | Category + taught preference | All model opportunities | Whole input handling (includes code gates) | Errors / missing | Tracked USD |\n|---|---:|---:|---:|---:|---:|\n${rows}\n\nJev minus Gemini: ${percent(report.comparison.difference)}; paired interval ${report.comparison.interval ? report.comparison.interval.map(percent).join(' to ') : 'N/A'} across ${report.comparison.groups} category scenario groups. Intervals are exploratory and unadjusted. Cost-per-correct-category reduction: ${percent(report.comparison.costSaving)}.\n\nDecision: **${report.comparison.recommendation}**. A passed statistical screen still requires separate workflow acceptance; this report does not verify posting or complete journals.\n\n## Learning after corrections\n\n${report.selectors.map((s) => `- ${s.selector}: taught-preference adoption gain ${percent(s.learning.preferenceAdoptionGain)} across ${s.learning.taughtPreferenceGroups} teaching groups; handling gain ${percent(s.learning.handlingGain)} across ${s.learning.groups} groups.`).join('\n')}\n\n${contextTable}\n\n## Limits\n\n${report.limitations.map((s) => `- ${s}`).join('\n')}\n`;
+  const cohort = report.accounting.cohort;
+  const cohortTable = cohort
+    ? `## Shared spend allowance\n\nThe score table above contains only this version and split. The earlier adapter failure remains a separate historical outcome; its cost and attempt count still reduce the same allowance. Current-run totals include both development and holdout of this version; cumulative totals also include the reviewed predecessor. No earlier accuracy result is pooled into this version.\n\n| Provider | Predecessor attempts / USD | Current run attempts / USD | Cumulative attempts / USD | Cumulative unknown reserved USD | Fixed cap |\n|---|---:|---:|---:|---:|---|\n${(['gemini', 'jev'] as const).map((p) => `| ${p} | ${cohort.predecessor[p].attempts} / ${cohort.predecessor[p].chargedUsd} | ${cohort.currentRun[p].attempts} / ${cohort.currentRun[p].chargedUsd} | ${cohort.cumulative[p].attempts} / ${cohort.cumulative[p].chargedUsd} | ${cohort.cumulative[p].unknownReservedUsd} | ${cohort.limits[p].attempts} attempts / $${cohort.limits[p].usd} |`).join('\n')}\n`
+    : '';
+  return `# Category learning comparison — ${report.split}\n\n${report.complete ? 'All planned observations recorded.' : 'INCOMPLETE: remaining slots are missing, not successful.'} ${report.eligibleForComparison ? 'Integrity checks permit the predefined comparison.' : 'No architecture or provider selection is justified by this snapshot.'}\n\nRun: \`${report.run}\`; source: \`${report.sourceHash}\`.\n\n| Selector | Category + taught preference | All model opportunities | Whole input handling (includes code gates) | Errors / missing | Tracked USD |\n|---|---:|---:|---:|---:|---:|\n${rows}\n\n${cohortTable}\nJev minus Gemini: ${percent(report.comparison.difference)}; paired interval ${report.comparison.interval ? report.comparison.interval.map(percent).join(' to ') : 'N/A'} across ${report.comparison.groups} category scenario groups. Intervals are exploratory and unadjusted. Cost-per-correct-category reduction uses this version's split only: ${percent(report.comparison.costSaving)}.\n\nDecision: **${report.comparison.recommendation}**. A passed statistical screen still requires separate workflow acceptance; this report does not verify posting or complete journals.\n\n## Learning after corrections\n\n${report.selectors.map((s) => `- ${s.selector}: taught-preference adoption gain ${percent(s.learning.preferenceAdoptionGain)} across ${s.learning.taughtPreferenceGroups} teaching groups; handling gain ${percent(s.learning.handlingGain)} across ${s.learning.groups} groups.`).join('\n')}\n\n${contextTable}\n\n## Limits\n\n${report.limitations.map((s) => `- ${s}`).join('\n')}\n`;
 }
 
 export function categoryReportHtml(report: CategoryReport) {

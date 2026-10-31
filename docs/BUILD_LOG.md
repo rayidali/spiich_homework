@@ -477,3 +477,9 @@ Commit `15852e65e5279bae4b50d35fc1ad6ccadffa2704` reached CI 41222811797. Native
 ### Browser run exposed an ambiguous dropdown label
 
 CI 41223164863 for `f993422` passed all real database and native research checks. Four new category browser workflows stopped at the shared payment-dropdown lookup: the label wraps a select and its option text, so the exact intended caption was not its resolved label. Fourteen other workflows passed, including the new EUR posting/report/reversal case. The payment control now receives an explicit accessible name matching its visible direction-specific caption. This is an interface labeling repair, not a relaxed financial or learning assertion. Fresh browser and Compose verification remains required.
+
+### Core workflows passed; the first live category call exposed provider metadata compatibility
+
+Commit `62743ae8d550180c86747f1750a9c4cbdd2f445a` passed full CI 41223855846: real PostgreSQL, all 18 browser workflows, automatic Compose scheduling/anomaly lifecycle and persistence. The live development comparison then made one Gemini request on the current local key. The provider returned HTTP200, model3.5 Flash-Lite and a valid unsupported-event choice, with 757 input and12 output tokens. The new selector rejected the harmless `serviceTier` usage metadata field. Its recorded result remains `AI_INVALID_RESPONSE`; the comparison halted before any Jev or held-out call. Reported cost was $0.000257100000.
+
+Closed the v1 ledger without changing its records and retained source, failure, request/response and closure evidence. A compatibility fix and explicitly versioned v2 comparison are being prepared. The new ledger must carry that spent amount and attempt within the original $0.50/$0.03 ceilings. Development fixes may be tested again as a disclosed new version; the old failed trial is not erased or retroactively passed. No production deployment or journal changed during this attempt.

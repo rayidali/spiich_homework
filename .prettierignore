@@ -14,5 +14,6 @@ db/migrations/
 docs/evidence/research-runs/
 docs/evidence/research-verifiers/
 docs/evidence/research-final-costs/
+docs/evidence/category-runs/
 docs/evidence/research-*.json
 docs/evidence/route-preflight-*.json

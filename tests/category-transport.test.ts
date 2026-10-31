@@ -38,6 +38,17 @@ function setup() {
   return { dir, budget, observation, controller, request };
 }
 describe('Explicit provider dispatch transport', () => {
+  it('prices observed standard metadata but retains unknown cost for other billing tiers', () => {
+    const usage = { promptTokenCount: 757, candidatesTokenCount: 12, totalTokenCount: 769 };
+    for (const serviceTier of [undefined, 'standard', 'unspecified']) {
+      expect(reportedUsage('gemini', { usageMetadata: { ...usage, serviceTier } })).toEqual({
+        inputTokens: 757,
+        outputTokens: 12,
+      });
+    }
+    for (const serviceTier of ['priority', 'flex', 'unknown', null, 1])
+      expect(reportedUsage('gemini', { usageMetadata: { ...usage, serviceTier } })).toBeNull();
+  });
   it('reserves before handing out a request, accounts for thinking and separates network latency', async () => {
     const { dir, budget, observation, request } = setup();
     const promise = queuedTransport(dir, 'dev:one', budget, observation)(request);

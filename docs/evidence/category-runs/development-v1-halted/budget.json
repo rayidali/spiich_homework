@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "sourceHash": "24f54f82e5c958930bc8ff090ceb811e77582dd9bb7cd56c13057bc6a0d1dfdd",
+  "priceDate": "2026-10-31",
+  "prices": {
+    "gemini": {
+      "model": "gemini-3.5-flash-lite",
+      "inputPerMillion": "0.30",
+      "outputPerMillion": "2.50"
+    },
+    "jev": {
+      "model": "jev-1.14.0",
+      "inputPerMillion": "0.042",
+      "outputPerMillion": "0"
+    }
+  },
+  "state": "closed",
+  "limits": {
+    "gemini": {
+      "usd": "0.50",
+      "attempts": 72
+    },
+    "jev": {
+      "usd": "0.03",
+      "attempts": 72
+    }
+  },
+  "records": [
+    {
+      "id": "gemini:meaning-invoice-dev:c0",
+      "provider": "gemini",
+      "requestSha256": "14c05659f740387d79902693cb786c797a76ceec5fb1fbcff3a04afc7063f209",
+      "reservedUsd": "0.002024800000",
+      "chargedUsd": "0.000257100000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:24:12.659Z",
+      "usage": {
+        "inputTokens": 757,
+        "outputTokens": 12
+      },
+      "finishedAt": "2026-10-31T17:24:15.212Z"
+    }
+  ]
+}
