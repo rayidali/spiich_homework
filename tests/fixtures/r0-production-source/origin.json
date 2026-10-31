@@ -1,0 +1,16 @@
+{
+  "sourceRepository": "https://github.com/rayidali/spiich_homework",
+  "sourceCommit": "7ecb435c421862dba5efd4e3b6f743c93fd1888e",
+  "files": {
+    "server/ai.ts": {
+      "snapshot": "server/ai.ts.txt",
+      "sha256": "55729cf35e5a68cd6f190a3490116a91a356b153c28bb88e939c03c848357555",
+      "gitBlobSha1": "16db8734daa7b2667f1f25e60554aa296905dc62"
+    },
+    "server/ai-provider.ts": {
+      "snapshot": "server/ai-provider.ts.txt",
+      "sha256": "b6d1285500d5027275f9137e929efdace03f4d667ec9369c4be481dc9318219a",
+      "gitBlobSha1": "fab6c0081a6f2ddc8a913389c45f7859093aebfe"
+    }
+  }
+}

@@ -74,13 +74,26 @@ const proposal = () => ({
 });
 
 describe('R0 control provenance and boundaries', () => {
-  it('pins the production source from which the architecture was reproduced', () => {
-    expect(createHash('sha256').update(readFileSync('server/ai.ts')).digest('hex')).toBe(
-      baselineProvenance.aiSourceSha256,
-    );
-    expect(createHash('sha256').update(readFileSync('server/ai-provider.ts')).digest('hex')).toBe(
-      baselineProvenance.providerSourceSha256,
-    );
+  it('pins the historical production snapshots rather than requiring the current product to stay frozen', () => {
+    const directory = 'tests/fixtures/r0-production-source';
+    const origin = JSON.parse(readFileSync(`${directory}/origin.json`, 'utf8'));
+    expect(origin.sourceRepository).toBe('https://github.com/rayidali/spiich_homework');
+    expect(origin.sourceCommit).toBe(baselineProvenance.sourceCommit);
+    const sources = {
+      'server/ai.ts': baselineProvenance.aiSourceSha256,
+      'server/ai-provider.ts': baselineProvenance.providerSourceSha256,
+    };
+    expect(Object.keys(origin.files).sort()).toEqual(Object.keys(sources).sort());
+    for (const [source, expectedHash] of Object.entries(sources)) {
+      const provenance = origin.files[source];
+      expect(provenance.snapshot).toBe(`${source}.txt`);
+      const snapshot = readFileSync(`${directory}/${source}.txt`);
+      expect(createHash('sha256').update(snapshot).digest('hex')).toBe(expectedHash);
+      expect(provenance.sha256).toBe(expectedHash);
+      expect(createHash('sha1').update(`blob ${snapshot.length}\0`).update(snapshot).digest('hex')).toBe(
+        provenance.gitBlobSha1,
+      );
+    }
     expect(readFileSync('research/baseline.ts', 'utf8')).not.toMatch(/from\s+['"][^'"]*reference['"]/);
   });
 
