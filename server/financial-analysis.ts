@@ -17,6 +17,7 @@ export const financialQuerySchema = z.strictObject({
     'net_profit',
     'account_balance',
     'cash_balance',
+    'net_cash_movement',
     'journal_total',
     'journal_count',
   ]),
@@ -73,6 +74,7 @@ minimumAmount/maximumAmount filter each entry's selected metric total BEFORE gro
 average_per_entry divides a group's net amount by its DISTINCT matching entries, including refunds and zero-net entries; it is not a monthly average. For one average across all matching transactions use groupBy:'total'. Use account/month/quarter/counterparty only when the question explicitly requests a separate average for each such group. Never combine average_per_entry with groupBy:'entry': each group then contains only one transaction, so it cannot answer an average across transactions. Counts and balances require sum.
 account_balance requires explicit accountCodes, POSTED and no amount, counterparty, description or co-occurrence filter. Grouping total/account requires from:null and includes all history through to. Grouping month/quarter requires a display from date and one account type; each row is the CLOSING balance including ALL earlier history through that clipped period end, never that month's movement. Total balances also require one account type. Filtered activity is not a full balance. Other metrics require from/to inclusive.
 cash_balance uses the same balance date/grouping rules but REQUIRES accountCodes:[]: the server selects every cash-designated ASSET posting account, including archived history. Never substitute an Assets group, accounts receivable, equipment, an account name or a model-chosen subset for cash. Native mode selects all cash accounts in that one currency. Cash is a book balance, not a reconciled bank statement or available credit.
+net_cash_movement measures the signed change in recorded cash during an inclusive from/to period: cash debits minus cash credits, positive for increases and negative for decreases. It REQUIRES accountCodes:[], status:'POSTED', aggregation:'sum'. The server selects all cash-designated ASSET posting accounts, including archived history. Internal transfers cancel when both cash sides are in the measured scope; native-currency or account-grouped rows can show only one side. Saved-rate base values may include a recorded currency-transfer difference. Optional activity filters restrict matching transactions and must remain explicit. Amount bounds apply to each entry's NET cash movement, never its gross receipts or payments. This is neither revenue, profit, opening/closing cash nor a formal operating/investing/financing cash-flow statement. Never infer a gross payment allocation from co-occurring accounts. For the complete cash change use no activity filters, total grouping and base currency; compare periods with separate queries.
 Monthly/quarterly series include periods without activity, clip partial boundaries, and allow at most120 calendar buckets. limit is1..50; truncated results are explicitly marked. Base balances are historical carrying amounts at saved rates, not current exchange-rate revaluation. Native balances do not convert currencies. Money is presented in currency minor units; per-entry averages may be rounded.
 DRAFT values are hypothetical unposted amounts, never book balances. Allocation, forecasts and scenario calculations are not supported by this tool. Clarify unsupported meanings or missing material inputs rather than silently dropping filters.
 Use empty account arrays, counterparty {mode:'any',value:''}, descriptionSearch:'', and null amount bounds when unfiltered. Order is explicit.`,
@@ -123,6 +125,7 @@ const allowedTypes: Record<FinancialQuery['metric'], readonly Account['type'][]>
   net_profit: ['REVENUE', 'EXPENSE'],
   account_balance: ['ASSET', 'LIABILITY', 'EQUITY', 'REVENUE', 'EXPENSE'],
   cash_balance: ['ASSET'],
+  net_cash_movement: ['ASSET'],
   journal_total: ['ASSET', 'LIABILITY', 'EQUITY', 'REVENUE', 'EXPENSE'],
   journal_count: ['ASSET', 'LIABILITY', 'EQUITY', 'REVENUE', 'EXPENSE'],
 };
@@ -133,6 +136,7 @@ const expressions: Record<FinancialQuery['metric'], string> = {
   account_balance:
     "CASE WHEN a.type IN ('ASSET','EXPENSE') THEN l.base_debit-l.base_credit ELSE l.base_credit-l.base_debit END",
   cash_balance: 'l.base_debit-l.base_credit',
+  net_cash_movement: 'l.base_debit-l.base_credit',
   journal_total: 'l.base_debit',
   journal_count: 'l.base_debit',
 };
@@ -152,8 +156,9 @@ export function compileFinancialQuery(org: string, input: unknown, chart: Analys
   )
     unsupported('The minimum amount must not exceed the maximum.');
   const isJournal = plan.metric === 'journal_total' || plan.metric === 'journal_count';
-  const isCash = plan.metric === 'cash_balance';
-  const isBalance = plan.metric === 'account_balance' || isCash;
+  const isCashMovement = plan.metric === 'net_cash_movement';
+  const isCash = plan.metric === 'cash_balance' || isCashMovement;
+  const isBalance = isBalanceMetric(plan);
   const isSeries = plan.groupBy === 'month' || plan.groupBy === 'quarter';
   if (plan.currencyMode === 'base' ? plan.currency !== null : plan.currency === null)
     unsupported(
@@ -161,6 +166,13 @@ export function compileFinancialQuery(org: string, input: unknown, chart: Analys
     );
   if (plan.currencyMode === 'native' && isJournal)
     unsupported('Native currency cannot represent a complete journal total or count. Use the base view.');
+  if (
+    isCashMovement &&
+    (plan.accountCodes.length !== 0 || plan.status !== 'POSTED' || plan.aggregation !== 'sum')
+  )
+    unsupported(
+      'Net cash movement requires empty accountCodes (all server-selected cash accounts), POSTED and sum. It measures signed cash change, not draft activity or gross payments.',
+    );
   if (isBalance) {
     if (
       (isSeries ? plan.from === null : plan.from !== null) ||
@@ -355,6 +367,13 @@ export type AnalysisFactRow = {
   to: string | null;
   balanceAsOf?: string;
 };
+type CashAccountSource = {
+  selection: 'all_cash_asset_posting_accounts';
+  accounts: Pick<
+    AnalysisAccount,
+    'id' | 'code' | 'type' | 'currency' | 'is_cash' | 'is_group' | 'archived'
+  >[];
+};
 export type AnalysisFacts = {
   queryId: string;
   metric: FinancialQuery['metric'];
@@ -371,13 +390,8 @@ export type AnalysisFacts = {
     cooccurringAccountIds: string[];
     amountBasis: string;
     statusMeaning: string;
-    cashBalanceSource?: {
-      selection: 'all_cash_asset_posting_accounts';
-      accounts: Pick<
-        AnalysisAccount,
-        'id' | 'code' | 'type' | 'currency' | 'is_cash' | 'is_group' | 'archived'
-      >[];
-    };
+    cashBalanceSource?: CashAccountSource;
+    cashMovementSource?: CashAccountSource;
   };
 };
 const metricLabels: Record<FinancialQuery['metric'], string> = {
@@ -386,6 +400,7 @@ const metricLabels: Record<FinancialQuery['metric'], string> = {
   net_profit: 'Net profit',
   account_balance: 'Account balance',
   cash_balance: 'Cash and bank book balance',
+  net_cash_movement: 'Net cash and bank movement',
   journal_total: 'Transaction totals',
   journal_count: 'Number of transactions',
 };
@@ -410,7 +425,7 @@ function scopeDescription(plan: FinancialQuery, chart: AnalysisAccount[]) {
     plan.status === 'POSTED'
       ? 'Recorded transactions; corrections count on their own dates'
       : 'Drafts only; these amounts have not been added to your books',
-    plan.metric === 'cash_balance'
+    plan.metric === 'cash_balance' || plan.metric === 'net_cash_movement'
       ? 'All cash-designated asset posting accounts, including archived accounts; receivables, equipment and other noncash assets are excluded'
       : plan.accountCodes.length
         ? `${plan.metric.startsWith('journal_') ? 'Transactions using any of these accounts' : 'Accounts'}: ${names(plan.accountCodes)}`
@@ -440,6 +455,12 @@ function scopeDescription(plan: FinancialQuery, chart: AnalysisAccount[]) {
     ...(plan.metric === 'journal_total'
       ? [
           'Each transaction total includes all its debit amounts; this is not necessarily spending or a cash payment',
+        ]
+      : []),
+    ...(plan.metric === 'net_cash_movement'
+      ? [
+          'Cash debits minus cash credits: positive means an increase and negative means a decrease. This is the net movement, not the closing balance, revenue, profit or gross receipts/payments',
+          'Transfers cancel across cash accounts included in the same total; individual account or native-currency results can contain only one side. Saved-rate currency transfers can include a recorded carrying-value difference',
         ]
       : []),
     plan.metric === 'journal_count'
@@ -552,13 +573,15 @@ export async function executeFinancialAnalysis(
               ? 'full_journal_debit_total_for_amount_filter'
               : isFullJournal(plan)
                 ? 'full_journal_debit_total'
-                : isBalanceMetric(plan)
-                  ? `inception_to_closing_date_${plan.currencyMode}_lines`
-                  : `selected_metric_${plan.currencyMode}_lines`,
+                : plan.metric === 'net_cash_movement'
+                  ? `net_cash_movement_${plan.currencyMode}_lines`
+                  : isBalanceMetric(plan)
+                    ? `inception_to_closing_date_${plan.currencyMode}_lines`
+                    : `selected_metric_${plan.currencyMode}_lines`,
           statusMeaning: plan.status === 'POSTED' ? 'booked' : 'unposted_projection',
-          ...(plan.metric === 'cash_balance'
+          ...(plan.metric === 'cash_balance' || plan.metric === 'net_cash_movement'
             ? {
-                cashBalanceSource: {
+                [plan.metric === 'cash_balance' ? 'cashBalanceSource' : 'cashMovementSource']: {
                   selection: 'all_cash_asset_posting_accounts' as const,
                   accounts: item.selected.map(
                     ({ id, code, type, currency, is_cash, is_group, archived }) => ({

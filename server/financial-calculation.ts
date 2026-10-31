@@ -5,6 +5,7 @@ import { executeFinancialAnalysis, financialQuerySchema, type AnalysisFacts } fr
 import type { FinancialTool, ModelMessages } from './ai-provider';
 import type { InsightEvidence } from './ai';
 import { conversationSchema } from '../shared/conversation';
+import { currencyCodes, dateSchema } from '../shared/schema';
 
 const nodeId = z.string().regex(/^[a-z][a-z0-9_]{0,39}$/);
 const decimal = z.string().regex(/^-?(?:0|[1-9]\d{0,17})(?:\.\d{1,12})?$/);
@@ -110,6 +111,7 @@ export const financialScenarioTool: FinancialTool = {
   parameters,
   description: `Compute exact derived financial values using up to4 ledger queries,0..8 explicit user assumptions and1..8 ordered binary arithmetic steps. Pure posted-book arithmetic needs no assumptions and is labeled as recorded-data calculation. User-assumption or draft ancestry stays hypothetical. Never invent a numeric literal: every operand references a query's exact rowId/value, a quoted assumption, or an earlier calculation. Node IDs are globally unique. Query rows must be complete, non-null, and not per-entry averages. For a total query the rowId is total:total. Monetary value operands must be USD; count operands are counts.
 Balance operands MUST use cash_balance with accountCodes:[], not account_balance. The server selects cash-designated ASSET posting accounts; an Assets group or an account called Cash is not equivalent. For a whole-company cash scenario use base currency, groupBy:'total', from:null and the requested as-of date. All generic account_balance queries are deliberately unsupported in this calculator, even when named cash or numerically equal to cash. Use financial_analysis for standalone noncash balances and request_details for unsupported noncash balance arithmetic. Net expense/revenue/profit flows and transaction counts remain supported for their actual meanings; never relabel them as opening cash. Cash source identities are retained through every derived calculation.
+net_cash_movement operands are signed changes during an explicit inclusive period, not opening or closing cash. They require server-selected cash accounts, POSTED and sum. Their exact period, cash identities and query filters remain attached to the arithmetic as separate movement lineage. Filtered movement is only the change in matching transactions; co-occurring expense accounts do not establish payment allocation. Monetary operands remain USD only. Never present a movement as an as-of cash balance or a gross payment.
 For an average per calendar month, use a monthly flow query covering full calendar months and reference {source:'query',id:itsId,rowId:null,field:'month_count'}. The server derives months only from the complete, untruncated, unique, contiguous zero-filled monthly series with exact boundaries. No partial months, balances, quarters or per-entry averages. Divide the matching period's total by that month count; monetary query ancestors must cover the same full period. This field never reads a model-supplied number.
 Each assumption sourceText must quote the actual USER wording with exactly one complete quantity and its unit: e.g. '$6,000 per month' USD_per_month, 'three months' months value3, '$3,000 recruiting' USD, 'eighteen percent' ratio value0.18, or '2 employees' count. Copy the original words; do not paraphrase the quote. Digits and unambiguous English whole cardinals zero through ninety-nine (including twenty-one) are supported. Hundreds, larger number words, fractions, ranges and negated quantities require clarification or digits. No assistant text, invented constants, annual-to-monthly conversions or unsupported currencies. The server preserves the actual user substring and span even if a returned quote normalized a cardinal to digits. Percent normalization is exact. These quotes prove numeric provenance, not future truth or intent.
 Addition/subtraction require equal units. A ratio scales a value. USD_per_month times months is USD; USD divided by USD_per_month is months; USD divided by months is USD_per_month. Count may multiply USD, USD_per_month or months. Equal units divided yield ratio. Other dimensional combinations and zero divisors are rejected. Values are magnitude bounded. Calculations preserve exact rational arithmetic and round only for display. For salary plus18% burden, add salary to salary times0.18; do not invent a constant1.
@@ -235,6 +237,13 @@ export type ScenarioCalculationFact = {
   // Optional only for historical persisted facts. Every new result emits this
   // exact server-verified lineage; IDs/names supplied by a model grant no role.
   cashSources?: { queryId: string; rowId: string; asOf: string; accountIds: string[] }[];
+  cashMovementSources?: {
+    queryId: string;
+    rowId: string;
+    from: string;
+    to: string;
+    accountIds: string[];
+  }[];
 };
 
 const smallCardinals = [
@@ -657,6 +666,72 @@ function validateCashSource(fact: AnalysisFacts) {
     invalid('Cash operands require verified cash-designated asset accounts and matching balance scope.');
 }
 
+function movementRowPeriod(fact: AnalysisFacts, row: AnalysisFacts['rows'][number]) {
+  const plan = fact.scope.plan;
+  if (plan.groupBy !== 'month' && plan.groupBy !== 'quarter')
+    return row.from === plan.from && row.to === plan.to;
+  const match =
+    plan.groupBy === 'month'
+      ? /^month:(\d{4})-(0[1-9]|1[0-2])$/.exec(row.rowId)
+      : /^quarter:(\d{4})-Q([1-4])$/.exec(row.rowId);
+  if (!match) return false;
+  const month = plan.groupBy === 'month' ? Number(match[2]) : (Number(match[2]) - 1) * 3 + 1;
+  const start = `${match[1]}-${String(month).padStart(2, '0')}-01`;
+  if (!dateSchema.safeParse(start).success) return false;
+  const endDate = new Date(`${start}T00:00:00.000Z`);
+  endDate.setUTCMonth(endDate.getUTCMonth() + (plan.groupBy === 'month' ? 1 : 3));
+  endDate.setUTCDate(endDate.getUTCDate() - 1);
+  const end = endDate.toISOString().slice(0, 10);
+  return (
+    start <= plan.to &&
+    end >= plan.from! &&
+    row.from === (start < plan.from! ? plan.from : start) &&
+    row.to === (end > plan.to ? plan.to : end)
+  );
+}
+
+/** The executor supplies the authoritative cash selection. Check its identity,
+ * period and grain without treating a filtered flow as an as-of stock. */
+function validateCashMovementSource(fact: AnalysisFacts) {
+  const plan = fact.scope.plan;
+  const proof = fact.scope.cashMovementSource;
+  const ids = proof?.accounts.map((account) => account.id) ?? [];
+  if (
+    !proof ||
+    proof.selection !== 'all_cash_asset_posting_accounts' ||
+    plan.status !== 'POSTED' ||
+    plan.aggregation !== 'sum' ||
+    plan.accountCodes.length !== 0 ||
+    plan.from === null ||
+    plan.from > plan.to ||
+    (plan.currencyMode === 'base' ? plan.currency !== null : plan.currency === null) ||
+    fact.scope.statusMeaning !== 'booked' ||
+    fact.scope.amountBasis !== `net_cash_movement_${plan.currencyMode}_lines` ||
+    fact.scope.cashBalanceSource !== undefined ||
+    new Set(ids).size !== ids.length ||
+    ids.length !== fact.scope.resolvedAccountIds.length ||
+    ids.some((id) => !fact.scope.resolvedAccountIds.includes(id)) ||
+    proof.accounts.some(
+      (account) =>
+        !account.id ||
+        account.type !== 'ASSET' ||
+        account.is_cash !== true ||
+        account.is_group !== false ||
+        !currencyCodes.some((currency) => currency === account.currency) ||
+        (plan.currencyMode === 'native' && account.currency !== plan.currency),
+    ) ||
+    (plan.cooccurringAccountCodes.length === 0 && fact.scope.cooccurringAccountIds.length !== 0) ||
+    fact.rows.some(
+      (row) =>
+        row.balanceAsOf !== undefined ||
+        !movementRowPeriod(fact, row) ||
+        (plan.groupBy === 'account' && !ids.some((id) => row.rowId === `account:${encodeURIComponent(id)}`)),
+    ) ||
+    (plan.groupBy === 'total' && (fact.rows.length !== 1 || fact.rows[0].rowId !== 'total:total'))
+  )
+    invalid('Cash movement operands require verified cash accounts and matching inclusive flow scope.');
+}
+
 /** Pure arithmetic/provenance boundary. Supplied facts are the trusted query
  * executor's output, never facts manufactured by a model or matched by value. */
 export function evaluateFinancialScenario(
@@ -698,6 +773,7 @@ export function evaluateFinancialScenario(
     )
       invalid('The scenario query evidence has incompatible identity, units or scope.');
     if (fact.metric === 'cash_balance') validateCashSource(fact);
+    if (fact.metric === 'net_cash_movement') validateCashMovementSource(fact);
   }
   const computed = new Map<string, Value>();
   function resolve(ref: ScenarioReference): Value {
@@ -771,6 +847,23 @@ export function evaluateFinancialScenario(
             queryId: reference.id,
             rowId: reference.rowId,
             asOf: row.balanceAsOf!,
+            accountIds:
+              fact.grain === 'account'
+                ? [decodeURIComponent(row.rowId.slice('account:'.length))]
+                : [...fact.scope.resolvedAccountIds],
+          },
+        ];
+      }),
+      cashMovementSources: provenance.queryRows.flatMap((reference) => {
+        const fact = queryFacts.find((item) => item.queryId === reference.id)!;
+        if (fact.metric !== 'net_cash_movement' || reference.field !== 'value') return [];
+        const row = fact.rows.find((item) => item.rowId === reference.rowId)!;
+        return [
+          {
+            queryId: reference.id,
+            rowId: reference.rowId,
+            from: row.from!,
+            to: row.to!,
             accountIds:
               fact.grain === 'account'
                 ? [decodeURIComponent(row.rowId.slice('account:'.length))]

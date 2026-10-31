@@ -123,9 +123,14 @@ export function normalizeAllHistoryFlow(
   if (!range || typeof range.from !== 'string' || typeof range.to !== 'string') return { args };
   if (
     composable &&
-    !['net_expense', 'net_revenue', 'net_profit', 'journal_total', 'journal_count'].includes(
-      String(range.metric),
-    )
+    ![
+      'net_expense',
+      'net_revenue',
+      'net_profit',
+      'net_cash_movement',
+      'journal_total',
+      'journal_count',
+    ].includes(String(range.metric))
   )
     return { args };
   const normalization: AllHistoryNormalization = {

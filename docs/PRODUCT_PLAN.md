@@ -1,5 +1,7 @@
 # Daybook product completion plan
 
+**Current local iteration:** [net cash movement](CASH_MOVEMENT.md) adds a dedicated posted cash-line flow metric and distinct calculation lineage. Verification is in progress; no new hosted or model-accuracy result is claimed. Gross cash-flow allocation and general question interpretation remain separate gaps.
+
 ## Expense scope guard — deployed with bounded verification
 
 The bounded explicit expense scope safeguard is CI-verified and deployed. Exact-source CI passed **1,455 tests across 77 files and all 28 browser workflows**. The 12 new real-PostgreSQL expense-scope cases passed; the model callbacks were stubbed. These totals include the named suites and must not be added together. Local pre-publication checks passed 189 focused tests, including 71 pure guard and 36 mocked integration cases, plus eight offline compiler checks, TypeScript and production build. CI browser workflows exercise the built app, not the protected hosted page or physical devices. No provider inference, new accuracy score or reopened evaluation budget was involved in this release. Protected health, metadata and SPA GETs are read-only deployment checks, not hosted visual inspection or live model comprehension. No fresh full-ledger comparison was performed, so unchanged current books are not claimed. Earlier model results remain tied to their original source. [Implemented boundary and next work](#explicit-expense-scope-safeguard--deployed-with-limits).
