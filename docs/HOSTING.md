@@ -1,34 +1,16 @@
 # Hosting Daybook
 
-## Current core release — 2026-10-31
+## Current release — 2026-10-31
 
-Executable `70b59c62c6819880c2504fe546f4fecc8a703c50` passed [full CI](https://github.com/rayidali/spiich_homework/actions/runs/41219589967) and is deployed as `dpl_FQs3fAoqDF1KcvDoS5bwH8R16UgF`. This release uses 64 exact source files and the normal migration/build command, with no configuration overlay. Migrations 005/006 add trusted correction memory and resolved anomaly history; earlier migration checksums and all 73 journal records were preserved. Owner credentials were build-only.
+Executable `b7bf5fe024f6fca33fa5a93ef5e6188e96455bae` passed [full CI 41226562746](https://github.com/rayidali/spiich_homework/actions/runs/41226562746) and is deployed as **`dpl_F1mVMsNU5QUttzpgaH441iQ7aJoE`**, READY. The release contains **66 exact source files**, normal migration/build preparation and no configuration overlay. Applied migrations 001–006 and runtime database credentials were preserved; owner credentials remained build-only. The current local Gemini key was bound to the completed comparison and supplied privately to this release. No key appears in source or evidence.
 
-An actual hosted invalid-request reference was matched to request-error and completed-request runtime logs carrying the exact source revision. The browser now preserves and copies error references; CI verifies that interaction. See [the sanitized release receipt](evidence/core-repair-release.json) and [operations runbook](OPERATIONS.md). This replaces the earlier missing-correlation finding; the historical provider incidents below remain evidence of what happened at those earlier revisions.
+Both whole-entry/chat and the new category selector use **Gemini 3.5 Flash-Lite**. The focused comparison retained Gemini under its predefined rule; Jev remains an implemented configurable alternative, not the hosted default. The repaired correction memory and anomaly lifecycle remain deployed. [Release receipt](evidence/category-product-release.json), [selector findings](CATEGORY_SELECTOR.md).
 
-The new category selector and short-form suggestion UI are prepared in source but await fresh CI, live comparison and deployment. Changing a local key does not change a hosted deployment. The current local Gemini key differs from the saved hosted key; its bounded verification and any replacement remain separate release steps. No secret values are included here.
+**Eleven hosted HTTP checks passed:** four financial questions matched database-backed reports/search; Supplies/Card, rent/bank and existing-invoice settlement produced the exact expected lines; ambiguous rent and the party example asked clarifying questions; category suggestions handled Supplies and handed off a laptop purchase. All 73 journals, account balances and the complete dashboard remained unchanged. Every response reference matched actual runtime events carrying this deployment and source revision. The separate internal audit reproduced 144 checks over the saved evidence. No proposal was posted; proposal housekeeping may still write non-journal records.
 
-## Historical 2026-10-31 entry repair — deployed and checked
+The acceptance used 11 Gemini requests and an estimated **$0.0085057**, with no unknown reservations. It is a small regression check, not general model accuracy or the separate original 40-case evaluation. CI includes 18 browser workflows and actual automatic Compose scheduler/worker checks; these are separate from hosted HTTP evidence. Hosted automatic cron firing and physical-device behavior remain unobserved.
 
-Source `de67b49dfce110f560840d0b9106d628f30f5d52` passed [full CI 41213514203](https://github.com/rayidali/spiich_homework/actions/runs/41213514203) and deployment `dpl_GopCJGQi67eHqSXLtRiVywVRRLbZ` is READY. The stable protected URL uses Gemini 3.5 Flash-Lite. The original user later supplied approximate friend/party wording; the original timestamp and raw response remain unavailable. A representative hosted failure and same-key direct upstream 503 were reproduced on the earlier 3.1 model. The replacement passed bounded compatibility checks; this does not recover the exact original request's cause.
-
-The first repaired deployment returned correct USD 340 Supplies/Card lines and a cash answer of USD 125,620 matching the dashboard. Its rent-without-payment-account check failed by guessing the bank. That failure is retained. After a prompt change forbidding history/defaults from filling missing funding accounts, the final hosted tests returned the correct supplies entry, a payment-account question for rent, and payment-account/personal-business questions for “gave $800 to a friend to party.” No proposal was posted; all 73 journal records and the full dashboard response remained unchanged. [Evidence and limits](evidence/entry-provider-recovery.json).
-
-Upstream 5xx responses map to `AI_SERVICE_UNAVAILABLE`, fetch-boundary failures to `AI_CONNECTION_ERROR`, and timeouts retain `AI_TIMEOUT`. Logs retain safe provider/status metadata without payloads. Application request-ID correlation remains missing; the [assignment review](ASSIGNMENT_REVIEW.md) identifies that and correction-learning gaps as the next core work. Requests are not automatically retried. These selected HTTP checks are not full live accuracy or hosted browser verification.
-
-The user refreshed local Vercel authentication. CLI networking still failed, so authorized HTTPS with the local credential verified the existing team/project and performed deployment. Protection remains enabled. No connector, new project, key rotation or database replacement was used.
-
-This provider/prompt repair deploys **58 byte-identical source files plus one declared configuration overlay**: only `vercel.json.buildCommand` becomes `npm run build && npm run hosting:bundle`. Vercel's file configuration overrides request-level project settings, so the overlay prevents unintended migration/seed/role preparation. All migration files are unchanged; no owner credential is included. Original/deployed configuration hashes and the request hash are recorded in the receipt; private preparation provenance retains every file hash. The repository's full-provisioning build below remains unchanged.
-
-## 2026-10-30 live AI recovery update
-
-The hosted model and source default are now **`gemini-3.1-flash-lite`**. Direct API testing reproduced the earlier model's generation timeouts and confirmed working text/JSON/tool calls on Flash-Lite. A separate journal-proposal rejection was traced to the 100-line `maxItems` constraint in Gemini's decoding grammar: the transport now omits array maxima, while the full original Zod limit, account checks and exact-money/balance rules remain enforced locally.
-
-Selected hosted checks succeeded: cash **$125,620.00**, **12 Acme Corp entries**, September expenses **$9,265.00**, and a review-only **$340 Supplies debit / Company credit card credit** proposal. Cash/search/expense values matched independent endpoints, and the 73-entry journal list was unchanged. An initial expense timeout succeeded on manual repeat, while a later search failed; **intermittent provider failures remain**. No automatic retry, paid-plan change or accuracy guarantee was introduced.
-
-Local build/native imports and **60 isolated tests** passed, including two new schema regressions. [Full CI](https://github.com/rayidali/spiich_homework/actions/runs/41103851106) for source `7ecb435c421862dba5efd4e3b6f743c93fd1888e` **passed 103 backend tests, 10 browser workflows, native hosted imports and Docker startup/persistence**; the opt-in live evaluation job was skipped. These selected checks are not the full 40-case live evaluation. [Detailed evidence](evidence/chat-recovery-verification.json) records successes and failures. Earlier timeout-only notes below describe the 2026-10-29 snapshot.
-
-> Saved 2026-10-29 America/New_York. [Daybook is live](https://daybook-ledger-delta.vercel.app) behind Vercel login. Hosted HTTP checks and the [full CI run](https://github.com/rayidali/spiich_homework/actions/runs/40999183176) passed. Live Gemini chat timed out; successful generation remains unverified. See [checkpoint](../CHECKPOINT.md).
+The earlier 3.1 outage, rent-account guessing failure and provider-only deployment overlay are retained in [repair evidence](evidence/entry-provider-recovery.json) and [BUILD_LOG](BUILD_LOG.md). The subsequent [core release](evidence/core-repair-release.json) established hosted error-reference tracing. Those historical overlays are not the current build configuration.
 
 ## Resources and access
 
@@ -37,7 +19,7 @@ Local build/native imports and **60 isolated tests** passed, including two new s
 | Owner               | Local CLI identity `rayidali`, team `rayidalis-projects`                    |
 | Vercel project      | `daybook-ledger`; Hobby plan observed during provisioning                   |
 | Stable URL          | https://daybook-ledger-delta.vercel.app                                     |
-| Verified deployment | `dpl_FQs3fAoqDF1KcvDoS5bwH8R16UgF`, production, READY                       |
+| Verified deployment | `dpl_F1mVMsNU5QUttzpgaH441iQ7aJoE`, production, READY                       |
 | Database            | Separate Neon `daybook-db`, free plan through an existing integration       |
 | Region              | `iad1`                                                                      |
 | Protection          | Vercel Authentication for all deployments; anonymous requests reach sign-in |
@@ -78,21 +60,23 @@ Development dependencies are needed to compile TypeScript/Vite/esbuild even thou
 
 ## Database roles and deployment variables
 
-| Variable                            | Scope                                 | Purpose                                                 |
-| ----------------------------------- | ------------------------------------- | ------------------------------------------------------- |
-| `DATABASE_URL`                      | Runtime and build                     | TLS pooled connection for restricted `spiich_app`       |
-| `MIGRATION_DATABASE_URL`            | **Build only**                        | Unpooled migration owner for migrations/role setup/seed |
-| `CRON_SECRET`                       | Runtime                               | Generated bearer secret for scheduled work              |
-| `AI_PROVIDER`                       | Runtime                               | `gemini` for the verified deployment configuration      |
-| `GEMINI_API_KEY` / `OPENAI_API_KEY` | Runtime, chosen provider              | Server-only provider access                             |
-| `AI_MODEL`                          | Optional runtime override             | Model accessible to that provider account               |
-| `ORGANIZATION_ID`                   | Optional trusted server configuration | Defaults to the seeded assignment workspace             |
+| Variable                            | Scope                                 | Purpose                                                             |
+| ----------------------------------- | ------------------------------------- | ------------------------------------------------------------------- |
+| `DATABASE_URL`                      | Runtime and build                     | TLS pooled connection for restricted `spiich_app`                   |
+| `MIGRATION_DATABASE_URL`            | **Build only**                        | Unpooled migration owner for migrations/role setup/seed             |
+| `CRON_SECRET`                       | Runtime                               | Generated bearer secret for scheduled work                          |
+| `AI_PROVIDER`                       | Runtime                               | `gemini` for the verified deployment configuration                  |
+| `GEMINI_API_KEY` / `OPENAI_API_KEY` | Runtime, chosen provider              | Server-only provider access                                         |
+| `AI_MODEL`                          | Optional runtime override             | Model accessible to that provider account                           |
+| `CATEGORY_PROVIDER`                 | Runtime                               | `gemini` in the verified release; optional `jev` or `reference`     |
+| `TYPESAFE_API_KEY`                  | Runtime only when Jev is selected     | Category alternative; not included in the current Gemini deployment |
+| `ORGANIZATION_ID`                   | Optional trusted server configuration | Defaults to the seeded assignment workspace                         |
 
 Use a generated password of at least 32 characters for hosted `spiich_app`. `scripts/prepare-hosting.ts` applies checksummed migrations, sets that strong role password, and runs the seed idempotently before building. Applied migrations were not edited. Reuse the established restricted credential on routine deployments; changing it rotates access for existing instances and must be coordinated.
 
 The owner integration is connected to the project's **development environment only**. Production/runtime and build values were supplied as **deployment overrides**. They were not committed or assumed to be persistent production project variables. The Gemini key was supplied to Vercel server-side, but no GitHub Actions secret was configured.
 
-A new CLI deployment must receive the appropriate runtime variables through an authorized private mechanism. The default full-provisioning build additionally requires the build-only owner variable; the recorded provider-only overlay above deliberately omits that preparation and credential. Do not assume `vercel --prod` from a fresh checkout will inherit them. Do not put secrets in `vercel.json`, command-line flags, `VITE_*` variables or source files. Review existing private local deployment state without printing it. A repository push currently supplies CI evidence; no Git-triggered Vercel auto-deploy connection has been established.
+A new CLI deployment must receive the appropriate runtime variables through an authorized private mechanism. The default full-provisioning build additionally requires the build-only owner variable; the historical provider-only overlay deliberately omitted that preparation and credential, but the current release uses the normal build. Do not assume `vercel --prod` from a fresh checkout will inherit them. Do not put secrets in `vercel.json`, command-line flags, `VITE_*` variables or source files. Review existing private local deployment state without printing it. A repository push currently supplies CI evidence; no Git-triggered Vercel auto-deploy connection has been established.
 
 ## Background behavior and limitations
 
@@ -104,7 +88,7 @@ Successful API mutations register `processJobs(config.organizationId)` using Ver
 
 Recurring generation processes up to 20 templates/50 occurrences, capped at 10 per template per invocation; anomaly processing claims up to four jobs. Larger catch-up queues can take several invocations. Docker/native run the continuous scheduler/worker in the API process; the hosted demo relies on request-triggered processing and a daily catch-up. Continuous backlog processing, deployment-wide AI quotas, connection budgets and operational alerts need additional work before production-scale claims.
 
-## Verified deployment observations
+## Historical initial hosting observations
 
 [Sanitized evidence](evidence/hosting-verification.json) records:
 
@@ -116,7 +100,7 @@ Recurring generation processes up to 20 templates/50 occurrences, capped at 10 p
 
 These financial figures are synthetic demo observations at the recorded time. They are separate from the accounting walkthrough's five-event fixture and can change after legitimate postings.
 
-Hosted browser visual review is pending. CI's ten browser workflows run against its built app and isolated PostgreSQL; they are not a live browser test of this protected URL.
+Hosted browser visual review is pending. The latest CI's 18 browser workflows run against its built app and isolated PostgreSQL; they are not a live browser test of this protected URL.
 
 ## Failures resolved and next checks
 
@@ -125,6 +109,6 @@ Hosted browser visual review is pending. CI's ten browser workflows run against 
 3. A READY deployment still failed API invocation. Explicit native ESM bundling was introduced, then hosted API checks passed; CI now checks both wrapper imports.
 4. The raw scheduler request lacked Express's `req.get()`. Wrapping it in Express resolved the invocation; live authorization/work checks passed.
 
-Next, investigate the Gemini timeout with bounded, sanitized probes; run live evaluation in isolated workspaces; observe an automatic cron firing; inspect fresh screenshots and the hosted browser flow; decide reviewer access. A successful build, metadata call or contract suite alone does not complete these checks.
+The provider repair and 11-request hosted regression acceptance are complete. Separate remaining operational checks are the original 40-case live evaluation, automatic hosted cron observation, hosted browser/physical-device inspection and reviewer access. These are not hidden successes of the completed HTTP acceptance. A successful build or metadata call alone would not establish them.
 
 Private operational files are in ignored `.tools/vercel-session/` and contain credentials. Keep them local, excluded from archives and screenshots. Local Node CLI network failure did not imply invalid login: authorized HTTP using the local session worked. If credentials expire, use local login again; never switch to a different chat-connected account.

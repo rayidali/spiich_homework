@@ -1,10 +1,10 @@
 # Architecture and engineering decisions
 
-## Current product boundary — deployed core, category integration in source
+## Current product boundary — measured category selection and verified core workflows
 
 Core source `70b59c62c6819880c2504fe546f4fecc8a703c50` passed [CI 41219589967](https://github.com/rayidali/spiich_homework/actions/runs/41219589967) and is deployed as `dpl_FQs3fAoqDF1KcvDoS5bwH8R16UgF`. It adds safe request correlation, atomic posted-entry correction memory and reversal-aware alert resolution. The release used 64 exact files, no configuration overlay and normal migrations 005/006. Hosted verification kept the 73 journal records and dashboard unchanged and matched a controlled validation error's reference to two runtime-log events without calling a model. [Evidence and limits](evidence/core-repair-release.json).
 
-The new category selector/service and short-form button are implemented in working source, with offline checks; their new database/browser CI, deployment and live comparison remain pending. The existing whole-entry assistant and four-tool financial chat remain separate paths. Neither the completed research study nor the new category module replaces the ledger's authority.
+The category selector/service and short-form button passed [full CI 41226562746](https://github.com/rayidali/spiich_homework/actions/runs/41226562746) on `b7bf5fe024f6fca33fa5a93ef5e6188e96455bae`, including all 18 browser workflows, real PostgreSQL and automatic Compose scheduler/worker acceptance. Its live selector comparison is complete; the exact-source hosted deployment is READY and passed 11 selected API checks. [Release evidence](evidence/category-product-release.json). The existing whole-entry assistant and four-tool financial chat remain separate paths. Neither the completed research study nor the new category module replaces the ledger's authority.
 
 ```mermaid
 flowchart TD
@@ -28,7 +28,17 @@ A SELECT result becomes a server-validated two-line proposal. Both current accou
 
 `CATEGORY_PROVIDER` selects Gemini, Jev or the offline reference on the server. Separate `/meta.category` availability avoids conflating this feature with whole-entry AI. Each provider receives the same snapshot/candidate order; different API formats are disclosed. Jev signals are validated but not treated as measured accuracy, and no confidence threshold has been promoted. The service allows four concurrent requests per process and one bounded provider attempt; these are not distributed concurrency or global spending controls. Logs retain request ID, operation, provider/model, stage/status and source revision while excluding business text, keys, SQL and raw provider bodies.
 
-A confirmed correction means the user changed an AI-suggested account and **posted** the reviewed entry. The posting transaction binds proposal, entry and revision and writes correction memory with the financial commit. A draft or model suggestion alone is not teaching evidence. Retrieval rechecks posting, reversal, active accounts and forget status. Forgetting removes the example from later correction/history context without editing the posted ledger. This is retrieval-based adaptation, not model retraining; its effect on future accuracy is still unmeasured.
+A confirmed correction means the user changed an AI-suggested account and **posted** the reviewed entry. The posting transaction binds proposal, entry and revision and writes correction memory with the financial commit. A draft or model suggestion alone is not teaching evidence. Retrieval rechecks posting, reversal, active accounts and forget status. Forgetting removes the example from later correction/history context without editing the posted ledger. This is retrieval-based adaptation, not model retraining. The focused experiment measured following identical supplied correction examples, while CI separately tested their real persistence and eligibility; database retrieval quality and general production gains remain unmeasured.
+
+The hosted release's 11 selected API checks covered the four financial chat tools, clear and ambiguous whole-entry requests, invoice settlement, category SELECT and unsupported asset purchase. All passed; the 73-entry journal and financial fingerprint stayed unchanged. Proposal storage may occur, but no journal was posted. These are HTTP checks, not a fresh hosted browser/device review. [Release receipt](evidence/category-product-release.json).
+
+### Measured category decision
+
+The completed held-out comparison scored Gemini **33/33** and Jev **31/33** on category plus taught preference, versus **16/33** for the simple rules/memory reference. Both paid selectors were semantically correct on all 33 category targets; Jev twice chose Supplies after the paper examples taught Printing. The difference was −6.06 pp with exploratory group interval [−18.18, 0]. Jev's 76.56% lower tracked cost per correct category did not clear the predefined reliability condition, so Gemini remains the selected product category provider. [Results](evidence/category-runs/completed-v3/holdout/report.md), [audit](evidence/category-runs/completed-v3/independent-audit.json), [decision](evidence/category-runs/completed-v3/release-decision.json).
+
+Jev remains implemented as an alternative, not an additional reviewer in the chosen path. Its exact option set, selected maximum, finite probability ranges and rounding-compatible probability mass are validated. Confidence is retained as an uncalibrated signal; its rounded value is not forced to equal a recomputed formula and does not control posting. Gemini usage accepts additive metadata while validating known counts. Both compatibility failures remain preserved in the earlier development versions.
+
+The 216-observation v3 matrix consumed 114 calls. With both prior versions, the closed comparison totals 119 calls and $0.036753586. This small synthetic selector test does not measure complete journals or production accuracy. The product has no document-upload endpoint or UI; document ingestion belongs to the isolated research paths and is not an assignment requirement.
 
 ## Earlier provider-only repair — 2026-10-31, selected hosted checks passed
 
@@ -40,7 +50,7 @@ The first release passed its complete-entry check and returned cash of **$125,62
 
 The deployed provider boundary classifies upstream HTTP 5xx as `AI_SERVICE_UNAVAILABLE` (503) and connection failures as `AI_CONNECTION_ERROR` (502), with sanitized diagnostic metadata. Own-call timeouts remain `AI_TIMEOUT` (504). No automatic retry or change to financial authority was added. The initial repair also passed 34 provider tests and the TypeScript check.
 
-At that provider-only repair checkpoint, error-reference propagation and feedback trust remained open. The later core release implements those engineering repairs, and the category module described above is a new source change. Correction-learning accuracy and the focused live Gemini/Jev comparison remain unmeasured. [Original assignment review](ASSIGNMENT_REVIEW.md).
+At that provider-only repair checkpoint, error-reference propagation and feedback trust remained open. The later core release implements those engineering repairs, and the category module described above is a new source change. The later focused comparison above measures supplied-context category preference; it does not retroactively change this repair evidence. [Original assignment review](ASSIGNMENT_REVIEW.md).
 
 This change follows the completed research experiment. The preserved study source hash `fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08`, executable commit `0fe267b03b7baa0a2ff43c58165301b74261afa9`, datasets, outcomes and reports retain their historical identity. The current product patch changes working-source identity and has not been measured by rerunning that study. It promotes no experimental retrieval, Wren or reviewer route. [Current verification](VERIFICATION.md), [checkpoint](../CHECKPOINT.md).
 

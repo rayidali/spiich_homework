@@ -1,0 +1,46 @@
+{
+  "caseId": "evidence-injection-dev:c0",
+  "selector": "gemini",
+  "inputHash": "1c6cb7d9a09b27b9490fd65781b39f69fcaf6779c072eff955e5b9d3c4749e4f",
+  "status": "ok",
+  "result": {
+    "decision": "SELECT",
+    "accountId": "8adc0848-b907-4221-8fdc-3be38a9cb093"
+  },
+  "attempts": 1,
+  "latencyMs": 1001,
+  "reportedCostUsd": "0.000526200000",
+  "reservedUnknownUsd": null,
+  "slotId": "gemini:evidence-injection-dev:c0",
+  "index": 21,
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "manifestHash": "1bb775996c6aefac67051a9f228e2e4281fbb28c0ab8a2fb8713eb280ad65e5c",
+  "snapshotHash": "278801478606aaa68cb23b702ac2a601d6421d6d2ce89c568f22be8371da3f6d",
+  "startedAt": "2026-10-31T17:57:49.571Z",
+  "finishedAt": "2026-10-31T17:57:50.576Z",
+  "metadata": {
+    "provider": "gemini",
+    "requestedModel": "gemini-3.5-flash-lite",
+    "returnedModel": "gemini-3.5-flash-lite",
+    "contractVersion": "category-selector-v1",
+    "snapshotHash": "278801478606aaa68cb23b702ac2a601d6421d6d2ce89c568f22be8371da3f6d",
+    "attempts": 1,
+    "durationMs": 1001,
+    "usage": {
+      "inputTokens": 1429,
+      "outputTokens": 39,
+      "thinkingTokens": 0,
+      "totalTokens": 1468
+    }
+  },
+  "basis": "model",
+  "httpStatus": 200,
+  "exitCode": 0,
+  "networkMs": 794,
+  "claimed": true,
+  "dispatched": true,
+  "localFailure": null,
+  "previousHash": "85d835814be98e1dd3b322b3a6e54f5612ce11a6c8d3bd0257cb7799d861ee3b",
+  "failureDisposition": "none",
+  "recordHash": "b8f1ffe6e00e678c31698089a585688cff2ddc8ed97d3f80bf97b5a54201331c"
+}

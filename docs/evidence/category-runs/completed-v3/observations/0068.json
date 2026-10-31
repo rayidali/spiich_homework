@@ -1,0 +1,47 @@
+{
+  "caseId": "missing-currency:c1",
+  "selector": "reference",
+  "inputHash": "505a17da4131c9d7c493de9752225a8eddc354574180147118c6e155a7a77e49",
+  "status": "ok",
+  "result": {
+    "decision": "CLARIFY",
+    "topic": "currency",
+    "question": "Which currency was used?"
+  },
+  "attempts": 0,
+  "latencyMs": 0,
+  "reportedCostUsd": null,
+  "reservedUnknownUsd": null,
+  "slotId": "reference:missing-currency:c1",
+  "index": 68,
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "manifestHash": "1bb775996c6aefac67051a9f228e2e4281fbb28c0ab8a2fb8713eb280ad65e5c",
+  "snapshotHash": "c8eaa78d37cfe8d5f826311b5e883cda15ca559824ac0f6befff94e7f01eaaf2",
+  "startedAt": "2026-10-31T17:58:26.373Z",
+  "finishedAt": "2026-10-31T17:58:26.378Z",
+  "metadata": {
+    "provider": "reference",
+    "requestedModel": "exact-memory-label-rules-v1",
+    "returnedModel": null,
+    "contractVersion": "category-selector-v1",
+    "snapshotHash": "c8eaa78d37cfe8d5f826311b5e883cda15ca559824ac0f6befff94e7f01eaaf2",
+    "attempts": 0,
+    "durationMs": 0,
+    "usage": {
+      "inputTokens": null,
+      "outputTokens": null,
+      "thinkingTokens": null,
+      "totalTokens": null
+    }
+  },
+  "basis": "input_gate",
+  "httpStatus": null,
+  "exitCode": null,
+  "networkMs": null,
+  "claimed": false,
+  "dispatched": false,
+  "localFailure": null,
+  "previousHash": "a612a3a81600f328375dbb75a8c195f148bce090d2844ff46513b32659b651b6",
+  "failureDisposition": "none",
+  "recordHash": "87bc460a70aaf3367098aaaa3eb89f78d105a4129afc2dd65263d09037ce23f1"
+}

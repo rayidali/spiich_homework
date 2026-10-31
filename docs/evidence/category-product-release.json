@@ -1,0 +1,462 @@
+{
+  "recordedAt": "2026-10-31T18:05:57.647115+00:00",
+  "sourceCommit": "b7bf5fe024f6fca33fa5a93ef5e6188e96455bae",
+  "ciRunId": 41226562746,
+  "ciUrl": "https://github.com/rayidali/spiich_homework/actions/runs/41226562746",
+  "deploymentId": "dpl_F1mVMsNU5QUttzpgaH441iQ7aJoE",
+  "readyState": "READY",
+  "stableUrl": "https://daybook-ledger-delta.vercel.app",
+  "immutableUrl": "https://daybook-ledger-fn8hu4djo-rayidalis-projects.vercel.app",
+  "protection": "All-deployment Vercel login protection retained",
+  "exactSourceFiles": 66,
+  "configurationOverlays": 0,
+  "sourceHashes": {
+    "api/cron.js": "a2f13fd6fa908f6deccf4fc70591cb0023384bcf58cdc37a4b6e09fe44f3d1ef",
+    "api/index.js": "5a426b416d99c62dca1c3857a5230697647b5ade6837ea884a2ea78e963ab929",
+    "db/migrations/001_ledger.sql": "49fdc1a8d004b68a27f4833ef39ff6ec8fb0f6d81583cfd32bf8eaca34eaaba0",
+    "db/migrations/002_draft_revisions.sql": "703c35c331b2f402cd840fc29ba1263e13dfdc1b89390a868b0b321aac3984b2",
+    "db/migrations/003_recurring_recovery.sql": "18b1082803ad5b7a4aef28acbeae1d3974be067ceb344ae1689dd2269693881a",
+    "db/migrations/004_provenance.sql": "46260df5fd3ec70e964f2d480c0c3b9c3cdc28db56c83750aafbb04991f1f645",
+    "db/migrations/005_categorization_memory.sql": "8b2abce839eda72bfe04a0b7eb4e7e8222531fdc5a9a1316ef0bb7ca1e13a6fa",
+    "db/migrations/006_anomaly_lifecycle.sql": "450dcd01abdfd30a126c0a0119d0ec3c97ab6c98e784888c69fd8cc05cb673d5",
+    "package-lock.json": "8aba402c2034be8e6c123751160e6c473738db36d65def80651dc1a8f0cd2ed1",
+    "package.json": "d58008e69e15e3c1637adc8e382820d43ad6cff5bc7a0feb148b63673de39b4c",
+    "scripts/bundle-hosting.mjs": "e87a6a58dcebd985ee356cda10c0682c2d0b4d25b57919b84e0fa87d46cbd0f5",
+    "scripts/check-compose-persistence.mjs": "8f5776af7a45fcdab4a5101b74fd933f27f4cc4c11b67ab1f125955c11d784c8",
+    "scripts/dev.ts": "2ab2f043d52c1b750347146a9d58015e5dc057f0e449b0e4b182a9cb4200a4b4",
+    "scripts/evaluate-ai.ts": "34cd1ef8c76a1d1865600520c0c67cc73edaccc2681b4a4e778a7f39e864aa6a",
+    "scripts/evaluation/cases.ts": "574de5636c7fff05535a5481480104e96ef440472a3ef5c255dc24dcc19b956f",
+    "scripts/evaluation/fixtures.ts": "1cdfec871813decd2b5c7a799d8c36546eb844fb2596eece6a5c1d80d1c06ed7",
+    "scripts/evaluation/options.ts": "ac5fe3231ead5e227ea285d16b95470b8162a37d1a9dd677a1dd5412558adf6d",
+    "scripts/evaluation/scoring.ts": "979cdef20a8df93f66a9d527ae8fe8df4ca847bf4e4b673d6e1c7ba2592dd889",
+    "scripts/export-architecture-report.py": "5c608515a4bccd8cbeb8b4c984358146692bacd26fb529d6d03ca3a9c328a418",
+    "scripts/local-postgres.ts": "d6c171e42288e6e4a61ef75d27cf9d067a1c94f82040194bdb00cbf56e431ee9",
+    "scripts/migrate.ts": "7314fc1830ae166623aa29bd6acd7cec1914cc318bf39cb6c7318eb425b81ae0",
+    "scripts/prepare-hosting.ts": "e64cd539731ec00900ca4065e4ffb7a5184951339c1037b7effc18af100bb28f",
+    "scripts/seed.ts": "bf1d023c346e1a2c547cbf644484be9c1af3564139a7c4954c0e66af477da576",
+    "server/ai-provider.ts": "8e6d1cb6ecbba1aa14cb05158f64c20368fc34585b6b1714e9f5851c9126a4f7",
+    "server/ai.ts": "2ed1db8bcdc311727f9737f9202368337f94544ea03eb37bc9ab9f689014cafe",
+    "server/anomalies.ts": "d1026efbf5263ae26f72a7335136a86025f323c60ef9cb5f327586968095fcd1",
+    "server/app.ts": "b845bafde44b25cb778428dd3f2d40ffb2a1703cf7c52788e8806bde230ef8ef",
+    "server/categorization-memory.ts": "62895b7136b9c6bf5aacac5318087d1d2efd92f5547aa265dfb92f3c17b8d309",
+    "server/category-selector.ts": "ecc9dea62466462718e3620c778f309386873f51f1f77d2eb7f6fe2b801a19dd",
+    "server/category-service.ts": "f43301f5dde1c08dbb40c886b0e33f66f3edf5f21d9be9824b288bcc4e7d4173",
+    "server/config.ts": "1c52455e3858004324684c326335a663fdb2f333fdb95d73d75f02e17b26ae7f",
+    "server/db.ts": "2229a2019a15269c477b2aae78f2547878bea0ec99099b1ccbb5210e4aea3015",
+    "server/diagnostics.ts": "4355e5334f9cb911c24c7a0c4e13fe88a429ecf772345495e6fb94a62841fcdd",
+    "server/errors.ts": "375e427d238ccc61ea696517f92f922f3ff6db53d2afe1db7ba6b45fdd819d90",
+    "server/hosted-cron.ts": "de24f74be6ed1252d85d61773ae8bf3fb03fd3e3163eb7ab82781bc1c136c19a",
+    "server/hosting/cron.ts": "0dc730a0d8ddeb075bb9cac889dbadb90a1bf530cbb3b635cdb2b3c3aace2cdc",
+    "server/hosting/index.ts": "ba949a53a0abd57b8b916beb479a9c8c55f82f6a7fa1512a31c053e145be01b2",
+    "server/index.ts": "75c281f720717862886ce85d6306883dd29fd74bdc13e5e7dd5b9155435da3ed",
+    "server/ledger-validation.ts": "a3e34546f3bc333102e64d060e7a5da7bcb6dbef595d09bc9a257b0a1573691e",
+    "server/ledger.ts": "08b71ca474e277eec0000b2386725eaedcc0676157c9ab36f06f15f48903a2db",
+    "server/recurring.ts": "5b730641bf7ad183a8ec17ea1df9467365548512aebf97e27bc87934319e3c46",
+    "server/reports.ts": "6f8264cc1224da35160c22afad46d1bf61528c8481f9408120810d20b31e66dd",
+    "shared/money.ts": "cede2a7644b4bc13d9dd3ae001b5e3a0d8dfd1b8745410d2a9525b0f8f4cb43e",
+    "shared/schema.ts": "e941a773df155ab81bacb974b027cc6da7366f59cb21360ab99b91c6c13f12c2",
+    "tsconfig.json": "aaa48d5c874f76d3830605bce0832ce361f8df482c4c08cbe55e6274a685dc8b",
+    "vercel.json": "74168234edc2270b60d6efd5520bbe257b3d374b0f4416792a6d171315054c4e",
+    "vite.config.ts": "d723f92e87a5223db3615c1f25b64bf80bead246c907201c5dd74851fc73195a",
+    "web/index.html": "81f15b2d32acc53913ae165d2f21096794ed8fa68e3605a87c9d4150a5796e6b",
+    "web/public/favicon.svg": "6c99296a7bf13afa937680089c0dd7b77f56269bf2bb5d51ad4fa7f73db1fab7",
+    "web/src/Accounts.tsx": "9f1c3cc72a3a43be44dd1b8d2205cd2d6f1f1e391eedc384820c0ffc74b04163",
+    "web/src/Alerts.tsx": "c1071eb10fcb0ac3bb5d270b8c681afaf91cdc9c58bd5c5ebee94e0a0ab79114",
+    "web/src/App.tsx": "dcc507ca8d47c4782c9febb85bf1791b2cc67d45e258be99084be1113f9c6550",
+    "web/src/Assistant.tsx": "b1145e3a0de5791f88c7867848c5b1c20268a09e15756b20fc07b186b3c295fb",
+    "web/src/Composer.tsx": "e5af1d454432bd5b585679a18108965d6af37f19dbbd0214371561472021753c",
+    "web/src/Dashboard.tsx": "7db94830c2462e27694643f7ade0fb6640c85e2af0c804336892fb11fa961624",
+    "web/src/ErrorBoundary.tsx": "60715c0799a8ce90ee03676dbfb4afe178100558507b048f6ad574603c89fe1e",
+    "web/src/Recurring.tsx": "385e9ed1f9ce655c187615e426b8bccee34f3975b834eeaea0af205d775937dc",
+    "web/src/Reports.tsx": "06aada690bab94a51bd6437152c416381c84d52994428d75461430eb6dd6deb7",
+    "web/src/Settings.tsx": "f438068d0a9e85735a5cf6e601567089c733ec6c6c4b39957f96e7fd94db96d8",
+    "web/src/Transactions.tsx": "67032a0d09f67d4e719adeef0d9338bb5bc85954d27628b9bc22bd792244700d",
+    "web/src/api.ts": "f77ebff9ef64d9ccc3c4b116e19919a847c5a03bc4d8e6dcc55f47099f363661",
+    "web/src/context.tsx": "199577d5ca1a37c8aaab7add2e04e061b8e7443daa512be80e94a4273bf1e8b7",
+    "web/src/main.tsx": "98330fd98c3a6e10906e71d5506601abed9341a9749e1444c3b4527d5ed99ca2",
+    "web/src/quick-entry.ts": "2d8a03930b8fa6099da09d16d26cb2db1526d11b4b30e40963c58d1fce370993",
+    "web/src/styles.css": "a355db28941fa1e31dd5d3460b7aff5340d8832742ae25d0b4cedc48a09f890d",
+    "web/src/ui.tsx": "691e39e6dd09a245d79f1c8eb70ddb385d8f2129ffa50fa72aaf255e2052aac7"
+  },
+  "build": "Normal checksummed migration preparation/build/bundle; owner credential build-only, restricted runtime role unchanged",
+  "migrations": "001\u2013006 preserved; no new migration in category release",
+  "aiProvider": "gemini",
+  "categoryProvider": "gemini",
+  "actualReturnedModel": "gemini-3.5-flash-lite",
+  "currentLocalKeyBoundToComparisonAndRelease": true,
+  "selectedBy": "Completed-v3 predeclared category screen; retain Gemini",
+  "acceptance": {
+    "counts": {
+      "plannedRequired": 10,
+      "plannedOptional": 1,
+      "completedModelRequests": 11,
+      "geminiRequests": 11,
+      "jevRequests": 0,
+      "http200": 11,
+      "automaticPasses": 11,
+      "executionErrors": 0,
+      "journalEvents": 22,
+      "referenceGetCaptures": 56,
+      "preCallFreshSnapshots": 11,
+      "finalFreshSnapshots": 1,
+      "journalRecordsBefore": 73,
+      "journalRecordsAfter": 73
+    },
+    "cost": {
+      "reportedUseEstimateUsd": "0.0085057",
+      "unknownReservedUsd": "0",
+      "capUsd": "0.20",
+      "possibleAttemptCap": 12,
+      "pricing": "Pinned Gemini 3.5 standard rate estimate from API-reported input/output/thinking counts; not provider invoice.",
+      "tokenTotals": {
+        "inputTokens": 13544,
+        "outputTokens": 1362,
+        "thinkingTokens": 415,
+        "totalTokens": 15321
+      }
+    },
+    "cases": [
+      {
+        "caseId": "chat-expenses",
+        "kind": "chat",
+        "httpStatus": 200,
+        "automaticChecks": {
+          "http200": true,
+          "applicationRequestId": true,
+          "tool": true,
+          "exactDates": true,
+          "oneEvidenceTable": true,
+          "valuesAndAccountIds": true,
+          "expenseTotal": true
+        },
+        "costUsd": "0.0005096",
+        "usageKnown": true,
+        "reportedActualModel": "gemini-3.5-flash-lite",
+        "clarificationSemanticReviewRequired": []
+      },
+      {
+        "caseId": "chat-revenue",
+        "kind": "chat",
+        "httpStatus": 200,
+        "automaticChecks": {
+          "http200": true,
+          "applicationRequestId": true,
+          "tool": true,
+          "exactDates": true,
+          "oneEvidenceTable": true,
+          "revenueAmounts": true,
+          "delta": true,
+          "percentage": true
+        },
+        "costUsd": "0.0003561",
+        "usageKnown": true,
+        "reportedActualModel": "gemini-3.5-flash-lite",
+        "clarificationSemanticReviewRequired": []
+      },
+      {
+        "caseId": "chat-acme",
+        "kind": "chat",
+        "httpStatus": 200,
+        "automaticChecks": {
+          "http200": true,
+          "applicationRequestId": true,
+          "tool": true,
+          "exactDates": true,
+          "oneEvidenceTable": true,
+          "postedIdsAndTotals": true,
+          "paginationCaveat": true
+        },
+        "costUsd": "0.000294",
+        "usageKnown": true,
+        "reportedActualModel": "gemini-3.5-flash-lite",
+        "clarificationSemanticReviewRequired": []
+      },
+      {
+        "caseId": "chat-cash",
+        "kind": "chat",
+        "httpStatus": 200,
+        "automaticChecks": {
+          "http200": true,
+          "applicationRequestId": true,
+          "tool": true,
+          "exactDates": true,
+          "oneEvidenceTable": true,
+          "cashRows": true,
+          "independentTotal": true
+        },
+        "costUsd": "0.0003837",
+        "usageKnown": true,
+        "reportedActualModel": "gemini-3.5-flash-lite",
+        "clarificationSemanticReviewRequired": []
+      },
+      {
+        "caseId": "entry-supplies",
+        "kind": "entry",
+        "httpStatus": 200,
+        "automaticChecks": {
+          "http200": true,
+          "applicationRequestId": true,
+          "decision": true,
+          "exactJournal": true,
+          "proposalId": true
+        },
+        "costUsd": "0.0014105",
+        "usageKnown": true,
+        "reportedActualModel": "gemini-3.5-flash-lite",
+        "clarificationSemanticReviewRequired": []
+      },
+      {
+        "caseId": "entry-rent-bank",
+        "kind": "entry",
+        "httpStatus": 200,
+        "automaticChecks": {
+          "http200": true,
+          "applicationRequestId": true,
+          "decision": true,
+          "exactJournal": true,
+          "proposalId": true
+        },
+        "costUsd": "0.001139",
+        "usageKnown": true,
+        "reportedActualModel": "gemini-3.5-flash-lite",
+        "clarificationSemanticReviewRequired": []
+      },
+      {
+        "caseId": "entry-invoice-payment",
+        "kind": "entry",
+        "httpStatus": 200,
+        "automaticChecks": {
+          "http200": true,
+          "applicationRequestId": true,
+          "decision": true,
+          "exactJournal": true,
+          "proposalId": true
+        },
+        "costUsd": "0.001298",
+        "usageKnown": true,
+        "reportedActualModel": "gemini-3.5-flash-lite",
+        "clarificationSemanticReviewRequired": []
+      },
+      {
+        "caseId": "entry-rent",
+        "kind": "entry",
+        "httpStatus": 200,
+        "automaticChecks": {
+          "http200": true,
+          "applicationRequestId": true,
+          "decision": true,
+          "noEntry": true,
+          "clarificationPresent": true
+        },
+        "costUsd": "0.0009088",
+        "usageKnown": true,
+        "reportedActualModel": "gemini-3.5-flash-lite",
+        "clarificationSemanticReviewRequired": ["funding_account"]
+      },
+      {
+        "caseId": "entry-party",
+        "kind": "entry",
+        "httpStatus": 200,
+        "automaticChecks": {
+          "http200": true,
+          "applicationRequestId": true,
+          "decision": true,
+          "noEntry": true,
+          "clarificationPresent": true
+        },
+        "costUsd": "0.0012858",
+        "usageKnown": true,
+        "reportedActualModel": "gemini-3.5-flash-lite",
+        "clarificationSemanticReviewRequired": ["funding_account", "business_personal_loan_meaning"]
+      },
+      {
+        "caseId": "category-supplies",
+        "kind": "category",
+        "httpStatus": 200,
+        "automaticChecks": {
+          "http200": true,
+          "applicationRequestId": true,
+          "decision": true,
+          "exactJournal": true,
+          "proposalId": true
+        },
+        "costUsd": "0.0004939",
+        "usageKnown": true,
+        "reportedActualModel": "gemini-3.5-flash-lite",
+        "clarificationSemanticReviewRequired": []
+      },
+      {
+        "caseId": "category-laptop",
+        "kind": "category",
+        "httpStatus": 200,
+        "automaticChecks": {
+          "http200": true,
+          "applicationRequestId": true,
+          "decision": true,
+          "noEntry": true
+        },
+        "costUsd": "0.0004263",
+        "usageKnown": true,
+        "reportedActualModel": "gemini-3.5-flash-lite",
+        "clarificationSemanticReviewRequired": []
+      }
+    ],
+    "books": {
+      "sameBusinessDate": true,
+      "journalAccountsFinancialDashboardUnchanged": true,
+      "fullDashboardUnchanged": true,
+      "entireDatabaseUnchangedClaimed": false
+    },
+    "qualitativeReview": {
+      "reviewer": "AI-assisted root agent, not independent human adjudication",
+      "entry-rent": {
+        "fundingAccountQuestion": true
+      },
+      "entry-party": {
+        "fundingAccountQuestion": true,
+        "personalLoanBusinessMeaningQuestion": true
+      }
+    },
+    "furtherRequestsAllowed": false
+  },
+  "independentInternalAudit": {
+    "checksPassed": 144,
+    "receipt": "category-hosted-acceptance-audit.json",
+    "sha256": "eadf3ac19585954c9d6f8e41f515a64ddb4122a21eae2628f74a62a79a219f7f",
+    "privateOriginalSha256": "5d4ccd01198cd0dd967708d06787d4ed8ea106625bb4decb0fdfcc059e03c9e8",
+    "publicFormattingOnly": true
+  },
+  "runtimeCorrelation": {
+    "allElevenCaseIdsMatched": true,
+    "events": [
+      {
+        "caseId": "category-laptop",
+        "platformDeploymentId": "dpl_F1mVMsNU5QUttzpgaH441iQ7aJoE",
+        "event": "http_request",
+        "requestId": "04fa6fd2-0973-4a0c-9b69-edb17c380af1",
+        "status": 200,
+        "durationMs": 747,
+        "deploymentRevision": "b7bf5fe024f6fca33fa5a93ef5e6188e96455bae"
+      },
+      {
+        "caseId": "category-laptop",
+        "platformDeploymentId": "dpl_F1mVMsNU5QUttzpgaH441iQ7aJoE",
+        "event": "ai_category_result",
+        "requestId": "04fa6fd2-0973-4a0c-9b69-edb17c380af1",
+        "provider": "gemini",
+        "model": "gemini-3.5-flash-lite",
+        "durationMs": 697,
+        "deploymentRevision": "b7bf5fe024f6fca33fa5a93ef5e6188e96455bae"
+      },
+      {
+        "caseId": "category-supplies",
+        "platformDeploymentId": "dpl_F1mVMsNU5QUttzpgaH441iQ7aJoE",
+        "event": "http_request",
+        "requestId": "80dd29a6-2b55-46cd-965c-0f5fae4eb822",
+        "status": 200,
+        "durationMs": 830,
+        "deploymentRevision": "b7bf5fe024f6fca33fa5a93ef5e6188e96455bae"
+      },
+      {
+        "caseId": "category-supplies",
+        "platformDeploymentId": "dpl_F1mVMsNU5QUttzpgaH441iQ7aJoE",
+        "event": "ai_category_result",
+        "requestId": "80dd29a6-2b55-46cd-965c-0f5fae4eb822",
+        "provider": "gemini",
+        "model": "gemini-3.5-flash-lite",
+        "durationMs": 776,
+        "deploymentRevision": "b7bf5fe024f6fca33fa5a93ef5e6188e96455bae"
+      },
+      {
+        "caseId": "entry-party",
+        "platformDeploymentId": "dpl_F1mVMsNU5QUttzpgaH441iQ7aJoE",
+        "event": "http_request",
+        "requestId": "dd6c49b1-4be7-48ac-a2d5-8331e9c71888",
+        "status": 200,
+        "durationMs": 1455,
+        "deploymentRevision": "b7bf5fe024f6fca33fa5a93ef5e6188e96455bae"
+      },
+      {
+        "caseId": "entry-rent",
+        "platformDeploymentId": "dpl_F1mVMsNU5QUttzpgaH441iQ7aJoE",
+        "event": "http_request",
+        "requestId": "98e32b9a-51f0-43a9-b84e-73d86359afa4",
+        "status": 200,
+        "durationMs": 1119,
+        "deploymentRevision": "b7bf5fe024f6fca33fa5a93ef5e6188e96455bae"
+      },
+      {
+        "caseId": "entry-invoice-payment",
+        "platformDeploymentId": "dpl_F1mVMsNU5QUttzpgaH441iQ7aJoE",
+        "event": "http_request",
+        "requestId": "1d0082f6-4190-45e5-97bb-6f0447cbd63e",
+        "status": 200,
+        "durationMs": 1498,
+        "deploymentRevision": "b7bf5fe024f6fca33fa5a93ef5e6188e96455bae"
+      },
+      {
+        "caseId": "entry-rent-bank",
+        "platformDeploymentId": "dpl_F1mVMsNU5QUttzpgaH441iQ7aJoE",
+        "event": "http_request",
+        "requestId": "b98581ed-b3fe-439a-af29-f9648bb70eec",
+        "status": 200,
+        "durationMs": 1296,
+        "deploymentRevision": "b7bf5fe024f6fca33fa5a93ef5e6188e96455bae"
+      },
+      {
+        "caseId": "entry-supplies",
+        "platformDeploymentId": "dpl_F1mVMsNU5QUttzpgaH441iQ7aJoE",
+        "event": "http_request",
+        "requestId": "7453b7d4-99fd-4a94-ba48-4304bf7bc358",
+        "status": 200,
+        "durationMs": 1355,
+        "deploymentRevision": "b7bf5fe024f6fca33fa5a93ef5e6188e96455bae"
+      },
+      {
+        "caseId": "chat-cash",
+        "platformDeploymentId": "dpl_F1mVMsNU5QUttzpgaH441iQ7aJoE",
+        "event": "http_request",
+        "requestId": "a9263da4-cde7-452f-a86e-402dba10db63",
+        "status": 200,
+        "durationMs": 846,
+        "deploymentRevision": "b7bf5fe024f6fca33fa5a93ef5e6188e96455bae"
+      },
+      {
+        "caseId": "chat-acme",
+        "platformDeploymentId": "dpl_F1mVMsNU5QUttzpgaH441iQ7aJoE",
+        "event": "http_request",
+        "requestId": "deb956ff-de43-4609-b937-3ff37738d9f7",
+        "status": 200,
+        "durationMs": 827,
+        "deploymentRevision": "b7bf5fe024f6fca33fa5a93ef5e6188e96455bae"
+      },
+      {
+        "caseId": "chat-revenue",
+        "platformDeploymentId": "dpl_F1mVMsNU5QUttzpgaH441iQ7aJoE",
+        "event": "http_request",
+        "requestId": "aaac0b51-3dfa-467a-a806-befb72f443c0",
+        "status": 200,
+        "durationMs": 686,
+        "deploymentRevision": "b7bf5fe024f6fca33fa5a93ef5e6188e96455bae"
+      },
+      {
+        "caseId": "chat-expenses",
+        "platformDeploymentId": "dpl_F1mVMsNU5QUttzpgaH441iQ7aJoE",
+        "event": "http_request",
+        "requestId": "30af8138-5bf1-4c7a-8aa6-d9aee71f7f2d",
+        "status": 200,
+        "durationMs": 1035,
+        "deploymentRevision": "b7bf5fe024f6fca33fa5a93ef5e6188e96455bae"
+      }
+    ]
+  },
+  "limits": [
+    "Hosted HTTP acceptance, not hosted browser or physical-device inspection.",
+    "No proposal was posted. Proposal records and correction housekeeping may change while books remain unchanged.",
+    "Small predefined regression set; not a general model accuracy rate or completed original 40-case evaluation.",
+    "Expected financial references use independent endpoints sharing the application accounting engine; real PostgreSQL tests establish database invariants separately.",
+    "Clarification meaning and audit review were AI-assisted, not independent human adjudication.",
+    "Hosted automatic cron firing and large-scale capacity remain unmeasured.",
+    "Provider usage estimates are not invoices or verified account balances."
+  ]
+}

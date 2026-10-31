@@ -32,4 +32,6 @@ This means a provider outage can be investigated without recovering the user's s
 
 [Core repair evidence](evidence/core-repair-release.json) records a deliberate hosted HTTP 400 whose body/header UUID was found in both error and completion runtime events, with the exact deployed source revision. CI separately checks browser display, actual clipboard copying, retained input and retry behavior. The hosted probe did not call a model and does not reproduce a provider outage. It left all 73 journal records and dashboard figures unchanged.
 
+The later [category release](evidence/category-product-release.json) matched all 11 successful live acceptance request references to actual `http_request` events for exact source `b7bf5fe` and deployment `dpl_F1mVMsNU5QUttzpgaH441iQ7aJoE`. Its two category requests also matched `ai_category_result` events. That proves release/request correlation for those observations; it does not turn a successful request into a test of a provider outage.
+
 No Sentry account or log drain was added. The existing runtime logs are sufficient for this demonstrated investigation. Retention, automated incident alerting and reliable long-term operational monitoring remain deployment concerns; adding another service should solve one of those specific needs rather than substitute for good error boundaries.

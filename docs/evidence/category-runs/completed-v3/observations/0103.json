@@ -1,0 +1,47 @@
+{
+  "caseId": "meaning-transfer:c0",
+  "selector": "jev",
+  "inputHash": "5af11ce0b960e3eacdd7faadb6ea63f1619fbdfe7265371b1fc55cafd0582c9a",
+  "status": "ok",
+  "result": {
+    "decision": "UNSUPPORTED",
+    "reason": "personal_or_balance_transfer",
+    "message": "This needs the full journal-entry review. A simple category suggestion cannot safely describe all account effects."
+  },
+  "attempts": 0,
+  "latencyMs": 1,
+  "reportedCostUsd": null,
+  "reservedUnknownUsd": null,
+  "slotId": "jev:meaning-transfer:c0",
+  "index": 103,
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "manifestHash": "1bb775996c6aefac67051a9f228e2e4281fbb28c0ab8a2fb8713eb280ad65e5c",
+  "snapshotHash": "9c0425bc219f7e8edcd4003caa9fe6b66421d3c57cd5a1b77f561cb56ed39661",
+  "startedAt": "2026-10-31T17:58:39.226Z",
+  "finishedAt": "2026-10-31T17:58:39.231Z",
+  "metadata": {
+    "provider": "jev",
+    "requestedModel": "jev-1.14.0",
+    "returnedModel": null,
+    "contractVersion": "category-selector-v1",
+    "snapshotHash": "9c0425bc219f7e8edcd4003caa9fe6b66421d3c57cd5a1b77f561cb56ed39661",
+    "attempts": 0,
+    "durationMs": 0,
+    "usage": {
+      "inputTokens": null,
+      "outputTokens": null,
+      "thinkingTokens": null,
+      "totalTokens": null
+    }
+  },
+  "basis": "input_gate",
+  "httpStatus": null,
+  "exitCode": null,
+  "networkMs": null,
+  "claimed": false,
+  "dispatched": false,
+  "localFailure": null,
+  "previousHash": "c4e43989c41ef9b3cd94c151603a14de11adab3e595cc74e4c6e5c917258be72",
+  "failureDisposition": "none",
+  "recordHash": "545a0524218e2711ac82d24ddb3c7d5ea3ddc87de35ea531b2ac22f11a108d7c"
+}

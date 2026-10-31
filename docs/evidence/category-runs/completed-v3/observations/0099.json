@@ -1,0 +1,47 @@
+{
+  "caseId": "meaning-loan:c1",
+  "selector": "reference",
+  "inputHash": "fbcb0fb4457525da5bd031da79e8586d9885728e2b7f94c1e9139cd2e39b4672",
+  "status": "ok",
+  "result": {
+    "decision": "UNSUPPORTED",
+    "reason": "personal_or_balance_transfer",
+    "message": "This needs the full journal-entry review. A simple category suggestion cannot safely describe all account effects."
+  },
+  "attempts": 0,
+  "latencyMs": 0,
+  "reportedCostUsd": null,
+  "reservedUnknownUsd": null,
+  "slotId": "reference:meaning-loan:c1",
+  "index": 99,
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "manifestHash": "1bb775996c6aefac67051a9f228e2e4281fbb28c0ab8a2fb8713eb280ad65e5c",
+  "snapshotHash": "5e747e32803d94869ba120919b52b5be23201c7c4668b42cd722e6b75e4ae5b1",
+  "startedAt": "2026-10-31T17:58:39.146Z",
+  "finishedAt": "2026-10-31T17:58:39.151Z",
+  "metadata": {
+    "provider": "reference",
+    "requestedModel": "exact-memory-label-rules-v1",
+    "returnedModel": null,
+    "contractVersion": "category-selector-v1",
+    "snapshotHash": "5e747e32803d94869ba120919b52b5be23201c7c4668b42cd722e6b75e4ae5b1",
+    "attempts": 0,
+    "durationMs": 0,
+    "usage": {
+      "inputTokens": null,
+      "outputTokens": null,
+      "thinkingTokens": null,
+      "totalTokens": null
+    }
+  },
+  "basis": "input_gate",
+  "httpStatus": null,
+  "exitCode": null,
+  "networkMs": null,
+  "claimed": false,
+  "dispatched": false,
+  "localFailure": null,
+  "previousHash": "cb41e69b7a26cf9bce5524c2267a1636553b4adfeca1e15934bedd4f70f7dfbc",
+  "failureDisposition": "none",
+  "recordHash": "555e4e1ea4caa67dd9195f86106bf73a6ddefff71b762e3ce80114436125dccc"
+}

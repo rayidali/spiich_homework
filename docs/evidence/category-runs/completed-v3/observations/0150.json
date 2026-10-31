@@ -1,0 +1,47 @@
+{
+  "caseId": "meaning-refund:c1",
+  "selector": "jev",
+  "inputHash": "4c0f330aa3fe6864af74bf4f105ab6f1f7eb9a5ed4652d017a20007f1c3f7cf3",
+  "status": "ok",
+  "result": {
+    "decision": "UNSUPPORTED",
+    "reason": "unsupported_description",
+    "message": "This needs the full journal-entry review. A simple category suggestion cannot safely describe all account effects."
+  },
+  "attempts": 1,
+  "latencyMs": 374,
+  "reportedCostUsd": "0.000063252000",
+  "reservedUnknownUsd": null,
+  "slotId": "jev:meaning-refund:c1",
+  "index": 150,
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "manifestHash": "1bb775996c6aefac67051a9f228e2e4281fbb28c0ab8a2fb8713eb280ad65e5c",
+  "snapshotHash": "a987cb52730e79a5cbdc848a2edcbe7a36ef77ba607882ea95edddb5350a4b31",
+  "startedAt": "2026-10-31T17:58:58.918Z",
+  "finishedAt": "2026-10-31T17:58:59.298Z",
+  "metadata": {
+    "provider": "jev",
+    "requestedModel": "jev-1.14.0",
+    "returnedModel": "jev-1.14.0",
+    "contractVersion": "category-selector-v1",
+    "snapshotHash": "a987cb52730e79a5cbdc848a2edcbe7a36ef77ba607882ea95edddb5350a4b31",
+    "attempts": 1,
+    "durationMs": 374,
+    "usage": {
+      "inputTokens": 1506,
+      "outputTokens": 118,
+      "thinkingTokens": 0,
+      "totalTokens": 1624
+    }
+  },
+  "basis": "model",
+  "httpStatus": 200,
+  "exitCode": 0,
+  "networkMs": 147,
+  "claimed": true,
+  "dispatched": true,
+  "localFailure": null,
+  "previousHash": "6e4908ba1bd5852f0795375a74d3caa2257a53983658e763a97350cf6f2d166a",
+  "failureDisposition": "none",
+  "recordHash": "6b97a514e394df4abbf18fe0d5b2c7bd28dd23d25eb7ef8952286b19fd11209c"
+}

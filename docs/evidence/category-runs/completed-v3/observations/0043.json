@@ -1,0 +1,47 @@
+{
+  "caseId": "changed-camera-dev:c3",
+  "selector": "reference",
+  "inputHash": "ce0acbd7ee90b0cd09f48daaa6fa4b800d1e8d14278e9e89de92f8e36751c2d8",
+  "status": "ok",
+  "result": {
+    "decision": "CLARIFY",
+    "topic": "category",
+    "question": "What was this payment or receipt for? Please confirm its category."
+  },
+  "attempts": 0,
+  "latencyMs": 0,
+  "reportedCostUsd": null,
+  "reservedUnknownUsd": null,
+  "slotId": "reference:changed-camera-dev:c3",
+  "index": 43,
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "manifestHash": "1bb775996c6aefac67051a9f228e2e4281fbb28c0ab8a2fb8713eb280ad65e5c",
+  "snapshotHash": "4f86817180cf2c2f9a72ad68a7b3396a93280a8bead9221766c6895875b4b48b",
+  "startedAt": "2026-10-31T17:57:58.802Z",
+  "finishedAt": "2026-10-31T17:57:58.808Z",
+  "metadata": {
+    "provider": "reference",
+    "requestedModel": "exact-memory-label-rules-v1",
+    "returnedModel": "exact-memory-label-rules-v1",
+    "contractVersion": "category-selector-v1",
+    "snapshotHash": "4f86817180cf2c2f9a72ad68a7b3396a93280a8bead9221766c6895875b4b48b",
+    "attempts": 0,
+    "durationMs": 0,
+    "usage": {
+      "inputTokens": null,
+      "outputTokens": null,
+      "thinkingTokens": null,
+      "totalTokens": null
+    }
+  },
+  "basis": "no_match",
+  "httpStatus": null,
+  "exitCode": null,
+  "networkMs": null,
+  "claimed": false,
+  "dispatched": false,
+  "localFailure": null,
+  "previousHash": "55c7eb7a6e5d183b448e393a76efce18da223b77f97ba98d30c127cddf3c0474",
+  "failureDisposition": "none",
+  "recordHash": "2f3b0bd315f4fcd2f836da9e376e97706bea8d975ef06a948c40bd96b949546c"
+}

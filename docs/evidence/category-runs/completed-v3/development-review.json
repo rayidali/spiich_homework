@@ -1,0 +1,10 @@
+{
+  "reviewedAt": "2026-10-31T17:58:14.654635+00:00",
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "developmentResultsSha256": "02da20c08802d0ceee5ed9bb5c44d3eabd69a169e3ce9ff9b84066dff8046d80",
+  "observations": 54,
+  "providerRequests": 30,
+  "fatalErrors": 0,
+  "decision": "Proceed to frozen held-out phase; no prompt, fixture, gold, threshold, model or budget change. Development scores do not select a provider.",
+  "reviewType": "AI-assisted operator review"
+}

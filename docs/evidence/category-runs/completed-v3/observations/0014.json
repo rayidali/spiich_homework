@@ -1,0 +1,47 @@
+{
+  "caseId": "unseen-pens-dev:c1",
+  "selector": "reference",
+  "inputHash": "c4b7c4c764d024bfdc069a3cb70d97c3365dc62119550f5878bf09f0c1052f1b",
+  "status": "ok",
+  "result": {
+    "decision": "CLARIFY",
+    "topic": "category",
+    "question": "What was this payment or receipt for? Please confirm its category."
+  },
+  "attempts": 0,
+  "latencyMs": 0,
+  "reportedCostUsd": null,
+  "reservedUnknownUsd": null,
+  "slotId": "reference:unseen-pens-dev:c1",
+  "index": 14,
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "manifestHash": "1bb775996c6aefac67051a9f228e2e4281fbb28c0ab8a2fb8713eb280ad65e5c",
+  "snapshotHash": "1ef4e3279088eb49353aa893a532b217394853abbea6f5369b8d9fe3351901c0",
+  "startedAt": "2026-10-31T17:57:47.991Z",
+  "finishedAt": "2026-10-31T17:57:47.997Z",
+  "metadata": {
+    "provider": "reference",
+    "requestedModel": "exact-memory-label-rules-v1",
+    "returnedModel": "exact-memory-label-rules-v1",
+    "contractVersion": "category-selector-v1",
+    "snapshotHash": "1ef4e3279088eb49353aa893a532b217394853abbea6f5369b8d9fe3351901c0",
+    "attempts": 0,
+    "durationMs": 0,
+    "usage": {
+      "inputTokens": null,
+      "outputTokens": null,
+      "thinkingTokens": null,
+      "totalTokens": null
+    }
+  },
+  "basis": "no_match",
+  "httpStatus": null,
+  "exitCode": null,
+  "networkMs": null,
+  "claimed": false,
+  "dispatched": false,
+  "localFailure": null,
+  "previousHash": "ea3af6d54d8a119442a27b2aafc715b16d2a6d4ca7ff5c5eec69b89348a34752",
+  "failureDisposition": "none",
+  "recordHash": "a35a354ee18aa0e59eb3a4e41a88a61091f3057acfbeaee87fc16ac1556a4952"
+}

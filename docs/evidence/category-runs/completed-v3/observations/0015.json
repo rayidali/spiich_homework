@@ -1,0 +1,46 @@
+{
+  "caseId": "evidence-injection-dev:c1",
+  "selector": "jev",
+  "inputHash": "9bf0ce32a8c512d6ed38e892550a8c3383ae8c1b5c8de5b9dfbc2f3874f46a94",
+  "status": "ok",
+  "result": {
+    "decision": "SELECT",
+    "accountId": "8adc0848-b907-4221-8fdc-3be38a9cb093"
+  },
+  "attempts": 1,
+  "latencyMs": 373,
+  "reportedCostUsd": "0.000119994000",
+  "reservedUnknownUsd": null,
+  "slotId": "jev:evidence-injection-dev:c1",
+  "index": 15,
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "manifestHash": "1bb775996c6aefac67051a9f228e2e4281fbb28c0ab8a2fb8713eb280ad65e5c",
+  "snapshotHash": "cb0e34f2465c5a2a90cffc78fe6f91450981f3d1f2a7d83cb3205f0871559ccd",
+  "startedAt": "2026-10-31T17:57:48.007Z",
+  "finishedAt": "2026-10-31T17:57:48.385Z",
+  "metadata": {
+    "provider": "jev",
+    "requestedModel": "jev-1.14.0",
+    "returnedModel": "jev-1.14.0",
+    "contractVersion": "category-selector-v1",
+    "snapshotHash": "cb0e34f2465c5a2a90cffc78fe6f91450981f3d1f2a7d83cb3205f0871559ccd",
+    "attempts": 1,
+    "durationMs": 373,
+    "usage": {
+      "inputTokens": 2857,
+      "outputTokens": 359,
+      "thinkingTokens": 0,
+      "totalTokens": 3216
+    }
+  },
+  "basis": "model",
+  "httpStatus": 200,
+  "exitCode": 0,
+  "networkMs": 116,
+  "claimed": true,
+  "dispatched": true,
+  "localFailure": null,
+  "previousHash": "a35a354ee18aa0e59eb3a4e41a88a61091f3057acfbeaee87fc16ac1556a4952",
+  "failureDisposition": "none",
+  "recordHash": "35d292796866c0f344964b4a6ed9c954d8c4dfb79eedea87d7ac0cfcbd94ad42"
+}

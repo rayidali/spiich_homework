@@ -1,0 +1,47 @@
+{
+  "caseId": "changed-laptop:c0",
+  "selector": "jev",
+  "inputHash": "b5a70fbac47db3a30a8f166d2ccfc88d921fd9e6fb01a911f1f089636a05738b",
+  "status": "ok",
+  "result": {
+    "decision": "UNSUPPORTED",
+    "reason": "unsupported_description",
+    "message": "This needs the full journal-entry review. A simple category suggestion cannot safely describe all account effects."
+  },
+  "attempts": 1,
+  "latencyMs": 377,
+  "reportedCostUsd": "0.000114450000",
+  "reservedUnknownUsd": null,
+  "slotId": "jev:changed-laptop:c0",
+  "index": 76,
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "manifestHash": "1bb775996c6aefac67051a9f228e2e4281fbb28c0ab8a2fb8713eb280ad65e5c",
+  "snapshotHash": "3e717058ab1714e400b0a1f5d7fd74c090742ae451556af49b2cdea8b73a5f37",
+  "startedAt": "2026-10-31T17:58:30.856Z",
+  "finishedAt": "2026-10-31T17:58:31.237Z",
+  "metadata": {
+    "provider": "jev",
+    "requestedModel": "jev-1.14.0",
+    "returnedModel": "jev-1.14.0",
+    "contractVersion": "category-selector-v1",
+    "snapshotHash": "3e717058ab1714e400b0a1f5d7fd74c090742ae451556af49b2cdea8b73a5f37",
+    "attempts": 1,
+    "durationMs": 376,
+    "usage": {
+      "inputTokens": 2725,
+      "outputTokens": 331,
+      "thinkingTokens": 0,
+      "totalTokens": 3056
+    }
+  },
+  "basis": "model",
+  "httpStatus": 200,
+  "exitCode": 0,
+  "networkMs": 128,
+  "claimed": true,
+  "dispatched": true,
+  "localFailure": null,
+  "previousHash": "1f2dd76895b6726f98be6e0561c2916ac32f5e7f6e3e28ab8e4aab3dc7c68e8c",
+  "failureDisposition": "none",
+  "recordHash": "632e8da57d9847bd201db3a10738de39266c7dd3277def368dcdae6700cedf5e"
+}

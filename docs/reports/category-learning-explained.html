@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><title>
+    Can Daybook learn your categories?</title
+  ><style>
+    body {
+      margin: 0;
+      background: #e8e9e3;
+      color: #24342e;
+      font:
+        14px/1.45 Arial,
+        sans-serif;
+    }
+    section {
+      box-sizing: border-box;
+      width: 794px;
+      min-height: 1123px;
+      margin: 24px auto;
+      padding: 45px 50px;
+      background: #fcfbf7;
+      page-break-after: always;
+    }
+    h1 {
+      font-size: 35px;
+      line-height: 1.12;
+      margin: 9px 0 16px;
+    }
+    h2 {
+      font-size: 17px;
+      margin: 15px 0 7px;
+    }
+    p {
+      margin: 0 0 10px;
+    }
+    .small {
+      font-size: 11.8px;
+      color: #5c685f;
+      line-height: 1.45;
+    }
+    .eyebrow {
+      font-size: 11px;
+      font-weight: bold;
+      color: #32684d;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 12px;
+      margin: 7px 0;
+    }
+    th,
+    td {
+      text-align: left;
+      vertical-align: top;
+      padding: 8px;
+      border-bottom: 1px solid #dce2d8;
+    }
+    th {
+      background: #eef2eb;
+    }
+    aside {
+      padding: 14px;
+      background: #eef2eb;
+      border: 1px solid #dce2d8;
+      margin: 12px 0;
+    }
+    .flow {
+      display: flex;
+      gap: 12px;
+      margin: 13px 0;
+    }
+    .flow div {
+      flex: 1;
+      text-align: center;
+      background: #eef2eb;
+      border: 1px solid #dce2d8;
+      padding: 12px 5px;
+    }
+    .flow small {
+      display: block;
+      font-size: 11px;
+      margin-top: 4px;
+    }
+    .bar {
+      display: grid;
+      grid-template-columns: 150px 1fr 130px;
+      gap: 10px;
+      align-items: center;
+      margin: 12px 0;
+      font-size: 12px;
+    }
+    .track {
+      height: 18px;
+      background: #dce2d8;
+    }
+    .track i {
+      display: block;
+      height: 100%;
+    }
+    .preview,
+    .provenance {
+      max-width: 694px;
+      margin: 20px auto;
+      font-size: 11px;
+      overflow-wrap: anywhere;
+    }
+    .preview {
+      font-weight: bold;
+      color: #794519;
+    }
+    @media (max-width: 820px) {
+      section {
+        width: 100%;
+        padding: 30px 20px;
+        margin: 0 0 20px;
+      }
+      .bar {
+        grid-template-columns: 115px 1fr 110px;
+        gap: 5px;
+        font-size: 11px;
+      }
+      .flow {
+        gap: 5px;
+      }
+      table {
+        font-size: 11px;
+      }
+      th,
+      td {
+        padding: 5px;
+      }
+    }
+    @media print {
+      @page {
+        size: A4;
+        margin: 0;
+      }
+      body {
+        background: white;
+      }
+      section {
+        width: 210mm;
+        height: 297mm;
+        min-height: 0;
+        margin: 0;
+        padding: 11mm 13mm;
+        overflow: visible;
+      }
+      section:last-of-type {
+        page-break-after: auto;
+      }
+      .preview,
+      .provenance {
+        display: none;
+      }
+      h1 {
+        font-size: 28px;
+      }
+      body {
+        font-size: 12px;
+      }
+      .small {
+        font-size: 10px;
+      }
+      table {
+        font-size: 10.5px;
+      }
+      th,
+      td {
+        padding: 6px;
+      }
+      h2 {
+        font-size: 15px;
+        margin-top: 11px;
+      }
+      .bar {
+        margin: 9px 0;
+        font-size: 10.5px;
+      }
+    }
+  </style>
+  <div class="provenance">
+    Completed held-out report SHA256: 814b211fd4e194a4dce294eef68935563176d833c3f9dab55c72df84699ee8f0<br />Source:
+    00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0
+  </div>
+  <section>
+    <p class="eyebrow">DAYBOOK / A SMALL, CONTROLLED COMPARISON</p>
+    <h1 class="title">Can it learn how<br />you keep your books?</h1>
+    <p class="p">
+      Think of a category as a labelled drawer. Paper might go in <b>Office supplies</b>. Your business might
+      prefer a separate <b>Printing expense</b> drawer. We tested whether three different helpers can
+      understand that preference without overusing it.
+    </p>
+    <h2 class="h">One example, three moments</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Moment</th>
+          <th>What happens</th>
+          <th>What it should mean</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>1. Buy paper</b></td>
+          <td>The helper suggests <b>Office supplies</b>.</td>
+          <td>That can be a reasonable answer before you teach your preference.</td>
+        </tr>
+        <tr>
+          <td><b>2. Review + post</b></td>
+          <td>You change the suggestion to <b>Printing expense</b>, review the entry, then post it.</td>
+          <td>
+            A trusted example is saved. A later similar paper purchase can use it. A draft alone does not
+            teach.
+          </td>
+        </tr>
+        <tr>
+          <td><b>3. Buy a laptop</b></td>
+          <td>The same shop sells you a laptop.</td>
+          <td>
+            It must not inherit the paper category. Equipment needs full entry review; this small selector
+            hands it off.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="small">
+      This is an illustration of intended behavior, not a claim that any tested helper passed it.
+    </p>
+    <h2 class="h">The three helpers got the same information</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Helper</th>
+          <th>How it chooses</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Exact-memory rules</b></td>
+          <td>
+            Ordinary code checks an exact description + seller match, then simple account-label rules. No paid
+            model.
+          </td>
+        </tr>
+        <tr>
+          <td><b>Gemini</b></td>
+          <td>
+            A language model reads the facts and examples, then chooses an allowed category, asks a question,
+            or hands off.
+          </td>
+        </tr>
+        <tr>
+          <td><b>Jev</b></td>
+          <td>
+            A decision model chooses among the same allowed categories, clarification choices and handoffs.
+            Its confidence is not measured accuracy.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="flow">
+      <div><b>Fixed facts</b><small>Amount + payment account</small></div>
+      <div><b>Suggest or ask</b><small>Same accounts + examples</small></div>
+      <div><b>You review</b><small>Only posting teaches</small></div>
+    </div>
+    <p class="p">
+      <b>What stays under our control:</b> code fixes the amount, date, currency, rate and payment account;
+      the server supplies the allowed accounts and eligible history. The helper chooses a category. It cannot
+      post money by itself.
+    </p>
+    <aside>
+      <b>Learning here means using reviewed examples.</b> We are not retraining either model. The test gives
+      each helper the same transaction after <b>0, 1 and 3 earlier review events</b>. Old, reversed or another
+      business's examples can be excluded, so three events need not mean three usable examples.
+    </aside>
+    <p class="small">
+      The narrow selector covers simple expense and revenue categories. Invoices, loans, refunds, transfers,
+      assets and complex entries need the separate full-entry/manual workflow.
+    </p>
+    <p class="small">
+      <b>Two setup mistakes stay in the record.</b> Before held-out testing, our adapter rejected extra Gemini
+      billing information in v1 and rounded Jev confidence in v2. We fixed these integration checks and kept
+      both failures. They are not evidence that the models chose wrong categories, and their scores are not
+      mixed into v3.
+    </p>
+    <p class="small">
+      Retained development costs: <b>v1</b> Gemini 1 attempt / $0.000257100000; <b>v2</b> Gemini 2 attempts /
+      $0.000838300000 and Jev 2 attempts / $0.000188076000. These stay inside the same total allowance.
+    </p>
+  </section>
+  <section>
+    <p class="eyebrow">RESULTS / DIFFERENT QUESTIONS NEED DIFFERENT SCORES</p>
+    <h1 class="title">What did the test show?</h1>
+    <p class="small">
+      <b>18 held-out stories × 3 review states.</b> Each helper faced 54 inputs. There were 33 inputs needing
+      a category, covering 11 distinct stories; errors stay in the denominator.
+    </p>
+    <h2 class="h">1 / Accuracy: did it choose a sensible category?</h2>
+    <div class="bars" role="img" aria-label="Correct accounting categories by method">
+      <div class="bar">
+        <span>Exact-memory rules</span
+        ><span class="track"><i style="width: 48.4848%; background: #ad7a33"></i></span><b>16/33 (48.5%)</b>
+      </div>
+      <div class="bar">
+        <span>Gemini</span><span class="track"><i style="width: 100%; background: #526e94"></i></span
+        ><b>33/33 (100.0%)</b>
+      </div>
+      <div class="bar">
+        <span>Jev</span><span class="track"><i style="width: 100%; background: #32684d"></i></span
+        ><b>33/33 (100.0%)</b>
+      </div>
+    </div>
+    <p class="small">
+      Counts above accept any pre-labelled reasonable category. Following a taught business preference is a
+      separate, stricter check below. These are category scores, not whole-journal accuracy.
+    </p>
+    <h2 class="h">2 / Learning: did it follow the taught preference?</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Helper</th>
+          <th>Before reviews</th>
+          <th>After 3 reviews</th>
+          <th>Category + preference</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Exact-memory rules</td>
+          <td>0/5</td>
+          <td>5/5</td>
+          <td>16/33</td>
+        </tr>
+        <tr>
+          <td>Gemini</td>
+          <td>2/5</td>
+          <td>5/5</td>
+          <td>33/33</td>
+        </tr>
+        <tr>
+          <td>Jev</td>
+          <td>2/5</td>
+          <td>4/5</td>
+          <td>31/33</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="small">
+      Before/after uses the same <b>five teaching stories</b>. A different reasonable category before teaching
+      is not an error. The final column is the stricter score across all 33 category inputs.
+    </p>
+    <p class="small">
+      <b>A real miss:</b> Jev kept <b>Office supplies</b> after both one and three reviewed paper purchases,
+      instead of the taught <b>Printing</b> preference. The category was reasonable; the preference was missed
+      twice.
+    </p>
+    <h2 class="h">3 / Questions, failures and cost</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Helper</th>
+          <th>Needed<br />questions</th>
+          <th>Unneeded<br />questions</th>
+          <th>Run<br />errors</th>
+          <th>Estimated cost +<br />unknown reserve</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Exact-memory rules</td>
+          <td>9/9</td>
+          <td>17</td>
+          <td>0</td>
+          <td>$0 +<br />$0 held</td>
+        </tr>
+        <tr>
+          <td>Gemini</td>
+          <td>9/9</td>
+          <td>0</td>
+          <td>0</td>
+          <td>$0.021673 +<br />$0 held</td>
+        </tr>
+        <tr>
+          <td>Jev</td>
+          <td>9/9</td>
+          <td>0</td>
+          <td>0</td>
+          <td>$0.004771 +<br />$0 held</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="small">
+      Questions include shared code checks. Run errors mean execution failed, not a wrong category. Cost is
+      this held-out phase only: usage estimates + unknown-use reserves, not an invoice. Development and
+      separate full-entry acceptance are excluded.
+    </p>
+    <p class="small">
+      <b>V3 development + held-out:</b> Gemini $0.02904; Jev $0.00643. <b>All three versions:</b> Gemini
+      $0.030135 / 60 attempts; Jev $0.006618 / 59 attempts. Totals include $0 in unknown-use reserves; each
+      earlier cost is counted once.
+    </p>
+    <h2 class="h">What should we choose?</h2>
+    <p class="p">
+      <b>Keep Gemini for this narrow selector for now.</b> This small test did not meet the pre-set rule for
+      replacing it with Jev. That does not prove Gemini is universally better.
+    </p>
+    <p class="small">
+      Jev minus Gemini on category + preference: <b>-6.1 percentage points</b>; paired 95% interval
+      <b>-18.2 to +0.0</b>, across 11 story groups. Jev's tracked cost per correct category + preference was
+      76.6% lower. The pre-set screen still requires enough evidence against a meaningful quality loss.
+    </p>
+    <p class="small">
+      Rules / Gemini / Jev: unsafe suggestions <b>0 / 0 / 0</b>; harmful carry-over <b>0 / 0 / 0</b>. Zero
+      observed failures would not prove zero risk.
+    </p>
+    <p class="small">
+      <b>Keep the claim small:</b> these are synthetic, AI-authored stories with no independent human
+      adjudication. The three review states are related examples, not 54 independent users. Intervals are
+      exploratory and unadjusted. Context was supplied equally; database retrieval, posting safety and
+      full-entry accuracy are separate tests.
+    </p>
+  </section>
+</html>

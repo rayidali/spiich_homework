@@ -1,0 +1,22 @@
+{
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "categoryProvider": "gemini",
+  "reviewed": true,
+  "reviewType": "AI-assisted operator and separate agent review; no independent human adjudication",
+  "workflowCiCommit": "b7bf5fe024f6fca33fa5a93ef5e6188e96455bae",
+  "workflowCiRun": 41226562746,
+  "reviewedAt": "2026-10-31T18:00:27.532384+00:00",
+  "comparisonRecommendation": "RETAIN_GEMINI_WITHIN_SELECTOR_SCOPE",
+  "reason": "Jev missed two taught Printing preferences and did not meet the predefined noninferiority/economy or superiority screen. Retain Gemini for the narrow selector, with user review and deterministic balanced-line construction.",
+  "independentAuditSha256": "fe13454bc3a7c08a737a533c8a9ca1341ae2e2ba6170d13a676a678b7b462a24",
+  "hostedAcceptance": "Pending; CI proves database/UI integration separately from model scores.",
+  "limitations": [
+    "Synthetic AI-authored cases and labels; no independent human adjudication or production accuracy claim.",
+    "The three correction states are paired hypothetical contexts, not independent users or longitudinal training.",
+    "Curated eligible context is supplied equally; this does not measure database retrieval quality.",
+    "Reference rules and local input gates are not paid model capabilities.",
+    "The selector does not generate journals. Exact journal, posting and end-to-end workflow correctness remain unmeasured here.",
+    "Provider/network latency is distinct from orchestration-inclusive wall time; missing measurements are not zero.",
+    "No automatic routing or production adoption follows from this report. Workflow integration evidence is required separately."
+  ]
+}

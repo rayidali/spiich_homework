@@ -1,0 +1,47 @@
+{
+  "caseId": "changed-laptop:c1",
+  "selector": "gemini",
+  "inputHash": "17e42368ab0495a6d0fa8c58fcef3db9619c868dfbb47806fa473e9e7fcdb95f",
+  "status": "ok",
+  "result": {
+    "decision": "UNSUPPORTED",
+    "reason": "unsupported_description",
+    "message": "This needs the full journal-entry review. A simple category suggestion cannot safely describe all account effects."
+  },
+  "attempts": 1,
+  "latencyMs": 1262,
+  "reportedCostUsd": "0.000483000000",
+  "reservedUnknownUsd": null,
+  "slotId": "gemini:changed-laptop:c1",
+  "index": 82,
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "manifestHash": "1bb775996c6aefac67051a9f228e2e4281fbb28c0ab8a2fb8713eb280ad65e5c",
+  "snapshotHash": "78b5537c0cdf2d1725d1c8301c84fd445a863e82c1460b0c2b047e94bfda4e75",
+  "startedAt": "2026-10-31T17:58:31.350Z",
+  "finishedAt": "2026-10-31T17:58:32.616Z",
+  "metadata": {
+    "provider": "gemini",
+    "requestedModel": "gemini-3.5-flash-lite",
+    "returnedModel": "gemini-3.5-flash-lite",
+    "contractVersion": "category-selector-v1",
+    "snapshotHash": "78b5537c0cdf2d1725d1c8301c84fd445a863e82c1460b0c2b047e94bfda4e75",
+    "attempts": 1,
+    "durationMs": 1261,
+    "usage": {
+      "inputTokens": 1510,
+      "outputTokens": 12,
+      "thinkingTokens": 0,
+      "totalTokens": 1522
+    }
+  },
+  "basis": "model",
+  "httpStatus": 200,
+  "exitCode": 0,
+  "networkMs": 817,
+  "claimed": true,
+  "dispatched": true,
+  "localFailure": null,
+  "previousHash": "364c9296f55f2cc0101319adebdb6e99a0f689c3ac5ae58edd23702ebdd2e918",
+  "failureDisposition": "none",
+  "recordHash": "55b01007696406cf644b1729fdf0ec725cb289584fff06a1dcfa147776fd0458"
+}

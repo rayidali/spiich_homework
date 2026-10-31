@@ -1,0 +1,47 @@
+{
+  "caseId": "changed-camera-dev:c1",
+  "selector": "jev",
+  "inputHash": "f9bbd0ed189e526d2918da9d645671ee59ec6a88055c69c125ffb838dff39cb6",
+  "status": "ok",
+  "result": {
+    "decision": "UNSUPPORTED",
+    "reason": "unsupported_description",
+    "message": "This needs the full journal-entry review. A simple category suggestion cannot safely describe all account effects."
+  },
+  "attempts": 1,
+  "latencyMs": 377,
+  "reportedCostUsd": "0.000119112000",
+  "reservedUnknownUsd": null,
+  "slotId": "jev:changed-camera-dev:c1",
+  "index": 29,
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "manifestHash": "1bb775996c6aefac67051a9f228e2e4281fbb28c0ab8a2fb8713eb280ad65e5c",
+  "snapshotHash": "1e9c9ca478c96deb9e00e015e673f79c1c3728ccf84c5911e77614024b546c24",
+  "startedAt": "2026-10-31T17:57:53.503Z",
+  "finishedAt": "2026-10-31T17:57:53.885Z",
+  "metadata": {
+    "provider": "jev",
+    "requestedModel": "jev-1.14.0",
+    "returnedModel": "jev-1.14.0",
+    "contractVersion": "category-selector-v1",
+    "snapshotHash": "1e9c9ca478c96deb9e00e015e673f79c1c3728ccf84c5911e77614024b546c24",
+    "attempts": 1,
+    "durationMs": 377,
+    "usage": {
+      "inputTokens": 2836,
+      "outputTokens": 331,
+      "thinkingTokens": 0,
+      "totalTokens": 3167
+    }
+  },
+  "basis": "model",
+  "httpStatus": 200,
+  "exitCode": 0,
+  "networkMs": 122,
+  "claimed": true,
+  "dispatched": true,
+  "localFailure": null,
+  "previousHash": "cd76a1c06eeee3fef925f23053618ca9ba0187d48481cc67cefd092c687b57fa",
+  "failureDisposition": "none",
+  "recordHash": "16745e98ed914ea96624ac418fc7eff38d3abbdd7090818a556004d0286d0523"
+}

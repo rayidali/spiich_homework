@@ -1,0 +1,1687 @@
+{
+  "version": 2,
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "priceDate": "2026-10-31",
+  "prices": {
+    "gemini": {
+      "model": "gemini-3.5-flash-lite",
+      "inputPerMillion": "0.30",
+      "outputPerMillion": "2.50"
+    },
+    "jev": {
+      "model": "jev-1.14.0",
+      "inputPerMillion": "0.042",
+      "outputPerMillion": "0"
+    }
+  },
+  "state": "closed",
+  "limits": {
+    "gemini": {
+      "usd": "0.50",
+      "attempts": 72
+    },
+    "jev": {
+      "usd": "0.03",
+      "attempts": 72
+    }
+  },
+  "records": [
+    {
+      "id": "gemini:meaning-invoice-dev:c0",
+      "provider": "gemini",
+      "requestSha256": "14c05659f740387d79902693cb786c797a76ceec5fb1fbcff3a04afc7063f209",
+      "reservedUsd": "0.002024800000",
+      "chargedUsd": "0.000257100000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:39.665Z",
+      "usage": {
+        "inputTokens": 757,
+        "outputTokens": 12
+      },
+      "finishedAt": "2026-10-31T17:57:41.596Z"
+    },
+    {
+      "id": "jev:meaning-invoice-dev:c0",
+      "provider": "jev",
+      "requestSha256": "d200917879e316fb552cd54ff2663aac65fb2a7f0078fcb642590710bcc013e0",
+      "reservedUsd": "0.000204960000",
+      "chargedUsd": "0.000063630000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:41.620Z",
+      "usage": {
+        "inputTokens": 1515,
+        "outputTokens": 118
+      },
+      "finishedAt": "2026-10-31T17:57:41.990Z"
+    },
+    {
+      "id": "gemini:repeat-paper-dev:c1",
+      "provider": "gemini",
+      "requestSha256": "8e26a1b0dd52e79f984ee08c1437c9dccb95b20f5b8a236e3a2e077feaaa9589",
+      "reservedUsd": "0.002782900000",
+      "chargedUsd": "0.000581200000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:42.013Z",
+      "usage": {
+        "inputTokens": 1604,
+        "outputTokens": 40
+      },
+      "finishedAt": "2026-10-31T17:57:43.160Z"
+    },
+    {
+      "id": "jev:repeat-paper-dev:c1",
+      "provider": "jev",
+      "requestSha256": "d93db6db311c7935dfc50ad0ac755d6cd395c6f5d08d921f672b58f1dcba9c12",
+      "reservedUsd": "0.000333858000",
+      "chargedUsd": "0.000124446000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:43.183Z",
+      "usage": {
+        "inputTokens": 2963,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:57:43.551Z"
+    },
+    {
+      "id": "jev:repeat-paper-dev:c0",
+      "provider": "jev",
+      "requestSha256": "5e1c80679d455c68f38a95f82267caa0f0ed3c64c96d1dfacd46407d4c7c6547",
+      "reservedUsd": "0.000324072000",
+      "chargedUsd": "0.000119196000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:43.589Z",
+      "usage": {
+        "inputTokens": 2838,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:57:43.957Z"
+    },
+    {
+      "id": "gemini:repeat-paper-dev:c0",
+      "provider": "gemini",
+      "requestSha256": "838fb69aae314a19f846fdb84c8c20ad5cf360e75a0b0a9b6138ffc1a9ab89fc",
+      "reservedUsd": "0.002707000000",
+      "chargedUsd": "0.000550200000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:43.994Z",
+      "usage": {
+        "inputTokens": 1509,
+        "outputTokens": 39
+      },
+      "finishedAt": "2026-10-31T17:57:45.036Z"
+    },
+    {
+      "id": "gemini:changed-camera-dev:c0",
+      "provider": "gemini",
+      "requestSha256": "c4611bc8b792bc61f83b18f1878e64a95713978680a6d2b8020092a85dc418e1",
+      "reservedUsd": "0.002637700000",
+      "chargedUsd": "0.000443500000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:45.075Z",
+      "usage": {
+        "inputTokens": 1420,
+        "outputTokens": 7
+      },
+      "finishedAt": "2026-10-31T17:57:46.072Z"
+    },
+    {
+      "id": "jev:changed-camera-dev:c0",
+      "provider": "jev",
+      "requestSha256": "f2ec6a01d0d9145d37e97de18088b09c742c3ef3289e4d593a1aa75b1b13c2ad",
+      "reservedUsd": "0.000315210000",
+      "chargedUsd": "0.000114324000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:46.095Z",
+      "usage": {
+        "inputTokens": 2722,
+        "outputTokens": 331
+      },
+      "finishedAt": "2026-10-31T17:57:46.464Z"
+    },
+    {
+      "id": "gemini:unseen-pens-dev:c1",
+      "provider": "gemini",
+      "requestSha256": "2e05dbeb266feaf8fff707ccb8a130ee6e5179ce7fa64017f89996f8287e804e",
+      "reservedUsd": "0.002707300000",
+      "chargedUsd": "0.000549600000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:46.488Z",
+      "usage": {
+        "inputTokens": 1507,
+        "outputTokens": 39
+      },
+      "finishedAt": "2026-10-31T17:57:47.534Z"
+    },
+    {
+      "id": "jev:unseen-pens-dev:c1",
+      "provider": "jev",
+      "requestSha256": "98ae5e0a4ff1c85d4446ed2600920473e0f4457705bf225074830f17f2d9ae73",
+      "reservedUsd": "0.000324114000",
+      "chargedUsd": "0.000119112000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:47.556Z",
+      "usage": {
+        "inputTokens": 2836,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:57:47.974Z"
+    },
+    {
+      "id": "jev:evidence-injection-dev:c1",
+      "provider": "jev",
+      "requestSha256": "77fd7a202a0e12fd3e28695c5698fa5fce1a76fcf974eba9ac073220df568f85",
+      "reservedUsd": "0.000328272000",
+      "chargedUsd": "0.000119994000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:48.012Z",
+      "usage": {
+        "inputTokens": 2857,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:57:48.379Z"
+    },
+    {
+      "id": "gemini:evidence-injection-dev:c1",
+      "provider": "gemini",
+      "requestSha256": "517c7f6bdeb070f680f24ab6e5c18e8837dc8f159e385621fcb9a5752cb2c8ab",
+      "reservedUsd": "0.002739400000",
+      "chargedUsd": "0.000556500000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:48.417Z",
+      "usage": {
+        "inputTokens": 1530,
+        "outputTokens": 39
+      },
+      "finishedAt": "2026-10-31T17:57:49.509Z"
+    },
+    {
+      "id": "gemini:evidence-injection-dev:c0",
+      "provider": "gemini",
+      "requestSha256": "a5b91bf02cfb1280b37efac53d03e198a090d1dd74ecc2b2c2b3f179d65c6332",
+      "reservedUsd": "0.002655700000",
+      "chargedUsd": "0.000526200000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:49.576Z",
+      "usage": {
+        "inputTokens": 1429,
+        "outputTokens": 39
+      },
+      "finishedAt": "2026-10-31T17:57:50.569Z"
+    },
+    {
+      "id": "jev:evidence-injection-dev:c0",
+      "provider": "jev",
+      "requestSha256": "fc9aa6b4df55293f06b522755d6d2833d541dd06847fa50db1502dffbee62af0",
+      "reservedUsd": "0.000317562000",
+      "chargedUsd": "0.000114744000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:50.597Z",
+      "usage": {
+        "inputTokens": 2732,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:57:51.017Z"
+    },
+    {
+      "id": "jev:repeat-paper-dev:c3",
+      "provider": "jev",
+      "requestSha256": "fd3db7b31a1ff5a1d44628e38388842d0f99a6b9fb7e668299164fbdec1c67ad",
+      "reservedUsd": "0.000353430000",
+      "chargedUsd": "0.000134946000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:51.054Z",
+      "usage": {
+        "inputTokens": 3213,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:57:51.371Z"
+    },
+    {
+      "id": "gemini:repeat-paper-dev:c3",
+      "provider": "gemini",
+      "requestSha256": "a3a8ae359fb789eb743959d9990891d1fb7c9e7d90158c27a4241c0e78ab1669",
+      "reservedUsd": "0.002934700000",
+      "chargedUsd": "0.000638800000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:51.409Z",
+      "usage": {
+        "inputTokens": 1796,
+        "outputTokens": 40
+      },
+      "finishedAt": "2026-10-31T17:57:52.404Z"
+    },
+    {
+      "id": "gemini:changed-camera-dev:c1",
+      "provider": "gemini",
+      "requestSha256": "6f54e6a1867898e17cfee9a507301f49b957c5776d78dbcb89db41866128c007",
+      "reservedUsd": "0.002708500000",
+      "chargedUsd": "0.000483300000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:52.443Z",
+      "usage": {
+        "inputTokens": 1511,
+        "outputTokens": 12
+      },
+      "finishedAt": "2026-10-31T17:57:53.486Z"
+    },
+    {
+      "id": "jev:changed-camera-dev:c1",
+      "provider": "jev",
+      "requestSha256": "30163b21b4eb09e73b355e0f1270cd0a6c3b655b7122d151ae35d1b575302255",
+      "reservedUsd": "0.000324282000",
+      "chargedUsd": "0.000119112000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:53.509Z",
+      "usage": {
+        "inputTokens": 2836,
+        "outputTokens": 331
+      },
+      "finishedAt": "2026-10-31T17:57:53.879Z"
+    },
+    {
+      "id": "gemini:evidence-injection-dev:c3",
+      "provider": "gemini",
+      "requestSha256": "a26b7f022c39d8693dde0bce51da7a64a53945532f90f531cc248cf12232d7b9",
+      "reservedUsd": "0.002907400000",
+      "chargedUsd": "0.000615300000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:53.902Z",
+      "usage": {
+        "inputTokens": 1726,
+        "outputTokens": 39
+      },
+      "finishedAt": "2026-10-31T17:57:54.995Z"
+    },
+    {
+      "id": "jev:evidence-injection-dev:c3",
+      "provider": "jev",
+      "requestSha256": "cadc5e267333e7a44e5d77ea3b729467e221c50c37199417903b12a29534e5c6",
+      "reservedUsd": "0.000349776000",
+      "chargedUsd": "0.000130326000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:55.018Z",
+      "usage": {
+        "inputTokens": 3103,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:57:55.439Z"
+    },
+    {
+      "id": "jev:unseen-pens-dev:c0",
+      "provider": "jev",
+      "requestSha256": "d0ef0e0a65dc9c00cb6d056b96df5d6eb80bd5457d707bca9f90e1e433bdab81",
+      "reservedUsd": "0.000314664000",
+      "chargedUsd": "0.000114198000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:55.478Z",
+      "usage": {
+        "inputTokens": 2719,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:57:55.846Z"
+    },
+    {
+      "id": "gemini:unseen-pens-dev:c0",
+      "provider": "gemini",
+      "requestSha256": "ca7538a60f48c7327c3056810bd0e6810d845be91e02125fde1014d871a346ff",
+      "reservedUsd": "0.002633800000",
+      "chargedUsd": "0.000522300000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:55.884Z",
+      "usage": {
+        "inputTokens": 1416,
+        "outputTokens": 39
+      },
+      "finishedAt": "2026-10-31T17:57:56.929Z"
+    },
+    {
+      "id": "gemini:meaning-invoice-dev:c1",
+      "provider": "gemini",
+      "requestSha256": "14c05659f740387d79902693cb786c797a76ceec5fb1fbcff3a04afc7063f209",
+      "reservedUsd": "0.002024800000",
+      "chargedUsd": "0.000257100000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:57.000Z",
+      "usage": {
+        "inputTokens": 757,
+        "outputTokens": 12
+      },
+      "finishedAt": "2026-10-31T17:57:57.939Z"
+    },
+    {
+      "id": "jev:meaning-invoice-dev:c1",
+      "provider": "jev",
+      "requestSha256": "d200917879e316fb552cd54ff2663aac65fb2a7f0078fcb642590710bcc013e0",
+      "reservedUsd": "0.000204960000",
+      "chargedUsd": "0.000063630000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:57.961Z",
+      "usage": {
+        "inputTokens": 1515,
+        "outputTokens": 118
+      },
+      "finishedAt": "2026-10-31T17:57:58.380Z"
+    },
+    {
+      "id": "jev:changed-camera-dev:c3",
+      "provider": "jev",
+      "requestSha256": "aa26cc0c102a63b79fdfe2226bd16ec026a481c2afeceed0edf83a2a741e0fe4",
+      "reservedUsd": "0.000342510000",
+      "chargedUsd": "0.000128856000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:58.418Z",
+      "usage": {
+        "inputTokens": 3068,
+        "outputTokens": 331
+      },
+      "finishedAt": "2026-10-31T17:57:58.786Z"
+    },
+    {
+      "id": "gemini:changed-camera-dev:c3",
+      "provider": "gemini",
+      "requestSha256": "49a8d8993d858e2a8096435e0713aadee6dbe9fd7ade77f8149a81f63a20f02b",
+      "reservedUsd": "0.002850700000",
+      "chargedUsd": "0.000538200000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:58.824Z",
+      "usage": {
+        "inputTokens": 1694,
+        "outputTokens": 12
+      },
+      "finishedAt": "2026-10-31T17:57:59.869Z"
+    },
+    {
+      "id": "gemini:meaning-invoice-dev:c3",
+      "provider": "gemini",
+      "requestSha256": "14c05659f740387d79902693cb786c797a76ceec5fb1fbcff3a04afc7063f209",
+      "reservedUsd": "0.002024800000",
+      "chargedUsd": "0.000257100000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:57:59.908Z",
+      "usage": {
+        "inputTokens": 757,
+        "outputTokens": 12
+      },
+      "finishedAt": "2026-10-31T17:58:00.952Z"
+    },
+    {
+      "id": "jev:meaning-invoice-dev:c3",
+      "provider": "jev",
+      "requestSha256": "d200917879e316fb552cd54ff2663aac65fb2a7f0078fcb642590710bcc013e0",
+      "reservedUsd": "0.000204960000",
+      "chargedUsd": "0.000063630000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:00.974Z",
+      "usage": {
+        "inputTokens": 1515,
+        "outputTokens": 118
+      },
+      "finishedAt": "2026-10-31T17:58:01.341Z"
+    },
+    {
+      "id": "gemini:unseen-pens-dev:c3",
+      "provider": "gemini",
+      "requestSha256": "ac9d847e6dcdcacff2cf025311be86415e2bea0d23629bffd610ea42002b74ff",
+      "reservedUsd": "0.002854900000",
+      "chargedUsd": "0.000590200000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:01.366Z",
+      "usage": {
+        "inputTokens": 1684,
+        "outputTokens": 34
+      },
+      "finishedAt": "2026-10-31T17:58:02.516Z"
+    },
+    {
+      "id": "jev:unseen-pens-dev:c3",
+      "provider": "jev",
+      "requestSha256": "394ca9278d68029c001a9d9d55e52fa8e687c7c532c66ece0db977231f961245",
+      "reservedUsd": "0.000343098000",
+      "chargedUsd": "0.000128772000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:02.540Z",
+      "usage": {
+        "inputTokens": 3066,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:58:02.909Z"
+    },
+    {
+      "id": "gemini:evidence-conflict:c3",
+      "provider": "gemini",
+      "requestSha256": "fb736844699acf0492054bbb2bf44d2d9aa4eaaac3fede8dde021daf27c3308b",
+      "reservedUsd": "0.002700400000",
+      "chargedUsd": "0.000548700000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:19.514Z",
+      "usage": {
+        "inputTokens": 1504,
+        "outputTokens": 39
+      },
+      "finishedAt": "2026-10-31T17:58:21.543Z"
+    },
+    {
+      "id": "jev:evidence-conflict:c3",
+      "provider": "jev",
+      "requestSha256": "fb9cb54a3667fa680bc816cfec2f4fcdc3f49668bb5c7b2f4637b357f0446501",
+      "reservedUsd": "0.000323148000",
+      "chargedUsd": "0.000118902000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:21.574Z",
+      "usage": {
+        "inputTokens": 2831,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:58:21.944Z"
+    },
+    {
+      "id": "gemini:repeat-promotion:c0",
+      "provider": "gemini",
+      "requestSha256": "c8945b13c252f65637b90d55d6091e65027fc5aa905660c77b48052d67bf79ff",
+      "reservedUsd": "0.002711500000",
+      "chargedUsd": "0.000539900000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:21.973Z",
+      "usage": {
+        "inputTokens": 1508,
+        "outputTokens": 35
+      },
+      "finishedAt": "2026-10-31T17:58:22.965Z"
+    },
+    {
+      "id": "jev:repeat-promotion:c0",
+      "provider": "jev",
+      "requestSha256": "7a869fe760a99d98e5e94e3445754f145c7db3914a5c232719db729bfcbd03ab",
+      "reservedUsd": "0.000324702000",
+      "chargedUsd": "0.000119238000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:22.995Z",
+      "usage": {
+        "inputTokens": 2839,
+        "outputTokens": 360
+      },
+      "finishedAt": "2026-10-31T17:58:23.363Z"
+    },
+    {
+      "id": "jev:unseen-consulting-receipt:c1",
+      "provider": "jev",
+      "requestSha256": "5faf0f634c1b35138dcf2bb6a1e5b0414ad61194e20f819a7ef086ab38bd33bf",
+      "reservedUsd": "0.000215460000",
+      "chargedUsd": "0.000068628000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:23.411Z",
+      "usage": {
+        "inputTokens": 1634,
+        "outputTokens": 147
+      },
+      "finishedAt": "2026-10-31T17:58:23.780Z"
+    },
+    {
+      "id": "gemini:unseen-consulting-receipt:c1",
+      "provider": "gemini",
+      "requestSha256": "78d17f22f5b3b6cb717d818a2ba7b36b2f46bf9989a96f1459559ea898536a2c",
+      "reservedUsd": "0.002105800000",
+      "chargedUsd": "0.000357400000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:23.828Z",
+      "usage": {
+        "inputTokens": 858,
+        "outputTokens": 40
+      },
+      "finishedAt": "2026-10-31T17:58:24.872Z"
+    },
+    {
+      "id": "gemini:evidence-foreign:c3",
+      "provider": "gemini",
+      "requestSha256": "0f1b53a0754c56a97dbf33149a15892a1446d1ae85ca0bfd6370b9aed66eb8da",
+      "reservedUsd": "0.002847100000",
+      "chargedUsd": "0.000602700000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:24.921Z",
+      "usage": {
+        "inputTokens": 1684,
+        "outputTokens": 39
+      },
+      "finishedAt": "2026-10-31T17:58:25.862Z"
+    },
+    {
+      "id": "jev:evidence-foreign:c3",
+      "provider": "jev",
+      "requestSha256": "0bf5bc46c8823e987e8369224df7226c4219940aac9033f0748c461e8ce07cfc",
+      "reservedUsd": "0.000342006000",
+      "chargedUsd": "0.000128520000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:25.890Z",
+      "usage": {
+        "inputTokens": 3060,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:58:26.309Z"
+    },
+    {
+      "id": "jev:meaning-refund:c0",
+      "provider": "jev",
+      "requestSha256": "73e14b5129aab62f3e63136a828fa7f99ff784b3410ed4cd16105c24ad9db412",
+      "reservedUsd": "0.000203994000",
+      "chargedUsd": "0.000063252000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:26.399Z",
+      "usage": {
+        "inputTokens": 1506,
+        "outputTokens": 118
+      },
+      "finishedAt": "2026-10-31T17:58:26.977Z"
+    },
+    {
+      "id": "gemini:meaning-refund:c0",
+      "provider": "gemini",
+      "requestSha256": "0830f92a846a975c550d185b8436c03497071539fb2efcf0530205f39e107e3e",
+      "reservedUsd": "0.002017900000",
+      "chargedUsd": "0.000255300000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:27.025Z",
+      "usage": {
+        "inputTokens": 751,
+        "outputTokens": 12
+      },
+      "finishedAt": "2026-10-31T17:58:28.071Z"
+    },
+    {
+      "id": "gemini:changed-ad-placement:c1",
+      "provider": "gemini",
+      "requestSha256": "6769acf105b98afe9450312098551bb19dd1af02e785b19ff15c9742c9a3369f",
+      "reservedUsd": "0.002704300000",
+      "chargedUsd": "0.000547100000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:28.119Z",
+      "usage": {
+        "inputTokens": 1507,
+        "outputTokens": 38
+      },
+      "finishedAt": "2026-10-31T17:58:29.317Z"
+    },
+    {
+      "id": "jev:changed-ad-placement:c1",
+      "provider": "jev",
+      "requestSha256": "94e79c0b2e4acc22e6b04760b93793023cc0879fcc04b42b0cd08474cb7f29ce",
+      "reservedUsd": "0.000323694000",
+      "chargedUsd": "0.000119238000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:29.344Z",
+      "usage": {
+        "inputTokens": 2839,
+        "outputTokens": 358
+      },
+      "finishedAt": "2026-10-31T17:58:29.712Z"
+    },
+    {
+      "id": "gemini:changed-laptop:c0",
+      "provider": "gemini",
+      "requestSha256": "6f54bc293aabb893f7becee260b35ad4bd3fe34560f41e395ef585af57085785",
+      "reservedUsd": "0.002637700000",
+      "chargedUsd": "0.000456300000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:29.738Z",
+      "usage": {
+        "inputTokens": 1421,
+        "outputTokens": 12
+      },
+      "finishedAt": "2026-10-31T17:58:30.836Z"
+    },
+    {
+      "id": "jev:changed-laptop:c0",
+      "provider": "jev",
+      "requestSha256": "36f15350ee12d47cb76f474ba295117aec575fc34ee551be902a6651e393764b",
+      "reservedUsd": "0.000315210000",
+      "chargedUsd": "0.000114450000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:30.862Z",
+      "usage": {
+        "inputTokens": 2725,
+        "outputTokens": 331
+      },
+      "finishedAt": "2026-10-31T17:58:31.231Z"
+    },
+    {
+      "id": "gemini:changed-laptop:c1",
+      "provider": "gemini",
+      "requestSha256": "7fccb65c771a02fc50045a8a9a920f06bd2930eacb5526ef64519233134078b8",
+      "reservedUsd": "0.002703700000",
+      "chargedUsd": "0.000483000000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:31.355Z",
+      "usage": {
+        "inputTokens": 1510,
+        "outputTokens": 12
+      },
+      "finishedAt": "2026-10-31T17:58:32.609Z"
+    },
+    {
+      "id": "jev:changed-laptop:c1",
+      "provider": "jev",
+      "requestSha256": "eac6cac0fd0955584413deb005f124a104f017ae4baf418215b407eaec5a0618",
+      "reservedUsd": "0.000323610000",
+      "chargedUsd": "0.000119280000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:32.637Z",
+      "usage": {
+        "inputTokens": 2840,
+        "outputTokens": 331
+      },
+      "finishedAt": "2026-10-31T17:58:33.007Z"
+    },
+    {
+      "id": "gemini:repeat-cloud:c1",
+      "provider": "gemini",
+      "requestSha256": "5371d4fed43684f637cf20d8e7c996d6e2b9ea981c4d2d2cfd57ac1a9a424247",
+      "reservedUsd": "0.002778400000",
+      "chargedUsd": "0.000582800000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:33.034Z",
+      "usage": {
+        "inputTokens": 1601,
+        "outputTokens": 41
+      },
+      "finishedAt": "2026-10-31T17:58:34.080Z"
+    },
+    {
+      "id": "jev:repeat-cloud:c1",
+      "provider": "jev",
+      "requestSha256": "05f6ffd9b476bdf949dbb641b4509c7b87436d39f62ff872f61f07f76a561b8d",
+      "reservedUsd": "0.000333228000",
+      "chargedUsd": "0.000124068000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:34.107Z",
+      "usage": {
+        "inputTokens": 2954,
+        "outputTokens": 361
+      },
+      "finishedAt": "2026-10-31T17:58:34.474Z"
+    },
+    {
+      "id": "jev:repeat-paper:c1",
+      "provider": "jev",
+      "requestSha256": "3e41210a7415b4456b10ac2e35e2befab39116306237ca67c2d8201fadcfcd09",
+      "reservedUsd": "0.000333270000",
+      "chargedUsd": "0.000124320000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:34.522Z",
+      "usage": {
+        "inputTokens": 2960,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:58:34.944Z"
+    },
+    {
+      "id": "gemini:repeat-paper:c1",
+      "provider": "gemini",
+      "requestSha256": "24d53dfbed6e813f2874305e70e02388268719546fa66a163779203cea4d96c8",
+      "reservedUsd": "0.002778700000",
+      "chargedUsd": "0.000581800000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:34.991Z",
+      "usage": {
+        "inputTokens": 1606,
+        "outputTokens": 40
+      },
+      "finishedAt": "2026-10-31T17:58:36.033Z"
+    },
+    {
+      "id": "gemini:unseen-consulting-receipt:c0",
+      "provider": "gemini",
+      "requestSha256": "98a06afa49d13be360c0132f1d010bc9b17db58ff6b329d0fd73c9e57f6e2eff",
+      "reservedUsd": "0.002030800000",
+      "chargedUsd": "0.000328300000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:36.081Z",
+      "usage": {
+        "inputTokens": 761,
+        "outputTokens": 40
+      },
+      "finishedAt": "2026-10-31T17:58:37.075Z"
+    },
+    {
+      "id": "jev:unseen-consulting-receipt:c0",
+      "provider": "jev",
+      "requestSha256": "0813ba9db12d5569ddd2b967990483761ac2fe410f3a6217976a13055b25c432",
+      "reservedUsd": "0.000205800000",
+      "chargedUsd": "0.000063588000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:37.103Z",
+      "usage": {
+        "inputTokens": 1514,
+        "outputTokens": 147
+      },
+      "finishedAt": "2026-10-31T17:58:37.470Z"
+    },
+    {
+      "id": "gemini:repeat-paper:c0",
+      "provider": "gemini",
+      "requestSha256": "70ce1983322018735409766c407f157530c80dd8f2135300d3ae2064bb2ed510",
+      "reservedUsd": "0.002704300000",
+      "chargedUsd": "0.000550200000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:37.497Z",
+      "usage": {
+        "inputTokens": 1509,
+        "outputTokens": 39
+      },
+      "finishedAt": "2026-10-31T17:58:38.646Z"
+    },
+    {
+      "id": "jev:repeat-paper:c0",
+      "provider": "jev",
+      "requestSha256": "f4445d5fdc08bbc2c569164d604ac8db343604dde907499ee7dcb15a4f501809",
+      "reservedUsd": "0.000323694000",
+      "chargedUsd": "0.000119070000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:38.674Z",
+      "usage": {
+        "inputTokens": 2835,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:58:39.041Z"
+    },
+    {
+      "id": "jev:repeat-cloud:c3",
+      "provider": "jev",
+      "requestSha256": "4d7e3a5ec7faba2f7026f83bcf0a787db7485eee0f576caaa9a0a78a4c06c9f5",
+      "reservedUsd": "0.000352380000",
+      "chargedUsd": "0.000134316000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:39.274Z",
+      "usage": {
+        "inputTokens": 3198,
+        "outputTokens": 361
+      },
+      "finishedAt": "2026-10-31T17:58:39.747Z"
+    },
+    {
+      "id": "gemini:repeat-cloud:c3",
+      "provider": "gemini",
+      "requestSha256": "9f9121602a3e647bc978c4c4506335aa22386b531b2c7b73eccd19657fb11a54",
+      "reservedUsd": "0.002927200000",
+      "chargedUsd": "0.000639500000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:39.795Z",
+      "usage": {
+        "inputTokens": 1790,
+        "outputTokens": 41
+      },
+      "finishedAt": "2026-10-31T17:58:40.841Z"
+    },
+    {
+      "id": "gemini:changed-app:c3",
+      "provider": "gemini",
+      "requestSha256": "39febc1b4f28bef9ec04e71bec7f503d870f48ef0cbdae31c41916bc7ea10dd7",
+      "reservedUsd": "0.002838400000",
+      "chargedUsd": "0.000605800000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:40.888Z",
+      "usage": {
+        "inputTokens": 1686,
+        "outputTokens": 40
+      },
+      "finishedAt": "2026-10-31T17:58:41.986Z"
+    },
+    {
+      "id": "jev:changed-app:c3",
+      "provider": "jev",
+      "requestSha256": "d58187903d50c918aff57acc34e7ac92b234d0eb5c3886a3f71f74efb0d1ff9a",
+      "reservedUsd": "0.000340788000",
+      "chargedUsd": "0.000129150000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:42.015Z",
+      "usage": {
+        "inputTokens": 3075,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:58:42.383Z"
+    },
+    {
+      "id": "gemini:missing-purpose:c1",
+      "provider": "gemini",
+      "requestSha256": "3e694f9546f4618cea8f73a97a9c2c04e30f54381327a2d2e543b7ff2ab20030",
+      "reservedUsd": "0.002684800000",
+      "chargedUsd": "0.000471500000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:42.411Z",
+      "usage": {
+        "inputTokens": 1505,
+        "outputTokens": 8
+      },
+      "finishedAt": "2026-10-31T17:58:43.349Z"
+    },
+    {
+      "id": "jev:missing-purpose:c1",
+      "provider": "jev",
+      "requestSha256": "796b1f415cb8d1c72d7ae129bcaba351d7055d738d5085f541610edcd1524f5e",
+      "reservedUsd": "0.000321048000",
+      "chargedUsd": "0.000118692000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:43.378Z",
+      "usage": {
+        "inputTokens": 2826,
+        "outputTokens": 335
+      },
+      "finishedAt": "2026-10-31T17:58:43.799Z"
+    },
+    {
+      "id": "gemini:changed-app:c1",
+      "provider": "gemini",
+      "requestSha256": "fd68af5e219f511a388b3e5eb25850f765131dfad7c80b7cbef0d1d8610e5a18",
+      "reservedUsd": "0.002701000000",
+      "chargedUsd": "0.000551500000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:43.971Z",
+      "usage": {
+        "inputTokens": 1505,
+        "outputTokens": 40
+      },
+      "finishedAt": "2026-10-31T17:58:45.164Z"
+    },
+    {
+      "id": "jev:changed-app:c1",
+      "provider": "jev",
+      "requestSha256": "5b95c53501f0075ffee7c79569540f732a965f0d100364135a110b71c6749e98",
+      "reservedUsd": "0.000323232000",
+      "chargedUsd": "0.000119112000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:45.191Z",
+      "usage": {
+        "inputTokens": 2836,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:58:45.560Z"
+    },
+    {
+      "id": "jev:evidence-conflict:c1",
+      "provider": "jev",
+      "requestSha256": "03887c5db6ffac267e14078ab5e64e3557746985960e5e57878731a8c5f20aea",
+      "reservedUsd": "0.000323148000",
+      "chargedUsd": "0.000118902000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:45.609Z",
+      "usage": {
+        "inputTokens": 2831,
+        "outputTokens": 360
+      },
+      "finishedAt": "2026-10-31T17:58:45.978Z"
+    },
+    {
+      "id": "gemini:evidence-conflict:c1",
+      "provider": "gemini",
+      "requestSha256": "00316062a2c117b5ec8194054df6e92d1fbefd665549f1aba757ccaa1d419ffb",
+      "reservedUsd": "0.002700400000",
+      "chargedUsd": "0.000551200000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:46.027Z",
+      "usage": {
+        "inputTokens": 1504,
+        "outputTokens": 40
+      },
+      "finishedAt": "2026-10-31T17:58:46.970Z"
+    },
+    {
+      "id": "gemini:unseen-consulting-receipt:c3",
+      "provider": "gemini",
+      "requestSha256": "7517ee49a0f7a769bdeccaa379fd6998fa92354b311f6409fe8051bc1923f46f",
+      "reservedUsd": "0.002256400000",
+      "chargedUsd": "0.000415300000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:47.019Z",
+      "usage": {
+        "inputTokens": 1051,
+        "outputTokens": 40
+      },
+      "finishedAt": "2026-10-31T17:58:48.011Z"
+    },
+    {
+      "id": "jev:unseen-consulting-receipt:c3",
+      "provider": "jev",
+      "requestSha256": "a8f98fe620d61368cfa9f36b7100143631ab228ecaecd95385b46eab199f6b50",
+      "reservedUsd": "0.000234864000",
+      "chargedUsd": "0.000078918000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:48.039Z",
+      "usage": {
+        "inputTokens": 1879,
+        "outputTokens": 147
+      },
+      "finishedAt": "2026-10-31T17:58:48.409Z"
+    },
+    {
+      "id": "gemini:unseen-advert:c0",
+      "provider": "gemini",
+      "requestSha256": "4415a2b002f4b96759665518a7968fa08f91233289cd95c35aaa9cec219503b0",
+      "reservedUsd": "0.002636200000",
+      "chargedUsd": "0.000520700000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:48.436Z",
+      "usage": {
+        "inputTokens": 1419,
+        "outputTokens": 38
+      },
+      "finishedAt": "2026-10-31T17:58:49.584Z"
+    },
+    {
+      "id": "jev:unseen-advert:c0",
+      "provider": "jev",
+      "requestSha256": "8e27e599cec9b7f74d9bfc000290688c79b353596b8c9e31bc1b6cb2d2d059ab",
+      "reservedUsd": "0.000315000000",
+      "chargedUsd": "0.000114156000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:49.612Z",
+      "usage": {
+        "inputTokens": 2718,
+        "outputTokens": 358
+      },
+      "finishedAt": "2026-10-31T17:58:49.983Z"
+    },
+    {
+      "id": "jev:changed-laptop:c3",
+      "provider": "jev",
+      "requestSha256": "3504d326995e29de8707ba06dda134209ded415629bee3e4982e41364f8766e0",
+      "reservedUsd": "0.000340494000",
+      "chargedUsd": "0.000129360000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:50.032Z",
+      "usage": {
+        "inputTokens": 3080,
+        "outputTokens": 331
+      },
+      "finishedAt": "2026-10-31T17:58:50.350Z"
+    },
+    {
+      "id": "gemini:changed-laptop:c3",
+      "provider": "gemini",
+      "requestSha256": "0b52e5a83f3f55514e2a0a13fc7982022805337710c34f55b1a472235998d72c",
+      "reservedUsd": "0.002836300000",
+      "chargedUsd": "0.000538200000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:50.400Z",
+      "usage": {
+        "inputTokens": 1694,
+        "outputTokens": 12
+      },
+      "finishedAt": "2026-10-31T17:58:51.392Z"
+    },
+    {
+      "id": "gemini:repeat-promotion:c1",
+      "provider": "gemini",
+      "requestSha256": "27386a4c4b4885f07900b29dc9e67dc248c7c4281898fdc666d31f438cf9471f",
+      "reservedUsd": "0.002789500000",
+      "chargedUsd": "0.000575300000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:51.443Z",
+      "usage": {
+        "inputTokens": 1601,
+        "outputTokens": 38
+      },
+      "finishedAt": "2026-10-31T17:58:52.593Z"
+    },
+    {
+      "id": "jev:repeat-promotion:c1",
+      "provider": "jev",
+      "requestSha256": "803aec499710fe0074d4d9413ecd3f1a84c6910df75209286e3ab7a8c930d315",
+      "reservedUsd": "0.000334782000",
+      "chargedUsd": "0.000124404000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:52.621Z",
+      "usage": {
+        "inputTokens": 2962,
+        "outputTokens": 358
+      },
+      "finishedAt": "2026-10-31T17:58:52.989Z"
+    },
+    {
+      "id": "gemini:unseen-software:c0",
+      "provider": "gemini",
+      "requestSha256": "91efcf075334d634b49ba3a3f7e0f78023367d14b03e66226b5a4bd3d20e3a9d",
+      "reservedUsd": "0.002630200000",
+      "chargedUsd": "0.000509200000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:53.017Z",
+      "usage": {
+        "inputTokens": 1414,
+        "outputTokens": 34
+      },
+      "finishedAt": "2026-10-31T17:58:54.167Z"
+    },
+    {
+      "id": "jev:unseen-software:c0",
+      "provider": "jev",
+      "requestSha256": "bf4c611d5f6a37e28caf397f82b96c9f1e9cb02281f249e48f6bf2ac2141e2b3",
+      "reservedUsd": "0.000314160000",
+      "chargedUsd": "0.000114072000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:54.195Z",
+      "usage": {
+        "inputTokens": 2716,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:58:54.615Z"
+    },
+    {
+      "id": "jev:repeat-promotion:c3",
+      "provider": "jev",
+      "requestSha256": "577459b2b6e634d1309f4742bfdef99543c9907c0b887bdfc0a303435df7b683",
+      "reservedUsd": "0.000354942000",
+      "chargedUsd": "0.000134484000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:54.665Z",
+      "usage": {
+        "inputTokens": 3202,
+        "outputTokens": 358
+      },
+      "finishedAt": "2026-10-31T17:58:55.033Z"
+    },
+    {
+      "id": "gemini:repeat-promotion:c3",
+      "provider": "gemini",
+      "requestSha256": "cb86e1f1a66a5481a1f7553bbf572cc58c483084f30634fac73832f9a6eab96c",
+      "reservedUsd": "0.002945500000",
+      "chargedUsd": "0.000630200000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:55.082Z",
+      "usage": {
+        "inputTokens": 1784,
+        "outputTokens": 38
+      },
+      "finishedAt": "2026-10-31T17:58:56.073Z"
+    },
+    {
+      "id": "gemini:missing-purpose:c3",
+      "provider": "gemini",
+      "requestSha256": "bd7c0a3e7f062c673f43a8efbc65131c7bc3c767d937e29065f78bb995095390",
+      "reservedUsd": "0.002819800000",
+      "chargedUsd": "0.000539000000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:56.120Z",
+      "usage": {
+        "inputTokens": 1680,
+        "outputTokens": 14
+      },
+      "finishedAt": "2026-10-31T17:58:57.005Z"
+    },
+    {
+      "id": "jev:missing-purpose:c3",
+      "provider": "jev",
+      "requestSha256": "0661fb875009d3ecc23c2a322ca357cdbc86bd70f5916da08cf087bec1f6d092",
+      "reservedUsd": "0.000338268000",
+      "chargedUsd": "0.000128310000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:57.034Z",
+      "usage": {
+        "inputTokens": 3055,
+        "outputTokens": 335
+      },
+      "finishedAt": "2026-10-31T17:58:57.455Z"
+    },
+    {
+      "id": "gemini:unseen-advert:c1",
+      "provider": "gemini",
+      "requestSha256": "25da9f0ecdfe356c71d8b937b87a95c451333b11a270475b79a77d51ef11f3c6",
+      "reservedUsd": "0.002703400000",
+      "chargedUsd": "0.000547400000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:57.483Z",
+      "usage": {
+        "inputTokens": 1508,
+        "outputTokens": 38
+      },
+      "finishedAt": "2026-10-31T17:58:58.471Z"
+    },
+    {
+      "id": "jev:unseen-advert:c1",
+      "provider": "jev",
+      "requestSha256": "c2e0bf71498ca7426b5f62dbb4eba874287c6ef5fc3779230d118218429b81cf",
+      "reservedUsd": "0.000323568000",
+      "chargedUsd": "0.000118944000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:58.501Z",
+      "usage": {
+        "inputTokens": 2832,
+        "outputTokens": 358
+      },
+      "finishedAt": "2026-10-31T17:58:58.872Z"
+    },
+    {
+      "id": "jev:meaning-refund:c1",
+      "provider": "jev",
+      "requestSha256": "73e14b5129aab62f3e63136a828fa7f99ff784b3410ed4cd16105c24ad9db412",
+      "reservedUsd": "0.000203994000",
+      "chargedUsd": "0.000063252000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:58.924Z",
+      "usage": {
+        "inputTokens": 1506,
+        "outputTokens": 118
+      },
+      "finishedAt": "2026-10-31T17:58:59.292Z"
+    },
+    {
+      "id": "gemini:meaning-refund:c1",
+      "provider": "gemini",
+      "requestSha256": "0830f92a846a975c550d185b8436c03497071539fb2efcf0530205f39e107e3e",
+      "reservedUsd": "0.002017900000",
+      "chargedUsd": "0.000255300000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:58:59.342Z",
+      "usage": {
+        "inputTokens": 751,
+        "outputTokens": 12
+      },
+      "finishedAt": "2026-10-31T17:59:00.230Z"
+    },
+    {
+      "id": "gemini:evidence-stale:c3",
+      "provider": "gemini",
+      "requestSha256": "815e14216c49e29da08c7856f6a40d17ce081ddb1a427f99a9aa96e921fd0312",
+      "reservedUsd": "0.002700100000",
+      "chargedUsd": "0.000551200000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:00.281Z",
+      "usage": {
+        "inputTokens": 1504,
+        "outputTokens": 40
+      },
+      "finishedAt": "2026-10-31T17:59:01.324Z"
+    },
+    {
+      "id": "jev:evidence-stale:c3",
+      "provider": "jev",
+      "requestSha256": "747a921721f2859e09f7cb55db938f8504604b45e16211f2000d0a48253a5bd9",
+      "reservedUsd": "0.000323106000",
+      "chargedUsd": "0.000118734000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:01.354Z",
+      "usage": {
+        "inputTokens": 2827,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:59:01.724Z"
+    },
+    {
+      "id": "gemini:unseen-software:c1",
+      "provider": "gemini",
+      "requestSha256": "f4c93c8b4cd230737f1e534406adaf7b871c879825a431ecbf39af3d0333629f",
+      "reservedUsd": "0.002694100000",
+      "chargedUsd": "0.000551500000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:01.753Z",
+      "usage": {
+        "inputTokens": 1505,
+        "outputTokens": 40
+      },
+      "finishedAt": "2026-10-31T17:59:02.794Z"
+    },
+    {
+      "id": "jev:unseen-software:c1",
+      "provider": "jev",
+      "requestSha256": "6417251f3a50a3953779ea35aabc84e37bb8319b02aa9aaef0b16fb928bec854",
+      "reservedUsd": "0.000322266000",
+      "chargedUsd": "0.000118944000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:02.819Z",
+      "usage": {
+        "inputTokens": 2832,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:59:03.185Z"
+    },
+    {
+      "id": "jev:repeat-cloud:c0",
+      "provider": "jev",
+      "requestSha256": "1e1214322748f9ed8dcc4be3d4e5f44aa2a65e494b0c87ab10d973b2d2800e98",
+      "reservedUsd": "0.000323652000",
+      "chargedUsd": "0.000119028000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:03.237Z",
+      "usage": {
+        "inputTokens": 2834,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:59:03.603Z"
+    },
+    {
+      "id": "gemini:repeat-cloud:c0",
+      "provider": "gemini",
+      "requestSha256": "94b56a639ef9f9ace73046d958512e1c298791f47f61e6c515d41934b9175f72",
+      "reservedUsd": "0.002704000000",
+      "chargedUsd": "0.000552400000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:03.654Z",
+      "usage": {
+        "inputTokens": 1508,
+        "outputTokens": 40
+      },
+      "finishedAt": "2026-10-31T17:59:04.698Z"
+    },
+    {
+      "id": "gemini:evidence-stale:c1",
+      "provider": "gemini",
+      "requestSha256": "815e14216c49e29da08c7856f6a40d17ce081ddb1a427f99a9aa96e921fd0312",
+      "reservedUsd": "0.002700100000",
+      "chargedUsd": "0.000551200000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:04.749Z",
+      "usage": {
+        "inputTokens": 1504,
+        "outputTokens": 40
+      },
+      "finishedAt": "2026-10-31T17:59:05.744Z"
+    },
+    {
+      "id": "jev:evidence-stale:c1",
+      "provider": "jev",
+      "requestSha256": "747a921721f2859e09f7cb55db938f8504604b45e16211f2000d0a48253a5bd9",
+      "reservedUsd": "0.000323106000",
+      "chargedUsd": "0.000118734000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:05.773Z",
+      "usage": {
+        "inputTokens": 2827,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:59:06.143Z"
+    },
+    {
+      "id": "gemini:missing-purpose:c0",
+      "provider": "gemini",
+      "requestSha256": "7cb8ce4b9dd479cb68beaa925a4467f182f686f2e15596068633f794c469bd56",
+      "reservedUsd": "0.002617600000",
+      "chargedUsd": "0.000459200000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:06.172Z",
+      "usage": {
+        "inputTokens": 1414,
+        "outputTokens": 14
+      },
+      "finishedAt": "2026-10-31T17:59:07.217Z"
+    },
+    {
+      "id": "jev:missing-purpose:c0",
+      "provider": "jev",
+      "requestSha256": "5b05a16be7bccc6886d687b2d207f0da96d7894a37469d8e65ec7bfceb941d06",
+      "reservedUsd": "0.000312480000",
+      "chargedUsd": "0.000113778000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:07.247Z",
+      "usage": {
+        "inputTokens": 2709,
+        "outputTokens": 335
+      },
+      "finishedAt": "2026-10-31T17:59:07.668Z"
+    },
+    {
+      "id": "jev:changed-ad-placement:c3",
+      "provider": "jev",
+      "requestSha256": "973dc282e81d205691a143a4b8b96a1f7d6e2a6c102106f6ae0de45f1c8437f5",
+      "reservedUsd": "0.000341670000",
+      "chargedUsd": "0.000129318000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:07.716Z",
+      "usage": {
+        "inputTokens": 3079,
+        "outputTokens": 358
+      },
+      "finishedAt": "2026-10-31T17:59:08.033Z"
+    },
+    {
+      "id": "gemini:changed-ad-placement:c3",
+      "provider": "gemini",
+      "requestSha256": "b41c228261525d4161ee9ec331584c225af6f049e5db538c683f14cd5ee83e87",
+      "reservedUsd": "0.002844700000",
+      "chargedUsd": "0.000601700000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:08.083Z",
+      "usage": {
+        "inputTokens": 1689,
+        "outputTokens": 38
+      },
+      "finishedAt": "2026-10-31T17:59:09.234Z"
+    },
+    {
+      "id": "gemini:meaning-refund:c3",
+      "provider": "gemini",
+      "requestSha256": "0830f92a846a975c550d185b8436c03497071539fb2efcf0530205f39e107e3e",
+      "reservedUsd": "0.002017900000",
+      "chargedUsd": "0.000255300000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:09.287Z",
+      "usage": {
+        "inputTokens": 751,
+        "outputTokens": 12
+      },
+      "finishedAt": "2026-10-31T17:59:10.176Z"
+    },
+    {
+      "id": "jev:meaning-refund:c3",
+      "provider": "jev",
+      "requestSha256": "73e14b5129aab62f3e63136a828fa7f99ff784b3410ed4cd16105c24ad9db412",
+      "reservedUsd": "0.000203994000",
+      "chargedUsd": "0.000063252000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:10.207Z",
+      "usage": {
+        "inputTokens": 1506,
+        "outputTokens": 118
+      },
+      "finishedAt": "2026-10-31T17:59:10.575Z"
+    },
+    {
+      "id": "gemini:evidence-stale:c0",
+      "provider": "gemini",
+      "requestSha256": "99e6c803f4bae2c7b1f3a87dbb3d73cd839b34829664feb0abb559aa1b613982",
+      "reservedUsd": "0.002628400000",
+      "chargedUsd": "0.000523600000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:10.605Z",
+      "usage": {
+        "inputTokens": 1412,
+        "outputTokens": 40
+      },
+      "finishedAt": "2026-10-31T17:59:11.597Z"
+    },
+    {
+      "id": "jev:evidence-stale:c0",
+      "provider": "jev",
+      "requestSha256": "f65ed85b2bd81c064ec41ea475110a3f719da6c58c2acfb4d702b9b0e152ee11",
+      "reservedUsd": "0.000313908000",
+      "chargedUsd": "0.000113904000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:11.626Z",
+      "usage": {
+        "inputTokens": 2712,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:59:11.996Z"
+    },
+    {
+      "id": "gemini:repeat-paper:c3",
+      "provider": "gemini",
+      "requestSha256": "f2dac2357351470270d2fe7e6ecec98344cfbe840b83c653a85221d2ed78935b",
+      "reservedUsd": "0.002927500000",
+      "chargedUsd": "0.000639100000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:12.132Z",
+      "usage": {
+        "inputTokens": 1797,
+        "outputTokens": 40
+      },
+      "finishedAt": "2026-10-31T17:59:16.603Z"
+    },
+    {
+      "id": "jev:repeat-paper:c3",
+      "provider": "jev",
+      "requestSha256": "ec243cac455a2953479c439c9c3679fcbbf25f5253a3e042be1977d16ecac652",
+      "reservedUsd": "0.000352422000",
+      "chargedUsd": "0.000134694000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:16.633Z",
+      "usage": {
+        "inputTokens": 3207,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:59:16.999Z"
+    },
+    {
+      "id": "gemini:unseen-advert:c3",
+      "provider": "gemini",
+      "requestSha256": "d735a7b659e7d09eb0316c26647e86c4f13a9744ffcd4f41b0e7d93332d12d3b",
+      "reservedUsd": "0.002838400000",
+      "chargedUsd": "0.000587700000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:17.027Z",
+      "usage": {
+        "inputTokens": 1684,
+        "outputTokens": 33
+      },
+      "finishedAt": "2026-10-31T17:59:18.020Z"
+    },
+    {
+      "id": "jev:unseen-advert:c3",
+      "provider": "jev",
+      "requestSha256": "3c6e59f8ff9a9d0b547e290b15cd77e5df3b01606c8f8d4cc489c6f954cda12d",
+      "reservedUsd": "0.000340788000",
+      "chargedUsd": "0.000128478000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:18.050Z",
+      "usage": {
+        "inputTokens": 3059,
+        "outputTokens": 358
+      },
+      "finishedAt": "2026-10-31T17:59:18.419Z"
+    },
+    {
+      "id": "gemini:evidence-conflict:c0",
+      "provider": "gemini",
+      "requestSha256": "07670b99c581be7cd2b573dc8aef191e3cf28bb58a96377d866dd0931b786e42",
+      "reservedUsd": "0.002628700000",
+      "chargedUsd": "0.000508900000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:18.560Z",
+      "usage": {
+        "inputTokens": 1413,
+        "outputTokens": 34
+      },
+      "finishedAt": "2026-10-31T17:59:19.762Z"
+    },
+    {
+      "id": "jev:evidence-conflict:c0",
+      "provider": "jev",
+      "requestSha256": "89cbbe2479854b4d8add9b994221bd2d144b772d4e2cff069cef5698e6c011f5",
+      "reservedUsd": "0.000313950000",
+      "chargedUsd": "0.000113988000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:19.792Z",
+      "usage": {
+        "inputTokens": 2714,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:59:20.159Z"
+    },
+    {
+      "id": "gemini:changed-app:c0",
+      "provider": "gemini",
+      "requestSha256": "5561b194c9ac356e78b08c5e2539398490e3ebc8e0d7b8181e53c01a49f585b3",
+      "reservedUsd": "0.002632600000",
+      "chargedUsd": "0.000512000000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:20.189Z",
+      "usage": {
+        "inputTokens": 1415,
+        "outputTokens": 35
+      },
+      "finishedAt": "2026-10-31T17:59:21.231Z"
+    },
+    {
+      "id": "jev:changed-app:c0",
+      "provider": "jev",
+      "requestSha256": "b7b7f1ffdd5bd91bc2dbeee4573cc7fb132c239bb2437281bb11591ae9aef771",
+      "reservedUsd": "0.000314496000",
+      "chargedUsd": "0.000114156000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:21.266Z",
+      "usage": {
+        "inputTokens": 2718,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:59:21.689Z"
+    },
+    {
+      "id": "jev:unseen-software:c3",
+      "provider": "jev",
+      "requestSha256": "dd7481cbd38e95a153f8d58510354fb284229b3b8a7d8970088dcee83b72c376",
+      "reservedUsd": "0.000338562000",
+      "chargedUsd": "0.000128814000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:21.740Z",
+      "usage": {
+        "inputTokens": 3067,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:59:22.109Z"
+    },
+    {
+      "id": "gemini:unseen-software:c3",
+      "provider": "gemini",
+      "requestSha256": "117663510b1dad349bb6b9b8b02830fb13acbd698538e1210d2f41d77243c70b",
+      "reservedUsd": "0.002822500000",
+      "chargedUsd": "0.000605800000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:22.161Z",
+      "usage": {
+        "inputTokens": 1686,
+        "outputTokens": 40
+      },
+      "finishedAt": "2026-10-31T17:59:23.257Z"
+    },
+    {
+      "id": "jev:changed-ad-placement:c0",
+      "provider": "jev",
+      "requestSha256": "7adea8ab8d816125c3416adbbe99e67ea492f140338cdf046aff444b2ba1de7f",
+      "reservedUsd": "0.000314748000",
+      "chargedUsd": "0.000114198000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:23.421Z",
+      "usage": {
+        "inputTokens": 2719,
+        "outputTokens": 358
+      },
+      "finishedAt": "2026-10-31T17:59:23.895Z"
+    },
+    {
+      "id": "gemini:changed-ad-placement:c0",
+      "provider": "gemini",
+      "requestSha256": "d17fd2062a10a94dc2b7e8b0c38ed5c4153d3a9dfbad41476ec5ddb58634a4c4",
+      "reservedUsd": "0.002634400000",
+      "chargedUsd": "0.000519800000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:23.945Z",
+      "usage": {
+        "inputTokens": 1416,
+        "outputTokens": 38
+      },
+      "finishedAt": "2026-10-31T17:59:24.885Z"
+    },
+    {
+      "id": "gemini:evidence-foreign:c1",
+      "provider": "gemini",
+      "requestSha256": "36e779905e3cfdac81155733e4bad2ca344922d86d4159d08105cefc165fc205",
+      "reservedUsd": "0.002703100000",
+      "chargedUsd": "0.000548400000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:24.936Z",
+      "usage": {
+        "inputTokens": 1503,
+        "outputTokens": 39
+      },
+      "finishedAt": "2026-10-31T17:59:25.924Z"
+    },
+    {
+      "id": "jev:evidence-foreign:c1",
+      "provider": "jev",
+      "requestSha256": "5bac0ce3cb6e9aa685840d7605fe4b39e6e6536e726672d143bf15b5fa3ae829",
+      "reservedUsd": "0.000323526000",
+      "chargedUsd": "0.000118818000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:25.954Z",
+      "usage": {
+        "inputTokens": 2829,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:59:26.323Z"
+    },
+    {
+      "id": "gemini:evidence-foreign:c0",
+      "provider": "gemini",
+      "requestSha256": "91498088810eb298bb6a5fde255a71e79ef93920be302453bcf9fdbca156b409",
+      "reservedUsd": "0.002631400000",
+      "chargedUsd": "0.000521700000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:26.353Z",
+      "usage": {
+        "inputTokens": 1414,
+        "outputTokens": 39
+      },
+      "finishedAt": "2026-10-31T17:59:27.396Z"
+    },
+    {
+      "id": "jev:evidence-foreign:c0",
+      "provider": "jev",
+      "requestSha256": "06026e3037f3b0da1cf16260c1a4a8285bc54665865027359d631276a95eed2b",
+      "reservedUsd": "0.000314328000",
+      "chargedUsd": "0.000114030000",
+      "state": "known",
+      "reservedAt": "2026-10-31T17:59:27.425Z",
+      "usage": {
+        "inputTokens": 2715,
+        "outputTokens": 359
+      },
+      "finishedAt": "2026-10-31T17:59:27.795Z"
+    }
+  ],
+  "openingCarry": {
+    "receiptSha256": "57541a1a0f81a67c95edf30f97c4b971681b10ef38b3a41a7f39f8d83aeb5b20",
+    "fromRun": "category-learning-20261031-v2",
+    "predecessorLedgerSha256": "3621759308e75c3ef66407828a334c3fbbc6cefdb646d174d722bec8e1b1c5eb",
+    "predecessorSourceHash": "4ae49bce1d51137581614b41b2248b9a5a7117f3740b75b195cc0d293ba498df",
+    "predecessorProtocolSha256": "fd2941560b02b41f89d9c27dd1d4fa1d69d46379c81d18f463c1d4eea64ca7a1",
+    "artifactHashes": {
+      "closure.json": "520cafbb72afec8bb06795d0fac003477888930e5c9793045e64937ed0557862",
+      "halt.json": "27562dfd2911bfc8026bdcaade6d584dfb255f4ada50efc779fe5ac6d24296f2",
+      "manifest.json": "cd0d78eb001738d605ced6f19d651d7ca346b5e9ec04421ebbeed1e997588fd1",
+      "observations/0000.json": "8898b3c4b96ef9835a24d1f6af7e819501b97e2bb9caf3c44daa952fcd856028",
+      "observations/0001.json": "87d26b0bcc31f634fa58ea802b56f8d062e9937c90b84b5242b21cad4fa2b116",
+      "observations/0002.json": "064f044f89ab3143ea2e901ef1fe7aa333b54188759bb8967ec8f6d3e3da43b9",
+      "observations/0003.json": "9de12b2214f667607d3dfb622fcafe8b76785b0af96cb7adf5b745c3c6389561",
+      "observations/0004.json": "8d793971a5e02cf0bc92c81225a7e7882dc675e8b6dfbd38a21df776bb2d1d18",
+      "private-config.json": "07e3fc31184f857202e7fbe759bd13fab5fec6c886c15245c53485dbe25dd61d"
+    },
+    "totals": {
+      "gemini": {
+        "attempts": 3,
+        "knownUsd": "0.001095400000",
+        "unknownReservedUsd": "0.000000000000",
+        "chargedUsd": "0.001095400000"
+      },
+      "jev": {
+        "attempts": 2,
+        "knownUsd": "0.000188076000",
+        "unknownReservedUsd": "0.000000000000",
+        "chargedUsd": "0.000188076000"
+      }
+    },
+    "ancestorCarry": {
+      "receiptSha256": "9bf89c75c8df0749fb67c408e28c9e900c9df46da973caf52a172e37801b35dd",
+      "fromRun": "category-learning-20261031-v1",
+      "predecessorLedgerSha256": "1bafd168888662d80e59f12de91be03e1a915f34e7973260e89290542436d672",
+      "predecessorSourceHash": "24f54f82e5c958930bc8ff090ceb811e77582dd9bb7cd56c13057bc6a0d1dfdd",
+      "predecessorProtocolSha256": "62d29e415bc29ccab70e92ca39b0cea6c8884bc2523435e499f6969b3513ff38",
+      "artifactHashes": {
+        "closure.json": "6fa5351def718b28ee4ca83ba88ecde680b43dc93a3ca593ae258b1a46ec1eb9",
+        "halt.json": "b92b1c9aba85e9d2aca21c06339a95ca72de5123c3bbe2feb2f8eafd2b255a98",
+        "manifest.json": "44c9619a9b463d87bf306cfbfc308b73c7e40b74c03a1b89d5d6a5095880957c",
+        "observations/0000.json": "027673cf1522453032c8c7538a0451c058c451336dffe5448286340eff882d34",
+        "observations/0001.json": "efd5df8fb329b02fc604a269470eb62717bf96a9f6c740099dd8433ae1d601e2",
+        "private-config.json": "df6b27a7d17c6473f287fef4be7a8c6cba5d9efc4c71f3a95dea55ecc7fc22d8"
+      },
+      "totals": {
+        "gemini": {
+          "attempts": 1,
+          "knownUsd": "0.000257100000",
+          "unknownReservedUsd": "0.000000000000",
+          "chargedUsd": "0.000257100000"
+        },
+        "jev": {
+          "attempts": 0,
+          "knownUsd": "0.000000000000",
+          "unknownReservedUsd": "0.000000000000",
+          "chargedUsd": "0.000000000000"
+        }
+      }
+    }
+  }
+}

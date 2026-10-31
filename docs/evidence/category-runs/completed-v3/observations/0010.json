@@ -1,0 +1,47 @@
+{
+  "caseId": "changed-camera-dev:c0",
+  "selector": "gemini",
+  "inputHash": "d1225356e6a61ccf0c8132620c28984a396aa3b170198701338e8a8fc267ff49",
+  "status": "ok",
+  "result": {
+    "decision": "UNSUPPORTED",
+    "reason": "unsupported_description",
+    "message": "This needs the full journal-entry review. A simple category suggestion cannot safely describe all account effects."
+  },
+  "attempts": 1,
+  "latencyMs": 1004,
+  "reportedCostUsd": "0.000443500000",
+  "reservedUnknownUsd": null,
+  "slotId": "gemini:changed-camera-dev:c0",
+  "index": 10,
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "manifestHash": "1bb775996c6aefac67051a9f228e2e4281fbb28c0ab8a2fb8713eb280ad65e5c",
+  "snapshotHash": "8f3a94d0c5325ac8e1bfa8780aebef2fc01c29889423cae0c0ae694fd566232e",
+  "startedAt": "2026-10-31T17:57:45.070Z",
+  "finishedAt": "2026-10-31T17:57:46.079Z",
+  "metadata": {
+    "provider": "gemini",
+    "requestedModel": "gemini-3.5-flash-lite",
+    "returnedModel": "gemini-3.5-flash-lite",
+    "contractVersion": "category-selector-v1",
+    "snapshotHash": "8f3a94d0c5325ac8e1bfa8780aebef2fc01c29889423cae0c0ae694fd566232e",
+    "attempts": 1,
+    "durationMs": 1004,
+    "usage": {
+      "inputTokens": 1420,
+      "outputTokens": 7,
+      "thinkingTokens": 0,
+      "totalTokens": 1427
+    }
+  },
+  "basis": "model",
+  "httpStatus": 200,
+  "exitCode": 0,
+  "networkMs": 779,
+  "claimed": true,
+  "dispatched": true,
+  "localFailure": null,
+  "previousHash": "480f6f18cfe4b71ef25f115249f475f904fe473e3f148f047ed9fb2565b11fa7",
+  "failureDisposition": "none",
+  "recordHash": "974e3c106515d8905cc52b8554a438e8e2ed1ccd53a57a28f43293fe0b866454"
+}

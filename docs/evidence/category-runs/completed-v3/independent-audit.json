@@ -1,0 +1,1118 @@
+{
+  "schema": "independent-category-v3-audit-v1",
+  "status": "PASS",
+  "run": "category-learning-20261031-v3",
+  "checkedAt": "2026-10-31T17:59:40.772Z",
+  "checks": [
+    {
+      "name": "no_active_locks",
+      "passed": true
+    },
+    {
+      "name": "closed_ledger",
+      "passed": true
+    },
+    {
+      "name": "both_phases_complete",
+      "passed": true
+    },
+    {
+      "name": "final_phase_completed",
+      "passed": true
+    },
+    {
+      "name": "no_pending_work",
+      "passed": true
+    },
+    {
+      "name": "fixed_source_and_version",
+      "passed": true
+    },
+    {
+      "name": "source_manifest_hash",
+      "passed": true
+    },
+    {
+      "name": "source_bytes_unchanged",
+      "passed": true
+    },
+    {
+      "name": "configuration_binding",
+      "passed": true
+    },
+    {
+      "name": "immutable_prices_and_caps",
+      "passed": true
+    },
+    {
+      "name": "carry_receipt_binding",
+      "passed": true
+    },
+    {
+      "name": "finite_target_binding",
+      "passed": true
+    },
+    {
+      "name": "v2_closed_original",
+      "passed": true
+    },
+    {
+      "name": "v2_prices_caps",
+      "passed": true
+    },
+    {
+      "name": "v2_no_active_lock",
+      "passed": true
+    },
+    {
+      "name": "v2_artifact_inventory",
+      "passed": true
+    },
+    {
+      "name": "v2_artifact_hashes",
+      "passed": true
+    },
+    {
+      "name": "v2_source_protocol_key_binding",
+      "passed": true
+    },
+    {
+      "name": "original_approval_hash",
+      "passed": true
+    },
+    {
+      "name": "original_approval_target",
+      "passed": true
+    },
+    {
+      "name": "v2_opening_carry_unchanged",
+      "passed": true
+    },
+    {
+      "name": "v1_closed_original",
+      "passed": true
+    },
+    {
+      "name": "v1_prices_caps",
+      "passed": true
+    },
+    {
+      "name": "v1_no_active_lock",
+      "passed": true
+    },
+    {
+      "name": "v1_artifact_inventory",
+      "passed": true
+    },
+    {
+      "name": "v1_artifact_hashes",
+      "passed": true
+    },
+    {
+      "name": "v1_source_protocol_key_binding",
+      "passed": true
+    },
+    {
+      "name": "original_no_prior_carry",
+      "passed": true
+    },
+    {
+      "name": "v1_totals_recomputed",
+      "passed": true
+    },
+    {
+      "name": "carry_totals_exactly_once",
+      "passed": true
+    },
+    {
+      "name": "cumulative_caps",
+      "passed": true
+    },
+    {
+      "name": "fixtures_binding",
+      "passed": true
+    },
+    {
+      "name": "independent_plan_exact",
+      "passed": true
+    },
+    {
+      "name": "all_cells_once",
+      "passed": true
+    },
+    {
+      "name": "hash_chain_and_start_records",
+      "passed": true
+    },
+    {
+      "name": "ledger_unique_reservations",
+      "passed": true
+    },
+    {
+      "name": "all_reservations_reconciled",
+      "passed": true
+    },
+    {
+      "name": "request_payloads_quotes_and_tokens",
+      "passed": true
+    },
+    {
+      "name": "development_report_binding",
+      "passed": true
+    },
+    {
+      "name": "development_integrity_and_comparison_flags",
+      "passed": true
+    },
+    {
+      "name": "development_cohort_snapshot",
+      "passed": true
+    },
+    {
+      "name": "development_reference_independent_counts",
+      "passed": true
+    },
+    {
+      "name": "development_reference_learning_pairs",
+      "passed": true
+    },
+    {
+      "name": "development_reference_learning_intervals",
+      "passed": true
+    },
+    {
+      "name": "development_reference_phase_costs",
+      "passed": true
+    },
+    {
+      "name": "development_gemini_independent_counts",
+      "passed": true
+    },
+    {
+      "name": "development_gemini_learning_pairs",
+      "passed": true
+    },
+    {
+      "name": "development_gemini_learning_intervals",
+      "passed": true
+    },
+    {
+      "name": "development_gemini_phase_costs",
+      "passed": true
+    },
+    {
+      "name": "development_jev_independent_counts",
+      "passed": true
+    },
+    {
+      "name": "development_jev_learning_pairs",
+      "passed": true
+    },
+    {
+      "name": "development_jev_learning_intervals",
+      "passed": true
+    },
+    {
+      "name": "development_jev_phase_costs",
+      "passed": true
+    },
+    {
+      "name": "development_paired_allocation_screen",
+      "passed": true
+    },
+    {
+      "name": "holdout_report_binding",
+      "passed": true
+    },
+    {
+      "name": "holdout_integrity_and_comparison_flags",
+      "passed": true
+    },
+    {
+      "name": "holdout_cohort_snapshot",
+      "passed": true
+    },
+    {
+      "name": "holdout_reference_independent_counts",
+      "passed": true
+    },
+    {
+      "name": "holdout_reference_learning_pairs",
+      "passed": true
+    },
+    {
+      "name": "holdout_reference_learning_intervals",
+      "passed": true
+    },
+    {
+      "name": "holdout_reference_phase_costs",
+      "passed": true
+    },
+    {
+      "name": "holdout_gemini_independent_counts",
+      "passed": true
+    },
+    {
+      "name": "holdout_gemini_learning_pairs",
+      "passed": true
+    },
+    {
+      "name": "holdout_gemini_learning_intervals",
+      "passed": true
+    },
+    {
+      "name": "holdout_gemini_phase_costs",
+      "passed": true
+    },
+    {
+      "name": "holdout_jev_independent_counts",
+      "passed": true
+    },
+    {
+      "name": "holdout_jev_learning_pairs",
+      "passed": true
+    },
+    {
+      "name": "holdout_jev_learning_intervals",
+      "passed": true
+    },
+    {
+      "name": "holdout_jev_phase_costs",
+      "passed": true
+    },
+    {
+      "name": "holdout_paired_allocation_screen",
+      "passed": true
+    },
+    {
+      "name": "final_cohort_report_exact",
+      "passed": true
+    }
+  ],
+  "count": 71,
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "carryReceiptSha256": "57541a1a0f81a67c95edf30f97c4b971681b10ef38b3a41a7f39f8d83aeb5b20",
+  "manifestSha256": "3ab08204510e2ac9af165dc9a614b97e0e9923a59d0ccc618c76eccd79173c41",
+  "ledgerSha256": "f5f76ef2297e6e9d3f93b4d6e7326dc656cf1ab4437595c487d26d60a8e88c50",
+  "developmentReportSha256": "02da20c08802d0ceee5ed9bb5c44d3eabd69a169e3ce9ff9b84066dff8046d80",
+  "holdoutReportSha256": "814b211fd4e194a4dce294eef68935563176d833c3f9dab55c72df84699ee8f0",
+  "finalRecordHash": "e84b75c6687def61487def64b64213096ff57c5190564bf5f933b8e6ad2564aa",
+  "planned": 216,
+  "recorded": 216,
+  "accounting": {
+    "earlier": {
+      "gemini": {
+        "attempts": 3,
+        "knownUsd": "0.001095400000",
+        "unknownReservedUsd": "0.000000000000",
+        "chargedUsd": "0.001095400000"
+      },
+      "jev": {
+        "attempts": 2,
+        "knownUsd": "0.000188076000",
+        "unknownReservedUsd": "0.000000000000",
+        "chargedUsd": "0.000188076000"
+      }
+    },
+    "current": {
+      "gemini": {
+        "attempts": 57,
+        "knownUsd": "0.029039700000",
+        "unknownReservedUsd": "0.000000000000",
+        "chargedUsd": "0.029039700000"
+      },
+      "jev": {
+        "attempts": 57,
+        "knownUsd": "0.006430410000",
+        "unknownReservedUsd": "0.000000000000",
+        "chargedUsd": "0.006430410000"
+      }
+    },
+    "cumulative": {
+      "gemini": {
+        "attempts": 60,
+        "knownUsd": "0.030135100000",
+        "unknownReservedUsd": "0.000000000000",
+        "chargedUsd": "0.030135100000"
+      },
+      "jev": {
+        "attempts": 59,
+        "knownUsd": "0.006618486000",
+        "unknownReservedUsd": "0.000000000000",
+        "chargedUsd": "0.006618486000"
+      }
+    }
+  },
+  "phases": {
+    "development": {
+      "selectors": {
+        "reference": {
+          "planned": 18,
+          "observed": 18,
+          "errors": 0,
+          "missing": 0,
+          "handlingSuccesses": 6,
+          "selectorEligible": 15,
+          "selectorSuccesses": 3,
+          "categoryTasks": 9,
+          "categoryAndPreferenceCorrect": 3,
+          "categoryProposals": 6,
+          "semanticCorrect": 3,
+          "preferenceRequired": 2,
+          "preferenceMet": 2,
+          "necessaryClarifications": 3,
+          "unnecessaryClarifications": 3,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "completeJournalsMeasured": 0,
+          "counterAccountsMeasured": 0,
+          "trackedUsd": "0",
+          "learning": [
+            {
+              "sequenceId": "repeat-paper-dev",
+              "handlingGain": 0,
+              "taughtTarget": "5070",
+              "preferenceAdoptionBefore": false,
+              "preferenceAdoptionAfter": true,
+              "preferenceAdoptionGain": 1
+            },
+            {
+              "sequenceId": "unseen-pens-dev",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "changed-camera-dev",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "meaning-invoice-dev",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "missing-party-dev",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "evidence-injection-dev",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            }
+          ]
+        },
+        "gemini": {
+          "planned": 18,
+          "observed": 18,
+          "errors": 0,
+          "missing": 0,
+          "handlingSuccesses": 18,
+          "selectorEligible": 15,
+          "selectorSuccesses": 15,
+          "categoryTasks": 9,
+          "categoryAndPreferenceCorrect": 9,
+          "categoryProposals": 9,
+          "semanticCorrect": 9,
+          "preferenceRequired": 2,
+          "preferenceMet": 2,
+          "necessaryClarifications": 3,
+          "unnecessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "completeJournalsMeasured": 0,
+          "counterAccountsMeasured": 0,
+          "trackedUsd": "0.0073666",
+          "learning": [
+            {
+              "sequenceId": "repeat-paper-dev",
+              "handlingGain": 0,
+              "taughtTarget": "5070",
+              "preferenceAdoptionBefore": false,
+              "preferenceAdoptionAfter": true,
+              "preferenceAdoptionGain": 1
+            },
+            {
+              "sequenceId": "unseen-pens-dev",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "changed-camera-dev",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "meaning-invoice-dev",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "missing-party-dev",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "evidence-injection-dev",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            }
+          ]
+        },
+        "jev": {
+          "planned": 18,
+          "observed": 18,
+          "errors": 0,
+          "missing": 0,
+          "handlingSuccesses": 16,
+          "selectorEligible": 15,
+          "selectorSuccesses": 13,
+          "categoryTasks": 9,
+          "categoryAndPreferenceCorrect": 7,
+          "categoryProposals": 9,
+          "semanticCorrect": 9,
+          "preferenceRequired": 2,
+          "preferenceMet": 0,
+          "necessaryClarifications": 3,
+          "unnecessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "completeJournalsMeasured": 0,
+          "counterAccountsMeasured": 0,
+          "trackedUsd": "0.001658916",
+          "learning": [
+            {
+              "sequenceId": "repeat-paper-dev",
+              "handlingGain": -1,
+              "taughtTarget": "5070",
+              "preferenceAdoptionBefore": false,
+              "preferenceAdoptionAfter": false,
+              "preferenceAdoptionGain": 0
+            },
+            {
+              "sequenceId": "unseen-pens-dev",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "changed-camera-dev",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "meaning-invoice-dev",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "missing-party-dev",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "evidence-injection-dev",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            }
+          ]
+        }
+      },
+      "paired": {
+        "groups": 3,
+        "difference": -0.2222222222222222,
+        "interval": [
+          -0.6666666666666666,
+          0
+        ],
+        "costSaving": 0.710464529090761,
+        "lostClarificationIds": [],
+        "efficacy": false,
+        "economy": false,
+        "safety": true,
+        "screen": false
+      },
+      "observedFailures": []
+    },
+    "holdout": {
+      "selectors": {
+        "reference": {
+          "planned": 54,
+          "observed": 54,
+          "errors": 0,
+          "missing": 0,
+          "handlingSuccesses": 31,
+          "selectorEligible": 42,
+          "selectorSuccesses": 19,
+          "categoryTasks": 33,
+          "categoryAndPreferenceCorrect": 16,
+          "categoryProposals": 16,
+          "semanticCorrect": 16,
+          "preferenceRequired": 10,
+          "preferenceMet": 10,
+          "necessaryClarifications": 9,
+          "unnecessaryClarifications": 17,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "completeJournalsMeasured": 0,
+          "counterAccountsMeasured": 0,
+          "trackedUsd": "0",
+          "learning": [
+            {
+              "sequenceId": "repeat-paper",
+              "handlingGain": 0,
+              "taughtTarget": "5070",
+              "preferenceAdoptionBefore": false,
+              "preferenceAdoptionAfter": true,
+              "preferenceAdoptionGain": 1
+            },
+            {
+              "sequenceId": "repeat-cloud",
+              "handlingGain": 0,
+              "taughtTarget": "5080",
+              "preferenceAdoptionBefore": false,
+              "preferenceAdoptionAfter": true,
+              "preferenceAdoptionGain": 1
+            },
+            {
+              "sequenceId": "repeat-promotion",
+              "handlingGain": 0,
+              "taughtTarget": "5040",
+              "preferenceAdoptionBefore": false,
+              "preferenceAdoptionAfter": true,
+              "preferenceAdoptionGain": 1
+            },
+            {
+              "sequenceId": "unseen-software",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "unseen-advert",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "unseen-consulting-receipt",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "changed-laptop",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "changed-app",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "changed-ad-placement",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "meaning-loan",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "meaning-refund",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "meaning-transfer",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "missing-purpose",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "missing-currency",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "missing-fx",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "evidence-conflict",
+              "handlingGain": 1,
+              "taughtTarget": "5030",
+              "preferenceAdoptionBefore": false,
+              "preferenceAdoptionAfter": true,
+              "preferenceAdoptionGain": 1
+            },
+            {
+              "sequenceId": "evidence-stale",
+              "handlingGain": 1,
+              "taughtTarget": "5020",
+              "preferenceAdoptionBefore": false,
+              "preferenceAdoptionAfter": true,
+              "preferenceAdoptionGain": 1
+            },
+            {
+              "sequenceId": "evidence-foreign",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            }
+          ]
+        },
+        "gemini": {
+          "planned": 54,
+          "observed": 54,
+          "errors": 0,
+          "missing": 0,
+          "handlingSuccesses": 54,
+          "selectorEligible": 42,
+          "selectorSuccesses": 42,
+          "categoryTasks": 33,
+          "categoryAndPreferenceCorrect": 33,
+          "categoryProposals": 33,
+          "semanticCorrect": 33,
+          "preferenceRequired": 10,
+          "preferenceMet": 10,
+          "necessaryClarifications": 9,
+          "unnecessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "completeJournalsMeasured": 0,
+          "counterAccountsMeasured": 0,
+          "trackedUsd": "0.0216731",
+          "learning": [
+            {
+              "sequenceId": "repeat-paper",
+              "handlingGain": 0,
+              "taughtTarget": "5070",
+              "preferenceAdoptionBefore": false,
+              "preferenceAdoptionAfter": true,
+              "preferenceAdoptionGain": 1
+            },
+            {
+              "sequenceId": "repeat-cloud",
+              "handlingGain": 0,
+              "taughtTarget": "5080",
+              "preferenceAdoptionBefore": false,
+              "preferenceAdoptionAfter": true,
+              "preferenceAdoptionGain": 1
+            },
+            {
+              "sequenceId": "repeat-promotion",
+              "handlingGain": 0,
+              "taughtTarget": "5040",
+              "preferenceAdoptionBefore": false,
+              "preferenceAdoptionAfter": true,
+              "preferenceAdoptionGain": 1
+            },
+            {
+              "sequenceId": "unseen-software",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "unseen-advert",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "unseen-consulting-receipt",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "changed-laptop",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "changed-app",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "changed-ad-placement",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "meaning-loan",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "meaning-refund",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "meaning-transfer",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "missing-purpose",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "missing-currency",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "missing-fx",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "evidence-conflict",
+              "handlingGain": 0,
+              "taughtTarget": "5030",
+              "preferenceAdoptionBefore": true,
+              "preferenceAdoptionAfter": true,
+              "preferenceAdoptionGain": 0
+            },
+            {
+              "sequenceId": "evidence-stale",
+              "handlingGain": 0,
+              "taughtTarget": "5020",
+              "preferenceAdoptionBefore": true,
+              "preferenceAdoptionAfter": true,
+              "preferenceAdoptionGain": 0
+            },
+            {
+              "sequenceId": "evidence-foreign",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            }
+          ]
+        },
+        "jev": {
+          "planned": 54,
+          "observed": 54,
+          "errors": 0,
+          "missing": 0,
+          "handlingSuccesses": 52,
+          "selectorEligible": 42,
+          "selectorSuccesses": 40,
+          "categoryTasks": 33,
+          "categoryAndPreferenceCorrect": 31,
+          "categoryProposals": 33,
+          "semanticCorrect": 33,
+          "preferenceRequired": 10,
+          "preferenceMet": 8,
+          "necessaryClarifications": 9,
+          "unnecessaryClarifications": 0,
+          "unnecessaryHandoffs": 0,
+          "unsafeSuggestions": 0,
+          "harmfulOvergeneralizations": 0,
+          "completeJournalsMeasured": 0,
+          "counterAccountsMeasured": 0,
+          "trackedUsd": "0.004771494",
+          "learning": [
+            {
+              "sequenceId": "repeat-paper",
+              "handlingGain": -1,
+              "taughtTarget": "5070",
+              "preferenceAdoptionBefore": false,
+              "preferenceAdoptionAfter": false,
+              "preferenceAdoptionGain": 0
+            },
+            {
+              "sequenceId": "repeat-cloud",
+              "handlingGain": 0,
+              "taughtTarget": "5080",
+              "preferenceAdoptionBefore": false,
+              "preferenceAdoptionAfter": true,
+              "preferenceAdoptionGain": 1
+            },
+            {
+              "sequenceId": "repeat-promotion",
+              "handlingGain": 0,
+              "taughtTarget": "5040",
+              "preferenceAdoptionBefore": false,
+              "preferenceAdoptionAfter": true,
+              "preferenceAdoptionGain": 1
+            },
+            {
+              "sequenceId": "unseen-software",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "unseen-advert",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "unseen-consulting-receipt",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "changed-laptop",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "changed-app",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "changed-ad-placement",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "meaning-loan",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "meaning-refund",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "meaning-transfer",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "missing-purpose",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "missing-currency",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "missing-fx",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            },
+            {
+              "sequenceId": "evidence-conflict",
+              "handlingGain": 0,
+              "taughtTarget": "5030",
+              "preferenceAdoptionBefore": true,
+              "preferenceAdoptionAfter": true,
+              "preferenceAdoptionGain": 0
+            },
+            {
+              "sequenceId": "evidence-stale",
+              "handlingGain": 0,
+              "taughtTarget": "5020",
+              "preferenceAdoptionBefore": true,
+              "preferenceAdoptionAfter": true,
+              "preferenceAdoptionGain": 0
+            },
+            {
+              "sequenceId": "evidence-foreign",
+              "handlingGain": 0,
+              "taughtTarget": null,
+              "preferenceAdoptionBefore": null,
+              "preferenceAdoptionAfter": null,
+              "preferenceAdoptionGain": null
+            }
+          ]
+        }
+      },
+      "paired": {
+        "groups": 11,
+        "difference": -0.0606060606060606,
+        "interval": [
+          -0.18181818181818182,
+          0
+        ],
+        "costSaving": 0.7656388646487745,
+        "lostClarificationIds": [],
+        "efficacy": false,
+        "economy": false,
+        "safety": true,
+        "screen": false
+      },
+      "observedFailures": []
+    }
+  },
+  "limitations": [
+    "AI-assisted audit, not independent human scientific adjudication.",
+    "Gold reference definitions and snapshot preparation are shared; scores, learning, prices and decision screen are recomputed without importing the original scorer/report.",
+    "Bootstrap uses the same declared seeded method; all intervals remain exploratory.",
+    "Selector outcomes do not establish complete-journal or production accuracy."
+  ]
+}

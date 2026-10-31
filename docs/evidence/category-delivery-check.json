@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-10-31T18:12:23.353256+00:00",
+  "scope": "Final source, evidence and documentation checks before publication; no provider calls.",
+  "executableCommit": "b7bf5fe024f6fca33fa5a93ef5e6188e96455bae",
+  "ciRunId": 41226562746,
+  "frozenCategorySourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "frozenCategoryFilesVerified": 18,
+  "exactDeployedSourceFilesUnchanged": 66,
+  "exportedV3ArtifactHashesVerified": 228,
+  "localDocumentationLinksChecked": 270,
+  "missingLocalLinks": 0,
+  "repositoryFormattingPassed": true,
+  "categoryInternalAuditChecks": 71,
+  "hostedInternalAuditChecks": 144,
+  "twoPagePdfVisuallyReviewed": true,
+  "pdfSha256": "cd26be9a2c3fbb779d7ab06da917e61141cac30ead9993bd4c075c4cec21f439",
+  "htmlSha256": "b0934f65b2d488e81a90d7682569010eb7b6adae5af01bf9a5101325ca6e611f",
+  "publicHostedAuditSha256": "eadf3ac19585954c9d6f8e41f515a64ddb4122a21eae2628f74a62a79a219f7f",
+  "publication": "Final ZIP CRC, exact source/check-out/archive bytes and credential scan are verified by the private publication receipts.",
+  "reviewLimits": "AI-assisted internal audits; no independent human scientific adjudication, new hosted browser check or capacity claim."
+}

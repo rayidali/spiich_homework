@@ -1,0 +1,47 @@
+{
+  "caseId": "unseen-software:c0",
+  "selector": "reference",
+  "inputHash": "dc42eef1d2a1c3b36deccc738b07a3d2a603141e29b54449c8f5b85885bef9a7",
+  "status": "ok",
+  "result": {
+    "decision": "CLARIFY",
+    "topic": "category",
+    "question": "What was this payment or receipt for? Please confirm its category."
+  },
+  "attempts": 0,
+  "latencyMs": 0,
+  "reportedCostUsd": null,
+  "reservedUnknownUsd": null,
+  "slotId": "reference:unseen-software:c0",
+  "index": 140,
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "manifestHash": "1bb775996c6aefac67051a9f228e2e4281fbb28c0ab8a2fb8713eb280ad65e5c",
+  "snapshotHash": "c2f6806977e3ad5e99d34528158a126720e22c3ffae90a4a03986e11b96589a7",
+  "startedAt": "2026-10-31T17:58:54.638Z",
+  "finishedAt": "2026-10-31T17:58:54.643Z",
+  "metadata": {
+    "provider": "reference",
+    "requestedModel": "exact-memory-label-rules-v1",
+    "returnedModel": "exact-memory-label-rules-v1",
+    "contractVersion": "category-selector-v1",
+    "snapshotHash": "c2f6806977e3ad5e99d34528158a126720e22c3ffae90a4a03986e11b96589a7",
+    "attempts": 0,
+    "durationMs": 0,
+    "usage": {
+      "inputTokens": null,
+      "outputTokens": null,
+      "thinkingTokens": null,
+      "totalTokens": null
+    }
+  },
+  "basis": "no_match",
+  "httpStatus": null,
+  "exitCode": null,
+  "networkMs": null,
+  "claimed": false,
+  "dispatched": false,
+  "localFailure": null,
+  "previousHash": "ad5a7c1ad943b224871f6acc4ba899ad5390866e89841198bfe2b99b7d0bc090",
+  "failureDisposition": "none",
+  "recordHash": "34db4a0f3ec2d987102308591f8de700f5aed504101096fc97ae8353d078cddf"
+}

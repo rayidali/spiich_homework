@@ -1,0 +1,46 @@
+{
+  "caseId": "repeat-promotion:c1",
+  "selector": "reference",
+  "inputHash": "3e474b56c57ff6d5cb9a08a490589accd67dfa1677232467629f76591260715a",
+  "status": "ok",
+  "result": {
+    "decision": "SELECT",
+    "accountId": "5fbdddc6-1aa9-4de9-8b91-8a6a38ce72c5"
+  },
+  "attempts": 0,
+  "latencyMs": 0,
+  "reportedCostUsd": null,
+  "reservedUnknownUsd": null,
+  "slotId": "reference:repeat-promotion:c1",
+  "index": 135,
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "manifestHash": "1bb775996c6aefac67051a9f228e2e4281fbb28c0ab8a2fb8713eb280ad65e5c",
+  "snapshotHash": "852e904f70986c027862b4f08475cf717e6f4b150b0bf5afac5d51be3fcf1d2b",
+  "startedAt": "2026-10-31T17:58:51.415Z",
+  "finishedAt": "2026-10-31T17:58:51.420Z",
+  "metadata": {
+    "provider": "reference",
+    "requestedModel": "exact-memory-label-rules-v1",
+    "returnedModel": "exact-memory-label-rules-v1",
+    "contractVersion": "category-selector-v1",
+    "snapshotHash": "852e904f70986c027862b4f08475cf717e6f4b150b0bf5afac5d51be3fcf1d2b",
+    "attempts": 0,
+    "durationMs": 0,
+    "usage": {
+      "inputTokens": null,
+      "outputTokens": null,
+      "thinkingTokens": null,
+      "totalTokens": null
+    }
+  },
+  "basis": "correction",
+  "httpStatus": null,
+  "exitCode": null,
+  "networkMs": null,
+  "claimed": false,
+  "dispatched": false,
+  "localFailure": null,
+  "previousHash": "c618d857b29ad8404b51739a542a1a94a3e8fae1cbd2cf8743e7c79cfc70ca9d",
+  "failureDisposition": "none",
+  "recordHash": "cd5c466904ce0f5c5b114dce48d62f94037141aa17d452bb2dbea95e63f85509"
+}

@@ -1,0 +1,47 @@
+{
+  "caseId": "missing-fx:c0",
+  "selector": "jev",
+  "inputHash": "2b8b954efef3162052bdf237505b71ef9edb53efad1119f287a8d022935a71de",
+  "status": "ok",
+  "result": {
+    "decision": "CLARIFY",
+    "topic": "exchange_rate",
+    "question": "What exchange rate to the base currency applies? Use 1 for the base currency."
+  },
+  "attempts": 0,
+  "latencyMs": 0,
+  "reportedCostUsd": null,
+  "reservedUnknownUsd": null,
+  "slotId": "jev:missing-fx:c0",
+  "index": 78,
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "manifestHash": "1bb775996c6aefac67051a9f228e2e4281fbb28c0ab8a2fb8713eb280ad65e5c",
+  "snapshotHash": "add2ad95084e78f2fc5ac562a2ee04097d5c5477313e316fa7be4a208822807b",
+  "startedAt": "2026-10-31T17:58:31.271Z",
+  "finishedAt": "2026-10-31T17:58:31.277Z",
+  "metadata": {
+    "provider": "jev",
+    "requestedModel": "jev-1.14.0",
+    "returnedModel": null,
+    "contractVersion": "category-selector-v1",
+    "snapshotHash": "add2ad95084e78f2fc5ac562a2ee04097d5c5477313e316fa7be4a208822807b",
+    "attempts": 0,
+    "durationMs": 0,
+    "usage": {
+      "inputTokens": null,
+      "outputTokens": null,
+      "thinkingTokens": null,
+      "totalTokens": null
+    }
+  },
+  "basis": "input_gate",
+  "httpStatus": null,
+  "exitCode": null,
+  "networkMs": null,
+  "claimed": false,
+  "dispatched": false,
+  "localFailure": null,
+  "previousHash": "8d5ec93a6e64f749e870ca687871e946d5f2c6f63a0d0c71bac9981836f38281",
+  "failureDisposition": "none",
+  "recordHash": "d18b8c59b29fa263426d69ecd280b8f7b6979cd472f460ba235f7c962624031e"
+}

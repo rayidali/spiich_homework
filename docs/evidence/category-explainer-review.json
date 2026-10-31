@@ -1,0 +1,16 @@
+{
+  "recordedAt": "2026-10-31T18:04:35.240708+00:00",
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "inputResultsSha256": "814b211fd4e194a4dce294eef68935563176d833c3f9dab55c72df84699ee8f0",
+  "pages": 2,
+  "automatedRendererTestsPassed": 13,
+  "textBoundsPassed": true,
+  "bothPdfPagesVisuallyReviewed": true,
+  "reviewType": "AI-assisted author and root visual review, not independent human review",
+  "htmlBrowserReview": false,
+  "sha256": {
+    "pdf": "cd26be9a2c3fbb779d7ab06da917e61141cac30ead9993bd4c075c4cec21f439",
+    "html": "b0934f65b2d488e81a90d7682569010eb7b6adae5af01bf9a5101325ca6e611f"
+  },
+  "htmlSourceFormattedAfterRender": true
+}

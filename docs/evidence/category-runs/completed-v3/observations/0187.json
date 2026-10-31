@@ -1,0 +1,47 @@
+{
+  "caseId": "missing-fx:c3",
+  "selector": "reference",
+  "inputHash": "00155ccfe86cdb5a75d6f8357211cd6c168387175d8e58986db1e0e36a176922",
+  "status": "ok",
+  "result": {
+    "decision": "CLARIFY",
+    "topic": "exchange_rate",
+    "question": "What exchange rate to the base currency applies? Use 1 for the base currency."
+  },
+  "attempts": 0,
+  "latencyMs": 0,
+  "reportedCostUsd": null,
+  "reservedUnknownUsd": null,
+  "slotId": "reference:missing-fx:c3",
+  "index": 187,
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "manifestHash": "1bb775996c6aefac67051a9f228e2e4281fbb28c0ab8a2fb8713eb280ad65e5c",
+  "snapshotHash": "add2ad95084e78f2fc5ac562a2ee04097d5c5477313e316fa7be4a208822807b",
+  "startedAt": "2026-10-31T17:59:18.488Z",
+  "finishedAt": "2026-10-31T17:59:18.493Z",
+  "metadata": {
+    "provider": "reference",
+    "requestedModel": "exact-memory-label-rules-v1",
+    "returnedModel": null,
+    "contractVersion": "category-selector-v1",
+    "snapshotHash": "add2ad95084e78f2fc5ac562a2ee04097d5c5477313e316fa7be4a208822807b",
+    "attempts": 0,
+    "durationMs": 0,
+    "usage": {
+      "inputTokens": null,
+      "outputTokens": null,
+      "thinkingTokens": null,
+      "totalTokens": null
+    }
+  },
+  "basis": "input_gate",
+  "httpStatus": null,
+  "exitCode": null,
+  "networkMs": null,
+  "claimed": false,
+  "dispatched": false,
+  "localFailure": null,
+  "previousHash": "627a72a8bc2983248fb34e6752b09487a63cf7abb9264269a63701966ee351b2",
+  "failureDisposition": "none",
+  "recordHash": "7bed836e5f057b8cd2980a747ae587328189e492b6bf7252169f0e17b582ee92"
+}

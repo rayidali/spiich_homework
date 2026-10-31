@@ -1,0 +1,47 @@
+{
+  "caseId": "meaning-transfer:c3",
+  "selector": "gemini",
+  "inputHash": "35bbc39e016cc6a320bb0b760a33cd560ba4dc63846fa98662253145dfe215b0",
+  "status": "ok",
+  "result": {
+    "decision": "UNSUPPORTED",
+    "reason": "personal_or_balance_transfer",
+    "message": "This needs the full journal-entry review. A simple category suggestion cannot safely describe all account effects."
+  },
+  "attempts": 0,
+  "latencyMs": 0,
+  "reportedCostUsd": null,
+  "reservedUnknownUsd": null,
+  "slotId": "gemini:meaning-transfer:c3",
+  "index": 118,
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "manifestHash": "1bb775996c6aefac67051a9f228e2e4281fbb28c0ab8a2fb8713eb280ad65e5c",
+  "snapshotHash": "4a7d47c3f1f02c8b61e7b729626cb685f82399eb61ebdf074ba204c3f78d4548",
+  "startedAt": "2026-10-31T17:58:43.924Z",
+  "finishedAt": "2026-10-31T17:58:43.929Z",
+  "metadata": {
+    "provider": "gemini",
+    "requestedModel": "gemini-3.5-flash-lite",
+    "returnedModel": null,
+    "contractVersion": "category-selector-v1",
+    "snapshotHash": "4a7d47c3f1f02c8b61e7b729626cb685f82399eb61ebdf074ba204c3f78d4548",
+    "attempts": 0,
+    "durationMs": 0,
+    "usage": {
+      "inputTokens": null,
+      "outputTokens": null,
+      "thinkingTokens": null,
+      "totalTokens": null
+    }
+  },
+  "basis": "input_gate",
+  "httpStatus": null,
+  "exitCode": null,
+  "networkMs": null,
+  "claimed": false,
+  "dispatched": false,
+  "localFailure": null,
+  "previousHash": "06b30bde6f369cf2612f8f3c0342a547da2d0e1863eff961977f2e59deba0557",
+  "failureDisposition": "none",
+  "recordHash": "9331ed15149f7026dc022b4dbbb63b81ee79f5b4b4c90c272a1294c881068e44"
+}

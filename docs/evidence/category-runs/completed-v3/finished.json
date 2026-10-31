@@ -1,0 +1,10 @@
+{
+  "run": "category-learning-20261031-v3",
+  "split": "holdout",
+  "complete": true,
+  "halted": false,
+  "budgetClosed": true,
+  "sourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "observed": 162,
+  "planned": 162
+}
