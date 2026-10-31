@@ -1,0 +1,15 @@
+{
+  "sourceCommit": "cb971bca26cd100a7c27392c2af1b5f375338464",
+  "runId": 41234198343,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41234198343",
+  "jobs": {
+    "verify": "success",
+    "research-native": "success",
+    "compose": "success",
+    "live-ai": "skipped"
+  },
+  "scope": "First composable query/calculator/admission core; real PostgreSQL, browser and Compose. Later calculator/evaluator refinements require another CI run.",
+  "deployed": false,
+  "providerEvaluationPerformed": false,
+  "hostedBaseline": "e7a514ef7072fbaabc6b63af026a6bab2fbd1478"
+}

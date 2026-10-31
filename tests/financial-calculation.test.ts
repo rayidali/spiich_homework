@@ -119,8 +119,66 @@ function queryFact(plan: FinancialQuery, value = '10000.00'): AnalysisFacts {
       resolvedAccountIds: ['bank'],
       cooccurringAccountIds: [],
       amountBasis: 'selected_metric_lines',
-      statusMeaning: 'booked',
+      statusMeaning: plan.status === 'POSTED' ? 'booked' : 'unposted_projection',
     },
+  };
+}
+function monthlyAverage() {
+  const total: FinancialQuery = {
+    ...cashQuery('expense_total'),
+    metric: 'net_expense',
+    accountCodes: ['5030'],
+    from: '2026-01-01',
+    to: '2026-03-31',
+  };
+  const series: FinancialQuery = { ...total, id: 'expense_months', groupBy: 'month' };
+  const plan: FinancialScenario = {
+    queries: [total, series],
+    assumptions: [],
+    calculations: [
+      {
+        id: 'monthly_average',
+        operation: 'divide',
+        operands: [query(total.id), { source: 'query', id: series.id, rowId: null, field: 'month_count' }],
+      },
+    ],
+  };
+  const monthly = queryFact(series);
+  monthly.rows = [
+    {
+      rowId: 'month:2026-01',
+      label: '2026-01',
+      value: '300.00',
+      entryCount: '1',
+      from: '2026-01-01',
+      to: '2026-01-31',
+    },
+    {
+      rowId: 'month:2026-02',
+      label: '2026-02',
+      value: '0.00',
+      entryCount: '0',
+      from: '2026-02-01',
+      to: '2026-02-28',
+    },
+    {
+      rowId: 'month:2026-03',
+      label: '2026-03',
+      value: '600.00',
+      entryCount: '1',
+      from: '2026-03-01',
+      to: '2026-03-31',
+    },
+  ];
+  return {
+    plan,
+    facts: [queryFact(total, '900.00'), monthly],
+    messages: [
+      {
+        role: 'user' as const,
+        content: 'What was my average recorded monthly expense in January through March2026?',
+      },
+    ],
   };
 }
 beforeEach(() => vi.clearAllMocks());
@@ -141,16 +199,19 @@ describe('Hypothetical financial calculation boundary (no providers)', () => {
       exact: { numerator: '24240', denominator: '1' },
       provenance: { assumptionIds: ['salary', 'burden', 'duration', 'recruiting'], queryRows: [] },
     });
-    expect(result.answer).toContain('HYPOTHETICAL');
+    expect(result.answer).toMatch(/hypothetical/i);
     expect(result.answer).toContain('$24,240.00 USD');
     expect(result.answer).not.toContain('guaranteed_affordable');
     expect(result.evidence[0].rows.map((r) => r.label)).toEqual([
-      'A1: “$6,000 per month”',
-      'A2: “18%”',
-      'A3: “3 months”',
-      'A4: “$3,000 recruiting”',
+      'Assumption 1: “$6,000 per month”',
+      'Assumption 2: “18%”',
+      'Assumption 3: “3 months”',
+      'Assumption 4: “$3,000 recruiting”',
     ]);
     expect(facts.at(-1)!.assumptions.every((a) => a.userMessageIndex === 0)).toBe(true);
+    expect(result.evidence.every((card) => card.source === 'scenario')).toBe(true);
+    expect(result.evidence[1].rows[0].label).toBe('Calculation 1: $6,000.00 USD/month × 0.18 ratio');
+    expect(result.answer).not.toMatch(/Q1\[|C\d|A\d/);
     expect(mocks.executeFinancialAnalysis).not.toHaveBeenCalled();
   });
 
@@ -231,7 +292,7 @@ describe('Hypothetical financial calculation boundary (no providers)', () => {
       },
     });
     expect(result.evidence[0].title).toBe('Cash query');
-    expect(result.answer).toContain('HYPOTHETICAL');
+    expect(result.answer).toMatch(/hypothetical/i);
   });
 
   it.each([
@@ -289,6 +350,40 @@ describe('Hypothetical financial calculation boundary (no providers)', () => {
       code: 'INVALID_SCENARIO',
     });
     expect(mocks.executeFinancialAnalysis).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    { sourceText: '2 months for employees', unit: 'count' as const },
+    { sourceText: '2 employees over several months', unit: 'months' as const },
+    { sourceText: '2 employees per month', unit: 'count' as const },
+    { sourceText: '2 employees/month', unit: 'count' as const },
+  ])('rejects a unit attached to a different part of the quotation, case %#', ({ sourceText, unit }) => {
+    const plan: FinancialScenario = {
+      queries: [],
+      assumptions: [{ id: 'amount', value: '2', unit, sourceText }],
+      calculations: [
+        { id: 'doubled', operation: 'add', operands: [assumption('amount'), assumption('amount')] },
+      ],
+    };
+    expect(() => evaluateFinancialScenario(plan, [], [{ role: 'user', content: sourceText }])).toThrow();
+  });
+
+  it.each([
+    { sourceText: '2 months for employees', unit: 'months' as const },
+    { sourceText: '2 employees over several months', unit: 'count' as const },
+    { sourceText: '2 calendar months', unit: 'months' as const },
+    { sourceText: '2 FTEs', unit: 'count' as const },
+  ])('accepts the unit directly associated with the quoted number, case %#', ({ sourceText, unit }) => {
+    const plan: FinancialScenario = {
+      queries: [],
+      assumptions: [{ id: 'amount', value: '2', unit, sourceText }],
+      calculations: [
+        { id: 'doubled', operation: 'add', operands: [assumption('amount'), assumption('amount')] },
+      ],
+    };
+    expect(
+      calculationFacts(evaluateFinancialScenario(plan, [], [{ role: 'user', content: sourceText }]))[0],
+    ).toMatchObject({ value: '4', unit, source: 'scenario' });
   });
 
   it.each([
@@ -426,9 +521,10 @@ describe('Hypothetical financial calculation boundary (no providers)', () => {
     });
   });
 
-  it('requires assumptions and bounds the number of nodes', () => {
+  it('bounds the number of nodes without permitting invented operands when assumptions are empty', () => {
     const { plan } = employee();
-    expect(() => financialScenarioSchema.parse({ ...plan, assumptions: [] })).toThrow();
+    expect(financialScenarioSchema.parse({ ...plan, assumptions: [] }).assumptions).toEqual([]);
+    expect(() => evaluateFinancialScenario({ ...plan, assumptions: [] }, [], employee().messages)).toThrow();
     expect(() =>
       financialScenarioSchema.parse({
         ...plan,
@@ -444,5 +540,206 @@ describe('Hypothetical financial calculation boundary (no providers)', () => {
     expect(() =>
       financialScenarioSchema.parse({ ...plan, queries: Array.from({ length: 5 }, () => cashQuery()) }),
     ).toThrow();
+  });
+
+  it('calculates a recorded difference and ratio without assumptions or hypothetical labeling', () => {
+    const current = {
+      ...cashQuery('current'),
+      metric: 'net_expense' as const,
+      accountCodes: ['5030'],
+      from: '2026-10-01',
+    };
+    const previous = { ...current, id: 'previous', from: '2026-09-01', to: '2026-09-30' };
+    const plan: FinancialScenario = {
+      queries: [current, previous],
+      assumptions: [],
+      calculations: [
+        { id: 'difference', operation: 'subtract', operands: [query('current'), query('previous')] },
+        { id: 'change_ratio', operation: 'divide', operands: [calculation('difference'), query('previous')] },
+      ],
+    };
+    const result = evaluateFinancialScenario(
+      plan,
+      [queryFact(current, '900.00'), queryFact(previous, '600.00')],
+      [{ role: 'user', content: 'Compare recorded October and September expenses.' }],
+    );
+    expect(calculationFacts(result).map((f) => [f.value, f.source, f.hypothetical])).toEqual([
+      ['300.00', 'posted', false],
+      ['0.5', 'posted', false],
+    ]);
+    expect(result.answer).toMatch(/^From the posted books/);
+    expect(result.answer).not.toMatch(/hypothetical|assumption/i);
+    expect(result.evidence).toHaveLength(1);
+    expect(result.evidence[0].source).toBe('posted');
+    expect(result.evidence[0].rows[1].label).toBe('Calculation 2: $300.00 USD ÷ $600.00 USD');
+  });
+
+  it('propagates draft ancestry recursively without declaring an unposted calculation to be from the books', () => {
+    const posted = cashQuery('posted');
+    const draft: FinancialQuery = {
+      ...posted,
+      id: 'draft',
+      metric: 'net_expense',
+      accountCodes: ['5030'],
+      from: '2026-10-01',
+      status: 'DRAFT',
+    };
+    const plan: FinancialScenario = {
+      queries: [posted, draft],
+      assumptions: [],
+      calculations: [
+        { id: 'remainder', operation: 'subtract', operands: [query('posted'), query('draft')] },
+        { id: 'combined', operation: 'add', operands: [calculation('remainder'), query('posted')] },
+      ],
+    };
+    const result = evaluateFinancialScenario(
+      plan,
+      [queryFact(posted, '10000.00'), queryFact(draft, '2000.00')],
+      [{ role: 'user', content: 'Compare current cash to the unposted draft cost.' }],
+    );
+    expect(calculationFacts(result).every((f) => f.source === 'draft' && f.hypothetical)).toBe(true);
+    expect(result.answer).toMatch(/^Using unposted drafts/);
+    expect(result.evidence.every((card) => card.source === 'draft')).toBe(true);
+  });
+
+  it('keeps unrelated posted arithmetic posted when another calculation uses an assumption', () => {
+    const { plan, messages } = employee();
+    plan.queries = [cashQuery('cash'), cashQuery('comparison')];
+    plan.calculations = [
+      {
+        id: 'hypothetical_cost',
+        operation: 'multiply',
+        operands: [assumption('salary'), assumption('duration')],
+      },
+      { id: 'recorded_difference', operation: 'subtract', operands: [query('cash'), query('comparison')] },
+    ];
+    const result = evaluateFinancialScenario(
+      plan,
+      [queryFact(plan.queries[0], '10000.00'), queryFact(plan.queries[1], '8000.00')],
+      messages,
+    );
+    expect(calculationFacts(result).map((f) => [f.source, f.hypothetical])).toEqual([
+      ['scenario', true],
+      ['posted', false],
+    ]);
+    expect(result.answer).toMatch(/^From the posted books/);
+    expect(result.evidence.map((card) => card.source)).toEqual(['scenario', 'scenario', 'posted']);
+  });
+
+  it('derives3calendar months including zero February, yielding300 per month without a literal3 assumption', () => {
+    const { plan, facts, messages } = monthlyAverage();
+    const result = evaluateFinancialScenario(plan, facts, messages);
+    const derived = calculationFacts(result)[0];
+    expect(derived).toMatchObject({
+      value: '300.00',
+      unit: 'USD_per_month',
+      source: 'posted',
+      hypothetical: false,
+      provenance: {
+        assumptionIds: [],
+        queryRows: [
+          { id: 'expense_total', rowId: 'total:total', field: 'value' },
+          { id: 'expense_months', rowId: null, field: 'month_count' },
+        ],
+      },
+    });
+    expect(result.evidence[0].rows[0].label).toBe('Calculation 1: $900.00 USD ÷ 3 months');
+  });
+
+  it.each([
+    'missing_zero',
+    'duplicate',
+    'extra',
+    'truncated',
+    'wrong_boundary',
+    'bad_zero',
+    'partial_start',
+    'partial_end',
+    'quarter',
+    'balance',
+    'average',
+    'limit',
+  ] as const)('rejects incomplete or incompatible calendar-month evidence: %s', (problem) => {
+    const { plan, facts, messages } = monthlyAverage();
+    const monthly = facts[1];
+    if (problem === 'missing_zero') monthly.rows.splice(1, 1);
+    if (problem === 'duplicate') monthly.rows[1] = { ...monthly.rows[0] };
+    if (problem === 'extra') monthly.rows.push({ ...monthly.rows[0], rowId: 'month:2026-04' });
+    if (problem === 'truncated') monthly.truncated = true;
+    if (problem === 'wrong_boundary') monthly.rows[1].to = '2026-02-27';
+    if (problem === 'bad_zero') monthly.rows[1].value = '10.00';
+    if (problem === 'partial_start') plan.queries[1].from = '2026-01-15';
+    if (problem === 'partial_end') plan.queries[1].to = '2026-03-15';
+    if (problem === 'quarter') plan.queries[1].groupBy = 'quarter';
+    if (problem === 'balance') plan.queries[1].metric = 'account_balance';
+    if (problem === 'average') plan.queries[1].aggregation = 'average_per_entry';
+    if (problem === 'limit') plan.queries[1].limit = 2;
+    expect(() => evaluateFinancialScenario(plan, facts, messages)).toThrow();
+  });
+
+  it.each([
+    ['2024', '29'],
+    ['1900', '28'],
+    ['2000', '29'],
+  ])('counts a complete February in%s through day%s', (year, last) => {
+    const { plan, facts, messages } = monthlyAverage();
+    for (const query of plan.queries) {
+      query.from = `${year}-02-01`;
+      query.to = `${year}-02-${last}`;
+    }
+    facts[0].rows[0].from = `${year}-02-01`;
+    facts[0].rows[0].to = `${year}-02-${last}`;
+    facts[1].rows = [
+      {
+        rowId: `month:${year}-02`,
+        label: `${year}-02`,
+        value: '900.00',
+        entryCount: '1',
+        from: `${year}-02-01`,
+        to: `${year}-02-${last}`,
+      },
+    ];
+    expect(calculationFacts(evaluateFinancialScenario(plan, facts, messages))[0].value).toBe('900.00');
+  });
+
+  it('rejects dividing an October amount by a January–March month count', () => {
+    const { plan, facts, messages } = monthlyAverage();
+    plan.queries[0].from = '2026-10-01';
+    plan.queries[0].to = '2026-10-31';
+    facts[0].rows[0].from = '2026-10-01';
+    facts[0].rows[0].to = '2026-10-31';
+    expect(() => evaluateFinancialScenario(plan, facts, messages)).toThrow('same full calendar period');
+  });
+
+  it('can average the exact sum of all complete monthly buckets, but rejects a partial-month subset', () => {
+    const { plan, facts, messages } = monthlyAverage();
+    plan.queries = [plan.queries[1]];
+    plan.calculations = [
+      {
+        id: 'first_two',
+        operation: 'add',
+        operands: [query('expense_months', 'month:2026-01'), query('expense_months', 'month:2026-02')],
+      },
+      {
+        id: 'all_months',
+        operation: 'add',
+        operands: [calculation('first_two'), query('expense_months', 'month:2026-03')],
+      },
+      {
+        id: 'average',
+        operation: 'divide',
+        operands: [
+          calculation('all_months'),
+          { source: 'query', id: 'expense_months', rowId: null, field: 'month_count' },
+        ],
+      },
+    ];
+    expect(calculationFacts(evaluateFinancialScenario(plan, [facts[1]], messages)).at(-1)!.value).toBe(
+      '300.00',
+    );
+    plan.calculations[2].operands[0] = calculation('first_two');
+    expect(() => evaluateFinancialScenario(plan, [facts[1]], messages)).toThrow(
+      'same complete calendar period',
+    );
   });
 });

@@ -47,7 +47,7 @@ describe('new chat comparison budget (offline)', () => {
       chargedUsd: '0.010000000000',
     });
     expect(() => restarted.reserve('development/authored/D01', h, h, '0.010000000000')).toThrow(
-      'CHAT_NO_RETRY',
+      'CHAT_BUDGET_HALTED',
     );
   });
   it('charges thinking tokens and retains usage even for an invalid plan', () => {
@@ -102,7 +102,7 @@ describe('new chat comparison budget (offline)', () => {
         h,
         '0.000010000000',
       );
-      b.finish(r.id, result(b));
+      b.finish(r.id, result(b, { inputTokens: 1, outputTokens: 0, thinkingTokens: 0, totalTokens: 1 }));
     }
     b.freezeHoldout(h);
     expect(() => b.freezeHoldout(h)).toThrow();

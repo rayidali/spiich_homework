@@ -108,6 +108,8 @@ function validate(value: unknown): ChatLedger {
     )
       throw Error('CHAT_BUDGET_CORRUPT');
   }
+  if (ledger.records.some((r) => r.state === 'unknown') && !ledger.haltReason)
+    throw Error('CHAT_BUDGET_CORRUPT');
   if (ledger.records.filter((r) => r.state === 'pending').length > 1) throw Error('CHAT_BUDGET_CORRUPT');
   return ledger;
 }
@@ -201,6 +203,7 @@ export class ChatBudget {
       r.chargedUsd = outcome.usage ? cost(outcome.usage) : r.reservedUsd;
       r.finishedAt = new Date().toISOString();
       r.outcome = outcome;
+      if (!outcome.usage) l.haltReason = 'CHAT_USAGE_UNKNOWN';
       if (haltReason) l.haltReason = haltReason;
       if (outcome.usage && new Decimal(r.chargedUsd).gt(r.reservedUsd))
         l.haltReason = 'CHAT_RESERVATION_EXCEEDED';

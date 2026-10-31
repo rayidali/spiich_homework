@@ -1,5 +1,6 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join, resolve, relative } from 'node:path';
+import { homedir } from 'node:os';
 import { ChatBudget, reserveEstimate, totals } from './budget';
 import { exclusiveJson, hash, readJson, withLock } from './io';
 import { MAX_RESPONSE_BYTES, MODEL, parsePlan, plannerRequest, reportedUsage } from './planner';
@@ -8,7 +9,7 @@ export type RunManifest = {
   version: 'daybook-chat-evaluation-v1';
   runId: string;
   fixtureDir: string;
-  hashes: { ledger: string; development: string; holdout: string; protocol: string };
+  hashes: { ledger: string; development: string; holdout: string; oracle: string; protocol: string };
   keyHash: string;
   model: typeof MODEL;
   createdAt: string;
@@ -63,6 +64,7 @@ export function initializeRun(root: string, runId: string, fixtureDir: string, k
       ledger: hash(readFileSync(join(fixture, 'ledger.json'))),
       development: hash(readFileSync(join(fixture, 'development/cases.json'))),
       holdout: hash(readFileSync(join(fixture, 'holdout/cases.json'))),
+      oracle: hash(readFileSync(join(fixture, 'hand-calculated-oracle.json'))),
       protocol: hash(readFileSync('docs/research/CHAT_QUERY_EVALUATION.md')),
     },
     keyHash: hash(key),
@@ -82,6 +84,7 @@ export function openRun(path: string) {
     ledger: 'ledger.json',
     development: 'development/cases.json',
     holdout: 'holdout/cases.json',
+    oracle: 'hand-calculated-oracle.json',
   };
   for (const [kind, file] of Object.entries(files))
     if (hash(readFileSync(join(manifest.fixtureDir, file))) !== manifest.hashes[kind as keyof typeof files])
@@ -159,6 +162,12 @@ export function claim(path: string, id: string, key: string) {
     const run = openRun(path),
       dir = directory(path, id),
       p = readJson<Pending>(join(dir, 'pending.json'));
+    const curlDefaults = [
+      join(homedir(), '.curlrc'),
+      join(process.env.XDG_CONFIG_HOME ?? join(homedir(), '.config'), 'curlrc'),
+      ...(process.env.CURL_HOME ? [join(process.env.CURL_HOME, '.curlrc')] : []),
+    ];
+    if (curlDefaults.some((p) => existsSync(p))) throw Error('CHAT_IMPLICIT_CURL_CONFIG');
     if (hash(key) !== run.manifest.keyHash || /[\r\n\0]/.test(key)) throw Error('CHAT_KEY_BINDING');
     if (p.sourceHash !== sourceFingerprint().hash) throw Error('CHAT_SOURCE_DRIFT');
     const allowed = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
@@ -170,6 +179,24 @@ export function claim(path: string, id: string, key: string) {
       record.slot !== p.slot ||
       record.requestHash !== p.requestHash ||
       record.sourceHash !== p.sourceHash
+    )
+      throw Error('CHAT_REQUEST_BINDING');
+    if (
+      p.slot !== `${p.phase}/${p.route}/${p.caseId}` ||
+      !['setup', 'development', 'holdout'].includes(p.phase) ||
+      !['authored', 'composable'].includes(p.route)
+    )
+      throw Error('CHAT_REQUEST_BINDING');
+    const items =
+      p.phase === 'setup'
+        ? run.manifest.setup
+        : readJson<{ cases: EvaluationCase[] }>(join(run.manifest.fixtureDir, p.phase, 'cases.json')).cases;
+    const item = items.find((c) => c.id === p.caseId);
+    if (!item) throw Error('CHAT_CASE');
+    const expected = plannerRequest(p.route, run.fixture, item.messages);
+    if (
+      expected.hash !== record.requestHash ||
+      JSON.stringify(expected.body) !== readFileSync(join(dir, 'body.json'), 'utf8')
     )
       throw Error('CHAT_REQUEST_BINDING');
     run.budget.claim(id);
@@ -190,6 +217,7 @@ export function claim(path: string, id: string, key: string) {
         'connect-timeout = 10',
         `max-filesize = ${MAX_RESPONSE_BYTES}`,
         'retry = 0',
+        'max-redirs = 0',
         `write-out = ${q('%{http_code} %{time_total} %{exitcode} CHAT_HTTP_DONE_V1\n')}`,
       ].join('\n') + '\n';
     const configPath = join(dir, 'request.curl');
@@ -206,7 +234,7 @@ export function claim(path: string, id: string, key: string) {
       id,
       configPath,
       expiresAt,
-      command: `curl -fsSL --config '${configPath.replaceAll("'", "'\\''")}'`,
+      command: `curl -fsSL --no-fail --config '${configPath.replaceAll("'", "'\\''")}'`,
     };
   });
 }
@@ -285,11 +313,14 @@ export function complete(path: string, id: string, footer: string, curlExit: num
       }
     }
     // Usage remains reserved on a transport/metadata failure, including HTTP errors with no usage.
-    const haltReason = !usage
-      ? 'CHAT_USAGE_UNKNOWN'
-      : status === 401 || status === 403 || status === 429
-        ? 'CHAT_PROVIDER_BLOCKED'
-        : null;
+    const haltReason =
+      outcome.errorCode === 'CHAT_SOURCE_DRIFT' || outcome.errorCode === 'CHAT_REQUEST_DRIFT'
+        ? 'CHAT_SCIENTIFIC_STATE_DRIFT'
+        : !usage
+          ? 'CHAT_USAGE_UNKNOWN'
+          : status === 401 || status === 403 || status === 429
+            ? 'CHAT_PROVIDER_BLOCKED'
+            : null;
     run.budget.finish(id, outcome, haltReason);
     exclusiveJson(join(dir, 'completion.json'), {
       footer,

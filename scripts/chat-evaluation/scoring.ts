@@ -1,4 +1,6 @@
 import { Decimal } from '../../shared/money';
+import { checkFormulaProvenance } from './formula-scoring';
+import type { ScenarioCalculationFact } from '../../server/financial-calculation';
 import type { EvaluationCase, EvaluationFact, RecordedCall } from './types';
 export type ScoredFact = EvaluationFact & { proof: Record<string, unknown> };
 export type Execution = {
@@ -7,7 +9,8 @@ export type Execution = {
   errorCode?: string;
   truncated: boolean;
   clarification?: { reason: string; accountCodes: string[]; limitation: string };
-  scenario?: unknown;
+  scenario?: ScenarioCalculationFact[];
+  chartAccounts?: { code: string; name: string }[];
 };
 function equal(a: unknown, b: unknown): boolean {
   if (Array.isArray(a) && Array.isArray(b))
@@ -47,7 +50,7 @@ export function sameScope(
       }
     } else if (!equal(e, a)) return false;
   }
-  for (const key of ['month', 'entryId', 'rank', 'denominator'])
+  for (const key of ['month', 'entryId', 'rank', 'denominator', 'previousFrom', 'previousTo'])
     if (key in expected && !equal(expected[key], actual[key])) return false;
   for (const [key, v] of Object.entries(required)) {
     const mapped = key === 'grain' ? 'groupBy' : key;
@@ -89,16 +92,40 @@ export function scoreCase(
     }
     result.safeDeferral = true;
     // Human-authored free text needs explicit rubric review. Keyword matches are not proof of meaning.
-    if (call.name === 'ask_clarification' || c.expected.behavior === 'refuse') {
+    if (
+      call.name === 'ask_clarification' ||
+      (c.expected.behavior === 'refuse' && execution.clarification?.reason !== 'unsupported_action')
+    ) {
       result.outcome = 'needs_review';
       result.reason = 'BOUNDARY_WORDING_REQUIRES_RUBRIC_REVIEW';
       return result;
     }
     const reason = execution.clarification?.reason;
+    // These are evaluator-authored oracle topics, not keywords guessed from model prose.
+    const topics = c.expected.clarificationTopics.join(' ').toLowerCase();
+    const expectedReason =
+      c.expected.behavior === 'refuse'
+        ? 'unsupported_action'
+        : c.expected.behavior === 'out_of_scope'
+          ? 'off_topic'
+          : /reporting period/.test(topics)
+            ? 'missing_period'
+            : /assumptions|employment cost/.test(topics)
+              ? 'missing_assumption'
+              : /ambiguous account/.test(topics)
+                ? 'ambiguous_account'
+                : null;
+    if (!expectedReason) {
+      result.outcome = 'needs_review';
+      result.reason = 'UNMAPPED_CLARIFICATION_RUBRIC';
+      return result;
+    }
+    const requestedAccounts = (execution.chartAccounts ?? []).filter((a) =>
+      c.expected.clarificationTopics.some((t) => t.toLowerCase() === a.name.toLowerCase() || t === a.code),
+    );
     const match =
-      c.expected.behavior === 'out_of_scope'
-        ? reason === 'off_topic'
-        : reason === 'missing_period' || reason === 'missing_assumption' || reason === 'ambiguous_account';
+      reason === expectedReason &&
+      requestedAccounts.every((a) => execution.clarification?.accountCodes.includes(a.code));
     result.outcome = match ? 'pass' : 'fail';
     result.reason = match ? 'STRUCTURED_BOUNDARY_MATCH' : 'WRONG_CLARIFICATION_KIND';
     return result;
@@ -138,9 +165,21 @@ export function scoreCase(
   );
   const hasScenario = c.expected.facts.some((f) => f.metric.startsWith('scenario_'));
   if (hasScenario && result.matchedFacts === ordinary.length && execution.scenario) {
-    result.outcome = 'needs_review';
-    result.reason = 'SCENARIO_FORMULA_MEANING_REQUIRES_RUBRIC_REVIEW';
-    return result;
+    const formula = checkFormulaProvenance(c, execution.scenario, execution.facts, sameScope);
+    result.outcome = formula.status;
+    result.reason =
+      formula.status === 'pass'
+        ? 'EXACT_SCOPE_AND_PROVEN_FORMULAS'
+        : formula.status === 'fail'
+          ? 'WRONG_FORMULA_PROVENANCE'
+          : 'SCENARIO_FORMULA_MEANING_REQUIRES_RUBRIC_REVIEW';
+    if (formula.status === 'pass') {
+      result.matchedFacts = c.expected.facts.length;
+      result.numericCorrect = true;
+      result.scopeCorrect = true;
+      result.supportedAnswer = true;
+    }
+    return { ...result, formulaChecks: formula };
   }
   // Extra grouped rows can hide an incorrect top-N/period request. Query intermediates are separate proof, not answer rows.
   const permittedTopN =

@@ -8,7 +8,7 @@ import { executeFinancialScenario } from '../../server/financial-calculation';
 import { clarificationAnswer } from '../../server/chat-clarification';
 import { hash } from './io';
 import { sourceFingerprint } from './controller';
-import { normalizeAnalysis } from './normalize';
+import { normalizeAnalysis, normalizeCalculations } from './normalize';
 import { scoreCase, type Execution, type ScoredFact } from './scoring';
 import type { EvaluationCase, Fixture, RecordedCall, RecordedOutcome } from './types';
 
@@ -237,6 +237,9 @@ export async function executeRecorded(
       ),
       truncated: false,
       clarification: args as Execution['clarification'],
+      chartAccounts: fixture.accounts
+        .filter((a) => a.organization_id === org)
+        .map((a) => ({ code: a.code, name: a.name })),
     };
   if (call.name === 'ask_clarification')
     return { facts: [], answer: String(args.question), truncated: false };
@@ -246,8 +249,10 @@ export async function executeRecorded(
         ? await executeFinancialAnalysis(org, args)
         : await executeFinancialScenario(org, args, messages);
     const analysis = result.facts.filter((f) => 'queryId' in f);
+    const normalized = normalizeAnalysis(analysis, fixture);
+    const calculations = result.facts.filter((f) => 'kind' in f);
     return {
-      facts: normalizeAnalysis(analysis, fixture),
+      facts: [...normalized, ...normalizeCalculations(calculations, normalized)],
       answer: result.answer,
       truncated: analysis.some((f) => f.truncated),
       ...(call.name === 'financial_scenario' ? { scenario: result.facts.filter((f) => 'kind' in f) } : {}),
@@ -316,6 +321,12 @@ export async function replay(bundle: ReplayBundle) {
       after,
       unchanged: true,
       temporaryOrganizations: orgs.length,
+      caseMetadata: bundle.cases.map((c) => ({
+        id: c.id,
+        split: c.split,
+        commonCapability: c.commonCapability,
+        answerable: c.expected.answerableFromRecordedDataAndExplicitAssumptions,
+      })),
       results,
     };
   } finally {

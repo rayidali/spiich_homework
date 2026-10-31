@@ -11,6 +11,7 @@ export const chatClarificationSchema = z.strictObject({
     'missing_assumption',
     'unsupported_query',
     'off_topic',
+    'unsupported_action',
   ]),
   subject: z.enum(['expenses', 'revenue', 'profit', 'balances', 'transactions', 'analysis']),
   accountCodes: z.array(accountSchema.shape.code).max(8),
@@ -57,6 +58,8 @@ export function clarificationAnswer(args: unknown, chart: { code: string; name: 
   switch (p.reason) {
     case 'off_topic':
       return 'I can help with your recorded business finances and clearly labeled financial scenarios. Ask about spending, revenue, balances or transactions.';
+    case 'unsupported_action':
+      return 'Financial chat cannot reveal credentials or change your books. To record or correct an entry, use Transactions and review the change; posted entries are corrected by reversals.';
     case 'missing_period':
       return `Which period should I use for ${scope}—this month, this year, or specific start and end dates?`;
     case 'ambiguous_account':

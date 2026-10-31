@@ -9,12 +9,18 @@ const nodeId = z.string().regex(/^[a-z][a-z0-9_]{0,39}$/);
 const decimal = z.string().regex(/^-?(?:0|[1-9]\d{0,17})(?:\.\d{1,12})?$/);
 const unitSchema = z.enum(['USD', 'USD_per_month', 'months', 'count', 'ratio']);
 export type ScenarioUnit = z.infer<typeof unitSchema>;
-const referenceSchema = z.discriminatedUnion('source', [
+const referenceSchema = z.union([
   z.strictObject({
     source: z.literal('query'),
     id: nodeId,
     rowId: z.string().min(1).max(500),
     field: z.literal('value'),
+  }),
+  z.strictObject({
+    source: z.literal('query'),
+    id: nodeId,
+    rowId: z.null(),
+    field: z.literal('month_count'),
   }),
   z.strictObject({ source: z.literal('assumption'), id: nodeId, rowId: z.null(), field: z.literal('value') }),
   z.strictObject({
@@ -35,7 +41,6 @@ export const financialScenarioSchema = z.strictObject({
         sourceText: z.string().min(1).max(500),
       }),
     )
-    .min(1)
     .max(8),
   calculations: z
     .array(
@@ -58,10 +63,11 @@ export const financialScenarioTool: FinancialTool = {
   name: 'financial_scenario',
   strict: true,
   parameters,
-  description: `Compute a clearly HYPOTHETICAL scenario using up to4 ledger queries,1..8 explicit user assumptions and1..8 ordered binary arithmetic steps. Never invent a numeric literal: every operand references a query's exact rowId/value, a quoted assumption, or an earlier calculation. Node IDs are globally unique. Query rows must be complete, non-null, and not per-entry averages. For a total query the rowId is total:total. Query values are recorded USD or counts.
+  description: `Compute exact derived financial values using up to4 ledger queries,0..8 explicit user assumptions and1..8 ordered binary arithmetic steps. Pure posted-book arithmetic needs no assumptions and is labeled as recorded-data calculation. User-assumption or draft ancestry stays hypothetical. Never invent a numeric literal: every operand references a query's exact rowId/value, a quoted assumption, or an earlier calculation. Node IDs are globally unique. Query rows must be complete, non-null, and not per-entry averages. For a total query the rowId is total:total. Monetary value operands must be USD; count operands are counts.
+For an average per calendar month, use a monthly flow query covering full calendar months and reference {source:'query',id:itsId,rowId:null,field:'month_count'}. The server derives months only from the complete, untruncated, unique, contiguous zero-filled monthly series with exact boundaries. No partial months, balances, quarters or per-entry averages. Divide the matching period's total by that month count; monetary query ancestors must cover the same full period. This field never reads a model-supplied number.
 Each assumption sourceText must be an exact substring of a USER message, containing exactly one numeric literal and its unit: e.g. '$6,000 per month' USD_per_month, '3 months' months, '$3,000 recruiting' USD, '18%' ratio value0.18, or '2 employees' count. No assistant text, invented constants, annual-to-monthly conversions or unsupported currencies. Percent normalization is exact. Use digits, not spelled-out numbers. These quotes prove numeric provenance, not future truth or intent.
 Addition/subtraction require equal units. A ratio scales a value. USD_per_month times months is USD; USD divided by USD_per_month is months; USD divided by months is USD_per_month. Count may multiply USD, USD_per_month or months. Equal units divided yield ratio. Other dimensional combinations and zero divisors are rejected. Values are magnitude bounded. Calculations preserve exact rational arithmetic and round only for display. For salary plus18% burden, add salary to salary times0.18; do not invent a constant1.
-All derived results are hypothetical, not forecasts or affordability decisions. Ask for missing assumptions rather than inventing future revenue, obligations or reserves. Do not claim affordability even when a calculated remainder is positive.`,
+Ask for missing scenario assumptions rather than inventing future revenue, obligations or reserves. Any used assumption makes that result hypothetical; draft-derived results remain unposted. Neither historical arithmetic nor a positive scenario remainder establishes affordability or predicts the future.`,
 };
 
 type Fraction = { numerator: bigint; denominator: bigint };
@@ -156,12 +162,17 @@ function presentation(value: Fraction, unit: ScenarioUnit) {
 }
 
 export type ScenarioAssumption = FinancialScenario['assumptions'][number] & { userMessageIndex: number };
-type Provenance = { assumptionIds: string[]; queryRows: { id: string; rowId: string; field: 'value' }[] };
-type Value = { exact: Fraction; unit: ScenarioUnit; provenance: Provenance };
+type QueryReference =
+  | { id: string; rowId: string; field: 'value' }
+  | { id: string; rowId: null; field: 'month_count' };
+type Provenance = { assumptionIds: string[]; queryRows: QueryReference[] };
+type CalculationSource = 'posted' | 'draft' | 'scenario';
+type Value = { exact: Fraction; unit: ScenarioUnit; provenance: Provenance; source: CalculationSource };
 export type ScenarioCalculationFact = {
   kind: 'scenario_calculation';
   id: string;
-  hypothetical: true;
+  hypothetical: boolean;
+  source: CalculationSource;
   operation: Operation;
   operands: ScenarioReference[];
   value: string;
@@ -190,15 +201,24 @@ function quotedAssumption(
   const moneyUnit = /\$|\b(?:USD|(?:US\s+)?dollars?)\b/i.test(text);
   const monthly = /(?:per\s+month|a\s+month|each\s+month|\/\s*(?:month|mo)\b|monthly\b)/i.test(text);
   const percent = /%|\bpercent(?:age)?\b/i.test(text);
+  // The unit must qualify this numeric literal, not another noun elsewhere in
+  // the quote (for example, "2 months for employees" is a duration, not a count).
+  const afterLiteral = text.slice(end);
+  const monthUnit = /^\s*(?:(?:calendar|full|complete)\s+)?months?\b/i.test(afterLiteral);
+  const countUnit = /^\s*(?:employees?|people|hires?|workers?|units?|items?|count|FTEs?)\b/i.exec(
+    afterLiteral,
+  );
+  const countRate =
+    countUnit !== null &&
+    /^\s*(?:(?:per|a|each|every|\/)\s*(?:months?|years?|weeks?|days?|hours?)\b|monthly\b|annually\b|yearly\b|weekly\b|daily\b)/i.test(
+      afterLiteral.slice(countUnit[0].length),
+    );
   if (
     (assumption.unit === 'USD' && (!moneyUnit || monthly || percent)) ||
     (assumption.unit === 'USD_per_month' &&
       (!moneyUnit || !monthly || percent || /\b(?:annual|annually|yearly|weekly|daily)\b/i.test(text))) ||
-    (assumption.unit === 'months' && (!/months?\b/i.test(text) || monthly || moneyUnit || percent)) ||
-    (assumption.unit === 'count' &&
-      (!/\b(?:employees?|people|hires?|workers?|units?|items?|count|FTEs?)\b/i.test(text) ||
-        moneyUnit ||
-        percent)) ||
+    (assumption.unit === 'months' && (!monthUnit || monthly || moneyUnit || percent)) ||
+    (assumption.unit === 'count' && (!countUnit || countRate || moneyUnit || percent)) ||
     (assumption.unit === 'ratio' &&
       (!(percent || /\b(?:ratio|fraction|multiplier)\b/i.test(text)) || moneyUnit))
   )
@@ -250,9 +270,86 @@ function quotedAssumption(
       exact: asserted,
       unit: assumption.unit,
       provenance: { assumptionIds: [assumption.id], queryRows: [] },
+      source: 'scenario',
     },
     evidence: { ...assumption, userMessageIndex },
   };
+}
+
+function fullMonths(from: string | null, to: string) {
+  if (!from || !from.endsWith('-01'))
+    invalid('A calendar-month count requires full months, beginning on the first day.');
+  const start = Number(from.slice(0, 4)) * 12 + Number(from.slice(5, 7)) - 1;
+  const end = Number(to.slice(0, 4)) * 12 + Number(to.slice(5, 7)) - 1;
+  if (end < start || end - start + 1 > 120)
+    invalid('A calendar-month count exceeds the supported period range.');
+  const months = Array.from({ length: end - start + 1 }, (_, index) => {
+    const monthIndex = start + index,
+      year = Math.floor(monthIndex / 12),
+      month = (monthIndex % 12) + 1;
+    const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+    const last = [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month - 1];
+    const prefix = `${String(year).padStart(4, '0')}-${String(month).padStart(2, '0')}`;
+    return { rowId: `month:${prefix}`, from: `${prefix}-01`, to: `${prefix}-${last}` };
+  });
+  if (months.at(-1)!.to !== to)
+    invalid('A calendar-month count requires full months, ending on the last day.');
+  return months;
+}
+
+function calendarMonths(fact: AnalysisFacts) {
+  const p = fact.scope.plan;
+  if (p.groupBy !== 'month' || p.aggregation !== 'sum' || p.metric === 'account_balance' || fact.truncated)
+    invalid('A month count requires a complete monthly flow series, not averages or closing balances.');
+  const expected = fullMonths(p.from, p.to);
+  if (expected.length > p.limit || fact.rows.length !== expected.length)
+    invalid('The monthly query must include every month, including months without activity.');
+  for (const period of expected) {
+    const row = fact.rows.find((item) => item.rowId === period.rowId);
+    if (
+      !row ||
+      row.from !== period.from ||
+      row.to !== period.to ||
+      row.value === null ||
+      !/^\d{1,20}$/.test(row.entryCount) ||
+      !/^-?\d+(?:\.\d+)?$/.test(row.value) ||
+      (BigInt(row.entryCount) === 0n && !new Decimal(row.value).eq(0))
+    )
+      invalid('Monthly evidence has missing, duplicate, partial or incompatible calendar coverage.');
+  }
+  return fraction(BigInt(expected.length), 1n);
+}
+
+function checkAveragePeriods(amount: Value, duration: Value, facts: AnalysisFacts[]) {
+  const calendars = duration.provenance.queryRows.filter((ref) => ref.field === 'month_count');
+  for (const calendar of calendars) {
+    const denominator = facts.find((fact) => fact.queryId === calendar.id)!;
+    const expected = fullMonths(denominator.scope.plan.from, denominator.scope.plan.to).map((m) => m.rowId);
+    const monetary = amount.provenance.queryRows.filter((ref) => ref.field === 'value');
+    for (const id of new Set(monetary.map((ref) => ref.id))) {
+      const fact = facts.find((item) => item.queryId === id)!;
+      if (fact.unit === 'count') continue;
+      const references = monetary.filter((ref) => ref.id === id);
+      const spans = references.map((ref) => fact.rows.find((row) => row.rowId === ref.rowId)!);
+      // A whole-period aggregate already covers the denominator. Otherwise,
+      // require nonoverlapping full-month buckets covering that same period.
+      const whole = spans.every(
+        (row) => row.from === denominator.scope.plan.from && row.to === denominator.scope.plan.to,
+      );
+      if (whole && fact.metric !== 'account_balance') continue;
+      if (!['month', 'quarter'].includes(fact.grain) || fact.metric === 'account_balance')
+        invalid('A monthly average must use amounts from the same full calendar period as its month count.');
+      const coverage = spans.flatMap((row) => fullMonths(row.from, row.to!).map((m) => m.rowId));
+      if (
+        coverage.length !== expected.length ||
+        new Set(coverage).size !== coverage.length ||
+        [...coverage].sort().some((month, index) => month !== [...expected].sort()[index])
+      )
+        invalid(
+          'A monthly average must include exactly the same complete calendar period as its month count.',
+        );
+    }
+  }
 }
 
 function prepare(input: unknown, messages: ModelMessages) {
@@ -271,6 +368,12 @@ function prepare(input: unknown, messages: ModelMessages) {
         const query = plan.queries.find((q) => q.id === ref.id);
         if (!query || query.aggregation === 'average_per_entry')
           invalid('Use a recorded total or count, not a per-entry average, as a scenario operand.');
+        if (ref.field === 'month_count') {
+          if (query.groupBy !== 'month' || query.metric === 'account_balance')
+            invalid('A calendar-month count requires a complete monthly flow query.');
+          fullMonths(query.from, query.to);
+          return 'months' as const;
+        }
         if (query.metric !== 'journal_count' && query.currencyMode === 'native' && query.currency !== 'USD')
           invalid('Scenario monetary operands must be in USD; no currency conversion is inferred.');
         return query.metric === 'journal_count' ? ('count' as const) : ('USD' as const);
@@ -314,8 +417,18 @@ export function evaluateFinancialScenario(
       fact.metric !== requested.metric ||
       fact.aggregation !== requested.aggregation ||
       fact.grain !== requested.groupBy ||
-      fact.unit !== (requested.metric === 'journal_count' ? 'count' : 'USD') ||
-      fact.currency !== (requested.metric === 'journal_count' ? null : 'USD') ||
+      fact.unit !==
+        (requested.metric === 'journal_count'
+          ? 'count'
+          : requested.currencyMode === 'native'
+            ? requested.currency
+            : 'USD') ||
+      fact.currency !==
+        (requested.metric === 'journal_count'
+          ? null
+          : requested.currencyMode === 'native'
+            ? requested.currency
+            : 'USD') ||
       new Set(fact.rows.map((row) => row.rowId)).size !== fact.rows.length
     )
       invalid('The scenario query evidence has incompatible identity, units or scope.');
@@ -325,6 +438,14 @@ export function evaluateFinancialScenario(
     if (ref.source === 'assumption') return assumptions.get(ref.id)!.value;
     if (ref.source === 'calculation') return computed.get(ref.id)!;
     const fact = queryFacts.find((f) => f.queryId === ref.id)!;
+    const source = fact.scope.plan.status === 'DRAFT' ? ('draft' as const) : ('posted' as const);
+    if (ref.field === 'month_count')
+      return {
+        exact: calendarMonths(fact),
+        unit: 'months',
+        source,
+        provenance: { assumptionIds: [], queryRows: [{ id: ref.id, rowId: null, field: 'month_count' }] },
+      };
     const row = fact.rows.find((r) => r.rowId === ref.rowId);
     if (!row || row.value === null || fact.truncated)
       invalid('An operand needs its exact, non-null row from a complete query result.');
@@ -333,20 +454,17 @@ export function evaluateFinancialScenario(
       // Non-USD monetary evidence is rejected above, never converted implicitly.
       unit: fact.unit === 'count' ? 'count' : 'USD',
       provenance: { assumptionIds: [], queryRows: [{ id: ref.id, rowId: ref.rowId, field: 'value' }] },
+      source,
     };
   }
   const calculations: ScenarioCalculationFact[] = [];
-  const tableRows: InsightEvidence['rows'] = [];
-  const referenceLabel = (ref: ScenarioReference) =>
-    ref.source === 'query'
-      ? `Q${plan.queries.findIndex((q) => q.id === ref.id) + 1}[${ref.rowId}]`
-      : ref.source === 'assumption'
-        ? `A${plan.assumptions.findIndex((a) => a.id === ref.id) + 1}`
-        : `C${plan.calculations.findIndex((c) => c.id === ref.id) + 1}`;
+  const tables = new Map<CalculationSource, InsightEvidence['rows']>();
   for (const calculation of plan.calculations) {
     const [left, right] = calculation.operands.map(resolve);
     const exact = arithmetic(calculation.operation, left.exact, right.exact);
     const unit = resultUnit(calculation.operation, left.unit, right.unit);
+    if (calculation.operation === 'divide' && left.unit === 'USD' && right.unit === 'months')
+      checkAveragePeriods(left, right, queryFacts);
     const provenance: Provenance = {
       assumptionIds: [...new Set([...left.provenance.assumptionIds, ...right.provenance.assumptionIds])],
       queryRows: [
@@ -358,12 +476,19 @@ export function evaluateFinancialScenario(
         ).values(),
       ],
     };
-    computed.set(calculation.id, { exact, unit, provenance });
+    const source: CalculationSource =
+      left.source === 'scenario' || right.source === 'scenario'
+        ? 'scenario'
+        : left.source === 'draft' || right.source === 'draft'
+          ? 'draft'
+          : 'posted';
+    computed.set(calculation.id, { exact, unit, provenance, source });
     const displayed = presentation(exact, unit);
     calculations.push({
       kind: 'scenario_calculation',
       id: calculation.id,
-      hypothetical: true,
+      hypothetical: source !== 'posted',
+      source,
       operation: calculation.operation,
       operands: calculation.operands,
       value: displayed.value,
@@ -372,31 +497,48 @@ export function evaluateFinancialScenario(
       assumptions: provenance.assumptionIds.map((id) => assumptions.get(id)!.evidence),
       provenance,
     });
+    const tableRows = tables.get(source) ?? [];
     tableRows.push({
-      label: `Calculated result ${calculations.length} (C${calculations.length}): ${referenceLabel(calculation.operands[0])} ${{ add: '+', subtract: '−', multiply: '×', divide: '÷' }[calculation.operation]} ${referenceLabel(calculation.operands[1])}`,
+      label: `Calculation ${calculations.length}: ${presentation(left.exact, left.unit).label} ${{ add: '+', subtract: '−', multiply: '×', divide: '÷' }[calculation.operation]} ${presentation(right.exact, right.unit).label}`,
       value: displayed.label,
     });
+    tables.set(source, tableRows);
   }
-  const last = tableRows.at(-1)!;
+  const last = calculations.at(-1)!;
+  const lastValue = presentation(computed.get(last.id)!.exact, last.unit).label;
+  const evidence: InsightEvidence[] = [];
+  if (assumptions.size)
+    evidence.push({
+      title: 'User assumptions · HYPOTHETICAL',
+      source: 'scenario',
+      period: 'Quoted from your messages; these are not posted transactions',
+      rows: [...assumptions.values()].map((a, i) => ({
+        label: `Assumption ${i + 1}: “${a.evidence.sourceText}”`,
+        value: presentation(a.value.exact, a.value.unit).label,
+      })),
+      href: '/transactions',
+    });
+  for (const [source, rows] of tables)
+    evidence.push({
+      title:
+        source === 'scenario'
+          ? 'Hypothetical calculations'
+          : source === 'draft'
+            ? 'Calculations using unposted drafts'
+            : 'Calculations from posted books',
+      source,
+      period: 'Exact arithmetic internally; displayed USD amounts rounded to cents',
+      rows,
+      href: '/transactions',
+    });
   return {
-    answer: `HYPOTHETICAL scenario. ${last.label}: ${last.value}. This calculation uses the listed user assumptions and recorded query results. It does not establish future receipts, obligations, or whether a decision is affordable.`,
-    evidence: [
-      {
-        title: 'User assumptions · HYPOTHETICAL',
-        period: 'Quoted from your messages; these are not posted transactions',
-        rows: [...assumptions.values()].map((a, i) => ({
-          label: `A${i + 1}: “${a.evidence.sourceText}”`,
-          value: presentation(a.value.exact, a.value.unit).label,
-        })),
-        href: '/transactions',
-      },
-      {
-        title: 'Scenario arithmetic · HYPOTHETICAL',
-        period: 'Exact arithmetic internally; displayed USD amounts rounded to cents',
-        rows: tableRows,
-        href: '/transactions',
-      },
-    ],
+    answer:
+      last.source === 'posted'
+        ? `From the posted books, the calculated result is ${lastValue}. This uses recorded amounts for the shown scopes.`
+        : last.source === 'draft'
+          ? `Using unposted drafts, the calculated result is ${lastValue}. This is hypothetical and is not a posted book total.`
+          : `Using these assumptions, the calculated result is ${lastValue}. This is hypothetical, not a forecast or an affordability decision.`,
+    evidence,
     facts: [...queryFacts, ...calculations],
   };
 }

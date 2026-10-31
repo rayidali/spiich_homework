@@ -480,7 +480,21 @@ export async function executeFinancialAnalysis(
       const suffix = truncated
         ? `Showing ${plan.limit} results. There are more; these are not the complete results.`
         : `All ${rows.length} results are shown.`;
-      const heading = `${plan.metric === 'account_balance' && ['month', 'quarter'].includes(plan.groupBy) ? 'Closing account balances' : metricLabels[plan.metric]}${plan.aggregation === 'average_per_entry' ? ' (average per transaction)' : ''}${plan.status === 'DRAFT' ? ' (drafts only)' : ''}${plan.currencyMode === 'native' ? ` (${currency}, without conversion)` : ''}`;
+      const metricHeading = `${plan.metric === 'account_balance' && ['month', 'quarter'].includes(plan.groupBy) ? 'Closing account balances' : metricLabels[plan.metric]}${plan.aggregation === 'average_per_entry' ? ' (average per transaction)' : ''}${plan.status === 'DRAFT' ? ' (drafts only)' : ''}${plan.currencyMode === 'native' ? ` (${currency}, without conversion)` : ''}`;
+      const accountNames = plan.accountCodes.map(
+        (code) => chart.find((account) => account.code === code)!.name,
+      );
+      const visibleScope = [
+        accountNames.length
+          ? `${accountNames.slice(0, 2).join(', ')}${accountNames.length > 2 ? ` (+${accountNames.length - 2} accounts)` : ''}`
+          : '',
+        plan.counterparty.mode !== 'any'
+          ? `Counterparty ${plan.counterparty.mode === 'exact' ? '' : 'containing '}${JSON.stringify(plan.counterparty.value)}`
+          : '',
+      ]
+        .filter(Boolean)
+        .join(' · ');
+      const heading = visibleScope ? `${metricHeading} · ${visibleScope}` : metricHeading;
       answers.push(
         `${heading}${plan.groupBy === 'total' ? `: ${tableRows[0]?.value ?? 'No matching transactions'}` : ''}. ${plan.from ? `${plan.from} to ${plan.to}` : `As of ${plan.to}`}. ${suffix}`,
       );

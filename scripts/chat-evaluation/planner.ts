@@ -7,7 +7,9 @@ export const MODEL = 'gemini-3.5-flash-lite';
 export const MAX_RESPONSE_BYTES = 128 * 1024;
 /** Projection intentionally mirrors each product route's actual chart, not a gold-aware adapter. */
 export function plannerRequest(route: ChatRoute, fixture: Fixture, messages: ModelMessages) {
-  const all = fixture.accounts.filter((a) => a.organization_id === fixture.primaryOrganizationId);
+  const all = fixture.accounts
+    .filter((a) => a.organization_id === fixture.primaryOrganizationId)
+    .sort((a, b) => a.code.localeCompare(b.code) || a.id.localeCompare(b.id));
   const chart = all
     .filter((a) => route === 'composable' || a.type === 'EXPENSE')
     .map((a) => ({
