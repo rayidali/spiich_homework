@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "kind": "completed_legacy_queue_archive",
+  "status": "complete",
+  "createdAt": "2026-10-31T04:25:41.995187+00:00",
+  "completedAt": "2026-10-31T04:25:47.406040+00:00",
+  "requestSets": 1201,
+  "fileCount": 7164,
+  "bytes": 16237040,
+  "legacyCreatedAtMin": "2026-10-30T20:55:55.844Z",
+  "legacyCreatedAtMax": "2026-10-30T22:47:11.227Z",
+  "legacyLastFileModifiedAt": "2026-10-30T22:47:12.108705+00:00",
+  "explicitExpiredDeadlines": 703,
+  "legacyWithoutExpiryField": 498,
+  "beforeQueueFileCount": 27837,
+  "afterQueueFileCount": 20673,
+  "remainingModernClaimCount": 3450,
+  "readyCount": 0,
+  "ownerLockPresent": false,
+  "runnerLockPresent": false,
+  "beforeInventorySha256": "2d6502d110cf2fc7e7e8ce50d5ae073af74131fd624aa1e0748e18a5dab99b43",
+  "afterInventorySha256": "616f89166e727dd7fd49176a22b709403fc78076d71c23e37e442cd7f83dec8a",
+  "archivedInventorySha256": "356c876892aeef58a1e3447f84f9d14f3396b3d720e099f9fc2aa1d2a4c1513a",
+  "privateManifestSha256": "6d9322ee7d9e1056078c5ee1025d3f52e38554e5a4f35b803dc9054c0fef1acd",
+  "preserved": [
+    "exact_bytes",
+    "filenames",
+    "file_modes",
+    "modification_times",
+    "complete_request_sets"
+  ],
+  "modifiedScientificSource": false,
+  "modifiedLedgerOrPolicy": false,
+  "rewroteCompletionMarkers": false,
+  "networkCalls": 0,
+  "limitations": [
+    "The historical completion format is preserved without upgrading it to modern framing evidence.",
+    "498 legacy requests predate the explicit expiry field; their inactive status relies on old file timestamps, completed response/header files, absent active work and stopped dispatcher."
+  ]
+}

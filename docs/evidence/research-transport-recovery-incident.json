@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "reason": "dispatcher_completion_stall",
+  "runId": "holdout-v1",
+  "recordedAt": "2026-10-31T04:18:35.927400+00:00",
+  "timeoutRecordIds": [
+    "2c576b4e-eb4f-4410-b2fc-6a41f748a944",
+    "59238ad3-2e32-4b3d-bd9a-772fd7ee6b19",
+    "c653b931-9988-4527-91ce-a3a16466aa63"
+  ],
+  "dispatchAudit": {
+    "path": "docs/evidence/research-runs/holdout-v1/interruption-01/dispatch-delay-diagnostic.json",
+    "sha256": "41eeb01df34ff1a312b04ac0f8fb11dfdb097c8cdaae880e4e87fbf0637ec2be"
+  }
+}

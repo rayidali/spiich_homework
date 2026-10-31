@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "kind": "launch_guard_engineering_correction",
+  "version": 2,
+  "at": "2026-10-31T04:36:42.068396+00:00",
+  "correctedHelperSha256": "64930e13a85742cf88f9d7ee729bcad5ab193d77b4fc0959f84241995d4375eb",
+  "testSuiteSha256": "a677ff33402256ea832672ac89f6dbe8f017c98e30485b84531ad53ea0403359",
+  "previousHelperSha256": "98d622fe3a240ffb0315266595d0a6e9d5e3d01114fddb816de4cf63294f1e5b",
+  "previousVersionArchiveManifestSha256": "5945edbd7f151cf4357d20621737570d18ea7a9826574a9c7a3f1c4b1ee91936",
+  "unchangedCoordinatorSha256": "6ba272427fe573c5a3a345eb5351907d5029dddc472741f07ebde8559d966f33",
+  "defect": "Version1 rejected the actual newline decoded from the generated curl write-out JSON; its synthetic fixture incorrectly used literal backslash-n.",
+  "correction": [
+    "Permit a newline only in write-out, which must exactly match the bounded completion footer with one final newline.",
+    "Continue rejecting CR/NUL in all string directives and newlines in headers and other string directives."
+  ],
+  "offlineTests": {
+    "passed": 25,
+    "networkCalls": 0,
+    "usesActualFrozenQueueWriter": true,
+    "actualWriterScope": "The frozen TypeScript queuedHttp writer generates a temporary configuration with fake credentials; the complete launch guard accepts it without rewriting original config bytes except remaining max-time. No network call is performed.",
+    "cases": [
+      "Live and expired absolute deadlines, including a115-second tool-queue gap.",
+      "Owner/run/controller/claim binding and queue path confinement.",
+      "Unexpected host/directive and malformed completion path rejection.",
+      "Exclusive launch marker prevents repeat dispatch and preserves existing completion bytes.",
+      "Actual-launch pacing, expiry during pacing and owner change during wait.",
+      "Header LF/CR/NUL injection rejection and exact footer newline matching."
+    ]
+  },
+  "independentReview": {
+    "kind": "separate_coding_agent",
+    "repeatedOfflineTestsPassed": 25,
+    "localCurlParsingCheck": {
+      "configurationSource": "Captured actual queuedHttp-generated configuration emitted by the corrected guard in an isolated temporary fixture.",
+      "preserved": "The write-out line was retained byte-for-byte.",
+      "localOnlyTransformations": [
+        "URL changed to file:///dev/null.",
+        "Protocol changed to =file; method changed to GET.",
+        "Synthetic header and data-binary lines removed."
+      ],
+      "assertions": [
+        "Exactly one URL and no HTTPS URL remained.",
+        "Real curl with default-config loading disabled exited0.",
+        "Produced numeric000 HTTP status with exit0 and the complete DAYBOOK_HTTP_DONE_V1 footer ending in exactly one real newline.",
+        "Exclusive launch marker existed."
+      ],
+      "providerCalls": 0,
+      "standaloneArtifactSaved": false
+    }
+  },
+  "validationScope": "Establishes local configuration generation, guard behavior and curl parsing only; does not establish provider permission or a successful live recovery probe.",
+  "providerCallsDuringCorrection": 0,
+  "originalFailedProbeReplayed": false,
+  "originalFailedProbeReservationChanged": false,
+  "frozenScientificSourceChanged": false,
+  "protocolChanged": false,
+  "newLiveDispatchAuthorizedByThisReceipt": false,
+  "priorFailureReceipt": "research-transport-recovery-local-rejection-01.json",
+  "remainingLimitations": [
+    "Launch-time deadline checks do not make the chat-hosted dispatcher durable.",
+    "Operating-system scheduling may still intervene after configuration emission and before actual network start.",
+    "A separately reviewed, one-use continuation permit recorded under the user’s existing authorization is required before any provider request."
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "at": "2026-10-31T04:42:02.781588+00:00",
+  "kind": "prelaunch_continuation_engineering_checks",
+  "scope": "External operational helper only; frozen inference source and protocol unchanged.",
+  "files": [
+    {
+      "path": "scripts/continue-unlaunched-probe.ts",
+      "sha256": "f7eafdf863eb6a6a99430a5e7a657144ddff52d4ce52bfbab4a1b89d08c39ba7"
+    },
+    {
+      "path": "tests/research-prelaunch-continuation.test.ts",
+      "sha256": "34ad171e9c1a5b4a9b04e416e5b06485017360e071e1cda35a3a117a40afb10b"
+    },
+    {
+      "path": "scripts/recover-study-transport.ts",
+      "sha256": "faa94ebac9bd3bab18afe8a652bff1bf06e711986f749baf0cc9799cda572d8e"
+    },
+    {
+      "path": "private launch guard v2",
+      "sha256": "64930e13a85742cf88f9d7ee729bcad5ab193d77b4fc0959f84241995d4375eb"
+    }
+  ],
+  "verification": {
+    "continuationTests": 31,
+    "originalTransportRecoveryTests": 35,
+    "originalQuotaRecoveryTests": 28,
+    "combinedPassed": 94,
+    "testFiles": 3,
+    "strictTypeScript": "passed",
+    "formatting": "passed",
+    "independentReview": "passed",
+    "independentWorkspaceTestsPassed": 66,
+    "independentCleanCheckoutTestsPassed": 66,
+    "cleanCheckoutIncludedPrivateTooling": false,
+    "actualArchivedProofPrerequisites": "read_only_verified; no live prepare or provider call"
+  },
+  "providerCalls": 0,
+  "realPermitPrepared": false,
+  "studyResumed": false,
+  "failedProbeReservationPreservedUsd": 0.0010841,
+  "frozenSourceHash": "fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08",
+  "limits": {
+    "additionalGeminiUsd": 6.4,
+    "additionalJevUsd": 0.1,
+    "cumulativeGeminiUsd": 10,
+    "cumulativeJevUsd": 4
+  },
+  "limitations": [
+    "Synthetic tests and local parsing do not establish provider availability.",
+    "No-network proof uses preserved operator evidence and reviewed launcher control flow; it is not tamper-proof remote attestation.",
+    "A failure or ambiguous dispatch cannot trigger another continuation."
+  ]
+}
