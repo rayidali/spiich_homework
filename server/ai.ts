@@ -34,6 +34,7 @@ import {
   executeFinancialScenario,
 } from './financial-calculation';
 import { Decimal, formatCurrency } from '../shared/money';
+import { normalizeAllHistoryFlow, recordedRange, recordedPeriod } from './date-scope';
 
 const proposalSchema = z.strictObject({
   action: z.enum(['READY', 'CLARIFY']),
@@ -305,10 +306,10 @@ export async function runInsightTool(
     const report = await reportSnapshot((db) => expenseAccountSummary(org, p.accountCode, p.from, p.to, db));
     const accountHref = `/accounts?account=${report.account.id}&from=${p.from}&to=${p.to}`;
     return {
-      answer: `You recorded ${dollars(report.totalExpenses)} USD in ${report.account.name} expenses${report.account.is_group ? ' (including its subaccounts)' : ''} from ${p.from} to ${p.to}. Posted credits and reversals are included in this total.`,
+      answer: `You recorded ${dollars(report.totalExpenses)} USD in ${report.account.name} expenses${report.account.is_group ? ' (including its subaccounts)' : ''} ${recordedRange(p.from, p.to)}. Posted credits and reversals are included in this total.`,
       evidence: {
         title: `Expenses · ${report.account.name}`,
-        period: `${p.from} → ${p.to}`,
+        period: recordedPeriod(p.from, p.to),
         rows: report.expenses.map((r) => ({
           label: r.name,
           value: dollars(r.amount),
@@ -333,14 +334,14 @@ export async function runInsightTool(
       // Unlike a ranking, 'all' includes accounts without posted activity.
       chart: p.view === 'all' ? await expenseAccountChart(org, db) : [],
     }));
-    const totalAnswer = `Your net recorded expenses from ${p.from} to ${p.to} were ${dollars(report.totalExpenses)} USD. Posted credits and reversals are included in this total.`;
+    const totalAnswer = `Your net recorded expenses ${recordedRange(p.from, p.to)} were ${dollars(report.totalExpenses)} USD. Posted credits and reversals are included in this total.`;
     const reportHref = `/reports?from=${p.from}&to=${p.to}`;
     if (p.view === 'total')
       return {
         answer: totalAnswer,
         evidence: {
           title: 'Total expenses',
-          period: `${p.from} → ${p.to}`,
+          period: recordedPeriod(p.from, p.to),
           rows: [{ label: 'Net recorded expenses (USD)', value: dollars(report.totalExpenses) }],
           href: reportHref,
         },
@@ -368,7 +369,7 @@ export async function runInsightTool(
       }`,
       evidence: {
         title: p.view === 'all' ? 'All expense accounts' : 'Top expenses',
-        period: `${p.from} → ${p.to}`,
+        period: recordedPeriod(p.from, p.to),
         rows: rows.map((r) => ({
           label: r.name,
           value: dollars(r.amount),
@@ -383,10 +384,10 @@ export async function runInsightTool(
     const report = await reportSnapshot((db) => incomeStatement(org, p.from, p.to, db));
     const amount = incomeAmount(report, p.metric);
     return {
-      answer: `Recorded ${incomeLabel[p.metric].toLowerCase()} from ${p.from} to ${p.to} totaled ${dollars(amount)} USD.`,
+      answer: `Recorded ${incomeLabel[p.metric].toLowerCase()} ${recordedRange(p.from, p.to)} totaled ${dollars(amount)} USD.`,
       evidence: {
         title: incomeLabel[p.metric],
-        period: `${p.from} → ${p.to}`,
+        period: recordedPeriod(p.from, p.to),
         rows: [{ label: incomeLabel[p.metric], value: dollars(amount) }],
         href: `/reports?from=${p.from}&to=${p.to}`,
       },
@@ -434,7 +435,7 @@ export async function runInsightTool(
         : `No posted entries match “${p.search}” in this period.`,
       evidence: {
         title: `Transactions · ${p.search}`,
-        period: `${p.from} → ${p.to}`,
+        period: recordedPeriod(p.from, p.to),
         rows: result.items.map((r) => ({
           label: `${r.date} · ${r.description}`,
           value: dollars(r.total),
@@ -455,7 +456,7 @@ export async function runInsightTool(
         rows: report.accounts.map((a) => ({
           label: a.name,
           value: dollars(a.balance),
-          href: `/accounts?account=${a.id}&from=1900-01-01&to=${p.asOf}`,
+          href: `/accounts?account=${a.id}&from=0001-01-01&to=${p.asOf}`,
         })),
         href: `/reports?tab=balance&to=${p.asOf}`,
       },
@@ -485,7 +486,7 @@ export function buildFinancialPlannerInput(
   if (route === 'authored')
     return {
       tools: insightTools,
-      instructions: `Choose exactly one read-only financial query based on the conversation. Today is ${date} in America/New_York. Resolve last month and completed quarters to full calendar periods. This month/year and current quarter end today unless the user explicitly requests the full period. Compare equal elapsed periods when comparing quarter-to-date. For explicitly all-time expenses and unbounded transaction searches use 1900-01-01 through today.
+      instructions: `Choose exactly one read-only financial query based on the conversation. Today is ${date} in America/New_York. Resolve last month and completed quarters to full calendar periods. This month/year and current quarter end today unless the user explicitly requests the full period. Compare equal elapsed periods when comparing quarter-to-date. For explicitly all-time expenses and unbounded transaction searches use 0001-01-01 through today unless the user specifies another end date.
 Preserve the user's requested scope. Use expense_by_account for a named expense category or group; expense_summary is only for ALL expenses or a ranking of TOP expense categories. Never replace a named-category question with an overall total or a top-five list. Resolve the exact account code from the supplied expense chart. Include archived accounts for historical questions. If a label matches multiple accounts and context does not distinguish their code/currency/parent, ask which one. If no account matches, ask for the account/category; do not guess a code or return zero or all expenses. A group includes its descendant posting accounts. Requests for several separate categories, cash paid by category, or dimensions these tools cannot express need clarification rather than a partial substitute.
 For period-based expense, revenue or profit questions, a date range must be established by the conversation. If no period was specified, use ask_clarification to ask which period (for example this month, this year, or all recorded history), explicitly keeping the requested category or metric in the question. Do not silently assume year to date. When the user answers that question, retain the original category or metric and resolve the supplied period. A month without a year refers to the current year unless the conversation establishes another year.
 Use income_summary for a total revenue/expense/net-profit question, and period_comparison for comparing those totals. The legacy revenue_comparison also supports total revenue comparisons. Never invent a comparison period when only one period's total was requested. For expense_summary choose view=top for a ranking, preserving the requested limit from 1 to 20 (null means five); choose view=all and limit=null for every expense posting account, including zero and archived accounts; choose view=total and limit=null for only the overall expense total. Never silently truncate a requested all-category breakdown to five. A request for more than 20 ranked categories needs clarification; an unranked complete breakdown uses all.
@@ -735,7 +736,23 @@ export async function financialChat(
       const planner = buildFinancialPlannerInput(route, chart, today());
       const { call, ai } = await validatedFinancialPlan(planner.tools, planner.instructions, messages);
       completedPlan = ai;
-      const args = call.args;
+      const normalized = normalizeAllHistoryFlow(call.name, call.args, messages);
+      // The deterministic rule changes only a proved lower bound. Validate the
+      // resulting complete arguments again; it never bypasses a tool schema.
+      const args = normalized.normalization ? parseInsightArgs(call.name, normalized.args) : call.args;
+      const normalization = normalized.normalization ? { scopeNormalization: normalized.normalization } : {};
+      const evidenceScope = (evidence: InsightEvidence[]) =>
+        normalized.normalization
+          ? evidence.map((item) => ({
+              ...item,
+              scope: [
+                item.scope,
+                `All recorded history through ${normalized.normalization!.to}; no lower date cutoff.`,
+              ]
+                .filter(Boolean)
+                .join(' '),
+            }))
+          : evidence;
       const selectedQuery = { name: call.name, args };
       diagnostic('ai_financial_query', {
         operation: 'financial_tool',
@@ -752,7 +769,13 @@ export async function financialChat(
               ? executeFinancialScenario(org, args, messages)
               : executeFinancialAnalysis(org, args),
           );
-          return { ...result, query: selectedQuery, ai };
+          return {
+            ...result,
+            evidence: evidenceScope(result.evidence),
+            query: selectedQuery,
+            ai,
+            ...normalization,
+          };
         } catch (error) {
           if (
             !(error instanceof AppError) ||
@@ -772,6 +795,7 @@ export async function financialChat(
             query: selectedQuery,
             ai,
             limitation: { code: error.code },
+            ...normalization,
           };
         }
       }
@@ -779,7 +803,13 @@ export async function financialChat(
         return { answer: String(args.question), evidence: [], query: selectedQuery, ai };
       // Numeric answers are composed by application code from SQL results. The model never invents or recomputes these figures.
       const result = await duringStage('financial_tool', () => runInsightTool(org, call.name, args));
-      return { answer: result.answer, evidence: [result.evidence], query: selectedQuery, ai };
+      return {
+        answer: result.answer,
+        evidence: evidenceScope([result.evidence]),
+        query: selectedQuery,
+        ai,
+        ...normalization,
+      };
     });
   } catch (error) {
     if (completedPlan && error !== null && typeof error === 'object')

@@ -6,6 +6,7 @@ import { Decimal, money, formatCurrency } from '../shared/money';
 import { accountSchema, currencyCodes, dateSchema, type Account } from '../shared/schema';
 import type { FinancialTool } from './ai-provider';
 import type { InsightEvidence } from './ai';
+import { ALL_HISTORY_START, recordedPeriod } from './date-scope';
 
 const signedAmount = z.string().regex(/^-?\d{1,16}(?:\.\d{1,2})?$/);
 export const financialQuerySchema = z.strictObject({
@@ -402,7 +403,9 @@ function scopeDescription(plan: FinancialQuery, chart: AnalysisAccount[]) {
     isBalanceSeries
       ? `Closing balances for ${plan.from} to ${plan.to}; every row includes all earlier history through its displayed closing date, not just activity during that period`
       : plan.from
-        ? `${plan.from} to ${plan.to}, including both dates`
+        ? plan.from === ALL_HISTORY_START
+          ? `All recorded history through ${plan.to}; no lower date cutoff`
+          : `${plan.from} to ${plan.to}, including both dates`
         : `As of ${plan.to}, including all earlier records`,
     plan.status === 'POSTED'
       ? 'Recorded transactions; corrections count on their own dates'
@@ -517,11 +520,11 @@ export async function executeFinancialAnalysis(
         .join(' · ');
       const heading = visibleScope ? `${metricHeading} · ${visibleScope}` : metricHeading;
       answers.push(
-        `${heading}${plan.groupBy === 'total' ? `: ${tableRows[0]?.value ?? 'No matching transactions'}` : ''}. ${plan.from ? `${plan.from} to ${plan.to}` : `As of ${plan.to}`}. ${suffix}`,
+        `${heading}${plan.groupBy === 'total' ? `: ${tableRows[0]?.value ?? 'No matching transactions'}` : ''}. ${plan.from ? (plan.from === ALL_HISTORY_START ? recordedPeriod(plan.from, plan.to) : `${plan.from} to ${plan.to}`) : `As of ${plan.to}`}. ${suffix}`,
       );
       evidence.push({
         title: heading,
-        period: plan.from ? `${plan.from} → ${plan.to}` : `As of ${plan.to}`,
+        period: plan.from ? recordedPeriod(plan.from, plan.to) : `As of ${plan.to}`,
         source: plan.status === 'DRAFT' ? 'draft' : 'posted',
         scope,
         rows: tableRows,

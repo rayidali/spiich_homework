@@ -1,6 +1,6 @@
 # Financial-chat reliability work
 
-Status: active, 2026-10-31. The first broader candidate failed cash-source acceptance and was rolled back. Its cash-source repair passed CI but the staged hosted checks stopped on an unclassified schema-validation failure; that candidate was never promoted. The stable alias continues to serve the verified focused repair. [Current stable release](evidence/chat-scope-release.json), [blocked release and rollback](evidence/chat-broad-blocked-release.json).
+Status: active, 2026-10-31. The stable demo still serves verified `e7a514e`. The latest schema-repair candidate passed CI and completed six hosted checks, but one all-history expense question received an invented start date. Five checks passed; the candidate was never promoted. Earlier cash-source and schema failures remain preserved. [Current stable release](evidence/chat-scope-release.json), [latest staged incident](evidence/chat-schema-repair-blocked-release.json).
 
 ## The failure
 
@@ -69,3 +69,9 @@ The next source, `7b52a9b`, passed full CI41239769459 with real PostgreSQL regre
 The second October31 case returned HTTP502 with `AI_INVALID_RESPONSE` at `model_schema`. Captured runtime logs identify the exact request, source and stage, but contain no validated-query event or rejected-field details. No financial answer was released. We cannot responsibly attribute this failure to a particular missing field, enum or token limit. A bounded schema-repair path and safe issue metadata are being developed as a separate change.
 
 The six-slot cohort closed incomplete after two requests: $0.0088424 known-use estimate plus $0.02 retained for unknown usage, total $0.0288424 charged against its ceiling. C03–C06 were never called; no retry or new call is permitted by that closed ledger. All 74 journals and 22 accounts stayed unchanged. The actual stable-alias lookup after staging still identifies `e7a514e`; the new candidate was never promoted. [Sanitized incident and audit](evidence/chat-cash-blocked-release.json).
+
+## All-history scope failure remains a failed release check
+
+The `012edb2` staged cohort completed six HTTP requests and six provider attempts at $0.0281190, all known usage. C01–C04 and C06 passed. C05 explicitly requested all recorded Office supplies history through October 31; the selected `expense_by_account` query instead started on January 1, 2000. Both totals happen to be $1,740 because this snapshot has no matching earlier postings. Equality on today's data does not authorize discarding earlier history, so `NARROW_SCOPE` remains a failure. No numerical-error claim is made.
+
+Independent artifact review matched all six requests to 24 safe runtime events—provider usage, final plan, selected tool and HTTP—and verified unchanged 74-journal/22-account rows. Every response had one attempt and `repairStatus: not_needed`; the new bounded schema-repair path was not exercised live. Full execution is complete, but the release is not accepted. The next correction must preserve this evidence and pass separately versioned checks; it cannot inherit the old comparison score.

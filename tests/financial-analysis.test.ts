@@ -16,6 +16,8 @@ import {
 } from '../server/financial-analysis';
 import type { EntryInput } from '../shared/schema';
 import { executeFinancialScenario } from '../server/financial-calculation';
+import { normalizeAllHistoryFlow } from '../server/date-scope';
+import { runInsightTool } from '../server/ai';
 
 function plan(change: Partial<FinancialQuery> = {}): FinancialQuery {
   return {
@@ -685,6 +687,38 @@ describe('Financial analysis against real PostgreSQL', () => {
     expect(result.evidence[0].rows[0].href).toBe(`/transactions?entry=${saved.id}`);
     expect(await snapshot()).toEqual(before);
     await expect(run(plan(), plan())).rejects.toMatchObject({ code: 'INVALID_ANALYSIS_SCOPE' });
+  });
+
+  it('includes records before 1900 and 2000 only when explicit all-history scope is normalized', async () => {
+    await post(input('5030', '2100', '50', '1850-06-01'));
+    await post(input('5030', '2100', '20', '1999-12-31'));
+    await post(input('5030', '2100', '30', '2000-01-01'));
+    await post(input('5030', '2100', '40', '2026-10-31'));
+    await post(input('5030', '2100', '999', '2027-01-01'));
+    await createEntry(org, input('5030', '2100', '888', '1850-06-01'), randomUUID());
+    const messages = [
+      {
+        role: 'user' as const,
+        content:
+          'How much did we spend on Office supplies across all recorded history through October31,2026?',
+      },
+    ];
+    const args = { accountCode: '5030', from: '2000-01-01', to: '2026-10-31' };
+    const normalized = normalizeAllHistoryFlow('expense_by_account', args, messages);
+    const historical = await runInsightTool(org, 'expense_by_account', normalized.args);
+    const bounded = await runInsightTool(org, 'expense_by_account', args);
+    expect(historical.answer).toContain('$140.00');
+    expect(bounded.answer).toContain('$70.00');
+    expect(historical.answer).toContain('across all recorded history through 2026-10-31');
+    expect(historical.answer).not.toContain('0001');
+    expect(historical.evidence.period).toBe('All recorded history through 2026-10-31');
+    const queryPlan = plan({ accountCodes: ['5030'], from: '2000-01-01', to: '2026-10-31' });
+    const composable = normalizeAllHistoryFlow('financial_analysis', { queries: [queryPlan] }, messages);
+    const result = await executeFinancialAnalysis(org, composable.args);
+    expect(value(result)).toBe('140.00');
+    expect(result.facts[0].scope.plan.from).toBe('0001-01-01');
+    expect(result.answer).not.toContain('0001');
+    expect(result.evidence[0].period).toBe('All recorded history through 2026-10-31');
   });
 
   it('keeps cash distinct from nonzero receivables/equipment and executes a cash-sourced hiring scenario', async () => {
