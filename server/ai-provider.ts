@@ -27,7 +27,13 @@ export type ModelMetadata = {
   modelVersion?: string;
   durationMs: number;
   usage: ModelUsage;
+  attempts?: number;
 };
+// Safe accounting only. Never retain a response body, prompt or provider cause.
+const failedAttempts = new WeakMap<object, ModelMetadata>();
+export function getAiFailureMetadata(error: unknown): ModelMetadata | undefined {
+  return error !== null && typeof error === 'object' ? failedAttempts.get(error) : undefined;
+}
 type Budget = { maxAttempts: number; maxTotalTokens: number };
 let budget: Budget | null = null;
 let inFlight = 0;
@@ -208,17 +214,28 @@ async function withRequest<T>(
   totals.attempts++;
   const start = performance.now();
   let recorded = false;
+  let observed: ModelMetadata | undefined;
+  const currentMetadata = (): ModelMetadata =>
+    observed ?? {
+      provider: config.aiProvider,
+      model: config.aiModel,
+      durationMs: Math.round(performance.now() - start),
+      usage: { inputTokens: null, outputTokens: null, thinkingTokens: null, totalTokens: null },
+      attempts: 1,
+    };
   try {
     return await fn((version, usage) => {
       recordUsage(usage);
       recorded = true;
-      return {
+      observed = {
         provider: config.aiProvider,
         model: config.aiModel,
         ...(typeof version === 'string' && version.length <= 160 ? { modelVersion: version } : {}),
         durationMs: Math.round(performance.now() - start),
         usage,
+        attempts: 1,
       };
+      return observed;
     });
   } catch (error) {
     let failure: AppError;
@@ -245,6 +262,7 @@ async function withRequest<T>(
               : 'internal'),
       );
     markFailure(failure, failureStage(error) ?? 'model_semantic');
+    failedAttempts.set(failure, currentMetadata());
     diagnostic(failure instanceof ProviderFailure ? 'ai_provider_failure' : 'ai_request_failed', {
       provider: config.aiProvider,
       model: config.aiModel,
@@ -258,13 +276,23 @@ async function withRequest<T>(
     throw failure;
   } finally {
     if (!recorded) totals.unreportedUsage++;
+    const attempt = currentMetadata();
+    diagnostic('ai_provider_usage', {
+      operation,
+      provider: attempt.provider,
+      model: attempt.model,
+      modelVersion: attempt.modelVersion,
+      durationMs: attempt.durationMs,
+      attempts: 1,
+      usage: attempt.usage,
+    });
     inFlight--;
   }
 }
 
-function openAIClient() {
+function openAIClient(timeout = 25000) {
   // Exactly one HTTP attempt. The caller can retry explicitly; evaluations can count every attempt.
-  return new OpenAI({ apiKey: config.aiKey, timeout: 25000, maxRetries: 0 });
+  return new OpenAI({ apiKey: config.aiKey, timeout, maxRetries: 0 });
 }
 function openAIUsage(response: {
   usage?: {
@@ -440,13 +468,14 @@ async function geminiRequest(
   messages: ModelMessages,
   extra: Record<string, unknown>,
   maxOutputTokens: number,
+  timeoutMs = 25000,
 ) {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(config.aiModel)}:generateContent`;
   // Build outside the network boundary so local serialization errors stay invalid-response errors.
   const request: RequestInit = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'x-goog-api-key': config.aiKey },
-    signal: AbortSignal.timeout(25000),
+    signal: AbortSignal.timeout(timeoutMs),
     body: JSON.stringify(geminiPayload(instructions, messages, extra, maxOutputTokens, config.aiModel)),
   };
   let response: Response;
@@ -512,7 +541,11 @@ export async function chooseFinancialTool(
   tools: FinancialTool[],
   instructions: string,
   messages: ModelMessages,
+  options: { timeoutMs?: number } = {},
 ) {
+  const timeoutMs = options.timeoutMs ?? 25000;
+  if (!Number.isSafeInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 25000)
+    throw new AppError(422, 'INVALID_INPUT', 'A financial provider request requires a bounded timeout.');
   const allowed = (call: { name: string; args: unknown }) => {
     if (!tools.some((tool) => tool.name === call.name))
       throw new AppError(422, 'UNSUPPORTED_TOOL', 'This financial query is not supported');
@@ -520,11 +553,17 @@ export async function chooseFinancialTool(
   };
   return withRequest('financial_tool', async (metadata) => {
     if (config.aiProvider === 'gemini') {
-      const response = await geminiRequest(instructions, messages, geminiFinancialExtra(tools), 4000);
+      const response = await geminiRequest(
+        instructions,
+        messages,
+        geminiFinancialExtra(tools),
+        4000,
+        timeoutMs,
+      );
       const ai = metadata(response.modelVersion, geminiUsage(response));
       return { call: parseGeminiFinancialResponse(tools, response).call, ai };
     }
-    const response = await openAIClient().responses.create({
+    const response = await openAIClient(timeoutMs).responses.create({
       model: config.aiModel,
       store: false,
       max_output_tokens: 4000,

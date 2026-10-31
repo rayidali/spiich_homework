@@ -187,7 +187,12 @@ describe('Request-correlated diagnostics without business content', () => {
     ] as const) {
       expect(flow.res.body).toMatchObject({ error: { requestId: id } });
       const matching = logs().filter((entry) => entry.requestId === id);
-      expect(matching).toHaveLength(3);
+      expect(matching).toHaveLength(4);
+      expect(matching.find((entry) => entry.event === 'ai_provider_usage')).toMatchObject({
+        requestId: id,
+        attempts: 1,
+        usage: { inputTokens: null, outputTokens: null, thinkingTokens: null, totalTokens: null },
+      });
       expect(matching.find((entry) => entry.event === 'ai_provider_failure')).toMatchObject({
         upstreamStatus: status,
         stage: 'provider_http',

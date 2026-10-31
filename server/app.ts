@@ -21,7 +21,7 @@ import {
   trialBalance,
 } from './reports';
 import { createRecurring, generateRecurring, updateRecurring } from './recurring';
-import { financialChat, messagesSchema, proposeEntry } from './ai';
+import { financialChat, getFinancialChatFailureMetadata, messagesSchema, proposeEntry } from './ai';
 import { withAiAdmission } from './ai-admission';
 import { learningForEntry, revokeCorrection } from './categorization-memory';
 import { categoryAvailability, categoryRequestSchema, suggestCategory } from './category-service';
@@ -426,5 +426,9 @@ export function apiErrorHandler(
     },
     res.locals.diagnosticContext,
   );
-  res.status(status).json({ error: { code, message, details, requestId: res.locals.requestId } });
+  const chatMetadata = operation === 'financial_tool' ? getFinancialChatFailureMetadata(error) : undefined;
+  res.status(status).json({
+    error: { code, message, details, requestId: res.locals.requestId },
+    ...(chatMetadata ? { ai: chatMetadata } : {}),
+  });
 }

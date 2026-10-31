@@ -93,6 +93,9 @@ type DiagnosticEvent =
   | 'ai_request_failed'
   | 'ai_category_result'
   | 'ai_financial_query'
+  | 'ai_provider_usage'
+  | 'ai_schema_validation'
+  | 'ai_financial_plan'
   | 'database_pool'
   | 'database_rollback_failed'
   | 'worker_error';
@@ -119,7 +122,41 @@ type DiagnosticFields = {
   upstreamStatus?: number | null;
   transportCode?: string;
   databaseCode?: string;
+  usage?: {
+    inputTokens: number | null;
+    outputTokens: number | null;
+    thinkingTokens: number | null;
+    totalTokens: number | null;
+  };
+  unreportedAttempts?: number;
+  repairStatus?: string;
+  issues?: { code: string; path: (string | number)[] }[];
 };
+
+const schemaKeys = new Set(
+  `queries assumptions calculations id metric aggregation from to status currencyMode currency groupBy accountCodes cooccurringAccountCodes counterparty mode value descriptionSearch minimumAmount maximumAmount order limit source rowId field operation operands unit sourceText accountCode previousFrom previousTo view search asOf question reason subject limitation`.split(
+    ' ',
+  ),
+);
+const schemaCodes = new Set(
+  'invalid_type invalid_value unrecognized_keys too_big too_small invalid_format not_multiple_of invalid_union invalid_key invalid_element custom'.split(
+    ' ',
+  ),
+);
+export function safeSchemaIssues(issues: readonly { code: string; path: readonly PropertyKey[] }[]) {
+  return issues.slice(0, 12).map((issue) => ({
+    code: schemaCodes.has(issue.code) ? issue.code : 'invalid_type',
+    path: issue.path
+      .slice(0, 12)
+      .map((part) =>
+        typeof part === 'number' && Number.isSafeInteger(part) && part >= 0 && part <= 1000
+          ? part
+          : typeof part === 'string' && schemaKeys.has(part)
+            ? part
+            : '?',
+      ),
+  }));
+}
 
 export function routeTemplate(value: unknown): string {
   // Values must come from the registered route, not req.path/req.originalUrl.
@@ -204,7 +241,24 @@ export function diagnostic(
   )
     output.modelVersion = fields.modelVersion;
   if (['SELECT', 'CLARIFY', 'UNSUPPORTED'].includes(fields.decision ?? '')) output.decision = fields.decision;
-  if (fields.attempts === 0 || fields.attempts === 1) output.attempts = fields.attempts;
+  if (fields.attempts === 0 || fields.attempts === 1 || fields.attempts === 2)
+    output.attempts = fields.attempts;
+  if (fields.usage)
+    output.usage = Object.fromEntries(
+      ['inputTokens', 'outputTokens', 'thinkingTokens', 'totalTokens'].map((key) => {
+        const value = fields.usage![key as keyof NonNullable<DiagnosticFields['usage']>];
+        return [key, count(value) ? value : null];
+      }),
+    );
+  if (count(fields.unreportedAttempts) && fields.unreportedAttempts! <= 2)
+    output.unreportedAttempts = fields.unreportedAttempts;
+  if (
+    ['not_needed', 'succeeded', 'failed', 'not_eligible', 'deadline', 'too_large'].includes(
+      fields.repairStatus ?? '',
+    )
+  )
+    output.repairStatus = fields.repairStatus;
+  if (fields.issues) output.issues = safeSchemaIssues(fields.issues);
   if (['http', 'transport', 'timeout', 'provider'].includes(fields.failureClass ?? ''))
     output.failureClass = fields.failureClass;
   if (fields.upstreamStatus === null || httpStatus(fields.upstreamStatus))
@@ -213,7 +267,13 @@ export function diagnostic(
   // Database callers supply only databaseCode() output; this second gate excludes free-form messages.
   const safeDatabaseCode = databaseCode({ code: fields.databaseCode });
   if (safeDatabaseCode) output.databaseCode = safeDatabaseCode;
-  if (event === 'http_request' || event === 'ai_category_result' || event === 'ai_financial_query')
+  if (
+    event === 'http_request' ||
+    event === 'ai_category_result' ||
+    event === 'ai_financial_query' ||
+    event === 'ai_provider_usage' ||
+    event === 'ai_financial_plan'
+  )
     console.log(JSON.stringify(output));
   else console.error(JSON.stringify(output));
 }

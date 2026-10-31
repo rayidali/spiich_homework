@@ -1,6 +1,6 @@
 # Financial-chat reliability work
 
-Status: active, 2026-10-31. The broader candidate passed CI but failed hosted acceptance on cash-source identity. The stable alias has been rolled back to the verified focused repair. [Current stable release](evidence/chat-scope-release.json), [blocked release and rollback](evidence/chat-broad-blocked-release.json).
+Status: active, 2026-10-31. The first broader candidate failed cash-source acceptance and was rolled back. Its cash-source repair passed CI but the staged hosted checks stopped on an unclassified schema-validation failure; that candidate was never promoted. The stable alias continues to serve the verified focused repair. [Current stable release](evidence/chat-scope-release.json), [blocked release and rollback](evidence/chat-broad-blocked-release.json).
 
 ## The failure
 
@@ -61,3 +61,11 @@ B07 was a real source-identity failure. Asked to start a hiring projection from 
 The cohort is terminally closed: seven settled requests, six reviewed passes, one source failure, $0.0253555 known-use estimate and no unknown reservation or retry. All 74 journal records and 22 accounts were unchanged. Each response reference matched both its selected-tool event and HTTP event on the exact source/deployment. The protected stable alias now points back to `e7a514e`; no database rollback was performed, and additive migration007 remains applied.
 
 The next repair must provide a server-owned cash source, preserve its identity through calculation ancestry and prevent a cash objective from accepting generic assets. Equal numbers or a query named “cash” are insufficient. Nonzero and offsetting noncash balances must be covered by regression tests. This is separate product verification; the frozen comparison and its report are unchanged. [Sanitized incident receipt](evidence/chat-broad-blocked-release.json).
+
+## Cash-source repair passed CI; model-schema failure still blocks release
+
+The next source, `7b52a9b`, passed full CI41239769459 with real PostgreSQL regressions and was staged without promoting the stable alias. It enforces `cash_balance` over server-selected cash ASSET accounts, rejects generic balance operands before calculator queries and propagates cash account/date lineage. The first hosted June30 hiring case passed those exact source and formula checks.
+
+The second October31 case returned HTTP502 with `AI_INVALID_RESPONSE` at `model_schema`. Captured runtime logs identify the exact request, source and stage, but contain no validated-query event or rejected-field details. No financial answer was released. We cannot responsibly attribute this failure to a particular missing field, enum or token limit. A bounded schema-repair path and safe issue metadata are being developed as a separate change.
+
+The six-slot cohort closed incomplete after two requests: $0.0088424 known-use estimate plus $0.02 retained for unknown usage, total $0.0288424 charged against its ceiling. C03–C06 were never called; no retry or new call is permitted by that closed ledger. All 74 journals and 22 accounts stayed unchanged. The actual stable-alias lookup after staging still identifies `e7a514e`; the new candidate was never promoted. [Sanitized incident and audit](evidence/chat-cash-blocked-release.json).
