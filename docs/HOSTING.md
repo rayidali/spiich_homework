@@ -1,6 +1,14 @@
 # Hosting Daybook
 
-## 2026-10-31 entry repair — deployed and checked
+## Current core release — 2026-10-31
+
+Executable `70b59c62c6819880c2504fe546f4fecc8a703c50` passed [full CI](https://github.com/rayidali/spiich_homework/actions/runs/41219589967) and is deployed as `dpl_FQs3fAoqDF1KcvDoS5bwH8R16UgF`. This release uses 64 exact source files and the normal migration/build command, with no configuration overlay. Migrations 005/006 add trusted correction memory and resolved anomaly history; earlier migration checksums and all 73 journal records were preserved. Owner credentials were build-only.
+
+An actual hosted invalid-request reference was matched to request-error and completed-request runtime logs carrying the exact source revision. The browser now preserves and copies error references; CI verifies that interaction. See [the sanitized release receipt](evidence/core-repair-release.json) and [operations runbook](OPERATIONS.md). This replaces the earlier missing-correlation finding; the historical provider incidents below remain evidence of what happened at those earlier revisions.
+
+The new category selector and short-form suggestion UI are prepared in source but await fresh CI, live comparison and deployment. Changing a local key does not change a hosted deployment. The current local Gemini key differs from the saved hosted key; its bounded verification and any replacement remain separate release steps. No secret values are included here.
+
+## Historical 2026-10-31 entry repair — deployed and checked
 
 Source `de67b49dfce110f560840d0b9106d628f30f5d52` passed [full CI 41213514203](https://github.com/rayidali/spiich_homework/actions/runs/41213514203) and deployment `dpl_GopCJGQi67eHqSXLtRiVywVRRLbZ` is READY. The stable protected URL uses Gemini 3.5 Flash-Lite. The original user later supplied approximate friend/party wording; the original timestamp and raw response remain unavailable. A representative hosted failure and same-key direct upstream 503 were reproduced on the earlier 3.1 model. The replacement passed bounded compatibility checks; this does not recover the exact original request's cause.
 
@@ -29,7 +37,7 @@ Local build/native imports and **60 isolated tests** passed, including two new s
 | Owner               | Local CLI identity `rayidali`, team `rayidalis-projects`                    |
 | Vercel project      | `daybook-ledger`; Hobby plan observed during provisioning                   |
 | Stable URL          | https://daybook-ledger-delta.vercel.app                                     |
-| Verified deployment | `dpl_GopCJGQi67eHqSXLtRiVywVRRLbZ`, production, READY                       |
+| Verified deployment | `dpl_FQs3fAoqDF1KcvDoS5bwH8R16UgF`, production, READY                       |
 | Database            | Separate Neon `daybook-db`, free plan through an existing integration       |
 | Region              | `iad1`                                                                      |
 | Protection          | Vercel Authentication for all deployments; anonymous requests reach sign-in |

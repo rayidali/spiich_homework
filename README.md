@@ -1,18 +1,18 @@
 # Daybook · Accounting workspace
 
-> Updated 2026-10-31: **core assignment acceptance is the priority.** Read the [assignment review and concrete repair plan](docs/ASSIGNMENT_REVIEW.md). The architecture study is complete; it does not establish correction-learning accuracy or overall product readiness. The hosted entry failure has a bounded verified repair, while error traceability and correction trust remain open.
+> Updated 2026-10-31: **core assignment acceptance is the priority.** Read the [assignment review and concrete repair plan](docs/ASSIGNMENT_REVIEW.md). The architecture study is complete; it does not establish correction-learning accuracy or overall product readiness. Core repair `70b59c6` is deployed and verified: copyable error references, posted-entry correction memory and reversal-aware alerts. The new short-form category integration is implemented in source and has offline checks; its new CI workflows, deployment and live Gemini/Jev comparison remain pending.
 
-Start with the [two-page plain-English explanation](docs/reports/daybook-ai-explained.pdf) ([readable HTML](docs/reports/daybook-ai-explained.html)) for the nine routes, scores, hiring walkthrough, Jev/Wren roles and test limitations. Document ingestion is research-only; the product has no document-upload workflow. Categorization uses retrieved corrections, but its improvement over time has not been measured in the nine-route study; see the [categorization follow-up](docs/INTERVIEW_GUIDE.md#transaction-categorization-and-the-proposed-jev-comparison).
+Start with the [two-page plain-English explanation](docs/reports/daybook-ai-explained.pdf) ([readable HTML](docs/reports/daybook-ai-explained.html)) for the nine routes, scores, hiring walkthrough, Jev/Wren roles and test limitations. Document ingestion is research-only; the product has no document-upload workflow. Categorization uses retrieved, reviewed posting corrections, but improvement over time has not been measured; see the [categorization follow-up](docs/INTERVIEW_GUIDE.md#transaction-categorization-and-the-proposed-jev-comparison).
 
 A React and TypeScript accounting workspace backed by PostgreSQL. Every posted journal entry is balanced and immutable at the database level. AI prepares entries for review and selects read-only financial queries; the ledger and SQL own the financial numbers.
 
-The source and hosted app use `gemini-3.5-flash-lite`; OpenAI remains selectable. Repaired source `de67b49` passed [full CI](https://github.com/rayidali/spiich_homework/actions/runs/41213514203) and is deployed. Selected hosted checks returned a correct $340 supplies/card proposal and asked for missing details on rent and the user’s friend/party example. All 73 journal records remained unchanged. The [repair receipt](docs/evidence/entry-provider-recovery.json) retains an earlier failed ambiguity check and distinguishes these selected API checks from a model-accuracy benchmark.
+The source and hosted whole-entry assistant use `gemini-3.5-flash-lite`; OpenAI remains selectable. Current deployed core source `70b59c62c6819880c2504fe546f4fecc8a703c50` passed [CI 41219589967](https://github.com/rayidali/spiich_homework/actions/runs/41219589967). Its [release receipt](docs/evidence/core-repair-release.json) records 64 exact source files, migrations 005/006, unchanged 73 journal records/dashboard, and an actual hosted error reference matched to runtime logs. That release made no provider call. Earlier provider-only repair `de67b49` passed its own [CI](https://github.com/rayidali/spiich_homework/actions/runs/41213514203). Selected hosted checks returned a correct $340 supplies/card proposal and asked for missing details on rent and the user’s friend/party example. All 73 journal records remained unchanged. The [repair receipt](docs/evidence/entry-provider-recovery.json) retains an earlier failed ambiguity check and distinguishes these selected API checks from a model-accuracy benchmark.
 
 The isolated research implementation compares nine AI routes: existing tools, broader analytics, lexical documents, managed File Search, Gemini embeddings with pgvector, Jev reranking, Wren and two answer reviewers. It uses Gemini 3.5 Flash-Lite, synthetic fixtures and restricted read-only financial access. Managed File Search has the highest observed broad structured-task score (**70.6%**), while the existing control leads the predefined common-capability subset (**91.7%, versus 75.0% for managed search**). Only adding document access passes the preset component-improvement screen. The recommendation is a controlled document-workflow experiment while preserving reliable narrow tools; no experimental route is enabled in production chat.
 
 The [protocol](docs/PLAN.md), [complete charts and scores](docs/evidence/research-runs/holdout-v1/report.html), [worked failure examples](docs/reports/research-worked-examples.md), [cost reconciliation](docs/evidence/research-final-costs/cost-reconciliation.md), and [reproduction guide](docs/research/REPRODUCE.md) make the comparison reviewable. Invalid and incomplete development pilots remain preserved as diagnostic history.
 
-Final source and reports are published in commit `a5493c3`. [Full CI passed](https://github.com/rayidali/spiich_homework/actions/runs/41182776959), including application/browser tests, Docker startup and persistence, and native research/Wren checks. The [sanitized CI receipt](docs/evidence/research-final-ci.json) records the tested commit and limits; its optional live-AI job was skipped because provider measurements are recorded separately. Tracked research spending is approximately **$6.05**, including retained unknown-cost reservations. The local handoff is `submission.zip`, rooted at `daybook-ledger/`; publication tooling verifies its source bytes, CRCs and secret exclusions.
+The completed research source and reports were published in commit `a5493c3`; this is historical study provenance, not the latest product release. [Full CI passed](https://github.com/rayidali/spiich_homework/actions/runs/41182776959), including application/browser tests, Docker startup and persistence, and native research/Wren checks. The [sanitized CI receipt](docs/evidence/research-final-ci.json) records the tested commit and limits; its optional live-AI job was skipped because provider measurements are recorded separately. Tracked research spending is approximately **$6.05**, including retained unknown-cost reservations. The local handoff is `submission.zip`, rooted at `daybook-ledger/`; publication tooling verifies its source bytes, CRCs and secret exclusions.
 
 ![Daybook financial dashboard](docs/evidence/dashboard.png)
 
@@ -47,13 +47,13 @@ docker compose up -d --force-recreate app
 
 Use a model your project can access. The default is documented on Google's [Gemini 3.5 Flash-Lite model page](https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite) and passed bounded direct checks with the hosted credential. Upstream service errors, connection failures and timeouts now have distinct messages and sanitized diagnostics; requests are not silently retried. The full product live evaluation remains incomplete, and failed calls can have unknown usage/billing. Changing local `.env` does not update Vercel's deployed key or model. No GitHub Actions key secret was configured. With no key, manual accounting, reports, recurrence, and statistical alerts continue working.
 
-Start with the bounded four-case smoke evaluation against a running, migrated database:
+Before a product provider run, read [Product AI evaluation: posted-correction fixtures](docs/PRODUCT_AI_EVALUATION.md). The repaired `daybook-accounting-eval-v2-posted-corrections` fixtures teach through real reviewed postings; historical V1 results must not be pooled with V2. With a running, migrated disposable evaluation database and an agreed provider allowance, the bounded four-case smoke is:
 
 ```sh
 npm run ai:evaluate -- --suite smoke
 ```
 
-The harness contains 40 labeled cases: 20 development and 20 reserved for holdout. It checks complete entries, exact query arguments/evidence, correction retrieval, and unchanged journal history. Clarification meaning is explicitly left for human review. It creates two new synthetic workspaces and predefined fixture postings; **model responses are never posted and your demo workspace is untouched**. Runs may incur provider charges. Attempts are capped, automatic retries are disabled, and observed token usage stops later requests; this is not an absolute billing ceiling. Results go to `docs/evidence/ai-evaluations/` and `ai-evaluation.json`. See `npm run ai:evaluate -- --help` and [verification](docs/VERIFICATION.md).
+The original 40 question texts, case IDs and 20-development/20-holdout split are unchanged. V2 uses separate before/after workspaces for each selected correction case and repeat, plus an isolation decoy. Reference-authored fixture postings finish before journal fingerprints; **evaluated model responses are never posted and existing workspaces are not reset**. The after-state contains both the posted example and correction memory, so any gain cannot isolate memory from history retrieval. The smoke subset has no correction pairs. Clarification meaning still requires human review. Runs can incur charges; attempts are capped and there are no automatic retries, but observed-token limits are not an absolute billing ceiling. Unique reports remain under `docs/evidence/ai-evaluations/`; the V2 latest copy is `docs/evidence/ai-evaluation-v2.json`. Historical reports are preserved. See `npm run ai:evaluate -- --help` and the [fixture contract](docs/PRODUCT_AI_EVALUATION.md).
 
 With Compose, use the dedicated evaluation profile, which has administrative access only for creating its isolated fixtures. The normal app retains its restricted database role:
 
@@ -61,7 +61,7 @@ With Compose, use the dedicated evaluation profile, which has administrative acc
 docker compose --profile evaluate run --build --rm evaluate
 ```
 
-The production 40-case live evaluation is separate from the research benchmark and remains incomplete. Jev, semantic vectors, managed File Search and Wren are implemented and exercised in the isolated research harness; they are not production features. Mastra has not been added.
+The product 40-case evaluation, the new [focused category comparison](docs/CATEGORIZATION_PROTOCOL.md), and the completed nine-route research benchmark are separate. The new category adapters and UI/API are in source, not deployed or measured live yet. Jev reranking/review, semantic vectors, managed File Search and Wren were exercised only in the isolated research harness; no retrieval/reviewer route is enabled in product chat. Mastra has not been added.
 
 ## Local development without Docker
 
@@ -90,12 +90,14 @@ Set `SEED_DEMO=false` **before the first start** for an empty journal with the d
 | Reporting                   | Trial balance, P&L, balance sheet, account ledger with opening/running balances, filters and CSV            |
 | Transactions                | Search, account/date/status/currency filters, cursor pagination, entry drill-down                           |
 | AI entry and categorization | Structured proposals, clarification, account validation, relevant history and correction retrieval          |
-| Anomaly detection           | Duplicate matching, median amount deviations, unusual vendor categories, review/dismissal                   |
+| Anomaly detection           | Duplicate/amount/category rules, review/dismissal, resolved alerts and reversal-aware rechecks              |
 | Insights                    | Allowlisted financial tools, SQL-derived answers, evidence and links to the underlying views                |
 | UX                          | Four primary destinations, explicit account-effects review, accessible controls and progressive detail      |
 | Operations                  | Migrations, Docker Compose, health checks, request IDs, outbox jobs, passing CI, protected Vercel/Neon demo |
 
-Categorization happens during AI-assisted creation; this submission does not include a bank-feed or CSV-import workflow. Correction retrieval improves the context of later suggestions; it is not model fine-tuning.
+A correction means changing the account in an AI suggestion, then posting the reviewed entry. Saving a draft alone does not teach it. The posting transaction records the correction atomically; later suggestions can retrieve it, and forgetting or reversing the example excludes it. This changes the examples supplied to the model, not its weights. Better future accuracy still needs measurement.
+
+The new short-form **Suggest category** button and `POST /api/ai/category` are implemented in source, pending their new CI and deployment. Gemini, Jev Choice and an offline reference receive the same fixed facts and eligible account options. They choose one expense/revenue category, ask a question, or hand off an unsupported event; they cannot change amounts/funding or post. `CATEGORY_PROVIDER=gemini|jev|reference` is server-controlled, with Gemini the initial default pending comparison. Jev uses `TYPESAFE_API_KEY`; availability is separate from whole-entry AI. [Scope and safeguards](docs/CATEGORY_SELECTOR.md). No bank-feed or CSV-import workflow is included.
 
 ## Verification
 
@@ -127,9 +129,11 @@ node scripts/check-compose-persistence.mjs --execute
 
 The persistence command recreates app/database containers and checks that a complete existing posted entry survives; it preserves the named volume and makes no journal writes. Run it after Compose startup. This check passed in the [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs/40999183176).
 
-The deployed application baseline passed **103 backend tests** (29 accounting, 14 AI/database contracts, 24 provider, 23 evaluation, 6 simple-entry and 7 hosted scheduler tests), **10 production browser workflows**, Docker build/startup/health, containerized backend tests, and posted-entry persistence across app/database container recreation.
+The historical `7ecb435c` application baseline passed **103 backend tests** (29 accounting, 14 AI/database contracts, 24 provider, 23 evaluation, 6 simple-entry and 7 hosted scheduler tests), **10 production browser workflows**, Docker build/startup/health, containerized backend tests, and posted-entry persistence across app/database container recreation.
 
 For frozen research executable **`0fe267b`**, [CI 41155033249](https://github.com/rayidali/spiich_homework/actions/runs/41155033249) passed application/backend and browser verification, application Compose startup/persistence and the native Wren/pgvector database job. The matching local checkpoint passed **511 isolated TypeScript tests, 35 actual Wren Python tests and nine PDF exporter tests**, strict TypeScript/production build and formatting ([evidence](docs/evidence/research-local-v4.json)). The opt-in CI live-AI job was skipped; live study calls are separately recorded. Preserved pilot failures remain visible, and engineering tests do not establish held-out answer accuracy. See [research CI evidence](docs/evidence/research-ci-v4.json) and [verification details](docs/VERIFICATION.md).
+
+The deployed core repair `70b59c6` subsequently passed [verify, native research and Compose CI](https://github.com/rayidali/spiich_homework/actions/runs/41219589967), with live-AI skipped. Its hosted controlled validation error matched the browser-facing reference to two runtime-log events; this was not a reproduced provider outage. The new category integration passed **134 focused offline tests**, TypeScript/production build and formatting. Its **six real-database tests and four browser workflows await CI execution**; these counts do not establish model accuracy or current visual quality.
 
 ## Reading the code
 
@@ -138,7 +142,10 @@ db/migrations/    PostgreSQL constraints, permissions, revisions, provenance
 server/ledger.ts  One entry creation/posting/reversal path
 server/reports.ts Posted-journal financial queries
 server/ai.ts      Shared proposal validation and approved financial tools
-server/ai-provider.ts  Gemini/OpenAI adapters, safe errors, usage and budgets
+server/ai-provider.ts  Whole-entry Gemini/OpenAI adapters and safe failures
+server/category-selector.ts / category-service.ts  Fixed-fact category choice and review proposals
+server/categorization-memory.ts  Atomic reviewed-posting examples and forgetting
+server/diagnostics.ts  Safe request-correlated events
 server/recurring.ts / anomalies.ts  Bounded durable background work
 server/app.ts    Validated REST API and error responses
 server/hosting/  TypeScript Vercel API/scheduler adapters

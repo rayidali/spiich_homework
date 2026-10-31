@@ -18,6 +18,18 @@ The current priority is the [original assignment review](ASSIGNMENT_REVIEW.md). 
 
 This is a post-study product reliability repair. It does not deploy document retrieval or a research reviewer. The completed comparison still refers to frozen source `fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08` and its recorded executable commit; the changed working source has not been rerun through that benchmark.
 
+## Category suggestion integration (source, pending CI and deployment)
+
+`POST /api/ai/category` accepts only transaction facts: `description`, optional `counterparty`, `direction` (`IN`/`OUT`), decimal-string `amount`, `date`, `currency`, `exchangeRate`, `fundingAccountId`, optional `purpose` (`BUSINESS`/`PERSONAL`/`LOAN`/`TRANSFER`) and `structure` (`SINGLE`/`SPLIT`/`COMPLEX`). It rejects client account lists, history, provider settings, keys and organization identifiers. The organization, active chart and eligible correction/history examples come from server repositories.
+
+`SELECT` returns one allowed `accountId`, a server-built balanced `entry`, `proposalId`, `reviewRequired: true` and bounded provider metadata. It stores a validated proposal, **not a journal entry**. `CLARIFY` returns a question/topic/options; `UNSUPPORTED` directs the caller to the full entry workflow. Both return without a proposal. The simple category scope is expense/revenue selection; loans, transfers, refunds, assets and existing-invoice settlement are not silently treated as ordinary expenses or revenue.
+
+The client submits the selected or corrected entry with its `proposalId` to the existing create/update draft endpoint. Posting still requires the existing explicit review action. A category-only change preserves the proposal binding so the atomic reviewed-posting correction system can learn it. Changing meaningful transaction facts invalidates that binding; late responses cannot restore it. If a category draft was saved before posting failed, its next `PUT /entries/:id` explicitly sends `clearProposal: true` to remove the old binding atomically with the revised draft. This flag is mutually exclusive with a new `proposalId`; omission preserves existing binding behavior. Posted entries cannot be cleared this way. The UI never defaults unknown purpose to business.
+
+`GET /meta` exposes a separate `category: { available, provider, model }`, independent of `ai` availability for whole-entry description and financial chat. Server-only `CATEGORY_PROVIDER=gemini|jev|reference` chooses the category adapter; Gemini is the initial default pending measured comparison. Jev uses `TYPESAFE_API_KEY`; Gemini uses `GEMINI_API_KEY`; the reference uses neither. There is no model selector in the UI. Configuration does not itself authorize an evaluation or purchase.
+
+This endpoint has a per-process limit of four concurrent requests, the selector's bounded single-attempt transport, correlated safe success/failure diagnostics, and the existing `X-Request-Id`/error reference behavior. This is not a distributed rate limit or a global spending cap. The separate evaluation runner owns its persistent budget. No live category-provider check or deployment is claimed by these source changes. [Implementation and limits](CATEGORY_SELECTOR.md).
+
 ## Historical 2026-10-30 live AI recovery
 
 At that checkpoint, the hosted model and source default changed to **`gemini-3.1-flash-lite`**. Direct API testing reproduced the earlier model's generation timeouts and confirmed working text/JSON/tool calls on Flash-Lite. A separate journal-proposal rejection was traced to the 100-line `maxItems` constraint in Gemini's decoding grammar: the transport omits array maxima, while the full original Zod limit, account checks and exact-money/balance rules remain enforced locally.
@@ -30,29 +42,31 @@ Local build/native imports and **60 isolated tests** passed, including two new s
 
 All routes are under `/api`. Monetary amounts and exchange rates are **decimal strings**, dates are `YYYY-MM-DD`, and identifiers are UUIDs. The organization is resolved from trusted server configuration; the application has no user login or public tenant-selection header. The hosted demo additionally sits behind Vercel Authentication; that platform gate is separate from application authorization.
 
-| Method           | Route                                    | Purpose                                                     |
-| ---------------- | ---------------------------------------- | ----------------------------------------------------------- |
-| GET              | `/health`                                | Database readiness                                          |
-| GET              | `/meta`                                  | Workspace, business date, AI availability, open-alert count |
-| GET              | `/dashboard?from=&to=`                   | Actual cash, P&L, trend and review counts                   |
-| GET/POST         | `/accounts`                              | Account balances or create account                          |
-| PUT/PATCH/DELETE | `/accounts/:id`                          | Edit, archive/restore, delete unused account                |
-| GET              | `/accounts/:id/ledger?from=&to=&cursor=` | Opening/closing amounts and paginated running balances      |
-| GET/POST         | `/entries`                               | List/search or create a draft                               |
-| GET/PUT          | `/entries/:id`                           | Inspect or edit a draft                                     |
-| POST             | `/entries/:id/post`                      | Post a reviewed draft                                       |
-| POST             | `/entries/:id/reverse`                   | Create and post an exact linked reversal                    |
-| GET              | `/reports/trial?from=&to=`               | Opening, interval, and closing trial balance                |
-| GET              | `/reports/income?from=&to=`              | P&L                                                         |
-| GET              | `/reports/balance?to=`                   | Balance sheet as of a date                                  |
-| GET/POST         | `/recurring`                             | List or create schedules                                    |
-| PUT/PATCH        | `/recurring/:id`                         | Edit future content or pause/resume                         |
-| POST             | `/recurring/generate`                    | Generate currently due drafts, bounded per call             |
-| GET              | `/alerts?status=OPEN`                    | Review alerts; use `DISMISSED` for reviewed                 |
-| PATCH            | `/alerts/:id`                            | Set status OPEN or DISMISSED                                |
-| POST             | `/ai/entry`                              | Propose a structured entry or clarify                       |
-| POST             | `/ai/chat`                               | Execute an allowlisted financial insight                    |
-| POST             | `/ai/feedback`                           | Store a confirmed categorization correction                 |
+| Method           | Route                                    | Purpose                                                      |
+| ---------------- | ---------------------------------------- | ------------------------------------------------------------ |
+| GET              | `/health`                                | Database readiness                                           |
+| GET              | `/meta`                                  | Workspace, business date, AI availability, open-alert count  |
+| GET              | `/dashboard?from=&to=`                   | Actual cash, P&L, trend and review counts                    |
+| GET/POST         | `/accounts`                              | Account balances or create account                           |
+| PUT/PATCH/DELETE | `/accounts/:id`                          | Edit, archive/restore, delete unused account                 |
+| GET              | `/accounts/:id/ledger?from=&to=&cursor=` | Opening/closing amounts and paginated running balances       |
+| GET/POST         | `/entries`                               | List/search or create a draft                                |
+| GET/PUT          | `/entries/:id`                           | Inspect or edit a draft                                      |
+| POST             | `/entries/:id/post`                      | Post a reviewed draft                                        |
+| POST             | `/entries/:id/reverse`                   | Create and post an exact linked reversal                     |
+| GET              | `/reports/trial?from=&to=`               | Opening, interval, and closing trial balance                 |
+| GET              | `/reports/income?from=&to=`              | P&L                                                          |
+| GET              | `/reports/balance?to=`                   | Balance sheet as of a date                                   |
+| GET/POST         | `/recurring`                             | List or create schedules                                     |
+| PUT/PATCH        | `/recurring/:id`                         | Edit future content or pause/resume                          |
+| POST             | `/recurring/generate`                    | Generate currently due drafts, bounded per call              |
+| GET              | `/alerts?status=OPEN`                    | Review alerts; use `DISMISSED` for reviewed                  |
+| PATCH            | `/alerts/:id`                            | Set status OPEN or DISMISSED                                 |
+| POST             | `/ai/category`                           | Suggest a category using server context; prepare review only |
+| POST             | `/ai/entry`                              | Propose a structured entry or clarify                        |
+| POST             | `/ai/chat`                               | Execute an allowlisted financial insight                     |
+| POST             | `/ai/feedback`                           | Retired: returns 410; learn from reviewed posting            |
+| DELETE           | `/ai/corrections/:id`                    | Forget a reviewed correction without changing the ledger     |
 
 ## Draft creation and posting
 

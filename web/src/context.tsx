@@ -4,6 +4,7 @@ export type Meta = {
   organization: { id: string; name: string; base_currency: string; timezone: string };
   today: string;
   ai: { available: boolean; model: string | null };
+  category?: { available: boolean; provider: 'gemini' | 'jev' | 'reference'; model: string };
   demo: boolean;
   alertCount: number;
 };

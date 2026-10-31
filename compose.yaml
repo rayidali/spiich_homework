@@ -38,6 +38,8 @@ services:
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       AI_MODEL: ${AI_MODEL:-}
+      CATEGORY_PROVIDER: ${CATEGORY_PROVIDER:-gemini}
+      TYPESAFE_API_KEY: ${TYPESAFE_API_KEY:-}
       SEED_DEMO: ${SEED_DEMO:-true}
     depends_on:
       migrate:

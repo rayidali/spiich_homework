@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowUp, Check, FilePenLine, Plus, Repeat2, MessageSquareText, Trash2 } from 'lucide-react';
+import type { CategoryFacts } from '../../server/category-selector';
+import type { CategorySuggestion } from '../../server/category-service';
 import type { Entry, EntryInput, LineInput } from '../../shared/schema';
 import { baseAmount, Decimal, sum } from '../../shared/money';
 import type { ComposerState } from './context';
 import { useWorkspace } from './context';
-import { asUiError, type UiError, write } from './api';
+import { api, asUiError, type UiError, write } from './api';
 import {
   defaultQuickAccount,
   quickEntryOptions,
@@ -71,6 +73,93 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
     [messages, setMessages] = useState<{ role: 'user' | 'assistant'; content: string }[]>([]),
     [aiBusy, setAiBusy] = useState(false),
     [proposal, setProposal] = useState<Proposal | null>(null);
+  const [categoryBusy, setCategoryBusy] = useState(false),
+    [clearCategoryBinding, setClearCategoryBinding] = useState(false),
+    [categoryPurpose, setCategoryPurpose] = useState<CategoryFacts['purpose']>(null),
+    [categorySuggestion, setCategorySuggestion] = useState<{
+      factsKey: string;
+      result: CategorySuggestion;
+    } | null>(null);
+  const savedCategoryBinding = useRef(false);
+  const categoryRequest = useRef(0),
+    categoryController = useRef<AbortController | null>(null);
+  function cancelCategoryRequest() {
+    categoryRequest.current++;
+    categoryController.current?.abort();
+    categoryController.current = null;
+    setCategoryBusy(false);
+  }
+  function invalidateCategory() {
+    if (savedCategoryBinding.current) setClearCategoryBinding(true);
+    cancelCategoryRequest();
+    setCategorySuggestion(null);
+    setCategoryPurpose(null);
+  }
+  // A refreshed chart can revoke an account while the composer is open.
+  useEffect(() => {
+    invalidateCategory();
+  }, [accounts]);
+  useEffect(
+    () => () => {
+      categoryRequest.current++;
+      categoryController.current?.abort();
+    },
+    [],
+  );
+  function categoryFacts(purpose = categoryPurpose): CategoryFacts {
+    return {
+      description,
+      counterparty,
+      direction: quickKind === 'in' ? 'IN' : 'OUT',
+      amount: quickAmount,
+      date,
+      currency: 'USD',
+      exchangeRate: '1',
+      fundingAccountId: quickAccount || null,
+      purpose,
+      structure: quickKind === 'transfer' ? 'COMPLEX' : 'SINGLE',
+    };
+  }
+  const categoryFactsKey = JSON.stringify(categoryFacts());
+  const currentCategorySuggestion =
+    categorySuggestion?.factsKey === categoryFactsKey ? categorySuggestion.result : null;
+  const categoryProposal =
+    currentCategorySuggestion?.decision === 'SELECT' ? currentCategorySuggestion : null;
+  async function suggestCategory(purpose = categoryPurpose) {
+    if (categoryBusy || saving || !meta?.category?.available || mode !== 'simple' || quickKind === 'transfer')
+      return;
+    // A new request discards the old suggestion even if its replacement only
+    // clarifies or fails. Never silently keep its already-saved learning link.
+    if (savedCategoryBinding.current) setClearCategoryBinding(true);
+    cancelCategoryRequest();
+    const requestId = categoryRequest.current,
+      controller = new AbortController();
+    categoryController.current = controller;
+    const facts = categoryFacts(purpose),
+      factsKey = JSON.stringify(facts);
+    setCategoryPurpose(purpose);
+    setCategoryBusy(true);
+    setCategorySuggestion(null);
+    setProposal(null);
+    setError('');
+    try {
+      const result = await api<CategorySuggestion>('/ai/category', {
+        method: 'POST',
+        body: JSON.stringify(facts),
+        signal: controller.signal,
+      });
+      if (controller.signal.aborted || requestId !== categoryRequest.current) return;
+      setCategorySuggestion({ factsKey, result });
+      if (result.decision === 'SELECT') setQuickCategory(result.accountId);
+    } catch (error) {
+      if (!controller.signal.aborted && requestId === categoryRequest.current) setError(asUiError(error));
+    } finally {
+      if (requestId === categoryRequest.current) {
+        setCategoryBusy(false);
+        categoryController.current = null;
+      }
+    }
+  }
   const [scheduleName, setScheduleName] = useState(state.template?.name ?? ''),
     [frequency, setFrequency] = useState(state.template?.frequency ?? 'MONTHLY'),
     [endDate, setEndDate] = useState(state.template?.end_date ?? '');
@@ -102,6 +191,7 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
     setError('');
   }
   function prepareSimple() {
+    cancelCategoryRequest();
     setError('');
     if (!description.trim() || !date) {
       setError('Add a description and date before reviewing.');
@@ -166,7 +256,7 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
       description,
       counterparty,
       reference,
-      source: proposal?.entry || state.entry?.source === 'AI' ? 'AI' : 'MANUAL',
+      source: categoryProposal || proposal?.entry || state.entry?.source === 'AI' ? 'AI' : 'MANUAL',
       lines: lines.map((l) => ({ ...l, debit: l.debit || '0', credit: l.credit || '0' })),
     };
     try {
@@ -194,12 +284,23 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
       } else {
         const result = await write<Entry>(
           draftId ? `/entries/${draftId}` : '/entries',
-          { ...payload, expectedRevision: draftRevision, proposalId: proposal?.proposalId },
+          {
+            ...payload,
+            expectedRevision: draftRevision,
+            proposalId: categoryProposal?.proposalId ?? proposal?.proposalId,
+            clearProposal:
+              draftId && clearCategoryBinding && !categoryProposal && !proposal?.proposalId
+                ? true
+                : undefined,
+          },
           draftId ? 'PUT' : 'POST',
           draftId ? undefined : key,
         );
         setDraftId(result.id);
         setDraftRevision(result.revision);
+        if (categoryProposal) savedCategoryBinding.current = true;
+        else if (clearCategoryBinding) savedCategoryBinding.current = false;
+        setClearCategoryBinding(false);
         const saved = post
           ? await write<Entry>(`/entries/${result.id}/post`, {
               exchangeRatesConfirmed: true,
@@ -251,6 +352,7 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
                   const selection = reconcileQuickSelection(accounts, quickKind, quickAccount, quickCategory);
                   setQuickAccount(selection.payment);
                   setQuickCategory(selection.category);
+                  invalidateCategory();
                   setMode('simple');
                   setQuickReview(false);
                   setError('');
@@ -263,6 +365,7 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
                 disabled={saving || aiBusy}
                 className={mode === 'ai' ? 'selected' : ''}
                 onClick={() => {
+                  invalidateCategory();
                   setMode('ai');
                   setProposal(null);
                   setMessages([]);
@@ -277,6 +380,7 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
                 disabled={saving || aiBusy}
                 className={mode === 'manual' ? 'selected' : ''}
                 onClick={() => {
+                  invalidateCategory();
                   setMode('manual');
                   setError('');
                 }}
@@ -401,7 +505,10 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
                     ref={descriptionInput}
                     data-autofocus={mode === 'manual' || simple ? true : undefined}
                     value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    onChange={(e) => {
+                      invalidateCategory();
+                      setDescription(e.target.value);
+                    }}
                     placeholder="What happened?"
                     maxLength={500}
                   />
@@ -416,7 +523,10 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
                     type="date"
                     disabled={Boolean(state.template)}
                     value={date}
-                    onChange={(e) => setDate(e.target.value)}
+                    onChange={(e) => {
+                      invalidateCategory();
+                      setDate(e.target.value);
+                    }}
                   />
                 </label>
               </div>
@@ -430,7 +540,10 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
                       Counterparty <span className="optional">optional</span>
                       <input
                         value={counterparty}
-                        onChange={(e) => setCounterparty(e.target.value)}
+                        onChange={(e) => {
+                          invalidateCategory();
+                          setCounterparty(e.target.value);
+                        }}
                         placeholder="Customer, vendor or person"
                         maxLength={100}
                       />
@@ -466,7 +579,10 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
                       Counterparty <span className="optional">optional</span>
                       <input
                         value={counterparty}
-                        onChange={(e) => setCounterparty(e.target.value)}
+                        onChange={(e) => {
+                          invalidateCategory();
+                          setCounterparty(e.target.value);
+                        }}
                         placeholder="Customer, vendor or person"
                         maxLength={100}
                       />
@@ -511,6 +627,7 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
                         aria-pressed={quickKind === value}
                         onClick={() => {
                           const selection = reconcileQuickSelection(accounts, value, quickAccount, '');
+                          invalidateCategory();
                           setQuickKind(value);
                           setQuickCategory(selection.category);
                           setQuickAccount(selection.payment);
@@ -527,7 +644,10 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
                       autoComplete="off"
                       placeholder="0.00"
                       value={quickAmount}
-                      onChange={(e) => setQuickAmount(e.target.value)}
+                      onChange={(e) => {
+                        invalidateCategory();
+                        setQuickAmount(e.target.value);
+                      }}
                     />
                   </label>
                   <div className="form-grid">
@@ -540,6 +660,7 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
                       <select
                         value={quickAccount}
                         onChange={(e) => {
+                          invalidateCategory();
                           const payment = e.target.value;
                           setQuickAccount(payment);
                           if (
@@ -563,7 +684,10 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
                       <select
                         aria-label={quickKind === 'transfer' ? 'To account' : 'What was it for?'}
                         value={quickCategory}
-                        onChange={(e) => setQuickCategory(e.target.value)}
+                        onChange={(e) => {
+                          cancelCategoryRequest();
+                          setQuickCategory(e.target.value);
+                        }}
                       >
                         <option value="">
                           {quickKind === 'transfer' ? 'Choose destination' : 'Choose category or account'}
@@ -576,6 +700,66 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
                       </select>
                     </label>
                   </div>
+                  {quickKind !== 'transfer' && meta?.category?.available && (
+                    <div aria-label="Category suggestion">
+                      <button
+                        type="button"
+                        className="button secondary"
+                        disabled={categoryBusy || !description.trim() || !quickAmount}
+                        onClick={() => void suggestCategory()}
+                      >
+                        {categoryBusy ? <Spinner /> : <MessageSquareText size={15} />}{' '}
+                        {categoryBusy ? 'Suggesting…' : 'Suggest category'}
+                      </button>
+                      {categoryProposal && (
+                        <p className="field-help" role="status">
+                          Category suggested. Change it if needed, then review the entry.
+                        </p>
+                      )}
+                      {currentCategorySuggestion?.decision === 'CLARIFY' && (
+                        <div className="info-note" role="status">
+                          <div>
+                            <p>{currentCategorySuggestion.question}</p>
+                            {currentCategorySuggestion.topic === 'purpose' && (
+                              <div className="choice-row" aria-label="Transaction purpose">
+                                {currentCategorySuggestion.options.map((option) => (
+                                  <button
+                                    type="button"
+                                    key={option.value}
+                                    onClick={() =>
+                                      void suggestCategory(option.value as CategoryFacts['purpose'])
+                                    }
+                                  >
+                                    {option.label}
+                                  </button>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                      {currentCategorySuggestion?.decision === 'UNSUPPORTED' && (
+                        <div className="info-note" role="status">
+                          <div>
+                            <p>
+                              This needs the full entry form. You can also choose the correct account
+                              yourself.
+                            </p>
+                            <button
+                              type="button"
+                              className="button secondary"
+                              onClick={() => {
+                                invalidateCategory();
+                                setMode('manual');
+                              }}
+                            >
+                              Use journal entry
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                   {quickKind === 'in' && (
                     <p className="field-help">
                       For payment of an invoice already in your books, choose Accounts receivable. A new sale
@@ -592,7 +776,14 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
           {mode === 'ai' && !aiReady && (
             <label className="field ai-date">
               Transaction date
-              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+              <input
+                type="date"
+                value={date}
+                onChange={(e) => {
+                  invalidateCategory();
+                  setDate(e.target.value);
+                }}
+              />
             </label>
           )}
           {reviewing && (

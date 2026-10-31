@@ -1,0 +1,33 @@
+{
+  "verifiedAt": "2026-10-31T16:52:41.046077+00:00",
+  "currency": "USD",
+  "meaning": "Public standard inference list prices; no invoice, balance or billing-tier claim. Paid rates used conservatively even if free quota applies.",
+  "models": {
+    "gemini": {
+      "id": "gemini-3.5-flash-lite",
+      "inputPerMillion": "0.30",
+      "outputIncludingThinkingPerMillion": "2.50",
+      "source": "https://ai.google.dev/gemini-api/docs/pricing#gemini-3.5-flash-lite",
+      "toolsRequested": false
+    },
+    "jev": {
+      "id": "jev-1.14.0",
+      "inputPerMillion": "0.042",
+      "outputPerMillion": "0",
+      "source": "https://docs.typesafe.ai/models",
+      "documentationIndex": "https://docs.typesafe.ai/llms.txt",
+      "questionsPerCall": 1
+    }
+  },
+  "newSelectorLimits": {
+    "geminiUsd": "0.50",
+    "jevUsd": "0.03",
+    "requestsPerProvider": 72
+  },
+  "separateWholeEntryAcceptancePlanned": {
+    "geminiUsd": "0.20",
+    "maximumCalls": 12,
+    "executed": false
+  },
+  "oldResearchLedgerReopened": false
+}

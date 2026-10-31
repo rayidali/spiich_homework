@@ -125,12 +125,29 @@ export async function recordProposal(org: string, entry: EntryInput, db?: Db): P
  * actual draft. Without a new ID, edits refresh an existing binding. */
 export async function bindProposalToEntry(
   org: string,
-  input: { entryId: string; proposalId?: string; expectedRevision: number },
+  input: { entryId: string; proposalId?: string; clearProposal?: boolean; expectedRevision: number },
   db: Db,
 ) {
   z.uuid().parse(input.entryId);
   if (input.proposalId) z.uuid().parse(input.proposalId);
   const entry = await savedEntry(org, input.entryId, db);
+  if (input.clearProposal) {
+    if (input.proposalId)
+      throw new AppError(400, 'INVALID_INPUT', 'Choose a new proposal or clear the old binding, not both.');
+    if (entry.status !== 'DRAFT' || entry.revision !== input.expectedRevision)
+      throw new AppError(
+        409,
+        'PROPOSAL_BINDING_INVALID',
+        'Only the current reviewed draft can clear its proposal binding.',
+      );
+    await query(
+      `UPDATE ai_entry_proposals SET bound_entry_id=NULL,bound_revision=NULL,bound_snapshot_hash=NULL,bound_at=NULL
+      WHERE organization_id=$1 AND bound_entry_id=$2`,
+      [org, entry.id],
+      db,
+    );
+    return;
+  }
   const proposal = (
     await query<ProposalRow>(
       `SELECT id,proposal,expires_at<now() AS expired,bound_entry_id,bound_revision,bound_snapshot_hash

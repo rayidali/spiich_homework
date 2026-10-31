@@ -91,6 +91,7 @@ type DiagnosticEvent =
   | 'request_error'
   | 'ai_provider_failure'
   | 'ai_request_failed'
+  | 'ai_category_result'
   | 'database_pool'
   | 'database_rollback_failed'
   | 'worker_error';
@@ -100,14 +101,18 @@ type DiagnosticFields = {
   status?: number;
   durationMs?: number;
   operation?:
+    | 'category'
     | 'proposal'
     | 'financial_tool'
     | 'anomaly_analysis'
     | 'anomaly_heartbeat'
     | 'recurring_generation';
   jobId?: string | number;
-  provider?: 'gemini' | 'openai';
+  provider?: 'gemini' | 'openai' | 'jev' | 'reference';
   model?: string;
+  modelVersion?: string;
+  decision?: 'SELECT' | 'CLARIFY' | 'UNSUPPORTED';
+  attempts?: number;
   failureClass?: 'http' | 'transport' | 'timeout' | 'provider';
   upstreamStatus?: number | null;
   transportCode?: string;
@@ -149,9 +154,14 @@ export function diagnostic(
   if (httpStatus(fields.status)) output.status = fields.status;
   if (count(fields.durationMs)) output.durationMs = fields.durationMs;
   if (
-    ['proposal', 'financial_tool', 'anomaly_analysis', 'anomaly_heartbeat', 'recurring_generation'].includes(
-      fields.operation ?? '',
-    )
+    [
+      'category',
+      'proposal',
+      'financial_tool',
+      'anomaly_analysis',
+      'anomaly_heartbeat',
+      'recurring_generation',
+    ].includes(fields.operation ?? '')
   )
     output.operation = fields.operation;
   const jobId =
@@ -162,11 +172,21 @@ export function diagnostic(
       : fields.jobId;
   if (typeof jobId === 'string' && /^[1-9][0-9]{0,18}$/.test(jobId) && BigInt(jobId) <= 9223372036854775807n)
     output.jobId = jobId;
-  if (fields.provider === 'gemini' || fields.provider === 'openai') output.provider = fields.provider;
+  if (['gemini', 'openai', 'jev', 'reference'].includes(fields.provider ?? ''))
+    output.provider = fields.provider;
   if (fields.model !== undefined)
-    output.model = /^(?:gemini-|gpt-|o[1-9])[-a-zA-Z0-9._:]{0,150}$/.test(fields.model)
+    output.model = /^(?:gemini-|gpt-|jev-|exact-memory-label-rules-|o[1-9])[-a-zA-Z0-9._:]{0,150}$/.test(
+      fields.model,
+    )
       ? fields.model
       : 'invalid';
+  if (
+    fields.modelVersion !== undefined &&
+    /^(?:gemini-|jev-|exact-memory-label-rules-)[-a-zA-Z0-9._:]{0,150}$/.test(fields.modelVersion)
+  )
+    output.modelVersion = fields.modelVersion;
+  if (['SELECT', 'CLARIFY', 'UNSUPPORTED'].includes(fields.decision ?? '')) output.decision = fields.decision;
+  if (fields.attempts === 0 || fields.attempts === 1) output.attempts = fields.attempts;
   if (['http', 'transport', 'timeout', 'provider'].includes(fields.failureClass ?? ''))
     output.failureClass = fields.failureClass;
   if (fields.upstreamStatus === null || httpStatus(fields.upstreamStatus))
@@ -175,6 +195,6 @@ export function diagnostic(
   // Database callers supply only databaseCode() output; this second gate excludes free-form messages.
   const safeDatabaseCode = databaseCode({ code: fields.databaseCode });
   if (safeDatabaseCode) output.databaseCode = safeDatabaseCode;
-  if (event === 'http_request') console.log(JSON.stringify(output));
+  if (event === 'http_request' || event === 'ai_category_result') console.log(JSON.stringify(output));
   else console.error(JSON.stringify(output));
 }

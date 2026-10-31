@@ -1,6 +1,36 @@
 # Architecture and engineering decisions
 
-## Current product repair — 2026-10-31, selected hosted checks passed
+## Current product boundary — deployed core, category integration in source
+
+Core source `70b59c62c6819880c2504fe546f4fecc8a703c50` passed [CI 41219589967](https://github.com/rayidali/spiich_homework/actions/runs/41219589967) and is deployed as `dpl_FQs3fAoqDF1KcvDoS5bwH8R16UgF`. It adds safe request correlation, atomic posted-entry correction memory and reversal-aware alert resolution. The release used 64 exact files, no configuration overlay and normal migrations 005/006. Hosted verification kept the 73 journal records and dashboard unchanged and matched a controlled validation error's reference to two runtime-log events without calling a model. [Evidence and limits](evidence/core-repair-release.json).
+
+The new category selector/service and short-form button are implemented in working source, with offline checks; their new database/browser CI, deployment and live comparison remain pending. The existing whole-entry assistant and four-tool financial chat remain separate paths. Neither the completed research study nor the new category module replaces the ledger's authority.
+
+```mermaid
+flowchart TD
+  Form[User enters fixed transaction facts] --> Context[Server loads scoped accounts and eligible examples]
+  Context --> Snapshot[One immutable category snapshot]
+  Snapshot --> Selector[Gemini or Jev Choice or offline reference]
+  Selector --> Decision{Select, clarify or unsupported}
+  Decision -->|Clarify or handoff| Form
+  Decision -->|Select| Validation[Code builds two fixed lines and rechecks accounts]
+  Validation --> Proposal[Store review proposal only]
+  Proposal --> Review[User reviews and may change category]
+  Review --> Posting[Ordinary draft save and posting transaction]
+  Posting --> Ledger[(Balanced immutable ledger)]
+  Posting --> Memory[Record actual posted account correction atomically]
+  Memory --> Context
+```
+
+The category API accepts facts, never client-supplied charts, history, provider configuration or organization scope. The service retrieves those itself. The selector may choose an expense account for money out or revenue for money in; invoice settlements, refunds, transfers, loans, assets and splits hand off to full entry review. Amount, currency, rate, date and funding account are fixed outside both models. Unknown business/personal purpose has explicit questions, without a business default.
+
+A SELECT result becomes a server-validated two-line proposal. Both current account rows are locked/rechecked before proposal storage; no journal is created or posted by that endpoint. The UI keeps category-only edits linked to the suggestion, cancels stale requests on meaningful input changes, and uses an explicit atomic `clearProposal` flag when a saved draft's previous suggestion is discarded. Default binding preservation for ordinary whole-entry draft edits remains unchanged. [Detailed contract](CATEGORY_SELECTOR.md), [API](API.md).
+
+`CATEGORY_PROVIDER` selects Gemini, Jev or the offline reference on the server. Separate `/meta.category` availability avoids conflating this feature with whole-entry AI. Each provider receives the same snapshot/candidate order; different API formats are disclosed. Jev signals are validated but not treated as measured accuracy, and no confidence threshold has been promoted. The service allows four concurrent requests per process and one bounded provider attempt; these are not distributed concurrency or global spending controls. Logs retain request ID, operation, provider/model, stage/status and source revision while excluding business text, keys, SQL and raw provider bodies.
+
+A confirmed correction means the user changed an AI-suggested account and **posted** the reviewed entry. The posting transaction binds proposal, entry and revision and writes correction memory with the financial commit. A draft or model suggestion alone is not teaching evidence. Retrieval rechecks posting, reversal, active accounts and forget status. Forgetting removes the example from later correction/history context without editing the posted ledger. This is retrieval-based adaptation, not model retraining; its effect on future accuracy is still unmeasured.
+
+## Earlier provider-only repair — 2026-10-31, selected hosted checks passed
 
 The hosted entry flow returned HTTP 502. A direct request with the same production key reproduced upstream HTTP 503 on `gemini-3.1-flash-lite`; direct `gemini-3.5-flash-lite` requests succeeded with both a small response and the full entry grammar, in about 1.0 and 1.47 seconds. The user later recalled the original input as approximately “gave $800 to a friend to party”; the original timestamp and raw response are unavailable.
 
@@ -10,7 +40,7 @@ The first release passed its complete-entry check and returned cash of **$125,62
 
 The deployed provider boundary classifies upstream HTTP 5xx as `AI_SERVICE_UNAVAILABLE` (503) and connection failures as `AI_CONNECTION_ERROR` (502), with sanitized diagnostic metadata. Own-call timeouts remain `AI_TIMEOUT` (504). No automatic retry or change to financial authority was added. The initial repair also passed 34 provider tests and the TypeScript check.
 
-Current priorities return to the [original assignment review](ASSIGNMENT_REVIEW.md): reliable entry behavior, trustworthy correction persistence and a focused Gemini/Jev categorization comparison. Error-reference propagation, feedback trust and correction-learning accuracy remain open. Neither Jev categorization nor a new learning evaluation was implemented by this repair.
+At that provider-only repair checkpoint, error-reference propagation and feedback trust remained open. The later core release implements those engineering repairs, and the category module described above is a new source change. Correction-learning accuracy and the focused live Gemini/Jev comparison remain unmeasured. [Original assignment review](ASSIGNMENT_REVIEW.md).
 
 This change follows the completed research experiment. The preserved study source hash `fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08`, executable commit `0fe267b03b7baa0a2ff43c58165301b74261afa9`, datasets, outcomes and reports retain their historical identity. The current product patch changes working-source identity and has not been measured by rerunning that study. It promotes no experimental retrieval, Wren or reviewer route. [Current verification](VERIFICATION.md), [checkpoint](../CHECKPOINT.md).
 
@@ -204,9 +234,9 @@ Natural-language input uses a strict structured response with READY/CLARIFY stat
 
 Insight chat selects one of four functions: expense summary, revenue comparison, transaction search, or cash position. It can also ask for clarification. There is no generated SQL executor. SQL calculates amounts; application code composes the numeric answer and evidence links. The model can still misinterpret a period or intent, so dates remain visible in the answer. Context retrieval is the learning mechanism; no fine-tuning is performed.
 
-The server caps in-flight model requests at four per process and provider requests at a 25-second timeout. It makes one HTTP attempt with automatic SDK retries disabled (`maxRetries: 0`). OpenAI Responses requests opt out of storage. Provider failures leave the books untouched. The model is configurable; configured-key hosted checks have succeeded for selected questions and proposals, while intermittent failures and the incomplete product evaluation remain documented. [Structured output](https://developers.openai.com/api/docs/guides/structured-outputs), [function calling](https://developers.openai.com/api/docs/guides/function-calling), [GPT-6 Luna](https://developers.openai.com/api/docs/models/gpt-6-luna).
+The whole-entry/chat provider module caps in-flight requests at four per process and uses a 25-second timeout; the new category service has its own four-request bound and 10-second default timeout (at most 25 seconds). These limits are separate and are not a shared distributed quota. It makes one HTTP attempt with automatic SDK retries disabled (`maxRetries: 0`). OpenAI Responses requests opt out of storage. Provider failures leave the books untouched. The model is configurable; configured-key hosted checks have succeeded for selected questions and proposals, while intermittent failures and the incomplete product evaluation remain documented. [Structured output](https://developers.openai.com/api/docs/guides/structured-outputs), [function calling](https://developers.openai.com/api/docs/guides/function-calling), [GPT-6 Luna](https://developers.openai.com/api/docs/models/gpt-6-luna).
 
-Anomaly detection uses explainable statistical rules rather than a model call: possible duplicates within three days, expense amount at least 1.75 times a median from 4–24 previous samples with at least 50 native currency units of difference, and a changed vendor expense category after at least four historical examples. These are review hints. They have false positives and do not detect every anomaly or establish fraud. Thresholds and the fixed native-currency difference should be tuned by currency and customer data in production.
+Anomaly detection uses explainable statistical rules rather than a model call: possible duplicates within three days, expense amount at least 1.75 times a median from 4–24 previous samples with at least 50 native currency units of difference, and a changed vendor expense category after at least four historical examples. Migration 006 adds explicit resolved-alert state and reversal-triggered bounded reanalysis; dismissed alerts keep their reviewed status while obsolete evidence is marked resolved. These are review hints. They have false positives and do not detect every anomaly or establish fraud. Thresholds and the fixed native-currency difference should be tuned by currency and customer data in production.
 
 ## Historical architecture proposal and later experimental implementation
 

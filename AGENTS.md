@@ -1,5 +1,7 @@
 # Daybook continuation instructions
 
+**Latest operational update:** core repair `70b59c6` is deployed as `dpl_FQs3fAoqDF1KcvDoS5bwH8R16UgF`, after full CI 41219589967. Migration 005/006, UI error references, trusted correction memory and reversal-aware alerts are live. A controlled HTTP failure was traced to actual runtime logs; all 73 journal records/dashboard unchanged. See CHECKPOINT and `docs/evidence/core-repair-release.json`. The active goal is unfinished: isolated category-selector/evaluation worktrees and automatic-runtime acceptance are in progress, no new paid calls. Historical notes below describe their earlier state; preserve all six applied migrations now.
+
 Read [CHECKPOINT.md](CHECKPOINT.md) first whenever starting or resuming. It is the saved state as of **2026-10-31 America/New_York** and includes current CI/deployment evidence, local publication recovery, credentials boundaries and ordered next steps. Continue the existing application.
 
 - **Active goal:** the user authorized implementing/fixing audited product gaps and comparing Gemini/Jev categorization. Follow [PRODUCT_PLAN.md](docs/PRODUCT_PLAN.md) and the newest CHECKPOINT block. Current source has un-deployed diagnostics, trusted atomic correction memory and anomaly lifecycle changes (migrations 005/006); fresh real-DB/browser/Compose verification and the comparison remain required. The goal is active. Do not reuse the earlier study's frozen results or closed budget as new evidence.

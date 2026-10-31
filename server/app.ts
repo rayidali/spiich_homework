@@ -23,6 +23,8 @@ import {
 import { createRecurring, generateRecurring, updateRecurring } from './recurring';
 import { financialChat, messagesSchema, proposeEntry } from './ai';
 import { learningForEntry, revokeCorrection } from './categorization-memory';
+import { categoryAvailability, suggestCategory } from './category-service';
+import { getCategoryFailureMetadata } from './category-selector';
 
 export function createApp(org = config.organizationId) {
   const app = express();
@@ -66,6 +68,7 @@ export function createApp(org = config.organizationId) {
         provider: config.aiProvider,
         model: config.aiKey ? config.aiModel : null,
       },
+      category: categoryAvailability(),
       valuation: 'Recorded exchange rates',
       alertCount: Number(
         (await query("SELECT count(*) AS n FROM alerts WHERE organization_id=$1 AND status='OPEN'", [org]))[0]
@@ -180,6 +183,7 @@ export function createApp(org = config.organizationId) {
         entrySchema.parse(req.body),
         z.number().int().positive().parse(req.body.expectedRevision),
         z.uuid().optional().parse(req.body.proposalId),
+        z.boolean().optional().parse(req.body.clearProposal),
       ),
     ),
   );
@@ -267,6 +271,9 @@ export function createApp(org = config.organizationId) {
       );
     }
     res.json(updated[0]);
+  });
+  app.post('/api/ai/category', async (req, res) => {
+    res.json(await suggestCategory(org, req.body));
   });
   app.post('/api/ai/entry', async (req, res) => {
     const p = z.object({ messages: messagesSchema, date: dateSchema }).parse(req.body);
@@ -380,11 +387,15 @@ export function apiErrorHandler(
   res.locals.errorCode = code;
   res.locals.errorStage = stage;
   const operation =
-    req.route?.path === '/api/ai/entry'
-      ? 'proposal'
-      : req.route?.path === '/api/ai/chat'
-        ? 'financial_tool'
-        : undefined;
+    req.route?.path === '/api/ai/category'
+      ? 'category'
+      : req.route?.path === '/api/ai/entry'
+        ? 'proposal'
+        : req.route?.path === '/api/ai/chat'
+          ? 'financial_tool'
+          : undefined;
+  const categoryMetadata = operation === 'category' ? getCategoryFailureMetadata(error) : undefined;
+  const categoryConfiguration = operation === 'category' ? categoryAvailability() : undefined;
   diagnostic(
     'request_error',
     {
@@ -392,7 +403,14 @@ export function apiErrorHandler(
       stage,
       status,
       databaseCode: databaseCode(error),
-      ...(operation ? { operation, provider: config.aiProvider, model: config.aiModel } : {}),
+      ...(operation
+        ? {
+            operation,
+            provider: categoryMetadata?.provider ?? categoryConfiguration?.provider ?? config.aiProvider,
+            model: categoryMetadata?.requestedModel ?? categoryConfiguration?.model ?? config.aiModel,
+          }
+        : {}),
+      ...(categoryMetadata ? { upstreamStatus: categoryMetadata.upstreamStatus } : {}),
     },
     res.locals.diagnosticContext,
   );

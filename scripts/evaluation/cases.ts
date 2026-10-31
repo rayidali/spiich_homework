@@ -1,5 +1,6 @@
 /** Fixed prompts and labels. Keep the holdout split unchanged while tuning on development failures. */
-export const FIXTURE_VERSION = 'daybook-accounting-eval-v1';
+// V2 changes fixture construction, not the 40 prompts, expected labels or splits.
+export const FIXTURE_VERSION = 'daybook-accounting-eval-v2-posted-corrections';
 export const SELECTED_DATE = '2026-03-15';
 export type ExpectedLine = {
   code: string;

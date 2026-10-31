@@ -179,7 +179,10 @@ export async function updateDraft(
   input: EntryInput,
   expectedRevision: number,
   proposalId?: string,
+  clearProposal = false,
 ) {
+  if (proposalId && clearProposal)
+    throw new AppError(400, 'INVALID_INPUT', 'Choose a new proposal or clear the old binding, not both.');
   await transaction(async (db) => {
     const entry = required(
       (
@@ -213,7 +216,11 @@ export async function updateDraft(
         db,
       );
     const saved = await getEntry(org, id, db);
-    await bindProposalToEntry(org, { entryId: id, proposalId, expectedRevision: saved.revision }, db);
+    await bindProposalToEntry(
+      org,
+      { entryId: id, proposalId, clearProposal, expectedRevision: saved.revision },
+      db,
+    );
   });
   return getEntry(org, id);
 }

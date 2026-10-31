@@ -5,6 +5,10 @@ const selectedProvider =
 if (selectedProvider !== 'gemini' && selectedProvider !== 'openai')
   throw new Error('AI_PROVIDER must be gemini or openai.');
 
+const categoryProvider = process.env.CATEGORY_PROVIDER?.trim() || 'gemini';
+if (!['gemini', 'jev', 'reference'].includes(categoryProvider))
+  throw new Error('CATEGORY_PROVIDER must be gemini, jev or reference.');
+
 export const config = {
   databaseUrl: process.env.DATABASE_URL ?? 'postgres://spiich_app:spiich_app_local@127.0.0.1:55432/spiich',
   migrationUrl: process.env.MIGRATION_DATABASE_URL ?? 'postgres://spiich:spiich@127.0.0.1:55432/spiich',
@@ -12,6 +16,14 @@ export const config = {
   port: Number(process.env.PORT ?? 3001),
   listenHost: process.env.LISTEN_HOST ?? (process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1'),
   webOrigin: process.env.WEB_ORIGIN ?? 'http://127.0.0.1:5173',
+  categoryProvider: categoryProvider as 'gemini' | 'jev' | 'reference',
+  categoryKey:
+    (categoryProvider === 'jev'
+      ? process.env.TYPESAFE_API_KEY
+      : categoryProvider === 'gemini'
+        ? process.env.GEMINI_API_KEY
+        : ''
+    )?.trim() ?? '',
   aiProvider: selectedProvider as 'gemini' | 'openai',
   aiKey:
     (selectedProvider === 'gemini' ? process.env.GEMINI_API_KEY : process.env.OPENAI_API_KEY)?.trim() ?? '',

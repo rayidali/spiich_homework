@@ -2,6 +2,8 @@
 
 Reviewed 2026-10-31 after the user reported a failed transaction entry and challenged the project's priorities. This is a code-and-evidence audit, not a claim that every feature is ready. The original brief asks for useful, accurate bookkeeping with AI assistance. A large architecture experiment does not substitute for that demonstration.
 
+**Follow-up status:** the audit below records the original findings. The later [core repair](evidence/core-repair-release.json), commit `70b59c6`, is now deployed after full CI. It fixes error-reference propagation and safe runtime correlation, trusted atomic correction memory/forget, and reversal-aware alert lifecycle. One controlled hosted failure was located by its response reference. Categorization quality, Gemini/Jev comparison, automatic runtime acceptance and the remaining product gates are still being worked on; see [PRODUCT_PLAN.md](PRODUCT_PLAN.md).
+
 ## What went wrong in our priorities
 
 We compared nine ways to answer financial and document questions before completing a focused evaluation of an explicitly required feature: choosing bookkeeping categories and improving after user corrections. Jev was tested for document ranking and answer checking, not that categorization job. We also left gaps between the error shown in the browser and the logs needed to investigate it.

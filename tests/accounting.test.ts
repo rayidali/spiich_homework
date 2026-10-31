@@ -251,6 +251,51 @@ describe('Financial reports from the worked example', () => {
 });
 
 describe('Foreign currency and recurring drafts', () => {
+  it('rejects fractional yen in both application and direct SQL, preserving whole-yen conversion', async () => {
+    const yen = (
+      await query<{ id: string }>(
+        "INSERT INTO accounts(organization_id,code,name,type,currency,is_cash) VALUES($1,'1030','Yen bank','ASSET','JPY',true) RETURNING id",
+        [org],
+      )
+    )[0].id;
+    const p = input('1020', '4010', '100');
+    p.lines[0] = { ...p.lines[0], accountId: yen, debit: '100.5', exchangeRate: '0.0067' };
+    p.lines[1].credit = '0.67';
+    await expect(createEntry(org, p, randomUUID())).rejects.toMatchObject({ code: 'CURRENCY_PRECISION' });
+    p.lines[0].debit = '100';
+    const draft = await createEntry(org, p, randomUUID());
+    await expect(
+      query('UPDATE journal_lines SET debit=100.5 WHERE id=$1', [draft.lines[0].id]),
+    ).rejects.toThrow('decimal places');
+    const posted = await postEntry(org, draft.id, draft.revision);
+    expect(posted.lines[0].base_debit).toBe('0.67');
+    const bank = (await accounts(org)).find((a) => a.id === yen)!;
+    expect(new Decimal(bank.native_balance).eq('100')).toBe(true);
+    expect(new Decimal(bank.balance).eq('0.67')).toBe(true);
+    await reverseEntry(org, posted.id, '2026-03-05', randomUUID());
+    expect((await balanceSheet(org, '2026-03-31')).totalAssets).toBe('0.00');
+  });
+  it('rounds each stored FX line before summing and rejects aggregate-rounding imbalance', async () => {
+    const p = input('1020', '4010', '0.01');
+    p.lines[0].exchangeRate = '1.5';
+    p.lines.splice(1, 0, { ...p.lines[0] });
+    // EUR .01 × 1.5 = USD .015, stored as .02 for each line.
+    // Rounding the EUR .02 aggregate would give .03, which must not balance .04.
+    p.lines[2].credit = '0.03';
+    await expect(createEntry(org, p, randomUUID(), { post: true })).rejects.toMatchObject({
+      code: 'UNBALANCED_ENTRY',
+    });
+    expect(await query('SELECT id FROM journal_entries WHERE organization_id=$1', [org])).toEqual([]);
+    p.lines[2].credit = '0.04';
+    const posted = await createEntry(org, p, randomUUID(), { post: true });
+    expect(posted.lines.map((l) => l.base_debit)).toEqual(['0.02', '0.02', '0.00']);
+    const trial = await trialBalance(org, '2026-03-01', '2026-03-31');
+    expect(trial.totalDebits).toBe('0.04');
+    expect(trial.totalCredits).toBe('0.04');
+    expect((await incomeStatement(org, '2026-03-01', '2026-03-31')).totalRevenue).toBe('0.04');
+    await reverseEntry(org, posted.id, '2026-03-05', randomUUID());
+    expect((await balanceSheet(org, '2026-03-31')).totalAssets).toBe('0.00');
+  });
   it('balances mixed currency lines in USD and reverses at the original rate', async () => {
     const p = input('1020', '4010', '100');
     p.lines[0].exchangeRate = '1.1';
