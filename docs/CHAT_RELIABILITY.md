@@ -1,6 +1,10 @@
 # Financial-chat reliability work
 
-Status: active, 2026-10-31. The stable demo still serves verified `e7a514e`. The latest schema-repair candidate passed CI and completed six hosted checks, but one all-history expense question received an invented start date. Five checks passed; the candidate was never promoted. Earlier cash-source and schema failures remain preserved. [Current stable release](evidence/chat-scope-release.json), [latest staged incident](evidence/chat-schema-repair-blocked-release.json).
+Status: promoted, 2026-10-31. Source **`7ac0a88f9180d569527e00029550c9208608eb31` is promoted** at [Daybook](https://daybook-ledger-delta.vercel.app), deployment `dpl_6MDqQYCsgk9syWdqZGN6ev9uGoUi`. [Full CI41243382980](https://github.com/rayidali/spiich_homework/actions/runs/41243382980) passed verification, native research and Compose; live-AI was skipped and checked separately. The actual stable-alias API and project production target both match this READY/PROMOTED deployment. All-deployment protection remains enabled. [Release and promotion receipt](evidence/chat-broad-release.json).
+
+The active `composable` chat route combines existing report tools with validated ledger queries and exact scenario arithmetic. The model chooses a structured plan; application code compiles permitted queries and calculates the answer. It cannot execute arbitrary SQL or post entries. Cash sources are server-selected, assumptions require original-user evidence, and eligible explicit all-history requests retain their full date scope. Shared PostgreSQL request admission and safe request/provider/plan diagnostics are enabled. File Search, vector retrieval, Wren and reviewer agents remain separate research paths.
+
+The latest hosted acceptance passed **three known date-scope regressions** for $0.0100061 in three provider attempts, with all 74 journals and 22 accounts unchanged and all three requests matched to 12 runtime events. All-history guard provenance was observed, but the model already chose the canonical date (`changed: false`): no actual lower-bound replacement or schema-repair call occurred live. This is bounded regression evidence, not a new general accuracy score. The earlier frozen comparison's 18/20 result belongs to its own source. [Three-case acceptance](evidence/chat-history-acceptance.json).
 
 ## The failure
 
@@ -8,7 +12,7 @@ Status: active, 2026-10-31. The stable demo still serves verified `e7a514e`. The
 
 ## First repair
 
-The deployed repair supports seven read-only financial operations plus clarification: scoped expenses, overall expenses with explicit total/top/all views, income totals, metric comparisons, legacy revenue comparison, journal text search and cash position. The planner receives organization-scoped account identities, not guessed account codes. PostgreSQL supplies figures and application code writes numeric answers. A category group includes descendants exactly once; historical archived accounts remain reportable; posted credits/reversals affect their actual dates.
+The historical e7 repair introduced seven read-only financial operations plus clarification: scoped expenses, overall expenses with explicit total/top/all views, income totals, metric comparisons, legacy revenue comparison, journal text search and cash position. The planner receives organization-scoped account identities, not guessed account codes. PostgreSQL supplies figures and application code writes numeric answers. A category group includes descendants exactly once; historical archived accounts remain reportable; posted credits/reversals affect their actual dates.
 
 If a question omits the reporting period, the assistant asks which period and retains the category in the follow-up. A request that cannot be represented must be explained, not replaced with a similar query. This contract does not by itself prove that a model always follows it.
 
@@ -27,7 +31,7 @@ Evaluate a bounded semantic query plan that can compose filters, grouping and ca
 
 No guarantee of universal question coverage, perfect AI accuracy or production-scale capacity is made. The goal is a precise, evidence-backed answer when data and validated operations suffice, and a clear limitation or clarification when they do not.
 
-## Broader flow (candidate blocked; source repair in progress)
+## Historical broader candidate and its source repair
 
 ```mermaid
 flowchart LR
@@ -58,7 +62,7 @@ Candidate `7be9224` reached READY and passed full CI41237787408. B01–B05 retai
 
 B07 was a real source-identity failure. Asked to start a hiring projection from cash, the model selected the Assets group, which includes receivables and equipment. Those noncash balances happened to net to zero at the requested date, so the dollar result coincided with the cash-only calculation. Exact arithmetic and valid account permissions did not establish that the selected economic quantity was cash. The acceptance check correctly stopped the release; B08 was not called.
 
-The cohort is terminally closed: seven settled requests, six reviewed passes, one source failure, $0.0253555 known-use estimate and no unknown reservation or retry. All 74 journal records and 22 accounts were unchanged. Each response reference matched both its selected-tool event and HTTP event on the exact source/deployment. The protected stable alias now points back to `e7a514e`; no database rollback was performed, and additive migration007 remains applied.
+The cohort is terminally closed: seven settled requests, six reviewed passes, one source failure, $0.0253555 known-use estimate and no unknown reservation or retry. All 74 journal records and 22 accounts were unchanged. Each response reference matched both its selected-tool event and HTTP event on the exact source/deployment. At that checkpoint, the protected stable alias pointed back to `e7a514e`; no database rollback was performed, and additive migration007 remains applied.
 
 The next repair must provide a server-owned cash source, preserve its identity through calculation ancestry and prevent a cash objective from accepting generic assets. Equal numbers or a query named “cash” are insufficient. Nonzero and offsetting noncash balances must be covered by regression tests. This is separate product verification; the frozen comparison and its report are unchanged. [Sanitized incident receipt](evidence/chat-broad-blocked-release.json).
 
@@ -74,4 +78,10 @@ The six-slot cohort closed incomplete after two requests: $0.0088424 known-use e
 
 The `012edb2` staged cohort completed six HTTP requests and six provider attempts at $0.0281190, all known usage. C01–C04 and C06 passed. C05 explicitly requested all recorded Office supplies history through October 31; the selected `expense_by_account` query instead started on January 1, 2000. Both totals happen to be $1,740 because this snapshot has no matching earlier postings. Equality on today's data does not authorize discarding earlier history, so `NARROW_SCOPE` remains a failure. No numerical-error claim is made.
 
-Independent artifact review matched all six requests to 24 safe runtime events—provider usage, final plan, selected tool and HTTP—and verified unchanged 74-journal/22-account rows. Every response had one attempt and `repairStatus: not_needed`; the new bounded schema-repair path was not exercised live. Full execution is complete, but the release is not accepted. The next correction must preserve this evidence and pass separately versioned checks; it cannot inherit the old comparison score.
+Independent artifact review matched all six requests to 24 safe runtime events—provider usage, final plan, selected tool and HTTP—and verified unchanged 74-journal/22-account rows. Every response had one attempt and `repairStatus: not_needed`; the new bounded schema-repair path was not exercised live. Full execution is complete, but the release is not accepted. The later explicit-history correction preserved this evidence and passed its own three-case check; it does not inherit the old comparison score.
+
+## Current explicit-history release
+
+The conservative temporal compiler reads only the latest original user message and changes at most one eligible flow range. Original-user span evidence is returned even when the model already chose the canonical lower date. It leaves quoted, negated, conflicting or unsupported wording unchanged and never rewrites scenarios, balances or multiple-query plans. The live D01 check had `changed: false`; actual date replacement is covered offline, not observed live. D02 and D03 kept their explicit dates and returned no normalization.
+
+The three-request ledger is terminally closed at $0.0100061. All requests used one model attempt, so live schema-repair recovery is still unobserved. After independent acceptance, promotion returned HTTP201 and both the actual stable alias and project production target matched7ac0a88. Protected health/meta/SPA-document GETs then passed without another chat call. Earlier failures and costs remain in their original receipts.

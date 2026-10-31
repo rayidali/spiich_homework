@@ -1,0 +1,282 @@
+{
+  "version": "daybook-explicit-history-hosted-acceptance-v1",
+  "reviewedAt": "2026-10-31T21:33:23.979444+00:00",
+  "reviewKind": "internal_ai_artifact_review_with_independent_decimal_arithmetic",
+  "independentHumanReview": false,
+  "status": "STAGED_ACCEPTANCE_PASSED_PROMOTION_NOT_ASSESSED",
+  "candidate": {
+    "sourceCommit": "7ac0a88f9180d569527e00029550c9208608eb31",
+    "deploymentId": "dpl_6MDqQYCsgk9syWdqZGN6ev9uGoUi",
+    "ciRun": 41243382980,
+    "ciConclusion": "success",
+    "readyState": "READY",
+    "readySubstate": "STAGED",
+    "autoAssignCustomDomains": false
+  },
+  "cohort": {
+    "phase": "known_history_regression",
+    "plannedHttpRequests": 3,
+    "completedHttpRequests": 3,
+    "providerAttempts": 3,
+    "schemaRepairsObserved": 0,
+    "executionComplete": true,
+    "acceptancePassed": true,
+    "terminallyClosed": true,
+    "noFurtherCallsAllowed": true,
+    "rawPasses": 3,
+    "rawFailures": 0,
+    "reviewedPasses": 3,
+    "reviewedFailures": 0,
+    "knownUsageEstimateUsd": "0.0100061",
+    "retainedUnknownReservationUsd": "0",
+    "budgetCapUsd": "0.08",
+    "httpAttemptCap": 3,
+    "providerAttemptCap": 6,
+    "httpRetries": 0,
+    "tokenUsage": {
+      "inputTokens": 22837,
+      "outputTokens": 156,
+      "thinkingTokens": 1106,
+      "totalTokens": 24099
+    }
+  },
+  "cases": [
+    {
+      "case": "D01",
+      "rawOutcome": "PASS",
+      "reviewedOutcome": "PASS",
+      "failureCode": null,
+      "requestedFrom": "0001-01-01",
+      "requestedTo": "2026-10-31",
+      "scopeNormalization": {
+        "present": true,
+        "changed": false,
+        "originalFrom": "0001-01-01",
+        "executedFrom": "0001-01-01",
+        "rule": "explicit_all_history_v1"
+      },
+      "knownCostUsd": "0.0043337",
+      "providerAttempts": 1,
+      "repairStatus": "not_needed",
+      "requestId": "6ab589be-23ce-4e86-ab70-e9bda6c4f92a",
+      "selectedTool": "expense_by_account"
+    },
+    {
+      "case": "D02",
+      "rawOutcome": "PASS",
+      "reviewedOutcome": "PASS",
+      "failureCode": null,
+      "requestedFrom": "2000-01-01",
+      "requestedTo": "2026-10-31",
+      "scopeNormalization": {
+        "present": false
+      },
+      "knownCostUsd": "0.0029464",
+      "providerAttempts": 1,
+      "repairStatus": "not_needed",
+      "requestId": "6b8457e7-d67f-4fea-b926-321637076cf3",
+      "selectedTool": "expense_by_account"
+    },
+    {
+      "case": "D03",
+      "rawOutcome": "PASS",
+      "reviewedOutcome": "PASS",
+      "failureCode": null,
+      "requestedFrom": "2026-01-01",
+      "requestedTo": "2026-10-31",
+      "scopeNormalization": {
+        "present": false
+      },
+      "knownCostUsd": "0.002726",
+      "providerAttempts": 1,
+      "repairStatus": "not_needed",
+      "requestId": "dac726f9-ce56-4a9f-87e1-c6a4c9bbf4ee",
+      "selectedTool": "expense_by_account"
+    }
+  ],
+  "runtimeCorrelation": {
+    "requestsMatched": 3,
+    "cases": [
+      {
+        "case": "D01",
+        "requestId": "6ab589be-23ce-4e86-ab70-e9bda6c4f92a",
+        "httpStatus": 200,
+        "tool": "expense_by_account",
+        "events": {
+          "http_request": 1,
+          "ai_financial_query": 1,
+          "ai_financial_plan": 1,
+          "ai_provider_usage": 1
+        },
+        "usage": {
+          "inputTokens": 7604,
+          "outputTokens": 52,
+          "thinkingTokens": 769,
+          "totalTokens": 8425
+        }
+      },
+      {
+        "case": "D02",
+        "requestId": "6b8457e7-d67f-4fea-b926-321637076cf3",
+        "httpStatus": 200,
+        "tool": "expense_by_account",
+        "events": {
+          "http_request": 1,
+          "ai_financial_query": 1,
+          "ai_financial_plan": 1,
+          "ai_provider_usage": 1
+        },
+        "usage": {
+          "inputTokens": 7613,
+          "outputTokens": 52,
+          "thinkingTokens": 213,
+          "totalTokens": 7878
+        }
+      },
+      {
+        "case": "D03",
+        "requestId": "dac726f9-ce56-4a9f-87e1-c6a4c9bbf4ee",
+        "httpStatus": 200,
+        "tool": "expense_by_account",
+        "events": {
+          "http_request": 1,
+          "ai_financial_query": 1,
+          "ai_financial_plan": 1,
+          "ai_provider_usage": 1
+        },
+        "usage": {
+          "inputTokens": 7620,
+          "outputTokens": 52,
+          "thinkingTokens": 124,
+          "totalTokens": 7796
+        }
+      }
+    ]
+  },
+  "dataIntegrity": {
+    "journals": 74,
+    "accounts": 22,
+    "fullRowsUnchanged": true,
+    "freshSnapshotsBeforeEveryRequest": 3,
+    "businessSha256": "b2889895681b2e03d6d727da93ad84e19638157c9d14eacd5209d214bef24ea7"
+  },
+  "stableAliasEvidence": {
+    "alias": "daybook-ledger-delta.vercel.app",
+    "capturedDeploymentId": "dpl_H7TtjDv11bmPNSiLnHT8QzuvGdX2",
+    "capturedSourceCommit": "e7a514ef7072fbaabc6b63af026a6bab2fbd1478",
+    "snapshotTiming": "Before this acceptance cohort",
+    "promotionAssessed": false
+  },
+  "audit": {
+    "checksPassed": 71,
+    "checks": [
+      "reviewed frozen helper unchanged",
+      "exact repaired source binding",
+      "known regression phase and three fixed cases",
+      "all three slots terminally completed; not automatic acceptance",
+      "three settled single-use HTTP requests",
+      "closed ledger and snapshot hashes",
+      "full before and after captured business rows unchanged",
+      "D01 fresh prior books unchanged",
+      "D01 complete known-use HTTP200",
+      "D01 priced provider identity and complete usage",
+      "D01 at most two explicit attempts",
+      "D01 component1 identity and token sum",
+      "D01 independent component pricing matches settled cost",
+      "D01 raw score preserved and independently reproduced",
+      "D01 explicit proof only for affirmative all-history request",
+      "D01 exact source deployment and route in all logs",
+      "D01 provider final-plan selected-tool HTTP events accounted",
+      "D01 every attempt usage and duration matches runtime including multiplicity",
+      "D01 executed tool and HTTP status correlation",
+      "D01 final planning metadata matches response",
+      "D01 observed schema-repair count matches diagnostics",
+      "D01 no hidden request error in successful result",
+      "D02 fresh prior books unchanged",
+      "D02 complete known-use HTTP200",
+      "D02 priced provider identity and complete usage",
+      "D02 at most two explicit attempts",
+      "D02 component1 identity and token sum",
+      "D02 independent component pricing matches settled cost",
+      "D02 raw score preserved and independently reproduced",
+      "D02 explicit proof only for affirmative all-history request",
+      "D02 exact source deployment and route in all logs",
+      "D02 provider final-plan selected-tool HTTP events accounted",
+      "D02 every attempt usage and duration matches runtime including multiplicity",
+      "D02 executed tool and HTTP status correlation",
+      "D02 final planning metadata matches response",
+      "D02 observed schema-repair count matches diagnostics",
+      "D02 no hidden request error in successful result",
+      "D03 fresh prior books unchanged",
+      "D03 complete known-use HTTP200",
+      "D03 priced provider identity and complete usage",
+      "D03 at most two explicit attempts",
+      "D03 component1 identity and token sum",
+      "D03 independent component pricing matches settled cost",
+      "D03 raw score preserved and independently reproduced",
+      "D03 explicit proof only for affirmative all-history request",
+      "D03 exact source deployment and route in all logs",
+      "D03 provider final-plan selected-tool HTTP events accounted",
+      "D03 every attempt usage and duration matches runtime including multiplicity",
+      "D03 executed tool and HTTP status correlation",
+      "D03 final planning metadata matches response",
+      "D03 observed schema-repair count matches diagnostics",
+      "D03 no hidden request error in successful result",
+      "all known spend reconciles under original cap",
+      "all model attempts reconcile under six-attempt cap",
+      "review does not promote original failures",
+      "exact source full CI success",
+      "three required CI jobs passed optional liveAI skipped",
+      "candidate READY/STAGED without domain assignment",
+      "captured pre-acceptance primary alias remains older e7",
+      "chat-repair-acceptance accept.py unchanged",
+      "chat-repair-acceptance plan.json unchanged",
+      "chat-repair-acceptance journal.jsonl unchanged",
+      "chat-repair-acceptance closed.json unchanged",
+      "chat-cash-acceptance accept.py unchanged",
+      "chat-cash-acceptance plan.json unchanged",
+      "chat-cash-acceptance journal.jsonl unchanged",
+      "chat-cash-acceptance closed.json unchanged",
+      "chat-broad-acceptance accept.py unchanged",
+      "chat-broad-acceptance plan.json unchanged",
+      "chat-broad-acceptance journal.jsonl unchanged",
+      "chat-broad-acceptance closed.json unchanged"
+    ],
+    "scriptSha256": "ff2d4116bdf8bc349f0522d93b15f363ae39092ee344f76fb7540b747f1991b2"
+  },
+  "evidenceHashes": {
+    "accept.py": "4476df353846792e557000f0e67d5d3d08338fe3af99f0bbf980e4b74f2973c7",
+    "plan.json": "2c2d8859a626bb7597822860cae63d10eda2054618e0a3a65b804e83e9dab7b9",
+    "journal.jsonl": "516e6cf109adc26ad638fd3b6742c2fa2539622a16f8b0f9086d761896b1df9c",
+    "closed.json": "4badf7cda97a05a6f98daf0ac736b0176df00582c54ae8f771155b38fd9ae20a",
+    "snapshot-before.json": "9942987a4264db2914437bc0f466fa45c13da813fa9ffa23189010fa2945386e",
+    "snapshot-after.json": "d46ba7a6e739507e667984df6c16b38df46529a4243d5b9f0d4b0c41ad5320d8",
+    "responses/D01.json": "69fae658e120a9e5fbcf19c65547df4f831d981b21a6a9a076aad648c651c25b",
+    "responses/D02.json": "cbf7eb6af37bc99e0b668d1ee50ead40e7c87e68a6d77f7ff833b61788b24ab6",
+    "responses/D03.json": "ca71a2b9b186acb8acb7f054915140e3d3d15faa0e2520f8daa4a9c907905d66"
+  },
+  "deploymentEvidenceHashes": {
+    "history-runtime-response.json": "8b9e6aab93581e939bf5a97970d8de7937a783973045b6a265d5880ace83dba4",
+    "history-alias-before.json": "bda42ee81692c76d37b01a13c41fd14c27b5e3455f56c59a3af81a14cd2d9a2f",
+    "history-ci-status.json": "9b8ad71f07df7d3253d87ed1b5507fa87f8db71be643b87044c4ec12517ff209",
+    "history-ci-jobs.json": "e5e1d7420ac8dc33ec12c0e65f91d3c1fdb45ffcba77f4b1f027a2267e36929f",
+    "history-release-ready.json": "1b1d3137c069b5782c36afc0ceffe932506f6967306a11f6165be891cc4e7026"
+  },
+  "preservation": {
+    "priorFailedCohortsBytePreserved": true,
+    "priorUnknownReservationNotReleased": true,
+    "rawResultsUnchanged": true,
+    "providerCallsByAudit": 0,
+    "networkCallsByAudit": 0
+  },
+  "limitations": [
+    "These are three known post-incident regressions, not new held-out evidence or universal language coverage.",
+    "The temporal compiler recognizes only a deliberately small affirmative grammar and eligible single-flow plans.",
+    "Live totals can coincide; exact dates and original-user provenance are mandatory independently of numbers.",
+    "The offline fixture has distinct1850/2010/2026 totals; no hosted data was created for this check.",
+    "Schema-repair observations are reported separately; zero repairs does not establish successful live recovery.",
+    "Known standard-rate token estimates are not invoices or verified account balances.",
+    "Internal AI artifact review is not independent human accounting or visual/browser review.",
+    "This receipt assesses the staged acceptance only; any later promotion needs its own actual alias evidence."
+  ]
+}
