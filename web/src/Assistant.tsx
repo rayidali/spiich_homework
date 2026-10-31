@@ -55,7 +55,7 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
     <Modal title="Financial assistant" onClose={onClose} drawer>
       <div className="assistant-status">
         <span className={`online-dot ${meta?.ai.available ? '' : 'inactive'}`} />
-        <span>{meta?.ai.available ? 'Answers use your posted books' : 'Assistant not connected'}</span>
+        <span>{meta?.ai.available ? 'Answers use your financial records' : 'Assistant not connected'}</span>
         <span>USD</span>
       </div>
       <div className="chat-scroll">
@@ -96,10 +96,20 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
                 <div className="evidence-card" key={index}>
                   <span className="evidence-label">
                     <Database size={12} />
-                    FROM YOUR BOOKS
+                    {e.source === 'draft'
+                      ? 'DRAFTS · NOT POSTED'
+                      : e.source === 'scenario'
+                        ? 'HYPOTHETICAL CALCULATION'
+                        : 'FROM YOUR BOOKS'}
                   </span>
                   <h4>{e.title}</h4>
                   <span className="muted">{e.period}</span>
+                  {e.scope && (
+                    <details className="evidence-scope">
+                      <summary>What this includes</summary>
+                      <p>{e.scope}</p>
+                    </details>
+                  )}
                   <div className="evidence-rows">
                     {e.rows.map((r, j) => (
                       <div key={j}>

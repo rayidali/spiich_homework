@@ -180,7 +180,7 @@ describe('Gemini transport and response contract (no live calls)', () => {
       allowedFunctionNames: ['cash_position'],
     });
     expect(body.tools[0].functionDeclarations[0].parametersJsonSchema.additionalProperties).toBe(false);
-    expect(body.generationConfig.maxOutputTokens).toBe(2000);
+    expect(body.generationConfig.maxOutputTokens).toBe(4000);
   });
 
   it('rejects an invented SQL tool', async () => {

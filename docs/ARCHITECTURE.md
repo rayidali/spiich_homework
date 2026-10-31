@@ -1,6 +1,12 @@
 # Architecture and engineering decisions
 
-## Current product boundary — measured category selection and verified core workflows
+## Current scoped-chat repair — 2026-10-31
+
+Executable `e7a514ef7072fbaabc6b63af026a6bab2fbd1478` passed [full CI41231800054](https://github.com/rayidali/spiich_homework/actions/runs/41231800054) and is deployed as `dpl_H7TtjDv11bmPNSiLnHT8QzuvGdX2`. The 66-file release adds account-scoped expenses, explicit expense top/all/total views, income totals and comparisons, scope-preserving date clarification and safe selected-query diagnostics. A separate closed hosted cohort passed16 exact-answer and7 clarification checks for $0.0298001; all74 current journal records and22 accounts stayed unchanged. Every request matched the selected tool and exact source in runtime logs. [Evidence](evidence/chat-scope-release.json).
+
+The working tree additionally contains an **undeployed candidate** for composable queries, structured clarifications, shared PostgreSQL request admission, bounded provider JSON and clearer draft/evidence labels. Scenario arithmetic and the separate paired evaluation remain active. Do not apply the preceding repair's results to this candidate. [Reliability work](CHAT_RELIABILITY.md), [comparison protocol](research/CHAT_QUERY_EVALUATION.md).
+
+## Previous category/core implementation boundary
 
 Core source `70b59c62c6819880c2504fe546f4fecc8a703c50` passed [CI 41219589967](https://github.com/rayidali/spiich_homework/actions/runs/41219589967) and is deployed as `dpl_FQs3fAoqDF1KcvDoS5bwH8R16UgF`. It adds safe request correlation, atomic posted-entry correction memory and reversal-aware alert resolution. The release used 64 exact files, no configuration overlay and normal migrations 005/006. Hosted verification kept the 73 journal records and dashboard unchanged and matched a controlled validation error's reference to two runtime-log events without calling a model. [Evidence and limits](evidence/core-repair-release.json).
 

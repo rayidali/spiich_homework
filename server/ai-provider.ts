@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { config } from './config';
 import { AppError, failureStage, markFailure, type FailureStage } from './errors';
 import { diagnostic } from './diagnostics';
+import { readBoundedProviderJson } from './ai-response';
 
 export type ModelMessages = { role: 'user' | 'assistant'; content: string }[];
 export type FinancialTool = {
@@ -355,6 +356,85 @@ function geminiProposalSchema(schema: z.ZodType) {
     ),
   ) as Record<string, unknown>;
 }
+function geminiFinancialExtra(tools: FinancialTool[]) {
+  return {
+    tools: [
+      {
+        functionDeclarations: tools.map((tool) => ({
+          name: tool.name,
+          description: tool.description,
+          // The same complete schema is enforced by the application. Large finite
+          // array grammars can exceed the provider's constrained-decoding budget.
+          parametersJsonSchema: JSON.parse(
+            JSON.stringify(tool.parameters, (key, value) =>
+              key === 'maxItems' && typeof value === 'number' ? undefined : value,
+            ),
+          ),
+        })),
+      },
+    ],
+    toolConfig: {
+      functionCallingConfig: { mode: 'ANY', allowedFunctionNames: tools.map((tool) => tool.name) },
+    },
+  };
+}
+function geminiPayload(
+  instructions: string,
+  messages: ModelMessages,
+  extra: Record<string, unknown>,
+  maxOutputTokens: number,
+  model: string,
+) {
+  return {
+    systemInstruction: { parts: [{ text: instructions }] },
+    contents: messages.map((message) => ({
+      role: message.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: message.content }],
+    })),
+    generationConfig: {
+      candidateCount: 1,
+      maxOutputTokens,
+      ...(model.startsWith('gemini-3') || model.startsWith('gemini-4')
+        ? { thinkingConfig: { thinkingLevel: 'LOW' } }
+        : {}),
+      ...(extra.generationConfig as Record<string, unknown> | undefined),
+    },
+    ...Object.fromEntries(Object.entries(extra).filter(([key]) => key !== 'generationConfig')),
+  };
+}
+/** Same key-free wire body as the product, for source-bound opt-in evaluations. */
+export function buildGeminiFinancialRequest(
+  tools: FinancialTool[],
+  instructions: string,
+  messages: ModelMessages,
+  model = config.aiModel,
+) {
+  const extra = geminiFinancialExtra(tools);
+  return {
+    url: `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
+    body: geminiPayload(instructions, messages, extra, 4000, model),
+  };
+}
+
+/** Provider parsing shared with the opt-in planner evaluation; contains no IO. */
+export function parseGeminiFinancialResponse(tools: FinancialTool[], raw: unknown) {
+  const response = parseModel(geminiResponseSchema, raw);
+  const calls = responseParts(response)
+    .filter((part) => part.functionCall)
+    .map((part) => part.functionCall!);
+  if (calls.length !== 1) throw invalid();
+  const call = { name: calls[0].name, args: calls[0].args };
+  if (!tools.some((tool) => tool.name === call.name))
+    throw new AppError(422, 'UNSUPPORTED_TOOL', 'This financial query is not supported');
+  return {
+    call,
+    usage: geminiUsage(response),
+    ...(typeof response.modelVersion === 'string' && response.modelVersion.length <= 160
+      ? { modelVersion: response.modelVersion }
+      : {}),
+  };
+}
+
 async function geminiRequest(
   instructions: string,
   messages: ModelMessages,
@@ -367,22 +447,7 @@ async function geminiRequest(
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'x-goog-api-key': config.aiKey },
     signal: AbortSignal.timeout(25000),
-    body: JSON.stringify({
-      systemInstruction: { parts: [{ text: instructions }] },
-      contents: messages.map((message) => ({
-        role: message.role === 'assistant' ? 'model' : 'user',
-        parts: [{ text: message.content }],
-      })),
-      generationConfig: {
-        candidateCount: 1,
-        maxOutputTokens,
-        ...(config.aiModel.startsWith('gemini-3') || config.aiModel.startsWith('gemini-4')
-          ? { thinkingConfig: { thinkingLevel: 'LOW' } }
-          : {}),
-        ...(extra.generationConfig as Record<string, unknown> | undefined),
-      },
-      ...Object.fromEntries(Object.entries(extra).filter(([key]) => key !== 'generationConfig')),
-    }),
+    body: JSON.stringify(geminiPayload(instructions, messages, extra, maxOutputTokens, config.aiModel)),
   };
   let response: Response;
   try {
@@ -399,7 +464,7 @@ async function geminiRequest(
   }
   let body: unknown;
   try {
-    body = await response.json();
+    body = await readBoundedProviderJson(response);
   } catch (error) {
     throw markFailure(error, error instanceof SyntaxError ? 'model_json' : 'model_response');
   }
@@ -455,36 +520,14 @@ export async function chooseFinancialTool(
   };
   return withRequest('financial_tool', async (metadata) => {
     if (config.aiProvider === 'gemini') {
-      const response = await geminiRequest(
-        instructions,
-        messages,
-        {
-          tools: [
-            {
-              functionDeclarations: tools.map((tool) => ({
-                name: tool.name,
-                description: tool.description,
-                parametersJsonSchema: tool.parameters,
-              })),
-            },
-          ],
-          toolConfig: {
-            functionCallingConfig: { mode: 'ANY', allowedFunctionNames: tools.map((tool) => tool.name) },
-          },
-        },
-        2000,
-      );
+      const response = await geminiRequest(instructions, messages, geminiFinancialExtra(tools), 4000);
       const ai = metadata(response.modelVersion, geminiUsage(response));
-      const calls = responseParts(response)
-        .filter((part) => part.functionCall)
-        .map((part) => part.functionCall!);
-      if (calls.length !== 1) throw invalid();
-      return { call: allowed({ name: calls[0].name, args: calls[0].args }), ai };
+      return { call: parseGeminiFinancialResponse(tools, response).call, ai };
     }
     const response = await openAIClient().responses.create({
       model: config.aiModel,
       store: false,
-      max_output_tokens: 2000,
+      max_output_tokens: 4000,
       ...(config.aiModel === 'gpt-6-luna' ? { reasoning: { effort: 'low' as const } } : {}),
       tools,
       tool_choice: 'required',

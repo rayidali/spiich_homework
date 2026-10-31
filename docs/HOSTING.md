@@ -1,6 +1,12 @@
 # Hosting Daybook
 
-## Current release — 2026-10-31
+## Current scoped-chat repair — 2026-10-31
+
+Executable `e7a514ef7072fbaabc6b63af026a6bab2fbd1478` passed [full CI41231800054](https://github.com/rayidali/spiich_homework/actions/runs/41231800054) and is deployed as `dpl_H7TtjDv11bmPNSiLnHT8QzuvGdX2`. The 66-file release adds account-scoped expenses, explicit expense top/all/total views, income totals and comparisons, scope-preserving date clarification and safe selected-query diagnostics. A separate closed hosted cohort passed16 exact-answer and7 clarification checks for $0.0298001; all74 current journal records and22 accounts stayed unchanged. Every request matched the selected tool and exact source in runtime logs. [Evidence](evidence/chat-scope-release.json).
+
+The working tree additionally contains an **undeployed candidate** for composable queries, structured clarifications, shared PostgreSQL request admission, bounded provider JSON and clearer draft/evidence labels. Scenario arithmetic and the separate paired evaluation remain active. Do not apply the preceding repair's results to this candidate. [Reliability work](CHAT_RELIABILITY.md), [comparison protocol](research/CHAT_QUERY_EVALUATION.md).
+
+## Previous category release — 2026-10-31
 
 Executable `b7bf5fe024f6fca33fa5a93ef5e6188e96455bae` passed [full CI 41226562746](https://github.com/rayidali/spiich_homework/actions/runs/41226562746) and is deployed as **`dpl_F1mVMsNU5QUttzpgaH441iQ7aJoE`**, READY. The release contains **66 exact source files**, normal migration/build preparation and no configuration overlay. Applied migrations 001–006 and runtime database credentials were preserved; owner credentials remained build-only. The current local Gemini key was bound to the completed comparison and supplied privately to this release. No key appears in source or evidence.
 
@@ -19,7 +25,7 @@ The earlier 3.1 outage, rent-account guessing failure and provider-only deployme
 | Owner               | Local CLI identity `rayidali`, team `rayidalis-projects`                    |
 | Vercel project      | `daybook-ledger`; Hobby plan observed during provisioning                   |
 | Stable URL          | https://daybook-ledger-delta.vercel.app                                     |
-| Verified deployment | `dpl_F1mVMsNU5QUttzpgaH441iQ7aJoE`, production, READY                       |
+| Verified deployment | `dpl_H7TtjDv11bmPNSiLnHT8QzuvGdX2`, production, READY                       |
 | Database            | Separate Neon `daybook-db`, free plan through an existing integration       |
 | Region              | `iad1`                                                                      |
 | Protection          | Vercel Authentication for all deployments; anonymous requests reach sign-in |

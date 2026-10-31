@@ -1,6 +1,12 @@
 # REST API quick reference
 
-## Current deployed API — 2026-10-31
+## Current scoped-chat repair — 2026-10-31
+
+Executable `e7a514ef7072fbaabc6b63af026a6bab2fbd1478` passed [full CI41231800054](https://github.com/rayidali/spiich_homework/actions/runs/41231800054) and is deployed as `dpl_H7TtjDv11bmPNSiLnHT8QzuvGdX2`. The 66-file release adds account-scoped expenses, explicit expense top/all/total views, income totals and comparisons, scope-preserving date clarification and safe selected-query diagnostics. A separate closed hosted cohort passed16 exact-answer and7 clarification checks for $0.0298001; all74 current journal records and22 accounts stayed unchanged. Every request matched the selected tool and exact source in runtime logs. [Evidence](evidence/chat-scope-release.json).
+
+The working tree additionally contains an **undeployed candidate** for composable queries, structured clarifications, shared PostgreSQL request admission, bounded provider JSON and clearer draft/evidence labels. Scenario arithmetic and the separate paired evaluation remain active. Do not apply the preceding repair's results to this candidate. [Reliability work](CHAT_RELIABILITY.md), [comparison protocol](research/CHAT_QUERY_EVALUATION.md).
+
+## Previous category release API — 2026-10-31
 
 Executable `b7bf5fe024f6fca33fa5a93ef5e6188e96455bae` passed [full CI](https://github.com/rayidali/spiich_homework/actions/runs/41226562746) and is deployed with Gemini 3.5 Flash-Lite for financial chat, whole-entry proposals and category suggestions. Eleven hosted regression requests passed, including all four financial question types, exact Supplies/Card and rent/bank entries, settlement of an existing receivable without recognizing revenue twice, and clarification of missing-account rent and the friend/party example. Every request reference matched runtime logs for the exact release. See [release evidence](evidence/category-product-release.json).
 

@@ -1,7 +1,9 @@
 import { z } from 'zod';
 export const accountTypes = ['ASSET', 'LIABILITY', 'EQUITY', 'REVENUE', 'EXPENSE'] as const;
 export const currencyCodes = ['USD', 'EUR', 'GBP', 'CAD', 'JPY'] as const;
-export const dateSchema = z.iso.date();
+export const dateSchema = z.iso
+  .date()
+  .refine((value) => value >= '0001-01-01', 'Use a year from 0001 through 9999.');
 export const moneySchema = z
   .string()
   .regex(/^\d{1,14}(\.\d{1,4})?$/, 'Use a positive decimal amount, without currency symbols');

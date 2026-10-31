@@ -1,0 +1,202 @@
+{
+  "recordedAt": "2026-10-31",
+  "sourceCommit": "e7a514ef7072fbaabc6b63af026a6bab2fbd1478",
+  "ciRunId": 41231800054,
+  "ciUrl": "https://github.com/rayidali/spiich_homework/actions/runs/41231800054",
+  "ciJobs": {
+    "verify": "success",
+    "compose": "success",
+    "research-native": "success",
+    "live-ai": "skipped"
+  },
+  "deploymentId": "dpl_H7TtjDv11bmPNSiLnHT8QzuvGdX2",
+  "stableUrl": "https://daybook-ledger-delta.vercel.app",
+  "immutableUrl": "https://daybook-ledger-j006w3kws-rayidalis-projects.vercel.app",
+  "sourceFiles": 66,
+  "configurationOverlays": 0,
+  "protection": "all",
+  "scope": "Specific expense and ordinary financial-question regression, not universal accuracy or the broader route comparison",
+  "automaticChecks": {
+    "cases": 23,
+    "passed": 23,
+    "answered": 16,
+    "clarifications": 7,
+    "booksUnchanged": true,
+    "journalRecords": 74,
+    "accounts": 22
+  },
+  "semanticReview": {
+    "clarificationsReviewed": 7,
+    "passed": 7,
+    "reviewer": "Independent collaborating AI agent; not a human accountant",
+    "receiptSha256": "f27466f2b4bb02b08e810c31563467af078c4f11d140b09abe317db4ff191594"
+  },
+  "runtimeCorrelation": {
+    "cases": 23,
+    "selectedToolAndExactSourceMatches": 23
+  },
+  "budget": {
+    "closed": true,
+    "attempts": 23,
+    "maxAttempts": 23,
+    "trackedStandardRateUsd": "0.0298001",
+    "capUsd": "0.10",
+    "unknownReservations": 0,
+    "noFurtherCallsAllowed": true
+  },
+  "bindings": {
+    "planSha256": "12c54268d69919dbd4e2db866925a1dad1b689895091ee744f7bc41eba772eb2",
+    "matrixSha256": "1f1c1c5ce523483dd91011e8e82adac7733d49eecabb13fb8124dcd353ea1e4e",
+    "journalSha256": "011c33a305f64619432f86bc151104135c19684523f3db8b81e46c60a918273f",
+    "beforeSnapshotSha256": "bd54dac77a4ba5c3a0a1c4c3936ca52e7118c4340b74dddbba7b606d677d892d",
+    "afterSnapshotSha256": "bd54dac77a4ba5c3a0a1c4c3936ca52e7118c4340b74dddbba7b606d677d892d",
+    "runtimeResponseSha256": "f316f5ed8b2afb7c697ee8951f9ee9fe8f6e085bdbc52ae698ea0d0bfa23957f"
+  },
+  "outcomes": [
+    {
+      "case": "R01",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": true
+    },
+    {
+      "case": "R02",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": false
+    },
+    {
+      "case": "S01",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": false
+    },
+    {
+      "case": "S02",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": false
+    },
+    {
+      "case": "S03",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": true
+    },
+    {
+      "case": "S04",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": false
+    },
+    {
+      "case": "S05",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": false
+    },
+    {
+      "case": "S06",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": false
+    },
+    {
+      "case": "S09",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": false
+    },
+    {
+      "case": "S10",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": false
+    },
+    {
+      "case": "S11",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": false
+    },
+    {
+      "case": "S12",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": false
+    },
+    {
+      "case": "S13",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": false
+    },
+    {
+      "case": "S14",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": false
+    },
+    {
+      "case": "S15",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": false
+    },
+    {
+      "case": "S16",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": false
+    },
+    {
+      "case": "S17",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": false
+    },
+    {
+      "case": "S18",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": true
+    },
+    {
+      "case": "S19",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": true
+    },
+    {
+      "case": "S20",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": true
+    },
+    {
+      "case": "S21",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": true
+    },
+    {
+      "case": "S23",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": true
+    },
+    {
+      "case": "S24",
+      "httpStatus": 200,
+      "automaticPassed": true,
+      "requiresSemanticReview": false
+    }
+  ],
+  "limitations": [
+    "Small intentionally selected regression set; no population accuracy claim.",
+    "21 independently written default-chart cases plus2 known-bug checks;3 custom-profile cases were not sent to the live workspace.",
+    "Missing/unsupported requests are scored as clarifications in this bounded repair, not as completed broader analytical tasks.",
+    "The wider composable-query candidate and scenario capability are new active work and were not deployed or tested by this receipt.",
+    "Budget estimates are not billing invoices; previous studies remain closed."
+  ]
+}

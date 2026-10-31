@@ -83,3 +83,45 @@ test('a supplies question retains its scope through clarification and shows only
   await expect(chat).not.toContainText('$57,652.00');
   expect(entryWrites).toBe(0);
 });
+
+test('draft analysis is labeled separately and its calculation scope can be inspected', async ({
+  page,
+  baseURL,
+}) => {
+  expect(['localhost', '127.0.0.1', '[::1]']).toContain(new URL(baseURL!).hostname);
+  const meta = await (await page.request.get('/api/meta')).json();
+  await page.route('**/api/meta', (route) =>
+    route.fulfill({ json: { ...meta, ai: { ...meta.ai, available: true } } }),
+  );
+  await page.route('**/api/ai/chat', (route) =>
+    route.fulfill({
+      json: {
+        answer: 'Draft expenses: $300.00. These entries have not been posted.',
+        evidence: [
+          {
+            title: 'Draft expenses',
+            period: '2026-09-01 → 2026-09-30',
+            source: 'draft',
+            scope: 'Drafts only. Office supplies at Acme. These amounts have not been added to your books.',
+            rows: [{ label: 'Office supplies', value: '$300.00' }],
+            href: '/transactions?status=DRAFT',
+          },
+        ],
+      },
+    }),
+  );
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Ask a question', exact: true }).click();
+  const chat = page.getByRole('dialog', { name: 'Financial assistant' });
+  await chat
+    .getByLabel('Ask a financial question')
+    .fill('Show draft office supplies expenses at Acme in September 2026.');
+  await chat.getByRole('button', { name: 'Send question', exact: true }).click();
+  const card = chat.locator('.evidence-card');
+  await expect(card.getByText('DRAFTS · NOT POSTED', { exact: true })).toBeVisible();
+  await expect(card.getByText('FROM YOUR BOOKS', { exact: true })).toHaveCount(0);
+  const scope = card.locator('.evidence-scope');
+  await expect(scope.locator('p')).not.toBeVisible();
+  await scope.locator('summary').click();
+  await expect(scope.locator('p')).toContainText('have not been added to your books');
+});

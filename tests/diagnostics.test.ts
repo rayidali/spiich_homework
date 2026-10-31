@@ -404,3 +404,25 @@ describe('Failure stages preserve the real boundary', () => {
     expect(JSON.stringify(logs())).not.toContain(privateText);
   });
 });
+
+it('returns a bounded Retry-After for shared request admission without exposing private data', async () => {
+  const flow = requestFlow(async () => {
+    throw new AppError(429, 'AI_REQUEST_LIMIT', 'Please wait before asking again.', {
+      scope: 'minute',
+      retryAfterSeconds: 17,
+    });
+  }, '/api/ai/chat');
+  await flow.done;
+  expect(flow.res.statusCode).toBe(429);
+  expect(flow.headers.get('Retry-After')).toBe('17');
+  expect(logs().some((event) => event.code === 'AI_REQUEST_LIMIT')).toBe(true);
+});
+it('never reflects unvalidated retry values into HTTP headers', async () => {
+  const flow = requestFlow(async () => {
+    throw new AppError(429, 'AI_REQUEST_LIMIT', 'Please wait.', {
+      retryAfterSeconds: '17\r\nInjected: secret',
+    });
+  }, '/api/ai/chat');
+  await flow.done;
+  expect(flow.headers.has('Retry-After')).toBe(false);
+});

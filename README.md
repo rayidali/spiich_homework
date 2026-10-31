@@ -4,7 +4,9 @@ A React and TypeScript accounting application backed by PostgreSQL. Record money
 
 Start with Docker below, or open the [protected hosted demo](https://daybook-ledger-delta.vercel.app). The interface has Home, Transactions, Reports and Settings. No API key is needed for manual accounting, reports, recurring drafts or statistical anomaly alerts.
 
-**Verified release:** executable `b7bf5fe` passed [full CI](https://github.com/rayidali/spiich_homework/actions/runs/41226562746), including real PostgreSQL, **18 browser workflows**, automatic Compose scheduling/anomaly processing and persistence. **11 hosted AI/API checks passed**; all 73 existing journals and the full financial dashboard stayed unchanged. [Release evidence](docs/evidence/category-product-release.json).
+**Verified hosted repair:** executable `e7a514e` passed [full CI](https://github.com/rayidali/spiich_homework/actions/runs/41231800054), including real PostgreSQL, browser and Compose workflows. **23 live financial-chat regressions passed** (16 exact answers, seven clarifications); all74 current journals and22 accounts stayed unchanged. [Repair evidence](docs/evidence/chat-scope-release.json). This is a selected regression set, not universal AI accuracy.
+
+**Active development:** the working tree adds a broader query candidate and shared request limits. Its paired evaluation and release are pending; the deployed repair is the verified baseline. [Current work and limitations](docs/CHAT_RELIABILITY.md).
 
 For a quick explanation, read the [accounting walkthrough](docs/ACCOUNTING_WALKTHROUGH.md) and the [two-page category experiment](docs/reports/category-learning-explained.pdf) ([HTML](docs/reports/category-learning-explained.html)). The [assignment checklist](docs/ASSIGNMENT_REVIEW.md) maps requirements to implementation and evidence.
 

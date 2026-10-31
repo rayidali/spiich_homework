@@ -1,5 +1,11 @@
 # Daybook product completion plan
 
+## Current scoped-chat repair — 2026-10-31
+
+Executable `e7a514ef7072fbaabc6b63af026a6bab2fbd1478` passed [full CI41231800054](https://github.com/rayidali/spiich_homework/actions/runs/41231800054) and is deployed as `dpl_H7TtjDv11bmPNSiLnHT8QzuvGdX2`. The 66-file release adds account-scoped expenses, explicit expense top/all/total views, income totals and comparisons, scope-preserving date clarification and safe selected-query diagnostics. A separate closed hosted cohort passed16 exact-answer and7 clarification checks for $0.0298001; all74 current journal records and22 accounts stayed unchanged. Every request matched the selected tool and exact source in runtime logs. [Evidence](evidence/chat-scope-release.json).
+
+The working tree additionally contains an **undeployed candidate** for composable queries, structured clarifications, shared PostgreSQL request admission, bounded provider JSON and clearer draft/evidence labels. Scenario arithmetic and the separate paired evaluation remain active. Do not apply the preceding repair's results to this candidate. [Reliability work](CHAT_RELIABILITY.md), [comparison protocol](research/CHAT_QUERY_EVALUATION.md).
+
 Started 2026-10-31 under the user's active goal to fix the audited gaps, implement missing product behavior and compare alternatives before choosing responsibilities. This is a new product iteration; the completed architecture study and its closed spending ledger remain unchanged.
 
 ## Measured checkpoint — 2026-10-31

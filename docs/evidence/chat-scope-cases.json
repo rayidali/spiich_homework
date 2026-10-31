@@ -1,0 +1,1348 @@
+{
+  "version": "daybook-independent-chat-scope-v1",
+  "createdAt": "2026-10-31",
+  "status": "frozen-before-model-execution; new tool-schema confirmed by read-only source inspection",
+  "clock": {
+    "today": "2026-10-31",
+    "timezone": "America/New_York"
+  },
+  "purpose": "Small semantic regression matrix for ordinary chat questions; not a new architecture study or production accuracy estimate.",
+  "modelInputBoundary": "Only messages, the selected server-owned chart profile and the frozen date reach the planner. IDs, classifications, required arguments, examples, failure labels and oracle text never enter a model request.",
+  "scoring": {
+    "unit": "one conversation with its final user turn, no retries or best-of selection",
+    "pass": "Preserve every requested metric/entity/date/grain/ranking/unit constraint and choose an expressible equivalent read-only route; otherwise ask the specified scope-preserving clarification. HTTP 200 alone never passes.",
+    "answerArguments": "Required arguments must match exactly. Schema-valid additional defaults are allowed only if neutral to the required scope; query execution must still satisfy the semantic oracle. Equivalence is listed per case.",
+    "clarification": "Grade retained facts and useful limitation/missing-information question, not exact prose. A broader number followed by a caveat still fails when it silently drops the requested scope.",
+    "twoLayers": [
+      "Planner intent + exact arguments",
+      "Execution result + deterministic answer/evidence against direct trusted report oracle"
+    ],
+    "separateOutcomes": [
+      "semantic pass",
+      "semantic scope failure",
+      "provider/transport failure",
+      "invalid tool/schema",
+      "unexecuted"
+    ],
+    "denominators": "Report supported answers, required clarifications and intentional boundaries separately. No provider calls have been made for these cases. A selected subset is a regression smoke, not overall accuracy."
+  },
+  "profiles": {
+    "default": {
+      "chart": [
+        {
+          "code": "5000",
+          "name": "Operating expenses",
+          "currency": "USD",
+          "group": true,
+          "parentCode": null,
+          "archived": false
+        },
+        {
+          "code": "5010",
+          "name": "Rent",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5020",
+          "name": "Software & subscriptions",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5030",
+          "name": "Office supplies",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5040",
+          "name": "Marketing",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5050",
+          "name": "Contractors",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5060",
+          "name": "Travel & meals",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5090",
+          "name": "Foreign exchange losses",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        }
+      ],
+      "description": "Seeded expense account identities; no amounts or gold labels supplied."
+    },
+    "archived": {
+      "chart": [
+        {
+          "code": "5000",
+          "name": "Operating expenses",
+          "currency": "USD",
+          "group": true,
+          "parentCode": null,
+          "archived": false
+        },
+        {
+          "code": "5010",
+          "name": "Rent",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5020",
+          "name": "Software & subscriptions",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5030",
+          "name": "Office supplies",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5040",
+          "name": "Marketing",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5050",
+          "name": "Contractors",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5060",
+          "name": "Travel & meals",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5090",
+          "name": "Foreign exchange losses",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5065",
+          "name": "Conference fees",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": true
+        }
+      ],
+      "description": "An archived expense remains valid for historical reporting."
+    },
+    "duplicate_name": {
+      "chart": [
+        {
+          "code": "5000",
+          "name": "Operating expenses",
+          "currency": "USD",
+          "group": true,
+          "parentCode": null,
+          "archived": false
+        },
+        {
+          "code": "5010",
+          "name": "Rent",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5020",
+          "name": "Software & subscriptions",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5030",
+          "name": "Office supplies",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5040",
+          "name": "Marketing",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5050",
+          "name": "Contractors",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5060",
+          "name": "Travel & meals",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5090",
+          "name": "Foreign exchange losses",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5061",
+          "name": "Travel & meals",
+          "currency": "EUR",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        }
+      ],
+      "description": "Two distinct accounts share a name; USD versus EUR identifies the ambiguity."
+    },
+    "native_currency": {
+      "chart": [
+        {
+          "code": "5000",
+          "name": "Operating expenses",
+          "currency": "USD",
+          "group": true,
+          "parentCode": null,
+          "archived": false
+        },
+        {
+          "code": "5010",
+          "name": "Rent",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5020",
+          "name": "Software & subscriptions",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5030",
+          "name": "Office supplies",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5040",
+          "name": "Marketing",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5050",
+          "name": "Contractors",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5060",
+          "name": "Travel & meals",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5090",
+          "name": "Foreign exchange losses",
+          "currency": "USD",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        },
+        {
+          "code": "5061",
+          "name": "Travel & meals EUR",
+          "currency": "EUR",
+          "group": false,
+          "parentCode": "5000",
+          "archived": false
+        }
+      ],
+      "description": "An explicitly identified foreign-currency account; current reports still aggregate base USD."
+    }
+  },
+  "cases": [
+    {
+      "id": "S01",
+      "family": "specific_expense",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": true,
+      "profile": "default",
+      "messages": [
+        {
+          "role": "user",
+          "content": "What did our software subscriptions add up to between September 1 and September 30, 2026?"
+        }
+      ],
+      "classification": "supported_desired",
+      "expected": {
+        "behavior": "answer",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "expense_by_account",
+            "requiredArguments": {
+              "accountCode": "5020",
+              "from": "2026-09-01",
+              "to": "2026-09-30"
+            }
+          }
+        ],
+        "requiredScope": {
+          "metric": "net_posted_expense",
+          "accountCode": "5020",
+          "currency": "USD",
+          "from": "2026-09-01",
+          "to": "2026-09-30"
+        },
+        "forbiddenSubstitutions": [
+          "all expenses",
+          "top categories",
+          "text search for software",
+          "cash payments"
+        ]
+      },
+      "whyThisMatters": "An ordinary named expense must reach its exact ledger account, even if it is not in a top-five list.",
+      "executionOracle": "expenseAccountSummary(org, '5020', from, to), including posted credits/reversals in their own dates; compare exact returned total and evidence scope."
+    },
+    {
+      "id": "S02",
+      "family": "relative_date",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": true,
+      "profile": "default",
+      "messages": [
+        {
+          "role": "user",
+          "content": "For the previous calendar month, what was the rent bill in our books?"
+        }
+      ],
+      "classification": "supported_desired",
+      "expected": {
+        "behavior": "answer",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "expense_by_account",
+            "requiredArguments": {
+              "accountCode": "5010",
+              "from": "2026-09-01",
+              "to": "2026-09-30"
+            }
+          }
+        ],
+        "requiredScope": {
+          "metric": "net_posted_expense",
+          "accountCode": "5010",
+          "from": "2026-09-01",
+          "to": "2026-09-30"
+        },
+        "forbiddenSubstitutions": [
+          "October",
+          "last 30 days",
+          "year to date"
+        ]
+      },
+      "whyThisMatters": "Last calendar month is September with the frozen clock, not an arbitrary 30-day window.",
+      "executionOracle": null
+    },
+    {
+      "id": "S03",
+      "family": "missing_period",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": true,
+      "profile": "default",
+      "messages": [
+        {
+          "role": "user",
+          "content": "How much have software subscriptions cost us?"
+        }
+      ],
+      "classification": "supported_desired",
+      "expected": {
+        "behavior": "clarify",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "ask_clarification"
+          }
+        ],
+        "questionMustPreserve": [
+          "Software & subscriptions",
+          "requested reporting period"
+        ],
+        "requiredExplanation": "Ask which period and keep the named category; do not silently choose year to date.",
+        "forbiddenSubstitutions": [
+          "assumed date range",
+          "overall expense total",
+          "zero without checking"
+        ],
+        "questionRubric": "One useful plain-language question or explicitly disclosed limitation plus a supported alternative; no invented figure. Exact wording is not graded."
+      },
+      "whyThisMatters": "A question lacking dates is incomplete, not permission to invent a reporting period.",
+      "executionOracle": null
+    },
+    {
+      "id": "S04",
+      "family": "period_only_followup",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": true,
+      "profile": "default",
+      "messages": [
+        {
+          "role": "user",
+          "content": "How much have software subscriptions cost us?"
+        },
+        {
+          "role": "assistant",
+          "content": "Which period should I use for Software & subscriptions: this month, this year, or all recorded history?"
+        },
+        {
+          "role": "user",
+          "content": "The previous calendar month, please."
+        }
+      ],
+      "classification": "supported_desired",
+      "expected": {
+        "behavior": "answer",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "expense_by_account",
+            "requiredArguments": {
+              "accountCode": "5020",
+              "from": "2026-09-01",
+              "to": "2026-09-30"
+            }
+          }
+        ],
+        "requiredScope": {
+          "metric": "net_posted_expense",
+          "accountCode": "5020",
+          "from": "2026-09-01",
+          "to": "2026-09-30"
+        },
+        "forbiddenSubstitutions": [
+          "losing the category",
+          "asking for the period again",
+          "all expenses"
+        ]
+      },
+      "whyThisMatters": "The follow-up supplies only the missing piece; conversation context must retain the category.",
+      "executionOracle": null
+    },
+    {
+      "id": "S05",
+      "family": "category_only_followup",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": true,
+      "profile": "default",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Show software expenses for September 2026."
+        },
+        {
+          "role": "assistant",
+          "content": "I am using Software & subscriptions (5020), September 1 through September 30, 2026."
+        },
+        {
+          "role": "user",
+          "content": "Okay, that same month, just rent instead."
+        }
+      ],
+      "classification": "supported_desired",
+      "expected": {
+        "behavior": "answer",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "expense_by_account",
+            "requiredArguments": {
+              "accountCode": "5010",
+              "from": "2026-09-01",
+              "to": "2026-09-30"
+            }
+          }
+        ],
+        "requiredScope": {
+          "metric": "net_posted_expense",
+          "accountCode": "5010",
+          "from": "2026-09-01",
+          "to": "2026-09-30"
+        },
+        "forbiddenSubstitutions": [
+          "retaining software",
+          "changing to October",
+          "adding both categories"
+        ]
+      },
+      "whyThisMatters": "Replace only the dimension the user changed, while retaining the established date range.",
+      "executionOracle": null
+    },
+    {
+      "id": "S06",
+      "family": "group_descendants",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": true,
+      "profile": "default",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Give me the September total for Operating expenses, account 5000, including everything underneath it."
+        }
+      ],
+      "classification": "supported_desired",
+      "expected": {
+        "behavior": "answer",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "expense_by_account",
+            "requiredArguments": {
+              "accountCode": "5000",
+              "from": "2026-09-01",
+              "to": "2026-09-30"
+            }
+          }
+        ],
+        "requiredScope": {
+          "metric": "net_posted_expense",
+          "accountCode": "5000",
+          "descendants": true,
+          "from": "2026-09-01",
+          "to": "2026-09-30"
+        },
+        "forbiddenSubstitutions": [
+          "one arbitrary child",
+          "top five only",
+          "all expense accounts outside the requested group"
+        ]
+      },
+      "whyThisMatters": "",
+      "executionOracle": "Sum descendant posting accounts once, including historical archived descendants; group rows must not double count."
+    },
+    {
+      "id": "S07",
+      "family": "archived_account",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": false,
+      "profile": "archived",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Before we closed Conference fees (5065), what did it record in October 2024?"
+        }
+      ],
+      "classification": "supported_desired",
+      "expected": {
+        "behavior": "answer",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "expense_by_account",
+            "requiredArguments": {
+              "accountCode": "5065",
+              "from": "2024-10-01",
+              "to": "2024-10-31"
+            }
+          }
+        ],
+        "requiredScope": {
+          "accountCode": "5065",
+          "archivedAllowed": true,
+          "from": "2024-10-01",
+          "to": "2024-10-31"
+        },
+        "forbiddenSubstitutions": [
+          "archived means zero",
+          "substitute Travel & meals",
+          "current year"
+        ]
+      },
+      "whyThisMatters": "Only the synthetic chart profile supplies this account; do not run against a default live chart and call a clarification a failure.",
+      "executionOracle": null
+    },
+    {
+      "id": "S08",
+      "family": "ambiguous_account",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": false,
+      "profile": "duplicate_name",
+      "messages": [
+        {
+          "role": "user",
+          "content": "How much did Travel & meals come to last month?"
+        }
+      ],
+      "classification": "supported_desired",
+      "expected": {
+        "behavior": "clarify",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "ask_clarification"
+          }
+        ],
+        "questionMustPreserve": [
+          "Travel & meals",
+          "USD 5060 versus EUR 5061",
+          "September 2026"
+        ],
+        "requiredExplanation": "Ask which of the two same-named accounts is intended; the reporting period is already known.",
+        "forbiddenSubstitutions": [
+          "guess USD",
+          "combine both unrelated accounts",
+          "ask dates again"
+        ],
+        "questionRubric": "One useful plain-language question or explicitly disclosed limitation plus a supported alternative; no invented figure. Exact wording is not graded."
+      },
+      "whyThisMatters": "",
+      "executionOracle": null
+    },
+    {
+      "id": "S09",
+      "family": "known_zero",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": true,
+      "profile": "default",
+      "messages": [
+        {
+          "role": "user",
+          "content": "What did Office supplies record in February 2024? Include zero if nothing was booked."
+        }
+      ],
+      "classification": "supported_desired",
+      "expected": {
+        "behavior": "answer",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "expense_by_account",
+            "requiredArguments": {
+              "accountCode": "5030",
+              "from": "2024-02-01",
+              "to": "2024-02-29"
+            }
+          }
+        ],
+        "requiredScope": {
+          "accountCode": "5030",
+          "from": "2024-02-01",
+          "to": "2024-02-29",
+          "zeroOnlyAfterQuery": true
+        },
+        "forbiddenSubstitutions": [
+          "guessing zero from question wording",
+          "dropping leap day",
+          "substitute all expenses"
+        ]
+      },
+      "whyThisMatters": "",
+      "executionOracle": "Only if the test DB verifies no posted Office supplies lines in this period, exact total is 0.00. Otherwise use the actual scoped report; never force the expected zero into a model prompt."
+    },
+    {
+      "id": "S10",
+      "family": "all_time_total",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": true,
+      "profile": "default",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Across all recorded history, what is our total net expense amount after credits?"
+        }
+      ],
+      "classification": "supported_desired",
+      "expected": {
+        "behavior": "answer",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "income_summary",
+            "requiredArguments": {
+              "metric": "expenses",
+              "from": "1900-01-01",
+              "to": "2026-10-31"
+            }
+          },
+          {
+            "tool": "expense_summary",
+            "requiredArguments": {
+              "view": "total",
+              "from": "1900-01-01",
+              "to": "2026-10-31",
+              "limit": null
+            }
+          }
+        ],
+        "requiredScope": {
+          "metric": "net_posted_expense",
+          "from": "1900-01-01",
+          "to": "2026-10-31",
+          "discloseDateFloor": true
+        },
+        "forbiddenSubstitutions": [
+          "year to date",
+          "gross debits only",
+          "top-five subtotal",
+          "claim unbounded history before 1900"
+        ]
+      },
+      "whyThisMatters": "1900 is the existing explicit product range convention, not evidence that older data cannot exist.",
+      "executionOracle": null
+    },
+    {
+      "id": "S11",
+      "family": "top_n",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": true,
+      "profile": "default",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Which three expense categories were largest in September 2026? Just the top three."
+        }
+      ],
+      "classification": "supported_desired",
+      "expected": {
+        "behavior": "answer",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "expense_summary",
+            "requiredArguments": {
+              "view": "top",
+              "limit": 3,
+              "from": "2026-09-01",
+              "to": "2026-09-30"
+            }
+          }
+        ],
+        "requiredScope": {
+          "grain": "expense_category",
+          "rankBy": "net_posted_expense_desc",
+          "limit": 3,
+          "from": "2026-09-01",
+          "to": "2026-09-30"
+        },
+        "forbiddenSubstitutions": [
+          "fixed five rows",
+          "three journal entries",
+          "gross transaction totals"
+        ]
+      },
+      "whyThisMatters": "",
+      "executionOracle": "Sort every posted expense-account net total, then take at most three; do not rank individual transactions."
+    },
+    {
+      "id": "S12",
+      "family": "all_categories",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": true,
+      "profile": "default",
+      "messages": [
+        {
+          "role": "user",
+          "content": "List every expense account for September 2026, including zero balances and archived accounts, not just the biggest five."
+        }
+      ],
+      "classification": "supported_desired",
+      "expected": {
+        "behavior": "answer",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "expense_summary",
+            "requiredArguments": {
+              "view": "all",
+              "from": "2026-09-01",
+              "to": "2026-09-30",
+              "limit": null
+            }
+          }
+        ],
+        "requiredScope": {
+          "grain": "expense_category",
+          "coverage": "all_posting_expense_accounts_including_zero_and_archived",
+          "from": "2026-09-01",
+          "to": "2026-09-30"
+        },
+        "forbiddenSubstitutions": [
+          "any top-N truncation",
+          "aggregate total with no full category list"
+        ]
+      },
+      "whyThisMatters": "The all view means every expense posting account, not only accounts with activity. This distinction was amended before any paid execution and the original wording/hash is preserved.",
+      "executionOracle": "Evidence covers every scoped expense posting account, including accounts without posted period activity and archived accounts; group accounts are excluded to avoid double counting. No top-N truncation."
+    },
+    {
+      "id": "S13",
+      "family": "revenue_total",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": true,
+      "profile": "default",
+      "messages": [
+        {
+          "role": "user",
+          "content": "How much revenue did the business earn during September 2026? I only need that month's total."
+        }
+      ],
+      "classification": "supported_desired",
+      "expected": {
+        "behavior": "answer",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "income_summary",
+            "requiredArguments": {
+              "metric": "revenue",
+              "from": "2026-09-01",
+              "to": "2026-09-30"
+            }
+          }
+        ],
+        "requiredScope": {
+          "metric": "earned_posted_revenue",
+          "from": "2026-09-01",
+          "to": "2026-09-30"
+        },
+        "forbiddenSubstitutions": [
+          "invented comparison period",
+          "cash deposits",
+          "expense summary"
+        ]
+      },
+      "whyThisMatters": "",
+      "executionOracle": "incomeStatement(org, from, to).totalRevenue; receivable collection is not a second sale."
+    },
+    {
+      "id": "S14",
+      "family": "profit_total",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": true,
+      "profile": "default",
+      "messages": [
+        {
+          "role": "user",
+          "content": "After expenses, what was our net income for September 2026?"
+        }
+      ],
+      "classification": "supported_desired",
+      "expected": {
+        "behavior": "answer",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "income_summary",
+            "requiredArguments": {
+              "metric": "profit",
+              "from": "2026-09-01",
+              "to": "2026-09-30"
+            }
+          }
+        ],
+        "requiredScope": {
+          "metric": "net_income",
+          "from": "2026-09-01",
+          "to": "2026-09-30"
+        },
+        "forbiddenSubstitutions": [
+          "revenue alone",
+          "cash balance",
+          "expense total alone"
+        ]
+      },
+      "whyThisMatters": "",
+      "executionOracle": "Exact recorded revenue minus exact recorded expenses for this period; do not include loans, owner contributions or transfers as revenue."
+    },
+    {
+      "id": "S15",
+      "family": "expense_comparison",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": true,
+      "profile": "default",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Did total recorded expenses go up in September 2026 compared with August 2026, and by how much?"
+        }
+      ],
+      "classification": "supported_desired",
+      "expected": {
+        "behavior": "answer",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "period_comparison",
+            "requiredArguments": {
+              "metric": "expenses",
+              "from": "2026-09-01",
+              "to": "2026-09-30",
+              "previousFrom": "2026-08-01",
+              "previousTo": "2026-08-31"
+            }
+          }
+        ],
+        "requiredScope": {
+          "metric": "net_posted_expense",
+          "from": "2026-09-01",
+          "to": "2026-09-30",
+          "previousFrom": "2026-08-01",
+          "previousTo": "2026-08-31"
+        },
+        "forbiddenSubstitutions": [
+          "revenue comparison",
+          "only September total",
+          "daily average instead of full-month totals"
+        ]
+      },
+      "whyThisMatters": "",
+      "executionOracle": "Compare the two net expense totals, exact delta; percentage is undefined/non-meaningful for a zero or negative baseline, never Infinity."
+    },
+    {
+      "id": "S16",
+      "family": "equal_elapsed_quarter",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": true,
+      "profile": "default",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Compare total revenue this quarter to date with the same elapsed part of the previous quarter."
+        }
+      ],
+      "classification": "supported_desired",
+      "expected": {
+        "behavior": "answer",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "period_comparison",
+            "requiredArguments": {
+              "metric": "revenue",
+              "from": "2026-10-01",
+              "to": "2026-10-31",
+              "previousFrom": "2026-07-01",
+              "previousTo": "2026-07-31"
+            }
+          },
+          {
+            "tool": "revenue_comparison",
+            "requiredArguments": {
+              "from": "2026-10-01",
+              "to": "2026-10-31",
+              "previousFrom": "2026-07-01",
+              "previousTo": "2026-07-31"
+            }
+          }
+        ],
+        "requiredScope": {
+          "metric": "earned_posted_revenue",
+          "from": "2026-10-01",
+          "to": "2026-10-31",
+          "previousFrom": "2026-07-01",
+          "previousTo": "2026-07-31"
+        },
+        "forbiddenSubstitutions": [
+          "full previous quarter",
+          "future December 31",
+          "calendar September"
+        ]
+      },
+      "whyThisMatters": "Both inclusive periods contain 31 days. This case must use the pinned clock, not the wall-clock date at a later run.",
+      "executionOracle": null
+    },
+    {
+      "id": "S17",
+      "family": "cash_stock",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": true,
+      "profile": "default",
+      "messages": [
+        {
+          "role": "user",
+          "content": "At the close of September 30, 2026, how much did our cash and bank accounts show in total?"
+        }
+      ],
+      "classification": "supported_desired",
+      "expected": {
+        "behavior": "answer",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "cash_position",
+            "requiredArguments": {
+              "asOf": "2026-09-30"
+            }
+          }
+        ],
+        "requiredScope": {
+          "metric": "cash_and_bank_book_balance",
+          "asOf": "2026-09-30",
+          "currency": "USD"
+        },
+        "forbiddenSubstitutions": [
+          "September net cash movement",
+          "today's balance",
+          "all assets",
+          "bank-reconciled balance"
+        ]
+      },
+      "whyThisMatters": "",
+      "executionOracle": "cashPosition(org, '2026-09-30'); cumulative book balances at recorded rates, not a bank feed or market FX valuation."
+    },
+    {
+      "id": "S18",
+      "family": "average_boundary",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": true,
+      "profile": "default",
+      "messages": [
+        {
+          "role": "user",
+          "content": "What was our average expense per posted transaction in September 2026?"
+        }
+      ],
+      "classification": "intentionally_unsupported",
+      "expected": {
+        "behavior": "clarify",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "ask_clarification"
+          }
+        ],
+        "questionMustPreserve": [
+          "average expense per transaction",
+          "September 2026"
+        ],
+        "requiredExplanation": "The available summary tools do not define/count expense transactions for this average; disclose that and offer the period total or ledger for review.",
+        "forbiddenSubstitutions": [
+          "period total called an average",
+          "divide by 30",
+          "average top five categories",
+          "journal-total search"
+        ],
+        "questionRubric": "One useful plain-language question or explicitly disclosed limitation plus a supported alternative; no invented figure. Exact wording is not graded."
+      },
+      "whyThisMatters": "Multi-line journals, credits and transactions with several expenses make the denominator a real semantic choice.",
+      "executionOracle": null
+    },
+    {
+      "id": "S19",
+      "family": "trend_boundary",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": true,
+      "profile": "default",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Show software costs separately for July, August and September 2026 so I can see the monthly trend."
+        }
+      ],
+      "classification": "intentionally_unsupported",
+      "expected": {
+        "behavior": "clarify",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "ask_clarification"
+          }
+        ],
+        "questionMustPreserve": [
+          "Software & subscriptions",
+          "three separate month totals",
+          "July through September 2026"
+        ],
+        "requiredExplanation": "One range total is not the requested monthly series. Explain the current single-period limitation and offer a month to inspect; retain the category.",
+        "forbiddenSubstitutions": [
+          "one combined quarter total",
+          "top expense categories",
+          "revenue trend"
+        ],
+        "questionRubric": "One useful plain-language question or explicitly disclosed limitation plus a supported alternative; no invented figure. Exact wording is not graded."
+      },
+      "whyThisMatters": "Multiple turns or a future series tool could support this, but current single-call scalar tools cannot silently substitute.",
+      "executionOracle": null
+    },
+    {
+      "id": "S20",
+      "family": "vendor_and_category_boundary",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": true,
+      "profile": "default",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Of our September 2026 software expenses, how much was with Acme Corp specifically?"
+        }
+      ],
+      "classification": "intentionally_unsupported",
+      "expected": {
+        "behavior": "clarify",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "ask_clarification"
+          }
+        ],
+        "questionMustPreserve": [
+          "Software & subscriptions",
+          "Acme Corp",
+          "September 2026",
+          "expense amount"
+        ],
+        "requiredExplanation": "No current tool intersects exact vendor and category. Offer a clearly labelled text-search list or total category amount only if the user chooses to relax the scope.",
+        "forbiddenSubstitutions": [
+          "all software expenses",
+          "Acme journal totals as software expense",
+          "text search for 'Acme software' as exact filtering"
+        ],
+        "questionRubric": "One useful plain-language question or explicitly disclosed limitation plus a supported alternative; no invented figure. Exact wording is not graded."
+      },
+      "whyThisMatters": "A journal description match is not a vendor predicate; sums of journal debits are not expenses paid to that vendor.",
+      "executionOracle": null
+    },
+    {
+      "id": "S21",
+      "family": "cash_paid_vs_accrual",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": true,
+      "profile": "default",
+      "messages": [
+        {
+          "role": "user",
+          "content": "How much cash actually left our bank for rent in September 2026, excluding any unpaid rent bills?"
+        }
+      ],
+      "classification": "intentionally_unsupported",
+      "expected": {
+        "behavior": "clarify",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "ask_clarification"
+          }
+        ],
+        "questionMustPreserve": [
+          "rent",
+          "cash actually paid",
+          "exclude unpaid bills",
+          "September 2026"
+        ],
+        "requiredExplanation": "The expense-account tool measures net recorded expense, not cash settlements. Disclose the distinction and offer the recorded-expense view only with the user's agreement.",
+        "forbiddenSubstitutions": [
+          "expense_by_account as if cash paid",
+          "overall cash position",
+          "invoice total search"
+        ],
+        "questionRubric": "One useful plain-language question or explicitly disclosed limitation plus a supported alternative; no invented figure. Exact wording is not graded."
+      },
+      "whyThisMatters": "Accrual expense and later payable settlement are different journal events.",
+      "executionOracle": null
+    },
+    {
+      "id": "S22",
+      "family": "native_currency_boundary",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": false,
+      "profile": "native_currency",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Give me September 2026 Travel & meals EUR account 5061 expenses in euros, not the USD conversion."
+        }
+      ],
+      "classification": "intentionally_unsupported",
+      "expected": {
+        "behavior": "clarify",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "ask_clarification"
+          }
+        ],
+        "questionMustPreserve": [
+          "account 5061",
+          "EUR native units",
+          "September 2026"
+        ],
+        "requiredExplanation": "Current financial tools return recorded base USD. Offer the USD report or direct native ledger review; do not change units silently or ask which account was already specified.",
+        "forbiddenSubstitutions": [
+          "USD amount labelled EUR",
+          "base USD answer ignoring native request",
+          "guess another Travel account"
+        ],
+        "questionRubric": "One useful plain-language question or explicitly disclosed limitation plus a supported alternative; no invented figure. Exact wording is not graded."
+      },
+      "whyThisMatters": "",
+      "executionOracle": null
+    },
+    {
+      "id": "S23",
+      "family": "non_expense_or_unknown_account",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": true,
+      "profile": "default",
+      "messages": [
+        {
+          "role": "user",
+          "content": "What did we post to equipment account 1500 during September 2026?"
+        }
+      ],
+      "classification": "intentionally_unsupported",
+      "expected": {
+        "behavior": "clarify",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "ask_clarification"
+          }
+        ],
+        "questionMustPreserve": [
+          "equipment account 1500",
+          "September 2026",
+          "account ledger rather than expense category"
+        ],
+        "requiredExplanation": "1500 is not in the supplied expense chart, and no general account-ledger chat tool exists. State that limit or ask for a valid expense account; never pretend the absent account has zero activity.",
+        "forbiddenSubstitutions": [
+          "Office supplies proxy",
+          "all expense total",
+          "expense_by_account with guessed or nonexistent code",
+          "description search pretending to be the account ledger"
+        ],
+        "questionRubric": "One useful plain-language question or explicitly disclosed limitation plus a supported alternative; no invented figure. Exact wording is not graded."
+      },
+      "whyThisMatters": "The planner sees only expense identities. It must not invent a non-expense account mapping from a familiar-looking number.",
+      "executionOracle": null
+    },
+    {
+      "id": "S24",
+      "family": "year_retention_followup",
+      "questionProvenance": "independent new wording; not copied from UI",
+      "liveAgainstDefaultChart": true,
+      "profile": "default",
+      "messages": [
+        {
+          "role": "user",
+          "content": "What were Rent expenses in September 2025?"
+        },
+        {
+          "role": "assistant",
+          "content": "I am using Rent (5010), September 1 through September 30, 2025."
+        },
+        {
+          "role": "user",
+          "content": "And October that year?"
+        }
+      ],
+      "classification": "supported_desired",
+      "expected": {
+        "behavior": "answer",
+        "acceptedEquivalentRoutes": [
+          {
+            "tool": "expense_by_account",
+            "requiredArguments": {
+              "accountCode": "5010",
+              "from": "2025-10-01",
+              "to": "2025-10-31"
+            }
+          }
+        ],
+        "requiredScope": {
+          "accountCode": "5010",
+          "from": "2025-10-01",
+          "to": "2025-10-31"
+        },
+        "forbiddenSubstitutions": [
+          "current year 2026",
+          "losing Rent",
+          "comparing both months instead of answering the requested month"
+        ]
+      },
+      "whyThisMatters": "Year resolution must respect conversation state instead of applying the current-year default to every turn.",
+      "executionOracle": null
+    }
+  ],
+  "suggestedBoundedLiveSubset": [
+    "S01",
+    "S02",
+    "S03",
+    "S04",
+    "S05",
+    "S06",
+    "S09",
+    "S10",
+    "S11",
+    "S12",
+    "S13",
+    "S14",
+    "S15",
+    "S16",
+    "S17",
+    "S18",
+    "S19",
+    "S20",
+    "S21",
+    "S23",
+    "S24"
+  ],
+  "customProfileCases": [
+    "S07",
+    "S08",
+    "S22"
+  ],
+  "unmeasuredAdditionalBoundaries": [
+    "Exact vendor matching versus substring search; descriptions can mention a vendor without being that vendor's transaction.",
+    "Find-all/count/existence questions when find_transactions caps displayed entries at 20; no exact full count from a page length.",
+    "Top individual transactions versus top expense categories; the row grain must be preserved.",
+    "Top-N beyond the supported 1–20, drafts, multiple separate categories, filters by funding account, fiscal calendars, median/forecast/hiring affordability.",
+    "All-time dates before 1900, full-month future dates versus month-to-date, explicit current-market FX versus recorded FX.",
+    "Chart-wide availability: a >250-account expense chart currently blocks every financialChat request, including unrelated cash queries."
+  ]
+}

@@ -22,8 +22,9 @@ import {
 } from './reports';
 import { createRecurring, generateRecurring, updateRecurring } from './recurring';
 import { financialChat, messagesSchema, proposeEntry } from './ai';
+import { withAiAdmission } from './ai-admission';
 import { learningForEntry, revokeCorrection } from './categorization-memory';
-import { categoryAvailability, suggestCategory } from './category-service';
+import { categoryAvailability, categoryRequestSchema, suggestCategory } from './category-service';
 import { getCategoryFailureMetadata } from './category-selector';
 
 export function createApp(org = config.organizationId) {
@@ -31,7 +32,7 @@ export function createApp(org = config.organizationId) {
   app.disable('x-powered-by');
   app.use(requestDiagnostics);
   app.use(helmet());
-  app.use(cors({ origin: config.webOrigin, exposedHeaders: ['X-Request-Id'] }));
+  app.use(cors({ origin: config.webOrigin, exposedHeaders: ['X-Request-Id', 'Retry-After'] }));
   app.use(express.json({ limit: '128kb' }));
   const key = (req: express.Request) => {
     const result = z.string().min(8).max(128).safeParse(req.get('Idempotency-Key'));
@@ -273,15 +274,16 @@ export function createApp(org = config.organizationId) {
     res.json(updated[0]);
   });
   app.post('/api/ai/category', async (req, res) => {
-    res.json(await suggestCategory(org, req.body));
+    const input = categoryRequestSchema.parse(req.body);
+    res.json(await withAiAdmission(org, () => suggestCategory(org, input)));
   });
   app.post('/api/ai/entry', async (req, res) => {
-    const p = z.object({ messages: messagesSchema, date: dateSchema }).parse(req.body);
-    res.json(await proposeEntry(org, p.messages, p.date));
+    const p = z.strictObject({ messages: messagesSchema, date: dateSchema }).parse(req.body);
+    res.json(await withAiAdmission(org, () => proposeEntry(org, p.messages, p.date)));
   });
   app.post('/api/ai/chat', async (req, res) => {
-    const p = z.object({ messages: messagesSchema }).parse(req.body);
-    res.json(await financialChat(org, p.messages));
+    const p = z.strictObject({ messages: messagesSchema }).parse(req.body);
+    res.json(await withAiAdmission(org, () => financialChat(org, p.messages)));
   });
   app.post('/api/ai/feedback', async () => {
     throw new AppError(
@@ -315,6 +317,16 @@ export function apiErrorHandler(
     details: unknown;
   if (error instanceof AppError) {
     ({ status, code, message, details } = error);
+    if (
+      code === 'AI_REQUEST_LIMIT' &&
+      details &&
+      typeof details === 'object' &&
+      'retryAfterSeconds' in details
+    ) {
+      const seconds = details.retryAfterSeconds;
+      if (typeof seconds === 'number' && Number.isInteger(seconds) && seconds >= 1 && seconds <= 86400)
+        res.setHeader('Retry-After', String(seconds));
+    }
   } else if (error instanceof ZodError) {
     status = 400;
     code = 'INVALID_INPUT';
