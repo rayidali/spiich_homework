@@ -10,6 +10,8 @@ The isolated research implementation compares nine AI routes: existing tools, br
 
 The [protocol](docs/PLAN.md), [complete charts and scores](docs/evidence/research-runs/holdout-v1/report.html), [worked failure examples](docs/reports/research-worked-examples.md), [cost reconciliation](docs/evidence/research-final-costs/cost-reconciliation.md), and [reproduction guide](docs/research/REPRODUCE.md) make the comparison reviewable. Invalid and incomplete development pilots remain preserved as diagnostic history.
 
+Final source and reports are published in commit `a5493c3`. [Full CI passed](https://github.com/rayidali/spiich_homework/actions/runs/41182776959), including application/browser tests, Docker startup and persistence, and native research/Wren checks. The [sanitized CI receipt](docs/evidence/research-final-ci.json) records the tested commit and limits; its optional live-AI job was skipped because provider measurements are recorded separately. Tracked research spending is approximately **$6.05**, including retained unknown-cost reservations. The local handoff is `submission.zip`, rooted at `daybook-ledger/`; publication tooling verifies its source bytes, CRCs and secret exclusions.
+
 ![Daybook financial dashboard](docs/evidence/dashboard.png)
 
 The screenshot records the earlier design. Fresh screenshots of Home / Transactions / Reports / Settings are generated in the browser-evidence artifact of the [successful CI run](https://github.com/rayidali/spiich_homework/actions/runs/40999183176); they still need visual review before replacing these images.

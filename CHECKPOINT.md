@@ -4,7 +4,7 @@ Saved **2026-10-31, America/New_York**. Read this first on continuation. The imp
 
 ## Current state
 
-**The scientific measurements, analyses and report are complete. Final source publication, cloud CI and ZIP refresh are being finished.** The user explicitly authorized continuation until delivery and reported about $8 Gemini credit. No further provider work or purchase is needed for this study.
+**The scientific measurements, analyses and report are complete, the source is published, and final cloud CI passed.** The user explicitly authorized continuation until delivery and reported about $8 Gemini credit. No further provider work or purchase is needed for this study. Final delivery uses the source-bound archive verification described below.
 
 - Main holdout: **1,620 unique planned/scored trials**, 180 per route, 60 questions × nine routes × three repeats. Execution statuses: 1,333 ok, 267 withheld, **20 retained errors**. There are 940 structured successes across the recorded matrix; execution success is not answer correctness.
 - Reviewer holdout: **240 outcomes**, 80 candidates × deterministic/Gemini/Jev; 80 per method, **zero execution errors**. Exactly 80 Gemini and 80 Jev calls completed.
@@ -53,6 +53,7 @@ Preserve the private `.tools/research/usage.json`, installed parent/child polici
 | Inference source hash                                   | `fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08` |
 | Original verified inference commit                      | `0fe267b03b7baa0a2ff43c58165301b74261afa9`                         |
 | Last published operational commit before final delivery | `79dbdc9b2eddd9953815cebfc0f01a9d22c37f10`                         |
+| Published final source, data and reports                | `a5493c3317b5df2e70318cd6b1ada94220e211a9`                         |
 | Frozen index hash                                       | `f0420b1c0fc1dda49d4cbc937f2fce4c57f43660688de0c5a4914d001279a2a1` |
 | Jev reviewer threshold                                  | **0.8**, selected on development and unchanged                     |
 | Final main episode SHA256                               | `23a81919b83fec491d728d5abe6660389c7446d5808db805246c799f08d8b51e` |
@@ -75,16 +76,17 @@ Ordinary static-config curl worked where shell process substitution failed. The 
 
 Private operational files are retained for provenance, not instructions to relaunch: `ACTIVE_DISPATCHER.json` is stopped; old continuation-state/session fields may be historical. The previous full operational checkpoint is `.tools/checkpoints/checkpoint-before-final-research-delivery.md`. No provider work remains.
 
-## Remaining delivery work
+## Final verification and delivery
 
-1. Final narrative review is complete: 18 automated checks plus claim review passed, and its exact formatted hashes are recorded in [the narrative receipt](docs/evidence/research-final-narrative-check.json). Repository formatting and current local-link checks pass. Initial secret scan passed; repeat it for the final publication manifest.
-2. Publish the stable final source, data and report through the existing local checkout; run cloud CI because the new provider-free cost postprocessor and its tests are executable changes.
-3. Save the sanitized CI receipt, update current delivery documentation, refresh `submission.zip` and verify exact source/ZIP bytes and CRC. Do not include the ZIP's own hash in its contents.
-4. Mark the existing goal complete only after publication and the verified handoff. Its old tool status is `blocked` from an earlier quota episode; the user explicitly resumed, and the fresh blocked audit is zero. It is not a current obstacle.
+Final source/data/report commit **`a5493c3317b5df2e70318cd6b1ada94220e211a9`** passed [full CI 41182776959](https://github.com/rayidali/spiich_homework/actions/runs/41182776959). The `verify`, `research-native` and `compose` jobs succeeded, covering application/browser checks, the new cost exporter, actual Wren/native database checks, full Docker startup and posted-entry persistence. `live-ai` was skipped; completed provider measurements are recorded separately. See the [sanitized final CI receipt](docs/evidence/research-final-ci.json). A subsequent documentation-only delivery commit records these observations without changing the tested executable.
 
-The frozen inference passed 511 isolated TypeScript tests in 32 files, 35 actual Wren Python tests, nine PDF tests and full CI 41155033249. Later operational recovery passed 120 targeted tests and full CI 41171119383. The new cost exporter passed 41 synthetic tests, TypeScript and formatting locally; its cloud check remains part of final delivery. Do not add overlapping reruns into a claimed test total.
+Final narrative review passed 18 automated checks plus claim review, binding exact formatted hashes in [the narrative receipt](docs/evidence/research-final-narrative-check.json). Repository formatting and current local-link checks passed. The 16-page PDF, detailed narrative, worked examples, raw scored outcomes, supplements and cost reconciliation are included in the source handoff.
 
-No new experiment or automatic product deployment is part of remaining delivery.
+The final archive is `submission.zip`, rooted at `daybook-ledger/`. The publication helper freezes a source manifest, scans secrets, syncs the permitted checkout, then verifies archive CRCs and exact source/checkout/ZIP bytes. Exact final manifest and archive hashes belong in private `.tools/publication-archive-verification.json` and `.tools/publication-verify-verification.json`, avoiding a self-referential hash inside the archive. Consult those receipts when checking a resumed handoff; do not regenerate study measurements.
+
+Historical verification remains preserved: frozen inference passed 511 isolated TypeScript tests in 32 files, 35 actual Wren Python tests, nine PDF tests and CI 41155033249. Later operational recovery passed 120 targeted tests and CI 41171119383. The new cost exporter passed 41 local synthetic tests and the final full cloud run. Do not add overlapping reruns into a claimed test total.
+
+No new experiment or automatic product deployment is required to complete this study. Future product work is separate and must retain the measured limitations below.
 
 ## Product and runtime baseline
 
@@ -107,7 +109,7 @@ Local startup: `npm run dev`, or `npm run dev -- --reuse-db` for an existing dat
 
 Use **local CLI authentication**, account rayidali, for GitHub and Vercel. Do not request chat connectors or secrets in chat. Root `.git` is protected. The existing permitted checkout is **/private/tmp/daybook-publish.kbVq33**, main, origin [rayidali/spiich_homework](https://github.com/rayidali/spiich_homework), a public repository. Confirm the temporary checkout exists before reuse. Local add/commit/push works despite a harmless stale credential-helper warning; do not move Git metadata into protected paths.
 
-Use `.tools/prepare-publication.py` and `.tools/PUBLICATION_HELPER.md`: inspect a stable source snapshot, then sync/archive/verify against that exact manifest. It excludes secrets, private tooling, dependencies, build output and local data. Review the diff, commit and push locally. Executable changes require the relevant CI; later documentation-only evidence can use `[skip ci]`. `submission.zip` uses **daybook-ledger/** and is stale until final refresh.
+Use `.tools/prepare-publication.py` and `.tools/PUBLICATION_HELPER.md`: inspect a stable source snapshot, then sync/archive/verify against that exact manifest. It excludes secrets, private tooling, dependencies, build output and local data. Review the diff, commit and push locally. Executable changes require the relevant CI; later documentation-only evidence can use `[skip ci]`. The final delivery archive uses **daybook-ledger/**; its exact source binding is recorded in the private verification receipts.
 
 GitHub is intentionally not configured for automatic Vercel deployments. Read [HOSTING.md](docs/HOSTING.md) before a separate deployment; production values were supplied as private overrides. Do not deploy research keys or routes merely because source is pushed.
 

@@ -1,6 +1,6 @@
 # Explain and demonstrate Daybook
 
-**Current checkpoint: 2026-10-31, America/New_York.** The accounting application is implemented and hosted. The separate nine-route study has completed **1,620 route episodes and 240 held-out reviewer outcomes**, with final integrity audits passing 41 main checks and 31 reviewer checks. Only adding lexical document access to broad tools clears the predeclared rule for a further experiment; no route is declared a production winner. The [complete research report](reports/research-study.md) and [16-page PDF](evidence/research-runs/holdout-v1/study-report.pdf) are generated locally; final publication and submission packaging remain pending.
+**Current checkpoint: 2026-10-31, America/New_York.** The accounting application is implemented and hosted. The separate nine-route study has completed **1,620 route episodes and 240 held-out reviewer outcomes**, with final integrity audits passing 41 main checks and 31 reviewer checks. Only adding lexical document access to broad tools clears the predeclared rule for a further experiment; no route is declared a production winner. The [complete research report](reports/research-study.md) and [16-page PDF](evidence/research-runs/holdout-v1/study-report.pdf) are published with final source `a5493c3317b5df2e70318cd6b1ada94220e211a9`. [CI 41182776959](https://github.com/rayidali/spiich_homework/actions/runs/41182776959) passed verification, native research and Compose; live-AI was skipped. The [CI receipt](evidence/research-final-ci.json) binds the result to that source.
 
 The earlier missing-key, timeout-only and V2 daily-quota-stop notes are historical. Selected hosted chat/proposal checks subsequently succeeded, the study resumed under a funded allowance and completed, and every recorded failure remains. Research retrieval and reviewer routes have **not** been enabled in the deployed assistant.
 
@@ -188,7 +188,7 @@ Selected hosted generation checks have succeeded, and failures are also recorded
 
 **Did we build Docker Compose?** Yes. Application startup, health/container checks and posted-entry persistence have passed CI. Research has a separate pgvector Compose setup that exercises the actual Wren engine and database restrictions. Local Docker availability on the author's machine is a separate question from the checked-in runnable setup and cloud CI evidence.
 
-**What would you do next?** Publish the completed evidence and refreshed submission, then design a separate, limited document-access experiment while preserving the narrow financial tools. Only that component cleared the declared rule; an intent router or combined architecture needs new measurement. Do not tune the completed holdout or replace its recorded failures. Product work still includes the full product-specific live evaluation, fresh visual/device checks, scheduler observation, reviewer access and real-service operational requirements.
+**What would you do next?** Design a separate, limited document-access experiment while preserving the narrow financial tools. Only that component cleared the declared rule; an intent router or combined architecture needs new measurement. Do not tune the completed holdout or replace its recorded failures. Product work still includes the full product-specific live evaluation, fresh visual/device checks, scheduler observation, reviewer access and real-service operational requirements.
 
 ## Explain hosting and the interface accurately
 
@@ -215,7 +215,7 @@ A green build alone does not prove the hosted API can run. Earlier invocation an
 
 The historical architecture [PDF](reports/architecture-review.pdf) and [HTML walkthrough](reports/architecture-review.html#journeys) can help explain the original design, but record an earlier planning snapshot. Use the current [research narrative](reports/research-study.md) for implemented experiments, scope limits and complete measurements. Old invalid/incomplete pilots remain diagnostic; their graphs cannot select a winner.
 
-The [main final audit](evidence/research-holdout-final-check.json) and [reviewer final audit](evidence/research-verifier-holdout-final-check.json) support completion and integrity, not independent human validation. The external cost exporter passed 41 local synthetic tests, TypeScript and formatting; cloud CI for that new tool remains pending. Do not combine overlapping historical test counts into a larger claim.
+The [main final audit](evidence/research-holdout-final-check.json) and [reviewer final audit](evidence/research-verifier-holdout-final-check.json) support completion and integrity, not independent human validation. The external cost exporter passed 41 local synthetic tests, TypeScript and formatting and is included in the passing final source CI. Archive-verification receipts are private under `.tools/publication-*-verification.json`; match the delivered ZIP to its receipt instead of treating CI as an archive check. Do not combine overlapping historical test counts into a larger claim.
 
 ## Code paths to rehearse
 

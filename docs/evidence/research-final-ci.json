@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-31T08:04:56.275325+00:00",
+  "source": "GitHub public Actions API; retrieved through local CLI",
+  "repository": "rayidali/spiich_homework",
+  "sourceCommit": "a5493c3317b5df2e70318cd6b1ada94220e211a9",
+  "workflow": "Accounting correctness and application checks",
+  "runId": 41182776959,
+  "runUrl": "https://github.com/rayidali/spiich_homework/actions/runs/41182776959",
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "verify",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-31T08:00:04Z",
+      "completed_at": "2026-10-31T08:01:50Z"
+    },
+    {
+      "name": "research-native",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-31T08:00:04Z",
+      "completed_at": "2026-10-31T08:00:42Z"
+    },
+    {
+      "name": "compose",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-10-31T08:01:52Z",
+      "completed_at": "2026-10-31T08:03:45Z"
+    },
+    {
+      "name": "live-ai",
+      "status": "completed",
+      "conclusion": "skipped",
+      "started_at": "2026-10-31T08:03:46Z",
+      "completed_at": "2026-10-31T08:03:45Z"
+    }
+  ],
+  "verifiedScopes": [
+    "Repository formatting, TypeScript/production build, hosted API module import, migrations and automated test suite including the cost exporter",
+    "Production browser workflows",
+    "Full Docker Compose startup, health, integration tests and posted-entry persistence across container recreation",
+    "Actual pinned Wren engine tests, native PostgreSQL research fixtures, read-only restrictions and deterministic security checks"
+  ],
+  "limitations": [
+    "The live-ai CI job was skipped; the separately recorded completed live research studies supply provider evidence.",
+    "CI does not establish human prose faithfulness, general production model accuracy, physical-device behavior or million-user capacity.",
+    "No production deployment or research-route promotion occurred.",
+    "A subsequent documentation-only delivery commit may reference this tested executable; no research inference source was changed."
+  ],
+  "frozenInferenceSourceSha256": "fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08"
+}
