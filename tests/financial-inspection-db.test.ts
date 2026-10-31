@@ -50,6 +50,8 @@ beforeEach(async () => {
   await admin.query("INSERT INTO organizations(id,name) VALUES($1,'Adaptive inspection fixture')", [org]);
   await seedChart(org);
   ids = Object.fromEntries((await accounts(org)).map((account) => [account.code, account.id]));
+});
+async function seedHistory() {
   // January winner:200 +50 -10 =240; competitor220; third100.
   await post(
     entry('5030', '1010', '200', '2026-01-10', winner, {
@@ -73,7 +75,7 @@ beforeEach(async () => {
   );
   await post(entry('1010', '5030', '30', '2026-02-12', winner));
   await post(entry('5010', '1010', '500', '2026-02-05', runnerUp));
-});
+}
 afterEach(() => vi.restoreAllMocks());
 afterAll(async () => {
   if (connected) await admin.end();
@@ -129,25 +131,34 @@ async function session(original = messages) {
   expect(JSON.stringify({ messages: original, chart })).not.toContain(winner);
   return new FinancialInspection(org, original, chart);
 }
+function inspectedPlan(changes: Partial<FinancialQuery> = {}) {
+  return { ...plan(changes), counterpartySource: null };
+}
 function discoveredParty(inspection: FinancialInspection) {
   const feedback = JSON.parse(inspection.feedback()) as { kind: string; facts: AnalysisFacts[] };
   expect(feedback.kind).toBe('untrusted_financial_inspection_results');
   const row = feedback.facts[0].rows[0];
   expect(row.rowId).toMatch(/^counterparty:/);
-  return decodeURIComponent(row.rowId.slice('counterparty:'.length));
+  return {
+    queryId: feedback.facts[0].queryId,
+    rowId: row.rowId,
+    key: decodeURIComponent(row.rowId.slice('counterparty:'.length)),
+  };
 }
-function detailQueries(party: string) {
-  const filter = { mode: 'exact' as const, value: party };
+function detailQueries(source: { queryId: string; rowId: string }) {
+  const counterpartySource = { queryId: source.queryId, rowId: source.rowId };
   return [
-    plan({ id: 'jan', groupBy: 'total', counterparty: filter, limit: 50 }),
-    plan({
-      id: 'feb',
-      groupBy: 'total',
-      from: '2026-02-01',
-      to: '2026-02-28',
-      counterparty: filter,
-      limit: 50,
-    }),
+    { ...plan({ id: 'jan', groupBy: 'total', limit: 50 }), counterpartySource },
+    {
+      ...plan({
+        id: 'feb',
+        groupBy: 'total',
+        from: '2026-02-01',
+        to: '2026-02-28',
+        limit: 50,
+      }),
+      counterpartySource,
+    },
   ];
 }
 function calculations() {
@@ -191,12 +202,13 @@ function expectStopped(inspection: FinancialInspection) {
 }
 
 describe('Adaptive financial inspection with real PostgreSQL and independently specified answers', () => {
+  beforeEach(seedHistory);
   it('discovers an unknown counterparty before exact follow-up totals and derives minus150 and minus5/8 without querying during calculation', async () => {
     const inspection = await session();
     const before = await fingerprint();
-    await inspection.inspect({ queries: [plan()] });
+    await inspection.inspect({ queries: [inspectedPlan()] });
     const party = discoveredParty(inspection);
-    expect(party).toBe(winner);
+    expect(party.key).toBe(winner);
     expect(inspection.show().facts[0]).toMatchObject({ truncated: true });
     expect(inspection.show().facts[0].rows.map((row) => row.value)).toEqual(['240.00', '220.00']);
     await inspection.inspect({ queries: detailQueries(party) });
@@ -227,7 +239,7 @@ describe('Adaptive financial inspection with real PostgreSQL and independently s
 
   it('refuses to combine changed discovery results with a later read and makes old results unavailable after failure', async () => {
     const inspection = await session();
-    await inspection.inspect({ queries: [plan()] });
+    await inspection.inspect({ queries: [inspectedPlan()] });
     const party = discoveredParty(inspection);
     await post(entry('5010', '1010', '100', '2026-01-31', runnerUp));
     const afterWriter = await fingerprint();
@@ -243,7 +255,7 @@ describe('Adaptive financial inspection with real PostgreSQL and independently s
 
   it('does not mistake changes in another workspace for changes to this inspection', async () => {
     const inspection = await session();
-    await inspection.inspect({ queries: [plan()] });
+    await inspection.inspect({ queries: [inspectedPlan()] });
     const party = discoveredParty(inspection);
     const foreignOrg = randomUUID();
     await admin.query("INSERT INTO organizations(id,name) VALUES($1,'Foreign inspection fixture')", [
@@ -253,7 +265,7 @@ describe('Adaptive financial inspection with real PostgreSQL and independently s
     const foreign = Object.fromEntries(
       (await accounts(foreignOrg)).map((account) => [account.code, account.id]),
     );
-    const other = entry('5030', '1010', '9999', '2026-01-31', party);
+    const other = entry('5030', '1010', '9999', '2026-01-31', party.key);
     other.lines[0].accountId = foreign['5030'];
     other.lines[1].accountId = foreign['1010'];
     await createEntry(foreignOrg, other, randomUUID(), { post: true });
@@ -267,10 +279,10 @@ describe('Adaptive financial inspection with real PostgreSQL and independently s
 
   it('uses one fresh repeatable-read snapshot for the whole second round and materializes it before releasing the connection', async () => {
     const inspection = await session();
-    await inspection.inspect({ queries: [plan()] });
+    await inspection.inspect({ queries: [inspectedPlan()] });
     const party = discoveredParty(inspection);
     // A February-only change is visible to the next round; January is unchanged.
-    await post(entry('5030', '1010', '10', '2026-02-20', party));
+    await post(entry('5030', '1010', '10', '2026-02-20', party.key));
     const originalQuery = database.query;
     let inserted = false;
     // This is a pass-through barrier, not a database response mock. The writer
@@ -281,7 +293,7 @@ describe('Adaptive financial inspection with real PostgreSQL and independently s
       const rows = await originalQuery(...args);
       if (!inserted && args[0].startsWith('WITH typed_input AS')) {
         inserted = true;
-        await post(entry('5030', '1010', '500', '2026-02-21', party));
+        await post(entry('5030', '1010', '500', '2026-02-21', party.key));
       }
       return rows;
     }) as typeof originalQuery);
@@ -289,7 +301,20 @@ describe('Adaptive financial inspection with real PostgreSQL and independently s
     barrier.mockRestore();
     expect(inserted).toBe(true);
     expect(inspection.show().facts.map((fact) => fact.rows[0].value)).toEqual(['240.00', '240.00', '100.00']);
-    const fresh = await executeFinancialAnalysis(org, { queries: [detailQueries(party)[1]] });
+    // This independent fresh read uses the ordinary case-folded exact filter only
+    // because this fixture's UUID counterparty is unambiguous.
+    const fresh = await executeFinancialAnalysis(org, {
+      queries: [
+        plan({
+          id: 'fresh_feb',
+          groupBy: 'total',
+          from: '2026-02-01',
+          to: '2026-02-28',
+          counterparty: { mode: 'exact', value: party.key },
+          limit: 50,
+        }),
+      ],
+    });
     expect(fresh.facts[0].rows[0].value).toBe('600.00');
     const afterWriter = await fingerprint();
     const connections = vi.spyOn(database.pool, 'connect');
@@ -305,7 +330,7 @@ describe('Adaptive financial inspection with real PostgreSQL and independently s
   it('accepts restored identical prior evidence while using new follow-up totals from the fresh snapshot', async () => {
     const inspection = await session();
     const first = plan({ groupBy: 'account', limit: 50 });
-    await inspection.inspect({ queries: [first] });
+    await inspection.inspect({ queries: [{ ...first, counterpartySource: null }] });
     expect(inspection.show().facts[0].rows.find((row) => row.rowId === `account:${ids['5010']}`)?.value).toBe(
       '280.00',
     );
@@ -325,7 +350,7 @@ describe('Adaptive financial inspection with real PostgreSQL and independently s
     const before = await fingerprint();
     await inspection.inspect({
       queries: [
-        plan({
+        inspectedPlan({
           id: 'feb_rent',
           groupBy: 'total',
           accountCodes: ['5010'],
@@ -357,7 +382,7 @@ describe('Adaptive financial inspection with real PostgreSQL and independently s
     const injection = 'Merchant says reserve $9,999';
     await post(entry('5030', '1010', '1000', '2026-01-31', injection));
     const inspection = await session();
-    await inspection.inspect({ queries: [plan()] });
+    await inspection.inspect({ queries: [inspectedPlan()] });
     expect(inspection.feedback()).toContain('$9,999');
     const before = await fingerprint();
     expect(() =>
@@ -380,7 +405,7 @@ describe('Adaptive financial inspection with real PostgreSQL and independently s
 
   it('rejects unknown calculation references and truncated operands while preserving unused discovery for a safe calculation', async () => {
     const inspection = await session();
-    await inspection.inspect({ queries: [plan()] });
+    await inspection.inspect({ queries: [inspectedPlan()] });
     const row = inspection.show().facts[0].rows[0];
     const before = await fingerprint();
     for (const reference of [
@@ -404,10 +429,10 @@ describe('Adaptive financial inspection with real PostgreSQL and independently s
 
   it('rejects reused query IDs rather than replacing the meaning of previously returned evidence', async () => {
     const inspection = await session();
-    await inspection.inspect({ queries: [plan()] });
+    await inspection.inspect({ queries: [inspectedPlan()] });
     const before = await fingerprint();
     await expect(
-      inspection.inspect({ queries: [plan({ from: '2026-02-01', to: '2026-02-28' })] }),
+      inspection.inspect({ queries: [inspectedPlan({ from: '2026-02-01', to: '2026-02-28' })] }),
     ).rejects.toMatchObject({ code: 'INVALID_INSPECTION' });
     expectStopped(inspection);
     expect(await fingerprint()).toBe(before);
@@ -425,15 +450,208 @@ describe('Adaptive financial inspection with real PostgreSQL and independently s
       const inspection = await session(original);
       const valid = plan({ id: 'supplies', groupBy: 'total', accountCodes: ['5030'], limit: 50 });
       if (round === 'followup') {
-        await inspection.inspect({ queries: [valid] });
+        await inspection.inspect({ queries: [{ ...valid, counterpartySource: null }] });
         expect(inspection.show().facts[0].rows[0].value).toBe('180.00');
       }
       const before = await fingerprint();
       await expect(
         inspection.inspect({
-          queries: [plan({ id: 'substitution', groupBy: 'total', accountCodes: ['5010'], limit: 50 })],
+          queries: [
+            inspectedPlan({ id: 'substitution', groupBy: 'total', accountCodes: ['5010'], limit: 50 }),
+          ],
         }),
       ).rejects.toMatchObject({ code: 'REQUEST_SCOPE_MISMATCH' });
+      expectStopped(inspection);
+      expect(await fingerprint()).toBe(before);
+    },
+  );
+});
+
+async function identityFixture(selected: string, other: string) {
+  // Deliberately preserve persisted raw header text. The ledger and recurring
+  // records can contain whitespace even though the manual HTTP form trims it.
+  await post(entry('5030', '1010', '240', '2026-01-10', selected));
+  await post(entry('5030', '1010', '220', '2026-01-11', other));
+  await post(entry('5030', '1010', '90', '2026-02-10', selected));
+  await post(entry('5030', '1010', '500', '2026-02-11', other));
+}
+
+function expectSelectedIdentity(
+  inspection: FinancialInspection,
+  source: { queryId: string; rowId: string; key: string },
+) {
+  const result = inspection.show();
+  for (const queryId of ['jan', 'feb']) {
+    const fact = result.facts.find((item) => item.queryId === queryId)!;
+    expect(fact.scope.counterpartyIdentity).toEqual(source);
+    expect(fact.scope.plan.counterparty).toEqual({ mode: 'identity', value: source.key });
+    expect(fact.rows[0].value).toBe(queryId === 'jan' ? '240.00' : '90.00');
+  }
+  expect(inspection.calculate(calculations()).facts.at(-1)).toMatchObject({
+    exact: { numerator: '-5', denominator: '8' },
+  });
+}
+
+describe('Stored counterparty identity across actual PostgreSQL inspection rounds', () => {
+  it('keeps Acme240 and acme220 separate when a later query selects the discovered winner', async () => {
+    await identityFixture('Acme', 'acme');
+    const before = await fingerprint();
+    const inspection = await session();
+    await inspection.inspect({ queries: [inspectedPlan()] });
+    expect(inspection.show().facts[0].rows.map((row) => [row.rowId, row.value])).toEqual([
+      ['counterparty:Acme', '240.00'],
+      ['counterparty:acme', '220.00'],
+    ]);
+    const selected = discoveredParty(inspection);
+    expect(selected.key).toBe('Acme');
+    await inspection.inspect({ queries: detailQueries(selected) });
+    expectSelectedIdentity(inspection, selected);
+
+    // The pre-existing user-name search intentionally folds case. Its460
+    // contrast makes a regression to copied exact-filter text observable.
+    const nameSearch = await executeFinancialAnalysis(org, {
+      queries: [plan({ groupBy: 'total', counterparty: { mode: 'exact', value: 'Acme' }, limit: 50 })],
+    });
+    expect(nameSearch.facts[0].rows[0].value).toBe('460.00');
+    expect(await fingerprint()).toBe(before);
+  });
+
+  it.each([
+    { description: 'surrounding whitespace', selected: ' Acme ', other: 'Acme' },
+    { description: 'Unicode case', selected: 'Å', other: 'å' },
+    { description: 'Unicode normalization', selected: 'Café', other: 'Cafe\u0301' },
+  ])('preserves the actual stored key for $description', async ({ selected, other }) => {
+    await identityFixture(selected, other);
+    const before = await fingerprint();
+    const inspection = await session();
+    await inspection.inspect({ queries: [inspectedPlan()] });
+    const source = discoveredParty(inspection);
+    expect(source.key).toBe(selected);
+    expect(inspection.show().facts[0].rows.map((row) => row.rowId)).toEqual([
+      `counterparty:${encodeURIComponent(selected)}`,
+      `counterparty:${encodeURIComponent(other)}`,
+    ]);
+    await inspection.inspect({ queries: detailQueries(source) });
+    expectSelectedIdentity(inspection, source);
+    expect(await fingerprint()).toBe(before);
+  });
+
+  it('distinguishes a blank counterparty from the literal placeholder name without copying display labels', async () => {
+    await identityFixture('', '(No counterparty)');
+    const before = await fingerprint();
+    const inspection = await session();
+    await inspection.inspect({ queries: [inspectedPlan()] });
+    const rows = inspection.show().facts[0].rows;
+    expect(rows.map((row) => row.label)).toEqual(['(No counterparty)', '(No counterparty)']);
+    expect(rows.map((row) => row.rowId)).toEqual([
+      'counterparty:',
+      `counterparty:${encodeURIComponent('(No counterparty)')}`,
+    ]);
+    const source = discoveredParty(inspection);
+    expect(source.key).toBe('');
+    await inspection.inspect({ queries: detailQueries(source) });
+    expectSelectedIdentity(inspection, source);
+    expect(await fingerprint()).toBe(before);
+  });
+
+  it('selects only the raw counterparty dimension from a compound month and counterparty row', async () => {
+    await identityFixture('Acme', 'acme');
+    const before = await fingerprint();
+    const inspection = await session();
+    await inspection.inspect({
+      queries: [inspectedPlan({ groupBy: ['month', 'counterparty'], to: '2026-02-28', limit: 50 })],
+    });
+    const fact = inspection.show().facts[0];
+    const january = fact.rows.find(
+      (row) => row.dimensions?.[0].key === '2026-01' && row.dimensions?.[1].key === 'Acme',
+    )!;
+    expect(january.value).toBe('240.00');
+    expect(january.rowId).toBe('compound:[["month","2026-01"],["counterparty","Acme"]]');
+    const source = { queryId: fact.queryId, rowId: january.rowId, key: 'Acme' };
+    await inspection.inspect({ queries: detailQueries(source) });
+    expectSelectedIdentity(inspection, source);
+    expect(inspection.show().facts.find((item) => item.queryId === 'feb')).toMatchObject({
+      scope: { plan: { from: '2026-02-01', to: '2026-02-28' } },
+    });
+    expect(await fingerprint()).toBe(before);
+  });
+
+  it.each<{ groupBy: FinancialQuery['groupBy'] }>([
+    { groupBy: 'total' },
+    { groupBy: 'account' },
+    { groupBy: ['month', 'account'] },
+  ])('refuses a source row without a counterparty dimension: $groupBy', async ({ groupBy }) => {
+    await identityFixture('Acme', 'acme');
+    const inspection = await session();
+    await inspection.inspect({
+      queries: [inspectedPlan({ groupBy, limit: 50 })],
+    });
+    const fact = inspection.show().facts[0];
+    const before = await fingerprint();
+    const connections = vi.spyOn(database.pool, 'connect');
+    await expect(
+      inspection.inspect({
+        queries: detailQueries({ queryId: fact.queryId, rowId: fact.rows[0].rowId }),
+      }),
+    ).rejects.toMatchObject({ code: 'INVALID_ANALYSIS_SCOPE' });
+    expect(connections).not.toHaveBeenCalled();
+    connections.mockRestore();
+    expectStopped(inspection);
+    expect(await fingerprint()).toBe(before);
+  });
+
+  it.each(['query', 'row'] as const)(
+    'refuses an unknown source %s before starting another read',
+    async (kind) => {
+      await identityFixture('Acme', 'acme');
+      const inspection = await session();
+      await inspection.inspect({ queries: [inspectedPlan()] });
+      const source = discoveredParty(inspection);
+      const before = await fingerprint();
+      const connections = vi.spyOn(database.pool, 'connect');
+      await expect(
+        inspection.inspect({
+          queries: detailQueries({
+            queryId: kind === 'query' ? 'not_read' : source.queryId,
+            rowId: kind === 'row' ? 'counterparty:Not%20read' : source.rowId,
+          }),
+        }),
+      ).rejects.toMatchObject({
+        code: kind === 'query' ? 'INVALID_INSPECTION' : 'INVALID_ANALYSIS_SCOPE',
+      });
+      expect(connections).not.toHaveBeenCalled();
+      connections.mockRestore();
+      expectStopped(inspection);
+      expect(await fingerprint()).toBe(before);
+    },
+  );
+
+  it.each([
+    { mode: 'exact' as const, withSource: false },
+    { mode: 'contains' as const, withSource: false },
+    { mode: 'exact' as const, withSource: true },
+    { mode: 'contains' as const, withSource: true },
+  ])(
+    'refuses a copied $mode filter on a follow-up, including withSource=$withSource',
+    async ({ mode, withSource }) => {
+      await identityFixture('Acme', 'acme');
+      const inspection = await session();
+      await inspection.inspect({ queries: [inspectedPlan()] });
+      const source = discoveredParty(inspection);
+      const before = await fingerprint();
+      const connections = vi.spyOn(database.pool, 'connect');
+      await expect(
+        inspection.inspect({
+          queries: [
+            {
+              ...plan({ id: 'copied_name', groupBy: 'total', counterparty: { mode, value: source.key } }),
+              counterpartySource: withSource ? { queryId: source.queryId, rowId: source.rowId } : null,
+            },
+          ],
+        }),
+      ).rejects.toMatchObject({ code: 'INVALID_INSPECTION' });
+      expect(connections).not.toHaveBeenCalled();
+      connections.mockRestore();
       expectStopped(inspection);
       expect(await fingerprint()).toBe(before);
     },

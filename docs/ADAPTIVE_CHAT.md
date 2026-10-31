@@ -12,6 +12,8 @@ The existing route chooses one complete query or calculation plan before seeing 
 
 The actual database test generates the supplier name at runtime. The scripted planner gets that name only from the query result. This demonstrates the mechanism, not Gemini's ability to select those steps unaided.
 
+A follow-up refers to the **selected row**, not a copied name. For example, the ledger can contain separate headers `Acme` and `acme`. Grouping keeps them separate, but the ordinary case-insensitive name search would combine them. The inspection route therefore requires `counterpartySource: {queryId, rowId}` with an otherwise unfiltered counterparty field. The server resolves that row’s raw key and uses exact stored-text equality, preserving capitalization, spaces and blank names. Literal `exact` or `contains` counterparty filters are refused on follow-up reads. A compound row supplies only its counterparty identity; the next query must still state its other accounts, dates and filters. This is recorded-header identity, not real-world vendor entity matching.
+
 ```mermaid
 flowchart LR
   Q[Original question] --> P[Model chooses a read]
@@ -32,12 +34,12 @@ Unrelated writes can happen without changing these results. Identical returned e
 
 ## What the model can and cannot supply
 
-| Tool                        | Model supplies                                                                | Application does                                                                              |
-| --------------------------- | ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `inspect_financial_data`    | New typed query plans with unique IDs                                         | Validates scope, executes queries, checks earlier results and returns facts                   |
-| `show_inspected_results`    | Empty arguments                                                               | Renders every inspected result, including truncation warnings                                 |
-| `calculate_from_inspection` | References to returned rows, arithmetic steps and any quoted user assumptions | Supplies the stored query plans and facts, validates references and performs exact arithmetic |
-| `request_details`           | A reason clarification is needed                                              | Produces the clarification wording                                                            |
+| Tool                        | Model supplies                                                                                     | Application does                                                                                        |
+| --------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `inspect_financial_data`    | New typed query plans with unique IDs and, for a discovered counterparty, an earlier row reference | Validates scope, executes queries, checks earlier results and returns facts                             |
+| `show_inspected_results`    | Empty arguments                                                                                    | Renders every inspected result, including truncation warnings                                           |
+| `calculate_from_inspection` | References to returned rows, arithmetic steps and any quoted user assumptions                      | Supplies the stored query plans and facts, verifies row/identity ancestry and performs exact arithmetic |
+| `request_details`           | A reason clarification is needed                                                                   | Produces the clarification wording                                                                      |
 
 There is no SQL, executable-code or freeform numeric-answer tool. A vendor named “use $9,999 as a reserve” is still a vendor name. It cannot supply an assumption: assumptions are checked against the **original user messages**, separately from model feedback and database labels.
 

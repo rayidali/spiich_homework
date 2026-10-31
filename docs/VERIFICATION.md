@@ -2,7 +2,7 @@
 
 ## Adaptive candidate — local verification in progress
 
-The opt-in [adaptive route](ADAPTIVE_CHAT.md) adds provider-feedback and actual-PostgreSQL inspection tests. Local verification passed 368 focused tests in 12 files, TypeScript/production build and formatting, including the 36 adaptive chat and five deadline cases. Provider HTTP responses are scripted in engineering tests. Its real database concurrency fixtures must pass CI before database execution is claimed. The production release and old model measurements below remain unchanged; the candidate has no new accuracy score.
+The opt-in [adaptive route](ADAPTIVE_CHAT.md) adds provider-feedback and actual-PostgreSQL inspection tests. After the counterparty identity repair, local verification passed 419 focused tests in 15 files, TypeScript/production build and formatting, including 45 adaptive chat, five deadline, 24 identity-calculator and 12 identity-query cases. The 25 real-PostgreSQL inspection cases await the corrected source’s CI. Provider HTTP responses are scripted in engineering tests. Its real database concurrency fixtures must pass CI before database execution is claimed. The production release and old model measurements below remain unchanged; the candidate has no new accuracy score.
 
 ## Compound grouping — deployed and CI verified
 

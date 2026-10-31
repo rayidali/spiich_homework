@@ -19,7 +19,7 @@ import {
 } from './financial-grouping';
 
 const signedAmount = z.string().regex(/^-?\d{1,16}(?:\.\d{1,2})?$/);
-export const financialQuerySchema = z.strictObject({
+export const publicFinancialQuerySchema = z.strictObject({
   id: z.string().regex(/^[a-z][a-z0-9_]{0,39}$/),
   metric: z.enum([
     'net_expense',
@@ -50,6 +50,20 @@ export const financialQuerySchema = z.strictObject({
   order: z.enum(['value_desc', 'value_asc', 'label_asc']),
   limit: z.number().int().min(1).max(50),
 });
+// Identity filters are resolved by application code from an inspected row.
+// They preserve exact stored text; they are never advertised as model inputs.
+export const financialQuerySchema = publicFinancialQuerySchema.extend({
+  counterparty: z.union([
+    publicFinancialQuerySchema.shape.counterparty,
+    z.strictObject({ mode: z.literal('identity'), value: z.string().max(100) }),
+  ]),
+});
+const counterpartyIdentitySchema = z.strictObject({
+  queryId: z.string().regex(/^[a-z][a-z0-9_]{0,39}$/),
+  rowId: z.string().min(1).max(1024),
+  key: z.string().max(100),
+});
+export type CounterpartyIdentity = z.infer<typeof counterpartyIdentitySchema>;
 export type FinancialQuery = z.infer<typeof financialQuerySchema>;
 export const financialAnalysisSchema = z.strictObject({
   queries: z.array(financialQuerySchema).min(1).max(4),
@@ -60,7 +74,7 @@ const parameters = z.toJSONSchema(
   z.strictObject({
     queries: z
       .array(
-        financialQuerySchema.extend({
+        publicFinancialQuerySchema.extend({
           currencyMode: z.enum(['base', 'native']),
           currency: z.enum(currencyCodes).nullable(),
         }),
@@ -153,9 +167,24 @@ const expressions: Record<FinancialQuery['metric'], string> = {
 };
 
 /** Only enums select SQL syntax. All identities, text, dates, bounds and limits are parameters. */
-export function compileFinancialQuery(org: string, input: unknown, chart: AnalysisAccount[]) {
+export function compileFinancialQuery(
+  org: string,
+  input: unknown,
+  chart: AnalysisAccount[],
+  counterpartyIdentity?: CounterpartyIdentity,
+) {
   const plan = financialQuerySchema.parse(input);
-  if (plan.counterparty.mode === 'any' ? plan.counterparty.value !== '' : !plan.counterparty.value)
+  if (plan.counterparty.mode === 'identity') {
+    const checked = counterpartyIdentitySchema.safeParse(counterpartyIdentity);
+    if (!checked.success || checked.data.key !== plan.counterparty.value)
+      unsupported('An exact stored counterparty identity requires a server-resolved inspection reference.');
+  } else if (counterpartyIdentity !== undefined)
+    unsupported('A counterparty identity cannot silently alter an ordinary name filter.');
+  if (
+    plan.counterparty.mode === 'any'
+      ? plan.counterparty.value !== ''
+      : plan.counterparty.mode !== 'identity' && !plan.counterparty.value
+  )
     unsupported(
       'An exact or contains counterparty filter requires text; an unfiltered counterparty requires empty text.',
     );
@@ -281,9 +310,11 @@ export function compileFinancialQuery(org: string, input: unknown, chart: Analys
   const counterpart =
     plan.counterparty.mode === 'any'
       ? 'true'
-      : plan.counterparty.mode === 'exact'
-        ? 'lower(e.counterparty)=lower($7)'
-        : 'position(lower($7) IN lower(e.counterparty))>0';
+      : plan.counterparty.mode === 'identity'
+        ? 'e.counterparty COLLATE "C" = $7 COLLATE "C"'
+        : plan.counterparty.mode === 'exact'
+          ? 'lower(e.counterparty)=lower($7)'
+          : 'position(lower($7) IN lower(e.counterparty))>0';
   const entryFilters = [
     'e.organization_id=$1',
     'e.status=$4',
@@ -384,7 +415,7 @@ export function compileFinancialQuery(org: string, input: unknown, chart: Analys
             )
         ).map(({ id, code }) => ({ id, code }))
       : [];
-  return { sql, params, plan, selected, cooccurring, groupingAccounts };
+  return { sql, params, plan, selected, cooccurring, groupingAccounts, counterpartyIdentity };
 }
 
 type RawRow = {
@@ -430,6 +461,7 @@ export type AnalysisFacts = {
     cooccurringAccountIds: string[];
     amountBasis: string;
     statusMeaning: string;
+    counterpartyIdentity?: CounterpartyIdentity;
     cashBalanceSource?: CashAccountSource;
     cashMovementSource?: CashAccountSource;
     groupingAccounts?: { id: string; code: string }[];
@@ -440,6 +472,34 @@ export type AnalysisFacts = {
     };
   };
 };
+/** Recover the exact stored grouping key, never a display label or model copy. */
+export function resolveCounterpartyRowKey(fact: AnalysisFacts, rowId: string): string {
+  const rows = fact.rows.filter((row) => row.rowId === rowId);
+  if (rows.length !== 1) unsupported('The inspected counterparty row could not be identified.');
+  const row = rows[0];
+  let key: string | undefined;
+  if (fact.grain === 'counterparty' && rowId.startsWith('counterparty:')) {
+    const encoded = rowId.slice('counterparty:'.length);
+    try {
+      const decoded = decodeURIComponent(encoded);
+      if (encodeURIComponent(decoded) === encoded) key = decoded;
+    } catch {
+      /* Malformed IDs are refused below; raw text is never guessed. */
+    }
+  } else if (Array.isArray(fact.grain) && fact.grain.includes('counterparty') && row.dimensions) {
+    const dimensions = row.dimensions;
+    if (
+      dimensions.length === fact.grain.length &&
+      dimensions.every((dimension, index) => dimension.kind === fact.grain[index]) &&
+      compoundRowId(dimensions) === rowId &&
+      dimensions.filter((dimension) => dimension.kind === 'counterparty').length === 1
+    )
+      key = dimensions.find((dimension) => dimension.kind === 'counterparty')!.key;
+  }
+  if (typeof key !== 'string' || key.length > 100)
+    unsupported('The source row does not carry an exact stored counterparty identity.');
+  return key;
+}
 const metricLabels: Record<FinancialQuery['metric'], string> = {
   net_expense: 'Net expenses',
   net_revenue: 'Net revenue',
@@ -478,7 +538,9 @@ function scopeDescription(plan: FinancialQuery, chart: AnalysisAccount[]) {
         : 'All accounts relevant to this question',
     ...(plan.counterparty.mode !== 'any'
       ? [
-          `Person or business name ${plan.counterparty.mode === 'exact' ? 'matches' : 'includes'} ${JSON.stringify(plan.counterparty.value)}${plan.counterparty.mode === 'exact' ? ' exactly' : ''}, ignoring capitalization`,
+          plan.counterparty.mode === 'identity'
+            ? `Exact stored counterparty text ${JSON.stringify(plan.counterparty.value)}, preserving capitalization and whitespace, resolved from an inspected row; this is not verified vendor entity matching`
+            : `Person or business name ${plan.counterparty.mode === 'exact' ? 'matches' : 'includes'} ${JSON.stringify(plan.counterparty.value)}${plan.counterparty.mode === 'exact' ? ' exactly' : ''}, ignoring capitalization`,
         ]
       : []),
     ...(plan.descriptionSearch ? [`Description includes ${JSON.stringify(plan.descriptionSearch)}`] : []),
@@ -545,11 +607,17 @@ export async function executeFinancialAnalysis(
   org: string,
   input: unknown,
   snapshot?: Db,
-  options: { deadline?: number } = {},
+  options: { deadline?: number; counterpartyIdentities?: Record<string, CounterpartyIdentity> } = {},
 ): Promise<{ answer: string; evidence: InsightEvidence[]; facts: AnalysisFacts[] }> {
   const request = financialAnalysisSchema.parse(input);
   if (new Set(request.queries.map((item) => item.id)).size !== request.queries.length)
     unsupported('Every query requires a unique ID.');
+  if (
+    Object.keys(options.counterpartyIdentities ?? {}).some(
+      (id) => !request.queries.some((plan) => plan.id === id),
+    )
+  )
+    unsupported('Every counterparty identity must belong to an executed query.');
   // A caller checking original-user scope can supply the same read-only
   // repeatable-read snapshot used to resolve the requested account identities.
   const execute = async (db: Db) => {
@@ -568,7 +636,16 @@ export async function executeFinancialAnalysis(
     await db.query("SET LOCAL lock_timeout='1s'");
     await boundStatement();
     const chart = await financialAnalysisChart(org, db);
-    const compiled = request.queries.map((plan) => compileFinancialQuery(org, plan, chart));
+    const compiled = request.queries.map((plan) =>
+      compileFinancialQuery(
+        org,
+        plan,
+        chart,
+        options.counterpartyIdentities && Object.hasOwn(options.counterpartyIdentities, plan.id)
+          ? options.counterpartyIdentities[plan.id]
+          : undefined,
+      ),
+    );
     const facts: AnalysisFacts[] = [],
       evidence: InsightEvidence[] = [],
       answers: string[] = [];
@@ -628,7 +705,7 @@ export async function executeFinancialAnalysis(
           ? `${accountNames.slice(0, 2).join(', ')}${accountNames.length > 2 ? ` (+${accountNames.length - 2} accounts)` : ''}`
           : '',
         plan.counterparty.mode !== 'any'
-          ? `Counterparty ${plan.counterparty.mode === 'exact' ? '' : 'containing '}${JSON.stringify(plan.counterparty.value)}`
+          ? `Counterparty ${plan.counterparty.mode === 'contains' ? 'containing ' : ''}${JSON.stringify(plan.counterparty.value)}`
           : '',
       ]
         .filter(Boolean)
@@ -670,6 +747,7 @@ export async function executeFinancialAnalysis(
                     ? `inception_to_closing_date_${plan.currencyMode}_lines`
                     : `selected_metric_${plan.currencyMode}_lines`,
           statusMeaning: plan.status === 'POSTED' ? 'booked' : 'unposted_projection',
+          ...(item.counterpartyIdentity ? { counterpartyIdentity: item.counterpartyIdentity } : {}),
           ...(Array.isArray(plan.groupBy)
             ? {
                 groupingAccounts: item.groupingAccounts,

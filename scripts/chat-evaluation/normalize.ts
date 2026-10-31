@@ -15,6 +15,8 @@ export function normalizeAnalysis(groups: AnalysisFacts[], fixture: Fixture): Sc
     // capability needs its own evaluation rather than inheriting old scores.
     if (Array.isArray(p.groupBy))
       throw new Error('The scalar study normalizer cannot score compound groupings.');
+    if (p.counterparty.mode === 'identity')
+      throw new Error('The frozen study normalizer cannot score result-bound counterparty identities.');
     const groupBy = p.groupBy;
     return g.rows
       .filter((r) => r.value !== null)

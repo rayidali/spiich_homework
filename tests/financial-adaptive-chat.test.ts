@@ -57,6 +57,14 @@ const usage = {
   thoughtsTokenCount: 10,
   totalTokenCount: 130,
 };
+type CounterpartyIdentity = { queryId: string; rowId: string; key: string };
+type AnalysisOptions = {
+  deadline?: number;
+  counterpartyIdentities?: Record<string, CounterpartyIdentity>;
+};
+type InspectionQuery = FinancialQuery & {
+  counterpartySource?: { queryId: string; rowId: string } | null;
+};
 
 function query(id = 'observed', change: Partial<FinancialQuery> = {}): FinancialQuery {
   return {
@@ -80,7 +88,7 @@ function query(id = 'observed', change: Partial<FinancialQuery> = {}): Financial
     ...change,
   };
 }
-function result(queries: FinancialQuery[], labels = ['Acme / West', 'Beta']) {
+function result(queries: FinancialQuery[], labels = ['Acme / West', 'Beta'], options: AnalysisOptions = {}) {
   const facts: AnalysisFacts[] = queries.map((plan) => ({
     queryId: plan.id,
     metric: plan.metric,
@@ -104,6 +112,9 @@ function result(queries: FinancialQuery[], labels = ['Acme / West', 'Beta']) {
       cooccurringAccountIds: [],
       amountBasis: 'selected_metric_base_lines',
       statusMeaning: 'booked',
+      ...(options.counterpartyIdentities?.[plan.id]
+        ? { counterpartyIdentity: structuredClone(options.counterpartyIdentities[plan.id]) }
+        : {}),
     },
   }));
   return {
@@ -132,7 +143,7 @@ function response(name: string, args: unknown, reported: unknown = usage) {
     { status: 200 },
   );
 }
-const inspect = (queries = [query()], reported: unknown = usage) =>
+const inspect = (queries: InspectionQuery[] = [query()], reported: unknown = usage) =>
   response('inspect_financial_data', { queries }, reported);
 const finish = () => response('show_inspected_results', {});
 const calculation = (
@@ -192,8 +203,13 @@ beforeEach(() => {
   db.chart.mockResolvedValue([bank, supplies]);
   db.cash.mockResolvedValue({ total: '12500.00', accounts: [] });
   db.snapshot.mockImplementation(async (read: (snapshot: unknown) => unknown) => read({ query: vi.fn() }));
-  db.analysis.mockImplementation(async (_org: string, args: { queries: FinancialQuery[] }) =>
-    result(args.queries),
+  db.analysis.mockImplementation(
+    async (
+      _org: string,
+      args: { queries: FinancialQuery[] },
+      _snapshot: unknown,
+      options?: AnalysisOptions,
+    ) => result(args.queries, undefined, options),
   );
 });
 afterEach(() => {
@@ -756,5 +772,142 @@ describe('Adaptive financial chat with real provider parsing and stubbed ledger 
     expect(db.analysis).not.toHaveBeenCalled();
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(value.ai).toMatchObject({ attempts: 1, usageComplete: true, usage: { totalTokens: 130 } });
+  });
+
+  it.each(['exact', 'contains'] as const)(
+    'refuses a copied counterparty name in a follow-up %s filter before a second database read',
+    async (mode) => {
+      db.analysis.mockResolvedValueOnce(result([query()], ['Acme', 'acme']));
+      fetchMock
+        .mockResolvedValueOnce(inspect())
+        .mockResolvedValueOnce(inspect([query('selected', { counterparty: { mode, value: 'Acme' } })]));
+      const value = await invoke();
+      expect(value).toMatchObject({ evidence: [], limitation: { code: 'INVALID_INSPECTION' } });
+      expect(value).not.toHaveProperty('facts');
+      expect(db.analysis).toHaveBeenCalledTimes(1);
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+      expect(value.ai).toMatchObject({ attempts: 2, usage: { totalTokens: 260 } });
+    },
+  );
+
+  it.each([
+    { key: 'Acme', amount: '100.00' },
+    { key: 'acme', amount: '35.00' },
+  ])(
+    'uses the returned row identity $key, not its displayed label or case-folded name',
+    async ({ key, amount }) => {
+      const source = { queryId: 'observed', rowId: `counterparty:${key}` };
+      db.analysis.mockImplementation(
+        async (
+          _org: string,
+          args: { queries: FinancialQuery[] },
+          _snapshot: unknown,
+          options: AnalysisOptions,
+        ) => {
+          const value = result(args.queries, ['Acme', 'acme'], options);
+          // The server identity remains encoded in rowId even if a display label differs.
+          value.facts[0].rows[0].label = 'Display label, not a counterparty key';
+          if (args.queries.length === 2) {
+            expect(args.queries[1].counterparty).toEqual({ mode: 'identity', value: key });
+            expect(options.counterpartyIdentities).toEqual({ selected: { ...source, key } });
+            value.facts[1].rows = [
+              {
+                rowId: 'total:total',
+                label: 'Total',
+                value: amount,
+                entryCount: '1',
+                from: '2026-10-01',
+                to: '2026-10-31',
+              },
+            ];
+            value.evidence[1].rows = [{ label: 'Total', value: `$${amount}` }];
+          }
+          return value;
+        },
+      );
+      fetchMock
+        .mockResolvedValueOnce(inspect())
+        .mockResolvedValueOnce(
+          inspect([
+            {
+              ...query('selected', { groupBy: 'total' }),
+              counterpartySource: source,
+            },
+          ]),
+        )
+        .mockResolvedValueOnce(finish());
+      const value = await invoke();
+      expect(db.analysis).toHaveBeenCalledTimes(2);
+      expect(fetchMock).toHaveBeenCalledTimes(3);
+      expect(value).toHaveProperty('facts');
+      const facts = (value as { facts: AnalysisFacts[] }).facts;
+      expect(facts[1].scope.counterpartyIdentity).toEqual({ ...source, key });
+      expect(facts[1].rows[0].value).toBe(amount);
+      expect(value.evidence[1].rows).toEqual([{ label: 'Total', value: `$${amount}` }]);
+      expect(value.ai).toMatchObject({ attempts: 3, usage: { totalTokens: 390 } });
+      expect(bodies()[2].contents.at(-1).parts[0].text).toContain('counterpartyIdentity');
+    },
+  );
+
+  it.each([
+    {
+      source: { queryId: 'not_inspected', rowId: 'counterparty:Acme%20%2F%20West' },
+      code: 'INVALID_INSPECTION',
+    },
+    {
+      source: { queryId: 'observed', rowId: 'counterparty:invented' },
+      code: 'INVALID_ANALYSIS_SCOPE',
+    },
+  ])(
+    'refuses an unknown counterparty source $source without a second database read',
+    async ({ source, code }) => {
+      fetchMock
+        .mockResolvedValueOnce(inspect())
+        .mockResolvedValueOnce(inspect([{ ...query('selected'), counterpartySource: source }]));
+      const value = await invoke();
+      expect(value).toMatchObject({ evidence: [], limitation: { code } });
+      expect(value).not.toHaveProperty('facts');
+      expect(db.analysis).toHaveBeenCalledTimes(1);
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+    },
+  );
+
+  it.each([{ key: 'injected case-folded identity' }, { amount: '9999.00' }])(
+    'rejects provider-injected source fields %j instead of treating them as trusted row data',
+    async (extra) => {
+      const invalid = {
+        queries: [
+          {
+            ...query('selected'),
+            counterpartySource: { queryId: 'observed', rowId: 'counterparty:Acme%20%2F%20West', ...extra },
+          },
+        ],
+      };
+      fetchMock
+        .mockResolvedValueOnce(inspect())
+        .mockResolvedValueOnce(response('inspect_financial_data', invalid))
+        .mockResolvedValueOnce(response('inspect_financial_data', invalid));
+      const value = await outcome(invoke);
+      expect(value.result).toBeUndefined();
+      expect(value.error).toMatchObject({ code: 'AI_INVALID_RESPONSE' });
+      expect(db.analysis).toHaveBeenCalledTimes(1);
+      expect(fetchMock).toHaveBeenCalledTimes(3);
+      expect(failureMetadata(value)).toMatchObject({ attempts: 3, usage: { totalTokens: 390 } });
+    },
+  );
+
+  it('rejects a source reference on the initial read because no row has been inspected', async () => {
+    fetchMock.mockResolvedValueOnce(
+      inspect([
+        {
+          ...query(),
+          counterpartySource: { queryId: 'observed', rowId: 'counterparty:Acme' },
+        },
+      ]),
+    );
+    const value = await invoke();
+    expect(value).toMatchObject({ evidence: [], limitation: { code: 'INVALID_INSPECTION' } });
+    expect(db.analysis).not.toHaveBeenCalled();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,7 +1,13 @@
 import { z } from 'zod';
 import { AppError } from './errors';
 import { Decimal, formatCurrency } from '../shared/money';
-import { executeFinancialAnalysis, financialQuerySchema, type AnalysisFacts } from './financial-analysis';
+import {
+  executeFinancialAnalysis,
+  financialQuerySchema,
+  publicFinancialQuerySchema,
+  resolveCounterpartyRowKey,
+  type AnalysisFacts,
+} from './financial-analysis';
 import type { FinancialTool, ModelMessages } from './ai-provider';
 import type { InsightEvidence } from './ai';
 import { conversationSchema } from '../shared/conversation';
@@ -103,7 +109,11 @@ export function parseFinancialScenario(input: unknown): FinancialScenario {
 export type FinancialScenario = z.infer<typeof financialScenarioSchema>;
 export type ScenarioReference = z.infer<typeof referenceSchema>;
 type Operation = FinancialScenario['calculations'][number]['operation'];
-const parameters = z.toJSONSchema(financialScenarioSchema);
+// Identity-bound queries are injected by the inspection engine only. Ordinary
+// model-authored scenario queries retain the public, unbound query grammar.
+const parameters = z.toJSONSchema(
+  financialScenarioSchema.extend({ queries: z.array(publicFinancialQuerySchema).max(4) }),
+);
 delete parameters.$schema;
 export const financialScenarioTool: FinancialTool = {
   type: 'function',
@@ -811,6 +821,44 @@ function validateCashMovementSource(fact: AnalysisFacts) {
     invalid('Cash movement operands require verified cash accounts and matching inclusive flow scope.');
 }
 
+/** An inspected identity is selected by a prior row reference, never a copied
+ * display label or a case-folded amount match. Earlier-only ancestry excludes
+ * cycles and binds internal queries to the retained discovery evidence. */
+function validateCounterpartyIdentity(
+  fact: AnalysisFacts,
+  queryFacts: AnalysisFacts[],
+  queries: FinancialScenario['queries'],
+) {
+  const proof = fact.scope.counterpartyIdentity;
+  const filter = fact.scope.plan.counterparty;
+  if (filter.mode !== 'identity') {
+    if (proof !== undefined)
+      invalid('An ordinary counterparty filter cannot claim inspected identity provenance.');
+    return;
+  }
+  if (
+    !proof ||
+    typeof proof.queryId !== 'string' ||
+    typeof proof.rowId !== 'string' ||
+    typeof proof.key !== 'string' ||
+    Object.keys(proof).length !== 3 ||
+    proof.key !== filter.value
+  )
+    invalid('An identity filter requires its exact inspected counterparty proof.');
+  const sourceIndex = queries.findIndex((query) => query.id === proof.queryId);
+  const targetIndex = queries.findIndex((query) => query.id === fact.queryId);
+  const source = queryFacts.find((item) => item.queryId === proof.queryId);
+  if (
+    sourceIndex < 0 ||
+    sourceIndex >= targetIndex ||
+    !source ||
+    source.scope.organizationId !== fact.scope.organizationId
+  )
+    invalid('Counterparty identity provenance must reference an earlier query in the same workspace.');
+  if (resolveCounterpartyRowKey(source, proof.rowId) !== proof.key)
+    invalid('The counterparty identity differs from its inspected source row.');
+}
+
 /** Pure arithmetic/provenance boundary. Supplied facts are the trusted query
  * executor's output, never facts manufactured by a model or matched by value. */
 export function evaluateFinancialScenario(
@@ -855,6 +903,7 @@ export function evaluateFinancialScenario(
     if (fact.metric === 'cash_balance') validateCashSource(fact);
     if (fact.metric === 'net_cash_movement') validateCashMovementSource(fact);
   }
+  for (const fact of queryFacts) validateCounterpartyIdentity(fact, queryFacts, plan.queries);
   const computed = new Map<string, Value>();
   function resolve(ref: ScenarioReference): Value {
     if (ref.source === 'assumption') return assumptions.get(ref.id)!.value;

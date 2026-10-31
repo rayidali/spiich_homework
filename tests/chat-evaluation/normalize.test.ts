@@ -153,4 +153,8 @@ describe('database-derived scope normalization', () => {
     b.scope.plan.counterparty = { mode: 'exact', value: 'Different vendor' };
     expect(normalizeCalculations([c], normalizeAnalysis([a, b], fixture))).toHaveLength(0);
   });
+  it('refuses later result-bound identity semantics rather than assigning an old-study score', () => {
+    const value = fact({ counterparty: { mode: 'identity', value: 'Acme' } });
+    expect(() => normalizeAnalysis([value], fixture)).toThrow('result-bound counterparty identities');
+  });
 });
