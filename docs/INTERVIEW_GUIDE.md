@@ -1,5 +1,15 @@
 # Explain and demonstrate Daybook
 
+## Current product repair — 2026-10-31, deployment pending
+
+The hosted AI entry endpoint returned HTTP 502. Direct testing with the same production key reproduced upstream HTTP 503 on `gemini-3.1-flash-lite`. Two direct `gemini-3.5-flash-lite` checks succeeded: a small request in about 1.0 second and the full proposal grammar in about 1.47 seconds, returning a USD 340 Office supplies debit and Company credit card credit. These checks do not yet establish that the hosted application is repaired.
+
+**The source default is now `gemini-3.5-flash-lite`; hosting remains configured for `gemini-3.1-flash-lite` until the pending deployment and endpoint checks complete.** The source repair distinguishes temporary upstream failure (`AI_SERVICE_UNAVAILABLE`, HTTP 503), connection failure (`AI_CONNECTION_ERROR`, HTTP 502), and the application's own timeout (`AI_TIMEOUT`, HTTP 504). Diagnostics are sanitized, and the one-attempt policy, human review and accounting gates are unchanged. The 34 provider tests and TypeScript check passed; repair CI and hosted verification are pending. Use the [verification record](VERIFICATION.md) and [checkpoint](../CHECKPOINT.md) before claiming a live fix.
+
+For an interview: “I reproduced the failure at the provider boundary using the same configured key, checked an alternative model against the real proposal grammar, and separated service outages from invalid model output. I still need deployment and end-to-end verification before calling the hosted issue fixed.”
+
+The completed study remains bound to its recorded source `fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08` and executable commit `0fe267b03b7baa0a2ff43c58165301b74261afa9`. This later product repair has not been rerun through that comparison and enables no experimental retrieval or reviewer route.
+
 **Current checkpoint: 2026-10-31, America/New_York.** The accounting application is implemented and hosted. The separate nine-route study has completed **1,620 route episodes and 240 held-out reviewer outcomes**, with final integrity audits passing 41 main checks and 31 reviewer checks. Only adding lexical document access to broad tools clears the predeclared rule for a further experiment; no route is declared a production winner. The [complete research report](reports/research-study.md) and [16-page PDF](evidence/research-runs/holdout-v1/study-report.pdf) are published with final source `a5493c3317b5df2e70318cd6b1ada94220e211a9`. [CI 41182776959](https://github.com/rayidali/spiich_homework/actions/runs/41182776959) passed verification, native research and Compose; live-AI was skipped. The [CI receipt](evidence/research-final-ci.json) binds the result to that source.
 
 The earlier missing-key, timeout-only and V2 daily-quota-stop notes are historical. Selected hosted chat/proposal checks subsequently succeeded, the study resumed under a funded allowance and completed, and every recorded failure remains. Research retrieval and reviewer routes have **not** been enabled in the deployed assistant.
@@ -14,17 +24,17 @@ Do not claim that every line was handwritten. Explain the parts you directed, in
 
 ## Keep the two systems distinct
 
-|                        | Implemented accounting application                                            | Isolated research study                                                                                       |
-| ---------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| Purpose                | Let someone keep books and inspect their finances                             | Compare alternative AI architectures on the same synthetic tasks                                              |
-| Data                   | Application ledger and its demo workspace                                     | Separate research schema, synthetic ledger/documents, restricted views                                        |
-| Interface              | Home / Transactions / Reports / Settings; manual and AI-assisted entry        | Evaluation scripts and preserved reports; not an added production UI                                          |
-| AI path                | Gemini or OpenAI adapter; four financial tool families and reviewed proposals | Nine routes: broader typed analytics, lexical search, File Search, pgvector, Jev, Wren and optional reviewers |
-| Current Gemini setting | `gemini-3.1-flash-lite` default in the application                            | `gemini-3.5-flash-lite` shared study generator and optional same-model reviewer                               |
-| Posting authority      | User-confirmed application actions, subject to service and database checks    | No model-generated financial posting; proposals remain review-only                                            |
-| Evidence of quality    | Accounting/browser/Compose tests and selected live hosted checks              | Completed, audited synthetic holdout: 1,620 route episodes and 240 reviewer outcomes                          |
+|                        | Implemented accounting application                                                               | Isolated research study                                                                                       |
+| ---------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| Purpose                | Let someone keep books and inspect their finances                                                | Compare alternative AI architectures on the same synthetic tasks                                              |
+| Data                   | Application ledger and its demo workspace                                                        | Separate research schema, synthetic ledger/documents, restricted views                                        |
+| Interface              | Home / Transactions / Reports / Settings; manual and AI-assisted entry                           | Evaluation scripts and preserved reports; not an added production UI                                          |
+| AI path                | Gemini or OpenAI adapter; four financial tool families and reviewed proposals                    | Nine routes: broader typed analytics, lexical search, File Search, pgvector, Jev, Wren and optional reviewers |
+| Current Gemini setting | Source default `gemini-3.5-flash-lite`; hosted `gemini-3.1-flash-lite` pending repair deployment | `gemini-3.5-flash-lite` frozen study generator and optional same-model reviewer                               |
+| Posting authority      | User-confirmed application actions, subject to service and database checks                       | No model-generated financial posting; proposals remain review-only                                            |
+| Evidence of quality    | Accounting/browser/Compose tests and selected live hosted checks                                 | Completed, audited synthetic holdout: 1,620 route episodes and 240 reviewer outcomes                          |
 
-The live research schema is logically isolated on the existing Neon database server; do not call that a separate physical server. Local research reproduction uses its own pgvector Compose database and volume. Neither path gives the model database owner credentials. The hosted product remains unchanged after the completed experiment.
+The live research schema is logically isolated on the existing Neon database server; do not call that a separate physical server. Local research reproduction uses its own pgvector Compose database and volume. Neither path gives the model database owner credentials. The completed experiment did not change the hosted product; the later model/error-handling repair is tracked separately above.
 
 ## Explain it like an organized notebook
 
@@ -162,7 +172,7 @@ Prepare a demo workspace and rehearse the sequence. The frozen research run is n
 | 4:30–5:20 | AI entry or financial chat                | Inspect a proposal before confirming, or ask for cash/expenses and follow its period and evidence.                                                  |
 | 5:20–6:00 | A meaningful test and the research report | Show the database invariant or stale-revision test, then distinguish engineering checks from the completed synthetic measurements and their limits. |
 
-Selected hosted generation checks have succeeded, and failures are also recorded. Check availability for the actual demo without presenting a mocked response as live evidence. If a provider fails, show the handled error and the still-working manual accounting path. Never display keys, connection strings, private HTTP bodies or authentication state.
+Selected hosted generation checks succeeded historically, and the October 31 entry failure is also recorded. The current source repair still needs deployment and hosted verification. Check availability for the actual demo without presenting a direct provider probe or mocked response as a successful hosted workflow. If a provider fails, show the handled error and the still-working manual accounting path. Never display keys, connection strings, private HTTP bodies or authentication state.
 
 ## Questions you should be able to answer
 

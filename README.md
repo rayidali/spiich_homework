@@ -6,7 +6,7 @@ Start with the [two-page plain-English explanation](docs/reports/daybook-ai-expl
 
 A React and TypeScript accounting workspace backed by PostgreSQL. Every posted journal entry is balanced and immutable at the database level. AI prepares entries for review and selects read-only financial queries; the ledger and SQL own the financial numbers.
 
-The deployed assistant uses `gemini-3.1-flash-lite` or the selectable OpenAI adapter. Selected hosted cash, transaction-search, expense and entry-proposal checks succeeded; intermittent provider failures remain. Its [application baseline](https://github.com/rayidali/spiich_homework/actions/runs/41103851106) passed 103 backend tests, 10 browser workflows and Docker startup/persistence. These checks are not a model-accuracy score.
+The source now defaults to `gemini-3.5-flash-lite` or the selectable OpenAI adapter. An October 31 repair replaces a hosted Gemini 3.1 request that returned a service error; the same key passed direct text and complete entry-format checks on 3.5. Deployment and hosted checks are in progress; [HOSTING.md](docs/HOSTING.md) records the observed state. Its earlier [application baseline](https://github.com/rayidali/spiich_homework/actions/runs/41103851106) passed 103 backend tests, 10 browser workflows and Docker startup/persistence. These checks are not a model-accuracy score.
 
 The isolated research implementation compares nine AI routes: existing tools, broader analytics, lexical documents, managed File Search, Gemini embeddings with pgvector, Jev reranking, Wren and two answer reviewers. It uses Gemini 3.5 Flash-Lite, synthetic fixtures and restricted read-only financial access. Managed File Search has the highest observed broad structured-task score (**70.6%**), while the existing control leads the predefined common-capability subset (**91.7%, versus 75.0% for managed search**). Only adding document access passes the preset component-improvement screen. The recommendation is a controlled document-workflow experiment while preserving reliable narrow tools; no experimental route is enabled in production chat.
 
@@ -39,13 +39,13 @@ AI_PROVIDER=gemini
 GEMINI_API_KEY=your_key_here
 ```
 
-Leave `AI_MODEL` empty to use the provider default: `gemini-3.1-flash-lite` or `gpt-6-luna`. For OpenAI, set `AI_PROVIDER=openai` and `OPENAI_API_KEY`. Remove any stale model override when switching providers. Keys remain on the server and are excluded from version control, Docker images, and the submission. Restart the local server after changing `.env`, or recreate the Compose app:
+Leave `AI_MODEL` empty to use the provider default: `gemini-3.5-flash-lite` or `gpt-6-luna`. For OpenAI, set `AI_PROVIDER=openai` and `OPENAI_API_KEY`. Remove any stale model override when switching providers. Keys remain on the server and are excluded from version control, Docker images, and the submission. Restart the local server after changing `.env`, or recreate the Compose app:
 
 ```sh
 docker compose up -d --force-recreate app
 ```
 
-Use a model your project can access. Gemini's default was selected from Google's current [model documentation](https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-lite). Direct testing reproduced generation timeouts on the earlier model. With Flash-Lite, selected hosted financial questions and a draft proposal succeeded; transient failures remain. The full live evaluation/accuracy score has not been completed, and timed-out calls have unknown usage/billing. The key is configured server-side on Vercel as well as locally, but no GitHub Actions key secret was configured. With no key, manual accounting, reports, recurrence, and statistical alerts continue working.
+Use a model your project can access. The default is documented on Google's [Gemini 3.5 Flash-Lite model page](https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite) and passed bounded direct checks with the hosted credential. Upstream service errors, connection failures and timeouts now have distinct messages and sanitized diagnostics; requests are not silently retried. The full product live evaluation remains incomplete, and failed calls can have unknown usage/billing. Changing local `.env` does not update Vercel's deployed key or model. No GitHub Actions key secret was configured. With no key, manual accounting, reports, recurrence, and statistical alerts continue working.
 
 Start with the bounded four-case smoke evaluation against a running, migrated database:
 

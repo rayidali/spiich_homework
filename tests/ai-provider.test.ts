@@ -58,6 +58,7 @@ function response(body: unknown, status = 200) {
 
 beforeEach(() => {
   vi.clearAllMocks();
+  vi.spyOn(console, 'error').mockImplementation(() => {});
   vi.stubGlobal('fetch', fetchMock);
   config.aiProvider = 'gemini';
   config.aiModel = 'gemini-3.8-flash';
@@ -69,6 +70,7 @@ afterEach(() => {
   Object.assign(config, saved);
   setAiBudget(null);
   vi.unstubAllGlobals();
+  vi.restoreAllMocks();
 });
 
 describe('Gemini transport and response contract (no live calls)', () => {
@@ -105,6 +107,7 @@ describe('Gemini transport and response contract (no live calls)', () => {
       totalTokens: 160,
       unreportedUsage: 0,
     });
+    expect(console.error).not.toHaveBeenCalled();
   });
 
   it('preserves a structured clarification without performing a second model call', async () => {
@@ -207,12 +210,32 @@ describe('Gemini transport and response contract (no live calls)', () => {
     [403, 'AI_AUTH_ERROR'],
     [404, 'AI_MODEL_UNAVAILABLE'],
     [429, 'AI_RATE_LIMIT'],
-    [503, 'AI_PROVIDER_ERROR'],
+    [500, 'AI_SERVICE_UNAVAILABLE'],
+    [502, 'AI_SERVICE_UNAVAILABLE'],
+    [503, 'AI_SERVICE_UNAVAILABLE'],
+    [504, 'AI_SERVICE_UNAVAILABLE'],
   ])('maps HTTP %s to a sanitized error without retrying', async (status, code) => {
     response({ error: { message: 'provider payload containing sensitive request details' } }, Number(status));
     const error = await generateProposal(schema, 'Drafts only.', input).catch((e: unknown) => e);
     expect(error).toMatchObject({ code });
+    expect(error).toHaveProperty('details', undefined);
+    if (Number(status) >= 500) expect(error).toHaveProperty('status', 503);
     expect(String(error)).not.toContain('sensitive request details');
+    expect(console.error).toHaveBeenCalledTimes(1);
+    const diagnostic = JSON.parse(vi.mocked(console.error).mock.calls[0][0]);
+    expect(diagnostic).toEqual({
+      event: 'ai_provider_failure',
+      provider: 'gemini',
+      model: config.aiModel,
+      operation: 'proposal',
+      code,
+      failureClass: 'http',
+      upstreamStatus: Number(status),
+      durationMs: expect.any(Number),
+    });
+    const logged = JSON.stringify(vi.mocked(console.error).mock.calls);
+    for (const secret of [config.aiKey, 'sensitive request details', 'Drafts only.', input[0].content])
+      expect(logged).not.toContain(secret);
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(getAiUsage().attempts).toBe(1);
     expect(getAiUsage().unreportedUsage).toBe(1);
@@ -225,6 +248,117 @@ describe('Gemini transport and response contract (no live calls)', () => {
       status: 504,
     });
     expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(JSON.parse(vi.mocked(console.error).mock.calls[0][0])).toMatchObject({
+      code: 'AI_TIMEOUT',
+      failureClass: 'timeout',
+      upstreamStatus: null,
+    });
+  });
+
+  it('separates a fetch failure from an HTTP service failure without leaking its cause', async () => {
+    fetchMock.mockRejectedValue(
+      new TypeError('fetch failed with private request contents', {
+        cause: { code: 'ENOTFOUND', message: 'private hostname and key', address: config.aiKey },
+      }),
+    );
+    await expect(generateProposal(schema, 'Private instructions.', input)).rejects.toMatchObject({
+      status: 502,
+      code: 'AI_CONNECTION_ERROR',
+      details: undefined,
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(console.error).toHaveBeenCalledTimes(1);
+    expect(JSON.parse(vi.mocked(console.error).mock.calls[0][0])).toMatchObject({
+      failureClass: 'transport',
+      upstreamStatus: null,
+      transportCode: 'ENOTFOUND',
+    });
+    const logged = JSON.stringify(vi.mocked(console.error).mock.calls);
+    for (const secret of [config.aiKey, 'private', 'Private instructions.', input[0].content])
+      expect(logged).not.toContain(secret);
+    expect(getAiUsage()).toMatchObject({ attempts: 1, unreportedUsage: 1 });
+  });
+
+  it('omits unknown transport cause codes instead of logging arbitrary provider content', async () => {
+    fetchMock.mockRejectedValue(new TypeError('fetch failed', { cause: { code: config.aiKey } }));
+    await expect(generateProposal(schema, 'Drafts only.', input)).rejects.toMatchObject({
+      code: 'AI_CONNECTION_ERROR',
+    });
+    const diagnostic = JSON.parse(vi.mocked(console.error).mock.calls[0][0]);
+    expect(diagnostic).not.toHaveProperty('transportCode');
+    expect(JSON.stringify(diagnostic)).not.toContain(config.aiKey);
+  });
+
+  it('does not misclassify a local request-building TypeError as a network failure', async () => {
+    const messages = [{ ...input[0] }];
+    Object.defineProperty(messages[0], 'content', {
+      get() {
+        throw new TypeError('local serialization bug');
+      },
+    });
+    await expect(generateProposal(schema, 'Drafts only.', messages)).rejects.toMatchObject({
+      code: 'AI_INVALID_RESPONSE',
+    });
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(console.error).not.toHaveBeenCalled();
+  });
+
+  it('does not misclassify response-processing TypeErrors as fetch failures', async () => {
+    fetchMock.mockResolvedValue({
+      ok: true,
+      json: async () => {
+        throw new TypeError('local response processing failed');
+      },
+    });
+    await expect(generateProposal(schema, 'Drafts only.', input)).rejects.toMatchObject({
+      code: 'AI_INVALID_RESPONSE',
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(console.error).not.toHaveBeenCalled();
+  });
+
+  it('identifies financial-tool service failures without logging tool arguments', async () => {
+    response({ error: { message: 'private contents' } }, 503);
+    await expect(chooseFinancialTool([tool], 'Private instructions.', input)).rejects.toMatchObject({
+      code: 'AI_SERVICE_UNAVAILABLE',
+    });
+    expect(JSON.parse(vi.mocked(console.error).mock.calls[0][0])).toMatchObject({
+      operation: 'financial_tool',
+      upstreamStatus: 503,
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('preserves the HTTP failure if discarding the provider body also fails', async () => {
+    const json = vi.fn();
+    fetchMock.mockResolvedValue({
+      ok: false,
+      status: 503,
+      body: { cancel: async () => Promise.reject(new TypeError('private cleanup details')) },
+      json,
+    });
+    await expect(generateProposal(schema, 'Drafts only.', input)).rejects.toMatchObject({
+      code: 'AI_SERVICE_UNAVAILABLE',
+    });
+    expect(JSON.parse(vi.mocked(console.error).mock.calls[0][0])).toMatchObject({
+      failureClass: 'http',
+      upstreamStatus: 503,
+    });
+    expect(json).not.toHaveBeenCalled();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('retains unknown-usage budget blocking after a service failure', async () => {
+    setAiBudget({ maxAttempts: 10, maxTotalTokens: 10000 });
+    response({ error: { message: 'temporarily unavailable' } }, 503);
+    await expect(generateProposal(schema, 'Drafts only.', input)).rejects.toMatchObject({
+      code: 'AI_SERVICE_UNAVAILABLE',
+    });
+    await expect(generateProposal(schema, 'Drafts only.', input)).rejects.toMatchObject({
+      code: 'AI_USAGE_UNAVAILABLE',
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(getAiUsage()).toMatchObject({ attempts: 1, unreportedUsage: 1 });
   });
 
   it('does not attempt a provider call without a key', async () => {

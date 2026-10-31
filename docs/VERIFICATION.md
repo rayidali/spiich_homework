@@ -1,5 +1,9 @@
 # Verification record
 
+## Product entry provider repair — 2026-10-31
+
+Hosted entry reproduced HTTP 502; a tiny request with the saved production key/model 3.1 returned upstream HTTP 503. Model 3.5 passed the tiny probe and full entry grammar with expected USD 340 debit/credit lines. Source now defaults to 3.5 and distinguishes service failures, connection failures and timeouts without exposing provider payloads. Thirty-four provider tests pass, covering classification, single attempts, unknown-usage budget stops and secret exclusion. TypeScript/production build and hosted bundling pass. Fresh full CI and deployed checks are pending rollout; prior research results remain historical measurements of frozen source.
+
 ## Completed frozen study — 2026-10-31
 
 The final source and reports are published in commit **`a5493c3317b5df2e70318cd6b1ada94220e211a9`**. [Full CI 41182776959](https://github.com/rayidali/spiich_homework/actions/runs/41182776959) completed successfully: application verification, native research and Compose passed; live-AI was skipped. The [final CI receipt](evidence/research-final-ci.json) binds that observed result to the exact commit. This CI validates the committed implementation and postprocessors; the separate held-out artifacts establish the measured model results.

@@ -4,6 +4,8 @@ Saved **2026-10-31, America/New_York**. Read this first on continuation. The imp
 
 ## Current state
 
+**Active product repair, 2026-10-31:** the user reported an error while entering a transaction. Hosted `/api/ai/entry` reproduced HTTP 502; a separate tiny call using the saved production key/model `gemini-3.1-flash-lite` returned upstream HTTP 503. The same key on `gemini-3.5-flash-lite` passed a tiny probe and the full entry grammar, returning balanced Office supplies/Card lines for USD 340. Source default is now 3.5, and provider failures retain safe HTTP/transport diagnostics with distinct messages. Thirty-four isolated provider tests and the local build pass. Fresh cloud CI, deployment and hosted checks are in progress; production still runs the earlier deployment until rollout succeeds. The user refreshed local Vercel authentication. The completed study's frozen source hash below binds its historical measured commit, not this new product patch.
+
 **The scientific measurements, analyses and report are complete, the source is published, and final cloud CI passed.** The user explicitly authorized continuation until delivery and reported about $8 Gemini credit. No further provider work or purchase is needed for this study. Final delivery uses the source-bound archive verification described below.
 
 - Main holdout: **1,620 unique planned/scored trials**, 180 per route, 60 questions × nine routes × three repeats. Execution statuses: 1,333 ok, 267 withheld, **20 retained errors**. There are 940 structured successes across the recorded matrix; execution success is not answer correctness.
@@ -94,7 +96,7 @@ No new experiment or automatic product deployment is required to complete this s
 
 Product name is **Daybook**; Spiich is the assignment recipient. React/TypeScript, Express **REST**, PostgreSQL exact-decimal double entry, immutable postings and linked reversals are implemented. Accounts, stored FX, reports, recurring drafts, durable anomaly jobs and correction-assisted categorization are present. The simpler UI uses Home / Transactions / Reports / Settings. Preserve that baseline.
 
-The deployed assistant uses four authored financial tools with Gemini 3.1 Flash-Lite or the selectable OpenAI adapter. Research uses Gemini 3.5 Flash-Lite and separate synthetic fixtures; pgvector, File Search, Jev and bounded actual Wren integration are in the research harness. Mastra was not added. Research is logically isolated on the existing database server, not a separately measured physical service.
+The assistant uses four authored financial tools with Gemini or the selectable OpenAI adapter. The source default is now Gemini 3.5 Flash-Lite; hosted rollout is tracked above. Research used Gemini 3.5 Flash-Lite and separate synthetic fixtures; the shared model name does not add experimental routes to production. pgvector, File Search, Jev and bounded actual Wren integration remain in the research harness. Mastra was not added. Research is logically isolated on the existing database server, not a separately measured physical service.
 
 - Hosted application: [daybook-ledger-delta.vercel.app](https://daybook-ledger-delta.vercel.app), protected by Vercel login.
 - Production executable: `7ecb435c421862dba5efd4e3b6f743c93fd1888e`; deployment `dpl_HQefAFAGwPS2x52c1nXPetRYovKq`.

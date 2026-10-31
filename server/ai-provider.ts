@@ -69,35 +69,91 @@ const invalid = () =>
     'AI_INVALID_RESPONSE',
     'The assistant returned an invalid response. Your books have not changed. Try adding more detail.',
   );
+type ProviderDiagnostic = {
+  failureClass: 'http' | 'transport' | 'timeout' | 'provider';
+  upstreamStatus: number | null;
+  transportCode?: string;
+};
+// Kept separate from AppError.details, which the API returns to the browser.
+class ProviderFailure extends AppError {
+  constructor(
+    status: number,
+    code: string,
+    message: string,
+    readonly diagnostic: ProviderDiagnostic,
+  ) {
+    super(status, code, message);
+  }
+}
 function providerError(status?: number) {
+  const diagnostic: ProviderDiagnostic = {
+    failureClass: status === undefined ? 'provider' : 'http',
+    upstreamStatus: status ?? null,
+  };
   if (status === 400)
-    return new AppError(
+    return new ProviderFailure(
       502,
       'AI_REQUEST_REJECTED',
       'The AI provider rejected the request. Check the key, selected model and provider settings. Your books have not changed.',
+      diagnostic,
     );
   if (status === 401 || status === 403)
-    return new AppError(
+    return new ProviderFailure(
       502,
       'AI_AUTH_ERROR',
       'The AI provider rejected access. Check the configured key and project permissions. Your books have not changed.',
+      diagnostic,
     );
   if (status === 429)
-    return new AppError(
+    return new ProviderFailure(
       429,
       'AI_RATE_LIMIT',
       'The AI provider is at its rate or quota limit. Try later or use manual entry. Your books have not changed.',
+      diagnostic,
     );
   if (status === 404)
-    return new AppError(
+    return new ProviderFailure(
       502,
       'AI_MODEL_UNAVAILABLE',
       'The configured AI model is unavailable to this project. Check AI_MODEL. Your books have not changed.',
+      diagnostic,
     );
-  return new AppError(
+  if (status !== undefined && status >= 500 && status <= 599)
+    return new ProviderFailure(
+      503,
+      'AI_SERVICE_UNAVAILABLE',
+      'The AI service is temporarily unavailable. Your books have not changed. Try again shortly or use manual entry.',
+      diagnostic,
+    );
+  return new ProviderFailure(
     502,
     'AI_PROVIDER_ERROR',
     'The AI provider could not complete this request. Your books have not changed. Try again or use manual entry.',
+    diagnostic,
+  );
+}
+function transportFailure(error: TypeError) {
+  // Only explicitly recognized network codes are logged; messages and causes can contain secrets.
+  const allowed = new Set([
+    'ENOTFOUND',
+    'EAI_AGAIN',
+    'ECONNREFUSED',
+    'ECONNRESET',
+    'ETIMEDOUT',
+    'UND_ERR_CONNECT_TIMEOUT',
+    'UND_ERR_SOCKET',
+  ]);
+  const cause = error.cause;
+  const code = cause && typeof cause === 'object' && 'code' in cause ? cause.code : undefined;
+  return new ProviderFailure(
+    502,
+    'AI_CONNECTION_ERROR',
+    'Could not reach the AI service. Your books have not changed. Try again shortly or use manual entry.',
+    {
+      failureClass: 'transport',
+      upstreamStatus: null,
+      ...(typeof code === 'string' && allowed.has(code) ? { transportCode: code } : {}),
+    },
   );
 }
 const tokenCount = (value: unknown) =>
@@ -111,6 +167,7 @@ function recordUsage(usage: ModelUsage) {
 }
 
 async function withRequest<T>(
+  operation: 'proposal' | 'financial_tool',
   fn: (metadata: (version: unknown, usage: ModelUsage) => ModelMetadata) => Promise<T>,
 ) {
   if (!config.aiKey)
@@ -149,19 +206,33 @@ async function withRequest<T>(
       };
     });
   } catch (error) {
-    if (error instanceof AppError) throw error;
-    if (error instanceof OpenAI.APIError) throw providerError(error.status);
-    if (
+    let failure: AppError;
+    if (error instanceof AppError) failure = error;
+    else if (error instanceof OpenAI.APIError) failure = providerError(error.status);
+    else if (
       error instanceof Error &&
       ['AbortError', 'TimeoutError', 'APIConnectionTimeoutError'].includes(error.name)
     )
-      throw new AppError(
+      failure = new ProviderFailure(
         504,
         'AI_TIMEOUT',
         'The assistant took too long to respond. Your books have not changed. Try again or use manual entry.',
+        { failureClass: 'timeout', upstreamStatus: null },
       );
-    if (error instanceof TypeError) throw providerError();
-    throw invalid();
+    else failure = invalid();
+    if (failure instanceof ProviderFailure)
+      console.error(
+        JSON.stringify({
+          event: 'ai_provider_failure',
+          provider: config.aiProvider,
+          model: /^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,159}$/.test(config.aiModel) ? config.aiModel : 'invalid',
+          operation,
+          code: failure.code,
+          ...failure.diagnostic,
+          durationMs: Math.round(performance.now() - start),
+        }),
+      );
+    throw failure;
   } finally {
     if (!recorded) totals.unreportedUsage++;
     inFlight--;
@@ -254,33 +325,40 @@ async function geminiRequest(
   extra: Record<string, unknown>,
   maxOutputTokens: number,
 ) {
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(config.aiModel)}:generateContent`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': config.aiKey },
-      signal: AbortSignal.timeout(25000),
-      body: JSON.stringify({
-        systemInstruction: { parts: [{ text: instructions }] },
-        contents: messages.map((message) => ({
-          role: message.role === 'assistant' ? 'model' : 'user',
-          parts: [{ text: message.content }],
-        })),
-        generationConfig: {
-          candidateCount: 1,
-          maxOutputTokens,
-          ...(config.aiModel.startsWith('gemini-3') || config.aiModel.startsWith('gemini-4')
-            ? { thinkingConfig: { thinkingLevel: 'LOW' } }
-            : {}),
-          ...(extra.generationConfig as Record<string, unknown> | undefined),
-        },
-        ...Object.fromEntries(Object.entries(extra).filter(([key]) => key !== 'generationConfig')),
-      }),
-    },
-  );
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(config.aiModel)}:generateContent`;
+  // Build outside the network boundary so local serialization errors stay invalid-response errors.
+  const request: RequestInit = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-goog-api-key': config.aiKey },
+    signal: AbortSignal.timeout(25000),
+    body: JSON.stringify({
+      systemInstruction: { parts: [{ text: instructions }] },
+      contents: messages.map((message) => ({
+        role: message.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: message.content }],
+      })),
+      generationConfig: {
+        candidateCount: 1,
+        maxOutputTokens,
+        ...(config.aiModel.startsWith('gemini-3') || config.aiModel.startsWith('gemini-4')
+          ? { thinkingConfig: { thinkingLevel: 'LOW' } }
+          : {}),
+        ...(extra.generationConfig as Record<string, unknown> | undefined),
+      },
+      ...Object.fromEntries(Object.entries(extra).filter(([key]) => key !== 'generationConfig')),
+    }),
+  };
+  let response: Response;
+  try {
+    response = await fetch(url, request);
+  } catch (error) {
+    if (error instanceof TypeError) throw transportFailure(error);
+    throw error;
+  }
   // Never include provider error payloads: they can echo user data or credentials.
   if (!response.ok) {
-    await response.body?.cancel();
+    // Stream cleanup must not replace the upstream status with an unrelated error.
+    await response.body?.cancel().catch(() => {});
     throw providerError(response.status);
   }
   return geminiResponseSchema.parse(await response.json());
@@ -291,7 +369,7 @@ export async function generateProposal<T extends z.ZodType>(
   instructions: string,
   messages: ModelMessages,
 ) {
-  return withRequest(async (metadata) => {
+  return withRequest('proposal', async (metadata) => {
     if (config.aiProvider === 'gemini') {
       const response = await geminiRequest(
         instructions,
@@ -333,7 +411,7 @@ export async function chooseFinancialTool(
       throw new AppError(422, 'UNSUPPORTED_TOOL', 'This financial query is not supported');
     return call;
   };
-  return withRequest(async (metadata) => {
+  return withRequest('financial_tool', async (metadata) => {
     if (config.aiProvider === 'gemini') {
       const response = await geminiRequest(
         instructions,

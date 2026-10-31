@@ -1,8 +1,16 @@
 # REST API quick reference
 
-## 2026-10-30 live AI recovery update
+## Current product repair — 2026-10-31, deployment pending
 
-The hosted model and source default are now **`gemini-3.1-flash-lite`**. Direct API testing reproduced the earlier model's generation timeouts and confirmed working text/JSON/tool calls on Flash-Lite. A separate journal-proposal rejection was traced to the 100-line `maxItems` constraint in Gemini's decoding grammar: the transport now omits array maxima, while the full original Zod limit, account checks and exact-money/balance rules remain enforced locally.
+The hosted entry endpoint returned HTTP 502, and a direct request using the same production key reproduced an upstream HTTP 503 on `gemini-3.1-flash-lite`. Direct `gemini-3.5-flash-lite` probes then returned HTTP 200: a small availability request took about 1.0 second, and the full entry-response grammar took about 1.47 seconds and produced the expected USD 340 debit to Office supplies (5030) and credit to Company credit card (2100). These are direct provider checks, not verification of a repaired hosted endpoint.
+
+**Source now defaults to `gemini-3.5-flash-lite`; the current hosted configuration remains `gemini-3.1-flash-lite` until the pending deployment is verified.** `AI_MODEL` overrides the source default. The source repair maps upstream HTTP 5xx responses to HTTP 503 / `AI_SERVICE_UNAVAILABLE`, and distinguishes connection failures as HTTP 502 / `AI_CONNECTION_ERROR`. Logs contain sanitized failure metadata, not provider bodies or credentials. The one-attempt policy and accounting checks remain in force. The 34 provider tests and TypeScript check passed; repair CI, deployment and hosted verification are pending. See [verification](VERIFICATION.md) and [checkpoint](../CHECKPOINT.md) for the final evidence.
+
+This is a post-study product reliability repair. It does not deploy document retrieval or a research reviewer. The completed comparison still refers to frozen source `fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08` and its recorded executable commit; the changed working source has not been rerun through that benchmark.
+
+## Historical 2026-10-30 live AI recovery
+
+At that checkpoint, the hosted model and source default changed to **`gemini-3.1-flash-lite`**. Direct API testing reproduced the earlier model's generation timeouts and confirmed working text/JSON/tool calls on Flash-Lite. A separate journal-proposal rejection was traced to the 100-line `maxItems` constraint in Gemini's decoding grammar: the transport omits array maxima, while the full original Zod limit, account checks and exact-money/balance rules remain enforced locally.
 
 Selected hosted checks succeeded: cash **$125,620.00**, **12 Acme Corp entries**, September expenses **$9,265.00**, and a review-only **$340 Supplies debit / Company credit card credit** proposal. Cash/search/expense values matched independent endpoints, and the 73-entry journal list was unchanged. An initial expense timeout succeeded on manual repeat, while a later search failed; **intermittent provider failures remain**. No automatic retry, paid-plan change or accuracy guarantee was introduced.
 
@@ -83,7 +91,7 @@ The entry endpoint returns `action`, `explanation`, `questions`, and a validated
 
 Both AI endpoints also return `ai` metadata: provider, configured model, reported model version when available, request duration and reported token usage. Entry responses include `context` with retrieved correction/history IDs. Chat includes the validated `query: {name, args}` used for the answer. The server supplies organization scope; model-supplied scope or extra tool arguments are rejected. `/meta` includes `ai.provider`; `ai.available` means a key is configured, not that its access or model accuracy has been verified.
 
-The model transport makes one attempt per request with a 25-second timeout and a four-request concurrency limit. It never returns provider error bodies or credentials. Error codes distinguish `AI_NOT_CONFIGURED`, `AI_AUTH_ERROR`, `AI_REQUEST_REJECTED`, `AI_RATE_LIMIT`, `AI_MODEL_UNAVAILABLE`, `AI_TIMEOUT`, and malformed responses. CLI evaluation additionally enforces attempt and observed-token limits.
+The model transport makes one attempt per request with a 25-second timeout and a four-request concurrency limit. It never returns provider error bodies or credentials. Error codes distinguish `AI_NOT_CONFIGURED`, `AI_AUTH_ERROR`, `AI_REQUEST_REJECTED`, `AI_RATE_LIMIT`, `AI_MODEL_UNAVAILABLE`, `AI_TIMEOUT`, and malformed responses. The pending source repair additionally distinguishes `AI_SERVICE_UNAVAILABLE` for upstream HTTP 5xx and `AI_CONNECTION_ERROR` for a connection failure without an HTTP response. A provider HTTP 504 is therefore service unavailability; the application's own elapsed deadline remains `AI_TIMEOUT`. CLI evaluation additionally enforces attempt and observed-token limits.
 
 ## Errors
 
@@ -97,7 +105,7 @@ The model transport makes one attempt per request with a 25-second timeout and a
 }
 ```
 
-Common statuses: 400 invalid input/cursor, 404 missing resource, 409 stale/reused-key/in-use conflict, 422 accounting rule violation, 429 AI concurrency/provider limit, 502 provider or invalid-model-output failure, 503 unconfigured AI/database timeout, 504 model timeout. Request IDs appear in response headers and request logs. Database statements use bound parameters; request bodies and keys are not logged.
+Common statuses: 400 invalid input/cursor, 404 missing resource, 409 stale/reused-key/in-use conflict, 422 accounting rule violation, 429 AI concurrency/provider limit, 502 provider/connection or invalid-model-output failure, 503 unconfigured AI/database timeout or upstream AI-service unavailability, 504 application model-call timeout. The connection/service distinctions are part of the pending repair described above. Request IDs appear in response headers and request logs. Database statements use bound parameters; request bodies and keys are not logged.
 
 ## Hosted access and scheduled work
 
@@ -113,6 +121,6 @@ Successful response example, observed in the hosted check:
 
 The scheduler sets `Cache-Control: no-store`. Unlike the general API envelope, its minimal operational errors are `{"error":"UNAUTHORIZED"}` (401, missing/wrong/unconfigured secret), `{"error":"METHOD_NOT_ALLOWED"}` (405 with Allow: GET), and `{"error":"SCHEDULE_UNAVAILABLE"}` (503). No work runs before authorization. PostgreSQL/worker details are not exposed. Core `POST /api/recurring/generate` remains available through the normal API; it generates pending drafts and is a separate operation.
 
-The hosted financial-chat probe returned HTTP 504 with `error.code=AI_TIMEOUT`, a request ID and a message explaining that the books had not changed. This is a handled failure, not a successful financial answer. A metadata response with `ai.available=true` only means a key is configured; neither that flag nor model-metadata access establishes live generation quality.
+The historical October 29 hosted financial-chat probe returned HTTP 504 with `error.code=AI_TIMEOUT`, a request ID and a message explaining that the books had not changed. Subsequent selected calls succeeded, and the October 31 entry failure and pending repair are recorded at the top of this document. A metadata response with `ai.available=true` only means a key is configured; neither that flag nor model-metadata access establishes live generation quality.
 
 Hosted requests use the same posting/reversal/revision rules as Docker. Successful mutating requests also register a bounded post-response anomaly job batch through `waitUntil`; the journal transaction does not depend on that analysis completing. Durable failures can be retried later. [Hosting](HOSTING.md) describes queue cadence and deployment configuration.

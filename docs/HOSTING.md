@@ -1,5 +1,15 @@
 # Hosting Daybook
 
+## 2026-10-31 entry provider repair — rollout in progress
+
+A hosted review-only proposal reproduced HTTP 502 in 1.16 seconds; database health passed. A tiny request using the saved production credential and `gemini-3.1-flash-lite` returned Google HTTP 503 in 0.51 seconds. This identifies an upstream service failure in the reproduction; the original user request text/time is unavailable.
+
+With that same key, `gemini-3.5-flash-lite` returned HTTP 200 for a tiny text probe (1.01 seconds, seven reported tokens) and the complete application entry grammar (1.47 seconds, 4,511 reported tokens). The latter proposed Office supplies debit USD 340 and Company credit card credit USD 340 with the supplied account IDs. These are bounded compatibility checks, not an accuracy benchmark; no journal was posted. See Google's [model documentation](https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite).
+
+Source now defaults to 3.5. Upstream 5xx responses map to `AI_SERVICE_UNAVAILABLE`, fetch-boundary failures to `AI_CONNECTION_ERROR`, and timeouts retain `AI_TIMEOUT`. Diagnostics record only provider, model, operation, status/class, duration and an allowlisted network code; no prompts, raw errors, response bodies, headers or secrets. They currently lack application request-ID correlation. Single-attempt behavior is unchanged. Thirty-four provider tests, TypeScript/production build and bundling pass locally. Fresh cloud CI and hosted rollout/checks remain in progress.
+
+The user refreshed expired local Vercel authentication. CLI networking still fails here, so authorized HTTPS with that local credential verified the exact existing team/project before using the established deployment API flow. No chat connector, new project, key rotation or database replacement is involved. Deployment protection remains enabled.
+
 ## 2026-10-30 live AI recovery update
 
 The hosted model and source default are now **`gemini-3.1-flash-lite`**. Direct API testing reproduced the earlier model's generation timeouts and confirmed working text/JSON/tool calls on Flash-Lite. A separate journal-proposal rejection was traced to the 100-line `maxItems` constraint in Gemini's decoding grammar: the transport now omits array maxima, while the full original Zod limit, account checks and exact-money/balance rules remain enforced locally.
