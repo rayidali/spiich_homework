@@ -142,7 +142,8 @@ describe('Request-correlated diagnostics without business content', () => {
     fetchMock.mockResolvedValue(
       providerResponse([{ functionCall: { name: 'ask_clarification', args: { question: privateText } } }]),
     );
-    const flow = requestFlow(() => financialChat(org, userMessages), '/api/ai/chat');
+    // Preserve the legacy free-text clarification logging contract explicitly.
+    const flow = requestFlow(() => financialChat(org, userMessages, { route: 'authored' }), '/api/ai/chat');
     await flow.done;
     expect(flow.res.statusCode).toBe(200);
     expect(logs().find((entry) => entry.event === 'ai_financial_query')).toMatchObject({

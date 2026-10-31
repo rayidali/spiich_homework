@@ -1,0 +1,94 @@
+{
+  "version": "daybook-chat-h08-scope-equivalence-v1",
+  "sourceHash": "ae6814f6ffb77308e71b19e970d0d274ab8fc728d157573f2b90f63512510970",
+  "inputs": {
+    "bundle": {
+      "path": "docs/evidence/chat-query-runs/holdout-v1/historical/holdout-replay-ae6814f6ffb7.json",
+      "sha256": "676ac9a90b4e855eddad549421d7bf143eed353945fc2a8b84d675b76500c84f"
+    },
+    "replay": {
+      "path": "docs/evidence/chat-query-runs/holdout-v1/database-results.json",
+      "sha256": "8de47609443c1ad99e61b907699eea7677070ba33aaba4c4937cc079cbf0d54e"
+    }
+  },
+  "slot": "holdout/composable/H08",
+  "originalOutcome": "fail",
+  "originalReason": "SCOPE_DROPPED_OR_CHANGED",
+  "classification": "verified_scope_equivalence_false_negative",
+  "rawScoreChanged": false,
+  "selectedGroupCode": "5000",
+  "selectedGroupName": "Operating expenses",
+  "authorizedExpenseLeafCodes": [
+    "5010",
+    "5020",
+    "5030",
+    "5040",
+    "5041"
+  ],
+  "expandedSelectedLeafCodes": [
+    "5010",
+    "5020",
+    "5030",
+    "5040",
+    "5041"
+  ],
+  "setsExactlyEqual": true,
+  "leafCurrencies": [
+    "EUR",
+    "USD"
+  ],
+  "literalQueryScopeVerified": {
+    "metric": "net_expense",
+    "aggregation": "average_per_entry",
+    "from": "2026-04-01",
+    "to": "2026-04-30",
+    "status": "POSTED",
+    "currencyMode": "base",
+    "currency": null,
+    "groupBy": "total",
+    "accountCodes": [
+      "5000"
+    ],
+    "cooccurringAccountCodes": [],
+    "counterparty": {
+      "mode": "any",
+      "value": ""
+    },
+    "descriptionSearch": "",
+    "minimumAmount": null,
+    "maximumAmount": null
+  },
+  "qualifyingEntries": [
+    {
+      "entryId": "1c8190b8-d585-5c60-b1c9-4fd8715f7b80",
+      "date": "2026-04-03",
+      "expenseLineCount": 1,
+      "netBaseUsd": "1000.00"
+    },
+    {
+      "entryId": "635f3e4e-67dc-5adb-b2a3-6427307341ef",
+      "date": "2026-04-05",
+      "expenseLineCount": 1,
+      "netBaseUsd": "300.00"
+    },
+    {
+      "entryId": "5d432dc1-cf4e-559c-88f7-f8ab5704aed1",
+      "date": "2026-04-10",
+      "expenseLineCount": 1,
+      "netBaseUsd": "120.00"
+    },
+    {
+      "entryId": "05ba9a20-d9ce-50a2-848c-0b2d2ce586ac",
+      "date": "2026-04-20",
+      "expenseLineCount": 2,
+      "netBaseUsd": "120.00"
+    }
+  ],
+  "expenseLineCount": 5,
+  "distinctPostedEntryCount": 4,
+  "numeratorUsd": "1540.00",
+  "averageUsd": "385.00",
+  "untruncatedSingleTotalRow": true,
+  "explanation": "The scorer literally compares accountCodes[5000] with omitted/default[]. The expanded group equals every authorized posting expense account in this frozen chart, including the EUR leaf. All other filters and the recorded USD amount basis agree. Four distinct journals contain five expense lines;1540/4=385, not1540/5. Equivalence is independently established from the chart and entry membership, not coincidentally matching numbers.",
+  "limitation": "This is specific to this chart. A group5000 in another workspace need not contain every expense account. The original failure and reference stay unchanged; this is not a post-hoc product-source correction."
+}

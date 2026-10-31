@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg
+  width="519.2755905511812"
+  height="210"
+  preserveAspectRatio="xMinYMin meet"
+  viewBox="0 0 519 210"
+  xmlns="http://www.w3.org/2000/svg"
+  version="1.0"
+  fill-rule="evenodd"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+>
+  <title>...</title>
+  <desc>...</desc>
+  <clipPath id="clip">
+    <rect x="0" y="0" width="519.2755905511812" height="210" />
+  </clipPath>
+  <g id="group" transform="scale(1,-1) translate(0,-210)" style="clip-path: url(#clip)">
+    <g transform="">
+      <text
+        x="0"
+        y="192"
+        style="font-family: Helvetica-Bold; font-size: 10px; fill: rgb(12%, 20%, 17%); stroke: none"
+        transform="translate(0,384) scale(1,-1)"
+      >
+        All questions
+      </text>
+      <text
+        x="0"
+        y="175"
+        style="font-family: Helvetica-Bold; font-size: 9px; fill: rgb(36%, 46%, 57%); stroke: none"
+        transform="translate(0,350) scale(1,-1)"
+      >
+        A
+      </text>
+      <rect
+        x="20"
+        y="173"
+        width="419.27559055118115"
+        height="11"
+        style="
+          stroke: none;
+          stroke-linecap: butt;
+          stroke-width: 1;
+          fill: rgb(93%, 94%, 92%);
+          fill-rule: evenodd;
+        "
+      />
+      <rect
+        x="20"
+        y="173"
+        width="125.78267716535433"
+        height="11"
+        style="
+          stroke: none;
+          stroke-linecap: butt;
+          stroke-width: 1;
+          fill: rgb(36%, 46%, 57%);
+          fill-rule: evenodd;
+        "
+      />
+      <text
+        x="451.27559055118115"
+        y="174"
+        style="font-family: Helvetica-Bold; font-size: 10px; fill: rgb(12%, 20%, 17%); stroke: none"
+        transform="translate(0,348) scale(1,-1)"
+      >
+        6 / 20
+      </text>
+      <text
+        x="0"
+        y="158"
+        style="font-family: Helvetica-Bold; font-size: 9px; fill: rgb(20%, 46%, 34%); stroke: none"
+        transform="translate(0,316) scale(1,-1)"
+      >
+        B
+      </text>
+      <rect
+        x="20"
+        y="156"
+        width="419.27559055118115"
+        height="11"
+        style="
+          stroke: none;
+          stroke-linecap: butt;
+          stroke-width: 1;
+          fill: rgb(93%, 94%, 92%);
+          fill-rule: evenodd;
+        "
+      />
+      <rect
+        x="20"
+        y="156"
+        width="377.3480314960631"
+        height="11"
+        style="
+          stroke: none;
+          stroke-linecap: butt;
+          stroke-width: 1;
+          fill: rgb(20%, 46%, 34%);
+          fill-rule: evenodd;
+        "
+      />
+      <text
+        x="451.27559055118115"
+        y="157"
+        style="font-family: Helvetica-Bold; font-size: 10px; fill: rgb(12%, 20%, 17%); stroke: none"
+        transform="translate(0,314) scale(1,-1)"
+      >
+        18 / 20
+      </text>
+      <text
+        x="0"
+        y="130"
+        style="font-family: Helvetica-Bold; font-size: 10px; fill: rgb(12%, 20%, 17%); stroke: none"
+        transform="translate(0,260) scale(1,-1)"
+      >
+        Questions both routes support
+      </text>
+      <text
+        x="0"
+        y="113"
+        style="font-family: Helvetica-Bold; font-size: 9px; fill: rgb(36%, 46%, 57%); stroke: none"
+        transform="translate(0,226) scale(1,-1)"
+      >
+        A
+      </text>
+      <rect
+        x="20"
+        y="111"
+        width="419.27559055118115"
+        height="11"
+        style="
+          stroke: none;
+          stroke-linecap: butt;
+          stroke-width: 1;
+          fill: rgb(93%, 94%, 92%);
+          fill-rule: evenodd;
+        "
+      />
+      <rect
+        x="20"
+        y="111"
+        width="359.3790776152981"
+        height="11"
+        style="
+          stroke: none;
+          stroke-linecap: butt;
+          stroke-width: 1;
+          fill: rgb(36%, 46%, 57%);
+          fill-rule: evenodd;
+        "
+      />
+      <text
+        x="451.27559055118115"
+        y="112"
+        style="font-family: Helvetica-Bold; font-size: 10px; fill: rgb(12%, 20%, 17%); stroke: none"
+        transform="translate(0,224) scale(1,-1)"
+      >
+        6 / 7
+      </text>
+      <text
+        x="0"
+        y="96"
+        style="font-family: Helvetica-Bold; font-size: 9px; fill: rgb(20%, 46%, 34%); stroke: none"
+        transform="translate(0,192) scale(1,-1)"
+      >
+        B
+      </text>
+      <rect
+        x="20"
+        y="94"
+        width="419.27559055118115"
+        height="11"
+        style="
+          stroke: none;
+          stroke-linecap: butt;
+          stroke-width: 1;
+          fill: rgb(93%, 94%, 92%);
+          fill-rule: evenodd;
+        "
+      />
+      <rect
+        x="20"
+        y="94"
+        width="419.27559055118115"
+        height="11"
+        style="
+          stroke: none;
+          stroke-linecap: butt;
+          stroke-width: 1;
+          fill: rgb(20%, 46%, 34%);
+          fill-rule: evenodd;
+        "
+      />
+      <text
+        x="451.27559055118115"
+        y="95"
+        style="font-family: Helvetica-Bold; font-size: 10px; fill: rgb(12%, 20%, 17%); stroke: none"
+        transform="translate(0,190) scale(1,-1)"
+      >
+        7 / 7
+      </text>
+      <text
+        x="0"
+        y="68"
+        style="font-family: Helvetica-Bold; font-size: 10px; fill: rgb(12%, 20%, 17%); stroke: none"
+        transform="translate(0,136) scale(1,-1)"
+      >
+        Enough information to answer
+      </text>
+      <text
+        x="0"
+        y="51"
+        style="font-family: Helvetica-Bold; font-size: 9px; fill: rgb(36%, 46%, 57%); stroke: none"
+        transform="translate(0,102) scale(1,-1)"
+      >
+        A
+      </text>
+      <rect
+        x="20"
+        y="49"
+        width="419.27559055118115"
+        height="11"
+        style="
+          stroke: none;
+          stroke-linecap: butt;
+          stroke-width: 1;
+          fill: rgb(93%, 94%, 92%);
+          fill-rule: evenodd;
+        "
+      />
+      <rect
+        x="20"
+        y="49"
+        width="116.46544181977254"
+        height="11"
+        style="
+          stroke: none;
+          stroke-linecap: butt;
+          stroke-width: 1;
+          fill: rgb(36%, 46%, 57%);
+          fill-rule: evenodd;
+        "
+      />
+      <text
+        x="451.27559055118115"
+        y="50"
+        style="font-family: Helvetica-Bold; font-size: 10px; fill: rgb(12%, 20%, 17%); stroke: none"
+        transform="translate(0,100) scale(1,-1)"
+      >
+        5 / 18
+      </text>
+      <text
+        x="0"
+        y="34"
+        style="font-family: Helvetica-Bold; font-size: 9px; fill: rgb(20%, 46%, 34%); stroke: none"
+        transform="translate(0,68) scale(1,-1)"
+      >
+        B
+      </text>
+      <rect
+        x="20"
+        y="32"
+        width="419.27559055118115"
+        height="11"
+        style="
+          stroke: none;
+          stroke-linecap: butt;
+          stroke-width: 1;
+          fill: rgb(93%, 94%, 92%);
+          fill-rule: evenodd;
+        "
+      />
+      <rect
+        x="20"
+        y="32"
+        width="372.68941382327216"
+        height="11"
+        style="
+          stroke: none;
+          stroke-linecap: butt;
+          stroke-width: 1;
+          fill: rgb(20%, 46%, 34%);
+          fill-rule: evenodd;
+        "
+      />
+      <text
+        x="451.27559055118115"
+        y="33"
+        style="font-family: Helvetica-Bold; font-size: 10px; fill: rgb(12%, 20%, 17%); stroke: none"
+        transform="translate(0,66) scale(1,-1)"
+      >
+        16 / 18
+      </text>
+      <text
+        x="0"
+        y="8"
+        style="font-family: Helvetica; font-size: 8px; fill: rgb(36%, 46%, 57%); stroke: none"
+        transform="translate(0,16) scale(1,-1)"
+      >
+        A: Existing report tools
+      </text>
+      <text
+        x="210"
+        y="8"
+        style="font-family: Helvetica; font-size: 8px; fill: rgb(20%, 46%, 34%); stroke: none"
+        transform="translate(0,16) scale(1,-1)"
+      >
+        B: Composable queries
+      </text>
+    </g>
+  </g>
+</svg>

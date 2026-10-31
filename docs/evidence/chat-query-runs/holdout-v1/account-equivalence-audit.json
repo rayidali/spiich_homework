@@ -1,0 +1,371 @@
+{
+  "version": "daybook-account-equivalence-audit-v1",
+  "sourceHash": "ae6814f6ffb77308e71b19e970d0d274ab8fc728d157573f2b90f63512510970",
+  "scope": "All forty held-out rows across both routes, same generic account-expansion rule",
+  "rowsExamined": 40,
+  "rawScoresUnchanged": true,
+  "correctedSlots": [
+    "holdout/composable/H08"
+  ],
+  "rows": [
+    {
+      "slot": "holdout/authored/H12",
+      "rawOutcome": "fail",
+      "rawReason": "ANSWERABLE_COVERAGE_MISS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "af78c20b11bbd2f4ce7276f8f0bb34a4eb77b9e0ad0b11e0e8423b2be332a647"
+    },
+    {
+      "slot": "holdout/composable/H12",
+      "rawOutcome": "pass",
+      "rawReason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "2279da0b40f498ef0036b323ddb4b3886d179188e7ba165ff3690695c4115670"
+    },
+    {
+      "slot": "holdout/composable/H06",
+      "rawOutcome": "pass",
+      "rawReason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "37a2d993752ef842f393d32c6bd8c93ed40477318cef7d480ff4493d72f340b5"
+    },
+    {
+      "slot": "holdout/authored/H06",
+      "rawOutcome": "fail",
+      "rawReason": "ANSWERABLE_COVERAGE_MISS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "f20ae0654829f41bd4a126a1201b68869cd4fac7afafbaab66c760b888d5ff53"
+    },
+    {
+      "slot": "holdout/authored/H08",
+      "rawOutcome": "fail",
+      "rawReason": "ANSWERABLE_COVERAGE_MISS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "70b4496f38ec9a37ee965cbe52a49e2f8a2f2e646ed866a973ad35b02164032a"
+    },
+    {
+      "slot": "holdout/composable/H08",
+      "rawOutcome": "fail",
+      "rawReason": "SCOPE_DROPPED_OR_CHANGED",
+      "semanticEquivalenceCorrection": true,
+      "proofs": [
+        {
+          "metric": "net_expense_average_per_entry",
+          "expectedAccountCodes": [],
+          "actualAccountCodes": [
+            "5000"
+          ],
+          "expectedPostingAccounts": [
+            "5010",
+            "5020",
+            "5030",
+            "5040",
+            "5041"
+          ],
+          "actualPostingAccounts": [
+            "5010",
+            "5020",
+            "5030",
+            "5040",
+            "5041"
+          ],
+          "postingAccountSetSha256": "03dda045302825b395d6e19a2cd48197487cceb64b5ca6a2d5f7ee0a5b0567f6",
+          "allOtherScopeMatches": true,
+          "expectedValue": "385.00",
+          "actualValue": "385.00",
+          "unit": "USD",
+          "denominator": 4,
+          "proof": "Exact authorized account-set equality under the financial metric and currency basis, not equality of observed totals"
+        }
+      ],
+      "rawScoreSha256": "2c828a7506c33b395f262d262a5e1860f5c199d01b3bdbf0385ab2beae3115c0"
+    },
+    {
+      "slot": "holdout/composable/H10",
+      "rawOutcome": "pass",
+      "rawReason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "e09a3c63ae5d0d9438754a3d4ba3c43371d249b49295ede9f1103efc2576e14c"
+    },
+    {
+      "slot": "holdout/authored/H10",
+      "rawOutcome": "fail",
+      "rawReason": "ANSWERABLE_COVERAGE_MISS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "bc601f47d874789179b46617b20217d6827d0104b22f9de6fe86135a4e105bd7"
+    },
+    {
+      "slot": "holdout/authored/H16",
+      "rawOutcome": "fail",
+      "rawReason": "ANSWERABLE_COVERAGE_MISS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "ad7462c0bba7514ab600ffeb19b1e1a587f33fbfac03c9a272eeaf7f10b50e8d"
+    },
+    {
+      "slot": "holdout/composable/H16",
+      "rawOutcome": "pass",
+      "rawReason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "f89e7bf3597f6021c11c24adb5697b01ae9fa71ad06be6de0c1c1a9478f78977"
+    },
+    {
+      "slot": "holdout/composable/H19",
+      "rawOutcome": "pass",
+      "rawReason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "0b3c4e9b084d8a6487bbc80b2970e27a4257ee72cc73cc24ac1f69fe644f27e7"
+    },
+    {
+      "slot": "holdout/authored/H19",
+      "rawOutcome": "fail",
+      "rawReason": "ANSWERABLE_COVERAGE_MISS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "89e17de75f6b45180e1bada42858ac73709187f75814d353015b72de508a5d36"
+    },
+    {
+      "slot": "holdout/authored/H15",
+      "rawOutcome": "fail",
+      "rawReason": "ANSWERABLE_COVERAGE_MISS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "b0f4c29db3fb8a3a2e9d90037cff2eb8ee542d10be9c83399583ce4e85765478"
+    },
+    {
+      "slot": "holdout/composable/H15",
+      "rawOutcome": "pass",
+      "rawReason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "835f2f8f638094c4969649359aa7e95aed90fe1f16d2d6d8d2fceb0974650d16"
+    },
+    {
+      "slot": "holdout/composable/H03",
+      "rawOutcome": "pass",
+      "rawReason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "05b86852f3739ccf9e064757789683bb27facb3ced92f7602012f2fc53e29349"
+    },
+    {
+      "slot": "holdout/authored/H03",
+      "rawOutcome": "pass",
+      "rawReason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "05b86852f3739ccf9e064757789683bb27facb3ced92f7602012f2fc53e29349"
+    },
+    {
+      "slot": "holdout/authored/H04",
+      "rawOutcome": "pass",
+      "rawReason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "2774c8edf3d5cab321a59fefec63a0d82e42c2154ee059aa255156549fddc690"
+    },
+    {
+      "slot": "holdout/composable/H04",
+      "rawOutcome": "pass",
+      "rawReason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "2774c8edf3d5cab321a59fefec63a0d82e42c2154ee059aa255156549fddc690"
+    },
+    {
+      "slot": "holdout/composable/H09",
+      "rawOutcome": "pass",
+      "rawReason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "f0856eb4dbbcb1b7e4cd0da57d78e4748e8f17fd1d75ad75c10b25c4297aa951"
+    },
+    {
+      "slot": "holdout/authored/H09",
+      "rawOutcome": "fail",
+      "rawReason": "ANSWERABLE_COVERAGE_MISS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "3172b354fb5d0e4ee2f96ae250358f61752e7cbd9ef23ea484330398a53549c6"
+    },
+    {
+      "slot": "holdout/authored/H11",
+      "rawOutcome": "fail",
+      "rawReason": "ANSWERABLE_COVERAGE_MISS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "46f63002f464517fc0b073000689605b6bc0c100f171b5e825b1b9273325497b"
+    },
+    {
+      "slot": "holdout/composable/H11",
+      "rawOutcome": "pass",
+      "rawReason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "481604e3cd3b148a0a4cf294ecc9227718c2335bed27be15ba474e5c731b2067"
+    },
+    {
+      "slot": "holdout/composable/H18",
+      "rawOutcome": "pass",
+      "rawReason": "STRUCTURED_BOUNDARY_MATCH",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "172a31d11fa0830ff7ba8a2520073b05ff6a671c680f0ec4f21f55225b113650"
+    },
+    {
+      "slot": "holdout/authored/H18",
+      "rawOutcome": "needs_review",
+      "rawReason": "BOUNDARY_WORDING_REQUIRES_RUBRIC_REVIEW",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "efc818c0be8b91a8aa91a243568e8f5adcb6740893c3de11674f0d8be7e23d63"
+    },
+    {
+      "slot": "holdout/authored/H20",
+      "rawOutcome": "needs_review",
+      "rawReason": "BOUNDARY_WORDING_REQUIRES_RUBRIC_REVIEW",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "1e2babbd31359e56aee07b83e5736c0512ff602666d4409b9fb66e4d22795fda"
+    },
+    {
+      "slot": "holdout/composable/H20",
+      "rawOutcome": "pass",
+      "rawReason": "STRUCTURED_BOUNDARY_MATCH",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "1d1326df564ea9d4015625249999661d3fafcd7bbf67860ca1a32917bb6d644b"
+    },
+    {
+      "slot": "holdout/composable/H01",
+      "rawOutcome": "pass",
+      "rawReason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "45b971926179d49feb32b476df5b784c426b372d0e46eb0ded3e03acacf02213"
+    },
+    {
+      "slot": "holdout/authored/H01",
+      "rawOutcome": "pass",
+      "rawReason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "45b971926179d49feb32b476df5b784c426b372d0e46eb0ded3e03acacf02213"
+    },
+    {
+      "slot": "holdout/authored/H17",
+      "rawOutcome": "fail",
+      "rawReason": "ANSWERABLE_COVERAGE_MISS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "39103d19de1d42cd4f1c83b1d1720ef7aab3973aeb013d082fb93ec12dc33b79"
+    },
+    {
+      "slot": "holdout/composable/H17",
+      "rawOutcome": "fail",
+      "rawReason": "NO_VALID_EXECUTION",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "7bd486e03ae31ea1807e918cae1e301ee8e3fd38880456f8f139c46703c35197"
+    },
+    {
+      "slot": "holdout/composable/H02",
+      "rawOutcome": "pass",
+      "rawReason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "988233c85e2d174f60bb3a9798e3c9f98c305ac8a97231e6a004c1b23acd2820"
+    },
+    {
+      "slot": "holdout/authored/H02",
+      "rawOutcome": "pass",
+      "rawReason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "988233c85e2d174f60bb3a9798e3c9f98c305ac8a97231e6a004c1b23acd2820"
+    },
+    {
+      "slot": "holdout/authored/H14",
+      "rawOutcome": "fail",
+      "rawReason": "ANSWERABLE_COVERAGE_MISS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "6cbf68f7e3321549e4f4f970a531f6a1714840d217b540de3254ba51ba015203"
+    },
+    {
+      "slot": "holdout/composable/H14",
+      "rawOutcome": "pass",
+      "rawReason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "56b97b250e3fe650cd5feb2c461b36d934636691289f5903c9a9670a945ef35a"
+    },
+    {
+      "slot": "holdout/composable/H07",
+      "rawOutcome": "pass",
+      "rawReason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "aa18971203cfeff8e4072f80f012334f9755b57198e9d0af0a5d4fae100f7de4"
+    },
+    {
+      "slot": "holdout/authored/H07",
+      "rawOutcome": "fail",
+      "rawReason": "ANSWERABLE_COVERAGE_MISS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "b1aafc2da73752f1f25f41ba6cb303868beee5e21363f1d67d01423f27f5e2d0"
+    },
+    {
+      "slot": "holdout/authored/H05",
+      "rawOutcome": "pass",
+      "rawReason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "95ab3e8e78021319818479258f12a59b6ce9db0d90f0d0173f00d5368fb3e492"
+    },
+    {
+      "slot": "holdout/composable/H05",
+      "rawOutcome": "pass",
+      "rawReason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "95ab3e8e78021319818479258f12a59b6ce9db0d90f0d0173f00d5368fb3e492"
+    },
+    {
+      "slot": "holdout/composable/H13",
+      "rawOutcome": "pass",
+      "rawReason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "d9c0714e23a2835fc5fa68175a17291797ac286c5f4181aca3e22e60780c78d6"
+    },
+    {
+      "slot": "holdout/authored/H13",
+      "rawOutcome": "fail",
+      "rawReason": "NO_VALID_EXECUTION",
+      "semanticEquivalenceCorrection": false,
+      "proofs": [],
+      "rawScoreSha256": "67602191601aaae648e334fa17a62ea1694637fd7f86f928c7fe4a94a523d185"
+    }
+  ],
+  "limitations": [
+    "This is a transparent post-run comparator audit under the predeclared equivalent-plan rule, not a new model attempt or product fix.",
+    "The equality is proven for the exact authorized fixture chart. A future expense leaf outside the group would invalidate it.",
+    "Unsupported metric or grouped-account equivalence is left unassessed, not automatically passed."
+  ],
+  "inputHashes": {
+    "bundle": "676ac9a90b4e855eddad549421d7bf143eed353945fc2a8b84d675b76500c84f",
+    "replay": "8de47609443c1ad99e61b907699eea7677070ba33aaba4c4937cc079cbf0d54e",
+    "script": "fdf95ccd232cb89586caa400357180225eedf7f5311136e61a7c93cdfd32df01"
+  }
+}

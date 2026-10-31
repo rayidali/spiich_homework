@@ -33,7 +33,11 @@ vi.mock('../server/categorization-memory', () => ({
   recordProposal: vi.fn(),
 }));
 
-import { financialChat } from '../server/ai';
+import { financialChat as productFinancialChat } from '../server/ai';
+// These regressions freeze the authored tool contract and expense-only context.
+// The composable default has separate route-selection and query-engine tests.
+const financialChat = (org: string, messages: Parameters<typeof productFinancialChat>[1]) =>
+  productFinancialChat(org, messages, { route: 'authored' });
 import { AppError } from '../server/errors';
 
 const org = '00000000-0000-4000-8000-000000000001';

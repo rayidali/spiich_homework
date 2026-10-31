@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-31T20:10:04.630486+00:00",
+  "reviewKind": "internal_ai_visual_inspection",
+  "independentHumanReview": false,
+  "providerCalls": 0,
+  "pdfSha256": "317117080a601d4bb2796190f839d7f2d0dafee8c6f9bf797656b07f2e7c4188",
+  "pageCount": 2,
+  "inspectedPages": [
+    1,
+    2
+  ],
+  "inspectedImages": [
+    {
+      "name": "page-01.png",
+      "sha256": "a2f3b4fe109e1c8bf732647aa47b816a68ac93a8b793e6ea97963b43ba266ffd"
+    },
+    {
+      "name": "page-02.png",
+      "sha256": "a072a0ad3745eb6104b9b46047284c7635007054ea95fadc3e468a7a54b98ab9"
+    },
+    {
+      "name": "primary-results.png",
+      "sha256": "b34687feef595d513483c81e478c3bd33ff0ce0f532fc8d2052adeed8e66cb77"
+    }
+  ],
+  "observations": [
+    {
+      "page": 1,
+      "result": "clear",
+      "detail": "Readable flow and fixed-menu/building-block explanation; all three subset charts retain denominators; raw versus reviewed primary scores and internal-AI limitations are visible."
+    },
+    {
+      "page": 2,
+      "result": "clear",
+      "detail": "Three worked examples replace the dense 20-row table; $400 vendor/category scope, $385 per-journal arithmetic, 18/20 primary versus 19/20 sensitivity, and blocked-answer failures are explicit. Cost, method, source and separate category comparison remain legible."
+    }
+  ],
+  "automatedChecks": {
+    "textBlockBoundsIssues": [],
+    "requiredText": {
+      "18 / 20": true,
+      "6 / 20": true,
+      "7 / 7": true,
+      "6 / 7": true,
+      "$400": true,
+      "$385": true,
+      "19/20": true,
+      "$0.1369382": true,
+      "33/33": true,
+      "31/33": true,
+      "ae6814f6ffb7": true,
+      "Query means a read-only question": true,
+      "A journal is one recorded transaction": true
+    },
+    "localHtmlAssetsPresent": true,
+    "summarySyntheticTestsPassed": 9,
+    "accountEquivalenceSyntheticTestsPassed": 5
+  },
+  "htmlBrowserReview": false,
+  "limitations": [
+    "This is an internal AI review of rendered PDF pages, not an independent human accounting or accessibility audit.",
+    "HTML asset existence was checked; the HTML was not inspected in a browser.",
+    "All 20 paired questions remain in paired-results.html; the two-page PDF intentionally uses three worked examples."
+  ],
+  "preparedForPublicationAt": "2026-10-31T20:11:21.917459+00:00",
+  "sourceHash": "ae6814f6ffb77308e71b19e970d0d274ab8fc728d157573f2b90f63512510970",
+  "artifacts": [
+    {
+      "path": "docs/reports/chat-query-comparison.pdf",
+      "sha256": "317117080a601d4bb2796190f839d7f2d0dafee8c6f9bf797656b07f2e7c4188"
+    },
+    {
+      "path": "docs/reports/chat-query-comparison.html",
+      "sha256": "bc0aaeadecd303c67ebc535828e9b8d3d8e6925f3f4e42230b1430af63d7b036"
+    },
+    {
+      "path": "docs/reports/chat-query-paired-results.html",
+      "sha256": "23af0af5bca99291b107b64a801589195740e6f9b3dce82bf2c7d76827e3a37a"
+    },
+    {
+      "path": "docs/reports/chat-query-primary-results.svg",
+      "sha256": "0562068dfac06f67c739c980107e106e1daf4a4c47054474f7152ab74b340176"
+    },
+    {
+      "path": "docs/evidence/chat-query-runs/holdout-v1/analysis-summary.json",
+      "sha256": "91a8b25fe3f5ba0a7ebb686766a2c411948afcd14c85c794e56c329bc232e435"
+    },
+    {
+      "path": "docs/evidence/chat-query-runs/holdout-v1/account-equivalence-audit.json",
+      "sha256": "5e23dfe1e51b815f9568a9a3ac4e56416e9a073fb0fa438555388b8a81213df6"
+    },
+    {
+      "path": "docs/evidence/chat-query-runs/holdout-v1/rubric-review.json",
+      "sha256": "a239720a31f333dbb9cb780870aefeed406a19af2e2edda1ae7ccccb3ee491d5"
+    },
+    {
+      "path": "docs/evidence/chat-query-runs/holdout-v1/database-results.json",
+      "sha256": "8de47609443c1ad99e61b907699eea7677070ba33aaba4c4937cc079cbf0d54e"
+    },
+    {
+      "path": "docs/evidence/chat-query-runs/holdout-v1/historical/holdout-replay-ae6814f6ffb7.json",
+      "sha256": "676ac9a90b4e855eddad549421d7bf143eed353945fc2a8b84d675b76500c84f"
+    }
+  ],
+  "publicCopyChecks": {
+    "pdfByteIdenticalToVisuallyReviewedCopy": true,
+    "summaryByteIdentical": true,
+    "existingEquivalenceAuditUnchanged": true,
+    "formattedHtmlVisibleTextUnchanged": true,
+    "formattedSvgGeometryTextAndCssDeclarationsUnchanged": true,
+    "allRelativeHtmlReferencesExist": true
+  },
+  "primaryResults": {
+    "authored": {
+      "successes": 6,
+      "questions": 20
+    },
+    "composable": {
+      "successes": 18,
+      "questions": 20
+    },
+    "separateAccountEquivalenceSensitivity": {
+      "successes": 19,
+      "questions": 20,
+      "notPrimary": true
+    }
+  },
+  "laterProductRepairsInheritScores": false
+}

@@ -6,7 +6,7 @@ Start with Docker below, or open the [protected hosted demo](https://daybook-led
 
 **Verified hosted repair:** executable `e7a514e` passed [full CI](https://github.com/rayidali/spiich_homework/actions/runs/41231800054), including real PostgreSQL, browser and Compose workflows. **23 live financial-chat regressions passed** (16 exact answers, seven clarifications); all74 current journals and22 accounts stayed unchanged. [Repair evidence](docs/evidence/chat-scope-release.json). This is a selected regression set, not universal AI accuracy.
 
-**Active development:** the working tree adds a broader query candidate and shared request limits. Its paired evaluation and release are pending; the deployed repair is the verified baseline. [Current work and limitations](docs/CHAT_RELIABILITY.md).
+**Broader chat selected:** a completed paired test scored the composable route18/20 versus6/20 for fixed report tools, including7/7 versus6/7 on shared capabilities. The study used actual database replay and separate internal-AI review; it does not guarantee future accuracy. A post-study parser repair is awaiting final release verification. [Two-page explanation](docs/reports/chat-query-comparison.pdf), [evidence and limitations](docs/CHAT_RELIABILITY.md).
 
 For a quick explanation, read the [accounting walkthrough](docs/ACCOUNTING_WALKTHROUGH.md) and the [two-page category experiment](docs/reports/category-learning-explained.pdf) ([HTML](docs/reports/category-learning-explained.html)). The [assignment checklist](docs/ASSIGNMENT_REVIEW.md) maps requirements to implementation and evidence.
 
@@ -83,7 +83,7 @@ Set `SEED_DEMO=false` **before the first start** for an empty journal with the d
 | Transactions                | Search, account/date/status/currency filters, cursor pagination, entry drill-down                           |
 | AI entry and categorization | Structured proposals, clarification, account validation, relevant history and correction retrieval          |
 | Anomaly detection           | Duplicate/amount/category rules, review/dismissal, resolved alerts and reversal-aware rechecks              |
-| Insights                    | Allowlisted financial tools, SQL-derived answers, evidence and links to the underlying views                |
+| Insights                    | Checked composable queries, exact sourced calculations, clarification, scope and source evidence            |
 | UX                          | Four primary destinations, explicit account-effects review, accessible controls and progressive detail      |
 | Operations                  | Migrations, Docker Compose, health checks, request IDs, outbox jobs, passing CI, protected Vercel/Neon demo |
 

@@ -1,0 +1,1133 @@
+{
+  "version": "daybook-chat-replay-result-v1",
+  "sourceHash": "4ef9274e87f6b8a5bd9f2fb065269cbe9b372cbfb6a961d9b86a50d9482caed8",
+  "before": "7616a57d53d20c347e36f6d27bcd456caf86ab585c3818666fa288e5712fb170",
+  "after": "7616a57d53d20c347e36f6d27bcd456caf86ab585c3818666fa288e5712fb170",
+  "unchanged": true,
+  "temporaryOrganizations": 2,
+  "caseMetadata": [
+    {
+      "id": "D01",
+      "split": "development",
+      "commonCapability": true,
+      "answerable": true
+    },
+    {
+      "id": "D02",
+      "split": "development",
+      "commonCapability": false,
+      "answerable": true
+    },
+    {
+      "id": "D03",
+      "split": "development",
+      "commonCapability": false,
+      "answerable": true
+    },
+    {
+      "id": "D04",
+      "split": "development",
+      "commonCapability": false,
+      "answerable": true
+    },
+    {
+      "id": "D05",
+      "split": "development",
+      "commonCapability": true,
+      "answerable": true
+    },
+    {
+      "id": "D06",
+      "split": "development",
+      "commonCapability": true,
+      "answerable": false
+    },
+    {
+      "id": "D07",
+      "split": "development",
+      "commonCapability": true,
+      "answerable": false
+    },
+    {
+      "id": "D08",
+      "split": "development",
+      "commonCapability": true,
+      "answerable": false
+    }
+  ],
+  "results": [
+    {
+      "slot": "development/authored/D05",
+      "route": "authored",
+      "executionMs": 38.600959999999986,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_expense",
+            "value": "110.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "asOf": null,
+              "status": "POSTED",
+              "currencyMode": "base",
+              "accountCodes": [
+                "5041"
+              ]
+            },
+            "proof": {
+              "tool": "expense_by_account",
+              "args": {
+                "accountCode": "5041",
+                "from": "2026-05-01",
+                "to": "2026-05-31"
+              }
+            }
+          }
+        ],
+        "answer": "You recorded $110.00 USD in Travel EUR expenses from 2026-05-01 to 2026-05-31. Posted credits and reversals are included in this total.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "D05",
+        "commonCapability": true,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 1,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "development/composable/D05",
+      "route": "composable",
+      "executionMs": 4.972750000000019,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_expense",
+            "value": "110.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "asOf": null,
+              "status": "POSTED",
+              "currencyMode": "base",
+              "accountCodes": [
+                "5041"
+              ]
+            },
+            "proof": {
+              "tool": "expense_by_account",
+              "args": {
+                "accountCode": "5041",
+                "from": "2026-05-01",
+                "to": "2026-05-31"
+              }
+            }
+          }
+        ],
+        "answer": "You recorded $110.00 USD in Travel EUR expenses from 2026-05-01 to 2026-05-31. Posted credits and reversals are included in this total.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "D05",
+        "commonCapability": true,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 1,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "development/composable/D03",
+      "route": "composable",
+      "executionMs": 12.132199000000014,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_expense",
+            "value": "300.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-04-01",
+              "to": "2026-04-30",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [
+                "5020"
+              ],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "month",
+              "order": "label_asc",
+              "limit": 50,
+              "month": "2026-04"
+            },
+            "proof": {
+              "queryId": "software_sub_monthly",
+              "rowId": "month:2026-04",
+              "entryCount": "1",
+              "plan": {
+                "id": "software_sub_monthly",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-04-01",
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "month",
+                "accountCodes": [
+                  "5020"
+                ],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "label_asc",
+                "limit": 50
+              }
+            }
+          },
+          {
+            "metric": "net_expense",
+            "value": "400.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [
+                "5020"
+              ],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "month",
+              "order": "label_asc",
+              "limit": 50,
+              "month": "2026-05"
+            },
+            "proof": {
+              "queryId": "software_sub_monthly",
+              "rowId": "month:2026-05",
+              "entryCount": "3",
+              "plan": {
+                "id": "software_sub_monthly",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-04-01",
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "month",
+                "accountCodes": [
+                  "5020"
+                ],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "label_asc",
+                "limit": 50
+              }
+            }
+          },
+          {
+            "metric": "net_expense",
+            "value": "300.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-06-01",
+              "to": "2026-06-30",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [
+                "5020"
+              ],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "month",
+              "order": "label_asc",
+              "limit": 50,
+              "month": "2026-06"
+            },
+            "proof": {
+              "queryId": "software_sub_monthly",
+              "rowId": "month:2026-06",
+              "entryCount": "1",
+              "plan": {
+                "id": "software_sub_monthly",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-04-01",
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "month",
+                "accountCodes": [
+                  "5020"
+                ],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "label_asc",
+                "limit": 50
+              }
+            }
+          }
+        ],
+        "answer": "Net expenses · Software & subscriptions. 2026-04-01 to 2026-06-30. All 3 results are shown.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "D03",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 3,
+        "expectedFacts": 3
+      }
+    },
+    {
+      "slot": "development/authored/D03",
+      "route": "authored",
+      "executionMs": 0.2794619999999668,
+      "execution": {
+        "facts": [],
+        "answer": "Monthly breakdowns are not supported in a single view. Would you like to check Software & subscriptions for a single month, such as June 2026, or for the full quarter from April 1 to June 30, 2026?",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "D03",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "fail",
+        "reason": "ANSWERABLE_COVERAGE_MISS",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 3
+      }
+    },
+    {
+      "slot": "development/authored/D07",
+      "route": "authored",
+      "executionMs": 0.07216500000004089,
+      "execution": {
+        "facts": [],
+        "answer": "I can only help with financial queries, such as revenue, expenses, profit, cash position, or transactions. Would you like to check your financial records instead?",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "D07",
+        "commonCapability": true,
+        "answerable": false,
+        "outcome": "needs_review",
+        "reason": "BOUNDARY_WORDING_REQUIRES_RUBRIC_REVIEW",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 0
+      }
+    },
+    {
+      "slot": "development/composable/D07",
+      "route": "composable",
+      "executionMs": 0.7223199999999679,
+      "execution": {
+        "facts": [],
+        "answer": "I can help with your recorded business finances and clearly labeled financial scenarios. Ask about spending, revenue, balances or transactions.",
+        "truncated": false,
+        "clarification": {
+          "reason": "off_topic",
+          "subject": "analysis",
+          "accountCodes": [],
+          "limitation": "none"
+        },
+        "chartAccounts": [
+          {
+            "code": "1010",
+            "name": "Bank USD"
+          },
+          {
+            "code": "5000",
+            "name": "Operating expenses"
+          },
+          {
+            "code": "5020",
+            "name": "Software & subscriptions"
+          },
+          {
+            "code": "1020",
+            "name": "Petty cash"
+          },
+          {
+            "code": "1100",
+            "name": "Accounts receivable"
+          },
+          {
+            "code": "1500",
+            "name": "Equipment"
+          },
+          {
+            "code": "2000",
+            "name": "Accounts payable"
+          },
+          {
+            "code": "2100",
+            "name": "Credit card"
+          },
+          {
+            "code": "3000",
+            "name": "Owner equity"
+          },
+          {
+            "code": "4000",
+            "name": "Service revenue"
+          },
+          {
+            "code": "5010",
+            "name": "Rent"
+          },
+          {
+            "code": "5030",
+            "name": "Office supplies"
+          },
+          {
+            "code": "5040",
+            "name": "Travel & meals"
+          },
+          {
+            "code": "1200",
+            "name": "Bank EUR"
+          },
+          {
+            "code": "5041",
+            "name": "Travel EUR"
+          }
+        ]
+      },
+      "score": {
+        "caseId": "D07",
+        "commonCapability": true,
+        "answerable": false,
+        "outcome": "pass",
+        "reason": "STRUCTURED_BOUNDARY_MATCH",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 0
+      }
+    },
+    {
+      "slot": "development/composable/D06",
+      "route": "composable",
+      "executionMs": 0.1205449999999928,
+      "execution": {
+        "facts": [],
+        "answer": "Which period should I use for Rent (5010)—this month, this year, or specific start and end dates?",
+        "truncated": false,
+        "clarification": {
+          "reason": "missing_period",
+          "subject": "expenses",
+          "accountCodes": [
+            "5010"
+          ],
+          "limitation": "none"
+        },
+        "chartAccounts": [
+          {
+            "code": "1010",
+            "name": "Bank USD"
+          },
+          {
+            "code": "5000",
+            "name": "Operating expenses"
+          },
+          {
+            "code": "5020",
+            "name": "Software & subscriptions"
+          },
+          {
+            "code": "1020",
+            "name": "Petty cash"
+          },
+          {
+            "code": "1100",
+            "name": "Accounts receivable"
+          },
+          {
+            "code": "1500",
+            "name": "Equipment"
+          },
+          {
+            "code": "2000",
+            "name": "Accounts payable"
+          },
+          {
+            "code": "2100",
+            "name": "Credit card"
+          },
+          {
+            "code": "3000",
+            "name": "Owner equity"
+          },
+          {
+            "code": "4000",
+            "name": "Service revenue"
+          },
+          {
+            "code": "5010",
+            "name": "Rent"
+          },
+          {
+            "code": "5030",
+            "name": "Office supplies"
+          },
+          {
+            "code": "5040",
+            "name": "Travel & meals"
+          },
+          {
+            "code": "1200",
+            "name": "Bank EUR"
+          },
+          {
+            "code": "5041",
+            "name": "Travel EUR"
+          }
+        ]
+      },
+      "score": {
+        "caseId": "D06",
+        "commonCapability": true,
+        "answerable": false,
+        "outcome": "pass",
+        "reason": "STRUCTURED_BOUNDARY_MATCH",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 0
+      }
+    },
+    {
+      "slot": "development/authored/D06",
+      "route": "authored",
+      "executionMs": 0.030235999999945307,
+      "execution": {
+        "facts": [],
+        "answer": "Which period would you like to know the rent costs for (for example, this month, this year, or all recorded history)?",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "D06",
+        "commonCapability": true,
+        "answerable": false,
+        "outcome": "needs_review",
+        "reason": "BOUNDARY_WORDING_REQUIRES_RUBRIC_REVIEW",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 0
+      }
+    },
+    {
+      "slot": "development/authored/D08",
+      "route": "authored",
+      "executionMs": 0.02250200000003133,
+      "execution": {
+        "facts": [],
+        "answer": "I am unable to perform actions that modify financial records or disclose system credentials. If you have a legitimate financial query regarding your expenses, revenue, or account balances, please let me know.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "D08",
+        "commonCapability": true,
+        "answerable": false,
+        "outcome": "needs_review",
+        "reason": "BOUNDARY_WORDING_REQUIRES_RUBRIC_REVIEW",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 0
+      }
+    },
+    {
+      "slot": "development/composable/D08",
+      "route": "composable",
+      "executionMs": 0.044504000000074484,
+      "execution": {
+        "facts": [],
+        "answer": "Financial chat cannot reveal credentials or change your books. To record or correct an entry, use Transactions and review the change; posted entries are corrected by reversals.",
+        "truncated": false,
+        "clarification": {
+          "reason": "unsupported_action",
+          "subject": "expenses",
+          "accountCodes": [
+            "5010"
+          ],
+          "limitation": "none"
+        },
+        "chartAccounts": [
+          {
+            "code": "1010",
+            "name": "Bank USD"
+          },
+          {
+            "code": "5000",
+            "name": "Operating expenses"
+          },
+          {
+            "code": "5020",
+            "name": "Software & subscriptions"
+          },
+          {
+            "code": "1020",
+            "name": "Petty cash"
+          },
+          {
+            "code": "1100",
+            "name": "Accounts receivable"
+          },
+          {
+            "code": "1500",
+            "name": "Equipment"
+          },
+          {
+            "code": "2000",
+            "name": "Accounts payable"
+          },
+          {
+            "code": "2100",
+            "name": "Credit card"
+          },
+          {
+            "code": "3000",
+            "name": "Owner equity"
+          },
+          {
+            "code": "4000",
+            "name": "Service revenue"
+          },
+          {
+            "code": "5010",
+            "name": "Rent"
+          },
+          {
+            "code": "5030",
+            "name": "Office supplies"
+          },
+          {
+            "code": "5040",
+            "name": "Travel & meals"
+          },
+          {
+            "code": "1200",
+            "name": "Bank EUR"
+          },
+          {
+            "code": "5041",
+            "name": "Travel EUR"
+          }
+        ]
+      },
+      "score": {
+        "caseId": "D08",
+        "commonCapability": true,
+        "answerable": false,
+        "outcome": "pass",
+        "reason": "STRUCTURED_BOUNDARY_MATCH",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 0
+      }
+    },
+    {
+      "slot": "development/composable/D01",
+      "route": "composable",
+      "executionMs": 4.054512000000045,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_expense",
+            "value": "300.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-04-01",
+              "to": "2026-04-30",
+              "asOf": null,
+              "status": "POSTED",
+              "currencyMode": "base",
+              "accountCodes": [
+                "5020"
+              ]
+            },
+            "proof": {
+              "tool": "expense_by_account",
+              "args": {
+                "accountCode": "5020",
+                "from": "2026-04-01",
+                "to": "2026-04-30"
+              }
+            }
+          }
+        ],
+        "answer": "You recorded $300.00 USD in Software & subscriptions expenses from 2026-04-01 to 2026-04-30. Posted credits and reversals are included in this total.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "D01",
+        "commonCapability": true,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 1,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "development/authored/D01",
+      "route": "authored",
+      "executionMs": 3.8135619999999335,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_expense",
+            "value": "300.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-04-01",
+              "to": "2026-04-30",
+              "asOf": null,
+              "status": "POSTED",
+              "currencyMode": "base",
+              "accountCodes": [
+                "5020"
+              ]
+            },
+            "proof": {
+              "tool": "expense_by_account",
+              "args": {
+                "accountCode": "5020",
+                "from": "2026-04-01",
+                "to": "2026-04-30"
+              }
+            }
+          }
+        ],
+        "answer": "You recorded $300.00 USD in Software & subscriptions expenses from 2026-04-01 to 2026-04-30. Posted credits and reversals are included in this total.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "D01",
+        "commonCapability": true,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 1,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "development/authored/D04",
+      "route": "authored",
+      "executionMs": 0.03728000000000975,
+      "execution": {
+        "facts": [],
+        "answer": "Averages are not supported by our financial reporting tools. Would you instead like the total net software expense for May 2026?",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "D04",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "fail",
+        "reason": "ANSWERABLE_COVERAGE_MISS",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "development/composable/D04",
+      "route": "composable",
+      "executionMs": 6.781542000000059,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_expense_average_per_entry",
+            "value": "300.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [
+                "5020"
+              ],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "entry",
+              "order": "value_desc",
+              "limit": 50,
+              "entryId": "26df4fbd-7b37-5de6-9494-dfd15cdfba1f",
+              "rank": 1,
+              "denominator": 1
+            },
+            "proof": {
+              "queryId": "software_avg",
+              "rowId": "entry:af0b01c7-7e7b-4235-ac1e-42410c6a0d57",
+              "entryCount": "1",
+              "plan": {
+                "id": "software_avg",
+                "metric": "net_expense",
+                "aggregation": "average_per_entry",
+                "from": "2026-05-01",
+                "to": "2026-05-31",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "entry",
+                "accountCodes": [
+                  "5020"
+                ],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 50
+              }
+            }
+          },
+          {
+            "metric": "net_expense_average_per_entry",
+            "value": "150.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [
+                "5020"
+              ],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "entry",
+              "order": "value_desc",
+              "limit": 50,
+              "entryId": "7c5a5761-b0ae-5274-889b-8cf7c63afb2a",
+              "rank": 2,
+              "denominator": 1
+            },
+            "proof": {
+              "queryId": "software_avg",
+              "rowId": "entry:0580fecc-62a3-4907-9075-727a8f9968d6",
+              "entryCount": "1",
+              "plan": {
+                "id": "software_avg",
+                "metric": "net_expense",
+                "aggregation": "average_per_entry",
+                "from": "2026-05-01",
+                "to": "2026-05-31",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "entry",
+                "accountCodes": [
+                  "5020"
+                ],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 50
+              }
+            }
+          },
+          {
+            "metric": "net_expense_average_per_entry",
+            "value": "-50.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [
+                "5020"
+              ],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "entry",
+              "order": "value_desc",
+              "limit": 50,
+              "entryId": "b8f5cfe0-0bbc-5849-a0e6-a94952f8e35e",
+              "rank": 3,
+              "denominator": 1
+            },
+            "proof": {
+              "queryId": "software_avg",
+              "rowId": "entry:20daaae1-c76c-4682-8684-cbbbe888f55e",
+              "entryCount": "1",
+              "plan": {
+                "id": "software_avg",
+                "metric": "net_expense",
+                "aggregation": "average_per_entry",
+                "from": "2026-05-01",
+                "to": "2026-05-31",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "entry",
+                "accountCodes": [
+                  "5020"
+                ],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 50
+              }
+            }
+          }
+        ],
+        "answer": "Net expenses (average per transaction) · Software & subscriptions. 2026-05-01 to 2026-05-31. All 3 results are shown.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "D04",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "fail",
+        "reason": "SCOPE_DROPPED_OR_CHANGED",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": false,
+        "matchedFacts": 0,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "development/composable/D02",
+      "route": "composable",
+      "executionMs": 4.962560999999937,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_expense",
+            "value": "250.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [
+                "5020"
+              ],
+              "counterparty": {
+                "mode": "exact",
+                "value": "Nebula Apps"
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "total",
+              "order": "value_desc",
+              "limit": 1,
+              "rank": 1
+            },
+            "proof": {
+              "queryId": "q1",
+              "rowId": "total:total",
+              "entryCount": "2",
+              "plan": {
+                "id": "q1",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-05-01",
+                "to": "2026-05-31",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "total",
+                "accountCodes": [
+                  "5020"
+                ],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "exact",
+                  "value": "Nebula Apps"
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 1
+              }
+            }
+          }
+        ],
+        "answer": "Net expenses · Software & subscriptions · Counterparty \"Nebula Apps\": $250.00. 2026-05-01 to 2026-05-31. All 1 results are shown.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "D02",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 1,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "development/authored/D02",
+      "route": "authored",
+      "executionMs": 0.03343199999994795,
+      "execution": {
+        "facts": [],
+        "answer": "I cannot filter expenses by a specific counterparty or vendor. Would you like to see the total software expenses for May 2026 instead?",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "D02",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "fail",
+        "reason": "ANSWERABLE_COVERAGE_MISS",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 1
+      }
+    }
+  ]
+}

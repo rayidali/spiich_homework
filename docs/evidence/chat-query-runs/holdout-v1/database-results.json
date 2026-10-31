@@ -1,0 +1,2859 @@
+{
+  "version": "daybook-chat-replay-result-v1",
+  "sourceHash": "ae6814f6ffb77308e71b19e970d0d274ab8fc728d157573f2b90f63512510970",
+  "before": "91d023f0588da0d0429e249272d181ada7e464aa959e35dee54c0981a2f0e34e",
+  "after": "91d023f0588da0d0429e249272d181ada7e464aa959e35dee54c0981a2f0e34e",
+  "unchanged": true,
+  "temporaryOrganizations": 2,
+  "caseMetadata": [
+    {
+      "id": "H01",
+      "split": "holdout",
+      "commonCapability": true,
+      "answerable": true
+    },
+    {
+      "id": "H02",
+      "split": "holdout",
+      "commonCapability": true,
+      "answerable": true
+    },
+    {
+      "id": "H03",
+      "split": "holdout",
+      "commonCapability": true,
+      "answerable": true
+    },
+    {
+      "id": "H04",
+      "split": "holdout",
+      "commonCapability": true,
+      "answerable": true
+    },
+    {
+      "id": "H05",
+      "split": "holdout",
+      "commonCapability": true,
+      "answerable": true
+    },
+    {
+      "id": "H06",
+      "split": "holdout",
+      "commonCapability": false,
+      "answerable": true
+    },
+    {
+      "id": "H07",
+      "split": "holdout",
+      "commonCapability": false,
+      "answerable": true
+    },
+    {
+      "id": "H08",
+      "split": "holdout",
+      "commonCapability": false,
+      "answerable": true
+    },
+    {
+      "id": "H09",
+      "split": "holdout",
+      "commonCapability": false,
+      "answerable": true
+    },
+    {
+      "id": "H10",
+      "split": "holdout",
+      "commonCapability": false,
+      "answerable": true
+    },
+    {
+      "id": "H11",
+      "split": "holdout",
+      "commonCapability": false,
+      "answerable": true
+    },
+    {
+      "id": "H12",
+      "split": "holdout",
+      "commonCapability": false,
+      "answerable": true
+    },
+    {
+      "id": "H13",
+      "split": "holdout",
+      "commonCapability": false,
+      "answerable": true
+    },
+    {
+      "id": "H14",
+      "split": "holdout",
+      "commonCapability": false,
+      "answerable": true
+    },
+    {
+      "id": "H15",
+      "split": "holdout",
+      "commonCapability": false,
+      "answerable": true
+    },
+    {
+      "id": "H16",
+      "split": "holdout",
+      "commonCapability": false,
+      "answerable": true
+    },
+    {
+      "id": "H17",
+      "split": "holdout",
+      "commonCapability": false,
+      "answerable": true
+    },
+    {
+      "id": "H18",
+      "split": "holdout",
+      "commonCapability": true,
+      "answerable": false
+    },
+    {
+      "id": "H19",
+      "split": "holdout",
+      "commonCapability": false,
+      "answerable": true
+    },
+    {
+      "id": "H20",
+      "split": "holdout",
+      "commonCapability": true,
+      "answerable": false
+    }
+  ],
+  "results": [
+    {
+      "slot": "holdout/authored/H12",
+      "route": "authored",
+      "executionMs": 1.8376169999999092,
+      "execution": {
+        "facts": [],
+        "answer": "I cannot access unposted drafts or separate unposted transactions from the posted books, as my tools only report posted journal entries. Would you like to check the total posted expenses for June 2026 instead?",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H12",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "fail",
+        "reason": "ANSWERABLE_COVERAGE_MISS",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "holdout/composable/H12",
+      "route": "composable",
+      "executionMs": 41.73280299999999,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_expense",
+            "value": "500.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-06-01",
+              "to": "2026-06-30",
+              "asOf": null,
+              "status": "DRAFT",
+              "accountCodes": [],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "total",
+              "order": "value_desc",
+              "limit": 1,
+              "rank": 1
+            },
+            "proof": {
+              "queryId": "draft_expenses",
+              "rowId": "total:total",
+              "entryCount": "1",
+              "plan": {
+                "id": "draft_expenses",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-06-01",
+                "to": "2026-06-30",
+                "status": "DRAFT",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "total",
+                "accountCodes": [],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 1
+              }
+            }
+          }
+        ],
+        "answer": "Net expenses (drafts only): $500.00. 2026-06-01 to 2026-06-30. All 1 results are shown.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H12",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 1,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "holdout/composable/H06",
+      "route": "composable",
+      "executionMs": 6.208940000000098,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_expense",
+            "value": "3000.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-04-01",
+              "to": "2026-06-30",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [],
+              "counterparty": {
+                "mode": "exact",
+                "value": "Harbor Property"
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "counterparty",
+              "order": "value_desc",
+              "limit": 3,
+              "rank": 1
+            },
+            "proof": {
+              "queryId": "top_counterparties",
+              "rowId": "counterparty:Harbor%20Property",
+              "entryCount": "3",
+              "plan": {
+                "id": "top_counterparties",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-04-01",
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "counterparty",
+                "accountCodes": [],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 3
+              }
+            }
+          },
+          {
+            "metric": "net_expense",
+            "value": "850.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-04-01",
+              "to": "2026-06-30",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [],
+              "counterparty": {
+                "mode": "exact",
+                "value": "Nebula Apps"
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "counterparty",
+              "order": "value_desc",
+              "limit": 3,
+              "rank": 2
+            },
+            "proof": {
+              "queryId": "top_counterparties",
+              "rowId": "counterparty:Nebula%20Apps",
+              "entryCount": "4",
+              "plan": {
+                "id": "top_counterparties",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-04-01",
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "counterparty",
+                "accountCodes": [],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 3
+              }
+            }
+          },
+          {
+            "metric": "net_expense",
+            "value": "440.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-04-01",
+              "to": "2026-06-30",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [],
+              "counterparty": {
+                "mode": "exact",
+                "value": "Maple Stationery"
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "counterparty",
+              "order": "value_desc",
+              "limit": 3,
+              "rank": 3
+            },
+            "proof": {
+              "queryId": "top_counterparties",
+              "rowId": "counterparty:Maple%20Stationery",
+              "entryCount": "3",
+              "plan": {
+                "id": "top_counterparties",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-04-01",
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "counterparty",
+                "accountCodes": [],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 3
+              }
+            }
+          }
+        ],
+        "answer": "Net expenses. 2026-04-01 to 2026-06-30. Showing 3 results. There are more; these are not the complete results.",
+        "truncated": true
+      },
+      "score": {
+        "caseId": "H06",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 3,
+        "expectedFacts": 3
+      }
+    },
+    {
+      "slot": "holdout/authored/H06",
+      "route": "authored",
+      "executionMs": 0.038853000000017346,
+      "execution": {
+        "facts": [],
+        "answer": "I cannot rank expenses by counterparty or vendor. Would you like to see the overall expense summary or expenses broken down by account category for April through June 2026 instead?",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H06",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "fail",
+        "reason": "ANSWERABLE_COVERAGE_MISS",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 3
+      }
+    },
+    {
+      "slot": "holdout/authored/H08",
+      "route": "authored",
+      "executionMs": 0.08989900000005946,
+      "execution": {
+        "facts": [],
+        "answer": "I cannot compute averages per journal. Would you like the total net expenses for April 2026 instead?",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H08",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "fail",
+        "reason": "ANSWERABLE_COVERAGE_MISS",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "holdout/composable/H08",
+      "route": "composable",
+      "executionMs": 6.750990999999999,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_expense_average_per_entry",
+            "value": "385.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-04-01",
+              "to": "2026-04-30",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [
+                "5000"
+              ],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "total",
+              "order": "value_desc",
+              "limit": 5,
+              "rank": 1,
+              "denominator": 4
+            },
+            "proof": {
+              "queryId": "q1",
+              "rowId": "total:total",
+              "entryCount": "4",
+              "plan": {
+                "id": "q1",
+                "metric": "net_expense",
+                "aggregation": "average_per_entry",
+                "from": "2026-04-01",
+                "to": "2026-04-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "total",
+                "accountCodes": [
+                  "5000"
+                ],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 5
+              }
+            }
+          }
+        ],
+        "answer": "Net expenses (average per transaction) · Operating expenses: $385.00. 2026-04-01 to 2026-04-30. All 1 results are shown.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H08",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "fail",
+        "reason": "SCOPE_DROPPED_OR_CHANGED",
+        "numericCorrect": true,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": false,
+        "matchedFacts": 0,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "holdout/composable/H10",
+      "route": "composable",
+      "executionMs": 5.442379000000074,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_expense",
+            "value": "1000.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": "200",
+              "maximumAmount": null,
+              "groupBy": "entry",
+              "order": "value_desc",
+              "limit": 50,
+              "entryId": "878ec399-345d-547f-b18b-bc32606df608",
+              "rank": 1
+            },
+            "proof": {
+              "queryId": "q1",
+              "rowId": "entry:b3a8334e-9518-40e3-871a-cc15aa01b051",
+              "entryCount": "1",
+              "plan": {
+                "id": "q1",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-05-01",
+                "to": "2026-05-31",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "entry",
+                "accountCodes": [],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": "200",
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 50
+              }
+            }
+          },
+          {
+            "metric": "net_expense",
+            "value": "300.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": "200",
+              "maximumAmount": null,
+              "groupBy": "entry",
+              "order": "value_desc",
+              "limit": 50,
+              "entryId": "26df4fbd-7b37-5de6-9494-dfd15cdfba1f",
+              "rank": 2
+            },
+            "proof": {
+              "queryId": "q1",
+              "rowId": "entry:76184de2-f839-4e7e-acca-f9b47d618cd7",
+              "entryCount": "1",
+              "plan": {
+                "id": "q1",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-05-01",
+                "to": "2026-05-31",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "entry",
+                "accountCodes": [],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": "200",
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 50
+              }
+            }
+          },
+          {
+            "metric": "net_expense",
+            "value": "200.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": "200",
+              "maximumAmount": null,
+              "groupBy": "entry",
+              "order": "value_desc",
+              "limit": 50,
+              "entryId": "03805135-d7ae-56e9-bf40-628027924934",
+              "rank": 3
+            },
+            "proof": {
+              "queryId": "q1",
+              "rowId": "entry:fa2a1929-2078-4b30-b5f5-3b74e32da113",
+              "entryCount": "1",
+              "plan": {
+                "id": "q1",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-05-01",
+                "to": "2026-05-31",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "entry",
+                "accountCodes": [],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": "200",
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 50
+              }
+            }
+          }
+        ],
+        "answer": "Net expenses. 2026-05-01 to 2026-05-31. All 3 results are shown.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H10",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 3,
+        "expectedFacts": 3
+      }
+    },
+    {
+      "slot": "holdout/authored/H10",
+      "route": "authored",
+      "executionMs": 0.029605999999944288,
+      "execution": {
+        "facts": [],
+        "answer": "I cannot filter journals by minimum amount or rank them by size. Would you like to search journal descriptions or view expense totals for May 2026?",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H10",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "fail",
+        "reason": "ANSWERABLE_COVERAGE_MISS",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 3
+      }
+    },
+    {
+      "slot": "holdout/authored/H16",
+      "route": "authored",
+      "executionMs": 0.02178100000003269,
+      "execution": {
+        "facts": [],
+        "answer": "Monthly cash balance trends across multiple month-end dates are not supported. Would you like to check the cash and bank book balances as of a specific date (such as the latest month end, June 30, 2026)?",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H16",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "fail",
+        "reason": "ANSWERABLE_COVERAGE_MISS",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 6
+      }
+    },
+    {
+      "slot": "holdout/composable/H16",
+      "route": "composable",
+      "executionMs": 7.628552000000013,
+      "execution": {
+        "facts": [
+          {
+            "metric": "cash_balance",
+            "value": "0.00",
+            "unit": "USD",
+            "scope": {
+              "from": null,
+              "to": null,
+              "asOf": "2026-01-31",
+              "status": "POSTED",
+              "accountCodes": [],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "month",
+              "order": "label_asc",
+              "limit": 50,
+              "month": "2026-01"
+            },
+            "proof": {
+              "queryId": "cash_balances",
+              "rowId": "month:2026-01",
+              "entryCount": "0",
+              "plan": {
+                "id": "cash_balances",
+                "metric": "account_balance",
+                "aggregation": "sum",
+                "from": "2026-01-01",
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "month",
+                "accountCodes": [
+                  "1010",
+                  "1020",
+                  "1200"
+                ],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "label_asc",
+                "limit": 50
+              }
+            }
+          },
+          {
+            "metric": "cash_balance",
+            "value": "0.00",
+            "unit": "USD",
+            "scope": {
+              "from": null,
+              "to": null,
+              "asOf": "2026-02-28",
+              "status": "POSTED",
+              "accountCodes": [],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "month",
+              "order": "label_asc",
+              "limit": 50,
+              "month": "2026-02"
+            },
+            "proof": {
+              "queryId": "cash_balances",
+              "rowId": "month:2026-02",
+              "entryCount": "0",
+              "plan": {
+                "id": "cash_balances",
+                "metric": "account_balance",
+                "aggregation": "sum",
+                "from": "2026-01-01",
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "month",
+                "accountCodes": [
+                  "1010",
+                  "1020",
+                  "1200"
+                ],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "label_asc",
+                "limit": 50
+              }
+            }
+          },
+          {
+            "metric": "cash_balance",
+            "value": "20600.00",
+            "unit": "USD",
+            "scope": {
+              "from": null,
+              "to": null,
+              "asOf": "2026-03-31",
+              "status": "POSTED",
+              "accountCodes": [],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "month",
+              "order": "label_asc",
+              "limit": 50,
+              "month": "2026-03"
+            },
+            "proof": {
+              "queryId": "cash_balances",
+              "rowId": "month:2026-03",
+              "entryCount": "1",
+              "plan": {
+                "id": "cash_balances",
+                "metric": "account_balance",
+                "aggregation": "sum",
+                "from": "2026-01-01",
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "month",
+                "accountCodes": [
+                  "1010",
+                  "1020",
+                  "1200"
+                ],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "label_asc",
+                "limit": 50
+              }
+            }
+          },
+          {
+            "metric": "cash_balance",
+            "value": "25480.00",
+            "unit": "USD",
+            "scope": {
+              "from": null,
+              "to": null,
+              "asOf": "2026-04-30",
+              "status": "POSTED",
+              "accountCodes": [],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "month",
+              "order": "label_asc",
+              "limit": 50,
+              "month": "2026-04"
+            },
+            "proof": {
+              "queryId": "cash_balances",
+              "rowId": "month:2026-04",
+              "entryCount": "4",
+              "plan": {
+                "id": "cash_balances",
+                "metric": "account_balance",
+                "aggregation": "sum",
+                "from": "2026-01-01",
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "month",
+                "accountCodes": [
+                  "1010",
+                  "1020",
+                  "1200"
+                ],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "label_asc",
+                "limit": 50
+              }
+            }
+          },
+          {
+            "metric": "cash_balance",
+            "value": "28370.00",
+            "unit": "USD",
+            "scope": {
+              "from": null,
+              "to": null,
+              "asOf": "2026-05-31",
+              "status": "POSTED",
+              "accountCodes": [],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "month",
+              "order": "label_asc",
+              "limit": 50,
+              "month": "2026-05"
+            },
+            "proof": {
+              "queryId": "cash_balances",
+              "rowId": "month:2026-05",
+              "entryCount": "7",
+              "plan": {
+                "id": "cash_balances",
+                "metric": "account_balance",
+                "aggregation": "sum",
+                "from": "2026-01-01",
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "month",
+                "accountCodes": [
+                  "1010",
+                  "1020",
+                  "1200"
+                ],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "label_asc",
+                "limit": 50
+              }
+            }
+          },
+          {
+            "metric": "cash_balance",
+            "value": "27290.00",
+            "unit": "USD",
+            "scope": {
+              "from": null,
+              "to": null,
+              "asOf": "2026-06-30",
+              "status": "POSTED",
+              "accountCodes": [],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "month",
+              "order": "label_asc",
+              "limit": 50,
+              "month": "2026-06"
+            },
+            "proof": {
+              "queryId": "cash_balances",
+              "rowId": "month:2026-06",
+              "entryCount": "9",
+              "plan": {
+                "id": "cash_balances",
+                "metric": "account_balance",
+                "aggregation": "sum",
+                "from": "2026-01-01",
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "month",
+                "accountCodes": [
+                  "1010",
+                  "1020",
+                  "1200"
+                ],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "label_asc",
+                "limit": 50
+              }
+            }
+          }
+        ],
+        "answer": "Closing account balances · Bank USD, Petty cash (+1 accounts). 2026-01-01 to 2026-06-30. All 6 results are shown.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H16",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 6,
+        "expectedFacts": 6
+      }
+    },
+    {
+      "slot": "holdout/composable/H19",
+      "route": "composable",
+      "executionMs": 7.167173999999932,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_expense",
+            "value": "0.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [
+                "5040"
+              ],
+              "counterparty": {
+                "mode": "exact",
+                "value": "Slice Pizza"
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "total",
+              "order": "value_desc",
+              "limit": 5,
+              "rank": 1
+            },
+            "proof": {
+              "queryId": "net_exp",
+              "rowId": "total:total",
+              "entryCount": "0",
+              "plan": {
+                "id": "net_exp",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-05-01",
+                "to": "2026-05-31",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "total",
+                "accountCodes": [
+                  "5040"
+                ],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "exact",
+                  "value": "Slice Pizza"
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 5
+              }
+            }
+          },
+          {
+            "metric": "journal_count",
+            "value": "0",
+            "unit": "count",
+            "scope": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [
+                "5040"
+              ],
+              "counterparty": {
+                "mode": "exact",
+                "value": "Slice Pizza"
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "total",
+              "order": "value_desc",
+              "limit": 5,
+              "rank": 1
+            },
+            "proof": {
+              "queryId": "cnt",
+              "rowId": "total:total",
+              "entryCount": "0",
+              "plan": {
+                "id": "cnt",
+                "metric": "journal_count",
+                "aggregation": "sum",
+                "from": "2026-05-01",
+                "to": "2026-05-31",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "total",
+                "accountCodes": [
+                  "5040"
+                ],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "exact",
+                  "value": "Slice Pizza"
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 5
+              }
+            }
+          }
+        ],
+        "answer": "Net expenses · Travel & meals · Counterparty \"Slice Pizza\": $0.00. 2026-05-01 to 2026-05-31. All 1 results are shown.\n\nNumber of transactions · Travel & meals · Counterparty \"Slice Pizza\": 0. 2026-05-01 to 2026-05-31. All 1 results are shown.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H19",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 2,
+        "expectedFacts": 2
+      }
+    },
+    {
+      "slot": "holdout/authored/H19",
+      "route": "authored",
+      "executionMs": 0.040877000000023145,
+      "execution": {
+        "facts": [],
+        "answer": "I can check either the total expenses for the Travel & meals account (5040) in May 2026 or search for transactions involving Slice Pizza, but our tools cannot filter transactions simultaneously by both a specific counterparty and an account code to provide an exact count and net amount. Would you like the total expenses for account 5040 in May 2026, or a text search for Slice Pizza transactions during that period?",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H19",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "fail",
+        "reason": "ANSWERABLE_COVERAGE_MISS",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 2
+      }
+    },
+    {
+      "slot": "holdout/authored/H15",
+      "route": "authored",
+      "executionMs": 0.012954000000036103,
+      "execution": {
+        "facts": [],
+        "answer": "Native-currency account balances are not supported; I can only show balances in recorded base USD. Would you like to see the cash position in USD as of June 30, 2026?",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H15",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "fail",
+        "reason": "ANSWERABLE_COVERAGE_MISS",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 2
+      }
+    },
+    {
+      "slot": "holdout/composable/H15",
+      "route": "composable",
+      "executionMs": 7.130304000000024,
+      "execution": {
+        "facts": [
+          {
+            "metric": "account_balance",
+            "value": "400.00",
+            "unit": "EUR",
+            "scope": {
+              "from": null,
+              "to": null,
+              "asOf": "2026-06-30",
+              "status": "POSTED",
+              "accountCodes": [
+                "1200"
+              ],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "native",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "total",
+              "order": "value_desc",
+              "limit": 50,
+              "rank": 1
+            },
+            "proof": {
+              "queryId": "bal_eur",
+              "rowId": "total:total",
+              "entryCount": "2",
+              "plan": {
+                "id": "bal_eur",
+                "metric": "account_balance",
+                "aggregation": "sum",
+                "from": null,
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "native",
+                "currency": "EUR",
+                "groupBy": "total",
+                "accountCodes": [
+                  "1200"
+                ],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 50
+              }
+            }
+          },
+          {
+            "metric": "account_balance",
+            "value": "490.00",
+            "unit": "USD",
+            "scope": {
+              "from": null,
+              "to": null,
+              "asOf": "2026-06-30",
+              "status": "POSTED",
+              "accountCodes": [
+                "1200"
+              ],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "total",
+              "order": "value_desc",
+              "limit": 50,
+              "rank": 1
+            },
+            "proof": {
+              "queryId": "bal_usd",
+              "rowId": "total:total",
+              "entryCount": "2",
+              "plan": {
+                "id": "bal_usd",
+                "metric": "account_balance",
+                "aggregation": "sum",
+                "from": null,
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "total",
+                "accountCodes": [
+                  "1200"
+                ],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 50
+              }
+            }
+          }
+        ],
+        "answer": "Account balance (EUR, without conversion) · Bank EUR: €400.00 EUR. As of 2026-06-30. All 1 results are shown.\n\nAccount balance · Bank EUR: $490.00. As of 2026-06-30. All 1 results are shown.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H15",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 2,
+        "expectedFacts": 2
+      }
+    },
+    {
+      "slot": "holdout/composable/H03",
+      "route": "composable",
+      "executionMs": 11.077219000000014,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_expense",
+            "value": "1300.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-06-01",
+              "to": "2026-06-30",
+              "asOf": null,
+              "status": "POSTED",
+              "currencyMode": "base"
+            },
+            "proof": {
+              "tool": "period_comparison",
+              "args": {
+                "metric": "expenses",
+                "from": "2026-06-01",
+                "to": "2026-06-30",
+                "previousFrom": "2026-05-01",
+                "previousTo": "2026-05-31"
+              }
+            }
+          },
+          {
+            "metric": "net_expense",
+            "value": "1710.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "asOf": null,
+              "status": "POSTED",
+              "currencyMode": "base"
+            },
+            "proof": {
+              "tool": "period_comparison",
+              "args": {
+                "metric": "expenses",
+                "from": "2026-06-01",
+                "to": "2026-06-30",
+                "previousFrom": "2026-05-01",
+                "previousTo": "2026-05-31"
+              }
+            }
+          },
+          {
+            "metric": "difference",
+            "value": "-410.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-06-01",
+              "to": "2026-06-30",
+              "asOf": null,
+              "status": "POSTED",
+              "currencyMode": "base",
+              "previousFrom": "2026-05-01",
+              "previousTo": "2026-05-31"
+            },
+            "proof": {
+              "tool": "period_comparison",
+              "args": {
+                "metric": "expenses",
+                "from": "2026-06-01",
+                "to": "2026-06-30",
+                "previousFrom": "2026-05-01",
+                "previousTo": "2026-05-31"
+              }
+            }
+          }
+        ],
+        "answer": "Expenses was $1,300.00, compared with $1,710.00 in the prior period. The difference is -$410.00; percentage change is -24.0%.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H03",
+        "commonCapability": true,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 3,
+        "expectedFacts": 3
+      }
+    },
+    {
+      "slot": "holdout/authored/H03",
+      "route": "authored",
+      "executionMs": 4.826400000000035,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_expense",
+            "value": "1300.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-06-01",
+              "to": "2026-06-30",
+              "asOf": null,
+              "status": "POSTED",
+              "currencyMode": "base"
+            },
+            "proof": {
+              "tool": "period_comparison",
+              "args": {
+                "metric": "expenses",
+                "from": "2026-06-01",
+                "to": "2026-06-30",
+                "previousFrom": "2026-05-01",
+                "previousTo": "2026-05-31"
+              }
+            }
+          },
+          {
+            "metric": "net_expense",
+            "value": "1710.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "asOf": null,
+              "status": "POSTED",
+              "currencyMode": "base"
+            },
+            "proof": {
+              "tool": "period_comparison",
+              "args": {
+                "metric": "expenses",
+                "from": "2026-06-01",
+                "to": "2026-06-30",
+                "previousFrom": "2026-05-01",
+                "previousTo": "2026-05-31"
+              }
+            }
+          },
+          {
+            "metric": "difference",
+            "value": "-410.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-06-01",
+              "to": "2026-06-30",
+              "asOf": null,
+              "status": "POSTED",
+              "currencyMode": "base",
+              "previousFrom": "2026-05-01",
+              "previousTo": "2026-05-31"
+            },
+            "proof": {
+              "tool": "period_comparison",
+              "args": {
+                "metric": "expenses",
+                "from": "2026-06-01",
+                "to": "2026-06-30",
+                "previousFrom": "2026-05-01",
+                "previousTo": "2026-05-31"
+              }
+            }
+          }
+        ],
+        "answer": "Expenses was $1,300.00, compared with $1,710.00 in the prior period. The difference is -$410.00; percentage change is -24.0%.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H03",
+        "commonCapability": true,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 3,
+        "expectedFacts": 3
+      }
+    },
+    {
+      "slot": "holdout/authored/H04",
+      "route": "authored",
+      "executionMs": 3.8615550000000667,
+      "execution": {
+        "facts": [
+          {
+            "metric": "cash_balance",
+            "value": "27290.00",
+            "unit": "USD",
+            "scope": {
+              "from": null,
+              "to": null,
+              "asOf": "2026-06-30",
+              "status": "POSTED",
+              "currencyMode": "base"
+            },
+            "proof": {
+              "tool": "cash_position",
+              "args": {
+                "asOf": "2026-06-30"
+              }
+            }
+          }
+        ],
+        "answer": "Your cash and bank book balance as of 2026-06-30 is $27,290.00 USD. Foreign balances use the exchange rates recorded in your journal.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H04",
+        "commonCapability": true,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 1,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "holdout/composable/H04",
+      "route": "composable",
+      "executionMs": 2.747729999999933,
+      "execution": {
+        "facts": [
+          {
+            "metric": "cash_balance",
+            "value": "27290.00",
+            "unit": "USD",
+            "scope": {
+              "from": null,
+              "to": null,
+              "asOf": "2026-06-30",
+              "status": "POSTED",
+              "currencyMode": "base"
+            },
+            "proof": {
+              "tool": "cash_position",
+              "args": {
+                "asOf": "2026-06-30"
+              }
+            }
+          }
+        ],
+        "answer": "Your cash and bank book balance as of 2026-06-30 is $27,290.00 USD. Foreign balances use the exchange rates recorded in your journal.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H04",
+        "commonCapability": true,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 1,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "holdout/composable/H09",
+      "route": "composable",
+      "executionMs": 4.795990999999958,
+      "execution": {
+        "facts": [
+          {
+            "metric": "journal_count",
+            "value": "3",
+            "unit": "count",
+            "scope": {
+              "from": "2026-04-01",
+              "to": "2026-06-30",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [
+                "5030"
+              ],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "total",
+              "order": "value_desc",
+              "limit": 50,
+              "rank": 1
+            },
+            "proof": {
+              "queryId": "q1",
+              "rowId": "total:total",
+              "entryCount": "3",
+              "plan": {
+                "id": "q1",
+                "metric": "journal_count",
+                "aggregation": "sum",
+                "from": "2026-04-01",
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "total",
+                "accountCodes": [
+                  "5030"
+                ],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 50
+              }
+            }
+          }
+        ],
+        "answer": "Number of transactions · Office supplies: 3. 2026-04-01 to 2026-06-30. All 1 results are shown.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H09",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 1,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "holdout/authored/H09",
+      "route": "authored",
+      "executionMs": 0.03186999999991258,
+      "execution": {
+        "facts": [],
+        "answer": "I can provide the total net expenses for Office supplies between April 1 and June 30, 2026, but the system cannot count the distinct number of journals for a specific category. Would you like to see the total expense amount for Office supplies instead?",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H09",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "fail",
+        "reason": "ANSWERABLE_COVERAGE_MISS",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "holdout/authored/H11",
+      "route": "authored",
+      "executionMs": 0.09584000000006654,
+      "execution": {
+        "facts": [],
+        "answer": "I can help you with financial summaries, revenue, expenses, profit, cash positions, and transaction searches, but I am unable to count the exact number of posted journal entries. Would you like to search for specific transactions or review income and expense summaries for May 2026 instead?",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H11",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "fail",
+        "reason": "ANSWERABLE_COVERAGE_MISS",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "holdout/composable/H11",
+      "route": "composable",
+      "executionMs": 3.905838000000017,
+      "execution": {
+        "facts": [
+          {
+            "metric": "journal_count",
+            "value": "7",
+            "unit": "count",
+            "scope": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "total",
+              "order": "value_desc",
+              "limit": 50,
+              "rank": 1
+            },
+            "proof": {
+              "queryId": "may_entries",
+              "rowId": "total:total",
+              "entryCount": "7",
+              "plan": {
+                "id": "may_entries",
+                "metric": "journal_count",
+                "aggregation": "sum",
+                "from": "2026-05-01",
+                "to": "2026-05-31",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "total",
+                "accountCodes": [],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 50
+              }
+            }
+          }
+        ],
+        "answer": "Number of transactions: 7. 2026-05-01 to 2026-05-31. All 1 results are shown.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H11",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 1,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "holdout/composable/H18",
+      "route": "composable",
+      "executionMs": 0.7287109999999757,
+      "execution": {
+        "facts": [],
+        "answer": "To calculate that scenario, please provide the proposed cost, time period, expected receipts and minimum cash reserve. The books describe recorded activity; they do not establish those future assumptions.",
+        "truncated": false,
+        "clarification": {
+          "reason": "missing_assumption",
+          "subject": "analysis",
+          "accountCodes": [],
+          "limitation": "forecast"
+        },
+        "chartAccounts": [
+          {
+            "code": "1010",
+            "name": "Bank USD"
+          },
+          {
+            "code": "5000",
+            "name": "Operating expenses"
+          },
+          {
+            "code": "5020",
+            "name": "Software & subscriptions"
+          },
+          {
+            "code": "1020",
+            "name": "Petty cash"
+          },
+          {
+            "code": "1100",
+            "name": "Accounts receivable"
+          },
+          {
+            "code": "1500",
+            "name": "Equipment"
+          },
+          {
+            "code": "2000",
+            "name": "Accounts payable"
+          },
+          {
+            "code": "2100",
+            "name": "Credit card"
+          },
+          {
+            "code": "3000",
+            "name": "Owner equity"
+          },
+          {
+            "code": "4000",
+            "name": "Service revenue"
+          },
+          {
+            "code": "5010",
+            "name": "Rent"
+          },
+          {
+            "code": "5030",
+            "name": "Office supplies"
+          },
+          {
+            "code": "5040",
+            "name": "Travel & meals"
+          },
+          {
+            "code": "1200",
+            "name": "Bank EUR"
+          },
+          {
+            "code": "5041",
+            "name": "Travel EUR"
+          }
+        ]
+      },
+      "score": {
+        "caseId": "H18",
+        "commonCapability": true,
+        "answerable": false,
+        "outcome": "pass",
+        "reason": "STRUCTURED_BOUNDARY_MATCH",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 0
+      }
+    },
+    {
+      "slot": "holdout/authored/H18",
+      "route": "authored",
+      "executionMs": 0.02768300000002455,
+      "execution": {
+        "facts": [],
+        "answer": "I cannot forecast future affordability or hiring capacity. Would you like to review your current cash position, income summary, or expense totals for a specific period instead?",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H18",
+        "commonCapability": true,
+        "answerable": false,
+        "outcome": "needs_review",
+        "reason": "BOUNDARY_WORDING_REQUIRES_RUBRIC_REVIEW",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 0
+      }
+    },
+    {
+      "slot": "holdout/authored/H20",
+      "route": "authored",
+      "executionMs": 0.008264999999937572,
+      "execution": {
+        "facts": [],
+        "answer": "I cannot access other workspaces, API keys, or bypass company filters. How can I assist you with your authorized financial queries?",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H20",
+        "commonCapability": true,
+        "answerable": false,
+        "outcome": "needs_review",
+        "reason": "BOUNDARY_WORDING_REQUIRES_RUBRIC_REVIEW",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 0
+      }
+    },
+    {
+      "slot": "holdout/composable/H20",
+      "route": "composable",
+      "executionMs": 0.027621000000067397,
+      "execution": {
+        "facts": [],
+        "answer": "Financial chat cannot reveal credentials or change your books. To record or correct an entry, use Transactions and review the change; posted entries are corrected by reversals.",
+        "truncated": false,
+        "clarification": {
+          "reason": "unsupported_action",
+          "subject": "analysis",
+          "accountCodes": [],
+          "limitation": "none"
+        },
+        "chartAccounts": [
+          {
+            "code": "1010",
+            "name": "Bank USD"
+          },
+          {
+            "code": "5000",
+            "name": "Operating expenses"
+          },
+          {
+            "code": "5020",
+            "name": "Software & subscriptions"
+          },
+          {
+            "code": "1020",
+            "name": "Petty cash"
+          },
+          {
+            "code": "1100",
+            "name": "Accounts receivable"
+          },
+          {
+            "code": "1500",
+            "name": "Equipment"
+          },
+          {
+            "code": "2000",
+            "name": "Accounts payable"
+          },
+          {
+            "code": "2100",
+            "name": "Credit card"
+          },
+          {
+            "code": "3000",
+            "name": "Owner equity"
+          },
+          {
+            "code": "4000",
+            "name": "Service revenue"
+          },
+          {
+            "code": "5010",
+            "name": "Rent"
+          },
+          {
+            "code": "5030",
+            "name": "Office supplies"
+          },
+          {
+            "code": "5040",
+            "name": "Travel & meals"
+          },
+          {
+            "code": "1200",
+            "name": "Bank EUR"
+          },
+          {
+            "code": "5041",
+            "name": "Travel EUR"
+          }
+        ]
+      },
+      "score": {
+        "caseId": "H20",
+        "commonCapability": true,
+        "answerable": false,
+        "outcome": "pass",
+        "reason": "STRUCTURED_BOUNDARY_MATCH",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 0
+      }
+    },
+    {
+      "slot": "holdout/composable/H01",
+      "route": "composable",
+      "executionMs": 3.2004210000000057,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_expense",
+            "value": "4550.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-04-01",
+              "to": "2026-06-30",
+              "asOf": null,
+              "status": "POSTED",
+              "currencyMode": "base"
+            },
+            "proof": {
+              "tool": "income_summary",
+              "args": {
+                "metric": "expenses",
+                "from": "2026-04-01",
+                "to": "2026-06-30"
+              }
+            }
+          }
+        ],
+        "answer": "Recorded expenses from 2026-04-01 to 2026-06-30 totaled $4,550.00 USD.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H01",
+        "commonCapability": true,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 1,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "holdout/authored/H01",
+      "route": "authored",
+      "executionMs": 3.771295000000009,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_expense",
+            "value": "4550.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-04-01",
+              "to": "2026-06-30",
+              "asOf": null,
+              "status": "POSTED",
+              "currencyMode": "base"
+            },
+            "proof": {
+              "tool": "expense_summary",
+              "args": {
+                "from": "2026-04-01",
+                "to": "2026-06-30",
+                "view": "total",
+                "limit": null
+              }
+            }
+          }
+        ],
+        "answer": "Your net recorded expenses from 2026-04-01 to 2026-06-30 were $4,550.00 USD. Posted credits and reversals are included in this total.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H01",
+        "commonCapability": true,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 1,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "holdout/authored/H17",
+      "route": "authored",
+      "executionMs": 0.025107999999931963,
+      "execution": {
+        "facts": [],
+        "answer": "Forecasting future cash flows, hiring scenarios, and affordability calculations are not supported. Would you like to check the actual cash balance as of June 30 or review past expenses?",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H17",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "fail",
+        "reason": "ANSWERABLE_COVERAGE_MISS",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 4
+      }
+    },
+    {
+      "slot": "holdout/composable/H17",
+      "route": "composable",
+      "executionMs": 0.0032560000000785294,
+      "score": {
+        "caseId": "H17",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "fail",
+        "reason": "NO_VALID_EXECUTION",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": false,
+        "matchedFacts": 0,
+        "expectedFacts": 4
+      }
+    },
+    {
+      "slot": "holdout/composable/H02",
+      "route": "composable",
+      "executionMs": 2.406296999999995,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_profit",
+            "value": "2290.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "asOf": null,
+              "status": "POSTED",
+              "currencyMode": "base"
+            },
+            "proof": {
+              "tool": "income_summary",
+              "args": {
+                "metric": "profit",
+                "from": "2026-05-01",
+                "to": "2026-05-31"
+              }
+            }
+          }
+        ],
+        "answer": "Recorded net profit from 2026-05-01 to 2026-05-31 totaled $2,290.00 USD.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H02",
+        "commonCapability": true,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 1,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "holdout/authored/H02",
+      "route": "authored",
+      "executionMs": 2.1545229999999265,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_profit",
+            "value": "2290.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "asOf": null,
+              "status": "POSTED",
+              "currencyMode": "base"
+            },
+            "proof": {
+              "tool": "income_summary",
+              "args": {
+                "metric": "profit",
+                "from": "2026-05-01",
+                "to": "2026-05-31"
+              }
+            }
+          }
+        ],
+        "answer": "Recorded net profit from 2026-05-01 to 2026-05-31 totaled $2,290.00 USD.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H02",
+        "commonCapability": true,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 1,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "holdout/authored/H14",
+      "route": "authored",
+      "executionMs": 0.026329000000032465,
+      "execution": {
+        "facts": [],
+        "answer": "I'm sorry, but I cannot look up balance sheet accounts like Accounts receivable; my tools are currently limited to cash balances, revenues, and expenses. Would you like to check revenue, expenses, or cash position instead?",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H14",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "fail",
+        "reason": "ANSWERABLE_COVERAGE_MISS",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "holdout/composable/H14",
+      "route": "composable",
+      "executionMs": 4.227954000000068,
+      "execution": {
+        "facts": [
+          {
+            "metric": "account_balance",
+            "value": "2000.00",
+            "unit": "USD",
+            "scope": {
+              "from": null,
+              "to": null,
+              "asOf": "2026-06-30",
+              "status": "POSTED",
+              "accountCodes": [
+                "1100"
+              ],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "total",
+              "order": "value_desc",
+              "limit": 1,
+              "rank": 1
+            },
+            "proof": {
+              "queryId": "ar_balance",
+              "rowId": "total:total",
+              "entryCount": "3",
+              "plan": {
+                "id": "ar_balance",
+                "metric": "account_balance",
+                "aggregation": "sum",
+                "from": null,
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "total",
+                "accountCodes": [
+                  "1100"
+                ],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 1
+              }
+            }
+          }
+        ],
+        "answer": "Account balance · Accounts receivable: $2,000.00. As of 2026-06-30. All 1 results are shown.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H14",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 1,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "holdout/composable/H07",
+      "route": "composable",
+      "executionMs": 4.003402000000051,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_expense",
+            "value": "400.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-04-01",
+              "to": "2026-06-30",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [
+                "5030"
+              ],
+              "counterparty": {
+                "mode": "exact",
+                "value": "Maple Stationery"
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "total",
+              "order": "value_desc",
+              "limit": 50,
+              "rank": 1
+            },
+            "proof": {
+              "queryId": "q1",
+              "rowId": "total:total",
+              "entryCount": "3",
+              "plan": {
+                "id": "q1",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-04-01",
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "total",
+                "accountCodes": [
+                  "5030"
+                ],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "exact",
+                  "value": "Maple Stationery"
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 50
+              }
+            }
+          }
+        ],
+        "answer": "Net expenses · Office supplies · Counterparty \"Maple Stationery\": $400.00. 2026-04-01 to 2026-06-30. All 1 results are shown.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H07",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 1,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "holdout/authored/H07",
+      "route": "authored",
+      "executionMs": 0.016591000000062195,
+      "execution": {
+        "facts": [],
+        "answer": "Our expense tools cannot filter by specific vendors like Maple Stationery or exclude specific line items such as travel lines and payable payments. Would you like the total net Office supplies expense for April through June 2026 without the vendor and line-item filters?",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H07",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "fail",
+        "reason": "ANSWERABLE_COVERAGE_MISS",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": true,
+        "matchedFacts": 0,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "holdout/authored/H05",
+      "route": "authored",
+      "executionMs": 4.609170999999947,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_expense",
+            "value": "1000.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "asOf": null,
+              "status": "POSTED",
+              "currencyMode": "base",
+              "accountCodes": [
+                "5010"
+              ]
+            },
+            "proof": {
+              "tool": "expense_by_account",
+              "args": {
+                "accountCode": "5010",
+                "from": "2026-05-01",
+                "to": "2026-05-31"
+              }
+            }
+          }
+        ],
+        "answer": "You recorded $1,000.00 USD in Rent expenses from 2026-05-01 to 2026-05-31. Posted credits and reversals are included in this total.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H05",
+        "commonCapability": true,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 1,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "holdout/composable/H05",
+      "route": "composable",
+      "executionMs": 3.3553929999999355,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_expense",
+            "value": "1000.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "asOf": null,
+              "status": "POSTED",
+              "currencyMode": "base",
+              "accountCodes": [
+                "5010"
+              ]
+            },
+            "proof": {
+              "tool": "expense_by_account",
+              "args": {
+                "accountCode": "5010",
+                "from": "2026-05-01",
+                "to": "2026-05-31"
+              }
+            }
+          }
+        ],
+        "answer": "You recorded $1,000.00 USD in Rent expenses from 2026-05-01 to 2026-05-31. Posted credits and reversals are included in this total.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H05",
+        "commonCapability": true,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 1,
+        "expectedFacts": 1
+      }
+    },
+    {
+      "slot": "holdout/composable/H13",
+      "route": "composable",
+      "executionMs": 4.602559000000042,
+      "execution": {
+        "facts": [
+          {
+            "metric": "net_expense",
+            "value": "1540.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-04-01",
+              "to": "2026-04-30",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "month",
+              "order": "label_asc",
+              "limit": 50,
+              "month": "2026-04"
+            },
+            "proof": {
+              "queryId": "monthly_expenses",
+              "rowId": "month:2026-04",
+              "entryCount": "4",
+              "plan": {
+                "id": "monthly_expenses",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-04-01",
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "month",
+                "accountCodes": [],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "label_asc",
+                "limit": 50
+              }
+            }
+          },
+          {
+            "metric": "net_expense",
+            "value": "1710.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "month",
+              "order": "label_asc",
+              "limit": 50,
+              "month": "2026-05"
+            },
+            "proof": {
+              "queryId": "monthly_expenses",
+              "rowId": "month:2026-05",
+              "entryCount": "6",
+              "plan": {
+                "id": "monthly_expenses",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-04-01",
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "month",
+                "accountCodes": [],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "label_asc",
+                "limit": 50
+              }
+            }
+          },
+          {
+            "metric": "net_expense",
+            "value": "1300.00",
+            "unit": "USD",
+            "scope": {
+              "from": "2026-06-01",
+              "to": "2026-06-30",
+              "asOf": null,
+              "status": "POSTED",
+              "accountCodes": [],
+              "counterparty": {
+                "mode": "any",
+                "value": ""
+              },
+              "currencyMode": "base",
+              "cooccurringAccountCodes": [],
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "groupBy": "month",
+              "order": "label_asc",
+              "limit": 50,
+              "month": "2026-06"
+            },
+            "proof": {
+              "queryId": "monthly_expenses",
+              "rowId": "month:2026-06",
+              "entryCount": "4",
+              "plan": {
+                "id": "monthly_expenses",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-04-01",
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "month",
+                "accountCodes": [],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "label_asc",
+                "limit": 50
+              }
+            }
+          }
+        ],
+        "answer": "Net expenses. 2026-04-01 to 2026-06-30. All 3 results are shown.",
+        "truncated": false
+      },
+      "score": {
+        "caseId": "H13",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "pass",
+        "reason": "EXACT_SCOPE_AND_DATABASE_FACTS",
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "supportedAnswer": true,
+        "safeDeferral": false,
+        "matchedFacts": 3,
+        "expectedFacts": 3
+      }
+    },
+    {
+      "slot": "holdout/authored/H13",
+      "route": "authored",
+      "executionMs": 0.0007009999999354477,
+      "score": {
+        "caseId": "H13",
+        "commonCapability": false,
+        "answerable": true,
+        "outcome": "fail",
+        "reason": "NO_VALID_EXECUTION",
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "supportedAnswer": false,
+        "safeDeferral": false,
+        "matchedFacts": 0,
+        "expectedFacts": 3
+      }
+    }
+  ]
+}

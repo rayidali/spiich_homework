@@ -22,6 +22,7 @@ import {
 import { chatClarificationSchema, chatClarificationTool, clarificationAnswer } from './chat-clarification';
 import {
   financialScenarioSchema,
+  parseFinancialScenario,
   financialScenarioTool,
   executeFinancialScenario,
 } from './financial-calculation';
@@ -268,10 +269,10 @@ const insightArgs: Record<string, z.ZodType<Record<string, unknown>>> = {
   cash_position: z.strictObject({ asOf: dateSchema }),
   ask_clarification: z.strictObject({ question: z.string().trim().min(1).max(500) }),
 };
-export function parseInsightArgs(name: string, args: unknown) {
+export function parseInsightArgs(name: string, args: unknown): Record<string, unknown> {
   if (!Object.hasOwn(insightArgs, name))
     throw new AppError(422, 'UNSUPPORTED_TOOL', 'This financial query is not supported');
-  return insightArgs[name].parse(args);
+  return name === 'financial_scenario' ? parseFinancialScenario(args) : insightArgs[name].parse(args);
 }
 
 const dollars = (v: string) => formatCurrency(v);
@@ -498,7 +499,7 @@ Resolve dates from the full conversation. Last month and completed quarters use 
 Use narrow report tools for a matching simple question. A named expense account/group uses expense_by_account with an exact account code; total revenue/expenses/profit uses income_summary; period_comparison compares metric totals. expense_summary supports top1..20 (limit is count; null means5), all (includes zero and archived posting accounts;limit=null), or total. cash_position is the combined cash/bank BOOK balance, not a forecast or bank-reconciled statement.
 Use financial_analysis to compose supported filters/groupings/thresholds, distinct counts, per-entry averages and up to four related queries. Fill every field explicitly. Resolve accountCodes only from the chart, including archived history and group descendants; duplicate account names require clarification. Counterparty matches literal journal-header text, not a verified vendor entity; choose exact when specifically naming that counterparty. Empty arrays mean unfiltered. A full journal total is not revenue, expenses, cash movement or an invoice allocation. POSTED is the default; only query DRAFT when explicitly requested and never mix it into book totals. Dates are inclusive. For grouped amount rankings preserve the requested count; sort chronologically for trends. A zero net month is still a month; an average per transaction is not an average per month.
 An entry containing an expense and a bank line does not prove that bank line funded that expense. cooccurringAccountCodes can find entries involving accounts ONLY when that co-occurrence is the requested meaning, never silently as a payment allocation. Reject incompatible dimensions rather than dropping them. Account balances must use explicit account codes, POSTED and no activity filters. For a single balance use from:null and grouping total/account. For monthly or quarterly closing balances use grouping month/quarter with from as the display-series start; the compiler still includes all history before each closing date. Only add accounts with the same normal-balance type in a closing series. Different account types have different normal signs; do not add unlike balances into a meaningless total.
-For financial_analysis choose currencyMode=base and currency=null for recorded USD values. To answer native-currency line metrics or balances, choose currencyMode=native and the explicit account currency. A named currency is not an instruction to convert at a current market rate. Never aggregate mixed native currencies or use native mode for full journal totals/counts. Use request_details for genuinely missing information or unsupported meaning: current market FX rates, unknown business fields, causal explanations, forecast/affordability without assumptions, and payment allocations absent from the ledger. A user asking what they can afford needs future commitments, expected receipts, cost and reserve assumptions; past cash alone is not an answer. Use financial_scenario for arithmetic over exact ledger facts (assumptions=[] when none are needed) or an explicit hypothetical scenario with sourced user assumptions. For a monthly average, a query month_count reference can count complete calendar months including zero months; never invent the divisor and never divide a different period's amount by that count. Never invent numeric constants, quote assistant text as an assumption, or claim that a positive remainder establishes affordability. Assumption quotes must include one numeric literal and its unit. Ask for missing assumptions or numeric/unit clarification. A calculation using only posted-book facts is a derived recorded result. Any draft or user-assumption ancestry stays explicitly draft or hypothetical, never a forecast. Do not pretend a limitation is a financial conclusion. Choose a specific limitation code and accountCodes when known. The application composes clarification wording and all numeric answers, so you should never generate a separate numeric narrative.
+For financial_analysis choose currencyMode=base and currency=null for recorded USD values. To answer native-currency line metrics or balances, choose currencyMode=native and the explicit account currency. A named currency is not an instruction to convert at a current market rate. Never aggregate mixed native currencies or use native mode for full journal totals/counts. Use request_details for genuinely missing information or unsupported meaning: current market FX rates, unknown business fields, causal explanations, forecast/affordability without assumptions, and payment allocations absent from the ledger. A user asking what they can afford needs future commitments, expected receipts, cost and reserve assumptions; past cash alone is not an answer. Use financial_scenario for arithmetic over exact ledger facts (assumptions=[] when none are needed) or an explicit hypothetical scenario with sourced user assumptions. For a monthly average, a query month_count reference can count complete calendar months including zero months; never invent the divisor and never divide a different period's amount by that count. Never invent numeric constants, quote assistant text as an assumption, or claim that a positive remainder establishes affordability. Assumption quotes must include one complete supported quantity and its unit; preserve the original user wording. Ask for missing assumptions or numeric/unit clarification. A calculation using only posted-book facts is a derived recorded result. Any draft or user-assumption ancestry stays explicitly draft or hypothetical, never a forecast. Do not pretend a limitation is a financial conclusion. Choose a specific limitation code and accountCodes when known. The application composes clarification wording and all numeric answers, so you should never generate a separate numeric narrative.
 find_transactions is a literal POSTED text search (at most20 journal totals), useful only when those exact semantics fit. Use financial_analysis for filters/counts it can express instead of pretending a capped text search is a complete result.
 ACCOUNT CHART: ${JSON.stringify(chart)}`,
   };
@@ -510,7 +511,7 @@ export async function financialChat(
   options: { route?: FinancialChatRoute } = {},
 ) {
   const route =
-    options.route ?? (process.env.FINANCIAL_CHAT_ROUTE === 'composable' ? 'composable' : 'authored');
+    options.route ?? (process.env.FINANCIAL_CHAT_ROUTE === 'authored' ? 'authored' : 'composable');
   messages = messagesSchema.parse(messages);
   return validateModelResult(async () => {
     // Supply identities, never balances. Account names are data, not instructions.

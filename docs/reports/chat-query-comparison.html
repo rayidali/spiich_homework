@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><title>
+    Daybook financial chat comparison</title
+  ><style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: #eef2ed;
+      color: #20332d;
+      font:
+        15px/1.45 system-ui,
+        sans-serif;
+    }
+    .page {
+      background: #fff;
+      max-width: 900px;
+      margin: 24px auto;
+      padding: 38px;
+    }
+    h1 {
+      font-size: 36px;
+      line-height: 1.1;
+    }
+    h2 {
+      font-size: 20px;
+    }
+    h3 {
+      font-size: 15px;
+      margin: 15px 0 5px;
+    }
+    .flow {
+      display: flex;
+      gap: 12px;
+    }
+    .flow div {
+      flex: 1;
+      padding: 16px;
+      background: #eef2ed;
+      border-radius: 6px;
+    }
+    .small {
+      font-size: 12px;
+      color: #65716a;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    td,
+    th {
+      border-bottom: 1px solid #d9e2d9;
+      padding: 5px;
+      text-align: left;
+    }
+    th {
+      background: #eef2ed;
+    }
+    img {
+      width: 100%;
+      height: auto;
+    }
+    @media print {
+      @page {
+        size: A4;
+        margin: 12mm;
+      }
+      body {
+        background: white;
+      }
+      .page {
+        padding: 0;
+        margin: 0;
+        break-after: page;
+        max-width: none;
+      }
+      .page:last-child {
+        break-after: auto;
+      }
+      h1 {
+        font-size: 28px;
+      }
+      body {
+        font-size: 12px;
+      }
+      .small,
+      table {
+        font-size: 10px;
+      }
+    }
+  </style>
+  <main>
+    <section class="page">
+      <h1>A better way to ask Daybook about your money</h1>
+      <h2>B answered 18 of 20 questions correctly. A answered 6.</h2>
+      <p>Same made-up business records, same Gemini model, one try per question.</p>
+      <div class="flow">
+        <div><b>You ask</b><br />A finance question</div>
+        <div><b>AI chooses</b><br />A checked query</div>
+        <div><b>Code answers</b><br />Database + exact math</div>
+      </div>
+      <p>
+        <b>Query</b> means a read-only question for the database. The model cannot post entries or run
+        arbitrary SQL.
+      </p>
+      <p>
+        <b>A is a fixed menu:</b> choose an existing report. <b>B uses checked building blocks:</b> combine
+        dates, accounts, vendors and grouping.
+      </p>
+      <img
+        src="chat-query-primary-results.svg"
+        alt="Primary reviewed scores: A6/20 versus B18/20; shared tasks A6/7 versus B7/7; answerable questions A5/18 versus B16/18"
+      />
+      <table>
+        <tr>
+          <th>Route</th>
+          <th>Raw machine score</th>
+          <th>After required review</th>
+        </tr>
+        <tr>
+          <td>A: Existing report tools</td>
+          <td>5 / 20</td>
+          <td>6 / 20</td>
+        </tr>
+        <tr>
+          <td>B: Composable queries</td>
+          <td>18 / 20</td>
+          <td>18 / 20</td>
+        </tr>
+      </table>
+      <h2>What this supports</h2>
+      <p>Use B as the candidate for the next product checks.</p>
+      <p class="small">
+        No observed boundary violation or confidently wrong financial answer in B. Blocked and unsupported
+        answers still count as misses. This small test does not prove every future question will work. Review
+        was by an internal AI agent, not an independent human accountant.
+      </p>
+    </section>
+    <section class="page">
+      <h1>Three examples explain the result</h1>
+      <h2>1. Vendor + expense category</h2>
+      <p>
+        How much Office supplies expense did we record with Maple Stationery from April through June?
+        <b>B answered $400</b>, keeping both filters and excluding travel and payments of old bills. A asked
+        the user to narrow the question: an honest limitation, but not a completed answer.
+      </p>
+      <h2>2. Count transactions correctly</h2>
+      <p>
+        <b>A journal is one recorded transaction, possibly with several account lines.</b> April had $1,540
+        across four journals. One had two expense lines. <b>$1,540 ÷ 4 = $385.</b>
+      </p>
+      <p>
+        B was right. The raw scorer compared account codes literally; a separate audit proved that its
+        Operating expenses group contained exactly all five expense accounts. Primary <b>18/20</b> stays
+        unchanged. The separately audited sensitivity is <b>19/20</b>.
+      </p>
+      <h2>3. A blocked instruction is still a missed answer</h2>
+      <p>
+        B’s hiring what-if plan was rejected before database execution. A’s monthly-expense trend also
+        produced an invalid plan. Both stay failures. Later product/parser repairs need separate verification
+        and do not inherit these scores.
+      </p>
+      <h2>Method and cost</h2>
+      <p class="small">
+        Expected answers were written first and checked with separate arithmetic code. Saved plans ran against
+        real PostgreSQL. We checked scope and numbers, then reviewed all 40 outcomes.
+      </p>
+      <table>
+        <tr>
+          <th>Phase</th>
+          <th>Attempts</th>
+          <th>Tracked cost</th>
+        </tr>
+        <tr>
+          <td>Setup</td>
+          <td>1</td>
+          <td>$0.0023451</td>
+        </tr>
+        <tr>
+          <td>Development</td>
+          <td>16</td>
+          <td>$0.0326293</td>
+        </tr>
+        <tr>
+          <td>Holdout</td>
+          <td>40</td>
+          <td>$0.1019638</td>
+        </tr>
+      </table>
+      <p><b>$0.1369382 total; 57 attempts; no unknown reservations.</b> Usage estimate, not an invoice.</p>
+      <p class="small">
+        Median provider time: A 1.55s, B 2.15s. Database replay is not hosted end-to-end latency.
+      </p>
+      <p class="small">
+        Separate category experiment, not pooled: semantic categories 33/33 for both; category plus taught
+        preference Gemini 33/33 and Jev 31/33.
+        <a href="../evidence/category-runs/completed-v3/holdout/report.md">Category evidence</a>.
+      </p>
+      <p class="small">
+        Only 20 purpose-built questions; no statistical-superiority or universal-accuracy claim. Frozen study
+        source ae6814f6ffb7. No automatic deployment.
+      </p>
+      <p><a href="chat-query-paired-results.html">Appendix: all 20 paired outcomes</a></p>
+    </section>
+  </main>
+</html>

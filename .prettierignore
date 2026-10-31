@@ -18,3 +18,4 @@ docs/evidence/category-runs/
 docs/evidence/research-*.json
 docs/evidence/route-preflight-*.json
 docs/evidence/chat-scope-cases.json
+docs/evidence/chat-query-runs/**

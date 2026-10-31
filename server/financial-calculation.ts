@@ -53,6 +53,46 @@ export const financialScenarioSchema = z.strictObject({
     .min(1)
     .max(8),
 });
+// Compatibility is deliberately narrower than the advertised tool grammar.
+// A balance is the value of an explicitly identified balance query, never a
+// second financial field that the model may invent on some other result.
+const compatibleScenarioSchema = financialScenarioSchema.extend({
+  calculations: z
+    .array(
+      financialScenarioSchema.shape.calculations.element.extend({
+        operands: z
+          .array(
+            z.union([
+              referenceSchema,
+              z.strictObject({
+                source: z.literal('query'),
+                id: nodeId,
+                rowId: z.string().min(1).max(500),
+                field: z.literal('balance'),
+              }),
+            ]),
+          )
+          .length(2),
+      }),
+    )
+    .min(1)
+    .max(8),
+});
+export function parseFinancialScenario(input: unknown): FinancialScenario {
+  const parsed = compatibleScenarioSchema.parse(input);
+  return financialScenarioSchema.parse({
+    ...parsed,
+    calculations: parsed.calculations.map((calculation) => ({
+      ...calculation,
+      operands: calculation.operands.map((reference) => {
+        if (reference.field !== 'balance') return reference;
+        if (parsed.queries.find((query) => query.id === reference.id)?.metric !== 'account_balance')
+          invalid('The balance field alias requires an explicitly referenced account-balance query.');
+        return { ...reference, field: 'value' };
+      }),
+    })),
+  });
+}
 export type FinancialScenario = z.infer<typeof financialScenarioSchema>;
 export type ScenarioReference = z.infer<typeof referenceSchema>;
 type Operation = FinancialScenario['calculations'][number]['operation'];
@@ -65,7 +105,7 @@ export const financialScenarioTool: FinancialTool = {
   parameters,
   description: `Compute exact derived financial values using up to4 ledger queries,0..8 explicit user assumptions and1..8 ordered binary arithmetic steps. Pure posted-book arithmetic needs no assumptions and is labeled as recorded-data calculation. User-assumption or draft ancestry stays hypothetical. Never invent a numeric literal: every operand references a query's exact rowId/value, a quoted assumption, or an earlier calculation. Node IDs are globally unique. Query rows must be complete, non-null, and not per-entry averages. For a total query the rowId is total:total. Monetary value operands must be USD; count operands are counts.
 For an average per calendar month, use a monthly flow query covering full calendar months and reference {source:'query',id:itsId,rowId:null,field:'month_count'}. The server derives months only from the complete, untruncated, unique, contiguous zero-filled monthly series with exact boundaries. No partial months, balances, quarters or per-entry averages. Divide the matching period's total by that month count; monetary query ancestors must cover the same full period. This field never reads a model-supplied number.
-Each assumption sourceText must be an exact substring of a USER message, containing exactly one numeric literal and its unit: e.g. '$6,000 per month' USD_per_month, '3 months' months, '$3,000 recruiting' USD, '18%' ratio value0.18, or '2 employees' count. No assistant text, invented constants, annual-to-monthly conversions or unsupported currencies. Percent normalization is exact. Use digits, not spelled-out numbers. These quotes prove numeric provenance, not future truth or intent.
+Each assumption sourceText must quote the actual USER wording with exactly one complete quantity and its unit: e.g. '$6,000 per month' USD_per_month, 'three months' months value3, '$3,000 recruiting' USD, 'eighteen percent' ratio value0.18, or '2 employees' count. Copy the original words; do not paraphrase the quote. Digits and unambiguous English whole cardinals zero through ninety-nine (including twenty-one) are supported. Hundreds, larger number words, fractions, ranges and negated quantities require clarification or digits. No assistant text, invented constants, annual-to-monthly conversions or unsupported currencies. The server preserves the actual user substring and span even if a returned quote normalized a cardinal to digits. Percent normalization is exact. These quotes prove numeric provenance, not future truth or intent.
 Addition/subtraction require equal units. A ratio scales a value. USD_per_month times months is USD; USD divided by USD_per_month is months; USD divided by months is USD_per_month. Count may multiply USD, USD_per_month or months. Equal units divided yield ratio. Other dimensional combinations and zero divisors are rejected. Values are magnitude bounded. Calculations preserve exact rational arithmetic and round only for display. For salary plus18% burden, add salary to salary times0.18; do not invent a constant1.
 Ask for missing scenario assumptions rather than inventing future revenue, obligations or reserves. Any used assumption makes that result hypothetical; draft-derived results remain unposted. Neither historical arithmetic nor a positive scenario remainder establishes affordability or predicts the future.`,
 };
@@ -161,7 +201,13 @@ function presentation(value: Fraction, unit: ScenarioUnit) {
   };
 }
 
-export type ScenarioAssumption = FinancialScenario['assumptions'][number] & { userMessageIndex: number };
+export type ScenarioAssumption = FinancialScenario['assumptions'][number] & {
+  userMessageIndex: number;
+  // Optional only for persisted historical evidence; every new citation emits both.
+  sourceStart?: number;
+  sourceEnd?: number;
+  normalization?: 'english_cardinal';
+};
 type QueryReference =
   | { id: string; rowId: string; field: 'value' }
   | { id: string; rowId: null; field: 'month_count' };
@@ -182,11 +228,119 @@ export type ScenarioCalculationFact = {
   provenance: Provenance;
 };
 
+const smallCardinals = [
+  'zero',
+  'one',
+  'two',
+  'three',
+  'four',
+  'five',
+  'six',
+  'seven',
+  'eight',
+  'nine',
+  'ten',
+  'eleven',
+  'twelve',
+  'thirteen',
+  'fourteen',
+  'fifteen',
+  'sixteen',
+  'seventeen',
+  'eighteen',
+  'nineteen',
+];
+const tensCardinals = ['twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+const cardinalPattern = new RegExp(
+  `\\b(?:${tensCardinals.join('|')})(?:[ -](?:${smallCardinals.slice(1, 10).join('|')}))?\\b|\\b(?:${smallCardinals.join('|')})\\b`,
+  'gi',
+);
+
+/** Replace only whole cardinals, retaining an original character span for every
+ * normalized character. No unit, punctuation, currency or other word changes. */
+function normalizeCardinals(input: string) {
+  let text = '';
+  const starts: number[] = [],
+    ends: number[] = [];
+  let position = 0;
+  function literal(from: number, to: number) {
+    for (let index = from; index < to; index++) {
+      text += input[index];
+      starts.push(index);
+      ends.push(index + 1);
+    }
+  }
+  for (const match of input.matchAll(cardinalPattern)) {
+    const start = match.index!,
+      end = start + match[0].length;
+    // "one-off", "one-hundred" and word fragments are not a quantity.
+    if ((start > 1 && /[A-Za-z]-$/.test(input.slice(0, start))) || /^-[A-Za-z]/.test(input.slice(end)))
+      continue;
+    // Names such as "Three Rivers" and ordinary "one-time" prose are not
+    // quantities. Only cardinals directly followed by supported units change.
+    if (
+      !/^\s*(?:%|(?:calendar\s+|full\s+|complete\s+)?months?\b|employees?\b|people\b|hires?\b|workers?\b|units?\b|items?\b|count\b|FTEs?\b|percent(?:age)?\b|ratio\b|fraction\b|multiplier\b|USD\b|(?:US\s+)?dollars?\b)/i.test(
+        input.slice(end),
+      )
+    )
+      continue;
+    literal(position, start);
+    const words = match[0].toLowerCase().split(/[ -]/);
+    const value = tensCardinals.includes(words[0])
+      ? (tensCardinals.indexOf(words[0]) + 2) * 10 + (words[1] ? smallCardinals.indexOf(words[1]) : 0)
+      : smallCardinals.indexOf(words[0]);
+    for (const digit of String(value)) {
+      text += digit;
+      starts.push(start);
+      ends.push(end);
+    }
+    position = end;
+  }
+  literal(position, input.length);
+  return { text, starts, ends };
+}
+
+// These bounded surrounding checks reject cropped scales, ranges, signs and
+// explicit negation. They are not a claim to interpret every natural-language
+// condition; unsupported wording asks for a clear numeric quantity instead.
+function unsafeQuantityContext(before: string, after: string, afterQuote: string, unit: ScenarioUnit) {
+  const prefix = before.replace(/(?:\bUSD\s*)?\$\s*$|\bUSD\s*$/i, '');
+  const joined = /\b(\d+|[a-z]+(?:-[a-z]+)?)\s+(and|or|to)\s*$/i.exec(prefix);
+  const joinedNumber =
+    joined &&
+    (/^\d+$/.test(joined[1]) ||
+      joined[1]
+        .toLowerCase()
+        .split('-')
+        .every((word) => smallCardinals.includes(word) || tensCardinals.includes(word)));
+  const joinedQuantity =
+    /\b(?:\d+|half|quarter)\s+(months?|employees?|people|hires?|workers?|units?|items?|count|FTEs?)\s+(and|or|to)\s*$/i.exec(
+      prefix,
+    );
+  const previousUnit = joinedQuantity && /^months?$/i.test(joinedQuantity[1]) ? 'months' : 'count';
+  return (
+    /\b(?:hundred|thousand|million|billion|trillion|point|minus|negative)(?:\s+and)?\s*$/i.test(prefix) ||
+    /^\s*(?:hundred|thousand|million|billion|trillion|point|and\s+(?:a\s+)?half|quarters?)\b/i.test(after) ||
+    Boolean(joinedNumber && (joined![2].toLowerCase() !== 'and' || prefix === before)) ||
+    Boolean(joinedQuantity && (joinedQuantity[2].toLowerCase() !== 'and' || previousUnit === unit)) ||
+    /\d+\s*[-–—/]\s*$/.test(prefix) ||
+    /^\s*(?:[-–—/]\s*\d|(?:or|to)\s+\d)/i.test(after) ||
+    /^\s*(?:or|to)\s+\d/i.test(afterQuote) ||
+    /^\s+and\s+(?:a|one|1)\s+(?:half|quarter)\b/i.test(afterQuote) ||
+    (/\bbetween\s*$/i.test(prefix) && /^\s+and\s+(?:\d|[a-z])/i.test(afterQuote)) ||
+    /\b(?:not|never|don't|do not|exclude|ignore|rather than|instead of)(?:\s+(?:use|assume|allow|budget|count|plan|for|a|the|period|of)){0,4}\s*$/i.test(
+      prefix,
+    ) ||
+    /^\s*(?:(?:is|was|would be)\s+)?(?:wrong|incorrect|not)\b/i.test(afterQuote)
+  );
+}
+
 function quotedAssumption(
   assumption: FinancialScenario['assumptions'][number],
   messages: ModelMessages,
 ): { value: Value; evidence: ScenarioAssumption } {
-  const text = assumption.sourceText;
+  const normalizedQuote = normalizeCardinals(assumption.sourceText);
+  const text = normalizedQuote.text;
   if (/[£€¥₹]|\b(?:EUR|GBP|CAD|AUD|JPY|INR|Canadian|Australian|pounds?|euros?|yen)\b/i.test(text))
     invalid('Only explicit USD monetary assumptions are supported.');
   const literals = [...text.matchAll(/[-+]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?/g)];
@@ -223,14 +377,43 @@ function quotedAssumption(
       (!(percent || /\b(?:ratio|fraction|multiplier)\b/i.test(text)) || moneyUnit))
   )
     invalid('The quoted number must include the unit used by its assumption.');
-  const userMessageIndex = messages.findIndex((message) => {
-    if (message.role !== 'user') return false;
-    for (let at = message.content.indexOf(text); at !== -1; at = message.content.indexOf(text, at + 1)) {
-      const before = message.content.slice(0, at + literal.index!);
-      const after = message.content.slice(at + end);
-      const beforeQuote = message.content.slice(0, at);
-      const afterQuote = message.content.slice(at + text.length);
-      if (/[\w.,+-]$/.test(before) || /^(?:\d|[.,]\d|[eE][+-]?\d)/.test(after)) continue;
+  let citation:
+    | {
+        userMessageIndex: number;
+        sourceStart: number;
+        sourceEnd: number;
+        sourceText: string;
+        normalization?: 'english_cardinal';
+      }
+    | undefined;
+  for (const [userMessageIndex, message] of messages.entries()) {
+    if (message.role !== 'user') continue;
+    const normalizedMessage = normalizeCardinals(message.content);
+    for (
+      let at = normalizedMessage.text.indexOf(text);
+      at !== -1;
+      at = normalizedMessage.text.indexOf(text, at + 1)
+    ) {
+      const before = normalizedMessage.text.slice(0, at + literal.index!);
+      const after = normalizedMessage.text.slice(at + end);
+      const beforeQuote = normalizedMessage.text.slice(0, at);
+      const afterQuote = normalizedMessage.text.slice(at + text.length);
+      if (/[\w.,+\-–—]$/.test(before) || /^(?:\d|[.,]\d|[eE][+-]?\d)/.test(after)) continue;
+      if (unsafeQuantityContext(before, after, afterQuote, assumption.unit)) continue;
+      // A short quotation cannot crop a rate from its quantity's real unit.
+      if (assumption.unit === 'count' || assumption.unit === 'months') {
+        const unit =
+          assumption.unit === 'count'
+            ? /^\s*(?:employees?|people|hires?|workers?|units?|items?|count|FTEs?)\b/i.exec(after)
+            : /^\s*(?:(?:calendar|full|complete)\s+)?months?\b/i.exec(after);
+        if (
+          unit &&
+          /^\s*(?:(?:per|a|each|every|\/)\s*(?:months?|years?|weeks?|days?|hours?)\b|monthly\b|annually\b|yearly\b|weekly\b|daily\b)/i.test(
+            after.slice(unit[0].length),
+          )
+        )
+          continue;
+      }
       if (/[-+]\s*\$\s*$/.test(before) && !/[-+]\s*\$\s*$/.test(text.slice(0, literal.index))) continue;
       if (
         /(?:£|€|¥|₹|\b(?:CAD|EUR|GBP|AUD|JPY|INR))\s*\$?\s*$/i.test(beforeQuote) ||
@@ -245,13 +428,25 @@ function quotedAssumption(
         )
       )
         continue;
-      return true;
+      const sourceStart = normalizedMessage.starts[at];
+      const sourceEnd = normalizedMessage.ends[at + text.length - 1];
+      const sourceText = message.content.slice(sourceStart, sourceEnd);
+      citation = {
+        userMessageIndex,
+        sourceStart,
+        sourceEnd,
+        sourceText,
+        ...(sourceText !== text || assumption.sourceText !== text
+          ? { normalization: 'english_cardinal' as const }
+          : {}),
+      };
+      break;
     }
-    return false;
-  });
-  if (userMessageIndex < 0)
+    if (citation) break;
+  }
+  if (!citation)
     invalid(
-      'Every assumption must quote a complete, unambiguous number and unit from the user’s own message.',
+      'I could not verify a complete, unambiguous quantity and unit in your message. Please confirm that quantity using digits; I will not invent a replacement.',
     );
   let literalText = literal[0].replaceAll(',', '').replace(/^\+/, '');
   if (/-\s*\$\s*$/.test(text.slice(0, literal.index))) {
@@ -272,7 +467,7 @@ function quotedAssumption(
       provenance: { assumptionIds: [assumption.id], queryRows: [] },
       source: 'scenario',
     },
-    evidence: { ...assumption, userMessageIndex },
+    evidence: { ...assumption, ...citation },
   };
 }
 
@@ -353,7 +548,7 @@ function checkAveragePeriods(amount: Value, duration: Value, facts: AnalysisFact
 }
 
 function prepare(input: unknown, messages: ModelMessages) {
-  const plan = financialScenarioSchema.parse(input);
+  const plan = parseFinancialScenario(input);
   z.array(z.strictObject({ role: z.enum(['user', 'assistant']), content: z.string().min(1).max(4000) }))
     .min(1)
     .max(12)

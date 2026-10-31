@@ -11,10 +11,13 @@ import {
   evaluateFinancialScenario,
   executeFinancialScenario,
   financialScenarioSchema,
+  financialScenarioTool,
+  parseFinancialScenario,
   type FinancialScenario,
   type ScenarioCalculationFact,
   type ScenarioReference,
 } from '../server/financial-calculation';
+import { parseInsightArgs } from '../server/ai';
 
 const org = '00000000-0000-4000-8000-000000000001';
 const assumption = (id: string): ScenarioReference => ({
@@ -741,5 +744,262 @@ describe('Hypothetical financial calculation boundary (no providers)', () => {
     expect(() => evaluateFinancialScenario(plan, [facts[1]], messages)).toThrow(
       'same complete calendar period',
     );
+  });
+
+  it('normalizes only an explicit balance-query field alias while advertising canonical value', () => {
+    const input = {
+      queries: [cashQuery()],
+      assumptions: [],
+      calculations: [
+        { id: 'twice', operation: 'add', operands: [{ ...query('cash'), field: 'balance' }, query('cash')] },
+      ],
+    };
+    const unchanged = structuredClone(input);
+    const parsed = parseFinancialScenario(input);
+    expect(parsed.calculations[0].operands[0].field).toBe('value');
+    expect(parseInsightArgs('financial_scenario', input)).toEqual(parsed);
+    const result = evaluateFinancialScenario(
+      input,
+      [queryFact(input.queries[0], '12.34')],
+      [{ role: 'user', content: 'What is twice that recorded cash balance?' }],
+    );
+    expect(calculationFacts(result)[0].value).toBe('24.68');
+    expect(calculationFacts(result)[0].provenance.queryRows).toEqual([
+      { id: 'cash', rowId: 'total:total', field: 'value' },
+    ]);
+    expect(input).toEqual(unchanged);
+    expect(JSON.stringify(financialScenarioTool.parameters)).not.toContain('"const":"balance"');
+  });
+
+  it.each(['expense', 'count', 'missing_query', 'assumption', 'calculation', 'unknown_row'])(
+    'refuses a balance alias with %s provenance',
+    (problem) => {
+      const input = {
+        queries: [cashQuery()],
+        assumptions: [],
+        calculations: [
+          {
+            id: 'twice',
+            operation: 'add',
+            operands: [{ ...query('cash'), field: 'balance' }, query('cash')],
+          },
+        ],
+      };
+      if (problem === 'expense') {
+        input.queries[0].metric = 'net_expense';
+        input.queries[0].from = '2026-10-01';
+      }
+      if (problem === 'count') {
+        input.queries[0].metric = 'journal_count';
+        input.queries[0].from = '2026-10-01';
+      }
+      if (problem === 'missing_query') input.calculations[0].operands[0].id = 'other';
+      if (problem === 'assumption' || problem === 'calculation')
+        input.calculations[0].operands[0].source = problem;
+      if (problem === 'unknown_row') input.calculations[0].operands[0].rowId = 'total:missing';
+      expect(() =>
+        evaluateFinancialScenario(
+          input,
+          [queryFact(input.queries[0])],
+          [{ role: 'user', content: 'Use my recorded books.' }],
+        ),
+      ).toThrow();
+    },
+  );
+
+  it.each([
+    { actual: 'three months', quote: '3 months', value: '3', unit: 'months' as const },
+    { actual: 'three months', quote: 'three months', value: '3', unit: 'months' as const },
+    { actual: '3 months', quote: 'three months', value: '3', unit: 'months' as const },
+    { actual: 'twenty-one employees', quote: '21 employees', value: '21', unit: 'count' as const },
+    { actual: 'ninety nine items', quote: '99 items', value: '99', unit: 'count' as const },
+    { actual: 'eighteen percent', quote: '18 percent', value: '0.18', unit: 'ratio' as const },
+    { actual: 'zero months', quote: '0 months', value: '0', unit: 'months' as const },
+  ])('preserves the actual user span when normalizing $actual', ({ actual, quote, value, unit }) => {
+    const text = `Please use ${actual} for this scenario.`;
+    const plan = {
+      queries: [],
+      assumptions: [{ id: 'quantity', value, unit, sourceText: quote }],
+      calculations: [
+        { id: 'combined', operation: 'add', operands: [assumption('quantity'), assumption('quantity')] },
+      ],
+    };
+    const result = evaluateFinancialScenario(plan, [], [{ role: 'user', content: text }]);
+    const source = calculationFacts(result)[0].assumptions[0];
+    expect(source.sourceText).toBe(actual);
+    expect(text.slice(source.sourceStart, source.sourceEnd)).toBe(actual);
+    expect(source.userMessageIndex).toBe(0);
+    expect(source.normalization).toBe('english_cardinal');
+    expect(result.evidence[0].rows[0].label).toBe(`Assumption 1: “${actual}”`);
+  });
+
+  it.each([
+    { text: 'Use three months.', quote: '3 months', value: '4' },
+    { text: 'Use three employees.', quote: '3 months', value: '3' },
+    { text: 'Use thirty-three months.', quote: '3 months', value: '3' },
+    { text: 'Use one hundred three months.', quote: '3 months', value: '3' },
+    { text: 'Use one hundred and three months.', quote: '3 months', value: '3' },
+    { text: 'Use one hundred months.', quote: 'one hundred months', value: '1' },
+    { text: 'Use three or six months.', quote: '6 months', value: '6' },
+    { text: 'Use three months or six months.', quote: '3 months', value: '3' },
+    { text: 'Use three months or six months.', quote: '6 months', value: '6' },
+    { text: 'Use between three months and six months.', quote: '3 months', value: '3' },
+    { text: 'Use between three months and six months.', quote: '6 months', value: '6' },
+    { text: 'Use three months and a half.', quote: '3 months', value: '3' },
+    { text: 'Use three months and one half.', quote: '3 months', value: '3' },
+    { text: 'Use three months and 1 quarter.', quote: '3 months', value: '3' },
+    { text: 'Use three–six months.', quote: '6 months', value: '6' },
+    { text: 'Use minus three months.', quote: '3 months', value: '3' },
+    { text: 'Use -three months.', quote: '3 months', value: '3' },
+    { text: 'Do not use three months; use six months.', quote: '3 months', value: '3' },
+    { text: 'Three months is incorrect.', quote: '3 months', value: '3' },
+    { text: 'Use three and a half months.', quote: 'three and a half months', value: '3' },
+  ])('rejects ambiguous, cropped or mismatched cardinal quantity %#', ({ text, quote, value }) => {
+    const plan = {
+      queries: [],
+      assumptions: [{ id: 'quantity', value, unit: 'months', sourceText: quote }],
+      calculations: [
+        { id: 'combined', operation: 'add', operands: [assumption('quantity'), assumption('quantity')] },
+      ],
+    };
+    expect(() => evaluateFinancialScenario(plan, [], [{ role: 'user', content: text }])).toThrow();
+  });
+
+  it.each([
+    { text: 'Not $6000; use $3000.', quote: '$6000', value: '6000', unit: 'USD' },
+    { text: 'Use one hundred dollars.', quote: 'one hundred dollars', value: '1', unit: 'USD' },
+    { text: 'Use a one-off fee in USD.', quote: 'one-off fee in USD', value: '1', unit: 'USD' },
+    { text: 'Use CAD three dollars.', quote: '3 dollars', value: '3', unit: 'USD' },
+    { text: 'Use three employees per month.', quote: '3 employees per month', value: '3', unit: 'count' },
+    { text: 'Use three employees per month.', quote: '3 employees', value: '3', unit: 'count' },
+    { text: 'Use three months per year.', quote: '3 months', value: '3', unit: 'months' },
+  ])(
+    'keeps currency, negation and rate guards after cardinal normalization %#',
+    ({ text, quote, value, unit }) => {
+      const plan = {
+        queries: [],
+        assumptions: [{ id: 'quantity', value, unit, sourceText: quote }],
+        calculations: [
+          { id: 'combined', operation: 'add', operands: [assumption('quantity'), assumption('quantity')] },
+        ],
+      };
+      expect(() => evaluateFinancialScenario(plan, [], [{ role: 'user', content: text }])).toThrow();
+    },
+  );
+
+  it('does not borrow number words from an assistant message', () => {
+    const { plan } = employee();
+    plan.assumptions = [{ id: 'duration', value: '3', unit: 'months', sourceText: '3 months' }];
+    plan.calculations = [
+      { id: 'combined', operation: 'add', operands: [assumption('duration'), assumption('duration')] },
+    ];
+    expect(() =>
+      evaluateFinancialScenario(
+        plan,
+        [],
+        [
+          { role: 'assistant', content: 'Use three months.' },
+          { role: 'user', content: 'What would that cost?' },
+        ],
+      ),
+    ).toThrow();
+  });
+
+  it('keeps explicitly different quantities in three months and two employees separate', () => {
+    const input = {
+      queries: [],
+      assumptions: [
+        { id: 'duration', value: '3', unit: 'months', sourceText: '3 months' },
+        { id: 'employees', value: '2', unit: 'count', sourceText: '2 employees' },
+      ],
+      calculations: [
+        {
+          id: 'combined',
+          operation: 'multiply',
+          operands: [assumption('duration'), assumption('employees')],
+        },
+      ],
+    };
+    const result = evaluateFinancialScenario(
+      input,
+      [],
+      [{ role: 'user', content: 'Use three months and two employees for this scenario.' }],
+    );
+    expect(
+      calculationFacts(result)[0].assumptions.map((source) => [source.value, source.unit, source.sourceText]),
+    ).toEqual([
+      ['3', 'months', 'three months'],
+      ['2', 'count', 'two employees'],
+    ]);
+    expect(calculationFacts(result)[0].value).toBe('6');
+  });
+
+  it.each([
+    { text: 'Use a one-time $600 setup cost.', quote: 'one-time $600 setup cost', value: '600' },
+    { text: 'Three Rivers charges $600 for setup.', quote: 'Three Rivers charges $600', value: '600' },
+    { text: 'Use salary $3000 plus $600 setup.', quote: '$600 setup', value: '600' },
+  ])('does not turn ordinary wording into an extra quantity: $text', ({ text, quote, value }) => {
+    const input = {
+      queries: [],
+      assumptions: [{ id: 'amount', value, unit: 'USD', sourceText: quote }],
+      calculations: [
+        { id: 'twice', operation: 'add', operands: [assumption('amount'), assumption('amount')] },
+      ],
+    };
+    expect(
+      calculationFacts(evaluateFinancialScenario(input, [], [{ role: 'user', content: text }]))[0]
+        .assumptions[0].sourceText,
+    ).toBe(quote);
+  });
+
+  it('calculates a fully supplied hiring scenario with word quantities and a balance alias without a provider call', async () => {
+    const text =
+      'A hire costs $4,250 per month plus twelve percent for four months with $900 recruiting. Keep $8,000 as a cash reserve. Calculate remaining cash above that reserve.';
+    const input = {
+      queries: [cashQuery()],
+      assumptions: [
+        { id: 'salary', value: '4250', unit: 'USD_per_month', sourceText: '$4,250 per month' },
+        { id: 'burden', value: '0.12', unit: 'ratio', sourceText: '12 percent' },
+        { id: 'duration', value: '4', unit: 'months', sourceText: '4 months' },
+        { id: 'recruiting', value: '900', unit: 'USD', sourceText: '$900 recruiting' },
+        { id: 'reserve', value: '8000', unit: 'USD', sourceText: '$8,000' },
+      ],
+      calculations: [
+        { id: 'burden_cost', operation: 'multiply', operands: [assumption('salary'), assumption('burden')] },
+        { id: 'monthly', operation: 'add', operands: [assumption('salary'), calculation('burden_cost')] },
+        { id: 'period', operation: 'multiply', operands: [calculation('monthly'), assumption('duration')] },
+        { id: 'cost', operation: 'add', operands: [calculation('period'), assumption('recruiting')] },
+        {
+          id: 'remaining',
+          operation: 'subtract',
+          operands: [{ ...query('cash'), field: 'balance' }, calculation('cost')],
+        },
+        {
+          id: 'above_reserve',
+          operation: 'subtract',
+          operands: [calculation('remaining'), assumption('reserve')],
+        },
+      ],
+    };
+    mocks.executeFinancialAnalysis.mockResolvedValue({
+      facts: [queryFact(input.queries[0], '42000.00')],
+      evidence: [],
+    });
+    const result = await executeFinancialScenario(org, parseInsightArgs('financial_scenario', input), [
+      { role: 'user', content: text },
+    ]);
+    expect(calculationFacts(result).at(-1)).toMatchObject({
+      value: '14060.00',
+      exact: { numerator: '14060', denominator: '1' },
+      source: 'scenario',
+      hypothetical: true,
+    });
+    expect(
+      calculationFacts(result)
+        .at(-1)!
+        .assumptions.map((a) => a.sourceText),
+    ).toEqual(['$4,250 per month', 'twelve percent', 'four months', '$900 recruiting', '$8,000']);
+    expect(result.answer).toContain('not a forecast or an affordability decision');
+    expect(mocks.executeFinancialAnalysis).toHaveBeenCalledTimes(1);
   });
 });

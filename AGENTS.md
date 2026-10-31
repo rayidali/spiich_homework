@@ -2,7 +2,13 @@
 
 Read [CHECKPOINT.md](CHECKPOINT.md) first. Saved **2026-10-31, America/New_York**. Continue the implemented application; do not rebuild it or rerun completed provider experiments.
 
-## Current delivery
+## Current continuation task
+
+The office-supplies repair e7a514e is deployed and passed23 hosted checks; older release bullets below are historical. The broader comparison is now closed with57 calls/$0.1369382: composable18/20 vs authored6/20, common7/7 vs6/7, no observed wrong displayed financial answer or hard-boundary violation. Raw scores and separate group-equivalence sensitivity are in `docs/evidence/chat-query-runs/holdout-v1/`; frozen source168f8fa passed full CI41236529103. Do not reopen `.tools/chat-query-evaluation/runs/chat-query-20261031-v1` or alter its frozen protocol/source/reference and relabel old scores.
+
+A post-comparison parser repair and composable-default change are being verified separately. New hosted acceptance is capped at8 calls/$0.10 in `.tools/chat-broad-acceptance/`, not yet initialized; inspect CHECKPOINT before any action. Final CI, deployment, acceptance, documentation and `submission.zip` refresh remain active. No old study/category/hosted budget may be reused.
+
+## Previous category delivery
 
 - Product name: **Daybook**. Spiich is the assignment recipient. The user authorized AI-assisted implementation and wants clear logs and explanations they can rehearse. Explain unfamiliar terms with examples.
 - Verified executable `b7bf5fe024f6fca33fa5a93ef5e6188e96455bae` passed [CI 41226562746](https://github.com/rayidali/spiich_homework/actions/runs/41226562746): real PostgreSQL, all 18 browser workflows, native research, full Compose startup/persistence and actual automatic scheduler/anomaly lifecycle. Do not add overlapping historical test totals.

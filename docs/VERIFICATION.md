@@ -1,6 +1,12 @@
 # Verification record
 
-## Current scoped-chat repair — 2026-10-31
+## Broader financial chat — 2026-10-31
+
+The paired product comparison is complete: **composable queries18/20 versus authored tools6/20**, with7/7 versus6/7 on the predefined common-capability subset. Actual PostgreSQL replay checked both the chosen filters and exact results; the books stayed unchanged. Internal-AI review found no wrong displayed financial answer or hard-boundary violation in this small set. An account-group comparator false negative is documented separately; the primary score remains unchanged. [Evidence and CI](evidence/chat-query-runs/holdout-v1/ci.json), [two-page explanation](reports/chat-query-comparison.pdf), [details](CHAT_RELIABILITY.md).
+
+The selected design keeps useful fixed reports and adds a checked query builder, exact sourced arithmetic, typed clarification, bounded execution and shared request limits. It never runs model-generated SQL or code. The post-comparison parser repair and default-route change are a **new source version awaiting final CI and hosted acceptance**; they do not inherit the frozen study score. `FINANCIAL_CHAT_ROUTE=authored` remains available as an explicit control. Gemini remains the category selector after its separate comparison with Jev.
+
+## Previous scoped-chat repair — 2026-10-31
 
 Executable `e7a514ef7072fbaabc6b63af026a6bab2fbd1478` passed [full CI41231800054](https://github.com/rayidali/spiich_homework/actions/runs/41231800054) and is deployed as `dpl_H7TtjDv11bmPNSiLnHT8QzuvGdX2`. The 66-file release adds account-scoped expenses, explicit expense top/all/total views, income totals and comparisons, scope-preserving date clarification and safe selected-query diagnostics. A separate closed hosted cohort passed16 exact-answer and7 clarification checks for $0.0298001; all74 current journal records and22 accounts stayed unchanged. Every request matched the selected tool and exact source in runtime logs. [Evidence](evidence/chat-scope-release.json).
 

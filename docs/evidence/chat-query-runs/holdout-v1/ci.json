@@ -1,0 +1,26 @@
+{
+  "sourceCommit": "168f8fac04bdba38a36809a0d6bdae6aa1cfee0d",
+  "runId": 41236529103,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41236529103",
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "verify",
+      "conclusion": "success"
+    },
+    {
+      "name": "research-native",
+      "conclusion": "success"
+    },
+    {
+      "name": "compose",
+      "conclusion": "success"
+    },
+    {
+      "name": "live-ai",
+      "conclusion": "skipped"
+    }
+  ],
+  "scope": "Frozen paired model-plan PostgreSQL replay plus full application/browser/Compose checks; live-ai job skipped because provider calls are separately recorded."
+}
