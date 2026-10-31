@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "at": "2026-10-31T05:03:53.268140+00:00",
+  "kind": "finite_operator_recovery_engineering_checks",
+  "files": [
+    {
+      "path": "scripts/operator-recovery.ts",
+      "sha256": "9aa2aa23128d94d39a2261854a02b43dc8795a047fe991b1700c844043d8c96e"
+    },
+    {
+      "path": "scripts/recover-study-transport.ts",
+      "sha256": "31138a105eec6eb4e623c5c027711484bf35034996b1a4db85ffd08b3656fc59"
+    },
+    {
+      "path": "tests/research-operator-recovery.test.ts",
+      "sha256": "bc112e279593e7581bf0eaa4b08127c8e0ae7f8e0bc74a1a732e72c12f9e7574"
+    }
+  ],
+  "frozenSourceHash": "fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08",
+  "verification": {
+    "newRegistryTests": 26,
+    "prelaunchContinuationTests": 31,
+    "transportRecoveryTests": 35,
+    "quotaRecoveryTests": 28,
+    "combinedPassed": 120,
+    "testFiles": 4,
+    "strictTypeScript": "passed",
+    "formatting": "passed",
+    "independentReview": "passed",
+    "cleanPublicCheckoutTestsPassed": 92,
+    "cleanCheckoutIncludedPrivateTooling": false
+  },
+  "operationalChange": "Export-only access to existing recovery mechanics; original consumed modes retained. Finite registry lives outside frozen inference tree.",
+  "historicalSourceArchiveManifestSha256": "fe366deba61c195f1c336dce5486ee34027945741c2ab4137990b5dda1eaec48",
+  "limits": {
+    "maximumNewProbes": 3,
+    "maximumCumulativeReservationUsd": 0.005,
+    "additionalGeminiUsd": 6.4,
+    "additionalJevUsd": 0.1,
+    "cumulativeGeminiUsd": 10,
+    "cumulativeJevUsd": 4
+  },
+  "checks": [
+    "No automatic retry or allowance renewal.",
+    "Fresh short-lived manual admission bound to current reviewed dispatcher versions.",
+    "Helper repair only between completed failed attempts and fresh admission.",
+    "Immutable original3121-record prefix, policies, consumed journals, frozen source/protocol/index and777episode file.",
+    "Consumption and reservation precede transport; ambiguous/crashed pending attempt cannot be retried.",
+    "Verified success permanently closes cohort before known-cost publication."
+  ],
+  "privateStaticWrapperTestsPassed": 10,
+  "unchangedGuardTestsPassed": 25,
+  "providerCallsDuringEngineering": 0,
+  "registryInstalled": false,
+  "admissionCreated": false,
+  "studyResumed": false,
+  "limitations": [
+    "Tests do not establish authenticated provider availability.",
+    "Static-config validation is pre-tool; platform scheduling can still delay actual network launch.",
+    "Integrity protection assumes a trusted operator does not delete and reconstruct all ledger and audit artifacts together."
+  ]
+}

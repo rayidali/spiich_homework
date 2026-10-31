@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "kind": "private_pre_tool_dispatch_wrapper",
+  "createdAt": "2026-10-31T04:55:59.097367+00:00",
+  "wrapperSha256": "b4bceaaf036a571dbdd3f8684c53bd55838f6bdf14b7a82821e1f9694185f420",
+  "wrapperTestsSha256": "64414b40d9653664b1a5e989015b49e183dc055e4bec7e0784c3047838d7fcbd",
+  "unchangedGuardV2Sha256": "64930e13a85742cf88f9d7ee729bcad5ab193d77b4fc0959f84241995d4375eb",
+  "preservedGuardV2ArchiveManifestSha256": "5f2cdfdf109ba7a1c23ad8577f9a9b78bd094a9114c6a11b7045a9127d209306",
+  "unchangedQueueCoordinatorSha256": "6ba272427fe573c5a3a345eb5351907d5029dddc472741f07ebde8559d966f33",
+  "transportFormDiagnostic": {
+    "target": "Public Google API service root, no key, body or model generation.",
+    "sameStaticConfigurationUsedForBothForms": true,
+    "plainConfig": {
+      "httpStatus": 404,
+      "curlExitCode": 0,
+      "curlDurationSeconds": 0.090583
+    },
+    "processSubstitution": {
+      "httpStatus": 0,
+      "curlExitCode": 6,
+      "curlDurationSeconds": 2.7e-05,
+      "errorClass": "DNS_resolution_failure"
+    },
+    "unauthenticatedRequestsAttempted": 2,
+    "providerGenerationCalls": 0,
+    "conclusion": "Plain curl with a static configuration reached the public host; shell process substitution failed host resolution in this environment.",
+    "limit": "These observations identify a command-form difference; they do not identify the underlying sandbox implementation or prove authenticated provider operation."
+  },
+  "workflow": [
+    "Validate the claimed request using the unchanged v2 guard in a local helper.",
+    "Write the validated configuration exclusively to a mode 0600 file inside a mode 0700 directory.",
+    "Return only safe JSON metadata and the private static path.",
+    "The dispatcher may invoke the separately permitted plain curl command with that path; the wrapper itself performs no networking."
+  ],
+  "timingMeaning": "Pre-tool validation and configuration preparation, not actual network start. The external tool scheduling gap remains after preparation.",
+  "safety": {
+    "sameAbsoluteQueueDeadline": true,
+    "noDeadlineExtension": true,
+    "expiredRequestsSkipUrlConfiguration": true,
+    "exclusivePerRequestReceipt": true,
+    "noAutomaticReplay": true,
+    "privateStaticFileMode": "0600",
+    "privateConfigDirectoryMode": "0700",
+    "guardVersionHashBound": true,
+    "retainsPacing": true,
+    "pacingMeaning": "Retains the existing coordinator/preparation-time pacing and rate settings. Actual network-start times are unobserved; delayed external launches can compress actual start gaps, so this is not proof of at least 4,500 ms between network starts."
+  },
+  "offlineVerification": {
+    "wrapperTestsPassed": 10,
+    "unchangedGuardTestsPassed": 25,
+    "actualFrozenQueuedHttpGenerator": true,
+    "realCurlFileOnlyParse": true,
+    "fileOnlyParseDescription": "A temporary generated test configuration is converted to file:///dev/null and written mode 0600 in a mode 0700 directory. The exact write-out framing is preserved. Real plain curl -fsSL --config with that static filename parses it successfully; one file URL and proto = file are asserted.",
+    "providerGenerationCalls": 0,
+    "coverage": [
+      "Private static output and unchanged validated contents.",
+      "Expiry before or immediately after validation creates timeout completion but no URL config.",
+      "Existing receipt/config prevents replay or overwrite.",
+      "Owner mismatch, changed guard bytes and unsafe config directory fail closed.",
+      "Safe diagnostics exclude private configuration.",
+      "Actual queue generator and file-only curl parsing."
+    ]
+  },
+  "scientificRuntimeOrProtocolModified": false,
+  "providerProbeOrStudyStarted": false,
+  "originalFailedAttemptsAndReservationsPreserved": true,
+  "limitations": [
+    "This wrapper restores the permitted ordinary curl command form; it does not eliminate tool-orchestration suspension.",
+    "A late external tool start can still outlive the absolute caller deadline even though relative max-time was computed before submission.",
+    "Original v2 launch receipt field names describe local preparation in this mode; the explicit pre-tool receipt supplies the correct interpretation.",
+    "The operator must record the wrapper and command form in any separately reviewed continuation permit under existing user authorization.",
+    "Existing pacing is measured at local configuration preparation, not actual network start. The wrapper does not establish a minimum actual network-start interval."
+  ],
+  "independentReview": {
+    "kind": "separate_coding_agent",
+    "result": "clear_with_disclosed_limits",
+    "wrapperTestsRepeatedPassed": 10,
+    "actualPlainStaticFileCurlTestPassed": true,
+    "footerAndPrivatePermissionsVerified": true,
+    "providerGenerationCalls": 0,
+    "scope": "Reviewed the private wrapper and repeated its offline suite. The file-only curl test used the same plain static-filename command form. This does not establish provider availability or actual network-start timing."
+  }
+}

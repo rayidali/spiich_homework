@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "reason": "proven_prelaunch_rejection_continuation",
+  "outcome": "TRANSPORT_ERROR",
+  "at": "2026-10-31T04:48:33.252Z",
+  "provider": "gemini",
+  "model": "gemini-3.5-flash-lite",
+  "status": null,
+  "durationMs": null,
+  "inputTokens": null,
+  "outputTokens": null,
+  "reportedEstimatedUsd": null,
+  "countedUsd": 0.0010841,
+  "originalRejectedProbeReservationUsd": 0.0010841,
+  "previousUsageCount": 3120,
+  "previousUsageHash": "6bba20b551af4b042ccb2d8a00fb5440cab9fd68f5077a5ef7f7a6c5f4f508fb",
+  "priorRecordsUnchanged": true,
+  "originalJournalUnchanged": true,
+  "studyResumed": false,
+  "sourceHash": "fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08",
+  "rejectionEvidenceSha256": "079cea14e76bdc6be35e71193e7deba2f2c3a17eb5bac81ea17c47dfdc26f6d0",
+  "toolSha256": "f7eafdf863eb6a6a99430a5e7a657144ddff52d4ce52bfbab4a1b89d08c39ba7"
+}

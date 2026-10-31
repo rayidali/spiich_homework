@@ -550,6 +550,19 @@ export async function executeTransportRecovery(input: {
   });
 }
 
+/** Shared operational mechanics only. Historical one-shot admission rules above
+ * remain unchanged; the finite operator registry owns its separate admission. */
+export const transportRecoveryOperations = {
+  reportedUsage,
+  durableJson,
+  journalLine,
+  outstandingWork,
+  exclusive,
+  dispatcher,
+  drainedDispatcher,
+  installedState,
+};
+
 async function main() {
   await import('dotenv/config');
   const [mode, ...args] = process.argv.slice(2);
