@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "scientificRunId": "holdout-v1",
+  "dispatcherRunId": "holdout-v1-resume1",
+  "startedAt": "2026-10-31T05:11:42.343936+00:00",
+  "endedAt": "2026-10-31T07:38:19.447442+00:00",
+  "requests": 2948,
+  "googleRequests": 1872,
+  "requestClasses": {
+    "database": 959,
+    "gemini_generation": 1619,
+    "gemini_embedding": 253,
+    "jev": 117
+  },
+  "statuses": {
+    "200": 2948
+  },
+  "incompleteFooterCount": 0,
+  "nonzeroCurlExitCount": 0,
+  "helperExpiredWithoutDispatchCount": 0,
+  "googlePreparationGapMs": {
+    "min": 4583,
+    "p50": 4666,
+    "p95": 4672,
+    "max": 13977
+  },
+  "queueWaitMsBeforePreparation": {
+    "min": 28,
+    "p50": 2101.0,
+    "p95": 3776,
+    "max": 3918
+  },
+  "curlReportedNetworkDurationMs": {
+    "min": 65,
+    "p50": 986.5,
+    "p95": 2718,
+    "max": 13316
+  },
+  "watcherExitCode": 0,
+  "watcherFinalPhase": "stop-requested",
+  "watcherMatchedManifest": true,
+  "ownerLockPresent": false,
+  "runnerLockPresent": false,
+  "usageLockPresent": false,
+  "readyRequests": 0,
+  "claimedWithoutDone": 0,
+  "recordedEpisodes": 1620,
+  "uniqueEpisodeIds": 1620,
+  "afterCheck": {
+    "fingerprint": "2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c",
+    "unchanged": true,
+    "complete": true
+  },
+  "metricsSha256": "a13c36f11e4678d3f633644cbefd24ad08dbfdd5e5aa0436190c91282c6e556c",
+  "controllerSha256": "7d67696d2d4aada1a59a20d9d5e10e06c3825ef84ef61ce7f3e9c99299875048",
+  "afterCheckSha256": "d3be47b23fb336289631bdf2a0b4143456802396baaaf28521b3da84cbc0399a",
+  "coordinatorSha256": "6ba272427fe573c5a3a345eb5351907d5029dddc472741f07ebde8559d966f33",
+  "guardSha256": "64930e13a85742cf88f9d7ee729bcad5ab193d77b4fc0959f84241995d4375eb",
+  "preToolWrapperSha256": "b4bceaaf036a571dbdd3f8684c53bd55838f6bdf14b7a82821e1f9694185f420",
+  "sourceHelperBudgetEditedByDispatcher": false,
+  "retries": 0,
+  "reviewerPhaseStarted": false,
+  "limitations": [
+    "This receipt covers the resumed dispatcher segment; the earlier interrupted segment and its failed episodes remain preserved separately.",
+    "HTTP200 and complete footers describe transport completion, not financial-answer correctness.",
+    "Preparation timestamps and gaps are local pre-tool measurements, not observed network-start times or proof of minimum actual start spacing.",
+    "Curl-reported durations exclude queue waiting and the external tool scheduling gap."
+  ]
+}

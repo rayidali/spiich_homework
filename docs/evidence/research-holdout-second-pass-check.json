@@ -1,0 +1,235 @@
+{
+  "schemaVersion": "daybook-holdout-milestone-v1",
+  "checkedAt": "2026-10-31T06:04:00.045Z",
+  "runId": "holdout-v1",
+  "milestone": "first two complete passes: repeats 0 and 1",
+  "verdict": "PASS",
+  "scope": "Read-only metadata, provenance and cost audit of the fixed 1,080-episode prefix. No provider or database requests, source/protocol/data edits, quality ranking or tuning.",
+  "sourceHash": "fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08",
+  "protocolHash": "525016c029d869198d0129f676f40e282fc3f7cc9ff60059f4fde68528a25d49",
+  "datasetHash": "9103a8a057e514d8515390a585866e751460714f4a057bde85e7758f962775fd",
+  "indexHash": "f0420b1c0fc1dda49d4cbc937f2fce4c57f43660688de0c5a4914d001279a2a1",
+  "verifierConfigHash": "d44bc306028ba66bb1cb7877db05bf1c95d9938768e144781a05e58df96e64db",
+  "verifierThreshold": 0.8,
+  "expectedWholeRunEpisodes": 1620,
+  "observedAtRead": {
+    "episodes": 1089,
+    "scoredEpisodes": 1089,
+    "usageRecords": 2596
+  },
+  "twoPasses": {
+    "episodes": 1080,
+    "questionCount": 60,
+    "routeCount": 9,
+    "repeats": [
+      0,
+      1
+    ],
+    "familyCoverage": {
+      "adversarial": 180,
+      "analytics": 180,
+      "documents": 180,
+      "entry": 180,
+      "financial": 180,
+      "scenario": 180
+    },
+    "repeatCoverage": {
+      "0": 540,
+      "1": 540
+    },
+    "statusCounts": {
+      "blocked": 174,
+      "error": 17,
+      "ok": 889
+    },
+    "errorEpisodeIds": [
+      "holdout-v1:R6:analytics-07-2:0",
+      "holdout-v1:R3:analytics-08-1:0",
+      "holdout-v1:R6:scenario-06-1:0",
+      "holdout-v1:R4:scenario-06-2:0",
+      "holdout-v1:R3:scenario-06-2:0",
+      "holdout-v1:R7:scenario-08-1:0",
+      "holdout-v1:R0:entry-09-1:0",
+      "holdout-v1:R6:financial-06-2:1",
+      "holdout-v1:R6:analytics-07-1:1",
+      "holdout-v1:R6:analytics-07-2:1",
+      "holdout-v1:R7:analytics-08-1:1",
+      "holdout-v1:R8:analytics-08-1:1",
+      "holdout-v1:R7:documents-08-2:1",
+      "holdout-v1:R0:documents-09-1:1",
+      "holdout-v1:R1:documents-09-1:1",
+      "holdout-v1:R2:documents-09-1:1",
+      "holdout-v1:R0:entry-09-1:1"
+    ],
+    "hardGateEpisodes": 0,
+    "usageRecords": 2577,
+    "providerCallKinds": {
+      "gemini:critic": 84,
+      "gemini:embed": 329,
+      "gemini:file-search-query": 71,
+      "gemini:generate": 1936,
+      "jev:jev-rerank": 71,
+      "jev:jev-verify": 86
+    },
+    "unknownUsageKinds": {
+      "gemini:embed": 329,
+      "gemini:generate": 3
+    },
+    "providerStatusCounts": {
+      "200": 2574,
+      "null": 3
+    },
+    "serviceTiming": {
+      "measuredDurationCalls": 2574,
+      "missingDurationCalls": 3,
+      "recordedZeroDurationCalls": 0,
+      "missingValuesImputed": false
+    },
+    "perRouteAccounting": [
+      {
+        "route": "R0",
+        "episodes": 120,
+        "calls": 120,
+        "reviewedEpisodes": 0,
+        "reportedUsageEquivalentUsd": 0.1772857,
+        "unknownUsageReservationUsd": 0.007676,
+        "budgetChargedUsd": 0.1849617
+      },
+      {
+        "route": "R1",
+        "episodes": 120,
+        "calls": 226,
+        "reviewedEpisodes": 0,
+        "reportedUsageEquivalentUsd": 0.2888959,
+        "unknownUsageReservationUsd": 0.0094486,
+        "budgetChargedUsd": 0.2983445
+      },
+      {
+        "route": "R2",
+        "episodes": 120,
+        "calls": 225,
+        "reviewedEpisodes": 0,
+        "reportedUsageEquivalentUsd": 0.3549536,
+        "unknownUsageReservationUsd": 0,
+        "budgetChargedUsd": 0.3549536
+      },
+      {
+        "route": "R3",
+        "episodes": 120,
+        "calls": 299,
+        "reviewedEpisodes": 0,
+        "reportedUsageEquivalentUsd": 0.5223468,
+        "unknownUsageReservationUsd": 0,
+        "budgetChargedUsd": 0.5223468
+      },
+      {
+        "route": "R4",
+        "episodes": 120,
+        "calls": 297,
+        "reviewedEpisodes": 0,
+        "reportedUsageEquivalentUsd": 0.3475724,
+        "unknownUsageReservationUsd": 0.02305485,
+        "budgetChargedUsd": 0.37062725
+      },
+      {
+        "route": "R5",
+        "episodes": 120,
+        "calls": 370,
+        "reviewedEpisodes": 0,
+        "reportedUsageEquivalentUsd": 0.355983344,
+        "unknownUsageReservationUsd": 0.02369895,
+        "budgetChargedUsd": 0.379682294
+      },
+      {
+        "route": "R6",
+        "episodes": 120,
+        "calls": 280,
+        "reviewedEpisodes": 0,
+        "reportedUsageEquivalentUsd": 0.3296633,
+        "unknownUsageReservationUsd": 0.01769265,
+        "budgetChargedUsd": 0.34735595
+      },
+      {
+        "route": "R7",
+        "episodes": 120,
+        "calls": 378,
+        "reviewedEpisodes": 84,
+        "reportedUsageEquivalentUsd": 0.3895726,
+        "unknownUsageReservationUsd": 0.0318895,
+        "budgetChargedUsd": 0.4214621
+      },
+      {
+        "route": "R8",
+        "episodes": 120,
+        "calls": 382,
+        "reviewedEpisodes": 86,
+        "reportedUsageEquivalentUsd": 0.355335616,
+        "unknownUsageReservationUsd": 0.02307195,
+        "budgetChargedUsd": 0.378407566
+      }
+    ]
+  },
+  "checks": {
+    "exact1080UniquePlannedCells": true,
+    "questionMembershipMatchesSource": true,
+    "metadataMatchesSource": true,
+    "eachRouteHas120": true,
+    "eachFamilyHas180": true,
+    "eachRepeatHas540": true,
+    "original777BytesPreserved": true,
+    "allOriginal777UsageUnchanged": true,
+    "earlier540EpisodeHashPreserved": true,
+    "everyScopedOutcomeScored": true,
+    "allErrorOutcomesPreserved": true,
+    "uniqueUsageRecordIDs": true,
+    "allRunUsageMapsToPlannedCells": true,
+    "knownAndUnknownCostsRetained": true,
+    "durationMissingnessRetained": true,
+    "actualReviewerCallsBound": true,
+    "componentCallPathsCorrect": true,
+    "modelsMatchFrozenManifest": true,
+    "sourceUnchanged": true,
+    "protocolUnchanged": true,
+    "datasetManifestUnchanged": true,
+    "indexBindingUnchanged": true,
+    "verifierConfigUnchanged": true,
+    "verifierFreezeMatches": true,
+    "beforeFingerprintMatchesRecord": true,
+    "wholeRunStillCorrectlyIncomplete": true,
+    "checkpointDenominatorsConsistent": true,
+    "checkpointRouteCostsReconcile": true
+  },
+  "failedChecks": [],
+  "artifactHashes": {
+    "manifestFile": "670ddd021f4a805641bbe43002f25f7b27c25f724b0c099998627aa4cc9c0dcd",
+    "first1080EpisodeBytes": "2c81a458c294316e7cec2959c621639a5725cdbec1f67e215dfa2f0a39e63801",
+    "first1080EpisodeRecords": "2af0f8bc7673096196ba0c3572d9a157758f9bbaf266f0595ca5296322340a7f",
+    "firstTwoPassesUsageRecords": "e84995fa45df2bebea74c542eedf33e9ffeb456bff6952fa995fa527ff53dda3",
+    "original777EpisodeBytes": "ede8f360706dfca231ddfcef614bf1d1aeaf339221744157b2cc81b45ade0584",
+    "original777UsageRecords": "021d4c54e53e15dbeace12e4e08d49002b44c8a7c05faf1d79c9f64761a8d222",
+    "checkpointResultsFile": "6ba8a6ad605204deb25a57996421fcb09813bec09c27d8828be18138f6b421ea",
+    "checkpointUsageFile": "78c618b513b534751cf143ab687d4221c4d7c51f4a35e38fe45a8f15a5587856",
+    "verifierFreezeFile": "91828d73e723c0e8cd79c64c5107dcb34cc0458aea9e8bf4f10fb65bd4c709e5"
+  },
+  "snapshotIntegrity": {
+    "status": "unverified",
+    "before": "2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c",
+    "after": null,
+    "scope": "ledger_and_corpus",
+    "reason": "Final complete ledger/document/embedding fingerprint is pending."
+  },
+  "checkpointCostReconciliation": {
+    "scoredEpisodes": 1089,
+    "allRouteCallCountsChargesAndUnknownReservationsMatch": true,
+    "absoluteUsdTolerance": 1e-09
+  },
+  "limitations": [
+    "This is an internal artifact audit, not independent human adjudication or a route-quality comparison.",
+    "The main runner remains active. Third-pass records are outside this fixed-prefix audit; report and usage artifacts may advance after the read.",
+    "The original before fingerprint remains recorded, but no fresh database read was made here. Final full ledger/document/vector equality and whole-study eligibility remain pending.",
+    "Unknown usage retains conservative reservations. Missing service durations remain unknown, including original timeout records; legacy episode providerDurationMs=0 is not treated as measured zero.",
+    "Error and blocked outcomes remain in their original planned cells; earlier 777 outcomes and their entire usage list match the preserved interruption snapshot.",
+    "Cost figures are configured-rate equivalents plus unknown-use reservations, not provider invoices. Operational recovery probes are separate overhead and are not allocated as held-out route calls.",
+    "The status ok means an execution returned, not that the answer was correct."
+  ]
+}

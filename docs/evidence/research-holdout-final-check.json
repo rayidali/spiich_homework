@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "daybook-final-main-audit-v1",
+  "auditStartedAt": "2026-10-31T07:38:41.087Z",
+  "artifactCreatedAt": "2026-10-31T07:38:57.565536Z",
+  "runId": "holdout-v1",
+  "verdict": "COMPLETE_RECORDED_MATRIX_INTEGRITY_VERIFIED",
+  "checks": {
+    "currentSourceMatchesFrozenManifest": true,
+    "runtimeMatchesFrozenManifest": true,
+    "planUnchanged": true,
+    "datasetManifestUnchanged": true,
+    "privateIndexBindingUnchanged": true,
+    "reviewerConfigUnchanged": true,
+    "publicReviewerFreezeUnchanged": true,
+    "reviewerFreezePrivatePublicEqual": true,
+    "configuredModelsAndThresholdUnchanged": true,
+    "exact1620PlannedCells": true,
+    "episodeIdentityMatchesQuestionAndManifest": true,
+    "balancedRouteFamilyRepeatCoverage": true,
+    "eachOutcomeScoredExactlyOnce": true,
+    "scoresPreserveIdentityAndErrors": true,
+    "noFabricatedHumanReview": true,
+    "original777EpisodeBytesPreserved": true,
+    "all1892OriginalUsageRecordsPreservedWithoutRetries": true,
+    "interruptionArchiveHashesMatch": true,
+    "earlier540And1080RecordsUnchanged": true,
+    "usageIdsUniqueAndAssigned": true,
+    "allConfiguredProviderModelsMatch": true,
+    "actualCallsRespectDeclaredRouteComponents": true,
+    "savedProviderMetadataBackedByActualCalls": true,
+    "savedReviewersBackedByActualReviewCalls": true,
+    "reviewCallsHaveReviewOrRecordedError": true,
+    "reviewThresholdUnchanged": true,
+    "allReportDenominatorsPreserved": true,
+    "allRouteCostRowsReconcile": true,
+    "noUnassignedMainUsage": true,
+    "finalFullFingerprintVerifiedEqual": true,
+    "mainReportEligibilityHasIntegrityBasis": true,
+    "noUnreviewedTopLevelValidityNotice": true,
+    "globalUsageIdsUnique": true,
+    "globalUsageAmountsWellFormed": true,
+    "prior3121RecordsUnchanged": true,
+    "successfulRecovery3122PrefixUnchanged": true,
+    "studyPolicyBaselineUnchanged": true,
+    "allowanceNotExpanded": true,
+    "globalAndAdditionalBudgetCapsHold": true,
+    "publicUsageMatchesGlobalRecords": true,
+    "usageModelsAllowed": true
+  },
+  "failedChecks": [],
+  "coverage": {
+    "episodes": 1620,
+    "byRoute": {
+      "R0": 180,
+      "R1": 180,
+      "R2": 180,
+      "R3": 180,
+      "R4": 180,
+      "R5": 180,
+      "R6": 180,
+      "R7": 180,
+      "R8": 180
+    },
+    "byFamily": {
+      "financial": 270,
+      "analytics": 270,
+      "documents": 270,
+      "scenario": 270,
+      "entry": 270,
+      "adversarial": 270
+    },
+    "byRepeat": {
+      "0": 540,
+      "1": 540,
+      "2": 540
+    },
+    "statuses": {
+      "ok": 1333,
+      "blocked": 267,
+      "error": 20
+    },
+    "errors": {
+      "WREN_PLAN_REJECTED": 3,
+      "RESEARCH_BALANCE_REQUIRES_INCEPTION": 3,
+      "Research provider request failed: INVALID_RESPONSE.": 10,
+      "RESEARCH_HTTP_TIMEOUT": 3,
+      "RESEARCH_PROVIDER_CIRCUIT_OPEN": 1
+    }
+  },
+  "usage": {
+    "calls": 3881,
+    "reportedUsageEquivalentUsd": 4.693488411999998,
+    "unknownUsageReservationUsd": 0.19433994999999973,
+    "budgetChargedUsd": 4.887828362000009,
+    "unknownUsageCalls": 505,
+    "missingDurationCalls": 3,
+    "recordedZeroDurationCalls": 0,
+    "kinds": {
+      "generate": 2910,
+      "embed": 502,
+      "jev-rerank": 108,
+      "critic": 126,
+      "jev-verify": 128,
+      "file-search-query": 107
+    },
+    "requestedModels": {
+      "gemini-3.5-flash-lite": 3143,
+      "gemini-embedding-001": 502,
+      "jev-1.14.0": 236
+    },
+    "returnedModelsFromSavedMetadata": {
+      "gemini-3.5-flash-lite": 3011,
+      "jev-1.14.0": 128
+    }
+  },
+  "budget": {
+    "trackedRecords": 5111,
+    "attemptsSinceAllowanceBaseline": 4270,
+    "amountsUsd": {
+      "gemini": {
+        "global": 5.983047499999999,
+        "additional": 5.211671150000007
+      },
+      "jev": {
+        "global": 0.036762978000000016,
+        "additional": 0.029575433999999994
+      }
+    },
+    "note": "Known reported usage plus conservative reservations; not an independently observed provider invoice or account balance."
+  },
+  "artifactHashes": {
+    "episodes.jsonl": "23a81919b83fec491d728d5abe6660389c7446d5808db805246c799f08d8b51e",
+    "results.json": "eeb43bbad42e974dcb3c6fbc030f314304be49130b475313d8e785613da1ee29",
+    "usage.json": "f93e17268d28d255ead5b066c3186f9c04600651485f83a100c46ee3586e8104",
+    "manifest.json": "670ddd021f4a805641bbe43002f25f7b27c25f724b0c099998627aa4cc9c0dcd",
+    "source-manifest.json": "064f6881ba80de70da4e71f0a56d1fbfb48bce4e56e7eba5985f9ea165ed5359",
+    "before.json": "d464c8501faf295e403f70bff35ec479b7cafe99dfb37df46f49465144ceffe0",
+    "after.json": "d3be47b23fb336289631bdf2a0b4143456802396baaaf28521b3da84cbc0399a"
+  },
+  "frozenBindings": {
+    "source": "fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08",
+    "protocol": "525016c029d869198d0129f676f40e282fc3f7cc9ff60059f4fde68528a25d49",
+    "dataset": "9103a8a057e514d8515390a585866e751460714f4a057bde85e7758f962775fd",
+    "index": "f0420b1c0fc1dda49d4cbc937f2fce4c57f43660688de0c5a4914d001279a2a1",
+    "verifierConfig": "d44bc306028ba66bb1cb7877db05bf1c95d9938768e144781a05e58df96e64db",
+    "fingerprint": "2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c",
+    "verifierFreezeFile": "91828d73e723c0e8cd79c64c5107dcb34cc0458aea9e8bf4f10fb65bd4c709e5",
+    "generator": "gemini-3.5-flash-lite",
+    "embedding": "gemini-embedding-001",
+    "jev": "jev-1.14.0"
+  },
+  "limitations": [
+    "Read-only artifact audit; no provider or database calls were made.",
+    "Final database equality is the runner recorded full-scope fingerprint, not an independent fresh database read by this audit.",
+    "Integrity and completion do not imply factual success, prose faithfulness, or a winning architecture.",
+    "Main route costs exclude separately preserved setup/development and operational recovery overhead; global budget accounting includes them.",
+    "Missing usage remains charged at its reservation and missing service durations remain unknown.",
+    "The separate 240-outcome reviewer study and final preregistered analysis must be audited before a full-study conclusion."
+  ],
+  "auditScriptSha256": "45065f04737231affa2873ab08b20d2e59c1658015364fe3b22e3897e8cc0991",
+  "snapshotIntegrity": {
+    "status": "verified",
+    "before": "2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c",
+    "after": "2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c",
+    "scope": "ledger_and_corpus"
+  }
+}

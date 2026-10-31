@@ -1,0 +1,66 @@
+{
+  "exporter": "daybook-pdf-report-v2",
+  "status": "HOLDOUT | COMPLETE",
+  "selectionStatus": "No validity notice supplied; selection eligibility is not inferred by this exporter",
+  "observedEpisodes": 1620,
+  "plannedEpisodes": 1620,
+  "inputs": [
+    {
+      "role": "main results",
+      "filename": "results.json",
+      "sha256": "eeb43bbad42e974dcb3c6fbc030f314304be49130b475313d8e785613da1ee29"
+    },
+    {
+      "role": "verifier results",
+      "filename": "holdout-results.json",
+      "sha256": "6128cf2db38261603a56d895c84e10ac6faca56b8a7241fd8d740b88b835f4f6"
+    },
+    {
+      "role": "retrieval supplement",
+      "filename": "retrieval-and-failures.json",
+      "sha256": "a3665accded64cbed2e321fc8b8326219c4dd56c1143e89249a2b4b49a2fd234"
+    },
+    {
+      "role": "common-capability analysis",
+      "filename": "common-capabilities.json",
+      "sha256": "bef125c18ca24e5f44ff7656184181e6fa2b639c2dab380b1dedf408f16cbc76"
+    },
+    {
+      "role": "common-capability analysis provenance",
+      "filename": "analysis-provenance.json",
+      "sha256": "8bdc48162b698ccad3dcbf908e2f7362c6f6753c2b8136fb647933db13cdba9a"
+    },
+    {
+      "role": "weight-sensitivity analysis",
+      "filename": "sensitivity.json",
+      "sha256": "026bccae461c027e314040376f33ecdd90d26bb2cafad7982fa7a9495b0f52c0"
+    },
+    {
+      "role": "weight-sensitivity analysis provenance",
+      "filename": "analysis-provenance.json",
+      "sha256": "4f612c88c7b35fedfe7025b681bee74e2fa4f2ef5fdfa0f72bde75411675c5b4"
+    },
+    {
+      "role": "decision analysis",
+      "filename": "decisions.json",
+      "sha256": "3b44c1478dcd048e918d36bda0b85d27be940a201e15c261f02044c9a16cd5eb"
+    },
+    {
+      "role": "decision analysis provenance",
+      "filename": "analysis-provenance.json",
+      "sha256": "c1025d2f6408bf013af9da27a7fe36d29be462e346de82bf5fb59e91b237112f"
+    }
+  ],
+  "inputBundleHash": "5667ad2cbb79b2a3e38151e1f09cf9d8d69379a7f02dd2293ccadae0acd88cae",
+  "reportlabVersion": "5.1.0",
+  "exporterSourceHash": "44d66a7a97d60db08004e83939e1417b3aed9d79e7b35f2c6d5f7bdc00661769",
+  "validation": {
+    "available": true,
+    "pages": 16,
+    "emptyPages": [],
+    "textOutsidePage": [],
+    "rendered": true,
+    "visualReview": "Rendering and text bounds checks only; inspection must be recorded separately."
+  },
+  "pdfHash": "ce197068fb0bc16e3e9ceeb337bbc108b5cc448105d16a4f4a97ce746e03c801"
+}

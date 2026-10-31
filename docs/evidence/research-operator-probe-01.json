@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "kind": "operator_recovery_probe",
+  "incidentId": "holdout-v1-interruption-01",
+  "at": "2026-10-31T05:09:47.938Z",
+  "outcome": "RECOVERED",
+  "status": 200,
+  "durationMs": 816,
+  "inputTokens": 14,
+  "outputTokens": 5,
+  "reportedEstimatedUsd": 0.0000167,
+  "countedUsd": 0.0000167,
+  "attemptsConsumed": 1,
+  "cumulativeReservationUsd": 0.0010841,
+  "cohortClosed": true,
+  "baselineCount": 3121,
+  "baselinePreserved": true,
+  "previousUsageCount": 3121,
+  "sourceHash": "fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08",
+  "operatorReviewSha256": "20a6b4e059b6e3e84cd20a290e2704dc171bcde0c57e9ae7019e532b8896012a",
+  "studyResumed": false
+}

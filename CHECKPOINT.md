@@ -1,128 +1,116 @@
 # Daybook session checkpoint
 
-Saved **2026-10-30, America/New_York**; UTC execution timestamps may read October 31. Read this first on continuation. Continue the implemented application and active study; do not rebuild, repeat development, or restore an old archive.
+Saved **2026-10-31, America/New_York**. Read this first on continuation. The implemented application and scientific study already exist; do not rebuild them or repeat completed provider runs.
 
-## Active task and immediate state
+## Current state
 
-The user explicitly authorized the full scientific comparison, funded Gemini and said **continue until the goal is done**. They reported about **$8 credit**; balance/tier are not independently verified. No further purchase/refill is authorized. Existing additional caps remain **$6.40 Gemini/$0.10 Jev**, within cumulative$10/$4.
+**The scientific measurements, analyses and report are complete. Final source publication, cloud CI and ZIP refresh are being finished.** The user explicitly authorized continuation until delivery and reported about $8 Gemini credit. No further provider work or purchase is needed for this study.
 
-**Main holdout is stopped at777/1,620. Do not restart yet.** Original runner74899 stopped after three transport timeouts and one circuit-open outcome;843 cells remain unattempted. All777 outcomes, including four final failures, are preserved in the immutable [interruption archive](docs/evidence/research-runs/holdout-v1/interruption-01/snapshot.json). The after-fingerprint is unavailable. No final score/winner exists. Original source hash remains `fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08`.
+- Main holdout: **1,620 unique planned/scored trials**, 180 per route, 60 questions × nine routes × three repeats. Execution statuses: 1,333 ok, 267 withheld, **20 retained errors**. There are 940 structured successes across the recorded matrix; execution success is not answer correctness.
+- Reviewer holdout: **240 outcomes**, 80 candidates × deterministic/Gemini/Jev; 80 per method, **zero execution errors**. Exactly 80 Gemini and 80 Jev calls completed.
+- Main runner **87891**, dispatcher **g10:215**, watcher **24141**: stopped cleanly. Reviewer runner **59490**, dispatcher **g10:219**, watcher **56554**: stopped cleanly. No runner/budget/owner lock or pending request remains. Do not restart either phase.
+- Final complete ledger/corpus/vector fingerprint matches the starting value: `2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c`.
+- Main integrity audit: **41/41** checks. Reviewer integrity audit: **31/31**. Final analysis/cost audit: **59/59**. These are AI-assisted internal audits, not independent human scientific review.
+- The **16-page PDF** passed text-bounds checks and AI visual inspection of every rendered page. Human prose/reference adjudication remains unmeasured.
+- Production is unchanged. No research route was promoted into hosted chat.
 
-**Two operational recovery attempts are consumed and failed; neither may be replayed.** The first was rejected before configuration emission because a new launcher mishandled an actual newline. The corrected once-only continuation emitted configuration but failed DNS (curl6, HTTP000). Its dispatcher g10:197 stopped; no owner/runner/budget lock, ready request or incomplete claim remains. The original3119 records plus both unknown$0.0010841 reservations are intact:3121records total. Additional tracked usage is$2.7619927 Gemini/$0.01617588 Jev. Both append-only journals and all prior policies remain unchanged. See [transport incident](docs/research/TRANSPORT_INCIDENT.md) and [continuation result](docs/evidence/research-prelaunch-continuation-result.json).
+Start with the [completed study narrative](docs/reports/research-study.md), [visual PDF](docs/evidence/research-runs/holdout-v1/study-report.pdf), [full HTML results](docs/evidence/research-runs/holdout-v1/report.html), [worked examples](docs/reports/research-worked-examples.md), and [interview guide](docs/INTERVIEW_GUIDE.md).
 
-The exact same unauthenticated public-host configuration received HTTP404 through ordinary `curl --config`, but DNS6 through shell process substitution. This establishes a command-path difference, not a bad key or exhausted balance. **Use the supported plain static-config curl path.** Agent Wren is implementing a private wrapper that runs the reviewed v2 validation into a private static config before the curl tool call. It must disclose that validation is pre-tool: it cannot guarantee actual network-launch timing or eliminate platform suspension. No live dispatcher is active.
+## Results and defensible recommendation
 
-**Current engineering work: one bounded external operator-admission registry for this incident.** Agent providers owns implementation; fixtures independently reviews; Wren owns the wrapper/diagnostic evidence. It must preserve all3121records and both consumed journals; allow at most3 additional fixed same-model availability probes/$0.005 cumulative reservations inside the unchanged parent caps; require a fresh short-lived manually reviewed admission for each attempt; have no automatic retry, renewal or generic circuit-clear; and close permanently on verified success. This is maintenance under the user's existing keep-going instruction, not a fresh user reply or purchase. No registry admission or further provider request has been made.
+R3 managed File Search has the highest observed broad structured-task success: **127/180 (70.6%)**, followed by R4 hybrid **118/180 (65.6%)** and R2 lexical **110/180 (61.1%)**. On the predefined common-capability subset, R0's existing narrow tools score **33/36 (91.7%)**, versus R3 **27/36 (75.0%)**. Expanded coverage does not establish a wholesale replacement of existing tools.
 
-To avoid duplicate recovery engines, providers may add only named exports for the existing operational helpers in `scripts/recover-study-transport.ts`; its old prepare/execute behavior and consumed refusal stay intact. Exact prior tool and continuation source bytes were archived under `.tools/research/operational-source-archive/`; manifest SHA `fe366deba61c195f1c336dce5486ee34027945741c2ab4137990b5dda1eaec48`. Old permits are never reused after this disclosed operational refactor. No frozen inference file or PLAN changes are permitted.
+**Only H2, adding lexical document access to broad tools, passes the predefined component screen:** targeted documents/scenarios gain **+46.7 percentage points [35.0, 60.0]**. Managed retrieval's targeted advantages over lexical/hybrid remain inconclusive; vector search, reranking, Wren and reviewers do not establish the required further gain. Recommend document access as a candidate for the next controlled product experiment while preserving useful narrow tools. A new intent router combining paths is an unmeasured configuration, not a tested result.
 
-| Item                                | Current state                                                      |
-| ----------------------------------- | ------------------------------------------------------------------ |
-| Planned main matrix                 | 60questions ×9routes ×3repeats =1,620episodes                      |
-| Main start                          | 2026-10-31T01:40:11.152Z                                           |
-| Original runner / pump / watcher    | 74899 /g10:154 /44011, all stopped                                 |
-| Frozen executable commit            | `0fe267b03b7baa0a2ff43c58165301b74261afa9`                         |
-| Latest published operational commit | `ff2bdc784e95fb30b0d775f03550049c7f69eaff`                         |
-| Latest full CI                      | 41169740036: verify,compose,research-native passed;live-ai skipped |
-| Scoped data fingerprint             | `2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c` |
-| Frozen index                        | `f0420b1c0fc1dda49d4cbc937f2fce4c57f43660688de0c5a4914d001279a2a1` |
-| Reviewer threshold                  | 0.8,frozen before holdout                                          |
-| Current ledger                      | 3121records; both failed operational reservations retained         |
-| Fresh blocked audit                 | 0; meaningful repair work continues under explicit user resumption |
+Reviewer joint policies accept **7/40 flawed candidates for Gemini+code** and **6/40 for Jev+code**, versus **28/40 for the limited deterministic stress checker**. They withhold **1/40 correct (2.5%)** and **5/40 (12.5%)**, respectively. Gemini's withholding interval exceeds the allowed upper bound; Jev's observed withholding exceeds the practical target. Neither qualifies for universal automatic adoption. The generated reviewer report's threshold-feasibility caption refers to development, not Jev's held-out performance.
 
-Recent verification:31continuation+35transport+28quota tests passed together (94), strict TypeScript/formatting passed; independent66tests passed locally and in clean checkout. Launcher v2 passed25tests including actual frozen queuedHttp plus independent local real-curl parsing. These tests missed the live shell-command network boundary, now separately diagnosed. Full CI passed before the failed continuation. Engineering checks do not establish live provider availability.
+All intervals are exploratory, clustered and unadjusted. The synthetic holdout has 30 scenario groups, five per family; repeats/paraphrases are correlated. No independent human prose score, production accuracy or million-user capacity is claimed. [Decision supplement](docs/evidence/research-runs/holdout-v1/decisions/report.md).
 
-The [first540-trial audit](docs/evidence/research-holdout-first-pass-check.json) is clear for coverage/provenance only. Preserve every scored/error outcome; partial scores must not select a route or motivate tuning. `ok` is execution success, not answer correctness. The [main manifest](docs/evidence/research-runs/holdout-v1/manifest.json) and [reviewer freeze](docs/evidence/research-verifiers/verifiers-v1/verifier-freeze.json) remain fixed. Never edit `docs/PLAN.md` merely to refresh status.
+## Spending and protected state
 
-## Remaining work, in order
+Final shared research ledger: **5,271 records = 841 baseline + 4,430 continuation**.
 
-1. Finish/review/test/publish the bounded operator registry and supported static-config dispatcher wrapper. Preserve both failed attempts and all history. Record one fresh operator admission under existing authorization and unchanged caps, activate its exact sole dispatcher, then make one fixed probe. Only verified success permits a fresh main dispatcher and same-ID resume with a matching full fingerprint. Retain all777 recorded IDs, including failures; finish only843 unattempted cells. No automatic probe or episode retries.
-2. Let the runner complete the after-fingerprint/report and remove its lock. Confirm watcher/dispatcher cleanup, complete 1,620 unique planned IDs, unchanged source/protocol/index/data and all costs. Obtain the fixtures agent's final read-only audit.
-3. Activate a fresh sole dispatcher/watcher for the separate reviewer phase and await its ACTIVE acknowledgment. Run `RESEARCH_TRANSPORT=queue node --import tsx scripts/research/verifiers.ts holdout verifiers-v1`. This produces **240 planned outcomes**, retaining the same run ID as its preserved development calibration. Do not regenerate development reviewers or choose another threshold.
-4. After complete cleanup, run the provider-free primary supplement, common-capability, fixed-weight and decision analyses in [REPRODUCE.md](docs/research/REPRODUCE.md). Use the **v4** common-capability amendment. Create evaluator-only reviewer labels only after reviewer evaluation; never include them in provider input.
-5. Export the standalone PDF with all supplements and inspect rendered pages. Fill the results/discussion of [the study report](docs/reports/research-study.md) with actual complete measurements, uncertainty, tradeoffs and a proportional recommendation. Update the [interview guide](docs/INTERVIEW_GUIDE.md), relevant current docs and build log.
-6. Verify document links/formatting, report integrity and secret exclusion. Publish through the existing local Git checkout, refresh `submission.zip` and verify exact bytes/CRC. Do not package while a runner is mutating report artifacts.
-7. Mark the existing goal complete only when the required study, analysis, report and handoff actually exist. Its old `blocked` status came from the earlier quota episode; the user's explicit continuation starts a fresh blocked audit, currently **zero**. Do not treat that historical status as a new blocker.
+| Scope                                                 |      Tracked USD, approximately |
+| ----------------------------------------------------- | ------------------------------: |
+| Main held-out routes                                  |                     4.887828362 |
+| Held-out reviewer calls                               |                     0.030792290 |
+| All research, including development/indexing/recovery |                 **6.050602768** |
+| Original 841-record baseline                          |                     0.778563894 |
+| Funded continuation, both providers                   |                 **5.272038874** |
+| Continuation Gemini                                   | **5.238734050**, below 6.40 cap |
+| Continuation Jev                                      | **0.033304824**, below 0.10 cap |
 
-The source/report scaffolds and analysis tools are implemented. The remaining task is actual measurement, interpretation and delivery. No research route is automatically deployed into product chat.
+The full ledger consists of about **$5.620660418 reported-use estimates + $0.429942350 retained unknown reservations**. All 804 unknown-cost records remain. Successful embeddings without usage metadata are included; an unknown cost is not necessarily a network failure. Records count reservations, not necessarily dispatched requests. These are estimates/reservations, not invoices or a verified account balance. Production traffic and unrecorded external services are outside this ledger.
 
-## Spending controls and secrets
+The sanitized final snapshot and exact decimal partitions are in [research-final-costs](docs/evidence/research-final-costs/cost-reconciliation.md). Its exported usage SHA256 is `df6f0c25f3e5674a463608f00bead57ecc5bf4339a0c1c73057a7f077b97b5e7`. Exact sums preserve stored Number serialization artifacts; they do not invent additional pricing precision.
 
-The installed parent-bound study policy permits **$6.40 additional tracked Gemini and $0.10 additional tracked Jev**, retaining original cumulative **$10/$4** caps. The baseline contains 841 immutable usage records. Failed/unknown calls retain reservations. Costs are estimates, not invoices or remaining account balance. Before the main run, additional funded tracked totals were **$0.3494256 Gemini / $0.001807722 Jev**; later usage is in the private ledger.
+Preserve the private `.tools/research/usage.json`, installed parent/child policies, required markers, original key bindings and every recovery journal. The additional caps remain $6.40/$0.10 within original cumulative $10/$4 ceilings. No automatic refill, model rotation, retry or policy reset is authorized. Keys, database URLs, raw request/response/header/config files, browser state and private index identifiers must never enter source, docs, screenshots or the ZIP.
 
-Private state includes `.tools/research/usage.json`, its study policy/required marker, original key-check policy and recovery journal, and `.tools/research/study-resumption-authorization.json`. Preserve all of it. Wrong credential, changed history, corrupt policy, missing bindings and exhausted allowance fail closed. There are no automatic retries or model/key rotations. Do not reset the ledger, delete safeguards or create another path to evade a cap.
+## Frozen study and audit evidence
 
-Keep `.env`, provider/database URLs, credentials, automation/browser state, raw queue configs/bodies/headers/responses and private index identifiers out of source, chat, docs, screenshots and archives. Public evidence is explicitly sanitized. Production credentials were not changed when the local research key changed.
+| Binding                                                 | Value                                                              |
+| ------------------------------------------------------- | ------------------------------------------------------------------ |
+| Inference source hash                                   | `fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08` |
+| Original verified inference commit                      | `0fe267b03b7baa0a2ff43c58165301b74261afa9`                         |
+| Last published operational commit before final delivery | `79dbdc9b2eddd9953815cebfc0f01a9d22c37f10`                         |
+| Frozen index hash                                       | `f0420b1c0fc1dda49d4cbc937f2fce4c57f43660688de0c5a4914d001279a2a1` |
+| Jev reviewer threshold                                  | **0.8**, selected on development and unchanged                     |
+| Final main episode SHA256                               | `23a81919b83fec491d728d5abe6660389c7446d5808db805246c799f08d8b51e` |
+| Final main results SHA256                               | `eeb43bbad42e974dcb3c6fbc030f314304be49130b475313d8e785613da1ee29` |
+| Final PDF SHA256                                        | `ce197068fb0bc16e3e9ceeb337bbc108b5cc448105d16a4f4a97ce746e03c801` |
 
-## Dispatcher recovery and ownership
+Do not edit the frozen `docs/PLAN.md`, runtime, fixture, labels, prompts, indexes or threshold and present the old holdout as a test of the changed system. A future experiment needs a new version and must disclose use of these results.
 
-This restricted environment uses `RESEARCH_TRANSPORT=queue`: Node writes private requests; the sole dispatcher executes approved curl. Local sockets/Node network restrictions do not imply missing account authorization. Use the already working path without bypassing environment restrictions.
+Receipts: [main audit](docs/evidence/research-holdout-final-check.json), [reviewer audit](docs/evidence/research-verifier-holdout-final-check.json), [analysis/cost audit](docs/evidence/research-final-analysis-check.json), [main resume transport](docs/evidence/research-main-resume-dispatch-summary.json), [reviewer transport](docs/evidence/research-reviewer-dispatch-summary.json), [PDF inspection](docs/evidence/research-final-pdf-visual-review.json).
 
-- Agent `/root/wren_research` owns the active pump and watcher. Do not wait on its functions cell from root or invoke another curl batch concurrently.
-- Private operational instructions: `.tools/research/PUMP_ACTIVATION.md`; helpers `pump-support.py`, `watch-pump.py`, `test-pump-support.py`.
-- Helper hash: `6ba272427fe573c5a3a345eb5351907d5029dddc472741f07ebde8559d966f33`.
-- The owner lock is `.tools/research/pump-owner.lock`. Queue contents and `.tools/research/batch.curl` may contain secrets: never print them.
-- The continuous dispatcher waits through an empty queue. It stops only after named-runner cleanup/stop signaling. Network starts use at least 4,500 ms Google spacing; runtime generation pacing is 4,200 ms. Timing includes these harness conditions.
-- Complete result footer is `status seconds exitCode DAYBOOK_HTTP_DONE_V1`. Partial output is not completion. No claim resets, retries or helper changes during the frozen run.
-- For the next phase, confirm current watcher/pump are stopped, activate a fresh owner and use the prepared private `watch-verifier-pump.py verifiers-v1` watcher, receive ACTIVE, then start the reviewer runner. This separate watcher checks `research-verifiers/verifiers-v1/holdout-manifest.json` and preserves main watcher state; it has been compile checked but not executed. Dispatcher/pacing helpers remain unchanged.
+The primary supplements are complete: [retrieval/timing/failures](docs/evidence/research-runs/holdout-v1/supplemental/index.html), [common-capability v4](docs/evidence/research-runs/holdout-v1/common-capabilities/report.md), [fixed weights](docs/evidence/research-runs/holdout-v1/sensitivity/report.md), and [decisions](docs/evidence/research-runs/holdout-v1/decisions/report.md). All 30 referenced provenance file hashes matched and five analysis outputs reproduced in the final audit. The retrieval supplement binds episode/usage hashes; other supplements bind the primary results and, where applicable, reviewer artifacts.
 
-Private `.tools/research/continuation-state.json` is an operational aid; this checkpoint and actual locks/sessions take precedence over its historical fields.
+## Preserved interruption and recovery
 
-## Completed verification and development history
+The original main run stopped at 777 trials after transport timeouts and an open circuit. Its outcomes, usage, unavailable after-check and diagnostics remain in the immutable [interruption archive](docs/evidence/research-runs/holdout-v1/interruption-01/snapshot.json). The original 777 episode bytes and 1,892 corresponding usage records were verified unchanged; no failed cell was retried.
 
-The frozen executable passed **511 isolated TypeScript tests in 32 files, 35 actual Wren Python tests, nine PDF exporter tests, strict TypeScript/production build and formatting**. [Full CI 41155033249](https://github.com/rayidali/spiich_homework/actions/runs/41155033249) passed application/backend/browser, Compose startup/persistence and native Wren/pgvector jobs; live-AI was skipped. See [local evidence](docs/evidence/research-local-v4.json) and [CI evidence](docs/evidence/research-ci-v4.json). Do not add overlapping test totals together or present engineering checks as model accuracy.
+Two failed operational checks remain consumed: a pre-launch newline-guard rejection, then a process-substitution DNS failure. Each retains its $0.0010841 reservation. The later finite operator registry succeeded once and **closed permanently**. Its cohort `6cdf5fcf-5749-469b-94ce-0d065c9c591a` cannot be replayed or renewed. Do not invoke any old recovery installation, admission or execute command.
 
-The corrected **smoke-v4 completed 54/54**: 40 ok, 13 blocked, one response-contract error; 28 structured successes and zero observed hard-gate violations. All 190 dispatches were HTTP 200 with complete footers. Full source/protocol/data integrity passed, and internal review found no remaining measurement blocker before freezing. Conservative scope/citation withholding is a measured limitation, not proof of improved safety. [Smoke evidence](docs/evidence/research-smoke-v4-check.json).
+Ordinary static-config curl worked where shell process substitution failed. The resumed dispatcher used reviewed pre-tool validation followed by plain curl. Preparation/submission pacing did not measure actual network starts and cannot eliminate platform scheduling gaps. The resumed main segment completed 2,948 HTTP-200 requests; reviewer transport completed 160. Both stopped cleanly. [Complete transport history](docs/research/TRANSPORT_INCIDENT.md) retains the earlier failures and limitations.
 
-Earlier development evidence stays preserved:
+Private operational files are retained for provenance, not instructions to relaunch: `ACTIVE_DISPATCHER.json` is stopped; old continuation-state/session fields may be historical. The previous full operational checkpoint is `.tools/checkpoints/checkpoint-before-final-research-delivery.md`. No provider work remains.
 
-- `pilot-v1`: 108/108 but invalid for selection because of control/contract/dispatch defects.
-- `pilot-v2`: 101/108 then daily quota stop; partial completion-file race separately diagnosed. Missing attempts and failures retained.
-- `smoke-v3`: 54/54, but asymmetric date-scope evidence invalidated selection. Raw scores and bound validity notice remain unchanged.
-- Final pre-holdout correction derives period, entity and grouping scope consistently from validated custom plans and supported Wren ASTs. Unsupported or ambiguous provenance fails closed. No prompt, question, reference label or source fixture changed for that correction.
-- Current key could not access the prior managed store (403). Old private index state was preserved and the same **39 authorized documents** were rebuilt/verified, zero pending/failed. Existing 40 stored vectors, including a foreign-workspace canary, were retained; the reader sees 39. No old remote store was deleted.
+## Remaining delivery work
 
-The [build log](docs/BUILD_LOG.md) preserves chronology. Older pending-budget/missing-key statements are historical. The private checkpoint before this consolidation is `.tools/checkpoints/checkpoint-before-heldout-consolidation-2026-10-30.md`.
+1. Final narrative review is complete: 18 automated checks plus claim review passed, and its exact formatted hashes are recorded in [the narrative receipt](docs/evidence/research-final-narrative-check.json). Repository formatting and current local-link checks pass. Initial secret scan passed; repeat it for the final publication manifest.
+2. Publish the stable final source, data and report through the existing local checkout; run cloud CI because the new provider-free cost postprocessor and its tests are executable changes.
+3. Save the sanitized CI receipt, update current delivery documentation, refresh `submission.zip` and verify exact source/ZIP bytes and CRC. Do not include the ZIP's own hash in its contents.
+4. Mark the existing goal complete only after publication and the verified handoff. Its old tool status is `blocked` from an earlier quota episode; the user explicitly resumed, and the fresh blocked audit is zero. It is not a current obstacle.
 
-## Scientific interpretation rules
+The frozen inference passed 511 isolated TypeScript tests in 32 files, 35 actual Wren Python tests, nine PDF tests and full CI 41155033249. Later operational recovery passed 120 targeted tests and full CI 41171119383. The new cost exporter passed 41 synthetic tests, TypeScript and formatting locally; its cloud check remains part of final delivery. Do not add overlapping reruns into a claimed test total.
 
-The held-out main design has 60 questions, 30 scenario groups, six families and three repeats; repeats/paraphrases are not independent scenarios. The reviewer design has 80 held-out candidates evaluated by deterministic checks, Gemini and Jev. The data and labels are synthetic and AI-assisted, without independent human adjudication.
+No new experiment or automatic product deployment is part of remaining delivery.
 
-Primary outcome is equal-family macro **structured task success**. Errors stay in denominators. The automated rubric is out of 90; human clarity and total/100 remain unavailable. Formal tags and citations do not establish prose faithfulness. Paired bootstrap intervals retain scenario groups and remain exploratory/unadjusted with small samples. The 12-question held-out common-capability subset is descriptive, not a replacement primary outcome.
+## Product and runtime baseline
 
-R0 is the production architecture normalized to study settings/metadata. R7 uses the same model in another call, so errors can correlate. R4/R5 independently plan retrieval queries; their difference is a route comparison, not reranking the same cached candidates. R6 tests a bounded actual Wren integration, not all of Wren's capabilities. Managed File Search does not expose raw ranking, so hidden-passage recall/MRR are unavailable. Component/security checks do not establish an exhaustive nine-route adversarial study or million-user capacity.
+Product name is **Daybook**; Spiich is the assignment recipient. React/TypeScript, Express **REST**, PostgreSQL exact-decimal double entry, immutable postings and linked reversals are implemented. Accounts, stored FX, reports, recurring drafts, durable anomaly jobs and correction-assisted categorization are present. The simpler UI uses Home / Transactions / Reports / Settings. Preserve that baseline.
 
-Apply the predeclared component and reviewer criteria, disclose failed attempts and false withholding, and recommend at most a **candidate for the next product experiment**. A high structured score on this fixture is not a production correctness guarantee. Never fabricate human review or present known-invalid pilots as confirmation.
+The deployed assistant uses four authored financial tools with Gemini 3.1 Flash-Lite or the selectable OpenAI adapter. Research uses Gemini 3.5 Flash-Lite and separate synthetic fixtures; pgvector, File Search, Jev and bounded actual Wren integration are in the research harness. Mastra was not added. Research is logically isolated on the existing database server, not a separately measured physical service.
 
-## Product and deployment baseline
-
-**Daybook** is the product; Spiich is the assignment recipient. React/TypeScript, Express **REST**, PostgreSQL exact-decimal double entry, immutable posted history and linked reversals are implemented. Accounts, reports, stored FX, recurrence drafts, durable anomaly jobs and correction-assisted categorization are present. Simple navigation is Home / Transactions / Reports / Settings. Reviewed AI proposals never bypass normal posting checks.
-
-The deployed assistant uses four authored financial tools and Gemini 3.1 Flash-Lite (or selectable OpenAI adapter). Broader analytics, File Search, embeddings/pgvector, Jev and Wren exist only in the isolated nine-route harness, whose generator is Gemini 3.5 Flash-Lite. Mastra was not added. The research schema is logically isolated on the existing Neon server with a restricted read-only role; it is not a separately measured production service.
-
-- Hosted app: [daybook-ledger-delta.vercel.app](https://daybook-ledger-delta.vercel.app), Vercel login protection.
+- Hosted application: [daybook-ledger-delta.vercel.app](https://daybook-ledger-delta.vercel.app), protected by Vercel login.
 - Production executable: `7ecb435c421862dba5efd4e3b6f743c93fd1888e`; deployment `dpl_HQefAFAGwPS2x52c1nXPetRYovKq`.
-- Product baseline CI: **103 backend tests, 10 browser workflows, native hosted imports, full Docker startup/tests/persistence** passed in [41103851106](https://github.com/rayidali/spiich_homework/actions/runs/41103851106).
-- Selected hosted cash/search/expense and review-only proposal checks succeeded; intermittent provider errors remain. The original product 40-case live evaluation remains incomplete and is distinct from this research study.
-- Daily cron is configured; automatic firing was not observed. Manual authorized scheduler and report/API checks passed.
-- Hosted visual review, real-phone/additional-browser checks, load/failover/restore exercises and reviewer demo sharing remain separate unverified product work. Checked-in screenshots show an earlier design.
+- Product baseline: 103 backend tests, ten browser workflows and full Docker startup/persistence passed in [CI 41103851106](https://github.com/rayidali/spiich_homework/actions/runs/41103851106).
+- Selected hosted cash/search/expense/proposal checks succeeded; intermittent provider failures remain. The separate original 40-case product live evaluation is incomplete. Research scores do not complete that different evaluation.
+- Manual authorized scheduler checks passed; automatic cron firing was not observed. Hosted visual review, physical-device/additional-browser checks, load/failover/restore exercises and reviewer demo sharing remain separate product work.
+- Vercel protection gates a shared writable demo. Do not disable it or claim production application identity/tenant authorization.
 
-Use [HOSTING.md](docs/HOSTING.md) before deployment. Production values were supplied as deployment overrides; a fresh CLI deploy needs explicit private configuration. GitHub is intentionally not wired for automatic Vercel deployment. Never disable protection merely to simplify testing of the writable shared workspace.
+Preserve migrations 001–004 checksums, `.tools/postgres`, posted history, organization `00000000-0000-4000-8000-000000000001`, seed anchors, role `spiich_app`, and named Compose volume **spiich_postgres_data**. Never use `down -v` as routine cleanup or start a second PostgreSQL against the same data directory. Inspect current listeners before starting servers.
 
-## Local data, runtime and publication
+Local startup: `npm run dev`, or `npm run dev -- --reuse-db` for an existing database. Portable full-stack startup: `docker compose up --build`. Separate research Compose uses `compose.research.yaml` and `daybook_research_data`; do not reseed or reindex the completed study.
 
-Preserve `.tools/postgres`, posted history, organization `00000000-0000-4000-8000-000000000001`, seed anchors, role `spiich_app`, migration checksums `001`–`004`, and Compose volume **`spiich_postgres_data`**. Never use `down -v` as routine cleanup. Do not start a second PostgreSQL against the same directory. Inspect current listeners before application startup; older listener snapshots are not current evidence.
+## Local publication and preferences
 
-For a capable local environment, `npm run dev` starts the existing app/database; `npm run dev -- --reuse-db` reuses a running database. Docker startup is `docker compose up --build`. Separate research Compose uses `compose.research.yaml` and volume `daybook_research_data`. Do not start/reseed these during the frozen study to change its data source.
+Use **local CLI authentication**, account rayidali, for GitHub and Vercel. Do not request chat connectors or secrets in chat. Root `.git` is protected. The existing permitted checkout is **/private/tmp/daybook-publish.kbVq33**, main, origin [rayidali/spiich_homework](https://github.com/rayidali/spiich_homework), a public repository. Confirm the temporary checkout exists before reuse. Local add/commit/push works despite a harmless stale credential-helper warning; do not move Git metadata into protected paths.
 
-Use **local CLI authentication** for GitHub and Vercel, account `rayidali`. Do not propose chat connectors or ask for keys in chat. The project-root `.git` path is protected. The permitted publishing checkout is **`/private/tmp/daybook-publish.kbVq33`**, branch main, origin [rayidali/spiich_homework](https://github.com/rayidali/spiich_homework), a public repository. Confirm it exists before reuse; temporary storage can disappear. Local add/commit/push works despite a harmless stale-helper warning. Do not move Git metadata into protected paths.
+Use `.tools/prepare-publication.py` and `.tools/PUBLICATION_HELPER.md`: inspect a stable source snapshot, then sync/archive/verify against that exact manifest. It excludes secrets, private tooling, dependencies, build output and local data. Review the diff, commit and push locally. Executable changes require the relevant CI; later documentation-only evidence can use `[skip ci]`. `submission.zip` uses **daybook-ledger/** and is stale until final refresh.
 
-Use `.tools/prepare-publication.py` and `.tools/PUBLICATION_HELPER.md`: inspect reviewed source, freeze a stable snapshot after run completion, then sync/archive/verify against its exact manifest. Review the Git diff, commit and push locally. Documentation-only changes can use `[skip ci]`; executable changes require relevant checks. The helper excludes secrets, `.tools`, dependencies, builds and local data. It preserves the previous ZIP and checks credentials, CRC and exact bytes.
+GitHub is intentionally not configured for automatic Vercel deployments. Read [HOSTING.md](docs/HOSTING.md) before a separate deployment; production values were supplied as private overrides. Do not deploy research keys or routes merely because source is pushed.
 
-`submission.zip` uses **`daybook-ledger/`** as its root. Its last refresh precedes the active held-out records and current report/doc edits; **refresh again at final delivery**. Do not place the ZIP's own hash inside its contents.
+The user wants autonomous completion and explanations they can rehearse. Keep [BUILD_LOG.md](docs/BUILD_LOG.md) and affected documentation current. Paid services were authorized within the saved limits; that does not authorize another purchase or unbounded new study. No guarantee of being “unrejectable,” perfect model accuracy, or million-user capacity is supported.
 
-## Explanation and design references
-
-Start with [the study report](docs/reports/research-study.md), [interview guide](docs/INTERVIEW_GUIDE.md), [accounting walkthrough](docs/ACCOUNTING_WALKTHROUGH.md), [architecture](docs/ARCHITECTURE.md), [API](docs/API.md) and [verification](docs/VERIFICATION.md). The earlier architecture PDF/HTML are explicitly historical planning snapshots. User-requested visuals, scientific controls and plain-language walkthroughs remain part of the final deliverable.
-
-Project-local Emil Kowalski guidance remains at `.tools/design-skills/skills-main`, revision `a81dbca07f2217b7103e510c0f13f8d5b017afc9`; applied guidance and provenance are in [DESIGN.md](docs/DESIGN.md). It is excluded local tooling, not a globally installed skill package.
+Project-local Emil Kowalski guidance remains at `.tools/design-skills/skills-main`, revision `a81dbca07f2217b7103e510c0f13f8d5b017afc9`. It is excluded local tooling, not a global skill installation. See [DESIGN.md](docs/DESIGN.md), [accounting walkthrough](docs/ACCOUNTING_WALKTHROUGH.md), [architecture](docs/ARCHITECTURE.md), [API](docs/API.md), and [verification](docs/VERIFICATION.md) for the implemented product.

@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "daybook-resumption-audit-v1",
+  "artifactCreatedAt": "2026-10-31T05:12:19.292Z",
+  "auditObservationAt": null,
+  "auditObservationTimeBasis": "The prior read-only audit was completed after the successful operator receipt and before the parent authorized main-run resumption; an exact audit timestamp was not recorded. artifactCreatedAt is the time this receipt was written.",
+  "runId": "holdout-v1",
+  "interruptionId": "interruption-01",
+  "verdict": "PASS_FOR_RESUMPTION_SUBJECT_TO_FRESH_DATABASE_CHECK",
+  "auditedScope": {
+    "completedMainEpisodePrefix": 777,
+    "plannedMainEpisodes": 1620,
+    "priorUsagePrefixRecords": 3121,
+    "successfulOperationalProbeRecords": 1,
+    "auditedUsagePrefixRecords": 3122,
+    "wholeRunCompletenessClaimed": false,
+    "scopeNote": "Checks describe this fixed historical prefix and the closed recovery cohort. Later main-run records, if any, are outside the audit; appending them does not invalidate preserved-prefix checks."
+  },
+  "sourceHash": "fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08",
+  "protocolHash": "525016c029d869198d0129f676f40e282fc3f7cc9ff60059f4fde68528a25d49",
+  "indexHash": "f0420b1c0fc1dda49d4cbc937f2fce4c57f43660688de0c5a4914d001279a2a1",
+  "verifierConfigHash": "d44bc306028ba66bb1cb7877db05bf1c95d9938768e144781a05e58df96e64db",
+  "verifierThreshold": 0.8,
+  "operatorProbe": {
+    "receipt": "research-operator-probe-01.json",
+    "provider": "gemini",
+    "model": "gemini-3.5-flash-lite",
+    "status": 200,
+    "inputTokens": 14,
+    "outputTokens": 5,
+    "durationMs": 816,
+    "reportedUsageEquivalentUsd": 0.0000167,
+    "reservationUsd": 0.0010841,
+    "attemptsConsumed": 1,
+    "cumulativeReservationsUsd": 0.0010841,
+    "cohortClosed": true,
+    "maximumAttempts": 3,
+    "maximumCumulativeReservationsUsd": 0.005,
+    "costMeaning": "Configured-rate estimate from reported tokens, not a provider invoice."
+  },
+  "checks": {
+    "exact3121PriorRecordsPreserved": true,
+    "exactlyOneProbeInAuditedSuffix": true,
+    "knownSuccessfulGeneration": true,
+    "validRegistryChain": true,
+    "registryMarkerMatches": true,
+    "oneAdmissionOneConsumedAttempt": true,
+    "cohortPermanentlyClosed": true,
+    "cohortLimitsUnchanged": true,
+    "allSevenPolicyAndOldJournalBindingsPresent": true,
+    "immutableBindingsUnchanged": true,
+    "admittedHelperVersionsUnchanged": true,
+    "frozenSourceUnchanged": true,
+    "protocolUnchanged": true,
+    "indexBindingUnchanged": true,
+    "reviewerConfigUnchanged": true,
+    "original777EpisodePrefixPreserved": true,
+    "allInitialInterruptionArchiveHashesMatch": true
+  },
+  "snapshotIntegrity": {
+    "freshDatabaseFingerprintChecked": false,
+    "originalRecordedFingerprint": "2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c",
+    "lastInterruptedAfterCheck": "AFTER_CHECK_UNAVAILABLE",
+    "requirement": "The same-ID runner must obtain a fresh complete ledger/document/vector fingerprint equal to the original before.json before attempting new episodes; its final after-fingerprint remains required for complete-study eligibility."
+  },
+  "artifactHashes": {
+    "original777EpisodePrefix": "ede8f360706dfca231ddfcef614bf1d1aeaf339221744157b2cc81b45ade0584",
+    "prior3121UsagePrefix": "b264c986a3a5e0e45d710ba3dbb5b00526fe256ec27c463a338f38388fd74cf9",
+    "audited3122UsagePrefix": "d3a3a851ddd7bb278278b7a0edbb34ece6a2a584e457217dd0d574fe359ea956",
+    "runManifest": "670ddd021f4a805641bbe43002f25f7b27c25f724b0c099998627aa4cc9c0dcd",
+    "operatorProbeReceipt": "0e2ec806bb3c221f45eed32ed60348fe68e0b0fb54aedb607c51642232a4a35e",
+    "operatorRegistry": "9dc680409ed19a86be28aaa1fd8604dfbb7e4b0bd7a6de764dd90a3290486365",
+    "operatorMarker": "02a83d73aff5370cf8d60bd4e11e3573ee4ffb8c6020174ad1617c092572fe01",
+    "initialInterruptionChecksumManifest": "6e098c5bf87a7347725a679a6f94d82e527986e4161f3e6248a218a1e580d6d5"
+  },
+  "actions": {
+    "providerCalls": 0,
+    "databaseCalls": 0,
+    "runtimeWrapCalls": 0,
+    "usageOrPolicyMutations": 0,
+    "sourceOrProtocolEdits": 0
+  },
+  "limitations": [
+    "Internal read-only artifact audit, not independent human adjudication or model-quality evaluation.",
+    "No failed main episode or earlier operational reservation was replaced, erased or counted as a successful answer.",
+    "Successful availability probe does not guarantee uninterrupted remaining execution; pre-tool scheduling delay remains possible.",
+    "This audit does not rank routes, interpret partial quality scores or authorize extra probes after the cohort has closed."
+  ]
+}

@@ -13,5 +13,6 @@ db/migrations/
 # Generated immutable run evidence; formatting would invalidate stored digests.
 docs/evidence/research-runs/
 docs/evidence/research-verifiers/
+docs/evidence/research-final-costs/
 docs/evidence/research-*.json
 docs/evidence/route-preflight-*.json

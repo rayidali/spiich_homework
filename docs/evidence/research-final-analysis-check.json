@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "daybook-final-analysis-audit-v1",
+  "artifactCreatedAt": "2026-10-31T07:51:07.149177Z",
+  "runId": "holdout-v1",
+  "reviewerRunId": "verifiers-v1",
+  "verdict": "PASS",
+  "scope": {
+    "mainOutcomes": 1620,
+    "reviewerOutcomes": 240,
+    "allCostRecords": 5271,
+    "originalAllowanceBaseline": 841,
+    "additionalRecords": 4430,
+    "analyses": [
+      "decisions",
+      "common-capabilities",
+      "sensitivity",
+      "supplemental",
+      "reviewer holdout",
+      "exact cost reconciliation"
+    ],
+    "providerCallsDuringAudit": 0,
+    "databaseCallsDuringAudit": 0,
+    "sourceOrOutcomeChanges": false
+  },
+  "checks": {
+    "bothRunsCompleteAndIdle": true,
+    "all30DeclaredFileHashesMatch": true,
+    "originalFinalAuditBindingsStillMatch": true,
+    "noNewValidityNotice": true,
+    "reviewerLabelsAndVisibleInputsBound": true,
+    "reviewerThresholdSourceAndTimingBound": true,
+    "decisionSupplementExactlyReproduces": true,
+    "targetedSpecificationHashMatches": true,
+    "comparisonMembershipMatchesFrozenProtocol": true,
+    "commonSubgroupExactlyReproduces": true,
+    "commonSubgroupPreserves12Questions6Groups36PerRoute": true,
+    "sensitivityExactlyReproduces": true,
+    "fiveWeightsMatchFrozenProtocol": true,
+    "retrievalAndTimingSupplementExactlyReproduces": true,
+    "managedRawRankingNotInvented": true,
+    "missingServiceDurationsRemainUnknown": true,
+    "costExportAndReportExactlyReproduce": true,
+    "5271RecordsAnd841Plus4430BoundaryPreserved": true,
+    "all804UnknownUsageReservationsRetained": true,
+    "primarySuccessCountsAndSixFamilyMacroIndependentlyMatch": true,
+    "targetedPoint_H1": true,
+    "candidateRule_H1": true,
+    "targetedPoint_H2": true,
+    "candidateRule_H2": true,
+    "targetedPoint_H3a": true,
+    "candidateRule_H3a": true,
+    "targetedPoint_H3b": true,
+    "candidateRule_H3b": true,
+    "targetedPoint_H4": true,
+    "candidateRule_H4": true,
+    "targetedPoint_H5": true,
+    "candidateRule_H5": true,
+    "targetedPoint_H6": true,
+    "candidateRule_H6": true,
+    "targetedPoint_H7a": true,
+    "targetedPoint_H7b": true,
+    "onlyLexicalIncrementQualifiesAsComponentCandidate": true,
+    "commonCountsIncludeErrorsAndBlocks": true,
+    "all45WeightedColumnsIndependentlyMatch": true,
+    "reviewerPointDifferences_llm": true,
+    "reviewerPointCriterion_llm": true,
+    "reviewerIntervalCriterion_llm": true,
+    "reviewerPointDifferences_jev": true,
+    "reviewerPointCriterion_jev": true,
+    "reviewerIntervalCriterion_jev": true,
+    "heldoutJevWithholdingFailsFivePointConstraint": true,
+    "exportRetainsEveryLedgerRecordWithoutExtraFields": true,
+    "exactDecimalWholeLedgerIndependentlyMatches": true,
+    "exactProviderAnd8414430PartitionsMatch": true,
+    "allNumericTotalsPartition_byProvider": true,
+    "allNumericTotalsPartition_byPeriod": true,
+    "allNumericTotalsPartition_byPhase": true,
+    "allNumericTotalsPartition_details": true,
+    "mainAndReviewerUsageExactSubsets": true,
+    "originalUnknownMainReservationsNeverDropped": true,
+    "exactBudgetCaps_gemini": true,
+    "exactBudgetCaps_jev": true,
+    "originalAllowanceBoundary841And4430Attempts": true,
+    "fourRecoveryPhasesRetainedSeparately": true
+  },
+  "failedChecks": [],
+  "artifactHashes": {
+    "primary": "eeb43bbad42e974dcb3c6fbc030f314304be49130b475313d8e785613da1ee29",
+    "rawEpisodes": "23a81919b83fec491d728d5abe6660389c7446d5808db805246c799f08d8b51e",
+    "rawMainUsage": "f93e17268d28d255ead5b066c3186f9c04600651485f83a100c46ee3586e8104",
+    "reviewerOutcomes": "b0542ce3f5c14e9274c3de39396e6096a42d5caf7af9e9d939c355fa00383539",
+    "reviewerResults": "6128cf2db38261603a56d895c84e10ac6faca56b8a7241fd8d740b88b835f4f6",
+    "costReport": "48eef02e141bd14d0c2fe4530249c089828e5df72c7ce935026d34fe0049c8b4",
+    "sanitizedAllUsage": "df6f0c25f3e5674a463608f00bead57ecc5bf4339a0c1c73057a7f077b97b5e7"
+  },
+  "sourceHash": "fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08",
+  "declaredFileBindingsChecked": 30,
+  "independentPointEffects": {
+    "H1": 0.18333333333333332,
+    "H2": 0.4666666666666667,
+    "H3a": 0.1,
+    "H3b": 0.06666666666666668,
+    "H4": 0.033333333333333326,
+    "H5": -0.016666666666666663,
+    "H6": -0.19999999999999998,
+    "H7a": -0.027777777777777773,
+    "H7b": -0.016666666666666653
+  },
+  "independentReviewerCounts": {
+    "deterministic": {
+      "flawedAccepted": 28,
+      "soundWithheld": 0,
+      "jointFlawedAccepted": 28,
+      "jointSoundWithheld": 0,
+      "flawedDenominator": 40,
+      "soundDenominator": 40
+    },
+    "llm": {
+      "flawedAccepted": 9,
+      "soundWithheld": 1,
+      "jointFlawedAccepted": 7,
+      "jointSoundWithheld": 1,
+      "flawedDenominator": 40,
+      "soundDenominator": 40
+    },
+    "jev": {
+      "flawedAccepted": 12,
+      "soundWithheld": 5,
+      "jointFlawedAccepted": 6,
+      "jointSoundWithheld": 5,
+      "flawedDenominator": 40,
+      "soundDenominator": 40
+    }
+  },
+  "exactTrackedUsd": {
+    "total": "6.050602767999999896545",
+    "unknownReservations": "0.42994234999999999746",
+    "providers": {
+      "gemini": {
+        "all": "6.01011039999999989450",
+        "additional": "5.23873404999999989656"
+      },
+      "jev": {
+        "all": "0.040492368000000002045",
+        "additional": "0.033304824000000001719"
+      }
+    }
+  },
+  "auditMethods": {
+    "reproduction": "Pure analysis functions reproduced decision, common-subgroup, weight-sensitivity, retrieval/timing and cost outputs exactly without rewriting them. Thirty file-hash bindings were checked.",
+    "independentArithmetic": "Separate Python calculations checked primary and targeted success rates, every weighted family/column, subgroup counts, reviewer combined-gate differences, exact serialized-decimal sums and all count/money partitions.",
+    "intervalScope": "Clustered intervals reproduced using the preserved scorer and fixed seeds; this audit did not introduce a second independent bootstrap implementation."
+  },
+  "auditCodeSha256": {
+    "final-analysis-audit.mjs": "b11846ee61abd26bd20d112af34984f3d3d5514c2f44c3550b13d227d89b0fbe",
+    "final-analysis-independent.py": "96310260e32361772693fe25ddfb1657ede07bfa0818202899ae76d0616851e3"
+  },
+  "limitations": [
+    "The reviewer report caption stating that the 5pp constraint was satisfied describes development calibration only. On holdout, Jev plus the deterministic gate withheld 5/40 sound candidates (12.5%) versus 0/40 for the deterministic baseline, exceeding that target. The original generated reviewer report was preserved.",
+    "Gemini plus the deterministic gate withheld 1/40 sound candidates (2.5%), but the upper paired interval exceeds 5 percentage points; its reviewer criterion remains inconclusive.",
+    "H2 lexical retrieval is the only component labeled a candidate for further experiment by the fixed screening rules. This does not select a production winner, approve deployment or establish an unmeasured combined architecture.",
+    "Intervals are exploratory, clustered and unadjusted for multiple comparisons. The common-capability subgroup contains only six held-out groups; repeated/paraphrased tasks are not independent scenarios.",
+    "Structured metric/tag/citation success does not establish narrative faithfulness. Synthetic labels and this internal audit are not independent human adjudication.",
+    "Managed File Search citation coverage is not raw ranked retrieval recall. Three provider durations remain unknown; harness latency includes dispatch and pacing.",
+    "Costs are exact additions of the serialized estimates and retained reservations, not an invoice or observed account balance. Original floating-point precision cannot be recovered. Provider and baseline/additional totals are alternative partitions and must not be added together."
+  ]
+}

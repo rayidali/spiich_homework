@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "daybook-final-narrative-audit-v1",
+  "artifactCreatedAt": "2026-10-31T07:57:19.791036Z",
+  "verdict": "PASS",
+  "narrativeHashes": {
+    "docs/reports/research-study.md": "81f34affababef74907676285b2caa18bada9a940ba11fa433e3dbef859450ae",
+    "docs/reports/research-worked-examples.md": "89908d310e38c700cec81beaa837bad996f474051cfb20d6e8279d80f3349470"
+  },
+  "evidenceHashes": {
+    "docs/evidence/research-runs/holdout-v1/results.json": "eeb43bbad42e974dcb3c6fbc030f314304be49130b475313d8e785613da1ee29",
+    "docs/evidence/research-runs/holdout-v1/episodes.jsonl": "23a81919b83fec491d728d5abe6660389c7446d5808db805246c799f08d8b51e",
+    "docs/evidence/research-runs/holdout-v1/decisions/decisions.json": "3b44c1478dcd048e918d36bda0b85d27be940a201e15c261f02044c9a16cd5eb",
+    "docs/evidence/research-runs/holdout-v1/common-capabilities/common-capabilities.json": "bef125c18ca24e5f44ff7656184181e6fa2b639c2dab380b1dedf408f16cbc76",
+    "docs/evidence/research-runs/holdout-v1/sensitivity/sensitivity.json": "026bccae461c027e314040376f33ecdd90d26bb2cafad7982fa7a9495b0f52c0",
+    "docs/evidence/research-runs/holdout-v1/supplemental/retrieval-and-failures.json": "a3665accded64cbed2e321fc8b8326219c4dd56c1143e89249a2b4b49a2fd234",
+    "docs/evidence/research-verifiers/verifiers-v1/holdout-results.json": "6128cf2db38261603a56d895c84e10ac6faca56b8a7241fd8d740b88b835f4f6",
+    "docs/evidence/research-final-costs/cost-reconciliation.json": "48eef02e141bd14d0c2fe4530249c089828e5df72c7ce935026d34fe0049c8b4",
+    "docs/evidence/research-final-pdf-visual-review.json": "d8058aabf335ae804a1c9c7fd8ec122467e3b23dd1bd5509df2b212b3e55b1aa"
+  },
+  "checks": {
+    "allPrimaryTableValuesMatch": true,
+    "headlineBroadAndCommonDenominatorsMatch": true,
+    "familyTableCountsMatch": true,
+    "totalStatusSuccessAndScenarioRangeMatch": true,
+    "targetedCIsNotConfusedWithWholeEffects": true,
+    "reviewerNarrativeMatchesFortyCaseStrata": true,
+    "developmentConstraintExplicitlySeparatedFromHeldout": true,
+    "retrievalDenominatorsAndUnavailableRanksMatch": true,
+    "overlappingFailureCountsPreservedAndQualified": true,
+    "allLatencyTableValuesAndMissingnessMatch": true,
+    "costTotalsSuffixCapsAndUnknownsMatch": true,
+    "fiveWeightRankDescriptionMatches": true,
+    "cashWorkedExampleCandidateVsReleasedMatches": true,
+    "runwayWorkedExampleValuesScopeAndTagsMatch": true,
+    "examplesDoNotClaimRetrievalFailedOrCorrectCandidateWasReleased": true,
+    "hiringArithmeticAndScenarioBoundaryExplicit": true,
+    "pdfClaimBoundToExistingAIReview": true,
+    "noncausalNonproductionAndHumanLimitsExplicit": true
+  },
+  "failedChecks": [],
+  "blockingFindings": [],
+  "findings": [
+    "Broad R3 success127/180 (70.6%) and common-capability R0 success33/36 (91.7%) versus R3 27/36 (75.0%) are correctly distinguished.",
+    "H2 is the only prespecified component candidate; targeted effects and paired intervals are not substituted with whole-benchmark contrasts. No production winner or unmeasured combined route is claimed.",
+    "Reviewer flawed-acceptance and sound-withholding denominators are40 each; combined policies reuse recorded judgments. The development-only5pp caption is explicitly distinguished from held-out Jev12.5% withholding.",
+    "All20 main errors and804 unknown-cost reservations are retained. Approximate total$6.050602768 and additional$5.272038874 reconcile; estimates/reservations are explicitly not invoices or observed account balances.",
+    "Both worked examples accurately separate candidate arithmetic/prose from the blocked released answer. Scope/metric/tag limitations are not misrepresented as retrieval misses, all-correct answers, or demonstrated causal component effects.",
+    "Fixed-weight, conditional retrieval, missing timing, same-model dependence, small synthetic sample, absent independent human adjudication and unchanged production limitations are explicit."
+  ],
+  "scope": {
+    "automatedContentChecks": 18,
+    "manualClaimReview": true,
+    "providerCalls": 0,
+    "databaseCalls": 0,
+    "sourceOrOutcomeEdits": false,
+    "narrativeEdits": false,
+    "finalFormattingCompletedBeforeHashing": true,
+    "independentHumanReview": false
+  },
+  "auditCodeSha256": "af3c47f92426cbc1cde298f7f3ea67f4eb6b266bf179c6a1663e23ce0649fb4c",
+  "limits": [
+    "This is an internal AI engineering review against preserved artifacts, not independent human scientific or prose adjudication.",
+    "Bootstrap intervals are checked against the bound analysis, not independently validated for population coverage.",
+    "PDF visual claims are checked against the existing16-page AI review receipt and exact PDF hash; this audit did not perform a second visual review."
+  ]
+}

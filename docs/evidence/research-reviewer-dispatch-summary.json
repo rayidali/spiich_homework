@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "scientificRunId": "verifiers-v1",
+  "split": "holdout",
+  "dispatcherRunId": "verifiers-v1-holdout1",
+  "startedAt": "2026-10-31T07:40:00.827455+00:00",
+  "endedAt": "2026-10-31T07:46:28.960869+00:00",
+  "requests": 160,
+  "googleRequests": 80,
+  "requestClasses": {
+    "gemini_generation": 80,
+    "jev": 80
+  },
+  "statuses": {
+    "200": 160
+  },
+  "incompleteFooterCount": 0,
+  "nonzeroCurlExitCount": 0,
+  "expiredWithoutDispatchCount": 0,
+  "googlePreparationGapMs": {
+    "min": 4642,
+    "p50": 4667,
+    "p95": 4671,
+    "max": 4673
+  },
+  "queueWaitMsBeforePreparation": {
+    "min": 50,
+    "p50": 151.5,
+    "p95": 3244,
+    "max": 3345
+  },
+  "curlReportedNetworkDurationMs": {
+    "min": 91,
+    "p50": 470.5,
+    "p95": 1039,
+    "max": 1185
+  },
+  "watcherExitCode": 0,
+  "watcherFinalPhase": "stop-requested",
+  "watcherMatchedManifest": true,
+  "ownerLockPresent": false,
+  "runnerLockPresent": false,
+  "usageLockPresent": false,
+  "readyRequests": 0,
+  "claimedWithoutDone": 0,
+  "recordedReviewerOutcomes": 240,
+  "plannedCaseCount": 80,
+  "plannedMethods": [
+    "deterministic",
+    "llm",
+    "jev"
+  ],
+  "frozenThreshold": 0.8,
+  "metricsSha256": "4005c7bc3c335d61f2863d2ee0d526306ce0a1bc9b9c1767784e64efe21e9704",
+  "stoppedControllerSha256": "6b1680719046382961849e5a0f7576c67d128f8235b81b951febff1512b82f16",
+  "outcomesSha256": "b0542ce3f5c14e9274c3de39396e6096a42d5caf7af9e9d939c355fa00383539",
+  "manifestSha256": "5f2bd293f9160fd927b85da8c35c0d6d2ff6ebdc1e6e0801836bae501c00de18",
+  "coordinatorSha256": "6ba272427fe573c5a3a345eb5351907d5029dddc472741f07ebde8559d966f33",
+  "guardSha256": "64930e13a85742cf88f9d7ee729bcad5ab193d77b4fc0959f84241995d4375eb",
+  "preToolWrapperSha256": "b4bceaaf036a571dbdd3f8684c53bd55838f6bdf14b7a82821e1f9694185f420",
+  "retries": 0,
+  "sourceHelperBudgetEditedByDispatcher": false,
+  "limitations": [
+    "HTTP200 and completed transport do not establish reviewer correctness or error-detection quality.",
+    "Local preparation timing is not an observed network-start time or proof of minimum actual network-start spacing.",
+    "The 80 deterministic reviewer outcomes require no provider request; the 160 network requests cover Google and Jev.",
+    "This reviewer receipt does not claim an additional database fingerprint check."
+  ]
+}

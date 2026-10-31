@@ -1,0 +1,282 @@
+{
+  "schemaVersion": 1,
+  "at": "2026-10-31T05:09:23.977028+00:00",
+  "runId": 41171119383,
+  "sourceCommit": "79dbdc9b2eddd9953815cebfc0f01a9d22c37f10",
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41171119383",
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "research-native",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-31T05:04:46Z",
+      "completedAt": "2026-10-31T05:05:34Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm ci --no-audit --no-fund",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install the pinned actual Wren engine",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run native transport and actual Wren tests",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Start the isolated research database",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Provision synthetic research fixtures with no provider keys",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check stored source contents before indexing",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Execute actual Wren SQL and database permission checks",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Exercise deterministic security boundaries",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run docker compose -f compose.research.yaml down",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "verify",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-31T05:04:45Z",
+      "completedAt": "2026-10-31T05:06:39Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Initialize containers",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm ci --no-audit --no-fund",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm run format:check",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm run build",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify native hosted API module",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm run db:migrate",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm test",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npx playwright install --with-deps chromium",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run production browser workflows",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Surface browser startup and failure details",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Stop containers",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "compose",
+      "status": "completed",
+      "conclusion": "success",
+      "startedAt": "2026-10-31T05:06:41Z",
+      "completedAt": "2026-10-31T05:08:12Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run docker compose config --quiet",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run docker compose up --build --wait --wait-timeout 120",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run curl --fail http://localhost:3001/api/health",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run docker compose --profile test run --rm tests",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run node scripts/check-compose-persistence.mjs --execute",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run docker compose logs --no-color",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Run docker compose down",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "live-ai",
+      "status": "completed",
+      "conclusion": "skipped",
+      "startedAt": "2026-10-31T05:08:12Z",
+      "completedAt": "2026-10-31T05:08:12Z",
+      "steps": []
+    }
+  ],
+  "scope": "Published finite recovery registry, application/browser checks, Docker startup/persistence and native Wren/pgvector; live-AI skipped. No provider availability or model-accuracy inference."
+}

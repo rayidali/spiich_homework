@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "kind": "operator_transport_review",
+  "incidentId": "holdout-v1-interruption-01",
+  "reviewedAt": "2026-10-31T05:05:31.922449+00:00",
+  "diagnosis": "Coding-agent operator review: the consumed continuation emitted config, then curl returned complete HTTP000/exit6 with no provider response. Same no-key public configuration reaches Google via ordinary plain curl but fails DNS via shell process substitution. This is a measured command-form difference; underlying sandbox internals and authenticated availability are unverified.",
+  "remediation": "Use reviewed pre-tool-config.py to validate into an exclusive0600 static configuration, followed by the separately permitted plain curl invocation. Preserve all3121records and both consumed journals. Request only one fixed availability probe now, under finite3-attempt/$0.005-reservation cohort and existing parent caps. No automatic retry; scheduling-gap and preparation-time pacing limitations remain.",
+  "transportMode": "approved_plain_curl_config",
+  "connectivityEvidence": {
+    "path": "docs/evidence/research-pre-tool-dispatch-wrapper.json",
+    "sha256": "d361ca6b9a6e4d1a1d3c379d897944949a30ad017bedde64f8a3bbc39b7872d6"
+  },
+  "incidentEvidence": {
+    "path": "docs/evidence/research-prelaunch-dispatch-failure.json",
+    "sha256": "65e95e3233a23fb38e0acc492861fdee3a0e416efb90ece90aed37ef6bfbcdd9"
+  }
+}

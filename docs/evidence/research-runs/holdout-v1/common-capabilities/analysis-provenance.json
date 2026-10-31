@@ -1,0 +1,11 @@
+{
+  "createdAt": "2026-10-31T07:38:42.597Z",
+  "runId": "holdout-v1",
+  "analyzerSha256": "e31159b2a4f771dbb87253ab01abd9c29aa831968333bbd6c4858e6516e63578",
+  "mappingSha256": "c78b21fdd2e7a0f894ce796456d7c19bd01dc87d9dd60807f86e33a125563b64",
+  "primaryReportSha256": "eeb43bbad42e974dcb3c6fbc030f314304be49130b475313d8e785613da1ee29",
+  "rawEpisodesSha256": "23a81919b83fec491d728d5abe6660389c7446d5808db805246c799f08d8b51e",
+  "sourceManifestSha256": "064f6881ba80de70da4e71f0a56d1fbfb48bce4e56e7eba5985f9ea165ed5359",
+  "amendmentSha256": "0ff87d376dedf7103946bcd3f625c670a8482c1d2eebd0a84c7df43e07c0bc24",
+  "validityNoticeSha256": null
+}

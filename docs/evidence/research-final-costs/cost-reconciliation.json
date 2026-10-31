@@ -1,0 +1,1173 @@
+{
+  "schemaVersion": 1,
+  "accounting": "Exact decimal addition of the stored serialized numbers; counted = reported estimate where present, otherwise retained reservation. Not a provider invoice.",
+  "baselineCount": 841,
+  "additionalCount": 4430,
+  "mainRunId": "holdout-v1",
+  "reviewerRunId": "verifiers-v1",
+  "total": {
+    "records": 5271,
+    "knownCostRecords": 4467,
+    "unknownCostRecords": 804,
+    "http2xxRecords": 5250,
+    "otherHttpRecords": 12,
+    "unobservedHttpRecords": 9,
+    "knownCostAboveReservationRecords": 1,
+    "reportedEstimateUsd": "5.620660417999999899085",
+    "unknownCostReservationUsd": "0.42994234999999999746",
+    "countedUsd": "6.050602767999999896545",
+    "allReservationsUsd": "53.101967327999999816559"
+  },
+  "byProvider": [
+    {
+      "provider": "gemini",
+      "totals": {
+        "records": 4826,
+        "knownCostRecords": 4022,
+        "unknownCostRecords": 804,
+        "http2xxRecords": 4805,
+        "otherHttpRecords": 12,
+        "unobservedHttpRecords": 9,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "5.58016804999999989704",
+        "unknownCostReservationUsd": "0.42994234999999999746",
+        "countedUsd": "6.0101103999999998945",
+        "allReservationsUsd": "52.93776689999999980786"
+      }
+    },
+    {
+      "provider": "jev",
+      "totals": {
+        "records": 445,
+        "knownCostRecords": 445,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 445,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 1,
+        "reportedEstimateUsd": "0.040492368000000002045",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.040492368000000002045",
+        "allReservationsUsd": "0.164200428000000008699"
+      }
+    }
+  ],
+  "byPeriod": [
+    {
+      "period": "baseline",
+      "totals": {
+        "records": 841,
+        "knownCostRecords": 653,
+        "unknownCostRecords": 188,
+        "http2xxRecords": 826,
+        "otherHttpRecords": 11,
+        "unobservedHttpRecords": 4,
+        "knownCostAboveReservationRecords": 1,
+        "reportedEstimateUsd": "0.582978593999999995256",
+        "unknownCostReservationUsd": "0.19558530000000000301",
+        "countedUsd": "0.778563893999999998266",
+        "allReservationsUsd": "6.254341926000000024329"
+      }
+    },
+    {
+      "period": "additional",
+      "totals": {
+        "records": 4430,
+        "knownCostRecords": 3814,
+        "unknownCostRecords": 616,
+        "http2xxRecords": 4424,
+        "otherHttpRecords": 1,
+        "unobservedHttpRecords": 5,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "5.037681823999999903829",
+        "unknownCostReservationUsd": "0.23435704999999999445",
+        "countedUsd": "5.272038873999999898279",
+        "allReservationsUsd": "46.84762540199999979223"
+      }
+    }
+  ],
+  "byPhase": [
+    {
+      "phase": "main_holdout",
+      "totals": {
+        "records": 3881,
+        "knownCostRecords": 3376,
+        "unknownCostRecords": 505,
+        "http2xxRecords": 3878,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 3,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "4.69348841199999991072",
+        "unknownCostReservationUsd": "0.19433994999999999523",
+        "countedUsd": "4.88782836199999990595",
+        "allReservationsUsd": "43.31197077399999981697"
+      }
+    },
+    {
+      "phase": "reviewer_holdout",
+      "totals": {
+        "records": 160,
+        "knownCostRecords": 160,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 160,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.030792289999999999617",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.030792289999999999617",
+        "allReservationsUsd": "0.49669249799999999888"
+      }
+    },
+    {
+      "phase": "reviewer_development",
+      "totals": {
+        "records": 160,
+        "knownCostRecords": 156,
+        "unknownCostRecords": 4,
+        "http2xxRecords": 156,
+        "otherHttpRecords": 4,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.029702419999999999541",
+        "unknownCostReservationUsd": "0.0238326000000000005",
+        "countedUsd": "0.053535020000000000041",
+        "allReservationsUsd": "0.4965031920000000033"
+      }
+    },
+    {
+      "phase": "development_pilots_smokes",
+      "totals": {
+        "records": 758,
+        "knownCostRecords": 672,
+        "unknownCostRecords": 86,
+        "http2xxRecords": 750,
+        "otherHttpRecords": 5,
+        "unobservedHttpRecords": 3,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.855084985999999989373",
+        "unknownCostReservationUsd": "0.13567385000000000319",
+        "countedUsd": "0.990758835999999992563",
+        "allReservationsUsd": "8.53327396800000000077"
+      }
+    },
+    {
+      "phase": "indexing_preflight",
+      "totals": {
+        "records": 308,
+        "knownCostRecords": 101,
+        "unknownCostRecords": 207,
+        "http2xxRecords": 304,
+        "otherHttpRecords": 3,
+        "unobservedHttpRecords": 1,
+        "knownCostAboveReservationRecords": 1,
+        "reportedEstimateUsd": "0.011558909999999999834",
+        "unknownCostReservationUsd": "0.07392774999999999854",
+        "countedUsd": "0.085486659999999998374",
+        "allReservationsUsd": "0.259190495999999996639"
+      }
+    },
+    {
+      "phase": "recovery_key_quota",
+      "totals": {
+        "records": 1,
+        "knownCostRecords": 1,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 1,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.0000167",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.0000167",
+        "allReservationsUsd": "0.0010841"
+      }
+    },
+    {
+      "phase": "recovery_transport",
+      "totals": {
+        "records": 1,
+        "knownCostRecords": 0,
+        "unknownCostRecords": 1,
+        "http2xxRecords": 0,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 1,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0.0010841",
+        "countedUsd": "0.0010841",
+        "allReservationsUsd": "0.0010841"
+      }
+    },
+    {
+      "phase": "recovery_prelaunch_continuation",
+      "totals": {
+        "records": 1,
+        "knownCostRecords": 0,
+        "unknownCostRecords": 1,
+        "http2xxRecords": 0,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 1,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0.0010841",
+        "countedUsd": "0.0010841",
+        "allReservationsUsd": "0.0010841"
+      }
+    },
+    {
+      "phase": "recovery_operator",
+      "totals": {
+        "records": 1,
+        "knownCostRecords": 1,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 1,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.0000167",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.0000167",
+        "allReservationsUsd": "0.0010841"
+      }
+    }
+  ],
+  "details": [
+    {
+      "period": "additional",
+      "phase": "development_pilots_smokes",
+      "provider": "gemini",
+      "kind": "critic",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 9,
+        "knownCostRecords": 9,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 9,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.00376439999999999994",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.00376439999999999994",
+        "allReservationsUsd": "0.055103100000000001"
+      }
+    },
+    {
+      "period": "additional",
+      "phase": "development_pilots_smokes",
+      "provider": "gemini",
+      "kind": "embed",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 31,
+        "knownCostRecords": 0,
+        "unknownCostRecords": 31,
+        "http2xxRecords": 31,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0.01038059999999999969",
+        "countedUsd": "0.01038059999999999969",
+        "allReservationsUsd": "0.01038059999999999969"
+      }
+    },
+    {
+      "period": "additional",
+      "phase": "development_pilots_smokes",
+      "provider": "gemini",
+      "kind": "file-search-query",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 7,
+        "knownCostRecords": 7,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 7,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.0232872999999999967",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.0232872999999999967",
+        "allReservationsUsd": "0.242131499999999992"
+      }
+    },
+    {
+      "period": "additional",
+      "phase": "development_pilots_smokes",
+      "provider": "gemini",
+      "kind": "generate",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 203,
+        "knownCostRecords": 203,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 203,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.28452499999999999679",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.28452499999999999679",
+        "allReservationsUsd": "2.6938069999999999838"
+      }
+    },
+    {
+      "period": "additional",
+      "phase": "development_pilots_smokes",
+      "provider": "jev",
+      "kind": "jev-rerank",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 7,
+        "knownCostRecords": 7,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 7,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.00119380800000000004",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.00119380800000000004",
+        "allReservationsUsd": "0.0042173460000000002"
+      }
+    },
+    {
+      "period": "additional",
+      "phase": "development_pilots_smokes",
+      "provider": "jev",
+      "kind": "jev-verify",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 9,
+        "knownCostRecords": 9,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 9,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.000613914000000000022",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.000613914000000000022",
+        "allReservationsUsd": "0.00260198400000000016"
+      }
+    },
+    {
+      "period": "additional",
+      "phase": "indexing_preflight",
+      "provider": "gemini",
+      "kind": "file-index",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 78,
+        "knownCostRecords": 0,
+        "unknownCostRecords": 78,
+        "http2xxRecords": 78,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0.02746829999999999953",
+        "countedUsd": "0.02746829999999999953",
+        "allReservationsUsd": "0.02746829999999999953"
+      }
+    },
+    {
+      "period": "additional",
+      "phase": "indexing_preflight",
+      "provider": "gemini",
+      "kind": "file-poll",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 39,
+        "knownCostRecords": 39,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 39,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0",
+        "allReservationsUsd": "0"
+      }
+    },
+    {
+      "period": "additional",
+      "phase": "indexing_preflight",
+      "provider": "gemini",
+      "kind": "file-store",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 2,
+        "knownCostRecords": 2,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 2,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0",
+        "allReservationsUsd": "0"
+      }
+    },
+    {
+      "period": "additional",
+      "phase": "indexing_preflight",
+      "provider": "gemini",
+      "kind": "file-store",
+      "httpOutcome": "http_other",
+      "totals": {
+        "records": 1,
+        "knownCostRecords": 1,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 0,
+        "otherHttpRecords": 1,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0",
+        "allReservationsUsd": "0"
+      }
+    },
+    {
+      "period": "additional",
+      "phase": "main_holdout",
+      "provider": "gemini",
+      "kind": "critic",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 126,
+        "knownCostRecords": 126,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 126,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.06183649999999999814",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.06183649999999999814",
+        "allReservationsUsd": "0.8001206999999999933"
+      }
+    },
+    {
+      "period": "additional",
+      "phase": "main_holdout",
+      "provider": "gemini",
+      "kind": "embed",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 502,
+        "knownCostRecords": 0,
+        "unknownCostRecords": 502,
+        "http2xxRecords": 502,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0.16774544999999999523",
+        "countedUsd": "0.16774544999999999523",
+        "allReservationsUsd": "0.16774544999999999523"
+      }
+    },
+    {
+      "period": "additional",
+      "phase": "main_holdout",
+      "provider": "gemini",
+      "kind": "file-search-query",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 107,
+        "knownCostRecords": 107,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 107,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.2786007999999999927",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.2786007999999999927",
+        "allReservationsUsd": "3.701027999999999857"
+      }
+    },
+    {
+      "period": "additional",
+      "phase": "main_holdout",
+      "provider": "gemini",
+      "kind": "generate",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 2907,
+        "knownCostRecords": 2907,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 2907,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "4.32528339999999991851",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "4.32528339999999991851",
+        "allReservationsUsd": "38.5126445999999999657"
+      }
+    },
+    {
+      "period": "additional",
+      "phase": "main_holdout",
+      "provider": "gemini",
+      "kind": "generate",
+      "httpOutcome": "unobserved",
+      "totals": {
+        "records": 3,
+        "knownCostRecords": 0,
+        "unknownCostRecords": 3,
+        "http2xxRecords": 0,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 3,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0.0265945",
+        "countedUsd": "0.0265945",
+        "allReservationsUsd": "0.0265945"
+      }
+    },
+    {
+      "period": "additional",
+      "phase": "main_holdout",
+      "provider": "jev",
+      "kind": "jev-rerank",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 108,
+        "knownCostRecords": 108,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 108,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.01815214800000000084",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.01815214800000000084",
+        "allReservationsUsd": "0.0644643300000000037"
+      }
+    },
+    {
+      "period": "additional",
+      "phase": "main_holdout",
+      "provider": "jev",
+      "kind": "jev-verify",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 128,
+        "knownCostRecords": 128,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 128,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.00961556400000000053",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.00961556400000000053",
+        "allReservationsUsd": "0.03937319400000000204"
+      }
+    },
+    {
+      "period": "additional",
+      "phase": "recovery_operator",
+      "provider": "gemini",
+      "kind": "generate",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 1,
+        "knownCostRecords": 1,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 1,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.0000167",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.0000167",
+        "allReservationsUsd": "0.0010841"
+      }
+    },
+    {
+      "period": "additional",
+      "phase": "recovery_prelaunch_continuation",
+      "provider": "gemini",
+      "kind": "generate",
+      "httpOutcome": "unobserved",
+      "totals": {
+        "records": 1,
+        "knownCostRecords": 0,
+        "unknownCostRecords": 1,
+        "http2xxRecords": 0,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 1,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0.0010841",
+        "countedUsd": "0.0010841",
+        "allReservationsUsd": "0.0010841"
+      }
+    },
+    {
+      "period": "additional",
+      "phase": "recovery_transport",
+      "provider": "gemini",
+      "kind": "generate",
+      "httpOutcome": "unobserved",
+      "totals": {
+        "records": 1,
+        "knownCostRecords": 0,
+        "unknownCostRecords": 1,
+        "http2xxRecords": 0,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 1,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0.0010841",
+        "countedUsd": "0.0010841",
+        "allReservationsUsd": "0.0010841"
+      }
+    },
+    {
+      "period": "additional",
+      "phase": "reviewer_holdout",
+      "provider": "gemini",
+      "kind": "critic",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 80,
+        "knownCostRecords": 80,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 80,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.02706289999999999933",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.02706289999999999933",
+        "allReservationsUsd": "0.4763972999999999982"
+      }
+    },
+    {
+      "period": "additional",
+      "phase": "reviewer_holdout",
+      "provider": "jev",
+      "kind": "jev-verify",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 80,
+        "knownCostRecords": 80,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 80,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.003729390000000000287",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.003729390000000000287",
+        "allReservationsUsd": "0.02029519800000000068"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "development_pilots_smokes",
+      "provider": "gemini",
+      "kind": "critic",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 21,
+        "knownCostRecords": 21,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 21,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.01072759999999999975",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.01072759999999999975",
+        "allReservationsUsd": "0.1325384999999999975"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "development_pilots_smokes",
+      "provider": "gemini",
+      "kind": "embed",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 47,
+        "knownCostRecords": 0,
+        "unknownCostRecords": 47,
+        "http2xxRecords": 47,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0.0157558499999999995",
+        "countedUsd": "0.0157558499999999995",
+        "allReservationsUsd": "0.0157558499999999995"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "development_pilots_smokes",
+      "provider": "gemini",
+      "kind": "file-search-query",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 10,
+        "knownCostRecords": 10,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 10,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.0208419999999999998",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.0208419999999999998",
+        "allReservationsUsd": "0.345914399999999996"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "development_pilots_smokes",
+      "provider": "gemini",
+      "kind": "file-search-query",
+      "httpOutcome": "http_other",
+      "totals": {
+        "records": 1,
+        "knownCostRecords": 0,
+        "unknownCostRecords": 1,
+        "http2xxRecords": 0,
+        "otherHttpRecords": 1,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0.034584300000000005",
+        "countedUsd": "0.034584300000000005",
+        "allReservationsUsd": "0.034584300000000005"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "development_pilots_smokes",
+      "provider": "gemini",
+      "kind": "generate",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 376,
+        "knownCostRecords": 376,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 376,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.50685109999999999627",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.50685109999999999627",
+        "allReservationsUsd": "4.909011200000000026"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "development_pilots_smokes",
+      "provider": "gemini",
+      "kind": "generate",
+      "httpOutcome": "http_other",
+      "totals": {
+        "records": 4,
+        "knownCostRecords": 0,
+        "unknownCostRecords": 4,
+        "http2xxRecords": 0,
+        "otherHttpRecords": 4,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0.041923800000000001",
+        "countedUsd": "0.041923800000000001",
+        "allReservationsUsd": "0.041923800000000001"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "development_pilots_smokes",
+      "provider": "gemini",
+      "kind": "generate",
+      "httpOutcome": "unobserved",
+      "totals": {
+        "records": 3,
+        "knownCostRecords": 0,
+        "unknownCostRecords": 3,
+        "http2xxRecords": 0,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 3,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0.033029299999999998",
+        "countedUsd": "0.033029299999999998",
+        "allReservationsUsd": "0.033029299999999998"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "development_pilots_smokes",
+      "provider": "jev",
+      "kind": "jev-rerank",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 11,
+        "knownCostRecords": 11,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 11,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.00186522",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.00186522",
+        "allReservationsUsd": "0.0066039120000000006"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "development_pilots_smokes",
+      "provider": "jev",
+      "kind": "jev-verify",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 19,
+        "knownCostRecords": 19,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 19,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.001414644000000000061",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.001414644000000000061",
+        "allReservationsUsd": "0.00567117600000000032"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "indexing_preflight",
+      "provider": "gemini",
+      "kind": "critic",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 2,
+        "knownCostRecords": 2,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 2,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.00005335",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.00005335",
+        "allReservationsUsd": "0.00140415"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "indexing_preflight",
+      "provider": "gemini",
+      "kind": "embed",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 48,
+        "knownCostRecords": 0,
+        "unknownCostRecords": 48,
+        "http2xxRecords": 48,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0.01691519999999999948",
+        "countedUsd": "0.01691519999999999948",
+        "allReservationsUsd": "0.01691519999999999948"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "indexing_preflight",
+      "provider": "gemini",
+      "kind": "embed",
+      "httpOutcome": "unobserved",
+      "totals": {
+        "records": 1,
+        "knownCostRecords": 0,
+        "unknownCostRecords": 1,
+        "http2xxRecords": 0,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 1,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0.00035145",
+        "countedUsd": "0.00035145",
+        "allReservationsUsd": "0.00035145"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "indexing_preflight",
+      "provider": "gemini",
+      "kind": "file-index",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 78,
+        "knownCostRecords": 0,
+        "unknownCostRecords": 78,
+        "http2xxRecords": 78,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0.02746829999999999953",
+        "countedUsd": "0.02746829999999999953",
+        "allReservationsUsd": "0.02746829999999999953"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "indexing_preflight",
+      "provider": "gemini",
+      "kind": "file-poll",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 42,
+        "knownCostRecords": 42,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 42,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0",
+        "allReservationsUsd": "0"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "indexing_preflight",
+      "provider": "gemini",
+      "kind": "file-search-query",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 2,
+        "knownCostRecords": 2,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 2,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.00083190000000000002",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.00083190000000000002",
+        "allReservationsUsd": "0.0754639"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "indexing_preflight",
+      "provider": "gemini",
+      "kind": "file-store",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 1,
+        "knownCostRecords": 1,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 1,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0",
+        "allReservationsUsd": "0"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "indexing_preflight",
+      "provider": "gemini",
+      "kind": "generate",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 9,
+        "knownCostRecords": 9,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 9,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.01047919999999999978",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.01047919999999999978",
+        "allReservationsUsd": "0.107693799999999998"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "indexing_preflight",
+      "provider": "gemini",
+      "kind": "generate",
+      "httpOutcome": "http_other",
+      "totals": {
+        "records": 2,
+        "knownCostRecords": 0,
+        "unknownCostRecords": 2,
+        "http2xxRecords": 0,
+        "otherHttpRecords": 2,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0.0017245",
+        "countedUsd": "0.0017245",
+        "allReservationsUsd": "0.0017245"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "indexing_preflight",
+      "provider": "jev",
+      "kind": "jev-rerank",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 1,
+        "knownCostRecords": 1,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 1,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.00016993200000000003",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.00016993200000000003",
+        "allReservationsUsd": "0.0005985840000000001"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "indexing_preflight",
+      "provider": "jev",
+      "kind": "jev-systemone",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 2,
+        "knownCostRecords": 2,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 2,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 1,
+        "reportedEstimateUsd": "0.000024528000000000004",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.000024528000000000004",
+        "allReservationsUsd": "0.000102311999999999999"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "recovery_key_quota",
+      "provider": "gemini",
+      "kind": "generate",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 1,
+        "knownCostRecords": 1,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 1,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.0000167",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.0000167",
+        "allReservationsUsd": "0.0010841"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "reviewer_development",
+      "provider": "gemini",
+      "kind": "critic",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 76,
+        "knownCostRecords": 76,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 76,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.02598919999999999931",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.02598919999999999931",
+        "allReservationsUsd": "0.4523982000000000019"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "reviewer_development",
+      "provider": "gemini",
+      "kind": "critic",
+      "httpOutcome": "http_other",
+      "totals": {
+        "records": 4,
+        "knownCostRecords": 0,
+        "unknownCostRecords": 4,
+        "http2xxRecords": 0,
+        "otherHttpRecords": 4,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0",
+        "unknownCostReservationUsd": "0.0238326000000000005",
+        "countedUsd": "0.0238326000000000005",
+        "allReservationsUsd": "0.0238326000000000005"
+      }
+    },
+    {
+      "period": "baseline",
+      "phase": "reviewer_development",
+      "provider": "jev",
+      "kind": "jev-verify",
+      "httpOutcome": "http_2xx",
+      "totals": {
+        "records": 80,
+        "knownCostRecords": 80,
+        "unknownCostRecords": 0,
+        "http2xxRecords": 80,
+        "otherHttpRecords": 0,
+        "unobservedHttpRecords": 0,
+        "knownCostAboveReservationRecords": 0,
+        "reportedEstimateUsd": "0.003713220000000000231",
+        "unknownCostReservationUsd": "0",
+        "countedUsd": "0.003713220000000000231",
+        "allReservationsUsd": "0.0202723920000000009"
+      }
+    }
+  ],
+  "partitionChecks": {
+    "phase": true,
+    "provider": true,
+    "period": true,
+    "detail": true
+  },
+  "scope": [
+    "Records count reservations, not proven network calls. A local rejection can still retain a reservation.",
+    "Unknown costs include successful embeddings without reported usage; HTTP status and request kind remain separate.",
+    "A known estimate of zero remains known; missing usage never becomes a zero estimate.",
+    "All four operational recovery categories are overhead, excluded from route accuracy and route-only costs.",
+    "Baseline/additional is the immutable ledger position boundary, not a date or an inferred billing period.",
+    "Stored estimates and original reserves are not repriced or retroactively rounded. Prior Number precision cannot be restored.",
+    "This is the shared research ledger only; production traffic, unrecorded external services and actual account balance are outside its scope.",
+    "The exporter checks a quiescent local snapshot, not experiment completion or scientific validity; those require the run audits."
+  ]
+}

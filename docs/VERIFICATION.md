@@ -1,12 +1,22 @@
 # Verification record
 
-## Current frozen study — 2026-10-30
+## Completed frozen study — 2026-10-31
 
 Executable `0fe267b03b7baa0a2ff43c58165301b74261afa9` passed [full CI 41155033249](https://github.com/rayidali/spiich_homework/actions/runs/41155033249): application/backend/browser verification, Docker startup/persistence and native Wren/pgvector checks. Live-AI was skipped in CI. The matching local source passed **511 isolated TypeScript tests, 35 actual Wren Python tests, nine PDF exporter tests, strict TypeScript/production build and formatting**. [Local evidence](evidence/research-local-v4.json), [CI evidence](evidence/research-ci-v4.json).
 
 The final corrected development smoke completed **54/54**: 40 execution successes, 13 withheld responses and one preserved response-contract error; 28 structured task successes. All 190 transport requests returned HTTP 200 with complete footers; this does not make every model response valid. Source/protocol and the full scoped ledger/document/vector fingerprint remained unchanged. Internal review found no new measurement blocker, while conservative scope/citation limitations remain documented. [Smoke evidence](evidence/research-smoke-v4-check.json), [run explanation](evidence/research-runs/smoke-v4/README.md).
 
-Final source hash `fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08` and reviewer threshold **0.8** were frozen before held-out attempts. **The 1,620-episode main held-out run is active; the separate 240-outcome reviewer evaluation and final analyses remain pending.** Partial outcomes cannot establish final accuracy or an architecture winner. [Pre-run freeze](evidence/research-verifiers/verifiers-v1/verifier-freeze.json), [main manifest](evidence/research-runs/holdout-v1/manifest.json).
+Final source hash `fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08` and reviewer threshold **0.8** were frozen before held-out attempts. **All 1,620 main episodes and 240 held-out reviewer outcomes are complete.** Independent final audits passed [41 main checks](evidence/research-holdout-final-check.json) and [31 reviewer checks](evidence/research-verifier-holdout-final-check.json). The main run retains 1,333 execution-status `ok`, 267 `blocked` and 20 `error` outcomes; 940 satisfy the structured-success rubric. The before/after scoped fingerprint matches `2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c`. No observed hard-gate violations were recorded; that is not a guarantee of semantic correctness. [Pre-run freeze](evidence/research-verifiers/verifiers-v1/verifier-freeze.json), [main manifest](evidence/research-runs/holdout-v1/manifest.json).
+
+The same held-out run resumed after its preserved 777-episode interruption. Separate operational recovery passed full CI 41171119383 and 120 targeted tests; a single admitted provider probe succeeded, then its cohort closed permanently. All failed outcomes and reservations remain. Inference source and scoring were unchanged. The static-config dispatcher validates before the tool call; its timing cannot establish actual network-start spacing. Both studies and operational cleanup are complete. See the [operational record](research/TRANSPORT_INCIDENT.md).
+
+Only **H2, lexical document access over broad tools**, clears the predeclared targeted rule: +46.7 percentage points [35.0, 60.0] across documents/scenarios. The [decision supplement](evidence/research-runs/holdout-v1/decisions/report.md) calls it a candidate for further experiment. R3 has the largest observed broad score, 127/180 (70.6%), but its targeted comparisons remain inconclusive. The predefined common-capability subgroup favors R0, 33/36 (91.7%), over R3, 27/36 (75.0%); broader coverage does not establish an across-the-board replacement. Intervals are exploratory, unadjusted and clustered by scenario group.
+
+The separate reviewer stress study has 80 candidates (40 correct, 40 flawed) per method and zero request errors. With the deterministic gate, Gemini accepted 7/40 flawed answers and withheld 1/40 correct ones; Jev accepted 6/40 flawed answers and withheld 5/40 correct ones. The Gemini withholding-difference interval reaches +7.9 pp, above the +5 pp limit, so its criterion is inconclusive; Jev's +12.5 pp point increase is below the practical target. These are synthetic reviewer outcomes, not production prevalence or independent human adjudication. [Reviewer results](evidence/research-verifiers/verifiers-v1/holdout-results.json).
+
+The [all-study cost export](evidence/research-final-costs/cost-reconciliation.md) reconciles 5,271 records to approximately $6.050602768 in estimates plus retained reservations. Additional spending is $5.23873405 Gemini / $0.033304824 Jev, below the authorized $6.40/$0.10 allowances. Successful embeddings without token metadata remain unknown-cost reservations. The external exporter passed **41 local synthetic tests**, TypeScript and formatting; cloud CI for that new tool remains pending. Do not sum these with overlapping historical suites or describe tracking estimates as invoices.
+
+The [complete research narrative](reports/research-study.md), [16-page PDF](evidence/research-runs/holdout-v1/study-report.pdf) and supplements are generated locally. Final publication and refreshed submission packaging remain pending. Production was not redeployed. The product's full 40-case live evaluation, fresh visual/device checks, automatic scheduler observation, reviewer sharing and production-scale operations remain separate gaps; the synthetic study does not close them.
 
 The sections below are chronological evidence from earlier checkpoints. Their statements about pending work apply to those dates, not to the current run. Original failures and incomplete runs are preserved.
 
@@ -151,9 +161,11 @@ The handoff also validates local Markdown links and refreshes the submission ZIP
 
 The production bundle builds successfully. The installed Zod version emits two nonfatal Rollup warnings about upstream `@__PURE__` comments; Rollup removes the misplaced annotations. No dependency source was modified to hide those warnings.
 
-## Still pending
+## Historical pending list (superseded where noted)
 
-- **Live AI:** model-metadata access succeeded, but hosted generation timed out. Diagnose that failure, then run bounded smoke/development/holdout cases and review clarification meaning. No live accuracy or usage score exists.
+This list belongs to the earlier37-test checkpoint. Later selected hosted questions and a review-only proposal succeeded; the original40-case product evaluation remains incomplete. Current research and verification status is recorded at the top of this document. The capacity and browser limitations below remain unverified.
+
+- **Live AI at that checkpoint:** metadata access succeeded, but hosted generation timed out; diagnosis and bounded evaluation were still pending. This does not describe the later successful hosted checks or current active research run.
 - **Production capacity:** no million-user benchmark, multi-region exercise, load/failover test, or restore drill has been performed. See the architecture's workload and production plan.
 - **Browser scope:** automated checks used one Chromium-family browser at desktop and 390px mobile widths, including a touch-enabled browser context. Safari, Firefox, a formal accessibility audit, and real mobile devices have not been checked.
 

@@ -1,0 +1,1627 @@
+{
+  "schemaVersion": 1,
+  "runId": "holdout-v1",
+  "mappingId": "daybook-common-capabilities-v1",
+  "split": "holdout",
+  "expectedRepeats": 3,
+  "selectedQuestionIds": [
+    "financial-06-1",
+    "financial-06-2",
+    "financial-07-1",
+    "financial-07-2",
+    "financial-09-1",
+    "financial-09-2",
+    "entry-07-1",
+    "entry-07-2",
+    "entry-08-1",
+    "entry-08-2",
+    "entry-09-1",
+    "entry-09-2"
+  ],
+  "selectedGroupIds": [
+    "financial-06",
+    "financial-07",
+    "financial-09",
+    "entry-07",
+    "entry-08",
+    "entry-09"
+  ],
+  "plannedQuestionIdsInRun": [
+    "financial-06-1",
+    "financial-06-2",
+    "financial-07-1",
+    "financial-07-2",
+    "financial-09-1",
+    "financial-09-2",
+    "entry-07-1",
+    "entry-07-2",
+    "entry-08-1",
+    "entry-08-2",
+    "entry-09-1",
+    "entry-09-2"
+  ],
+  "membershipSourcesValid": true,
+  "sourceChecks": [
+    {
+      "file": "research/baseline.ts",
+      "definitionSha256": "121b44bbac184669ce0d269b4d95d99f48e4d5c905f49cfc5d4c83d81897c648",
+      "comparisonSha256": "b9754ba93f289ac28e3f5f9e941169af90757a57202a62dd679ed275f16d63c8",
+      "status": "reviewed_amendment",
+      "amendment": {
+        "schemaVersion": 2,
+        "mappingId": "daybook-common-capabilities-v1",
+        "membershipUnchanged": true,
+        "reviewedAt": "2026-10-31T01:21:06.248083+00:00",
+        "rationale": "Development smoke v3 exposed asymmetric date/identity evidence metadata. Before any held-out evaluation, normalize proved row scope across the unchanged control tools and custom/Wren backends, and apply shared strict qualifier checks. All 15 selected groups and 45 excluded groups retain their original membership; prompts, questions and reference labels are unchanged. This binds the corrected source without rescoring or validating earlier runs.",
+        "changes": [
+          {
+            "file": "research/baseline.ts",
+            "definitionSha256": "121b44bbac184669ce0d269b4d95d99f48e4d5c905f49cfc5d4c83d81897c648",
+            "comparisonSha256": "b9754ba93f289ac28e3f5f9e941169af90757a57202a62dd679ed275f16d63c8",
+            "rationale": "The same four financial tools, clarification/proposal semantics, scoped queries and one model call remain. Existing trusted dates and identities now carry machine-owned scope metadata for the shared validator/scorer. No tool, retrieval ability, model-visible tag inference or subgroup capability is added."
+          },
+          {
+            "file": "research/routes.ts",
+            "definitionSha256": "8e493da705b890190bd52c366ec0e0c8788f7f849f4eca804036527c1a2af1e5",
+            "comparisonSha256": "a15b95bae25212c8a69c4fa7604f42c7910a775334579e73978cc386bb8a7b35",
+            "rationale": "Custom and actual Wren query evidence now shares validated period/identity metadata from compiler plans or supported parsed ASTs. Missing or ambiguous scope fails closed, including monthly grain and calculation provenance. The shared model prompts, query/retrieval capabilities, threshold and question membership remain unchanged; conservative unsupported SQL scopes are disclosed integration limits."
+          }
+        ],
+        "questionSha256": "42b7671906526fe7790f2aa443c0d6c904eceadb041ee406e0b0027b1a2fbfb6",
+        "limits": [
+          "R0 formal CLARIFY versus expected BLOCK remains a disclosed protocol limitation, not a harmful action.",
+          "Conservative unsupported SQL grain or ambiguous calculation operands may withhold valid answers; qualifier provenance is not complete economic-semantic or prose verification.",
+          "Smoke v3 and both pilots remain diagnostic/ineligible. A separately named corrected development smoke precedes final freezing and held-out evaluation."
+        ]
+      }
+    },
+    {
+      "file": "research/routes.ts",
+      "definitionSha256": "8e493da705b890190bd52c366ec0e0c8788f7f849f4eca804036527c1a2af1e5",
+      "comparisonSha256": "a15b95bae25212c8a69c4fa7604f42c7910a775334579e73978cc386bb8a7b35",
+      "status": "reviewed_amendment",
+      "amendment": {
+        "schemaVersion": 2,
+        "mappingId": "daybook-common-capabilities-v1",
+        "membershipUnchanged": true,
+        "reviewedAt": "2026-10-31T01:21:06.248083+00:00",
+        "rationale": "Development smoke v3 exposed asymmetric date/identity evidence metadata. Before any held-out evaluation, normalize proved row scope across the unchanged control tools and custom/Wren backends, and apply shared strict qualifier checks. All 15 selected groups and 45 excluded groups retain their original membership; prompts, questions and reference labels are unchanged. This binds the corrected source without rescoring or validating earlier runs.",
+        "changes": [
+          {
+            "file": "research/baseline.ts",
+            "definitionSha256": "121b44bbac184669ce0d269b4d95d99f48e4d5c905f49cfc5d4c83d81897c648",
+            "comparisonSha256": "b9754ba93f289ac28e3f5f9e941169af90757a57202a62dd679ed275f16d63c8",
+            "rationale": "The same four financial tools, clarification/proposal semantics, scoped queries and one model call remain. Existing trusted dates and identities now carry machine-owned scope metadata for the shared validator/scorer. No tool, retrieval ability, model-visible tag inference or subgroup capability is added."
+          },
+          {
+            "file": "research/routes.ts",
+            "definitionSha256": "8e493da705b890190bd52c366ec0e0c8788f7f849f4eca804036527c1a2af1e5",
+            "comparisonSha256": "a15b95bae25212c8a69c4fa7604f42c7910a775334579e73978cc386bb8a7b35",
+            "rationale": "Custom and actual Wren query evidence now shares validated period/identity metadata from compiler plans or supported parsed ASTs. Missing or ambiguous scope fails closed, including monthly grain and calculation provenance. The shared model prompts, query/retrieval capabilities, threshold and question membership remain unchanged; conservative unsupported SQL scopes are disclosed integration limits."
+          }
+        ],
+        "questionSha256": "42b7671906526fe7790f2aa443c0d6c904eceadb041ee406e0b0027b1a2fbfb6",
+        "limits": [
+          "R0 formal CLARIFY versus expected BLOCK remains a disclosed protocol limitation, not a harmful action.",
+          "Conservative unsupported SQL grain or ambiguous calculation operands may withhold valid answers; qualifier provenance is not complete economic-semantic or prose verification.",
+          "Smoke v3 and both pilots remain diagnostic/ineligible. A separately named corrected development smoke precedes final freezing and held-out evaluation."
+        ]
+      }
+    },
+    {
+      "file": "research/fixtures/questions.json",
+      "definitionSha256": "42b7671906526fe7790f2aa443c0d6c904eceadb041ee406e0b0027b1a2fbfb6",
+      "comparisonSha256": "42b7671906526fe7790f2aa443c0d6c904eceadb041ee406e0b0027b1a2fbfb6",
+      "status": "match",
+      "amendment": null
+    }
+  ],
+  "questionMetadataSourceValid": true,
+  "primaryComplete": true,
+  "primaryIntegrityEligible": true,
+  "validityNotice": null,
+  "validityNoticeBound": null,
+  "validityNoticeAllowsSelection": true,
+  "primarySnapshot": {
+    "status": "verified",
+    "before": "2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c",
+    "after": "2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c",
+    "scope": "ledger_and_corpus"
+  },
+  "wholeRunComplete": true,
+  "wholeBenchmarkCoverage": true,
+  "fullSplitCoverage": true,
+  "eligibleForConclusion": true,
+  "eligibleRoutes": [
+    "R0",
+    "R1",
+    "R2",
+    "R3",
+    "R4",
+    "R5",
+    "R6",
+    "R7",
+    "R8"
+  ],
+  "routes": [
+    {
+      "route": "R0",
+      "label": "Current control",
+      "episodes": 36,
+      "groups": 6,
+      "successes": 33,
+      "microSuccessRate": 0.9166666666666666,
+      "observedFamilyMacro": 0.9166666666666667,
+      "completedEpisodes": 33,
+      "conditionalSuccessRate": 1,
+      "errorRate": 0.08333333333333333,
+      "automatedScore90": 82.5,
+      "p50Ms": 4566,
+      "p95Ms": 5613,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 18,
+          "successes": 18,
+          "rate": 1
+        },
+        {
+          "family": "analytics",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "documents",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "scenario",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "entry",
+          "episodes": 18,
+          "successes": 15,
+          "rate": 0.8333333333333334
+        },
+        {
+          "family": "adversarial",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        }
+      ],
+      "confidence": {
+        "estimate": 0.9166666666666667,
+        "low": 0.75,
+        "high": 1,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ]
+      },
+      "observedFamilies": [
+        "financial",
+        "entry"
+      ],
+      "fullSplitPlannedEpisodes": 36,
+      "plannedInRunEpisodes": 36,
+      "missingPlannedEpisodes": 0,
+      "unscheduledFullSplitEpisodes": 0,
+      "missingFullSplitEpisodes": 0,
+      "complete": true,
+      "errors": 3,
+      "blocked": 0,
+      "wholeBenchmark": {
+        "microSuccessRate": 0.31666666666666665,
+        "macroSuccessRate": 0.31666666666666665,
+        "episodes": 180,
+        "plannedEpisodes": 180,
+        "complete": true,
+        "disqualified": false
+      },
+      "failures": [
+        {
+          "kind": "episode_error",
+          "episodes": 3
+        }
+      ]
+    },
+    {
+      "route": "R1",
+      "label": "Broad tools",
+      "episodes": 36,
+      "groups": 6,
+      "successes": 26,
+      "microSuccessRate": 0.7222222222222222,
+      "observedFamilyMacro": 0.7222222222222222,
+      "completedEpisodes": 36,
+      "conditionalSuccessRate": 0.7222222222222222,
+      "errorRate": 0,
+      "automatedScore90": 67.31481944444444,
+      "p50Ms": 9112,
+      "p95Ms": 11032,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 18,
+          "successes": 10,
+          "rate": 0.5555555555555556
+        },
+        {
+          "family": "analytics",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "documents",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "scenario",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "entry",
+          "episodes": 18,
+          "successes": 16,
+          "rate": 0.8888888888888888
+        },
+        {
+          "family": "adversarial",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        }
+      ],
+      "confidence": {
+        "estimate": 0.7222222222222222,
+        "low": 0.5277777777777778,
+        "high": 0.9444444444444444,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ]
+      },
+      "observedFamilies": [
+        "financial",
+        "entry"
+      ],
+      "fullSplitPlannedEpisodes": 36,
+      "plannedInRunEpisodes": 36,
+      "missingPlannedEpisodes": 0,
+      "unscheduledFullSplitEpisodes": 0,
+      "missingFullSplitEpisodes": 0,
+      "complete": true,
+      "errors": 0,
+      "blocked": 5,
+      "wholeBenchmark": {
+        "microSuccessRate": 0.4222222222222222,
+        "macroSuccessRate": 0.4222222222222222,
+        "episodes": 180,
+        "plannedEpisodes": 180,
+        "complete": true,
+        "disqualified": false
+      },
+      "failures": [
+        {
+          "kind": "deterministic_validation_failed",
+          "episodes": 5
+        },
+        {
+          "kind": "metric_key_mismatch",
+          "episodes": 5
+        },
+        {
+          "kind": "missing_ledger_provenance",
+          "episodes": 8
+        },
+        {
+          "kind": "proposal_line_mismatch",
+          "episodes": 2
+        },
+        {
+          "kind": "required_fact_mismatch",
+          "episodes": 8
+        },
+        {
+          "kind": "required_fact_missing_or_multiple_mismatches",
+          "episodes": 3
+        },
+        {
+          "kind": "unsupported_or_unassessed_fact",
+          "episodes": 5
+        },
+        {
+          "kind": "wrong_behavior",
+          "episodes": 5
+        }
+      ]
+    },
+    {
+      "route": "R2",
+      "label": "Lexical documents",
+      "episodes": 36,
+      "groups": 6,
+      "successes": 23,
+      "microSuccessRate": 0.6388888888888888,
+      "observedFamilyMacro": 0.6388888888888888,
+      "completedEpisodes": 36,
+      "conditionalSuccessRate": 0.6388888888888888,
+      "errorRate": 0,
+      "automatedScore90": 59.81481944444444,
+      "p50Ms": 9301,
+      "p95Ms": 10689,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 18,
+          "successes": 9,
+          "rate": 0.5
+        },
+        {
+          "family": "analytics",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "documents",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "scenario",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "entry",
+          "episodes": 18,
+          "successes": 14,
+          "rate": 0.7777777777777778
+        },
+        {
+          "family": "adversarial",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        }
+      ],
+      "confidence": {
+        "estimate": 0.6388888888888888,
+        "low": 0.3888888888888889,
+        "high": 0.8888888888888888,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ]
+      },
+      "observedFamilies": [
+        "financial",
+        "entry"
+      ],
+      "fullSplitPlannedEpisodes": 36,
+      "plannedInRunEpisodes": 36,
+      "missingPlannedEpisodes": 0,
+      "unscheduledFullSplitEpisodes": 0,
+      "missingFullSplitEpisodes": 0,
+      "complete": true,
+      "errors": 0,
+      "blocked": 8,
+      "wholeBenchmark": {
+        "microSuccessRate": 0.6111111111111112,
+        "macroSuccessRate": 0.6111111111111112,
+        "episodes": 180,
+        "plannedEpisodes": 180,
+        "complete": true,
+        "disqualified": false
+      },
+      "failures": [
+        {
+          "kind": "deterministic_validation_failed",
+          "episodes": 8
+        },
+        {
+          "kind": "metric_key_mismatch",
+          "episodes": 5
+        },
+        {
+          "kind": "missing_ledger_provenance",
+          "episodes": 9
+        },
+        {
+          "kind": "proposal_line_mismatch",
+          "episodes": 4
+        },
+        {
+          "kind": "required_fact_mismatch",
+          "episodes": 9
+        },
+        {
+          "kind": "required_fact_missing_or_multiple_mismatches",
+          "episodes": 4
+        },
+        {
+          "kind": "unsupported_or_unassessed_fact",
+          "episodes": 5
+        },
+        {
+          "kind": "wrong_behavior",
+          "episodes": 8
+        }
+      ]
+    },
+    {
+      "route": "R3",
+      "label": "Managed File Search",
+      "episodes": 36,
+      "groups": 6,
+      "successes": 27,
+      "microSuccessRate": 0.75,
+      "observedFamilyMacro": 0.75,
+      "completedEpisodes": 36,
+      "conditionalSuccessRate": 0.75,
+      "errorRate": 0,
+      "automatedScore90": 68.88889166666667,
+      "p50Ms": 9334,
+      "p95Ms": 23381,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 18,
+          "successes": 12,
+          "rate": 0.6666666666666666
+        },
+        {
+          "family": "analytics",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "documents",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "scenario",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "entry",
+          "episodes": 18,
+          "successes": 15,
+          "rate": 0.8333333333333334
+        },
+        {
+          "family": "adversarial",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        }
+      ],
+      "confidence": {
+        "estimate": 0.75,
+        "low": 0.5833333333333333,
+        "high": 0.9166666666666667,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ]
+      },
+      "observedFamilies": [
+        "financial",
+        "entry"
+      ],
+      "fullSplitPlannedEpisodes": 36,
+      "plannedInRunEpisodes": 36,
+      "missingPlannedEpisodes": 0,
+      "unscheduledFullSplitEpisodes": 0,
+      "missingFullSplitEpisodes": 0,
+      "complete": true,
+      "errors": 0,
+      "blocked": 6,
+      "wholeBenchmark": {
+        "microSuccessRate": 0.7055555555555556,
+        "macroSuccessRate": 0.7055555555555556,
+        "episodes": 180,
+        "plannedEpisodes": 180,
+        "complete": true,
+        "disqualified": false
+      },
+      "failures": [
+        {
+          "kind": "deterministic_validation_failed",
+          "episodes": 6
+        },
+        {
+          "kind": "metric_key_mismatch",
+          "episodes": 3
+        },
+        {
+          "kind": "missing_ledger_provenance",
+          "episodes": 6
+        },
+        {
+          "kind": "proposal_line_mismatch",
+          "episodes": 3
+        },
+        {
+          "kind": "required_fact_mismatch",
+          "episodes": 6
+        },
+        {
+          "kind": "required_fact_missing_or_multiple_mismatches",
+          "episodes": 3
+        },
+        {
+          "kind": "unsupported_or_unassessed_fact",
+          "episodes": 3
+        },
+        {
+          "kind": "wrong_behavior",
+          "episodes": 6
+        }
+      ]
+    },
+    {
+      "route": "R4",
+      "label": "Custom hybrid",
+      "episodes": 36,
+      "groups": 6,
+      "successes": 26,
+      "microSuccessRate": 0.7222222222222222,
+      "observedFamilyMacro": 0.7222222222222223,
+      "completedEpisodes": 36,
+      "conditionalSuccessRate": 0.7222222222222222,
+      "errorRate": 0,
+      "automatedScore90": 66.85185555555556,
+      "p50Ms": 9371,
+      "p95Ms": 14424,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 18,
+          "successes": 11,
+          "rate": 0.6111111111111112
+        },
+        {
+          "family": "analytics",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "documents",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "scenario",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "entry",
+          "episodes": 18,
+          "successes": 15,
+          "rate": 0.8333333333333334
+        },
+        {
+          "family": "adversarial",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        }
+      ],
+      "confidence": {
+        "estimate": 0.7222222222222223,
+        "low": 0.5277777777777778,
+        "high": 0.9166666666666667,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ]
+      },
+      "observedFamilies": [
+        "financial",
+        "entry"
+      ],
+      "fullSplitPlannedEpisodes": 36,
+      "plannedInRunEpisodes": 36,
+      "missingPlannedEpisodes": 0,
+      "unscheduledFullSplitEpisodes": 0,
+      "missingFullSplitEpisodes": 0,
+      "complete": true,
+      "errors": 0,
+      "blocked": 6,
+      "wholeBenchmark": {
+        "microSuccessRate": 0.6555555555555556,
+        "macroSuccessRate": 0.6555555555555556,
+        "episodes": 180,
+        "plannedEpisodes": 180,
+        "complete": true,
+        "disqualified": false
+      },
+      "failures": [
+        {
+          "kind": "deterministic_validation_failed",
+          "episodes": 6
+        },
+        {
+          "kind": "metric_key_mismatch",
+          "episodes": 4
+        },
+        {
+          "kind": "missing_ledger_provenance",
+          "episodes": 7
+        },
+        {
+          "kind": "proposal_line_mismatch",
+          "episodes": 3
+        },
+        {
+          "kind": "required_fact_mismatch",
+          "episodes": 7
+        },
+        {
+          "kind": "required_fact_missing_or_multiple_mismatches",
+          "episodes": 3
+        },
+        {
+          "kind": "unsupported_or_unassessed_fact",
+          "episodes": 4
+        },
+        {
+          "kind": "wrong_behavior",
+          "episodes": 6
+        }
+      ]
+    },
+    {
+      "route": "R5",
+      "label": "Jev reranking",
+      "episodes": 36,
+      "groups": 6,
+      "successes": 26,
+      "microSuccessRate": 0.7222222222222222,
+      "observedFamilyMacro": 0.7222222222222223,
+      "completedEpisodes": 36,
+      "conditionalSuccessRate": 0.7222222222222222,
+      "errorRate": 0,
+      "automatedScore90": 66.85185555555556,
+      "p50Ms": 9411,
+      "p95Ms": 14347,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 18,
+          "successes": 11,
+          "rate": 0.6111111111111112
+        },
+        {
+          "family": "analytics",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "documents",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "scenario",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "entry",
+          "episodes": 18,
+          "successes": 15,
+          "rate": 0.8333333333333334
+        },
+        {
+          "family": "adversarial",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        }
+      ],
+      "confidence": {
+        "estimate": 0.7222222222222223,
+        "low": 0.5277777777777778,
+        "high": 0.9166666666666667,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ]
+      },
+      "observedFamilies": [
+        "financial",
+        "entry"
+      ],
+      "fullSplitPlannedEpisodes": 36,
+      "plannedInRunEpisodes": 36,
+      "missingPlannedEpisodes": 0,
+      "unscheduledFullSplitEpisodes": 0,
+      "missingFullSplitEpisodes": 0,
+      "complete": true,
+      "errors": 0,
+      "blocked": 6,
+      "wholeBenchmark": {
+        "microSuccessRate": 0.6388888888888888,
+        "macroSuccessRate": 0.6388888888888888,
+        "episodes": 180,
+        "plannedEpisodes": 180,
+        "complete": true,
+        "disqualified": false
+      },
+      "failures": [
+        {
+          "kind": "deterministic_validation_failed",
+          "episodes": 6
+        },
+        {
+          "kind": "metric_key_mismatch",
+          "episodes": 4
+        },
+        {
+          "kind": "missing_ledger_provenance",
+          "episodes": 7
+        },
+        {
+          "kind": "proposal_line_mismatch",
+          "episodes": 3
+        },
+        {
+          "kind": "required_fact_mismatch",
+          "episodes": 7
+        },
+        {
+          "kind": "required_fact_missing_or_multiple_mismatches",
+          "episodes": 3
+        },
+        {
+          "kind": "unsupported_or_unassessed_fact",
+          "episodes": 4
+        },
+        {
+          "kind": "wrong_behavior",
+          "episodes": 6
+        }
+      ]
+    },
+    {
+      "route": "R6",
+      "label": "Wren analytics",
+      "episodes": 36,
+      "groups": 6,
+      "successes": 25,
+      "microSuccessRate": 0.6944444444444444,
+      "observedFamilyMacro": 0.6944444444444444,
+      "completedEpisodes": 35,
+      "conditionalSuccessRate": 0.7142857142857143,
+      "errorRate": 0.027777777777777776,
+      "automatedScore90": 65.27778333333333,
+      "p50Ms": 9141,
+      "p95Ms": 13734,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 18,
+          "successes": 9,
+          "rate": 0.5
+        },
+        {
+          "family": "analytics",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "documents",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "scenario",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "entry",
+          "episodes": 18,
+          "successes": 16,
+          "rate": 0.8888888888888888
+        },
+        {
+          "family": "adversarial",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        }
+      ],
+      "confidence": {
+        "estimate": 0.6944444444444444,
+        "low": 0.4444444444444444,
+        "high": 0.9444444444444444,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ]
+      },
+      "observedFamilies": [
+        "financial",
+        "entry"
+      ],
+      "fullSplitPlannedEpisodes": 36,
+      "plannedInRunEpisodes": 36,
+      "missingPlannedEpisodes": 0,
+      "unscheduledFullSplitEpisodes": 0,
+      "missingFullSplitEpisodes": 0,
+      "complete": true,
+      "errors": 1,
+      "blocked": 4,
+      "wholeBenchmark": {
+        "microSuccessRate": 0.6055555555555555,
+        "macroSuccessRate": 0.6055555555555556,
+        "episodes": 180,
+        "plannedEpisodes": 180,
+        "complete": true,
+        "disqualified": false
+      },
+      "failures": [
+        {
+          "kind": "deterministic_validation_failed",
+          "episodes": 4
+        },
+        {
+          "kind": "episode_error",
+          "episodes": 1
+        },
+        {
+          "kind": "metric_key_mismatch",
+          "episodes": 6
+        },
+        {
+          "kind": "missing_ledger_provenance",
+          "episodes": 8
+        },
+        {
+          "kind": "proposal_line_mismatch",
+          "episodes": 2
+        },
+        {
+          "kind": "required_fact_mismatch",
+          "episodes": 8
+        },
+        {
+          "kind": "required_fact_missing_or_multiple_mismatches",
+          "episodes": 2
+        },
+        {
+          "kind": "unsupported_or_unassessed_fact",
+          "episodes": 6
+        },
+        {
+          "kind": "wrong_behavior",
+          "episodes": 4
+        }
+      ]
+    },
+    {
+      "route": "R7",
+      "label": "LLM verifier",
+      "episodes": 36,
+      "groups": 6,
+      "successes": 24,
+      "microSuccessRate": 0.6666666666666666,
+      "observedFamilyMacro": 0.6666666666666667,
+      "completedEpisodes": 36,
+      "conditionalSuccessRate": 0.6666666666666666,
+      "errorRate": 0,
+      "automatedScore90": 62.31481944444444,
+      "p50Ms": 13521,
+      "p95Ms": 18326,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 18,
+          "successes": 10,
+          "rate": 0.5555555555555556
+        },
+        {
+          "family": "analytics",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "documents",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "scenario",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "entry",
+          "episodes": 18,
+          "successes": 14,
+          "rate": 0.7777777777777778
+        },
+        {
+          "family": "adversarial",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        }
+      ],
+      "confidence": {
+        "estimate": 0.6666666666666667,
+        "low": 0.4166666666666667,
+        "high": 0.9166666666666667,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ]
+      },
+      "observedFamilies": [
+        "financial",
+        "entry"
+      ],
+      "fullSplitPlannedEpisodes": 36,
+      "plannedInRunEpisodes": 36,
+      "missingPlannedEpisodes": 0,
+      "unscheduledFullSplitEpisodes": 0,
+      "missingFullSplitEpisodes": 0,
+      "complete": true,
+      "errors": 0,
+      "blocked": 7,
+      "wholeBenchmark": {
+        "microSuccessRate": 0.6277777777777778,
+        "macroSuccessRate": 0.6277777777777778,
+        "episodes": 180,
+        "plannedEpisodes": 180,
+        "complete": true,
+        "disqualified": false
+      },
+      "failures": [
+        {
+          "kind": "deterministic_validation_failed",
+          "episodes": 5
+        },
+        {
+          "kind": "metric_key_mismatch",
+          "episodes": 5
+        },
+        {
+          "kind": "missing_ledger_provenance",
+          "episodes": 8
+        },
+        {
+          "kind": "proposal_line_mismatch",
+          "episodes": 4
+        },
+        {
+          "kind": "required_fact_mismatch",
+          "episodes": 8
+        },
+        {
+          "kind": "required_fact_missing_or_multiple_mismatches",
+          "episodes": 3
+        },
+        {
+          "kind": "unsupported_or_unassessed_fact",
+          "episodes": 5
+        },
+        {
+          "kind": "wrong_behavior",
+          "episodes": 7
+        }
+      ]
+    },
+    {
+      "route": "R8",
+      "label": "Jev verifier",
+      "episodes": 36,
+      "groups": 6,
+      "successes": 24,
+      "microSuccessRate": 0.6666666666666666,
+      "observedFamilyMacro": 0.6666666666666667,
+      "completedEpisodes": 36,
+      "conditionalSuccessRate": 0.6666666666666666,
+      "errorRate": 0,
+      "automatedScore90": 62.31481944444444,
+      "p50Ms": 10142,
+      "p95Ms": 15454,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 18,
+          "successes": 10,
+          "rate": 0.5555555555555556
+        },
+        {
+          "family": "analytics",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "documents",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "scenario",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        },
+        {
+          "family": "entry",
+          "episodes": 18,
+          "successes": 14,
+          "rate": 0.7777777777777778
+        },
+        {
+          "family": "adversarial",
+          "episodes": 0,
+          "successes": 0,
+          "rate": null
+        }
+      ],
+      "confidence": {
+        "estimate": 0.6666666666666667,
+        "low": 0.4166666666666667,
+        "high": 0.9166666666666667,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ]
+      },
+      "observedFamilies": [
+        "financial",
+        "entry"
+      ],
+      "fullSplitPlannedEpisodes": 36,
+      "plannedInRunEpisodes": 36,
+      "missingPlannedEpisodes": 0,
+      "unscheduledFullSplitEpisodes": 0,
+      "missingFullSplitEpisodes": 0,
+      "complete": true,
+      "errors": 0,
+      "blocked": 7,
+      "wholeBenchmark": {
+        "microSuccessRate": 0.6388888888888888,
+        "macroSuccessRate": 0.6388888888888888,
+        "episodes": 180,
+        "plannedEpisodes": 180,
+        "complete": true,
+        "disqualified": false
+      },
+      "failures": [
+        {
+          "kind": "deterministic_validation_failed",
+          "episodes": 6
+        },
+        {
+          "kind": "metric_key_mismatch",
+          "episodes": 5
+        },
+        {
+          "kind": "missing_ledger_provenance",
+          "episodes": 8
+        },
+        {
+          "kind": "proposal_line_mismatch",
+          "episodes": 4
+        },
+        {
+          "kind": "required_fact_mismatch",
+          "episodes": 8
+        },
+        {
+          "kind": "required_fact_missing_or_multiple_mismatches",
+          "episodes": 3
+        },
+        {
+          "kind": "unsupported_or_unassessed_fact",
+          "episodes": 5
+        },
+        {
+          "kind": "wrong_behavior",
+          "episodes": 7
+        }
+      ]
+    }
+  ],
+  "comparisons": [
+    {
+      "hypothesis": "H1",
+      "kind": "declared",
+      "route": "R1",
+      "control": "R0",
+      "effect": {
+        "estimate": -0.19444444444444442,
+        "low": -0.3888888888888889,
+        "high": 0.027777777777777776,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ],
+        "pairedEpisodes": 36,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "entry"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H2",
+      "kind": "declared",
+      "route": "R2",
+      "control": "R1",
+      "effect": {
+        "estimate": -0.08333333333333333,
+        "low": -0.19444444444444442,
+        "high": 0,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ],
+        "pairedEpisodes": 36,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "entry"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H3a",
+      "kind": "declared",
+      "route": "R3",
+      "control": "R2",
+      "effect": {
+        "estimate": 0.1111111111111111,
+        "low": 0.027777777777777776,
+        "high": 0.19444444444444445,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ],
+        "pairedEpisodes": 36,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "entry"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H3b",
+      "kind": "declared",
+      "route": "R3",
+      "control": "R4",
+      "effect": {
+        "estimate": 0.027777777777777776,
+        "low": 0,
+        "high": 0.08333333333333333,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ],
+        "pairedEpisodes": 36,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "entry"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H4",
+      "kind": "declared",
+      "route": "R4",
+      "control": "R2",
+      "effect": {
+        "estimate": 0.08333333333333333,
+        "low": 0.027777777777777776,
+        "high": 0.1388888888888889,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ],
+        "pairedEpisodes": 36,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "entry"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H5",
+      "kind": "declared",
+      "route": "R5",
+      "control": "R4",
+      "effect": {
+        "estimate": 0,
+        "low": 0,
+        "high": 0,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "Degenerate empirical interval: identical sampled outcomes do not prove zero population uncertainty.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ],
+        "pairedEpisodes": 36,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "entry"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H6",
+      "kind": "declared",
+      "route": "R6",
+      "control": "R4",
+      "effect": {
+        "estimate": -0.027777777777777776,
+        "low": -0.1388888888888889,
+        "high": 0.05555555555555555,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ],
+        "pairedEpisodes": 36,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "entry"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H7a",
+      "kind": "declared",
+      "route": "R7",
+      "control": "R4",
+      "effect": {
+        "estimate": -0.05555555555555555,
+        "low": -0.1111111111111111,
+        "high": 0,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ],
+        "pairedEpisodes": 36,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "entry"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H7b",
+      "kind": "declared",
+      "route": "R8",
+      "control": "R4",
+      "effect": {
+        "estimate": -0.05555555555555555,
+        "low": -0.1111111111111111,
+        "high": 0,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ],
+        "pairedEpisodes": 36,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "entry"
+        ]
+      }
+    },
+    {
+      "hypothesis": "Descriptive",
+      "kind": "descriptive",
+      "route": "R2",
+      "control": "R0",
+      "effect": {
+        "estimate": -0.2777777777777778,
+        "low": -0.4444444444444445,
+        "high": -0.027777777777777776,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ],
+        "pairedEpisodes": 36,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "entry"
+        ]
+      }
+    },
+    {
+      "hypothesis": "Descriptive",
+      "kind": "descriptive",
+      "route": "R3",
+      "control": "R0",
+      "effect": {
+        "estimate": -0.16666666666666666,
+        "low": -0.25,
+        "high": 0,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ],
+        "pairedEpisodes": 36,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "entry"
+        ]
+      }
+    },
+    {
+      "hypothesis": "Descriptive",
+      "kind": "descriptive",
+      "route": "R4",
+      "control": "R0",
+      "effect": {
+        "estimate": -0.19444444444444445,
+        "low": -0.3333333333333333,
+        "high": 0,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ],
+        "pairedEpisodes": 36,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "entry"
+        ]
+      }
+    },
+    {
+      "hypothesis": "Descriptive",
+      "kind": "descriptive",
+      "route": "R5",
+      "control": "R0",
+      "effect": {
+        "estimate": -0.19444444444444445,
+        "low": -0.3333333333333333,
+        "high": 0,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ],
+        "pairedEpisodes": 36,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "entry"
+        ]
+      }
+    },
+    {
+      "hypothesis": "Descriptive",
+      "kind": "descriptive",
+      "route": "R6",
+      "control": "R0",
+      "effect": {
+        "estimate": -0.2222222222222222,
+        "low": -0.4722222222222222,
+        "high": 0.027777777777777776,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ],
+        "pairedEpisodes": 36,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "entry"
+        ]
+      }
+    },
+    {
+      "hypothesis": "Descriptive",
+      "kind": "descriptive",
+      "route": "R7",
+      "control": "R0",
+      "effect": {
+        "estimate": -0.25,
+        "low": -0.4444444444444445,
+        "high": -0.027777777777777776,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ],
+        "pairedEpisodes": 36,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "entry"
+        ]
+      }
+    },
+    {
+      "hypothesis": "Descriptive",
+      "kind": "descriptive",
+      "route": "R8",
+      "control": "R0",
+      "effect": {
+        "estimate": -0.25,
+        "low": -0.4444444444444445,
+        "high": -0.027777777777777776,
+        "groups": 6,
+        "samples": 2000,
+        "method": "Unadjusted 95% empirical percentile bootstrap; scenario-group blocks, stratified by family; paraphrases and repeats stay in their block.",
+        "warnings": [
+          "Five or fewer scenario groups in a represented family; interval coverage may be poor.",
+          "This interval covers only represented families, not the full six-family benchmark."
+        ],
+        "pairedEpisodes": 36,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "entry"
+        ]
+      }
+    }
+  ],
+  "notes": [
+    "Supplementary common-answerable subgroup; the whole-benchmark six-family macro remains primary. No winner is selected by this analyzer.",
+    "All recorded errors and blocks remain in subgroup denominators; missing and unscheduled episodes are separate. No candidate was selected using observed correctness.",
+    "The fixed held-out subgroup has 12 questions in six scenario groups, covering financial and entry families only. Repetitions and paraphrases are not independent observations.",
+    "Observed-family macro averages only families with measurements; it is not a six-family macro. Always read family counts and missing coverage.",
+    "Paired intervals use scenario-group blocks within families and are exploratory, unadjusted for multiple comparisons, and unstable with so few groups. A zero-width empirical interval does not imply certainty.",
+    "Primary completion, verified ledger-and-corpus fingerprint, full subgroup coverage, and matching membership-source hashes are required for comparative eligibility. Any hard-gate violation anywhere in a route remains disqualifying.",
+    "Changed source files are diagnostic unless an explicit reviewed amendment binds exact definition/comparison hashes. Legacy route-only amendments cannot waive baseline changes; a version-2 metadata amendment must bind both baseline and route hashes and preserve membership. Question-source changes cannot be waived.",
+    "This postprocessor reuses the preserved primary scores after checking raw outcome identity and metadata. It does not silently rescore using a later reference or rubric version.",
+    "An adjacent post-run validity notice supersedes mechanical completion/integrity eligibility. A notice with an unverified run/report binding also forces diagnostic status; it never silently repairs or replaces original scores."
+  ]
+}

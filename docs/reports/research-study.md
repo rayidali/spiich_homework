@@ -1,12 +1,14 @@
 # Evaluating AI architectures for accounting: the Daybook nine-route study
 
-**In progress — 2026-10-30, America/New_York.** The final `holdout-v1` evaluation has started: **1,620 planned route episodes**, followed by **240 planned held-out reviewer outcomes**. These are planned denominators, not completed measurements. The runtime, data, index, protocol and reviewer threshold are frozen. This document is a report scaffold while evaluation runs; it does not interpret partial outcomes, report final accuracy or select a winner.
+**Complete — 2026-10-31.** All **1,620 main trials and 240 held-out reviewer outcomes** are recorded and audited. The main and reviewer integrity audits passed 41 and 31 checks; final analysis/cost reconciliation passed 59 checks. Provider work has stopped. The original failures and recovery history are retained, and the final full data fingerprint matches the starting snapshot.
 
-The [run manifest](../evidence/research-runs/holdout-v1/manifest.json) binds the evaluated source to `fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08`. The [public pre-run freeze](../evidence/research-verifiers/verifiers-v1/verifier-freeze.json) preserves the development-selected Jev threshold of **0.8** and the reference/calibration hashes. The last development check, [smoke-v4](../evidence/research-runs/smoke-v4/README.md), completed before this freeze. Its results are development evidence, not held-out accuracy.
+**Main finding:** managed File Search has the highest observed broad score (70.6%), but only adding document access passes the predefined component-improvement screen. On the fixed common-capability subset, the existing narrow tools score 91.7% versus 75.0% for managed search. The recommendation is a controlled document-workflow experiment while preserving the existing tools, not automatic production replacement.
 
-The main run was temporarily stopped at **777/1,620** after an observed dispatcher timing gap caused three timeouts and a circuit-open stop. Its exact interruption is archived; [bounded transport recovery](../research/TRANSPORT_INCIDENT.md) is being prepared without changing the frozen inference source or retrying failed trials. The final data fingerprint is currently unavailable.
+Start with the **[16-page visual report](../evidence/research-runs/holdout-v1/study-report.pdf)**, [standalone charts and results](../evidence/research-runs/holdout-v1/report.html), and [worked failure examples](research-worked-examples.md). This narrative explains the design, findings and limits; the linked artifacts retain exact scores and provenance. All PDF pages passed bounds checks and [AI visual inspection](../evidence/research-final-pdf-visual-review.json); this is not independent human scientific review.
 
-The deployed accounting application is unchanged. Research uses synthetic data, restricted read-only financial access, and review-only entry proposals. No research route has been promoted into production chat.
+The [run manifest](../evidence/research-runs/holdout-v1/manifest.json) binds the inference source to `fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08`. The [pre-run freeze](../evidence/research-verifiers/verifiers-v1/verifier-freeze.json) preserves the development-selected Jev threshold of 0.8. The main run resumed from a preserved 777-trial interruption without replacing any recorded outcome. Its complete final fingerprint matches; the earlier unavailable check remains in the [immutable interruption archive](../evidence/research-runs/holdout-v1/interruption-01/snapshot.json). [Transport history](../research/TRANSPORT_INCIDENT.md).
+
+The deployed Daybook application is unchanged. Research uses synthetic data, restricted read-only financial access and review-only entry proposals. No experimental route has been enabled in production chat.
 
 ## Abstract
 
@@ -14,7 +16,7 @@ An accounting assistant must combine exact financial calculations with interpret
 
 The main benchmark contains 120 synthetic questions in 60 paraphrase groups across six task families. Development and held-out groups are disjoint. The held-out design evaluates 60 questions three times through each route. A separate reviewer study evaluates correct and deliberately flawed candidates against identical supplied evidence. Independent exact-decimal reference arithmetic checks financial values; document and semantic labels have not received independent human adjudication.
 
-The primary outcome is six-family macro structured task success, with errors retained in the denominator. Secondary outcomes include paired component effects, evidence coverage, unsafe acceptance, unnecessary withholding, latency, and tracked provider cost. Controls, practical-benefit thresholds, and conservative interpretation rules were fixed before held-out evaluation. **Results and the architecture recommendation remain pending complete, eligible measurements.** Development failures are preserved separately and cannot substitute for that evidence.
+The primary outcome is six-family macro structured task success, with errors retained in the denominator. Secondary outcomes include paired component effects, evidence coverage, unsafe acceptance, unnecessary withholding, latency, and tracked provider cost. Controls, practical-benefit thresholds, and conservative interpretation rules were fixed before held-out evaluation. **All held-out measurements are complete.** Managed File Search reaches 127/180 structured successes (70.6%), hybrid retrieval 118/180 (65.6%), and lexical retrieval 110/180 (61.1%). Adding lexical documents to broader tools yields a targeted +46.7-point improvement [35.0, 60.0] and is the only component meeting the declared screen. The narrower control leads the common-capability subset; reviewers reduce planted-flaw acceptance but do not meet the complete adoption criteria. Total tracked research usage is approximately $6.05, including development and retained unknown-use reservations. These results support a further document-workflow experiment, not a production correctness guarantee.
 
 ## 1. Problem and a worked example
 
@@ -172,7 +174,7 @@ A predeclared [common-capability subset](../research/COMMON_CAPABILITIES.md) con
 
 The [manifest](../evidence/research-runs/holdout-v1/manifest.json) pins **Gemini `gemini-3.5-flash-lite`** for generation and optional review, **Jev `jev-1.14.0`**, **Gemini `gemini-embedding-001` at 768 dimensions**, and the fixed threshold **0.8**. Wren core is **0.8.2** with its pinned parser. A threshold of 0.8 is an operating setting selected on development data, not “80% accuracy” or a calibrated probability that the whole answer is wrong.
 
-Route order rotates within question/repetition blocks. Bounds include a 60-second episode deadline, at most four generator calls, one reviewer call and eight logical tool calls, with separately limited retrieval operations. Gemini generation/review starts are paced by at least 4,200 ms; the research dispatcher adds its own guard. Queue and pacing waits are part of measured harness wall time. No failed scored episode is silently retried into success.
+Route order rotates within question/repetition blocks. Bounds include a 60-second episode deadline, at most four generator calls, one reviewer call and eight logical tool calls, with separately limited retrieval operations. Gemini generation/review request submission is paced by at least4,200ms; the dispatcher adds4,500ms preparation-time pacing. Actual network starts are unobserved, and tool scheduling can alter their gaps. Queue and pacing waits are part of measured harness wall time. No failed scored episode is silently retried into success.
 
 Paired differences match the same question and repetition. Main uncertainty resamples scenario groups within families, retaining paraphrases and repeats within their blocks. Reviewer differences use paired source-group blocks within correct/flawed strata. The analysis uses 2,000 deterministic-seed empirical bootstrap samples. There are only five held-out groups per family; coverage may be poor and degenerate intervals do not imply certainty. Intervals are unadjusted and descriptive, not formal significance, noninferiority or simultaneous-confidence tests. Sharing a small ledger and corpus can create dependence beyond those groups.
 
@@ -184,74 +186,183 @@ An interrupted run keeps its recorded successes, blocks and errors. Resumption m
 
 A fixed availability probe is operational recovery, not a benchmark question or reviewer judgment. Its tokens and cost belong in a separate overhead row; its success cannot improve a route's score. The original unknown-use reservations remain charged. Any dispatcher launch-guard change, recovery attempt and resumption boundary must be disclosed alongside the unchanged inference source. Route order rotation reduces some time-order bias, but a long interruption and changing provider conditions can still affect the comparison. These are harness-dependent reliability and timing measurements.
 
-## 5. Held-out results — awaiting complete measurements
+## 5. Held-out results
 
-**No final values are inserted here while the run is active.** The final report must first establish complete matching source/configuration and before/after fingerprints. Any overriding validity notice must accompany the original results. The sections below specify what to fill, not what the experiment has already found.
+Both planned matrices are complete. The main audit passed **41/41 checks** and the reviewer audit **31/31**. Source, protocol, indexes, threshold and preserved development calibration match their frozen bindings. The final ledger/corpus/vector fingerprint matches the starting snapshot. The original interruption and all failed outcomes remain intact. [Main audit](../evidence/research-holdout-final-check.json), [reviewer audit](../evidence/research-verifier-holdout-final-check.json).
+
+The main run contains **1,620 recorded trials**, including 1,333 execution-status successes, 267 withheld answers and 20 execution errors. **940 trials met the complete structured-success rubric.** A successful API call is therefore different from a successful answer. All errors remain in the primary denominator. No route recorded a defined hard-gate violation; this does not establish that every sentence was faithful or every attack was prevented.
 
 ### 5.1 Primary task success and family coverage
 
-| Route | Planned episodes | Recorded / successes | Six-family macro success [interval] | Execution errors | p95 harness time | Tracked USD per success |
-| ----- | ---------------: | -------------------- | ----------------------------------- | ---------------- | ---------------- | ----------------------- |
-| R0    |              180 | Pending              | Pending                             | Pending          | Pending          | Pending                 |
-| R1    |              180 | Pending              | Pending                             | Pending          | Pending          | Pending                 |
-| R2    |              180 | Pending              | Pending                             | Pending          | Pending          | Pending                 |
-| R3    |              180 | Pending              | Pending                             | Pending          | Pending          | Pending                 |
-| R4    |              180 | Pending              | Pending                             | Pending          | Pending          | Pending                 |
-| R5    |              180 | Pending              | Pending                             | Pending          | Pending          | Pending                 |
-| R6    |              180 | Pending              | Pending                             | Pending          | Pending          | Pending                 |
-| R7    |              180 | Pending              | Pending                             | Pending          | Pending          | Pending                 |
-| R8    |              180 | Pending              | Pending                             | Pending          | Pending          | Pending                 |
+Each route has 180 trials: 60 questions repeated three times. There are **30 scenario groups**, not 180 independent business problems. The intervals below resample those groups within families and are exploratory, unadjusted 95% intervals.
 
-_Figure 2, pending: route macro success with clustered intervals. Figure 3, pending: six-family success heatmap._ Report micro success, conditional success, actual denominators, incomplete attempts and hard-gate violations beside these figures. Display the common-capability and weight-sensitivity tables as secondary results, never as replacements for an unfavorable primary outcome.
+| Route                    | Successes / 180 | Six-family success [95% interval] | Automated /90 | Errors | p95 harness | USD per success |
+| ------------------------ | --------------: | --------------------------------- | ------------: | -----: | ----------: | --------------: |
+| R0 — Current control     |              57 | 31.7% [18.3, 45.0]                |          42.5 |      5 |       5.83s |        $0.00488 |
+| R1 — Broad tools         |              76 | 42.2% [31.7, 53.3]                |          45.9 |      1 |      10.54s |        $0.00587 |
+| R2 — Lexical documents   |             110 | 61.1% [48.9, 72.2]                |          58.8 |      1 |      11.26s |        $0.00491 |
+| R3 — Managed File Search |             127 | 70.6% [58.9, 82.2]                |          65.1 |      3 |      17.47s |        $0.00598 |
+| R4 — Custom hybrid       |             118 | 65.6% [54.4, 77.2]                |          62.2 |      1 |      14.85s |        $0.00472 |
+| R5 — Jev reranking       |             115 | 63.9% [52.2, 75.6]                |          59.9 |      0 |      14.35s |        $0.00498 |
+| R6 — Wren analytics      |             109 | 60.6% [48.9, 72.2]                |          57.1 |      5 |      14.84s |        $0.00485 |
+| R7 — LLM verifier        |             113 | 62.8% [51.7, 74.4]                |          59.3 |      3 |      18.28s |        $0.00565 |
+| R8 — Jev verifier        |             115 | 63.9% [52.8, 75.6]                |          61.0 |      1 |      15.72s |        $0.00493 |
 
-### 5.2 Paired component effects
+**Managed File Search has the highest observed broad score, but the existing control is strongest on the predefined common-capability subset.** R3 answered 127/180 broad tasks successfully; R0 answered 57/180. The broad benchmark includes document and analytical questions that R0 cannot answer through its existing four tools. Its 31.7% result must not be described as the accuracy of Daybook's accounting engine or of questions within its supported scope.
 
-_Figure 4 and decision table, pending:_ H1–H7 targeted effects, their full-benchmark effects, separate entry/adversarial effects, paired episode/group counts and intervals. The fixed comparison mapping is in Section 3. The final table must separate **point gain at least +5 percentage points** from **uncertainty resolved enough to justify another experiment**.
+On the fixed 12-question common-capability subset, covering six financial/entry groups, **R0 passed 33/36 trials (91.7%)**, versus **27/36 (75.0%) for R3** and **26/36 (72.2%) for R4**. R0's other three trials were execution errors. This secondary subset does not replace the primary objective, but it is a material warning against wholesale replacement of reliable narrow tools. Its small-sample intervals are especially uncertain. [Common-capability results](../evidence/research-runs/holdout-v1/common-capabilities/report.md).
 
-Prespecified candidate language is deliberately conservative. Query/retrieval candidates require the +5-point targeted benefit, an available interval with no negative lower bound, valid measurement and no treatment/control hard gate. An interval spanning harm and useful benefit is inconclusive. These are interpretation screens, not significance tests. See the [complete decision rules](../research/PRE_HOLDOUT_REVIEW.md#external-decision-supplement-and-conservative-uncertainty-rules).
+![Predefined common-capability subset](../evidence/research-runs/holdout-v1/common-capabilities/success.svg)
 
-For every contrast, show additional successful tasks, model calls, tracked cost, recorded error rate and p95 harness latency. A gain that costs more time or maintenance must remain visible as a tradeoff. Observed Pareto dominance is descriptive and uses both overall/targeted quality and operational measures; it does not establish population superiority.
+Family results explain the broad coverage difference:
+
+| Family, 30 trials per route | R0 control | R2 lexical | R3 managed | R4 hybrid | Implication                                                                            |
+| --------------------------- | ---------: | ---------: | ---------: | --------: | -------------------------------------------------------------------------------------- |
+| Financial                   |      18/30 |      19/30 |      22/30 |     21/30 | Broader routes still lose some valid answers to scope/contract checks.                 |
+| Analytics                   |       0/30 |      12/30 |      16/30 |     13/30 | New tools enable some previously unavailable work; complex analysis remains imperfect. |
+| Documents                   |       0/30 |      23/30 |      27/30 |     24/30 | Supplying missing documentary evidence provides a substantial capability gain.         |
+| Scenarios                   |       6/30 |      10/30 |      12/30 |     11/30 | Retrieval alone does not solve assumption-heavy planning.                              |
+| Entry proposals             |      21/30 |      25/30 |      27/30 |     27/30 | Proposed accounts, amounts and behavior are checked; models never post entries.        |
+| Adversarial                 |      12/30 |      21/30 |      23/30 |     22/30 | These are structured responses to this synthetic set, not a universal security score.  |
+
+Across all nine routes, scenario success ranges from **5/30 to 13/30**. Even the highest broad-scoring configuration passes only 12/30 scenario trials. The hiring walkthrough describes the intended evidence flow; it does not imply that complex financial planning is solved.
+
+The [16-page visual report](../evidence/research-runs/holdout-v1/study-report.pdf) contains the primary interval chart and full nine-route family heatmap. The [standalone HTML](../evidence/research-runs/holdout-v1/report.html) and [raw results](../evidence/research-runs/holdout-v1/results.json) retain all denominators and scores.
+
+### 5.2 Prespecified component effects
+
+The decision rules use fixed targeted families, rather than choosing whichever whole-benchmark contrast looks favorable. Query/retrieval candidates require at least a +5-percentage-point targeted gain, a nonnegative interval lower bound, complete valid measurements and no recorded hard gate. Each non-reviewer comparison below contains **60 paired trials in ten groups**. Reviewer route comparisons contain 180 pairs in 30 groups and also require the separate stress-test criterion.
+
+| Hypothesis | Comparison and target                                | Targeted difference [95% interval], percentage points | Declared interpretation              |
+| ---------- | ---------------------------------------------------- | ----------------------------------------------------: | ------------------------------------ |
+| H1         | Broad tools − control; financial/analytics           |                                  +18.3 [−11.7, +50.0] | Inconclusive                         |
+| H2         | Lexical documents − broad tools; documents/scenarios |                              **+46.7 [+35.0, +60.0]** | **Candidate for further experiment** |
+| H3a        | Managed search − lexical; documents/scenarios        |                                   +10.0 [−5.0, +23.3] | Inconclusive                         |
+| H3b        | Managed search − hybrid; documents/scenarios         |                                    +6.7 [−1.7, +16.7] | Inconclusive                         |
+| H4         | Hybrid − lexical; documents/scenarios                |                                    +3.3 [−3.3, +10.0] | Inconclusive                         |
+| H5         | Jev reranking − hybrid; documents/scenarios          |                                     −1.7 [−6.7, +3.3] | Below practical target               |
+| H6         | Wren − custom analytics; financial/analytics         |                                   −20.0 [−41.7, −3.3] | Below practical target               |
+| H7a        | Gemini reviewer − hybrid; all families               |                                     −2.8 [−6.1, +0.6] | Inconclusive                         |
+| H7b        | Jev reviewer − hybrid; all families                  |                                     −1.7 [−5.6, +1.7] | Inconclusive                         |
+
+![Prespecified targeted component effects](../evidence/research-runs/holdout-v1/decisions/targeted-effects.svg)
+
+**Only H2 passes the declared component screen.** R3's highest observed score remains useful descriptive evidence, but its targeted advantages over lexical/hybrid retrieval include possible harm in their intervals. The study does not establish that managed search is generally superior. Likewise, the negative Wren result describes this pinned engine, planner and bounded scope adapter; it is not a verdict on all Wren applications.
+
+Tradeoffs remain visible. Across 180 trials, R3 versus R2 gains 17 structured successes, adds 110 provider records and about $0.21903 tracked cost, and adds 6.215 seconds to the paced-harness p95. R4 versus R2 gains eight successes and adds 110 records, about $0.01704 and 3.597 seconds. R5 versus R4 loses three successes while adding 107 records; R7 loses five while adding 116. These are observed route comparisons, not token-matched or identical-candidate ablations. [Complete decisions and tradeoffs](../evidence/research-runs/holdout-v1/decisions/report.md).
 
 ### 5.3 Reviewer stress results
 
-| Method / policy             |                 Planned method outcomes | Accepted flawed / flawed cases | Withheld correct / correct cases | Provider errors          | Conditional paired semantic result |
-| --------------------------- | --------------------------------------: | ------------------------------ | -------------------------------- | ------------------------ | ---------------------------------- |
-| Deterministic stress checks |                                      80 | Pending                        | Pending                          | Pending                  | Control                            |
-| Gemini reviewer alone       |                                      80 | Pending                        | Pending                          | Pending                  | Pending                            |
-| Jev reviewer alone          |                                      80 | Pending                        | Pending                          | Pending                  | Pending                            |
-| Deterministic AND Gemini    | Derived from the same recorded outcomes | Pending                        | Pending                          | Same underlying requests | Pending                            |
-| Deterministic AND Jev       | Derived from the same recorded outcomes | Pending                        | Pending                          | Same underlying requests | Pending                            |
+All **80 candidates × three methods = 240 outcomes** were recorded, with **zero execution errors**. Each method saw the same visible candidate/evidence inputs. The expected labels stayed evaluator-side, and Jev's threshold remained **0.8**.
 
-_Figure 5, pending: false-acceptance and correct-withholding rates, with paired differences and uncertainty._ Artificially flawed candidates are a stress test; their prevalence is not real-user prevalence. The limited deterministic stress checker is not the entire accounting engine or complete answer validator.
+| Method / policy              | Accepted flawed candidates, out of 40 | Withheld correct candidates, out of 40 |
+| ---------------------------- | ------------------------------------: | -------------------------------------: |
+| Deterministic stress checker |                            28 (70.0%) |                               0 (0.0%) |
+| Gemini reviewer alone        |                             9 (22.5%) |                               1 (2.5%) |
+| Jev reviewer alone           |                            12 (30.0%) |                              5 (12.5%) |
+| Deterministic AND Gemini     |                             7 (17.5%) |                               1 (2.5%) |
+| Deterministic AND Jev        |                             6 (15.0%) |                              5 (12.5%) |
 
-The candidate reviewer policy must lower operational acceptance of flawed candidates while adding no more than +5 points of withholding on correct candidates. The conservative uncertainty screen additionally requires a false-acceptance-difference interval with upper bound below zero, a correct-withholding-difference interval with upper bound at most +5 points, and observed improvement among successful request pairs. A timeout that withholds an answer is operational protection, not semantic detection. R7/R8 also need nonnegative end-to-end task-success evidence versus R4; stress performance alone cannot qualify a product change.
+The two combined policies are derived from the same recorded decisions; they are not another 160 model calls. Because there were no request errors, conditional and operational rates coincide here. The deterministic stress checker intentionally covers fewer semantic problems than the full accounting engine and answer validator. Its 70% missed-flaw rate must not be presented as a production accounting failure rate.
 
-### 5.4 Retrieval and failure analysis
+Adding Gemini to that checker reduces flawed acceptance by **52.5 points [−68.4, −35.0]**, but adds **2.5 points [0.0, 7.9]** of correct-answer withholding. The upper bound exceeds the declared +5-point limit, so the reviewer criterion remains **inconclusive**. Adding Jev reduces flawed acceptance by **55.0 points [−73.2, −35.7]**, but withholds **12.5 points [0.0, 31.6]** more correct answers, missing the practical limit. Both main reviewer routes also have negative whole-benchmark point effects versus R4.
 
-_Retrieval table and Figure 6, pending:_ recall@6, mean reciprocal rank and nDCG where ranked results and required-document labels are actually observable; separate end-to-end document availability. R3 exposes citation-selected source coverage, while its raw passage rank metrics remain **unavailable**. Unknown retrieval stages after errors are not imputed as empty searches or zero recall. Conditional retrieval performance and all-attempt evidence availability use different denominators and must be labeled accordingly.
+The original generated report's phrase “5pp false-rejection constraint satisfied” refers to **development threshold selection**, not held-out performance. Jev's held-out 12.5% withholding exceeds that limit. We preserve the frozen threshold and the original report rather than tune it after observing these results.
 
-_Failure table, pending:_ numerical mistakes, metric-key/schema mismatches, missing/obsolete evidence, unsupported scopes or calculation inputs, omitted assumptions, unnecessary withholding, actual hard gates, and infrastructure/provider failures. Observed categories may overlap; they are not automatically causal diagnoses. Include matched examples that show both what code catches and where a reviewer fails. Do not label every protocol mismatch a financial hallucination, or a structured success as verified prose.
+These results support measuring a reviewer as a fallible filter, not treating its approval as proof. The stress pack contains 50% deliberately flawed cases and synthetic labels, so these rates are not estimates of real-user error prevalence. [Held-out reviewer report](../evidence/research-verifiers/verifiers-v1/holdout-report.md), [paired decision criteria](../evidence/research-runs/holdout-v1/decisions/report.md#reviewer-criterion).
+
+### 5.4 Retrieval, failures and worked traces
+
+The document-applicable set contains 22 questions in 11 groups, or **66 trials per route**. Conditional retrieval metrics use only observed completed retrievals; delivery availability uses all 66 applicable trials, including blocks and errors.
+
+| Route            | Completed retrievals /66 | Conditional recall@6 |       MRR@6 | Released results with all required documents /66 |
+| ---------------- | -----------------------: | -------------------: | ----------: | -----------------------------------------------: |
+| R2 lexical       |                       63 |               100.0% |       0.976 |                                       42 (63.6%) |
+| R3 managed       |                       61 |          Unavailable | Unavailable |                                       45 (68.2%) |
+| R4 hybrid        |                       61 |                98.4% |       0.975 |                                       42 (63.6%) |
+| R5 reranking     |                       63 |                98.4% |       1.000 |                                       44 (66.7%) |
+| R6 Wren          |                       62 |                99.2% |       0.992 |                                       47 (71.2%) |
+| R7 Gemini review |                       59 |                99.2% |       0.992 |                                       43 (65.2%) |
+| R8 Jev review    |                       63 |                98.4% |       0.992 |                                       45 (68.2%) |
+
+R3's conditional **citation-selected document coverage is 97.5%**. That is a different observable from raw passage recall or ranking: the managed service does not expose those ranks. R0 and R1 have no document-retrieval capability and no conditional retrieval score. Their end-to-end required-document availability is zero.
+
+High retrieval recall coexists with much lower task success. Finding a source is only one stage: the answer must also use the correct scope, metric, assumptions and evidence bindings. R5's perfect observed MRR does not produce a better overall task-success score than R4. Conditional samples differ, and R4/R5 independently plan retrieval queries, so this is not proof of a reranker effect on identical cached candidates. Across document-capable routes, 23 applicable trials skipped retrieval, seven had an unknown retrieval stage, and 11 observed retrievals missed at least one required source. Unknown stages were not imputed as zero recall.
+
+![Retrieval and released-evidence coverage](../evidence/research-runs/holdout-v1/supplemental/retrieval.svg)
+
+The 267 withheld answers comprise **262 deterministic rejections and five semantic-review rejections**. They are not all proven avoided hallucinations. The failure labels overlap: 540 required-fact mismatches, 446 wrong behaviors, 420 missing-ledger-provenance checks, 219 missing-assumption checks and 120 metric-key mismatches. Eight trials receive the narrow numeric-value-mismatch diagnostic, but missing or withheld facts often never reach that diagnostic. “Only eight numerical mistakes” would therefore be misleading.
+
+The 20 execution errors comprise ten response-contract failures, three Wren plan rejections, three inception-range rejections, three transport timeouts and one circuit-open stop. The last four are the preserved interruption outcomes. The original taxonomy remains unchanged; the inception-range errors are reported under its generic unclassified operational category.
+
+Two traceable examples show why these distinctions matter:
+
+1. **Correct sum, unsupported aggregate identity.** For the October-end cash question, R0 returns **$174,450** from its cash tool. In the same question/repeat, R3 obtains **$173,570 + $880 = $174,450**, but its combined account-identity string fails the current scope contract. The broader route withholds a numerically correct total. This is a conservative usability limitation, not a failed sum or a demonstrated benefit of refusal.
+2. **Correct headline calculation, problematic extra facts and qualifiers.** R5 retrieves the reserve policy and calculates **($174,450 − $50,000) ÷ $18,365 = 6.78 months**. It also labels the $50,000 minimum reserve as a remaining buffer, assigns incompatible date qualifiers to the calculation, and omits one required structured assumption tag. The validator withholds the answer. The released-answer scorer then sees empty evidence; that must not be paraphrased as a retrieval miss.
+
+The [worked examples](research-worked-examples.md) retain exact episode IDs, candidate versus released outputs, reference expectations and code-supported mechanisms. They were selected after the complete run as illustrations, not as a new prevalence estimate or counterfactual repair experiment. [Full retrieval, timing and failure supplement](../evidence/research-runs/holdout-v1/supplemental/index.html).
 
 ### 5.5 Latency, cost and implementation burden
 
-_Figure 7, pending: p50/p95 paced-harness wall time and separately labeled provider HTTP duration sums. Figure 8, pending: quality versus tracked cost._ Report timing completeness: known full HTTP sums, measured partial sums, missing timing and no-provider-call cases. Legacy missing-duration values must not become measured zeros. Show all-attempt and non-error timing distributions separately. These sequential harness measurements are not production or concurrent-user latency.
+The earlier primary table reports **paced-harness wall time**. Measured provider HTTP sums are separate:
 
-Final costs must distinguish scored route calls, reviewer calls, first-time setup/indexing, historical debugging/reindexing, operational recovery probes, and interrupted requests without a completed episode. Report configured-rate usage estimates and unknown-use reservations separately. Tracked amounts are neither invoices nor verified account balances. Show cost per attempted and successful task with explicit denominators; zero successes do not imply zero cost per success. The primary report's route/setup/unassigned categories do not include the separately named recovery-probe records: reconcile those from the usage ledger and recovery receipts, rather than describe route totals as the whole project's spending.
+| Route | Harness p50 / p95 | Complete provider HTTP-sum p50 / p95 | Trials with complete HTTP timing |
+| ----- | ----------------- | ------------------------------------ | -------------------------------: |
+| R0    | 4.48s / 5.83s     | 1.42s / 2.74s                        |                          179/180 |
+| R1    | 8.93s / 10.54s    | 2.75s / 4.59s                        |                          179/180 |
+| R2    | 9.30s / 11.26s    | 2.89s / 5.19s                        |                          179/180 |
+| R3    | 13.53s / 17.47s   | 6.64s / 10.82s                       |                          180/180 |
+| R4    | 13.30s / 14.85s   | 3.12s / 4.78s                        |                          180/180 |
+| R5    | 13.59s / 14.35s   | 3.27s / 5.01s                        |                          180/180 |
+| R6    | 9.61s / 14.84s    | 2.81s / 4.51s                        |                          180/180 |
+| R7    | 13.99s / 18.28s   | 4.00s / 5.91s                        |                          179/180 |
+| R8    | 13.85s / 15.72s   | 3.24s / 4.94s                        |                          180/180 |
 
-The operational-complexity table must describe what would have to be maintained: typed analytical contracts, source/version management, embeddings and vector indexes, a managed search store, another provider integration, the pinned Wren engine/Python runtime and semantic model, or reviewer settings. No invented engineering-hour score is needed. R6 replaces the analytical backend; it does not run both compilers for each answer.
+There are 1,616 complete HTTP-time totals, three unknown totals and one no-provider-call trial. Unknown durations are not measured zeros. The supplement separately reports non-error distributions. Neither timing measure establishes production latency, concurrent throughput or million-user capacity. Actual network-start spacing was not observed; the recorded pacing gates apply to preparation/submission.
 
-## 6. Discussion and architecture decision — pending
+R3 has longer provider-time sums and costs more than R4 despite similar paced wall medians. R4 has the smallest observed tracked cost per structured success, **$0.00472**, versus **$0.00598 for R3**. That ratio depends on this task mix and uncertain success counts; it excludes engineering labor, hosting and product traffic.
 
-**Current decision: keep the deployed application unchanged while the complete study is evaluated.** There is no final ranking, retained-component claim or automatic deployment recommendation.
+The full research ledger contains **5,271 records**. Exact addition of their stored serialized values gives approximately **$5.62066 reported-use estimates + $0.42994 retained unknown reservations = $6.05060 tracked**:
 
-The final discussion will answer four questions using the complete tables above:
+| Phase                                | Usage records | Tracked USD, rounded |
+| ------------------------------------ | ------------: | -------------------: |
+| Main held-out routes                 |         3,881 |            $4.887828 |
+| Held-out reviewer calls              |           160 |            $0.030792 |
+| Reviewer development                 |           160 |            $0.053535 |
+| Development pilots and smokes        |           758 |            $0.990759 |
+| Indexing and preflight               |           308 |            $0.085487 |
+| Four operational recovery categories |             4 |            $0.002202 |
+| **All recorded research**            |     **5,271** |        **$6.050603** |
 
-1. Which additional capabilities improved their predefined task families, and what happened to whole-benchmark success and adversarial/entry behavior?
-2. Were improvements large enough for the declared five-point target, and did uncertainty leave plausible harm unresolved?
-3. Did reviewers prevent flawed acceptance while preserving correct answers, including actual end-to-end completion rather than only the artificial stress set?
-4. Which remaining tradeoffs justify another product experiment after considering errors, latency, cost and maintenance?
+These are alternative phase partitions, not additional costs to add to route totals again. The original 841-record baseline accounts for about **$0.778564**; the 4,430-record continuation suffix accounts for **$5.272039**. Its provider totals are **$5.23873405 Gemini / $0.033304824 Jev**, below the authorized additional $6.40/$0.10 caps. The whole ledger totals about **$6.0101104 Gemini / $0.040492368 Jev**.
 
-A favorable configuration can become a **candidate for further experiment**. The small synthetic study does not justify an unconditional production-reliability claim. Gains below the target or inconclusive evidence favor fewer services. Combining separate favorable components would create an unmeasured configuration and requires its own experiment.
+All **804 unknown-cost records** retain their reservations. In the main run specifically, 502 successful embedding responses lack usage metadata and three generation records lack a recorded HTTP status. Missing cost metadata is therefore not synonymous with a failed API call. A reservation is not proof of network dispatch, and neither estimates nor reservations are a provider invoice or an independently verified account balance. The ledger also excludes production traffic and unrecorded external services. [Exact cost reconciliation](../evidence/research-final-costs/cost-reconciliation.md), [sanitized usage snapshot](../evidence/research-final-costs/all-study-usage.json), [59-check final analysis audit](../evidence/research-final-analysis-check.json).
+
+Operational burden is qualitative, not an invented engineering-hours score. Lexical retrieval needs authorized ingestion and document/version management. Managed search adds store permissions and citation resolution. Hybrid search adds embedding versions, vector indexes and fusion. Jev adds a provider contract and limits. Wren adds a pinned engine, semantic model and bounded SQL provenance. Reviewers add evidence contracts and threshold/prompt maintenance. [Detailed maintenance table](../evidence/research-runs/holdout-v1/decisions/report.md#operational-complexity).
+
+### 5.6 Fixed-weight sensitivity
+
+All five predeclared automated /90 dashboards retain R3 first and R4 second; R8, R5, R7, R2 and R6 retain third through seventh positions. R0 and R1 exchange eighth/ninth positions under some weights. This is descriptive robustness of those dashboards, not five independent replications, human clarity measurement, or a replacement for binary task success. No weighting was selected after seeing the results. [Full sensitivity table](../evidence/research-runs/holdout-v1/sensitivity/report.md).
+
+## 6. Discussion and architecture decision
+
+**Keep the deployed accounting application unchanged. Treat authorized document access as the clearest candidate for the next product experiment, with lexical retrieval as the simplest tested addition.** Preserve the existing narrow financial tools while investigating broader workflows. A router combining R0 with a document-capable route would be a new, unmeasured configuration; this study does not claim it has been tested.
+
+| Component                   | Evidence-to-decision interpretation                                                                                                                                           |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Broader typed analytics     | Enables some previously unavailable tasks, but H1 remains uncertain and familiar tasks regress. Improve scope representation and clarification before replacing narrow tools. |
+| Lexical document access     | H2 meets the fixed benefit/uncertainty screen. It is the supported candidate for a controlled document workflow experiment.                                                   |
+| Managed File Search         | Highest observed broad score; targeted superiority over lexical/hybrid remains inconclusive and calls cost more. Retain it as a useful alternative for a larger comparison.   |
+| Embeddings and pgvector     | High retrieval recall, but H4 does not establish the required additional task benefit. The present evidence does not require adding vector infrastructure.                    |
+| Jev reranking               | Below the practical target despite good retrieved-document ranking. Extra calls did not improve end-to-end success here.                                                      |
+| Wren analytics              | Below the practical target in this bounded integration, especially on financial queries. Do not infer a limitation of every Wren implementation.                              |
+| Gemini or Jev answer review | Both reduce accepted planted flaws, but withholding/end-to-end criteria remain unresolved or fail. Do not enable either as a universal blocking layer on this evidence.       |
+
+This answers the original architecture question without assuming that a provider-managed service or a larger component list is automatically correct. **PostgreSQL and deterministic code still establish the books and calculations. Retrieval supplies documentary context. Models interpret requests and draft answers.** Managed File Search is an alternative retrieval implementation; it does not replace database truth. A second model is another fallible check, and pgvector is useful only when its added retrieval capability justifies its cost and maintenance.
+
+The most useful next experiment would address the observed scope and output-contract limitations, preserve the common-capability cases as regression tests, and test a realistic task mix with independent human review of references and final prose. Document permissions, version handling and evidence display must remain explicit. A prospective router or repaired scope validator needs a new version and evaluation; this completed holdout must not be reused as an untouched test set after its failures guide development.
+
+The practical recommendation is deliberately narrower than “R3 wins.” R3 has the largest observed broad score; **only adding document access passes the predeclared component screen**, and the control's stronger common-capability result argues for preserving useful specialization. No experimental route was deployed automatically, and this small synthetic study does not establish production financial accuracy or million-user readiness.
 
 ## 7. Limitations
 
@@ -275,9 +386,9 @@ A favorable configuration can become a **candidate for further experiment**. The
 >
 > “I compared components separately using shared controls and held-out scenario groups. I measure both escaped mistakes and correct answers that get blocked, keep provider failures in the record, and show uncertainty, cost and latency. A second agent is another fallible check, not a guarantee.
 >
-> “At this checkpoint the held-out evaluation is running. I will only claim a component is worth another experiment if the completed evidence supports it. I am not claiming production-scale reliability from a small synthetic benchmark.”
+> “The completed study showed that document access helps broader questions, while the existing narrow tools remain stronger on familiar tasks. Managed File Search had the highest broad score, but its targeted advantage over simpler retrieval remained uncertain. Only document access passed my preset improvement screen. I would test that extension next, preserve the useful existing tools, and keep the production system unchanged until that new experiment is validated.”
 
-Replace the last paragraph with the actual supported final conclusion only after Section 6 is complete. The explanation should be rehearsable without memorizing implementation names: **database for the books, retrieval for documents, calculator for math, model for interpretation, and measured checks before release.**
+The explanation should be rehearsable without memorizing implementation names: **database for the books, retrieval for documents, calculator for math, model for interpretation, and measured checks before release.**
 
 ## Appendix A. Development history and diagnostic evidence
 
@@ -321,11 +432,11 @@ The [active protocol](../PLAN.md), [core review](../research/CORE_REVIEW.md), [s
 
 The active additional tracked allowance is **$6.40 Gemini / $0.10 Jev**, within cumulative **$10 / $4** ceilings. Historical records, failed-request reservations, the consumed one-probe policy and its parent policy history are retained. The user reported funding; this is not an independently verified account balance or billing tier. The old managed store was inaccessible to the replacement key, so the same 39 authorized documents were indexed in a new store while existing vectors were retained. Key availability, resource access and model quality are separate checks. Details are in [quota and policy recovery](../research/QUOTA_RECOVERY.md), [funded indexing](../evidence/research-funded-index-ready.json), and [funded fixture verification](../evidence/research-funded-fixture-check.json).
 
-Final reporting should attach the original route/reviewer results, raw outcomes and per-call usage; manifests and before/after fingerprints; common-capability, sensitivity, retrieval/timing/failure and decision supplements; and a printable PDF. Every supplement must retain the primary run ID and input/analyzer hashes, with any validity notice. Final values and conclusions belong in Sections 5–6; historical diagnostic evidence remains intact.
+The evidence bundle includes the original route/reviewer results, raw outcomes and usage; manifests and before/after fingerprints; common-capability, sensitivity, retrieval/timing/failure and decision supplements; exact all-study cost reconciliation; and the 16-page PDF. Every supplement retains its input/analyzer bindings. The [final analysis audit](../evidence/research-final-analysis-check.json) reconciles these artifacts; historical diagnostic evidence remains intact.
 
 ## Appendix D. Final report assembly checklist
 
-This checklist concerns reporting, not additional experiments, tuning or a new scoring rule. The command sequence is in [reproduction instructions](../research/REPRODUCE.md#6-produce-the-final-analyses-and-printable-report). Until all applicable checks pass, keep the status incomplete and the final recommendation pending.
+This checklist concerns reporting, not additional experiments, tuning or a new scoring rule. The command sequence is in [reproduction instructions](../research/REPRODUCE.md#6-produce-the-final-analyses-and-printable-report). The measurement, analysis and report checks below are complete, with receipts linked in this document. Source/ZIP publication verification is recorded in the [checkpoint](../../CHECKPOINT.md).
 
 | Deliverable                      | Source to reconcile after both runs                                                                                        | Required presentation                                                                                                                                                                                                   |
 | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -338,4 +449,4 @@ This checklist concerns reporting, not additional experiments, tuning or a new s
 
 Check provenance before copying a number into the narrative. The common-capability, sensitivity and decision supplements bind the primary report hash; the decision supplement also binds the reviewer results and raw outcomes. The retrieval/timing supplement instead records its episode-file and usage-file hashes, so verify those against the same final run snapshot explicitly. The PDF must use the **held-out** reviewer input, not the development calibration report. Its hashes and automated page-bound checks support reproducibility; they do not constitute independent human scientific review.
 
-Finish the discussion with a small evidence-to-decision table: the component, its fixed comparison, measured benefit and interval, added cost/time/maintenance, applicable limits, and the resulting candidate or inconclusive status. Include an unfavorable or inconclusive result just as visibly as a favorable one. Do not combine individually promising components into an untested “best” route or replace the primary metric with whichever secondary table looks strongest.
+Section 6 provides an evidence-to-decision table covering the component, its fixed comparison, measured benefit and interval, added cost/time/maintenance, applicable limits, and the resulting candidate or inconclusive status. Include an unfavorable or inconclusive result just as visibly as a favorable one. Do not combine individually promising components into an untested “best” route or replace the primary metric with whichever secondary table looks strongest.

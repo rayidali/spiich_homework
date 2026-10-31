@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-31T07:51:09.774528+00:00",
+  "pdf": "docs/evidence/research-runs/holdout-v1/study-report.pdf",
+  "pdfSha256": "ce197068fb0bc16e3e9ceeb337bbc108b5cc448105d16a4f4a97ce746e03c801",
+  "pdfPageCount": 16,
+  "renderedPageCount": 16,
+  "inspectedPages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+  ],
+  "inspectionType": "AI visual inspection of every actual rendered page using the local image viewer.",
+  "independentHumanReview": false,
+  "providerApiCalls": 0,
+  "scope": [
+    "Text legibility and hierarchy.",
+    "Table layout, labels, chart axes and legends.",
+    "Clipping, overlapping text and unintended empty pages.",
+    "Visible treatment of descriptive ranking, unavailable metrics, shared-control counterpoint and reviewer tradeoffs."
+  ],
+  "result": "clear_no_material_visual_defect_found",
+  "blockingFindings": [],
+  "nonblockingObservations": [
+    "Pages 8, 9 and 15 are dense but all text remains visible; small table labels benefit from normal PDF zoom.",
+    "Several short section pages leave generous whitespace, but none is an unintended empty page or missing section."
+  ],
+  "presentationChecks": {
+    "rawRankingIsDescriptiveRatherThanProductionWinner": true,
+    "managedRetrievalRawRankingMetricsRemainNA": true,
+    "commonCapabilityBaselineCounterpointVisible": true,
+    "reviewerFalseAcceptanceAndFalseRejectionBothShown": true,
+    "humanClarityDimensionNotImputed": true,
+    "productionLatencyAndMillionUserClaimsDisclaimed": true
+  },
+  "pages": [
+    {
+      "page": 1,
+      "renderSha256": "3660d7626d8c7632545bba12507ad269ab47ca67d928c59ffc7c14ec2ff8a6f9",
+      "widthPx": 774,
+      "heightPx": 1095,
+      "inspected": true,
+      "observation": "Title, completion status, measured scope table and reading instructions are clear. Human readability remains unevaluated; no total score out of 100 is invented."
+    },
+    {
+      "page": 2,
+      "renderSha256": "fc84e4c7d693ea8ddd1d372087b466ecfa926736dc168de5772abcde95e08d6a",
+      "widthPx": 774,
+      "heightPx": 1095,
+      "inspected": true,
+      "observation": "Nine-route architecture table is readable. Same-model reviewer dependence, restricted Wren scope, managed-retrieval limits and retained failures are stated."
+    },
+    {
+      "page": 3,
+      "renderSha256": "f5a7025e77e74a222d1dcc9b527ebc1c1cf1208e9bde2c824d430bd4f004f133",
+      "widthPx": 774,
+      "heightPx": 1095,
+      "inspected": true,
+      "observation": "All nine rows and numeric columns fit. Routes remain in declared order; full benchmark success, errors and score out of 90 are legible."
+    },
+    {
+      "page": 4,
+      "renderSha256": "74ad1710b567dd3f985cb5a946fd907b68a2381cbd0e2444eede4093e5dcaa33",
+      "widthPx": 774,
+      "heightPx": 1095,
+      "inspected": true,
+      "observation": "Success bars, uncertainty whiskers, axis labels and per-family heatmap are readable. Cell denominators are shown; no label collision found."
+    },
+    {
+      "page": 5,
+      "renderSha256": "5077f050322f8b978b62edf23bd13fe42a380617471218819c722e940478c6e2",
+      "widthPx": 774,
+      "heightPx": 1095,
+      "inspected": true,
+      "observation": "Cost/success scatter labels and leader lines distinguish the nearby routes. Latency bars and p50/p95 labels fit; harness pacing is disclosed."
+    },
+    {
+      "page": 6,
+      "renderSha256": "c8e8420e8257c7033885adf2ac4f19580c9a8f35280ac3ea887aa4f13523d1fb",
+      "widthPx": 774,
+      "heightPx": 1095,
+      "inspected": true,
+      "observation": "Dense 18-row latency table fits without clipping. Complete/partial/unknown/no-call distinctions and N/A values are visible."
+    },
+    {
+      "page": 7,
+      "renderSha256": "27c4dd490cf341ad23381e1627335196d9692f0042f386f3704d39201eafbc37",
+      "widthPx": 774,
+      "heightPx": 1095,
+      "inspected": true,
+      "observation": "Paired-effect intervals and cost/unknown-reservation tables fit. Exploratory-contrast and paid-equivalent cost caveats are readable."
+    },
+    {
+      "page": 8,
+      "renderSha256": "5506599c37e2cc878c7bb232a3a462c21ed0d972d776e34ab3a9f8f0e1f1d44c",
+      "widthPx": 774,
+      "heightPx": 1095,
+      "inspected": true,
+      "observation": "Reviewer error bars and all three methods fit. False acceptance and false rejection are clearly distinguished. The dense lower explanatory text remains within the page."
+    },
+    {
+      "page": 9,
+      "renderSha256": "1f988137fab33f2c8b3c10aa00de0e5b33d19bb6d8e9cf86dfd65ca05f33efb0",
+      "widthPx": 774,
+      "heightPx": 1095,
+      "inspected": true,
+      "observation": "Managed-search raw-rank metrics remain N/A while selected-document coverage is reported. Failure-condition labels and counts fit; dense footnotes remain readable."
+    },
+    {
+      "page": 10,
+      "renderSha256": "a68ccdb1a4df9ebea5937c3ad67b0230bfb967dbdb324c264e3eaf2ee5056b8d",
+      "widthPx": 774,
+      "heightPx": 1095,
+      "inspected": true,
+      "observation": "The shared-capability control counterpoint is explicit: R0 leads this small financial/entry subset. Its limited group count and secondary status are clearly stated."
+    },
+    {
+      "page": 11,
+      "renderSha256": "6ab8c7beb0e946f5b99a957524d4379a6a36e3179b8c77a6fed1d7b2fbcc9cb0",
+      "widthPx": 774,
+      "heightPx": 1095,
+      "inspected": true,
+      "observation": "Five fixed-weight score columns, rank ranges and declared weights fit. No human score is imputed and stable rank is not called statistical superiority."
+    },
+    {
+      "page": 12,
+      "renderSha256": "69a5075cc64d5a58f6c47e39c96c18c8c5a16e21dd58197c300ee50e91d0393f",
+      "widthPx": 774,
+      "heightPx": 1095,
+      "inspected": true,
+      "observation": "Targeted paired-effect plot has readable labels, intervals, zero line and the +5 percentage-point practical target. The comparison scope is described."
+    },
+    {
+      "page": 13,
+      "renderSha256": "2a83bcd8a08b8f391a45825a4381b9f0d9fb97df0f2c4e1f121d298014f9c36b",
+      "widthPx": 774,
+      "heightPx": 1095,
+      "inspected": true,
+      "observation": "Component decisions and reviewer tradeoff tables fit with clear wrapped target-family cells. Inconclusive and below-practical-target assessments are visible."
+    },
+    {
+      "page": 14,
+      "renderSha256": "7003f94dabc36fca1db69477e2845f97223497ee6ee74052008e4bf9ac1dba04",
+      "widthPx": 774,
+      "heightPx": 1095,
+      "inspected": true,
+      "observation": "Configuration responsibilities and observed tradeoff tables are legible. There is no invented complexity score or claimed production winner."
+    },
+    {
+      "page": 15,
+      "renderSha256": "fb1c0ca259a3258a233013779d2606ebbb6a758fdda43caf7650bd31db815cc1",
+      "widthPx": 774,
+      "heightPx": 1095,
+      "inspected": true,
+      "observation": "All 23 limitation items are visible and readable, including prose-faithfulness, synthetic-data, reviewer-correlation and latency limits. The page is dense but not clipped."
+    },
+    {
+      "page": 16,
+      "renderSha256": "49a02adbb24c625dfdf9b2309019f95a07e732bb69b65ea74922f8cae6ab72be",
+      "widthPx": 774,
+      "heightPx": 1095,
+      "inspected": true,
+      "observation": "Provenance hashes, source explanation and wrapped reproduction command remain visible within the margins. Vector/source provenance and snapshot binding are stated."
+    }
+  ],
+  "limits": [
+    "This is AI visual inspection, not independent human readability scoring or expert financial review.",
+    "The review checks visible presentation; it does not independently recompute study results or establish statistical validity."
+  ],
+  "pdfChangedDuringReview": false
+}

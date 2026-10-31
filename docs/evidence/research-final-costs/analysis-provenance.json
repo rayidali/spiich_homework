@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-10-31T07:46:46.064Z",
+  "recordCount": 5271,
+  "baselineCount": 841,
+  "mainRunId": "holdout-v1",
+  "reviewerRunId": "verifiers-v1",
+  "ledgerSha256": "ffd7a6ff3e3909dd27afeb28979045461fba4547bbb9df70145536f057d07920",
+  "usageSha256": "df6f0c25f3e5674a463608f00bead57ecc5bf4339a0c1c73057a7f077b97b5e7",
+  "reportSha256": "48eef02e141bd14d0c2fe4530249c089828e5df72c7ce935026d34fe0049c8b4",
+  "sanitizedBaselinePrefixSha256": "e9806ca8cc1a72e0ca500d3f4056d34904f13a614affeba3dfd3fa4075ee1126",
+  "analyzerSha256": "8f37a0335f5600cf32052d29eb64b62d168c24eb410250d17cea63f92773ccd0",
+  "classifications": [],
+  "classificationsSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+}

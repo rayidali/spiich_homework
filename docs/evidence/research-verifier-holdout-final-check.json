@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "daybook-final-reviewer-audit-v1",
+  "auditStartedAt": "2026-10-31T07:46:41.217Z",
+  "artifactCreatedAt": "2026-10-31T07:46:52.765023Z",
+  "runId": "verifiers-v1",
+  "verdict": "COMPLETE_REVIEWER_MATRIX_INTEGRITY_VERIFIED",
+  "checks": {
+    "currentSourceMatchesFrozenManifest": true,
+    "runtimeMatchesFrozenManifest": true,
+    "planUnchanged": true,
+    "datasetManifestUnchanged": true,
+    "privateIndexBindingUnchanged": true,
+    "reviewerConfigUnchanged": true,
+    "publicReviewerFreezeUnchanged": true,
+    "reviewerFreezePrivatePublicEqual": true,
+    "configuredModelsAndThresholdUnchanged": true,
+    "frozenDevelopmentCalibrationReproduces": true,
+    "exact80CasesTimes3Methods": true,
+    "everyMethodReceivesSameVisibleInput": true,
+    "visiblePromptHasOnlyWhitelistedFields": true,
+    "thresholdSameAcrossEveryJevOutcome": true,
+    "developmentAndHoldoutGroupsDisjoint": true,
+    "reviewerManifestMatchesFrozenInputSource": true,
+    "reviewerReportExactlyReproducible": true,
+    "errorOutcomesNotLabeledSemanticDecisions": true,
+    "reviewerUsageUniqueAndAssigned": true,
+    "actualReviewerPathsAndModelsMatch": true,
+    "successfulReviewersHaveExactlyOneActualCall": true,
+    "allReviewerDenominatorsPreserved": true,
+    "globalUsageIdsUnique": true,
+    "globalUsageAmountsWellFormed": true,
+    "prior3121RecordsUnchanged": true,
+    "successfulRecovery3122PrefixUnchanged": true,
+    "studyPolicyBaselineUnchanged": true,
+    "allowanceNotExpanded": true,
+    "globalAndAdditionalBudgetCapsHold": true,
+    "publicUsageMatchesGlobalRecords": true,
+    "usageModelsAllowed": true
+  },
+  "failedChecks": [],
+  "coverage": {
+    "outcomes": 240,
+    "byMethod": {
+      "deterministic": 80,
+      "llm": 80,
+      "jev": 80
+    },
+    "statuses": {
+      "ok": 240
+    },
+    "errorCodes": {}
+  },
+  "frozenThreshold": 0.8,
+  "usage": {
+    "calls": 160,
+    "reportedUsageEquivalentUsd": 0.030792289999999986,
+    "unknownUsageReservationUsd": 0,
+    "budgetChargedUsd": 0.030792289999999986,
+    "unknownUsageCalls": 0,
+    "missingDurationCalls": 0,
+    "recordedZeroDurationCalls": 0,
+    "kinds": {
+      "critic": 80,
+      "jev-verify": 80
+    },
+    "requestedModels": {
+      "gemini-3.5-flash-lite": 80,
+      "jev-1.14.0": 80
+    }
+  },
+  "budget": {
+    "trackedRecords": 5271,
+    "attemptsSinceAllowanceBaseline": 4430,
+    "amountsUsd": {
+      "gemini": {
+        "global": 6.010110399999999,
+        "additional": 5.238734050000008
+      },
+      "jev": {
+        "global": 0.04049236800000001,
+        "additional": 0.03330482399999999
+      }
+    },
+    "note": "Known reported usage plus conservative reservations; not an independently observed provider invoice or account balance."
+  },
+  "artifactHashes": {
+    "holdout.jsonl": "b0542ce3f5c14e9274c3de39396e6096a42d5caf7af9e9d939c355fa00383539",
+    "holdout-results.json": "6128cf2db38261603a56d895c84e10ac6faca56b8a7241fd8d740b88b835f4f6",
+    "holdout-manifest.json": "5f2bd293f9160fd927b85da8c35c0d6d2ff6ebdc1e6e0801836bae501c00de18",
+    "holdout-usage.json": "ca4d38b2b97c8d9c29cee1ee1794203c016a2f1a69234e1da8c47eeff9482f09",
+    "development.jsonl": "32c28d2bc0769e5baebdd6f94ac63827eacb7ff0968e832217487c4cf9484566",
+    "verifier-config.json": "1bf20a838731166515d74b6240ac7b04565bbce3b722b61d40959bf9c4aebbe2",
+    "verifier-freeze.json": "91828d73e723c0e8cd79c64c5107dcb34cc0458aea9e8bf4f10fb65bd4c709e5"
+  },
+  "limitations": [
+    "Evaluator-only labels are used after the run to reproduce the report; prompt-input hashes and whitelist checks establish the application boundary, not independent provider-side attestation.",
+    "Synthetic labels were AI assisted and not independently human adjudicated.",
+    "Provider errors are preserved; fail-closed blocking on an error does not count as demonstrated semantic flaw detection.",
+    "Gemini critic and generator share model weights; reviewers are not statistically independent.",
+    "No provider or database calls, recalibration, reference edits, or outcome replacement occurred in this audit."
+  ],
+  "auditScriptSha256": "45065f04737231affa2873ab08b20d2e59c1658015364fe3b22e3897e8cc0991"
+}
