@@ -11,6 +11,7 @@ import {
   type QuotaRecoveryPermit,
   type RecoveryJournalEntry,
   type RecoveryReceipt,
+  recoveryHash,
 } from './recovery';
 import {
   assertKeyCheckReservation,
@@ -19,6 +20,13 @@ import {
   validateKeyCheckPolicy,
   validateKeyCheckPolicyMarker,
   type KeyCheckPolicy,
+  assertStudyAllowanceReservation,
+  createStudyAllowancePolicy,
+  studyAllowancePolicyMarker,
+  validateStudyAllowancePolicy,
+  validateStudyAllowancePolicyMarker,
+  type StudyAllowanceOptions,
+  type StudyAllowancePolicy,
 } from './budget-policy';
 
 export interface UsageRecord {
@@ -36,6 +44,34 @@ export interface UsageRecord {
   durationMs: number | null;
 }
 const prices = { geminiInput: 0.25, geminiOutput: 1.5, embeddingInput: 0.15, jevInput: 0.042 };
+function readState(path: string, code: string): unknown {
+  try {
+    return JSON.parse(readFileSync(path, 'utf8'));
+  } catch {
+    throw new Error(code);
+  }
+}
+function readUsage(path: string): UsageRecord[] {
+  const records = readState(path, 'RESEARCH_BUDGET_STATE_INVALID');
+  const nonnegative = (value: unknown) => typeof value === 'number' && Number.isFinite(value) && value >= 0;
+  if (
+    !Array.isArray(records) ||
+    records.some(
+      (record) =>
+        !record ||
+        typeof record !== 'object' ||
+        !['gemini', 'jev'].includes(record.provider) ||
+        !['id', 'episode', 'kind', 'model', 'at'].every((key) => typeof record[key] === 'string') ||
+        !nonnegative(record.reserveUsd) ||
+        !(record.estimatedUsd === null || nonnegative(record.estimatedUsd)) ||
+        !['inputTokens', 'outputTokens', 'durationMs', 'status'].every(
+          (key) => record[key] === null || nonnegative(record[key]),
+        ),
+    )
+  )
+    throw new Error('RESEARCH_BUDGET_STATE_INVALID');
+  return records as UsageRecord[];
+}
 function generationPrice(model: string) {
   return model === 'gemini-3.5-flash-lite'
     ? { input: 0.3, output: 2.5 }
@@ -51,7 +87,17 @@ export class StudyBudget {
     readonly limits = { gemini: 10, jev: 4, attempts: 10000 },
   ) {
     mkdirSync(dirname(path), { recursive: true, mode: 0o700 });
-    this.records = existsSync(path) ? JSON.parse(readFileSync(path, 'utf8')) : [];
+    if (!existsSync(path) && this.hasPolicyHistory()) throw new Error('RESEARCH_BUDGET_STATE_MISSING');
+    this.records = existsSync(path) ? readUsage(path) : [];
+  }
+  private hasPolicyHistory() {
+    return [
+      '.policy.json',
+      '.policy-required.json',
+      '.study-policy.json',
+      '.study-policy-required.json',
+      '.recovery.json',
+    ].some((suffix) => existsSync(`${this.path}${suffix}`));
   }
   spend(provider: 'gemini' | 'jev') {
     return this.records
@@ -71,7 +117,9 @@ export class StudyBudget {
   }
   private recoveryJournal(): RecoveryJournalEntry[] {
     const path = `${this.path}.recovery.json`;
-    return existsSync(path) ? validateRecoveryJournal(JSON.parse(readFileSync(path, 'utf8'))) : [];
+    return existsSync(path)
+      ? validateRecoveryJournal(readState(path, 'RESEARCH_RECOVERY_STATE_INVALID'))
+      : [];
   }
   /** An installed restriction applies to every caller of this shared usage ledger. */
   keyCheckPolicy(): KeyCheckPolicy | undefined {
@@ -85,8 +133,8 @@ export class StudyBudget {
       return undefined;
     }
     if (!policyExists || !markerExists) throw new Error('RESEARCH_POLICY_INCOMPLETE');
-    const policy = validateKeyCheckPolicy(JSON.parse(readFileSync(policyPath, 'utf8')), this.records);
-    validateKeyCheckPolicyMarker(JSON.parse(readFileSync(markerPath, 'utf8')), policy);
+    const policy = validateKeyCheckPolicy(readState(policyPath, 'RESEARCH_POLICY_INVALID'), this.records);
+    validateKeyCheckPolicyMarker(readState(markerPath, 'RESEARCH_POLICY_INVALID'), policy);
     return policy;
   }
   /** Explicit offline installation; no automatic allowance reset and no overwrite. */
@@ -105,6 +153,57 @@ export class StudyBudget {
       // A crash between these two writes leaves an incomplete policy and fails closed.
       atomicJson(policyPath, policy);
       atomicJson(markerPath, keyCheckPolicyMarker(policy));
+      return policy;
+    });
+  }
+  studyAllowancePolicy(): StudyAllowancePolicy | undefined {
+    const policyPath = `${this.path}.study-policy.json`,
+      markerPath = `${this.path}.study-policy-required.json`;
+    const policyExists = existsSync(policyPath),
+      markerExists = existsSync(markerPath);
+    if (!policyExists && !markerExists) return undefined;
+    if (!policyExists || !markerExists) throw new Error('RESEARCH_STUDY_POLICY_INCOMPLETE');
+    const parent = this.keyCheckPolicy();
+    if (!parent) throw new Error('RESEARCH_STUDY_POLICY_PARENT_MISSING');
+    const policy = validateStudyAllowancePolicy(
+      readState(policyPath, 'RESEARCH_STUDY_POLICY_INVALID'),
+      this.records,
+      parent,
+    );
+    validateStudyAllowancePolicyMarker(readState(markerPath, 'RESEARCH_STUDY_POLICY_INVALID'), policy);
+    return policy;
+  }
+  /** Explicit user-authorized transition; original policy, marker and journal stay unchanged. */
+  async installStudyAllowance(
+    options: StudyAllowanceOptions,
+    now = Date.now(),
+  ): Promise<StudyAllowancePolicy> {
+    return this.withLock(async () => {
+      if (existsSync(`${dirname(this.path)}/runner.lock`)) throw new Error('RESEARCH_RECOVERY_RUNNER_ACTIVE');
+      const policyPath = `${this.path}.study-policy.json`,
+        markerPath = `${this.path}.study-policy-required.json`;
+      if (existsSync(policyPath) || existsSync(markerPath))
+        throw new Error('RESEARCH_STUDY_POLICY_ALREADY_INSTALLED');
+      const parent = this.keyCheckPolicy(),
+        journal = this.recoveryJournal(),
+        last = journal.at(-1);
+      assertRecoveryAllowsNormalCall(journal, this.records);
+      if (
+        !parent ||
+        !last ||
+        last.state !== 'succeeded' ||
+        last.permit.policyHash !== recoveryHash(parent) ||
+        this.records.length !== parent.baselineCount + 1 ||
+        this.records[parent.baselineCount]?.id !== last.recordId ||
+        last.permit.authorization.reason !== 'user_configured_key_change'
+      )
+        throw new Error('RESEARCH_STUDY_POLICY_INVALID_TRANSITION');
+      if (last.permit.authorization.keyChange?.currentFingerprint !== options.credentialFingerprint)
+        throw new Error('RESEARCH_STUDY_POLICY_KEY_MISMATCH');
+      const policy = createStudyAllowancePolicy(this.records, parent, options, now);
+      // Both are additional artifacts. A crash after the first write fails closed.
+      atomicJson(policyPath, policy);
+      atomicJson(markerPath, studyAllowancePolicyMarker(policy));
       return policy;
     });
   }
@@ -208,12 +307,9 @@ export class StudyBudget {
     writeFileSync(lock, String(process.pid));
     let loaded = false;
     try {
-      if (existsSync(this.path))
-        this.records.splice(
-          0,
-          this.records.length,
-          ...(JSON.parse(readFileSync(this.path, 'utf8')) as UsageRecord[]),
-        );
+      if (!existsSync(this.path) && (this.records.length > 0 || this.hasPolicyHistory()))
+        throw new Error('RESEARCH_BUDGET_STATE_MISSING');
+      if (existsSync(this.path)) this.records.splice(0, this.records.length, ...readUsage(this.path));
       loaded = true;
       return await action();
     } finally {
@@ -269,8 +365,17 @@ export class StudyBudget {
         : ((inputBound + extraRetrieval) * (embed ? prices.embeddingInput : rate.input) +
             (embed ? 0 : outputBound * rate.output)) /
           1e6;
-    const policy = this.keyCheckPolicy();
-    if (policy)
+    const policy = this.keyCheckPolicy(),
+      studyPolicy = this.studyAllowancePolicy();
+    if (studyPolicy && policy)
+      assertStudyAllowanceReservation({
+        policy: studyPolicy,
+        parent: policy,
+        records: this.records,
+        request,
+        reserveUsd,
+      });
+    else if (policy)
       assertKeyCheckReservation({
         policy,
         records: this.records,

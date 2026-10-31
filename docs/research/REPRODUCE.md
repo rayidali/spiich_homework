@@ -2,7 +2,9 @@
 
 The experimental database can run on ordinary PostgreSQL with pgvector. A private Neon account, the hosted Daybook demo and Vercel access are not required. The existing application continues to use its own Compose configuration and `spiich_postgres_data` volume.
 
-**Current execution status:** development pilot V2 stopped at **101/108 episodes** when Gemini reported its **500 requests per day per project/model free-tier quota**. The full data fingerprint was unchanged, but the run is incomplete and cannot select an architecture. The 1,620 primary held-out route episodes and 240 held-out reviewer outcomes remain unrun. The [validity notice](../evidence/research-runs/pilot-v2/validity-notice.json), [dispatch/quota record](../evidence/dispatch-pilot-v2.json), [HTML report](../evidence/research-runs/pilot-v2/report.html) and [PDF](../evidence/research-runs/pilot-v2/study-report.pdf) preserve diagnostic evidence, not a final ranking.
+**Current execution status:** the user authorized full continuation with **$6.40 additional Gemini usage, $0.10 additional Jev usage and at most 7,000 additional provider requests**, within the original cumulative $10/$4 ceilings. The user reported about $8 of Gemini credit after a top-up; balance and billing tier have not been independently verified. The parent-preserving study allowance is installed, and the managed document index is being rebuilt after the current key received HTTP 403 for the previous store. See [funded resumption](../evidence/research-funded-resumption.json) and [store-access evidence](../evidence/research-current-key-index-access.json). No automatic refill is authorized.
+
+Development pilot V2 remains stopped at **101/108 episodes** after its original **500 requests per day per project/model free-tier quota** failure. Its full data fingerprint was unchanged, but the run is incomplete and cannot select an architecture. The 1,620 primary held-out route episodes and 240 held-out reviewer outcomes remain unrun. The [validity notice](../evidence/research-runs/pilot-v2/validity-notice.json), [dispatch/quota record](../evidence/dispatch-pilot-v2.json), [HTML report](../evidence/research-runs/pilot-v2/report.html) and [PDF](../evidence/research-runs/pilot-v2/study-report.pdf) preserve diagnostic evidence, not a final ranking. Do not resume V2 under amended source.
 
 Use a fresh checkout or clean source copy for a new reproduction. The ignored `.tools/research/` directory contains database credentials, provider index identifiers, accumulated usage and resume state from one run. Do not copy someone else's private state into a new run or overwrite an active study's state to switch databases.
 
@@ -40,6 +42,26 @@ TYPESAFE_API_KEY=replace-locally
 
 The commands below use `--env-file=.env` so every CLI, including database-only checks, receives these settings. Never pass the owner URL or provider keys in model prompts, checked-in result files or command output.
 
+### Existing session: audited funded allowance
+
+The current session's earlier one-cent, one-request key check is complete. Its policy, required marker, recovery journal and all 841 usage records at the transition are preserved. The additional study policy uses authorization reason `user_authorized_study_resumption` and binds that immutable baseline, its tracked costs, the parent policy and the credential that passed the key check. It does not claim that billing activation or a quota reset was independently observed.
+
+The reviewed provisioning API is:
+
+```ts
+const budget = new StudyBudget('.tools/research/usage.json');
+const policy = await budget.installStudyAllowance({
+  authorizationReference: '<private reference to the actual user instruction>',
+  credentialFingerprint: credentialFingerprint(currentKey),
+  additionalAllowanceUsd: { gemini: 6.4, jev: 0.1 },
+  maximumAdditionalAttempts: 7000,
+});
+```
+
+This offline transition has already been installed in the current session. It requires the successful consumed key-check receipt and the same credential fingerprint, acquires the budget lock and refuses an active runner. It writes separate `usage.json.study-policy.json` and `usage.json.study-policy-required.json` artifacts; it does not overwrite the parent policy, marker, recovery journal or historical usage. Every subsequent reservation uses both the additional allowance and original cumulative caps, including unknown-use reservations. Every Gemini request must match the bound key and allowed model. Control requests count toward the 7,000-attempt limit too.
+
+The policy survives restarts. Partial writes, missing/corrupt state, changed history and mismatched keys fail closed; deleting both child files falls back to the consumed parent policy's block. Pending/failed recovery and the consecutive-unknown-usage circuit still block. See [the recovery and continuation guide](QUOTA_RECOVERY.md) for schemas and limits. Do not repeat installation, delete safeguards or change ledger paths to obtain more budget. A fresh independent reproduction needs its own authorized caps and private state; do not fabricate this existing session's key-check history to use the continuation API.
+
 ## 3. Provision the isolated fixture and check the database
 
 ```sh
@@ -68,6 +90,8 @@ The fixture check compares complete stored ledger and document contents with the
 
 Indexing resumes from `.tools/research/index-state.json`. Keep that file with its matching database and provider store. If source fixture content changes, use a new study version and run state; setup intentionally does not overwrite existing fixture rows. Re-indexing or changing documents during a measured run changes the experimental condition.
 
+For this funded continuation, a read-only request with the verified current key returned HTTP 403 for the old File Search store. The old private index state was archived, the 40 stored vectors were retained, and a new managed store with the same 39 authorized documents is being indexed. No corpus expansion is intended. This rebuild is setup work before the next measured run; confirm its completion and document availability rather than treating the successful generation probe as proof of index access. Keep old index provenance and costs, and bind the actual new index state in the next run manifest.
+
 ## 5. Run the controlled comparison
 
 Inspect the protocol in [PLAN.md](../PLAN.md), the route definitions and the current budget limits before launching live runs. The budget ledger is `.tools/research/usage.json`; it reserves cost before each request and keeps failures visible. Estimates are not provider invoices, and the existence of a free tier does not guarantee a request is free.
@@ -88,9 +112,13 @@ By default the runner selects R0–R8. `RESEARCH_ROUTES=R0,R1` can restrict an e
 
 The freeze command binds the preserved development outcomes and selected threshold to the complete executable source and reference-case hashes. Run it after all development amendments; both held-out runners reject missing or stale bindings. Generation starts are paced at least 4,200 ms apart for the observed free-tier quota, without automatic retry. Queue expiry counts against request deadlines. The original queue dispatcher uses a conservative 4,500 ms network-start spacing. Google applies request/minute, token/minute and request/day quotas per project; the actual account limits must be inspected in AI Studio, and a paid tier is not assumed ([official rate-limit documentation](https://ai.google.dev/gemini-api/docs/rate-limits), checked 2026-10-30). Pacing addresses minute-level request pressure, not every possible quota.
 
-For the existing V2 environment, **do not immediately rerun these commands to bypass the stopped circuit**. The provider's first daily-quota response supplied a 29,601-second retry delay; this is an observation, not guaranteed future capacity. Preserve the usage ledger, unknown-use reservations, failed episodes and old index state. The replacement local key passed one fixed probe, but the user then requires frugal use. A persistent one-request/$0.01 additional Gemini/$0 Jev policy is installed and its attempt is consumed; every ordinary runner remains blocked. A larger budget answer is pending. Do not remove the policy/marker/recovery journal or change ledger paths to bypass it. See [recovery procedure](QUOTA_RECOVERY.md) for truthful key-change evidence and policy checks. No account upgrade, balance or existing File Search store access is established; the key may belong to a different project. The dollar allowance and provider capacity are separate limits.
+For the existing session, continuation now uses the approved study allowance above. Preserve the old V2 failures, unknown-use reservations and index provenance. The funded sequence is: finish and verify the replacement managed index; run **`smoke-v3`**, the six preselected development family representatives across all nine routes (54 episodes); diagnose development defects without replacing outcomes; freeze the final source/settings and preserved verifier calibration; run **`holdout-v1`** and the **`verifiers-v1` held-out split**. Completed verifier development outcomes and their threshold must be preserved rather than regenerated for a more favorable result. The full fresh-reproduction command sequence above is not an instruction to repeat those completed steps in this session.
+
+Both route and verifier runners persist the triggering outcome and stop on local budget exhaustion, an open provider circuit, unsafe budget/policy/recovery state, a key mismatch or an unpriced model. The resulting run stays **incomplete**, with unattempted cases disclosed; the harness does not manufacture a completed matrix of zero-call errors. Ordinary provider HTTP errors and model-output failures remain measured outcomes. Repair or recovery must be explicit, preserve the original outcome and obey source/configuration resume checks. Neither a user-reported credit balance nor the installed dollar allowance guarantees provider capacity or access to a particular project resource.
 
 V2 also exposed an inferred completion-file race in the optional queued transport: a failed runner read was later followed by a complete HTTP-200/exit-0 footer. Post-pilot development adds a complete-footer marker and tests partial arrivals, normalizes R0's output tags within its existing call, and clarifies draft-versus-historical-fact instructions. Those changes require a new development snapshot and live smoke before held-out freezing. They do not change the preserved V2 outputs. [Race evidence](../evidence/queue-completion-race-pilot-v2.json).
+
+The funded allowance and stop handling passed **453 isolated tests, the production build and formatting** before live development smoke; see [local verification](../evidence/research-local-funded.json). These are engineering checks, not live model accuracy or a completed held-out comparison.
 
 Do not tune prompts, thresholds, fixture data or executable research source after inspecting held-out results. A resumed run checks its source/configuration/data manifest and preserves previously completed or interrupted episodes. Use the same command and run ID to resume unchanged work. A changed implementation requires a new run ID and a clear experimental version, not editing old result rows.
 

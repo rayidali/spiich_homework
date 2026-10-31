@@ -1,12 +1,22 @@
 # Daybook session checkpoint
 
+## Current task: funded full study resumed
+
+The user explicitly instructed continuation until the full research goal is done, accepted the approximately $6.40 remaining-cost estimate and reported adding $5 to Gemini, leaving about $8 of credit. This supersedes the temporary one-probe-only stop. Proceed with an audited additional allowance of **$6.40 Gemini and $0.10 Jev**, preserving the original cumulative $10/$4 ceilings and every historical usage record. The balance is user-reported; account tier and provider billing are not independently verified.
+
+The allowance transition preserves the consumed key-check policy, its marker and recovery journal and adds a separate parent-bound study policy. Do not delete old safeguards or reset costs. All requests must use the verified current credential, and failures/unknown usage remain counted. No automatic paid refill is authorized. Preparation/tests are in progress; no new study request is claimed by this entry.
+
+Ordered work: read-only access check of the existing managed File Search store; fresh `smoke-v3` development run (six preselected family representatives across all nine routes = 54 episodes); inspect and resolve development implementation defects without replacing outcomes; freeze source/settings; run `holdout-v1` (1,620 route episodes) and `verifiers-v1` holdout (240 reviewer outcomes); produce the final comparisons, graphs, uncertainty, limitations and architecture recommendation; finish engineering verification, documentation/publication and submission ZIP. Keep the deployed accounting app and ledger unchanged while testing.
+
+The earlier key-check and quota-stop sections below are historical. Their pending-budget statements no longer apply. The full study is still incomplete until the actual held-out evidence and report exist.
+
 Saved **2026-10-30, America/New_York** (verification timestamps may read 2026-10-30 in UTC). Read this first on resumption. Continue the implemented application; do not rebuild or restore an earlier ZIP over it.
 
 ## Active request: research implementation (supersedes planning-only checkpoint)
 
 The user now explicitly authorizes implementation of the complete nine-route study, checkpoint tests, live Gemini/Jev experiments and a detailed scientific-style report with controls, comparable scores and graphs. The earlier planning-only text below is historical. Both provider keys are present in private `.env` (2026-10-30); no keys belong in source or chat. Jev research allowance is $4 of the user's $5 credit. Preserve the deployed application while experiments use separate synthetic data and restricted analytical access. New research source is under `research/`; do not confuse its in-progress tests with the prior fully passing application baseline. Implementation and evaluation are in progress, with no study result yet claimed.
 
-## Current checkpoint: changed key checked under a one-request limit
+## Previous checkpoint: changed key checked under a one-request limit
 
 The user replaced the local Gemini key and requested frugal use. Its value differs from the previous research request, and no inherited environment value overrides `.env`. One fixed `gemini-3.5-flash-lite` availability request succeeded at **2026-10-30T23:52:57.995Z**: HTTP 200, 878 ms, 14 input tokens, 5 output tokens, **$0.0000167 paid-equivalent estimated usage**. This is momentary API availability, not an account-balance, billing-tier, project-identity, document-index access or accuracy check. See [probe receipt](docs/evidence/gemini-key-check-2026-10-30.json) and [restriction verification](docs/evidence/gemini-frugal-checkpoint.json). Hosted credentials and deployment were not changed.
 

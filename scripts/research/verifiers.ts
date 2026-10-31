@@ -17,6 +17,7 @@ import { GeminiResearchClient, JevResearchClient } from '../../research/provider
 import { GeminiStartPacer } from '../../research/pacing';
 import { requireFrozenVerifier } from '../../research/freeze-state';
 import { sourceManifest } from '../../research/manifest';
+import { assertStudyMayContinue } from '../../research/run-stop';
 import {
   analyzeVerifiers,
   evaluateVerifier,
@@ -184,7 +185,7 @@ try {
           planned: cases.length * VERIFIER_METHODS.length,
         }),
       );
-      if (record.error && /BUDGET_EXHAUSTED|CIRCUIT_OPEN/.test(record.error)) throw new Error(record.error);
+      assertStudyMayContinue(record.error);
     }
   }
   if (split === 'development') {

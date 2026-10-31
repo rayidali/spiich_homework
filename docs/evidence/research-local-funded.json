@@ -1,0 +1,33 @@
+{
+  "at": "2026-10-31T00:43:15.863Z",
+  "scope": "Funded study allowance and fatal-stop handling before live development smoke",
+  "sourceHash": "1a6d6fae9bdd9fb6f9dd32fa41e334053f8955aa9b695334770e820a8b9683ab",
+  "runtime": {
+    "node": "v22.23.4",
+    "platform": "darwin",
+    "architecture": "arm64"
+  },
+  "checks": [
+    {
+      "command": "npx vitest run --exclude tests/accounting.test.ts --exclude tests/ai-contract.test.ts",
+      "passed": true,
+      "files": 29,
+      "tests": 453,
+      "durationSeconds": 5.82
+    },
+    {
+      "command": "npm run build",
+      "passed": true,
+      "warnings": "Two existing nonfatal Zod/Rollup annotation warnings"
+    },
+    {
+      "command": "npm run format:check",
+      "passed": true
+    }
+  ],
+  "independentReview": "No critical issue found in allowance preservation, bound key, restart, original/additional caps and fatal incomplete-run handling.",
+  "liveDevelopmentSmoke": "PENDING",
+  "heldOutEpisodesMeasured": 0,
+  "heldOutReviewerOutcomesMeasured": 0,
+  "productionDeploymentChanged": false
+}

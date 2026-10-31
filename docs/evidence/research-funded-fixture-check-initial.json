@@ -1,0 +1,20 @@
+{
+  "protocol": "daybook-funded-fixture-preflight-attempt-v1",
+  "recordedAt": "2026-10-31T00:46:58.369Z",
+  "attempt": 1,
+  "scoredEpisode": false,
+  "completed": false,
+  "status": "error",
+  "error": "RESEARCH_HTTP_TIMEOUT",
+  "stage": "read-only database verification; queue versus network timing not independently localized",
+  "transport": "queue",
+  "providerModelCalls": 0,
+  "dataWritesRequested": 0,
+  "verificationResultAvailable": false,
+  "previousFixtureEvidencePreserved": true,
+  "retryStatus": "waiting for explicit root authorization after dispatcher investigation and indexing completion",
+  "limitations": [
+    "This timeout does not establish database or fixture inconsistency.",
+    "No successful content comparison or current fingerprint is claimed from this attempt."
+  ]
+}

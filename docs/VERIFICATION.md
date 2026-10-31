@@ -1,5 +1,11 @@
 # Verification record
 
+## Funded continuation checks — 2026-10-30
+
+The parent-bound study allowance and fatal runner-stop handling passed **453 isolated tests in29files**, strict TypeScript/production build and global formatting. [Local evidence](evidence/research-local-funded.json). Independent review found no critical issue. The real policy installation preserved all841historical usage records and prior policy/marker/recovery bytes and was verified across process reconstruction. [Installation receipt](evidence/research-funded-resumption.json).
+
+The current key received403for the old managed File Search store; its existing generation probe remains successful. Re-indexing the39authorized synthetic documents for the current key is in progress, preserving40database vectors and the old index state. This is setup, not a live accuracy result. A new full CI result will be recorded after publishing this revision.
+
 ## Changed-key check and spending guard — 2026-10-30
 
 The replacement local Gemini key passed exactly one fixed availability request: HTTP 200, 878 ms, 14 input/5 output tokens, $0.0000167 paid-equivalent estimated usage. [Receipt](evidence/gemini-key-check-2026-10-30.json). No study questions, documents, indexing, Jev requests or hosted deployment were involved. Account balance, project identity, remaining quota and existing File Search access are unverified.

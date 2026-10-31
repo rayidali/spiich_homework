@@ -1,10 +1,40 @@
-# Explicit recovery and the one-cent key check
+# Recovery, the key check and funded study continuation
+
+**The user has authorized full study continuation under an additional $6.40 Gemini / $0.10 Jev allowance and at most 7,000 additional requests.** The original cumulative $10 Gemini / $4 Jev ceilings still apply. The user reported adding $5 and having about $8 of Gemini credit; that balance and the account's billing tier are not independently verified. No automatic refill is authorized. The funded transition is installed and survives restarts; see the [resumption evidence](../evidence/research-funded-resumption.json).
+
+The earlier one-cent policy remains intact as the parent of the new study policy. Its consumed probe is historical; the approved child policy now permits bounded study requests. Both policies retain every previous cost and unknown-use reservation.
 
 The second development pilot stopped after Gemini's daily free-tier quota was exhausted. The ordinary budget circuit blocks further generation after three attempts with unreported usage. Failed records and their conservative cost reservations are retained. This helper does not change the pilot's results or restart an experiment.
 
-**One user-authorized replacement-key check succeeded on 2026-10-30 at 23:52:57 UTC. Ordinary research calls remain blocked.** The fixed `gemini-3.5-flash-lite` request returned HTTP 200 in 878 ms, with 14 input and 5 output tokens. Its reported-usage cost estimate was **$0.0000167**; the initial conservative reservation was $0.0010841. These are local estimates, not an invoice or a measurement of account balance. See the [probe receipt](../evidence/gemini-key-check-2026-10-30.json).
+One user-authorized replacement-key check succeeded on 2026-10-30 at 23:52:57 UTC. The fixed `gemini-3.5-flash-lite` request returned HTTP 200 in 878 ms, with 14 input and 5 output tokens. Its reported-usage cost estimate was **$0.0000167**; the initial conservative reservation was $0.0010841. These are local estimates, not an invoice or a measurement of account balance. See the [probe receipt](../evidence/gemini-key-check-2026-10-30.json).
 
-The persistent policy allowed at most **$0.01 additional Gemini usage, $0 Jev usage and one additional request**. That request is now consumed. Verification reconstructed `StudyBudget` with its ordinary defaults and confirmed that normal calls were rejected before reaching transport. The ledger has 841 records, with the original 840-record prefix unchanged. No study restarted, hosted credentials were not changed, and no File Search/index access was tested with the replacement key. Billing activation, project identity and remaining account balance are unknown; the larger-budget decision is pending. See the [spending checkpoint](../evidence/gemini-frugal-checkpoint.json).
+At that checkpoint, the persistent policy allowed at most **$0.01 additional Gemini usage, $0 Jev usage and one additional request**. Verification reconstructed `StudyBudget` with its ordinary defaults and confirmed that normal calls were rejected before reaching transport. The key check left 841 records, with the original 840-record prefix unchanged. No study or index test ran under that one-request permission, and hosted credentials were unchanged. The [earlier spending checkpoint](../evidence/gemini-frugal-checkpoint.json) preserves that temporary stop; its pending-budget status is superseded by the subsequent user authorization.
+
+## Installed funded continuation
+
+The transition's authorization reason is `user_authorized_study_resumption`. It records the user's explicit spending instruction; it does not infer billing activation, project identity or provider capacity. The installation preserved all 841 existing usage records and the original policy, required marker and recovery journal byte-for-byte. It created two additional private artifacts: `usage.json.study-policy.json` and `usage.json.study-policy-required.json`.
+
+The operator installs this revision through the following API after checking the actual user authorization and current credential privately:
+
+```ts
+const budget = new StudyBudget('.tools/research/usage.json');
+const policy = await budget.installStudyAllowance({
+  authorizationReference: '<private reference to the actual study-resumption instruction>',
+  credentialFingerprint: credentialFingerprint(currentKey),
+  additionalAllowanceUsd: { gemini: 6.4, jev: 0.1 },
+  maximumAdditionalAttempts: 7000,
+});
+```
+
+This operation is offline and already completed for the current session; do not repeat it or manufacture a parent history in a fresh checkout. It runs under the budget lock, refuses an active runner, and requires the consumed key-check receipt to have succeeded. The supplied fingerprint must equal the fingerprint of the key that passed that check. It does not perform another availability probe.
+
+The child policy binds the parent-policy hash, the full 841-record baseline and tracked costs, the authorization reference, the tested credential and the unchanged model allowlist. Every reservation revalidates the policy under the lock. All Gemini requests, including embeddings and File Search control/indexing requests, must use the bound credential. New costs are counted after the baseline using reported estimates or conservative reservations when usage is unknown. Both the additional allowances and original cumulative ceilings apply; the request cap includes provider control calls, not just scored questions. Reconstructing `StudyBudget` or restarting a runner does not reset these limits.
+
+Missing, corrupt or mismatched policy/history stops execution. An interrupted two-file installation fails closed. If both child files disappear, the retained consumed parent policy blocks ordinary requests. Pending or failed recovery and the existing consecutive-unknown-usage circuit remain blocking conditions. The API does not overwrite an installed revision or delete safeguards; a later allowance change requires another explicit reviewed action.
+
+The route and verifier runners persist the triggering outcome and then stop on local budget, policy, recovery, credential or unsafe-state failures. Reports retain an **incomplete** status with unattempted cases disclosed. The harness does not fill the remaining matrix with zero-call errors or claim completion. Ordinary provider/model failures remain measured outcomes; repeated unreported usage can subsequently open the existing circuit.
+
+The current key's read-only check of the previous File Search store returned HTTP 403. This proves that the old store is inaccessible with that request, not why access failed or which project owns the new key. The previous index state was archived; the existing 40 vectors were retained, and rebuilding a managed store containing the same 39 authorized documents was started under the funded allowance. Verify the rebuild's completion before the next smoke run. See [index-access evidence](../evidence/research-current-key-index-access.json); generation success alone never established store access.
 
 ## Prerequisites
 
@@ -24,7 +54,7 @@ The observed quota was 500 daily requests per project and model; see [dispatch e
 
 The study runner and dispatcher must be stopped with no outstanding request before changing transport formats or preparing recovery. Existing pilot-v2 raw records remain immutable. A new attempt receives a separate `recovery-probe:` identity.
 
-## Persistent restriction for a replacement-key check
+## Historical parent: restriction for a replacement-key check
 
 Before preparing a key-change permit, the operator installs the policy through this offline API in a private local script:
 
@@ -43,9 +73,9 @@ This performs no provider call. Under the existing budget lock, it records the c
 | `additionalAllowanceUsd`                                     | Exactly `{ "gemini": 0.01, "jev": 0 }`                   |
 | `maximumAdditionalAttempts`                                  | Exactly 1                                                |
 
-Every `StudyBudget` reservation using this ledger checks the installed restriction under the lock, including recovery dry-runs. The baseline must still match; new usage counts actual estimates where available and conservative reservations otherwise. Original dollar/attempt caps still apply. Ordinary generation, retrieval, embedding, indexing and Jev calls are prohibited by this mode; it permits only the already validated fixed probe. Restarting a process with the old $10 Gemini / $4 Jev defaults does not remove the policy.
+Without a valid approved study revision, every `StudyBudget` reservation using this ledger checks the installed parent restriction under the lock, including recovery dry-runs. The baseline must still match; new usage counts actual estimates where available and conservative reservations otherwise. Original dollar/attempt caps still apply. Ordinary generation, retrieval, embedding, indexing and Jev calls are prohibited by this mode; it permits only the already validated fixed probe. Restarting a process with the old $10 Gemini / $4 Jev defaults does not remove the policy. The funded transition above supplies the explicitly approved child revision.
 
-Installation cannot overwrite or reset an existing policy. Missing, malformed or mismatched policy/marker state fails closed; after the probe, the recovery journal also anchors the required policy. The consumed request stays consumed even if it failed or used less than one cent. Neither successful output nor unused monetary allowance authorizes another request. A larger-budget answer requires an explicit reviewed change; do not delete the policy to continue.
+Installation cannot overwrite or reset an existing parent policy. Missing, malformed or mismatched policy/marker state fails closed; after the probe, the recovery journal also anchors the required policy. The consumed request stays consumed even if it failed or used less than one cent. Neither successful output nor unused monetary allowance by itself authorizes another request. The later user-approved study revision preserves this parent; do not delete it to continue.
 
 ## Private authorization and permit
 
@@ -122,6 +152,8 @@ A successful receipt only demonstrates momentary availability. Its `RECOVERED` o
 `tests/research-recovery.test.ts` covers one-shot consumption, unchanged history/costs, wrong key/model/payload, stale evidence, early and expired permits, active locks, monetary and attempt caps, concurrent/repeated use, crash state, malformed output, missing tokens, provider errors and Pacific reset conversion. All tests use synthetic inputs and injected transport; they measure safety behavior, not provider availability.
 
 `tests/research-key-check.test.ts` adds 18 offline regressions covering fixed-policy installation, restart persistence, the one-cent/one-request limits, zero Jev allowance, unknown-cost retention, missing/malformed policy state, immutable history, private key-change evidence and blocking after successful output. The real checkpoint separately verified rejection before transport in a reconstructed budget instance.
+
+`tests/research-study-allowance.test.ts` adds 29 offline tests for the funded transition, parent preservation, verified-key binding, restarts, separate provider allowances, cumulative ceilings, unknown reservations, circuit behavior and interrupted/corrupt/missing state. The funded checkpoint passed **453 isolated tests, the production build and formatting**; these engineering checks are not held-out model results. See [local verification](../evidence/research-local-funded.json).
 
 The helper is intentionally narrow. It cannot clear arbitrary network-error circuits or infer billing activation. After a failed probe, the newest records include `recovery-probe:` rather than only the original pilot ID, so the original pilot evidence cannot authorize another permit. A new confirmation or another permit file alone will not recover it. Further diagnosis and a separately reviewed recovery path with evidence bound to the new failure are required; no general circuit-reset option exists. The evidence artifact is a reviewed observation, not provider-signed quota attestation.
 

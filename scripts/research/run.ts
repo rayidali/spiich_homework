@@ -23,6 +23,7 @@ import { sourceManifest } from '../../research/manifest';
 import { EpisodeLimits } from '../../research/limits';
 import { GeminiStartPacer } from '../../research/pacing';
 import { requireFrozenVerifier } from '../../research/freeze-state';
+import { assertStudyMayContinue } from '../../research/run-stop';
 
 const suite = process.argv[2] ?? 'smoke';
 if (!['smoke', 'pilot', 'development', 'holdout'].includes(suite)) throw new Error('Unknown suite');
@@ -266,8 +267,7 @@ async function episode(route: RouteId, q: ResearchQuestion, repeat: number, snap
       error: value.error ?? null,
     }),
   );
-  if (typeof value.error === 'string' && /BUDGET_EXHAUSTED|CIRCUIT_OPEN/.test(value.error))
-    throw new Error(value.error);
+  assertStudyMayContinue(value.error);
 }
 let frozenSnapshot: string | undefined;
 try {

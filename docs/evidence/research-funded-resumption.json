@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-31T00:42:43.110Z",
+  "authorizationReason": "user_authorized_study_resumption",
+  "reportedCreditBalanceUsdApprox": 8,
+  "providerBalanceIndependentlyVerified": false,
+  "baselineRecords": 841,
+  "historicalUsageAndParentPolicyBytesUnchanged": true,
+  "additionalAllowanceUsd": {
+    "gemini": 6.4,
+    "jev": 0.1
+  },
+  "globalCeilingUsd": {
+    "gemini": 10,
+    "jev": 4
+  },
+  "maximumAdditionalAttempts": 7000,
+  "mode": "bounded-study-allowance",
+  "restartVerified": true,
+  "providerCalls": 0,
+  "sourceHash": "1a6d6fae9bdd9fb6f9dd32fa41e334053f8955aa9b695334770e820a8b9683ab"
+}

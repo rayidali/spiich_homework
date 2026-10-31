@@ -1,5 +1,11 @@
 # Daybook comparative AI research plan
 
+### Funded continuation amendment (2026-10-30)
+
+The user accepted the approximately $6.40 remaining-cost estimate, added $5 of Gemini credit and reported about $8 available. The previous temporary one-probe restriction is superseded by a parent-bound additional study allowance of $6.40 Gemini/$0.10 Jev; original cumulative $10/$4 caps and unknown-use reservations remain. This is a local cost estimate/guard, not an invoice or independently verified balance. The current credential is bound to the successful availability check. No automatic refill is authorized.
+
+The original scientific design is retained: 60 held-out questions × nine routes × three repetitions, plus 240 held-out reviewer outcomes. Before freezing, the existing deterministic `smoke` selection tests financial-01-1, analytics-01-1, documents-01-1, scenario-01-1, entry-01-1 and adversarial-01-1 across all routes (54 development episodes), without selecting by prior success. Generator, reviewer threshold, datasets, comparison definitions and minimum pacing remain unchanged. Any fatal spending/policy/key-integrity failure terminates the run as incomplete after its first recorded failure; it must not fill unattempted cases with synthetic zero-call errors.
+
 > **Implementation authorized — 2026-10-30.** After approving the planning checkpoint, the user explicitly requested implementation, automatic checkpoint tests, all route comparisons, a control, comparable scientific-style scores, graphs and a detailed report. The original design below is the preregistration. Amendments must be dated and explained before held-out results are examined. The deployed application remains the baseline. Read [CHECKPOINT.md](../CHECKPOINT.md) for current state.
 
 ### Spending restriction before further live work (2026-10-30)
