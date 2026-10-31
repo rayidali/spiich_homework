@@ -1,0 +1,235 @@
+{
+  "recordedAt": "2026-10-30T23:59:29.908Z",
+  "sourceCommit": "675a7c481c3d3d895ee4e7e72990c628ba341f70",
+  "runtimeSourceHash": "bbccba5d944d0af6e1d8c4edce5b7618153f597969d1fed577bacf052d0de6b9",
+  "runId": 41147321748,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41147321748",
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "verify",
+      "conclusion": "success",
+      "startedAt": "2026-10-30T23:55:51Z",
+      "completedAt": "2026-10-30T23:57:34Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Initialize containers",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm ci --no-audit --no-fund",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm run format:check",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm run build",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify native hosted API module",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm run db:migrate",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm test",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npx playwright install --with-deps chromium",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run production browser workflows",
+          "conclusion": "success"
+        },
+        {
+          "name": "Surface browser startup and failure details",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Stop containers",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "research-native",
+      "conclusion": "success",
+      "startedAt": "2026-10-30T23:55:51Z",
+      "completedAt": "2026-10-30T23:56:35Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm ci --no-audit --no-fund",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install the pinned actual Wren engine",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run native transport and actual Wren tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Start the isolated research database",
+          "conclusion": "success"
+        },
+        {
+          "name": "Provision synthetic research fixtures with no provider keys",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check stored source contents before indexing",
+          "conclusion": "success"
+        },
+        {
+          "name": "Execute actual Wren SQL and database permission checks",
+          "conclusion": "success"
+        },
+        {
+          "name": "Exercise deterministic security boundaries",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run docker compose -f compose.research.yaml down",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "compose",
+      "conclusion": "success",
+      "startedAt": "2026-10-30T23:57:37Z",
+      "completedAt": "2026-10-30T23:59:01Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run docker compose config --quiet",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run docker compose up --build --wait --wait-timeout 120",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run curl --fail http://localhost:3001/api/health",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run docker compose --profile test run --rm tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run node scripts/check-compose-persistence.mjs --execute",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run docker compose logs --no-color",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Run docker compose down",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "live-ai",
+      "conclusion": "skipped",
+      "startedAt": "2026-10-30T23:59:02Z",
+      "completedAt": "2026-10-30T23:59:02Z",
+      "steps": []
+    }
+  ],
+  "limits": [
+    "Provider-free cloud engineering checks; not a scored live AI study.",
+    "Local observed count is417isolatedtests; no exact cloud count inferred from job status.",
+    "Production application was not redeployed."
+  ]
+}

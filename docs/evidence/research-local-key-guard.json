@@ -27,7 +27,7 @@
     }
   ],
   "independentReview": "No critical issue found in one-request restriction, restart behavior, historical usage preservation or truthful key-change evidence.",
-  "cloudCi": "Previous full CI 41142335257 predates this guard. Fresh result will be recorded separately.",
+  "cloudCi": "Guard revision675a7c4 passed full CI41147321748; see research-ci-key-guard.json.",
   "liveProbe": "gemini-key-check-2026-10-30.json",
   "ordinaryResearchBlocked": true,
   "heldOutRouteEpisodesMeasured": 0,
