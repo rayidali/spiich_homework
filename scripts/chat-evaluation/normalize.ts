@@ -11,6 +11,11 @@ export function normalizeAnalysis(groups: AnalysisFacts[], fixture: Fixture): Sc
     .sort();
   return groups.flatMap((g) => {
     const p = g.scope.plan;
+    // This frozen study's rubric defines scalar groups only. A later product
+    // capability needs its own evaluation rather than inheriting old scores.
+    if (Array.isArray(p.groupBy))
+      throw new Error('The scalar study normalizer cannot score compound groupings.');
+    const groupBy = p.groupBy;
     return g.rows
       .filter((r) => r.value !== null)
       .map((r, index) => {
@@ -25,12 +30,8 @@ export function normalizeAnalysis(groups: AnalysisFacts[], fixture: Fixture): Sc
         const counterpart = p.groupBy === 'counterparty' ? { mode: 'exact', value: r.label } : p.counterparty;
         const scope: Record<string, unknown> = {
           from:
-            p.metric === 'account_balance'
-              ? null
-              : ['month', 'quarter'].includes(p.groupBy)
-                ? r.from
-                : p.from,
-          to: p.metric === 'account_balance' ? null : ['month', 'quarter'].includes(p.groupBy) ? r.to : p.to,
+            p.metric === 'account_balance' ? null : ['month', 'quarter'].includes(groupBy) ? r.from : p.from,
+          to: p.metric === 'account_balance' ? null : ['month', 'quarter'].includes(groupBy) ? r.to : p.to,
           asOf: p.metric === 'account_balance' ? r.to : null,
           status: p.status,
           accountCodes: isCash ? [] : codes,

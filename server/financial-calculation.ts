@@ -6,6 +6,7 @@ import type { FinancialTool, ModelMessages } from './ai-provider';
 import type { InsightEvidence } from './ai';
 import { conversationSchema } from '../shared/conversation';
 import { currencyCodes, dateSchema } from '../shared/schema';
+import { compoundRowId, groupingDimensions, groupingPeriod } from './financial-grouping';
 
 const nodeId = z.string().regex(/^[a-z][a-z0-9_]{0,39}$/);
 const decimal = z.string().regex(/^-?(?:0|[1-9]\d{0,17})(?:\.\d{1,12})?$/);
@@ -15,7 +16,7 @@ const referenceSchema = z.union([
   z.strictObject({
     source: z.literal('query'),
     id: nodeId,
-    rowId: z.string().min(1).max(500),
+    rowId: z.string().min(1).max(1024),
     field: z.literal('value'),
   }),
   z.strictObject({
@@ -69,7 +70,7 @@ const compatibleScenarioSchema = financialScenarioSchema.extend({
               z.strictObject({
                 source: z.literal('query'),
                 id: nodeId,
-                rowId: z.string().min(1).max(500),
+                rowId: z.string().min(1).max(1024),
                 field: z.literal('balance'),
               }),
             ]),
@@ -112,7 +113,8 @@ export const financialScenarioTool: FinancialTool = {
   description: `Compute exact derived financial values using up to4 ledger queries,0..8 explicit user assumptions and1..8 ordered binary arithmetic steps. Pure posted-book arithmetic needs no assumptions and is labeled as recorded-data calculation. User-assumption or draft ancestry stays hypothetical. Never invent a numeric literal: every operand references a query's exact rowId/value, a quoted assumption, or an earlier calculation. Node IDs are globally unique. Query rows must be complete, non-null, and not per-entry averages. For a total query the rowId is total:total. Monetary value operands must be USD; count operands are counts.
 Balance operands MUST use cash_balance with accountCodes:[], not account_balance. The server selects cash-designated ASSET posting accounts; an Assets group or an account called Cash is not equivalent. For a whole-company cash scenario use base currency, groupBy:'total', from:null and the requested as-of date. All generic account_balance queries are deliberately unsupported in this calculator, even when named cash or numerically equal to cash. Use financial_analysis for standalone noncash balances and request_details for unsupported noncash balance arithmetic. Net expense/revenue/profit flows and transaction counts remain supported for their actual meanings; never relabel them as opening cash. Cash source identities are retained through every derived calculation.
 net_cash_movement operands are signed changes during an explicit inclusive period, not opening or closing cash. They require server-selected cash accounts, POSTED and sum. Their exact period, cash identities and query filters remain attached to the arithmetic as separate movement lineage. Filtered movement is only the change in matching transactions; co-occurring expense accounts do not establish payment allocation. Monetary operands remain USD only. Never present a movement as an as-of cash balance or a gross payment.
-For an average per calendar month, use a monthly flow query covering full calendar months and reference {source:'query',id:itsId,rowId:null,field:'month_count'}. The server derives months only from the complete, untruncated, unique, contiguous zero-filled monthly series with exact boundaries. No partial months, balances, quarters or per-entry averages. Divide the matching period's total by that month count; monetary query ancestors must cover the same full period. This field never reads a model-supplied number.
+Compound group rows must be referenced by their exact compound rowId, with the ordered dimension keys and account identities returned by the query. Combining explicit rows does not allocate payments or prove the intended formula.
+For an average per calendar month, use a single-dimension monthly flow query covering full calendar months and reference {source:'query',id:itsId,rowId:null,field:'month_count'}. The server derives months only from the complete, untruncated, unique, contiguous zero-filled monthly series with exact boundaries. No partial months, balances, quarters or per-entry averages. Divide the matching period's total by that month count; monetary query ancestors must cover the same full period. This field never reads a model-supplied number.
 Each assumption sourceText must quote the actual USER wording with exactly one complete quantity and its unit: e.g. '$6,000 per month' USD_per_month, 'three months' months value3, '$3,000 recruiting' USD, 'eighteen percent' ratio value0.18, or '2 employees' count. Copy the original words; do not paraphrase the quote. Digits and unambiguous English whole cardinals zero through ninety-nine (including twenty-one) are supported. Hundreds, larger number words, fractions, ranges and negated quantities require clarification or digits. No assistant text, invented constants, annual-to-monthly conversions or unsupported currencies. The server preserves the actual user substring and span even if a returned quote normalized a cardinal to digits. Percent normalization is exact. These quotes prove numeric provenance, not future truth or intent.
 Addition/subtraction require equal units. A ratio scales a value. USD_per_month times months is USD; USD divided by USD_per_month is months; USD divided by months is USD_per_month. Count may multiply USD, USD_per_month or months. Equal units divided yield ratio. Other dimensional combinations and zero divisors are rejected. Values are magnitude bounded. Calculations preserve exact rational arithmetic and round only for display. For salary plus18% burden, add salary to salary times0.18; do not invent a constant1.
 Ask for missing scenario assumptions rather than inventing future revenue, obligations or reserves. Any used assumption makes that result hypothetical; draft-derived results remain unposted. Neither historical arithmetic nor a positive scenario remainder establishes affordability or predicts the future.`,
@@ -555,20 +557,33 @@ function checkAveragePeriods(amount: Value, duration: Value, facts: AnalysisFact
         (row) => row.from === denominator.scope.plan.from && row.to === denominator.scope.plan.to,
       );
       if (whole && !['account_balance', 'cash_balance'].includes(fact.metric)) continue;
-      if (
-        !['month', 'quarter'].includes(fact.grain) ||
-        ['account_balance', 'cash_balance'].includes(fact.metric)
-      )
+      if (!groupingPeriod(fact.grain) || ['account_balance', 'cash_balance'].includes(fact.metric))
         invalid('A monthly average must use amounts from the same full calendar period as its month count.');
-      const coverage = spans.flatMap((row) => fullMonths(row.from, row.to!).map((m) => m.rowId));
-      if (
-        coverage.length !== expected.length ||
-        new Set(coverage).size !== coverage.length ||
-        [...coverage].sort().some((month, index) => month !== [...expected].sort()[index])
-      )
-        invalid(
-          'A monthly average must include exactly the same complete calendar period as its month count.',
-        );
+      // Account/vendor buckets may repeat the same calendar period legitimately.
+      // Prove complete coverage independently for every selected non-time tuple;
+      // January for one vendor plus February for another is not a complete series.
+      const tuples = new Map<string, typeof spans>();
+      for (const row of spans) {
+        const key = Array.isArray(fact.grain)
+          ? JSON.stringify(
+              row
+                .dimensions!.filter((d) => d.kind !== 'month' && d.kind !== 'quarter')
+                .map((d) => [d.kind, d.key, d.accountId ?? null]),
+            )
+          : '';
+        tuples.set(key, [...(tuples.get(key) ?? []), row]);
+      }
+      for (const rows of tuples.values()) {
+        const coverage = rows.flatMap((row) => fullMonths(row.from, row.to!).map((m) => m.rowId));
+        if (
+          coverage.length !== expected.length ||
+          new Set(coverage).size !== coverage.length ||
+          [...coverage].sort().some((month, index) => month !== [...expected].sort()[index])
+        )
+          invalid(
+            'A monthly average requires the same complete calendar period for every selected account or counterparty tuple.',
+          );
+      }
     }
   }
 }
@@ -617,11 +632,69 @@ function prepare(input: unknown, messages: ModelMessages) {
   return { plan, assumptions };
 }
 
+/** Compound facts come only from the query executor. Check their explicit
+ * dimensions and IDs rather than inferring scope from equal amounts or labels. */
+function validateCompoundRows(fact: AnalysisFacts) {
+  const plan = fact.scope.plan;
+  if (!Array.isArray(plan.groupBy)) return;
+  const kinds = groupingDimensions(plan.groupBy);
+  const accounts = fact.scope.groupingAccounts;
+  if (
+    !fact.scope.compoundGrouping ||
+    JSON.stringify(fact.scope.compoundGrouping.dimensions) !== JSON.stringify(kinds) ||
+    !accounts ||
+    new Set(accounts.map((a) => a.id)).size !== accounts.length ||
+    new Set(accounts.map((a) => a.code)).size !== accounts.length ||
+    accounts.some((a) => !a.id || !a.code) ||
+    (!kinds.includes('account') && accounts.length !== 0)
+  )
+    invalid('Compound query evidence requires its exact grouping and account scope.');
+  for (const row of fact.rows) {
+    const dimensions = row.dimensions;
+    if (
+      !dimensions ||
+      dimensions.length !== kinds.length ||
+      dimensions.some(
+        (d, index) =>
+          d.kind !== kinds[index] ||
+          typeof d.key !== 'string' ||
+          typeof d.label !== 'string' ||
+          (d.kind === 'account'
+            ? !d.accountId || !accounts.some((a) => a.id === d.accountId && a.code === d.key)
+            : d.accountId !== undefined) ||
+          (d.kind === 'counterparty' && d.key.length > 100),
+      ) ||
+      row.rowId !== compoundRowId(dimensions) ||
+      !rowPeriodMatches(fact, row) ||
+      (plan.metric === 'cash_balance' ? row.balanceAsOf !== row.to : row.balanceAsOf !== undefined)
+    )
+      invalid('Compound query rows have incompatible dimension identity, order or period.');
+    const account = dimensions.find((d) => d.kind === 'account');
+    const cash = fact.scope.cashBalanceSource ?? fact.scope.cashMovementSource;
+    if (
+      account &&
+      ['cash_balance', 'net_cash_movement'].includes(plan.metric) &&
+      !cash?.accounts.some((a) => a.id === account.accountId && a.code === account.key)
+    )
+      invalid('A compound cash row must identify an actual account in its verified cash source.');
+  }
+}
+
+function cashRowAccountIds(fact: AnalysisFacts, row: AnalysisFacts['rows'][number]): string[] {
+  if (Array.isArray(fact.grain)) {
+    const account = row.dimensions!.find((d) => d.kind === 'account');
+    if (account) return [account.accountId!];
+  }
+  return fact.grain === 'account'
+    ? [decodeURIComponent(row.rowId.slice('account:'.length))]
+    : [...fact.scope.resolvedAccountIds];
+}
+
 function validateCashSource(fact: AnalysisFacts) {
   const plan = fact.scope.plan;
   const proof = fact.scope.cashBalanceSource;
   const accountIds = proof?.accounts.map((account) => account.id) ?? [];
-  const series = plan.groupBy === 'month' || plan.groupBy === 'quarter';
+  const series = groupingPeriod(plan.groupBy) !== undefined;
   if (
     !proof ||
     proof.selection !== 'all_cash_asset_posting_accounts' ||
@@ -634,7 +707,9 @@ function validateCashSource(fact: AnalysisFacts) {
     plan.descriptionSearch !== '' ||
     plan.minimumAmount !== null ||
     plan.maximumAmount !== null ||
-    !['total', 'account', 'month', 'quarter'].includes(plan.groupBy) ||
+    (Array.isArray(plan.groupBy)
+      ? plan.groupBy.length !== 2 || !plan.groupBy.includes('account') || !series
+      : !['total', 'account', 'month', 'quarter'].includes(plan.groupBy)) ||
     (series ? plan.from === null : plan.from !== null) ||
     (plan.currencyMode === 'base' ? plan.currency !== null : plan.currency !== 'USD') ||
     fact.scope.statusMeaning !== 'booked' ||
@@ -666,26 +741,30 @@ function validateCashSource(fact: AnalysisFacts) {
     invalid('Cash operands require verified cash-designated asset accounts and matching balance scope.');
 }
 
-function movementRowPeriod(fact: AnalysisFacts, row: AnalysisFacts['rows'][number]) {
+function rowPeriodMatches(fact: AnalysisFacts, row: AnalysisFacts['rows'][number]) {
   const plan = fact.scope.plan;
-  if (plan.groupBy !== 'month' && plan.groupBy !== 'quarter')
-    return row.from === plan.from && row.to === plan.to;
-  const match =
-    plan.groupBy === 'month'
-      ? /^month:(\d{4})-(0[1-9]|1[0-2])$/.exec(row.rowId)
-      : /^quarter:(\d{4})-Q([1-4])$/.exec(row.rowId);
+  const period = groupingPeriod(plan.groupBy);
+  if (!period) return row.from === plan.from && row.to === plan.to;
+  const key = Array.isArray(plan.groupBy)
+    ? row.dimensions?.find((d) => d.kind === period)?.key
+    : row.rowId.startsWith(`${period}:`)
+      ? row.rowId.slice(period.length + 1)
+      : undefined;
+  if (key === undefined) return false;
+  const match = period === 'month' ? /^(\d{4})-(0[1-9]|1[0-2])$/.exec(key) : /^(\d{4})-Q([1-4])$/.exec(key);
   if (!match) return false;
-  const month = plan.groupBy === 'month' ? Number(match[2]) : (Number(match[2]) - 1) * 3 + 1;
+  const month = period === 'month' ? Number(match[2]) : (Number(match[2]) - 1) * 3 + 1;
   const start = `${match[1]}-${String(month).padStart(2, '0')}-01`;
   if (!dateSchema.safeParse(start).success) return false;
   const endDate = new Date(`${start}T00:00:00.000Z`);
-  endDate.setUTCMonth(endDate.getUTCMonth() + (plan.groupBy === 'month' ? 1 : 3));
+  endDate.setUTCMonth(endDate.getUTCMonth() + (period === 'month' ? 1 : 3));
   endDate.setUTCDate(endDate.getUTCDate() - 1);
   const end = endDate.toISOString().slice(0, 10);
   return (
+    plan.from !== null &&
     start <= plan.to &&
-    end >= plan.from! &&
-    row.from === (start < plan.from! ? plan.from : start) &&
+    end >= plan.from &&
+    row.from === (start < plan.from ? plan.from : start) &&
     row.to === (end > plan.to ? plan.to : end)
   );
 }
@@ -724,7 +803,7 @@ function validateCashMovementSource(fact: AnalysisFacts) {
     fact.rows.some(
       (row) =>
         row.balanceAsOf !== undefined ||
-        !movementRowPeriod(fact, row) ||
+        !rowPeriodMatches(fact, row) ||
         (plan.groupBy === 'account' && !ids.some((id) => row.rowId === `account:${encodeURIComponent(id)}`)),
     ) ||
     (plan.groupBy === 'total' && (fact.rows.length !== 1 || fact.rows[0].rowId !== 'total:total'))
@@ -756,7 +835,7 @@ export function evaluateFinancialScenario(
       JSON.stringify(financialQuerySchema.parse(fact.scope.plan)) !== JSON.stringify(requested) ||
       fact.metric !== requested.metric ||
       fact.aggregation !== requested.aggregation ||
-      fact.grain !== requested.groupBy ||
+      JSON.stringify(fact.grain) !== JSON.stringify(requested.groupBy) ||
       fact.unit !==
         (requested.metric === 'journal_count'
           ? 'count'
@@ -772,6 +851,7 @@ export function evaluateFinancialScenario(
       new Set(fact.rows.map((row) => row.rowId)).size !== fact.rows.length
     )
       invalid('The scenario query evidence has incompatible identity, units or scope.');
+    validateCompoundRows(fact);
     if (fact.metric === 'cash_balance') validateCashSource(fact);
     if (fact.metric === 'net_cash_movement') validateCashMovementSource(fact);
   }
@@ -847,10 +927,7 @@ export function evaluateFinancialScenario(
             queryId: reference.id,
             rowId: reference.rowId,
             asOf: row.balanceAsOf!,
-            accountIds:
-              fact.grain === 'account'
-                ? [decodeURIComponent(row.rowId.slice('account:'.length))]
-                : [...fact.scope.resolvedAccountIds],
+            accountIds: cashRowAccountIds(fact, row),
           },
         ];
       }),
@@ -864,10 +941,7 @@ export function evaluateFinancialScenario(
             rowId: reference.rowId,
             from: row.from!,
             to: row.to!,
-            accountIds:
-              fact.grain === 'account'
-                ? [decodeURIComponent(row.rowId.slice('account:'.length))]
-                : [...fact.scope.resolvedAccountIds],
+            accountIds: cashRowAccountIds(fact, row),
           },
         ];
       }),

@@ -7,6 +7,16 @@ import { accountSchema, currencyCodes, dateSchema, type Account } from '../share
 import type { FinancialTool } from './ai-provider';
 import type { InsightEvidence } from './ai';
 import { ALL_HISTORY_START, recordedPeriod } from './date-scope';
+import {
+  groupingSchema,
+  groupingDimensions,
+  groupingPeriod,
+  compileCompoundGrouping,
+  compoundRowId,
+  MAX_COMPOUND_CELLS,
+  type GroupDimension,
+  type CompoundDimension,
+} from './financial-grouping';
 
 const signedAmount = z.string().regex(/^-?\d{1,16}(?:\.\d{1,2})?$/);
 export const financialQuerySchema = z.strictObject({
@@ -27,7 +37,7 @@ export const financialQuerySchema = z.strictObject({
   status: z.enum(['POSTED', 'DRAFT']),
   currencyMode: z.enum(['base', 'native']).default('base'),
   currency: z.enum(currencyCodes).nullable().default(null),
-  groupBy: z.enum(['total', 'account', 'month', 'quarter', 'counterparty', 'entry']),
+  groupBy: groupingSchema,
   accountCodes: z.array(accountSchema.shape.code).max(20),
   cooccurringAccountCodes: z.array(accountSchema.shape.code).max(20),
   counterparty: z.strictObject({
@@ -67,6 +77,7 @@ export const financialAnalysisTool: FinancialTool = {
   description: `Compose up to four bounded ledger queries. Never supply SQL.
 currencyMode:'base',currency:null uses recorded USD base values. currencyMode:'native' requires one explicit USD/EUR/GBP/CAD/JPY currency and measures only accounts and saved lines in that currency, without conversion. Groups include only descendants in that currency. Explicit posting accounts must match it. Native journal_total/count are not supported: a mixed-currency full journal cannot be partially counted as a native total.
 net_expense/net_revenue/net_profit measure matching lines; accountCodes restrict those lines, expanding groups.
+groupBy accepts a single dimension as before, or an ordered array of two or three unique dimensions from account,counterparty,month,quarter, with at most one time grain. Example ['month','account'] answers monthly spending by account; ['month','account','counterparty'] separates actual account/person combinations. All dimensions must be requested; never silently replace a compound grouping with one dimension. Journal totals/counts still cannot include account. Compound book balances support only account plus month/quarter and retain each account's full history through the row's closing date; different account types remain separate. For account+time, every scoped posting account gets every period, including archived/quiet accounts. Counterparty combinations use only actual tuples observed after all filters and entry amount thresholds; fill their missing periods, never invent unrelated account/vendor combinations. Named counterparties display as quoted text, distinct from the empty-name placeholder; grouping preserves exact case-sensitive header identities, without entity resolution. Empty sums/counts are zero; empty averages are null. The complete compound grid is capped at30000 cells; a larger scope requires narrowing, never a partial tuple universe. The final limit1..50 is GLOBAL across all grouped rows, not a per-account/per-vendor limit. Composite fact rows include ordered typed dimensions and IDs of the form compound:[["month","2026-03"],["account","5030"]]; use account codes as keys, with actual account IDs retained separately in evidence.
 journal_total is the FULL journal debit total, not cash or revenue; journal_count counts DISTINCT entries. For these two metrics accountCodes select entries having any listed account, without trimming their lines. Neither supports account grouping.
 cooccurringAccountCodes is only an entry-has-ANY-listed-account filter; it NEVER establishes allocated payment or which expense a funding line paid.
 counterparty exact is case-insensitive exact header text; contains and descriptionSearch are literal substrings, not entity resolution.
@@ -159,7 +170,11 @@ export function compileFinancialQuery(org: string, input: unknown, chart: Analys
   const isCashMovement = plan.metric === 'net_cash_movement';
   const isCash = plan.metric === 'cash_balance' || isCashMovement;
   const isBalance = isBalanceMetric(plan);
-  const isSeries = plan.groupBy === 'month' || plan.groupBy === 'quarter';
+  const dimensions = groupingDimensions(plan.groupBy);
+  const period = groupingPeriod(plan.groupBy);
+  const isSeries = !!period;
+  const compound = Array.isArray(plan.groupBy);
+  let periodCount = 1;
   if (plan.currencyMode === 'base' ? plan.currency !== null : plan.currency === null)
     unsupported(
       'The base view requires currency:null; a native view requires one explicit supported currency.',
@@ -178,7 +193,9 @@ export function compileFinancialQuery(org: string, input: unknown, chart: Analys
       (isSeries ? plan.from === null : plan.from !== null) ||
       (isCash ? plan.accountCodes.length !== 0 : !plan.accountCodes.length) ||
       plan.status !== 'POSTED' ||
-      !['total', 'account', 'month', 'quarter'].includes(plan.groupBy) ||
+      (compound
+        ? !(dimensions.length === 2 && dimensions.includes('account') && isSeries)
+        : !['total', 'account', 'month', 'quarter'].includes(plan.groupBy as string)) ||
       plan.minimumAmount !== null ||
       plan.maximumAmount !== null ||
       plan.counterparty.mode !== 'any' ||
@@ -196,18 +213,18 @@ export function compileFinancialQuery(org: string, input: unknown, chart: Analys
     unsupported(
       'An average across transactions requires total or a requested account, period or counterparty grouping, not one group per transaction.',
     );
-  if (isJournal && plan.groupBy === 'account')
+  if (isJournal && dimensions.includes('account'))
     unsupported(
       'Journal totals and counts cannot be allocated to account groups. Choose entry, time or counterparty grouping.',
     );
-  if (plan.groupBy === 'month' || plan.groupBy === 'quarter') {
+  if (isSeries) {
     const months =
       (Number(plan.to.slice(0, 4)) - Number(plan.from!.slice(0, 4))) * 12 +
       Number(plan.to.slice(5, 7)) -
       Number(plan.from!.slice(5, 7)) +
       1;
     const buckets =
-      plan.groupBy === 'month'
+      period === 'month'
         ? months
         : Math.floor((Number(plan.to.slice(0, 4)) * 12 + Number(plan.to.slice(5, 7)) - 1) / 3) -
           Math.floor((Number(plan.from!.slice(0, 4)) * 12 + Number(plan.from!.slice(5, 7)) - 1) / 3) +
@@ -216,6 +233,7 @@ export function compileFinancialQuery(org: string, input: unknown, chart: Analys
       unsupported(
         'A time series is limited to 120 calendar periods. Choose a shorter range or quarterly grouping.',
       );
+    periodCount = buckets;
   }
   const expanded = isCash
     ? chart.filter((account) => account.type === 'ASSET' && account.is_cash && !account.is_group)
@@ -236,7 +254,11 @@ export function compileFinancialQuery(org: string, input: unknown, chart: Analys
   const selectedTypes = new Set([...requestedRoots, ...expanded].map((account) => account.type));
   if (!isJournal && [...requestedRoots, ...expanded].some((account) => !types.includes(account.type)))
     unsupported('The selected accounts do not match the requested financial metric.');
-  if (isBalance && (plan.groupBy === 'total' || isSeries) && selectedTypes.size > 1)
+  if (
+    isBalance &&
+    (plan.groupBy === 'total' || (isSeries && !dimensions.includes('account'))) &&
+    selectedTypes.size > 1
+  )
     unsupported(
       'A total or time-series balance requires one account type. Group by account to keep different normal balances separate.',
     );
@@ -280,7 +302,7 @@ export function compileFinancialQuery(org: string, input: unknown, chart: Analys
         ]
       : []),
   ];
-  const dimensions = {
+  const scalarDimensions = {
     total: ["'total'", "'Total'"],
     account: ['m.account_id::text', "m.account_code || ' · ' || m.account_name"],
     month: ["to_char(m.date,'YYYY-MM')", "to_char(m.date,'YYYY-MM')"],
@@ -293,10 +315,10 @@ export function compileFinancialQuery(org: string, input: unknown, chart: Analys
       "CASE WHEN m.counterparty='' THEN '(No counterparty)' ELSE m.counterparty END",
     ],
     entry: ['m.entry_id::text', "m.date::text || ' · ' || m.description"],
-  }[plan.groupBy];
+  }[compound ? 'total' : (plan.groupBy as Exclude<FinancialQuery['groupBy'], unknown[]>)];
   const totalExpression =
     plan.metric === 'journal_count' ? 'count(DISTINCT m.entry_id)::numeric' : 'coalesce(sum(m.amount),0)';
-  const groupBy = plan.groupBy === 'total' ? '' : `GROUP BY ${dimensions[0]},${dimensions[1]}`;
+  const groupBy = plan.groupBy === 'total' ? '' : `GROUP BY ${scalarDimensions[0]},${scalarDimensions[1]}`;
   let complete =
     'SELECT row_id,label,value,entry_count,NULL::date AS period_from,NULL::date AS period_to FROM grouped';
   if (plan.groupBy === 'account') {
@@ -334,20 +356,35 @@ export function compileFinancialQuery(org: string, input: unknown, chart: Analys
     plan.currencyMode === 'native'
       ? expressions[plan.metric].replaceAll('l.base_debit', 'l.debit').replaceAll('l.base_credit', 'l.credit')
       : expressions[plan.metric];
-  const sql = `WITH typed_input AS (SELECT $1::uuid,$2::date,$3::date,$4::text,$5::uuid[],$6::uuid[],$7::text,$8::text,$9::numeric,$10::numeric,$11::integer,$12::text[],$13::text),
+  const prefix = `WITH typed_input AS (SELECT $1::uuid,$2::date,$3::date,$4::text,$5::uuid[],$6::uuid[],$7::text,$8::text,$9::numeric,$10::numeric,$11::integer,$12::text[],$13::text),
     entry_scope AS (SELECT e.id,e.date,e.description,e.counterparty FROM journal_entries e WHERE ${entryFilters.join(' AND ')}),
     account_scope AS (SELECT a.id,a.code,a.name FROM accounts a WHERE a.organization_id=$1 AND NOT a.is_group AND a.type=ANY($12::text[]) AND ($13::text IS NULL OR a.currency=$13)${isCash ? ' AND a.is_cash' : ''}${accountFilter ? ' AND a.id=ANY($5::uuid[])' : ''}),
     metric_lines AS (SELECT e.id AS entry_id,e.date,e.description,e.counterparty,a.id AS account_id,a.code AS account_code,a.name AS account_name,(${expression}) AS amount
       FROM entry_scope e JOIN journal_lines l ON l.entry_id=e.id AND l.organization_id=$1 JOIN accounts a ON a.id=l.account_id AND a.organization_id=$1
       WHERE a.type=ANY($12::text[]) AND ($13::text IS NULL OR (a.currency=$13 AND l.currency=$13))${isCash ? ' AND a.is_cash AND NOT a.is_group' : ''}${!isJournal && accountFilter ? ' AND a.id=ANY($5::uuid[])' : ''}),
     entry_values AS (SELECT entry_id,sum(amount) AS amount FROM metric_lines GROUP BY entry_id),
-    qualified_entries AS (SELECT entry_id FROM entry_values WHERE ($9::numeric IS NULL OR amount >= $9::numeric) AND ($10::numeric IS NULL OR amount <= $10::numeric)),
-    grouped AS (SELECT ${dimensions[0]} AS row_id,${dimensions[1]} AS label,${totalExpression} AS value,count(DISTINCT m.entry_id)::numeric AS entry_count
+    qualified_entries AS (SELECT entry_id FROM entry_values WHERE ($9::numeric IS NULL OR amount >= $9::numeric) AND ($10::numeric IS NULL OR amount <= $10::numeric))`;
+  const sql = compound
+    ? compileCompoundGrouping(prefix, plan, isBalance, periodCount)
+    : `${prefix},
+    grouped AS (SELECT ${scalarDimensions[0]} AS row_id,${scalarDimensions[1]} AS label,${totalExpression} AS value,count(DISTINCT m.entry_id)::numeric AS entry_count
       FROM metric_lines m JOIN qualified_entries q ON q.entry_id=m.entry_id ${groupBy}),
     complete AS (${complete}),
     results AS (SELECT row_id,label,${finalValue} AS result_value,entry_count,period_from,period_to FROM complete)
     SELECT row_id,label,result_value::text AS value,entry_count::text,period_from::text,period_to::text FROM results ORDER BY ${order} LIMIT $11`;
-  return { sql, params, plan, selected, cooccurring };
+  const groupingAccounts =
+    compound && dimensions.includes('account')
+      ? (accountFilter
+          ? selected
+          : chart.filter(
+              (account) =>
+                !account.is_group &&
+                types.includes(account.type) &&
+                (plan.currencyMode === 'base' || account.currency === plan.currency),
+            )
+        ).map(({ id, code }) => ({ id, code }))
+      : [];
+  return { sql, params, plan, selected, cooccurring, groupingAccounts };
 }
 
 type RawRow = {
@@ -357,6 +394,8 @@ type RawRow = {
   entry_count: string;
   period_from: string | null;
   period_to: string | null;
+  dimensions?: GroupDimension[];
+  scope_overflow?: boolean;
 };
 export type AnalysisFactRow = {
   rowId: string;
@@ -366,6 +405,7 @@ export type AnalysisFactRow = {
   from: string | null;
   to: string | null;
   balanceAsOf?: string;
+  dimensions?: GroupDimension[];
 };
 type CashAccountSource = {
   selection: 'all_cash_asset_posting_accounts';
@@ -392,6 +432,12 @@ export type AnalysisFacts = {
     statusMeaning: string;
     cashBalanceSource?: CashAccountSource;
     cashMovementSource?: CashAccountSource;
+    groupingAccounts?: { id: string; code: string }[];
+    compoundGrouping?: {
+      dimensions: CompoundDimension[];
+      zeroFill: 'all_scoped_accounts' | 'observed_qualified_tuples' | 'none';
+      maximumCells: number;
+    };
   };
 };
 const metricLabels: Record<FinancialQuery['metric'], string> = {
@@ -406,7 +452,7 @@ const metricLabels: Record<FinancialQuery['metric'], string> = {
 };
 function scopeDescription(plan: FinancialQuery, chart: AnalysisAccount[]) {
   const currency = plan.currencyMode === 'native' ? plan.currency! : 'USD';
-  const isBalanceSeries = isBalanceMetric(plan) && ['month', 'quarter'].includes(plan.groupBy);
+  const isBalanceSeries = isBalanceMetric(plan) && !!groupingPeriod(plan.groupBy);
   const names = (codes: string[]) =>
     codes
       .map((code) => {
@@ -446,7 +492,31 @@ function scopeDescription(plan: FinancialQuery, chart: AnalysisAccount[]) {
           `Only transactions whose ${plan.metric.startsWith('journal_') ? 'full transaction total' : 'amount for the selected accounts'} is ${plan.minimumAmount !== null ? `at least ${formatCurrency(plan.minimumAmount, currency)} ${currency}` : ''}${plan.minimumAmount !== null && plan.maximumAmount !== null ? ' and ' : ''}${plan.maximumAmount !== null ? `at most ${formatCurrency(plan.maximumAmount, currency)} ${currency}` : ''}`,
         ]
       : []),
-    `${{ total: 'One total', account: 'By account', month: 'By month', quarter: 'By quarter', counterparty: 'By person or business', entry: 'Each transaction' }[plan.groupBy]}; ${{ value_desc: 'largest values first', value_asc: 'smallest values first', label_asc: 'in name or date order' }[plan.order]}`,
+    `${groupingDimensions(plan.groupBy)
+      .map(
+        (dimension) =>
+          ({
+            total: 'One total',
+            account: 'By account',
+            month: 'By month',
+            quarter: 'By quarter',
+            counterparty: 'By person or business',
+            entry: 'Each transaction',
+          })[dimension],
+      )
+      .join(
+        ' and ',
+      )}; ${{ value_desc: 'largest values first', value_asc: 'smallest values first', label_asc: 'in name or date order' }[plan.order]}`,
+    ...(Array.isArray(plan.groupBy)
+      ? [
+          groupingPeriod(plan.groupBy)
+            ? plan.groupBy.includes('counterparty')
+              ? 'Missing periods are filled only for account/person combinations observed in matching transactions after the entry amount filters; unrelated combinations are not invented'
+              : 'Every scoped posting account is included in every displayed period, including accounts without activity'
+            : 'Only combinations observed in matching transactions after the entry amount filters are included',
+          `The ${plan.limit}-row limit applies to the complete grouped result, not separately to each account or person. Named counterparties are quoted and retain their exact header spelling; blank names are separate`,
+        ]
+      : []),
     plan.aggregation === 'average_per_entry'
       ? 'Average per matching transaction, including refunds and transactions with a net amount of zero, rounded to the currency minor unit. A period with no transactions has no average'
       : plan.metric === 'journal_count'
@@ -492,10 +562,16 @@ export async function executeFinancialAnalysis(
     for (const item of compiled) {
       const result = await query<RawRow>(item.sql, item.params, db),
         plan = item.plan;
+      if (result.some((row) => row.scope_overflow))
+        unsupported(
+          `This compound grouping would exceed ${MAX_COMPOUND_CELLS} result cells before display limits. Narrow the date range or filters; no partial combination set has been substituted.`,
+        );
       const currency = plan.currencyMode === 'native' ? plan.currency! : 'USD';
       const truncated = result.length > plan.limit;
       const rows = result.slice(0, plan.limit).map((row) => ({
-        rowId: `${plan.groupBy}:${encodeURIComponent(row.row_id)}`,
+        rowId: Array.isArray(plan.groupBy)
+          ? compoundRowId(row.dimensions!)
+          : `${plan.groupBy}:${encodeURIComponent(row.row_id)}`,
         label: row.label,
         value:
           row.value === null
@@ -509,10 +585,11 @@ export async function executeFinancialAnalysis(
         from: row.period_from ?? plan.from,
         to: row.period_to ?? plan.to,
         ...(isBalanceMetric(plan) ? { balanceAsOf: row.period_to ?? plan.to } : {}),
+        ...(Array.isArray(plan.groupBy) ? { dimensions: row.dimensions! } : {}),
       }));
       const scope = scopeDescription(plan, chart);
       const tableRows = rows.map((row) => ({
-        label: `${row.label}${row.from && ['month', 'quarter'].includes(plan.groupBy) ? (isBalanceMetric(plan) ? ` · closing balance as of ${row.to}` : ` · ${row.from} to ${row.to}`) : ''}${plan.aggregation === 'average_per_entry' ? ` · ${row.entryCount} matching transactions` : ''}`,
+        label: `${row.label}${row.from && groupingPeriod(plan.groupBy) ? (isBalanceMetric(plan) ? ` · closing balance as of ${row.to}` : ` · ${row.from} to ${row.to}`) : ''}${plan.aggregation === 'average_per_entry' ? ` · ${row.entryCount} matching transactions` : ''}`,
         value:
           row.value === null
             ? 'No matching transactions'
@@ -528,7 +605,7 @@ export async function executeFinancialAnalysis(
       const suffix = truncated
         ? `Showing ${plan.limit} results. There are more; these are not the complete results.`
         : `All ${rows.length} results are shown.`;
-      const metricHeading = `${isBalanceMetric(plan) && ['month', 'quarter'].includes(plan.groupBy) ? (plan.metric === 'cash_balance' ? 'Closing cash and bank balances' : 'Closing account balances') : metricLabels[plan.metric]}${plan.aggregation === 'average_per_entry' ? ' (average per transaction)' : ''}${plan.status === 'DRAFT' ? ' (drafts only)' : ''}${plan.currencyMode === 'native' ? ` (${currency}, without conversion)` : ''}`;
+      const metricHeading = `${isBalanceMetric(plan) && groupingPeriod(plan.groupBy) ? (plan.metric === 'cash_balance' ? 'Closing cash and bank balances' : 'Closing account balances') : metricLabels[plan.metric]}${plan.aggregation === 'average_per_entry' ? ' (average per transaction)' : ''}${plan.status === 'DRAFT' ? ' (drafts only)' : ''}${plan.currencyMode === 'native' ? ` (${currency}, without conversion)` : ''}`;
       const accountNames = plan.accountCodes.map(
         (code) => chart.find((account) => account.code === code)!.name,
       );
@@ -579,6 +656,20 @@ export async function executeFinancialAnalysis(
                     ? `inception_to_closing_date_${plan.currencyMode}_lines`
                     : `selected_metric_${plan.currencyMode}_lines`,
           statusMeaning: plan.status === 'POSTED' ? 'booked' : 'unposted_projection',
+          ...(Array.isArray(plan.groupBy)
+            ? {
+                groupingAccounts: item.groupingAccounts,
+                compoundGrouping: {
+                  dimensions: plan.groupBy,
+                  zeroFill: (groupingPeriod(plan.groupBy)
+                    ? plan.groupBy.includes('counterparty')
+                      ? 'observed_qualified_tuples'
+                      : 'all_scoped_accounts'
+                    : 'none') as 'all_scoped_accounts' | 'observed_qualified_tuples' | 'none',
+                  maximumCells: MAX_COMPOUND_CELLS,
+                },
+              }
+            : {}),
           ...(plan.metric === 'cash_balance' || plan.metric === 'net_cash_movement'
             ? {
                 [plan.metric === 'cash_balance' ? 'cashBalanceSource' : 'cashMovementSource']: {

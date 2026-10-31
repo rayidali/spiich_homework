@@ -88,6 +88,11 @@ function fact(change: Partial<FinancialQuery> = {}): AnalysisFacts {
   };
 }
 describe('database-derived scope normalization', () => {
+  it('refuses to award the frozen scalar-study score to a later compound grouping', () => {
+    expect(() => normalizeAnalysis([fact({ groupBy: ['month', 'account'] })], fixture)).toThrow(
+      'scalar study normalizer cannot score compound',
+    );
+  });
   it('uses the actual month row bounds, not the full query window', () => {
     const [r] = normalizeAnalysis([fact()], fixture);
     expect(r.scope).toMatchObject({ from: '2026-04-01', to: '2026-04-30', asOf: null, month: '2026-04' });
