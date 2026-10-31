@@ -77,22 +77,61 @@ describe('Product evaluation V2 posted-correction fixtures', () => {
       const before = await getCategorizationContext(p.before.org, item.text);
       const after = await getCategorizationContext(p.after.org, item.text);
       expect(before.corrections).toEqual([]);
-      expect(before.history).toHaveLength(1);
       expect(after.corrections.map((m) => m.id)).toEqual([p.teaching.memoryId]);
-      expect(after.history).toHaveLength(2);
-      expect(after.history.some((e) => e.id === p.teaching.entryId)).toBe(true);
       expect(before.history.some((e) => e.id === p.teaching.entryId)).toBe(false);
-      const normalize = (lines: (typeof before.history)[0]['lines'], codes: Record<string, string>) =>
-        lines.map((l) => ({
-          code: codes[l.accountId],
+      // Stored history and retrieved context are distinct. A short old-purpose
+      // description can fall below the real trigram threshold for this long
+      // question. Prove equal prior postings independently, then compare the
+      // retrieved prior subset without forcing irrelevant records into context.
+      const [storedBefore, storedAfter] = await Promise.all([
+        query<{ id: string; source: string }>(
+          "SELECT id,source FROM journal_entries WHERE organization_id=$1 AND status='POSTED'",
+          [p.before.org],
+        ),
+        query<{ id: string; source: string }>(
+          "SELECT id,source FROM journal_entries WHERE organization_id=$1 AND status='POSTED'",
+          [p.after.org],
+        ),
+      ]);
+      expect(storedBefore).toHaveLength(1);
+      expect(storedBefore[0].source).toBe('MANUAL');
+      expect(storedAfter).toHaveLength(2);
+      expect(storedAfter.filter((e) => e.source === 'AI')).toEqual([
+        { id: p.teaching.entryId, source: 'AI' },
+      ]);
+      const priorBefore = await getEntry(p.before.org, storedBefore[0].id);
+      const priorAfter = await getEntry(p.after.org, storedAfter.find((e) => e.source === 'MANUAL')!.id);
+      const posting = (entry: typeof priorBefore) => ({
+        date: entry.date,
+        description: entry.description,
+        counterparty: entry.counterparty,
+        lines: entry.lines.map((l) => ({
+          code: l.account_code,
           debit: l.debit,
           credit: l.credit,
-          rate: l.exchangeRate,
+          rate: l.exchange_rate,
+        })),
+      });
+      expect(posting(priorAfter)).toEqual(posting(priorBefore));
+      expect(before.history.every((e) => storedBefore.some((stored) => stored.id === e.id))).toBe(true);
+      expect(after.history.every((e) => storedAfter.some((stored) => stored.id === e.id))).toBe(true);
+      const normalize = (rows: typeof before.history, codes: Record<string, string>) =>
+        rows.map((row) => ({
+          description: row.description,
+          counterparty: row.counterparty,
+          lines: row.lines.map((l) => ({
+            code: codes[l.accountId],
+            debit: l.debit,
+            credit: l.credit,
+            rate: l.exchangeRate,
+          })),
         }));
-      const previous = after.history.find((e) => e.id !== p.teaching.entryId)!;
-      expect(normalize(previous.lines, p.after.codesById)).toEqual(
-        normalize(before.history[0].lines, p.before.codesById),
-      );
+      expect(
+        normalize(
+          after.history.filter((e) => e.id !== p.teaching.entryId),
+          p.after.codesById,
+        ),
+      ).toEqual(normalize(before.history, p.before.codesById));
     }
   });
 
