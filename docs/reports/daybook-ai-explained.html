@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Daybook AI study explained</title>
+    <style>
+      body {
+        margin: 0;
+        background: #edf1ef;
+        color: #172d38;
+        font:
+          17px/1.5 system-ui,
+          sans-serif;
+      }
+      main {
+        max-width: 900px;
+        margin: 24px auto;
+      }
+      section {
+        background: white;
+        padding: 38px 44px;
+        margin-bottom: 24px;
+        border-radius: 8px;
+      }
+      h1 {
+        font-size: 32px;
+        line-height: 1.15;
+        margin: 0 0 18px;
+      }
+      h2 {
+        font-size: 21px;
+        margin: 24px 0 8px;
+      }
+      p {
+        margin: 0 0 14px;
+      }
+      aside {
+        background: #eaf3ed;
+        border-left: 4px solid #25694f;
+        padding: 16px;
+        margin-bottom: 18px;
+      }
+      .small {
+        font-size: 14px;
+        color: #4d626d;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 15px;
+      }
+      td,
+      th {
+        padding: 9px 8px;
+        vertical-align: top;
+        border-bottom: 1px solid #d9e2e5;
+        text-align: left;
+      }
+      th {
+        background: #eaf3ed;
+      }
+      td:first-child {
+        width: 19%;
+      }
+      td:last-child {
+        width: 22%;
+        white-space: nowrap;
+      }
+      .track {
+        height: 5px;
+        background: #d9e2e5;
+        margin-top: 7px;
+      }
+      .track span {
+        display: block;
+        height: 5px;
+        background: #25694f;
+      }
+      .flow {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 13px;
+        margin: 15px 0;
+      }
+      .flow div {
+        flex: 1;
+        background: #eaf3ed;
+        padding: 12px;
+        text-align: center;
+        border-radius: 5px;
+      }
+      a {
+        color: #25694f;
+      }
+      header {
+        padding: 0 12px 16px;
+        color: #4d626d;
+        font-size: 14px;
+      }
+      @media (max-width: 600px) {
+        main {
+          margin: 0;
+        }
+        section {
+          padding: 24px 16px;
+          border-radius: 0;
+        }
+        table {
+          font-size: 12px;
+        }
+        td,
+        th {
+          padding: 7px 4px;
+        }
+        .flow {
+          gap: 5px;
+          font-size: 11px;
+        }
+        .flow div {
+          padding: 8px 5px;
+        }
+        h1 {
+          font-size: 28px;
+        }
+      }
+      @media print {
+        body {
+          background: white;
+          font-size: 10pt;
+        }
+        main {
+          max-width: none;
+          margin: 0;
+        }
+        header {
+          display: none;
+        }
+        section {
+          padding: 0;
+          margin: 0;
+          break-after: page;
+          border: 0;
+        }
+        section:last-child {
+          break-after: auto;
+        }
+        h1 {
+          font-size: 22pt;
+        }
+        h2 {
+          font-size: 12pt;
+        }
+        p {
+          margin-bottom: 7pt;
+        }
+        table {
+          font-size: 9pt;
+        }
+        td,
+        th {
+          padding: 4pt;
+        }
+        .small {
+          font-size: 8pt;
+        }
+        aside {
+          padding: 8pt;
+        }
+        .flow {
+          margin: 8pt 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        DAYBOOK · 31 October 2026 · <a href="daybook-ai-explained.pdf">Download the two-page PDF</a>
+      </header>
+      <section>
+        <h1 class="title">Which AI setup worked best?</h1>
+        <aside>
+          <b>The answer:</b> Gemini File Search had the highest broad test score. For Daybook, keep the
+          reliable money tools and test document access next. This study does not prove that adding every AI
+          tool makes a better product.
+        </aside>
+        <p class="p">
+          We built <b>nine routes</b>: nine ways for the same Gemini model to answer questions, each with
+          different equipment. They ran in a separate research setup. The deployed app still uses its original
+          financial tools.
+        </p>
+        <div class="flow">
+          <div><b>Money notebook</b><br />PostgreSQL calculates</div>
+          <span>+</span>
+          <div><b>Document cupboard</b><br />Search finds context</div>
+          <span>=</span>
+          <div><b>Checked answer</b><br />Gemini explains; code checks</div>
+        </div>
+        <h2 class="h">The nine routes and their report cards</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Route</th>
+              <th>Equipment and reason for testing</th>
+              <th>Passed / 180</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>R0</b><br />Existing tools</td>
+              <td>Our four money tools and entry proposals. The starting control.</td>
+              <td>
+                <b>57/180 · 31.7%</b>
+                <div class="track"><span style="width: 31.7%"></span></div>
+              </td>
+            </tr>
+            <tr>
+              <td><b>R1</b><br />Broader tools</td>
+              <td>More database filters, grouping and calculations. Can it handle more questions?</td>
+              <td>
+                <b>76/180 · 42.2%</b>
+                <div class="track"><span style="width: 42.2%"></span></div>
+              </td>
+            </tr>
+            <tr>
+              <td><b>R2</b><br />Keyword search</td>
+              <td>R1 + matching words in documents. Does adding written context help?</td>
+              <td>
+                <b>110/180 · 61.1%</b>
+                <div class="track"><span style="width: 61.1%"></span></div>
+              </td>
+            </tr>
+            <tr>
+              <td><b>R3</b><br />Gemini File Search</td>
+              <td>R1 + Google-managed document finding. Can Google find better sources?</td>
+              <td>
+                <b>127/180 · 70.6%</b>
+                <div class="track"><span style="width: 70.6%"></span></div>
+              </td>
+            </tr>
+            <tr>
+              <td><b>R4</b><br />Hybrid / pgvector</td>
+              <td>R1 + keywords and Gemini meaning-vectors stored in PostgreSQL. Find similar ideas.</td>
+              <td>
+                <b>118/180 · 65.6%</b>
+                <div class="track"><span style="width: 65.6%"></span></div>
+              </td>
+            </tr>
+            <tr>
+              <td><b>R5</b><br />Jev sorts sources</td>
+              <td>R4 + Jev ranks candidate documents. Put the most useful pages first.</td>
+              <td>
+                <b>115/180 · 63.9%</b>
+                <div class="track"><span style="width: 63.9%"></span></div>
+              </td>
+            </tr>
+            <tr>
+              <td><b>R6</b><br />Wren queries</td>
+              <td>R4 document search + Wren replaces our query builder. Try a business-data dictionary.</td>
+              <td>
+                <b>109/180 · 60.6%</b>
+                <div class="track"><span style="width: 60.6%"></span></div>
+              </td>
+            </tr>
+            <tr>
+              <td><b>R7</b><br />Gemini checks</td>
+              <td>R4 + a second Gemini call reviews the answer. Catch mistakes before release.</td>
+              <td>
+                <b>113/180 · 62.8%</b>
+                <div class="track"><span style="width: 62.8%"></span></div>
+              </td>
+            </tr>
+            <tr>
+              <td><b>R8</b><br />Jev checks</td>
+              <td>R4 + Jev reviews the answer. Try a specialist mistake detector.</td>
+              <td>
+                <b>115/180 · 63.9%</b>
+                <div class="track"><span style="width: 63.9%"></span></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="small">
+          Same 180 attempts per route; higher is better on this test. These percentages measure complete
+          structured tasks, not the accuracy of every sentence or of the accounting engine. [1]
+        </p>
+        <h2 class="h">So which one would I choose?</h2>
+        <p class="p">
+          <b>Highest broad score: R3, 70.6%.</b> But on 36 attempts covering familiar money/entry tasks, R0
+          passed <b>91.7%</b> and R3 passed <b>75.0%</b>. The broad test includes jobs R0 was never equipped
+          to do. A low broad score does not mean its calculator is bad.
+        </p>
+        <p class="p">
+          <b>Best-supported next step: add document access.</b> R2 beat R1 by 46.7 percentage points on
+          document/scenario tasks; it was the only addition that cleared our preset improvement rule. Start by
+          testing simple keyword retrieval. Keep R3 as a strong alternative: its extra benefit over simpler
+          search remains uncertain. Combining old tools with search is a proposed next design, not a tested
+          route. [1]
+        </p>
+        <p class="small">
+          <b>Where did the documents come from? Can I upload mine?</b> We created 40 fictional documents:
+          policies, contracts, hiring worksheets and decoys. Only 39 belong to the study business. Scripts
+          loaded them; <b>the app has no document-upload screen or API yet</b>. Research File Search ingestion
+          is not a customer upload feature. [2]
+        </p>
+      </section>
+      <section>
+        <h1 class="title">How it works, and why trust it?</h1>
+        <h2 class="h">Walkthrough: “Can we hire an engineer?”</h2>
+        <p class="p">
+          First clarify salary, timing and assumptions. Our fictional database gives
+          <b>$164,615 September-end cash</b>. A worksheet gives
+          <b>$6,000/month + 18% employer costs + $3,000 recruiting</b>. A policy requires
+          <b>$50,000 untouched</b>. Documents supply rules; the database supplies money. [1]
+        </p>
+        <aside>
+          <b>Code calculates:</b> 3 × ($6,000 × 1.18) + $3,000 = <b>$24,240</b>.<br />Cash above the reserve =
+          $164,615 − $24,240 − $50,000 = <b>$90,375</b>.<br />Gemini explains: “That leaves $90,375 above the
+          reserve after three months, <b>excluding all other future money movements</b>.” This is a limited
+          scenario, not a promise that hiring is affordable.
+        </aside>
+        <p class="small">
+          This illustrates the intended flow. Even R3 passed only <b>12/30 planning-scenario attempts</b>;
+          finding documents does not solve financial planning.
+        </p>
+        <h2 class="h">What exactly did Jev decide?</h2>
+        <p class="p">
+          <b>R5 = librarian.</b> Jev scored up to 12 candidate documents for relevance; Gemini received the
+          best six. Jev did not calculate balances or categorize transactions.<br /><b>R8 = inspector.</b>
+          After code checks, Jev checked unsupported claims, scope/date/currency errors, missing assumptions,
+          hidden instructions and responsiveness. Any risk score of <b>0.8+</b> blocked release. This cutoff
+          is not “80% accuracy”; Jev could not fix or post. [3]
+        </p>
+        <p class="small">
+          In a separate test of 40 flawed and 40 correct answers,
+          <b>code + Jev caught 34/40 flawed answers</b>, but also blocked <b>5/40 correct ones</b>. Code +
+          Gemini caught 33/40 and blocked 1/40 correct. Neither passed the complete adoption rule; a second AI
+          is another fallible checker. [1]
+        </p>
+        <h2 class="h">What exactly did Wren do?</h2>
+        <p class="p">
+          We used real open-source <b>Wren core 0.8.2</b>, not the full WrenAI app. Its dictionary maps
+          “ledger” and debit/credit formulas to an approved database view.
+          <b
+            >Gemini proposes a read query (SELECT) → a Python bridge checks it → Wren expands it into real SQL
+            → code checks it again → a read-only PostgreSQL user runs it.</b
+          >
+          Shared answer checks follow. No writes are allowed. R6 scored 60.6% versus R4’s 65.6%; this bounded
+          integration showed no gain. Other Wren setups may differ. [4]
+        </p>
+        <h2 class="h">How did we make the scores?</h2>
+        <p class="p">
+          <b>60 exam questions × 3 repeats × 9 routes = 1,620 attempts.</b> Six equal groups cover money
+          totals, deeper analysis, documents, planning, entry proposals, and misleading/unsafe requests. A
+          separate 60-question practice set helped us develop the system.
+        </p>
+        <p class="p">
+          A pass requires the right answer, clarification or refusal, plus correct amounts, dates, currency,
+          sources, assumptions and any entry lines. Code compares with saved reference answers; Gemini does
+          not grade itself. Example: <b>127 ÷ 180 × 100 = 70.6%</b> for R3. Timeouts stay in the denominator.
+          In one cash test, both R0 and R3 got <b>$174,450</b>, but R3’s combined account label failed our
+          evidence check; R0 passed. [1, 5]
+        </p>
+        <h2 class="h">How good are the tests?</h2>
+        <p class="p">
+          <b>Reasons to trust the comparison:</b> practice/exam scenarios were separated; rules were frozen
+          before testing; failures stayed recorded. Separate decimal and integer-cent calculations checked
+          money. Tests covered double entry, reversals, currencies, stale documents, other-company data and
+          hidden instructions. Browser, Docker and real Wren/database tests passed. [2, 6]
+        </p>
+        <p class="p">
+          <b>Reasons not to overclaim:</b> the small dataset and labels are AI-authored, without independent
+          human grading. Repeats are not new business scenarios. Strict checks sometimes reject correct
+          numbers. We did not score every sentence’s truth or clarity. This is engineering evidence, not proof
+          of perfect advice.
+        </p>
+        <p class="small">
+          <a
+            href="https://github.com/rayidali/spiich_homework/blob/a5493c3317b5df2e70318cd6b1ada94220e211a9/docs/reports/research-study.md"
+            color="#25694f"
+            >[1] Results, methods and examples</a
+          >
+          ·
+          <a
+            href="https://github.com/rayidali/spiich_homework/blob/a5493c3317b5df2e70318cd6b1ada94220e211a9/research/fixtures/README.md"
+            color="#25694f"
+            >[2] Fictional fixtures</a
+          >
+          ·
+          <a
+            href="https://github.com/rayidali/spiich_homework/blob/a5493c3317b5df2e70318cd6b1ada94220e211a9/research/review.ts"
+            color="#25694f"
+            >[3] Jev reviewer</a
+          >
+          ·
+          <a
+            href="https://github.com/rayidali/spiich_homework/blob/a5493c3317b5df2e70318cd6b1ada94220e211a9/research/wren/bridge.py"
+            color="#25694f"
+            >[4] Wren bridge</a
+          >
+          ·
+          <a
+            href="https://github.com/rayidali/spiich_homework/blob/a5493c3317b5df2e70318cd6b1ada94220e211a9/research/scoring.ts"
+            color="#25694f"
+            >[5] Scoring code</a
+          >
+          ·
+          <a
+            href="https://github.com/rayidali/spiich_homework/blob/954ebd492530fe9d28c7714976426e6eea780787/docs/evidence/research-final-ci.json"
+            color="#25694f"
+            >[6] Final CI receipt</a
+          >
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

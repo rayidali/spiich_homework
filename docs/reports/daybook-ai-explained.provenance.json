@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "purpose": "Plain-English two-page explanation of completed research; not a new experiment",
+  "createdAt": "2026-10-31T14:31:18.857640+00:00",
+  "measuredSourceCommit": "a5493c3317b5df2e70318cd6b1ada94220e211a9",
+  "inputs": {
+    "docs/evidence/research-runs/holdout-v1/results.json": "eeb43bbad42e974dcb3c6fbc030f314304be49130b475313d8e785613da1ee29",
+    "docs/reports/research-study.md": "81f34affababef74907676285b2caa18bada9a940ba11fa433e3dbef859450ae",
+    "docs/reports/research-worked-examples.md": "89908d310e38c700cec81beaa837bad996f474051cfb20d6e8279d80f3349470",
+    "research/fixtures/README.md": "2df1c31c07dedb50d6a731a0fd89c2788dfdbafdad594c7ec3654a91708a1c58",
+    "research/providers/jev.ts": "81c4380366d0a2996d0f83fe6069ac3c011194c7765a74adf5274c17892f8ff6",
+    "research/retrieval.ts": "f5515d561795c59954a16dda318805557afcf3916f1a4f08bd593708d0ece860",
+    "research/review.ts": "6224372bc10f77b776ccc37e35b79903ed32b66bc7d693a737014e1816a73d1c",
+    "research/wren/bridge.py": "cfeabfd3377610d62aa0a39f9f60749e6537296e318426f61f81ab54a27a3084",
+    "research/scoring.ts": "700bd258b35fa60d847b3b1b72641c99122518f94843727ff01bab79cde53520",
+    "scripts/research/index.ts": "565cfbb90f89460b083f7d5dcbdc4d035f0c09b2ea4a224545de1273290e2556",
+    "web/src/Assistant.tsx": "ed5ccbba939a7b23855303da80b6855f687c08adaec39592838e6c54eb57542a",
+    "server/app.ts": "d140392083c2b24df5b328bcbaa72b933c7c387bf36b65617ce4194aa57f38da"
+  },
+  "outputs": {
+    "docs/reports/daybook-ai-explained.pdf": "e3b0d060ae1bb470ec1ab1cefdbc19a4c5bc7f861557a98248be8964de2cd3e4",
+    "docs/reports/daybook-ai-explained.html": "a7bf51316d836ded4b628c9c55cc8f7cf1e803ebe266c0ed8a73a5d0fe8e3423"
+  },
+  "checks": {
+    "pageCount": 2,
+    "allNineRouteScoresReadFromCompletedResults": true,
+    "textBoundsPassed": true,
+    "aiVisualInspectionPages": [1, 2],
+    "aiSourceClaimReview": true,
+    "independentHumanReview": false,
+    "providerCalls": 0
+  },
+  "limits": [
+    "Explanatory derivative; original frozen study and outcome artifacts unchanged.",
+    "No production document-upload feature or Jev categorization experiment was added.",
+    "PDF page count is verified; HTML is a responsive reading alternative, not a separately measured browser workflow."
+  ]
+}

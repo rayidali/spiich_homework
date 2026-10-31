@@ -16,6 +16,8 @@ Saved **2026-10-31, America/New_York**. Read this first on continuation. The imp
 
 Start with the [completed study narrative](docs/reports/research-study.md), [visual PDF](docs/evidence/research-runs/holdout-v1/study-report.pdf), [full HTML results](docs/evidence/research-runs/holdout-v1/report.html), [worked examples](docs/reports/research-worked-examples.md), and [interview guide](docs/INTERVIEW_GUIDE.md).
 
+**Explanatory follow-up, 2026-10-31:** the user requested a two-page plain-English paper and asked specifically about Jev for transaction categorization. The [short PDF](docs/reports/daybook-ai-explained.pdf) and [HTML](docs/reports/daybook-ai-explained.html) explain all nine routes, score construction, test limits, source documents, Wren/Jev and the recommendation. Production has no document-upload UI/API. Categorization already uses saved corrections and similar posted entries as context, but the nine-route fixtures contain no correction records and do not measure learning over time. Jev categorization is proposed, not implemented or tested; the [follow-up design](docs/INTERVIEW_GUIDE.md#transaction-categorization-and-the-proposed-jev-comparison) records the next controlled comparison. No new provider calls, product changes or deployment were made for this explanation.
+
 ## Results and defensible recommendation
 
 R3 managed File Search has the highest observed broad structured-task success: **127/180 (70.6%)**, followed by R4 hybrid **118/180 (65.6%)** and R2 lexical **110/180 (61.1%)**. On the predefined common-capability subset, R0's existing narrow tools score **33/36 (91.7%)**, versus R3 **27/36 (75.0%)**. Expanded coverage does not establish a wholesale replacement of existing tools.

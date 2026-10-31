@@ -2,6 +2,8 @@
 
 > Updated 2026-10-31: the scientific comparison is complete—**1,620 main trials and 240 reviewer outcomes**, with preserved failures, matching data fingerprints and reconciled costs. Read the [detailed study](docs/reports/research-study.md), [16-page visual PDF](docs/evidence/research-runs/holdout-v1/study-report.pdf), or [interview guide](docs/INTERVIEW_GUIDE.md). The deployed accounting application remains unchanged.
 
+Start with the [two-page plain-English explanation](docs/reports/daybook-ai-explained.pdf) ([readable HTML](docs/reports/daybook-ai-explained.html)) for the nine routes, scores, hiring walkthrough, Jev/Wren roles and test limitations. Document ingestion is research-only; the product has no document-upload workflow. Categorization uses retrieved corrections, but its improvement over time has not been measured in the nine-route study; see the [categorization follow-up](docs/INTERVIEW_GUIDE.md#transaction-categorization-and-the-proposed-jev-comparison).
+
 A React and TypeScript accounting workspace backed by PostgreSQL. Every posted journal entry is balanced and immutable at the database level. AI prepares entries for review and selects read-only financial queries; the ledger and SQL own the financial numbers.
 
 The deployed assistant uses `gemini-3.1-flash-lite` or the selectable OpenAI adapter. Selected hosted cash, transaction-search, expense and entry-proposal checks succeeded; intermittent provider failures remain. Its [application baseline](https://github.com/rayidali/spiich_homework/actions/runs/41103851106) passed 103 backend tests, 10 browser workflows and Docker startup/persistence. These checks are not a model-accuracy score.
