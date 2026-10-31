@@ -36,6 +36,8 @@ import {
 import { Decimal, formatCurrency } from '../shared/money';
 import { normalizeAllHistoryFlow, recordedRange, recordedPeriod } from './date-scope';
 import { messagesSchema } from '../shared/conversation';
+import type { Db } from './db';
+import { assessExpenseRequestScope, recognizesExpenseRequest } from './expense-request-scope';
 export { messagesSchema } from '../shared/conversation';
 
 const proposalSchema = z.strictObject({
@@ -294,13 +296,16 @@ export async function runInsightTool(
   org: string,
   name: string,
   args: unknown,
+  snapshot?: Db,
 ): Promise<{ answer: string; evidence: InsightEvidence }> {
   args = parseInsightArgs(name, args);
+  const readSnapshot = <T>(read: (db: Db) => Promise<T>) =>
+    snapshot ? read(snapshot) : reportSnapshot(read);
   if (name === 'expense_by_account') {
     const p = z
       .object({ accountCode: accountSchema.shape.code, from: dateSchema, to: dateSchema })
       .parse(args);
-    const report = await reportSnapshot((db) => expenseAccountSummary(org, p.accountCode, p.from, p.to, db));
+    const report = await readSnapshot((db) => expenseAccountSummary(org, p.accountCode, p.from, p.to, db));
     const accountHref = `/accounts?account=${report.account.id}&from=${p.from}&to=${p.to}`;
     return {
       answer: `You recorded ${dollars(report.totalExpenses)} USD in ${report.account.name} expenses${report.account.is_group ? ' (including its subaccounts)' : ''} ${recordedRange(p.from, p.to)}. Posted credits and reversals are included in this total.`,
@@ -325,7 +330,7 @@ export async function runInsightTool(
         limit: z.number().nullable().optional(),
       })
       .parse(args);
-    const { report, chart } = await reportSnapshot(async (db) => ({
+    const { report, chart } = await readSnapshot(async (db) => ({
       report: await incomeStatement(org, p.from, p.to, db),
       // Read the complete bounded chart in the same snapshot as the amounts.
       // Unlike a ranking, 'all' includes accounts without posted activity.
@@ -378,7 +383,7 @@ export async function runInsightTool(
   }
   if (name === 'income_summary') {
     const p = z.object({ metric: incomeMetricSchema, from: dateSchema, to: dateSchema }).parse(args);
-    const report = await reportSnapshot((db) => incomeStatement(org, p.from, p.to, db));
+    const report = await readSnapshot((db) => incomeStatement(org, p.from, p.to, db));
     const amount = incomeAmount(report, p.metric);
     return {
       answer: `Recorded ${incomeLabel[p.metric].toLowerCase()} ${recordedRange(p.from, p.to)} totaled ${dollars(amount)} USD.`,
@@ -396,7 +401,7 @@ export async function runInsightTool(
       .parse(args);
     rangeSchema.parse(p);
     rangeSchema.parse({ from: p.previousFrom, to: p.previousTo });
-    const { current, previous } = await reportSnapshot(async (db) => ({
+    const { current, previous } = await readSnapshot(async (db) => ({
       current: await incomeStatement(org, p.from, p.to, db),
       previous: await incomeStatement(org, p.previousFrom, p.previousTo, db),
     }));
@@ -444,7 +449,7 @@ export async function runInsightTool(
   }
   if (name === 'cash_position') {
     const p = z.object({ asOf: dateSchema }).parse(args),
-      report = await reportSnapshot((db) => cashPosition(org, p.asOf, db));
+      report = await readSnapshot((db) => cashPosition(org, p.asOf, db));
     return {
       answer: `Your cash and bank book balance as of ${p.asOf} is ${dollars(report.total)} USD. Foreign balances use the exchange rates recorded in your journal.`,
       evidence: {
@@ -759,8 +764,92 @@ export async function financialChat(
       });
       if (call.name === 'request_details')
         return { answer: clarificationAnswer(args, chart), evidence: [], query: selectedQuery, ai };
-      if (call.name === 'financial_analysis' || call.name === 'financial_scenario') {
-        try {
+      if (call.name === 'ask_clarification')
+        return { answer: String(args.question), evidence: [], query: selectedQuery, ai };
+      try {
+        // This recognizer covers explicit standalone expense questions only.
+        // An unrecognized question gets no semantic-verification claim. When
+        // recognized, identities and money share one repeatable-read snapshot.
+        if (recognizesExpenseRequest(messages)) {
+          // The planning chart may only veto a disappeared identity. All positive
+          // verification uses the fresh execution snapshot. An unknown merchant
+          // name in both charts remains eligible for ordinary vendor queries.
+          const initialAssessment = assessExpenseRequestScope(
+            messages,
+            selectedQuery,
+            expenseChart.filter((account) => !('type' in account) || account.type === 'EXPENSE'),
+          );
+          const guarded = await duringStage('financial_tool', () =>
+            reportSnapshot(async (db) => {
+              const currentChart = await expenseAccountChart(org, db);
+              const assessment = assessExpenseRequestScope(messages, selectedQuery, currentChart);
+              if (assessment.status === 'unassessed') {
+                if (assessment.reason === 'unknown_account' && initialAssessment.status !== 'unassessed')
+                  return {
+                    kind: 'conflict' as const,
+                    assessment: { reason: 'account_scope' as const },
+                  };
+                return null;
+              }
+              if (assessment.status === 'conflict') return { kind: 'conflict' as const, assessment };
+              const result =
+                call.name === 'financial_analysis'
+                  ? await executeFinancialAnalysis(org, args, db)
+                  : await runInsightTool(org, call.name, args, db).then((value) => ({
+                      answer: value.answer,
+                      evidence: [value.evidence],
+                    }));
+              return { kind: 'verified' as const, result, proof: assessment.proof };
+            }),
+          );
+          if (guarded?.kind === 'conflict') {
+            const reason = guarded.assessment.reason;
+            diagnostic('ai_request_failed', {
+              code: 'REQUEST_SCOPE_MISMATCH',
+              scopeReason: reason,
+              stage: 'financial_tool',
+              operation: 'financial_tool',
+              tool: call.name,
+              provider: ai.provider,
+              model: ai.model,
+            });
+            const answer =
+              reason === 'ambiguous_account'
+                ? 'More than one expense account matches that name. Which account code should I use?'
+                : reason === 'unknown_account'
+                  ? 'I could not find that expense account code. Which expense account should I use?'
+                  : reason === 'invalid_period'
+                    ? 'Those dates do not form a valid start and end date. Which date range should I use?'
+                    : 'The selected calculation did not match the expense account or scope in your question, so I have not shown a financial total. Please include the account code and date range, or check that account in Reports.';
+            return {
+              answer,
+              evidence: [],
+              query: selectedQuery,
+              ai,
+              limitation: { code: 'REQUEST_SCOPE_MISMATCH', reason },
+              ...normalization,
+            };
+          }
+          if (guarded?.kind === 'verified') {
+            const matched = guarded.proof.period.requested
+              ? 'Matched the expense account and date range stated in your question.'
+              : 'Matched the expense account stated in your question. This check does not verify the selected date range.';
+            return {
+              ...guarded.result,
+              evidence: evidenceScope(guarded.result.evidence).map((item) => ({
+                ...item,
+                scope: [matched, item.scope].filter(Boolean).join(' '),
+              })),
+              query: selectedQuery,
+              ai,
+              scopeVerification: guarded.proof,
+              ...normalization,
+            };
+          }
+          // Close an unassessed scope transaction before normal execution;
+          // do not hold a pool connection while opening another snapshot.
+        }
+        if (call.name === 'financial_analysis' || call.name === 'financial_scenario') {
           const result = await duringStage('financial_tool', () =>
             call.name === 'financial_scenario'
               ? executeFinancialScenario(org, args, messages)
@@ -773,40 +862,38 @@ export async function financialChat(
             ai,
             ...normalization,
           };
-        } catch (error) {
-          if (
-            !(error instanceof AppError) ||
-            !['INVALID_ANALYSIS_SCOPE', 'INVALID_ANALYSIS_ACCOUNT', 'INVALID_SCENARIO'].includes(error.code)
-          )
-            throw error;
-          diagnostic('ai_request_failed', {
-            code: error.code,
-            stage: 'financial_tool',
-            operation: 'financial_tool',
-            provider: ai.provider,
-            model: ai.model,
-          });
-          return {
-            answer: `I couldn't calculate that request with its full scope. ${error.message} No financial result has been substituted.`,
-            evidence: [],
-            query: selectedQuery,
-            ai,
-            limitation: { code: error.code },
-            ...normalization,
-          };
         }
+        // Numeric answers are composed by application code from SQL results.
+        const result = await duringStage('financial_tool', () => runInsightTool(org, call.name, args));
+        return {
+          answer: result.answer,
+          evidence: evidenceScope([result.evidence]),
+          query: selectedQuery,
+          ai,
+          ...normalization,
+        };
+      } catch (error) {
+        if (
+          !(error instanceof AppError) ||
+          !['INVALID_ANALYSIS_SCOPE', 'INVALID_ANALYSIS_ACCOUNT', 'INVALID_SCENARIO'].includes(error.code)
+        )
+          throw error;
+        diagnostic('ai_request_failed', {
+          code: error.code,
+          stage: 'financial_tool',
+          operation: 'financial_tool',
+          provider: ai.provider,
+          model: ai.model,
+        });
+        return {
+          answer: `I couldn't calculate that request with its full scope. ${error.message} No financial result has been substituted.`,
+          evidence: [],
+          query: selectedQuery,
+          ai,
+          limitation: { code: error.code },
+          ...normalization,
+        };
       }
-      if (call.name === 'ask_clarification')
-        return { answer: String(args.question), evidence: [], query: selectedQuery, ai };
-      // Numeric answers are composed by application code from SQL results. The model never invents or recomputes these figures.
-      const result = await duringStage('financial_tool', () => runInsightTool(org, call.name, args));
-      return {
-        answer: result.answer,
-        evidence: evidenceScope([result.evidence]),
-        query: selectedQuery,
-        ai,
-        ...normalization,
-      };
     });
   } catch (error) {
     if (completedPlan && error !== null && typeof error === 'object')

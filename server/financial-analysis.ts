@@ -453,11 +453,14 @@ function scopeDescription(plan: FinancialQuery, chart: AnalysisAccount[]) {
 export async function executeFinancialAnalysis(
   org: string,
   input: unknown,
+  snapshot?: Db,
 ): Promise<{ answer: string; evidence: InsightEvidence[]; facts: AnalysisFacts[] }> {
   const request = financialAnalysisSchema.parse(input);
   if (new Set(request.queries.map((item) => item.id)).size !== request.queries.length)
     unsupported('Every query requires a unique ID.');
-  return reportSnapshot(async (db) => {
+  // A caller checking original-user scope can supply the same read-only
+  // repeatable-read snapshot used to resolve the requested account identities.
+  const execute = async (db: Db) => {
     await db.query("SET LOCAL statement_timeout='3s'");
     await db.query("SET LOCAL lock_timeout='1s'");
     const chart = await financialAnalysisChart(org, db);
@@ -575,7 +578,8 @@ export async function executeFinancialAnalysis(
       });
     }
     return { answer: answers.join('\n\n'), evidence, facts };
-  });
+  };
+  return snapshot ? execute(snapshot) : reportSnapshot(execute);
 }
 const isFullJournal = (plan: FinancialQuery) => plan.metric === 'journal_total';
 const isBalanceMetric = (plan: FinancialQuery) => ['account_balance', 'cash_balance'].includes(plan.metric);

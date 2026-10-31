@@ -138,6 +138,20 @@ afterEach(() => {
 });
 
 describe('Request-correlated diagnostics without business content', () => {
+  it('logs only bounded scope-mismatch reasons, never raw question or account text', () => {
+    diagnostic('ai_request_failed', {
+      code: 'REQUEST_SCOPE_MISMATCH',
+      scopeReason: 'account_scope',
+      stage: 'financial_tool',
+    });
+    diagnostic('ai_request_failed', { code: 'REQUEST_SCOPE_MISMATCH', scopeReason: privateText });
+    diagnostic('ai_request_failed', { code: 'AI_INVALID_RESPONSE', scopeReason: 'account_scope' });
+    expect(logs()[0]).toMatchObject({ code: 'REQUEST_SCOPE_MISMATCH', scopeReason: 'account_scope' });
+    expect(logs()[1]).not.toHaveProperty('scopeReason');
+    expect(logs()[2]).not.toHaveProperty('scopeReason');
+    expect(JSON.stringify(logs())).not.toContain(privateText);
+  });
+
   it('records the selected financial query with the request reference, without conversation or arguments', async () => {
     fetchMock.mockResolvedValue(
       providerResponse([{ functionCall: { name: 'ask_clarification', args: { question: privateText } } }]),

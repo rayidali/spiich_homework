@@ -1,5 +1,13 @@
 # Verification record
 
+## Expense scope guard — local checks, CI pending
+
+The local guard and integration passed **189 focused tests**: 71 [pure scope cases](../tests/expense-request-scope.test.ts), 36 [real-chat integration cases with mocked provider/database responses](../tests/expense-request-scope-integration.test.ts) and 82 existing relevant tests. These component counts are already included in 189. Eight offline compiler checks, project TypeScript and production build also passed. The [12 new actual-PostgreSQL cases](../tests/expense-request-scope-db.test.ts) are authored but await CI; no local database execution is claimed.
+
+Checks cover schema-valid wrong accounts, global totals, metrics, dates and extra filters; coincidentally equal amounts do not pass identity verification. Correct narrow/composable plans and complete group descendants execute through one snapshot. Chart changes, archived descendants, disappeared known names, duplicate names, unknown explicit codes and ambiguous noun shorthand have distinct regressions. Unknown merchant names in both charts can still execute a valid vendor query without a proof. Original-user spans and explicitly unverified omitted dates are checked separately. First-user questions can retain a nonzero original index after an assistant-only preamble. Any prior user message makes the guard unassessed; integration cases prove that retained and dropped prior vendor filters both produce no scope proof while the complete conversation reaches the provider. This prevents false verification claims, not every possible incorrect follow-up answer.
+
+This is deterministic contract evidence, not live model accuracy. No provider calls, new scores, rewrites, scope-repair retries, budget changes or reopened experiments occurred. Production remains `f4f3a7` / `dpl_68oAaVR9tjNfdqdby4DVRHJ5irTs`; the passing CI and hosted checks below describe that prior executable, not this pending local guard. [Scope and limits](CHAT_RELIABILITY.md#local-expense-scope-guard--pending-ci-not-deployed).
+
 ## Conversation and admission checks — CI verified
 
 The conversation-retention source passed **174 focused local tests**, production build and formatting. The checks cover full role/content transport beyond the old limits, unchanged 48,000-character aggregate allowance, raw-whitespace and UTF-8/JSON bounds, rejection before provider work and original-user calculation citations after seven follow-ups. Independent source review caught and corrected trimming before budget validation and a stale saved-proposal binding after a failed post.

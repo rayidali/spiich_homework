@@ -1,5 +1,15 @@
 # REST API quick reference
 
+## Local expense scope response contract — pending CI, not deployed
+
+The local `/ai/chat` implementation recognizes a deliberately limited grammar for the first user question, with no earlier user turns, such as “How much did we spend on Office supplies from 2026-01-01 to 2026-03-31?” An exact unique expense-account name or explicit account code identifies the requested posting account or group descendants. Supported shorthand and total-expense formulations use the same guard; optional dates must be explicit ISO bounds. Assistant-only preambles are allowed and preserve original message indices. Any earlier user turn makes the guard unassessed, even if the latest question appears complete: an earlier account, vendor or date instruction may still apply. The entire conversation continues to ordinary execution without a scope proof. This is not general language interpretation or a follow-up resolver.
+
+A matching numeric plan receives `scopeVerification` with rule `explicit_expense_scope_v1`, original `userMessageIndex` and UTF-16 `accountSpan`, requested account identity, `resolvedPostingAccountIds`, requested/executed period and `checkedFields`. Only those fields are proved. Without stated dates, `period.requested` is `null`, `from`/`to` are absent from `checkedFields`, and evidence explicitly says the date range was not verified. Account identities and the financial read share one repeatable-read execution snapshot.
+
+A conflict returns a deterministic clarification with `evidence: []`, the selected `query`, AI usage metadata and `limitation: { code: 'REQUEST_SCOPE_MISMATCH', reason }`; it has no `scopeVerification` and reads no financial amounts. Reasons include account/period scope, extra filters, unsupported plans/grouping, invalid periods, unknown explicit account codes and ambiguous names. Duplicate names and shorthand that could name a distinct account ending in “expenses” require clarification. Unrecognized questions receive no proof. A name unknown in both planning and execution charts stays unassessed, allowing an ordinary vendor query; an initially known name that disappears is withheld. The old chart can only veto lost identity, never establish a successful proof.
+
+This guard does not rewrite plans, make repair calls or change journal data. Existing schema repair remains a separate bounded mechanism. Production is still `f4f3a7`; [local verification and pending PostgreSQL checks](VERIFICATION.md#expense-scope-guard--local-checks-ci-pending).
+
 ## Deployed conversation contract — CI verified
 
 Both `/ai/chat` and `/ai/entry` now share a non-mutating conversation schema: 1–100 messages, 1–4,000 characters per message, at most 48,000 raw content characters and 112 KiB for `JSON.stringify({ messages })` encoded as UTF-8. Whitespace-only content is invalid; other whitespace and message order are preserved. Only user/assistant roles are accepted, and the final message must be from the user. Excess input is rejected before model work; no earlier messages are removed to fit. These are conversation-input bounds, separate from the bounded internal schema-repair diagnostic.

@@ -189,17 +189,29 @@ describe('account-scoped financial chat', () => {
     });
   });
 
-  it('preserves an invalid-account error without substituting all expenses or zero', async () => {
+  it('withholds a substituted invalid account before reading amounts', async () => {
+    mocks.chooseFinancialTool.mockResolvedValue(
+      selected('expense_by_account', { accountCode: '5999', ...period }),
+    );
+    const result = await financialChat(org, [
+      { role: 'user', content: 'How much did we spend on account 5030 from 2026-01-01 to 2026-10-31?' },
+    ]);
+    expect(result).toMatchObject({ limitation: { code: 'REQUEST_SCOPE_MISMATCH' }, evidence: [] });
+    expect(mocks.expenseAccountSummary).not.toHaveBeenCalled();
+    expect(mocks.incomeStatement).not.toHaveBeenCalled();
+    expect(mocks.chooseFinancialTool).toHaveBeenCalledTimes(1);
+  });
+
+  it('preserves an invalid-account error on a request outside the explicit-scope grammar', async () => {
     mocks.chooseFinancialTool.mockResolvedValue(
       selected('expense_by_account', { accountCode: '5999', ...period }),
     );
     mocks.expenseAccountSummary.mockRejectedValue(
       new AppError(422, 'INVALID_EXPENSE_ACCOUNT', 'Choose an expense account in this workspace.'),
     );
-    await expect(financialChat(org, [firstQuestion])).rejects.toMatchObject({
-      code: 'INVALID_EXPENSE_ACCOUNT',
-      status: 422,
-    });
+    await expect(
+      financialChat(org, [{ role: 'user', content: 'Show that selected account for the reporting period.' }]),
+    ).rejects.toMatchObject({ code: 'INVALID_EXPENSE_ACCOUNT', status: 422 });
     expect(mocks.expenseAccountSummary).toHaveBeenCalledTimes(1);
     expect(mocks.incomeStatement).not.toHaveBeenCalled();
     expect(mocks.chooseFinancialTool).toHaveBeenCalledTimes(1);
@@ -394,7 +406,8 @@ describe('account-scoped financial chat', () => {
     );
     await expect(financialChat(org, [firstQuestion])).rejects.toMatchObject({ code: 'CHART_TOO_LARGE' });
     expect(mocks.reportSnapshot).toHaveBeenCalledTimes(1);
-    expect(mocks.incomeStatement).toHaveBeenCalledTimes(1);
+    // The explicit-scope check now rejects the oversized chart before any amount read.
+    expect(mocks.incomeStatement).not.toHaveBeenCalled();
     expect(mocks.chooseFinancialTool).toHaveBeenCalledTimes(1);
   });
 

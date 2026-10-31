@@ -54,7 +54,7 @@ AI_SERVICE_UNAVAILABLE AI_TIMEOUT AI_USAGE_UNAVAILABLE AI_REQUEST_LIMIT AI_ADMIS
 ACCOUNTING_RULE ACCOUNT_LIMIT BODY_TOO_LARGE CONCURRENT_CHANGE DATABASE_UNAVAILABLE
 IDEMPOTENCY_KEY_REQUIRED INTERNAL_ERROR INVALID_DATE_RANGE INVALID_INPUT INVALID_JSON NOT_FOUND
 QUERY_TIMEOUT RECORD_IN_USE DUPLICATE_RECORD AMOUNT_TOO_SMALL CONFIRM_EXCHANGE_RATES CURRENCY_PRECISION
-IDEMPOTENCY_CONFLICT IMMUTABLE_ENTRY INVALID_ACCOUNT INVALID_EXPENSE_ACCOUNT INVALID_ANALYSIS_SCOPE INVALID_ANALYSIS_ACCOUNT INVALID_SCENARIO INVALID_AMOUNT INVALID_CURSOR INVALID_EXCHANGE_RATE
+IDEMPOTENCY_CONFLICT IMMUTABLE_ENTRY INVALID_ACCOUNT INVALID_EXPENSE_ACCOUNT INVALID_ANALYSIS_SCOPE INVALID_ANALYSIS_ACCOUNT INVALID_SCENARIO REQUEST_SCOPE_MISMATCH INVALID_AMOUNT INVALID_CURSOR INVALID_EXCHANGE_RATE
 INVALID_REVERSAL_DATE NOT_POSTED STALE_DRAFT UNBALANCED_ENTRY INVALID_SCHEDULE SCHEDULE_ANCHOR_FIXED
 SCHEDULE_LIMIT STALE_SCHEDULE GROUP_LEDGER METHOD_NOT_ALLOWED SCHEDULE_UNAVAILABLE UNAUTHORIZED
 INVALID_PROPOSAL PROPOSAL_NOT_FOUND PROPOSAL_BINDING_INVALID PROPOSAL_ALREADY_USED PROPOSAL_EXPIRED
@@ -101,6 +101,7 @@ type DiagnosticEvent =
   | 'worker_error';
 type DiagnosticFields = {
   tool?: string;
+  scopeReason?: string;
   code?: string;
   stage?: FailureStage;
   status?: number;
@@ -190,6 +191,20 @@ export function diagnostic(
   }
   if (fields.code !== undefined) output.code = codes.has(fields.code) ? fields.code : 'UNKNOWN_ERROR';
   if (fields.stage !== undefined) output.stage = stages.has(fields.stage) ? fields.stage : 'internal';
+  if (
+    fields.code === 'REQUEST_SCOPE_MISMATCH' &&
+    [
+      'ambiguous_account',
+      'unknown_account',
+      'invalid_period',
+      'unsupported_plan',
+      'account_scope',
+      'period_scope',
+      'extra_filters',
+      'grouping',
+    ].includes(fields.scopeReason ?? '')
+  )
+    output.scopeReason = fields.scopeReason;
   if (httpStatus(fields.status)) output.status = fields.status;
   if (count(fields.durationMs)) output.durationMs = fields.durationMs;
   if (
