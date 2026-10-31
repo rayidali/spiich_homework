@@ -1,5 +1,11 @@
 # REST API quick reference
 
+## Local conversation contract — CI and deployment pending
+
+Both `/ai/chat` and `/ai/entry` now share a non-mutating conversation schema: 1–100 messages, 1–4,000 characters per message, at most 48,000 raw content characters and 112 KiB for `JSON.stringify({ messages })` encoded as UTF-8. Whitespace-only content is invalid; other whitespace and message order are preserved. Only user/assistant roles are accepted, and the final message must be from the user. Excess input is rejected before model work; no earlier messages are removed to fit. These are conversation-input bounds, separate from the bounded internal schema-repair diagnostic.
+
+The UI checks the same budget before sending, retains an unsent draft on refusal and offers explicit New conversation. A reset does not post or delete a journal; on the next draft save it clears a discarded saved proposal binding, while a replacement proposal takes precedence. Production remains `7ac0a88f` until the new source passes CI and release checks. [Verification status](VERIFICATION.md#local-conversation-and-admission-checks--ci-pending).
+
 ## Current promoted broad chat — 2026-10-31
 
 Source **`7ac0a88f9180d569527e00029550c9208608eb31` is promoted** at [Daybook](https://daybook-ledger-delta.vercel.app), deployment `dpl_6MDqQYCsgk9syWdqZGN6ev9uGoUi`. [Full CI41243382980](https://github.com/rayidali/spiich_homework/actions/runs/41243382980) passed verification, native research and Compose; live-AI was skipped and checked separately. The actual stable-alias API and project production target both match this READY/PROMOTED deployment. All-deployment protection remains enabled. [Release and promotion receipt](evidence/chat-broad-release.json).
@@ -123,7 +129,7 @@ Report periods default to the current month through today. Balance sheets use on
 }
 ```
 
-The entry endpoint returns `action`, `explanation`, `questions`, and a validated `entry` or null. Continue clarification using the prior user/assistant messages. Chat uses the same `messages` field without `date` and returns `answer` plus evidence blocks. Maximum conversation length is 12 messages of 4,000 characters each.
+The entry endpoint returns `action`, `explanation`, `questions`, and a validated `entry` or null. Continue clarification using the prior user/assistant messages. Chat uses the same `messages` field without `date` and returns `answer` plus evidence blocks. Current local source uses the shared conversation limits above; the still-deployed `7ac0a88f` source has the earlier 12-message API limit.
 
 Both AI endpoints also return `ai` metadata: provider, configured model, reported model version when available, request duration and reported token usage. Entry responses include `context` with retrieved correction/history IDs. Chat includes the validated `query: {name, args}` used for the answer. The server supplies organization scope; model-supplied scope or extra tool arguments are rejected. `/meta` includes `ai.provider`; `ai.available` means a key is configured, not that its access or model accuracy has been verified.
 

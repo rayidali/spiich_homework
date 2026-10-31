@@ -4,6 +4,7 @@ import type { CategoryFacts } from '../../server/category-selector';
 import type { CategorySuggestion } from '../../server/category-service';
 import type { Entry, EntryInput, LineInput } from '../../shared/schema';
 import { baseAmount, Decimal, sum } from '../../shared/money';
+import { conversationBudgetError, MAX_MESSAGE_CHARACTERS } from '../../shared/conversation';
 import type { ComposerState } from './context';
 import { useWorkspace } from './context';
 import { api, asUiError, type UiError, write } from './api';
@@ -74,13 +75,18 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
     [aiBusy, setAiBusy] = useState(false),
     [proposal, setProposal] = useState<Proposal | null>(null);
   const [categoryBusy, setCategoryBusy] = useState(false),
-    [clearCategoryBinding, setClearCategoryBinding] = useState(false),
+    [clearProposalBinding, setClearProposalBinding] = useState(false),
     [categoryPurpose, setCategoryPurpose] = useState<CategoryFacts['purpose']>(null),
     [categorySuggestion, setCategorySuggestion] = useState<{
       factsKey: string;
       result: CategorySuggestion;
     } | null>(null);
-  const savedCategoryBinding = useRef(false);
+  const savedCategoryBinding = useRef(false),
+    savedEntryBinding = useRef(false);
+  function discardEntryProposal() {
+    if (savedCategoryBinding.current || savedEntryBinding.current) setClearProposalBinding(true);
+    setProposal(null);
+  }
   const categoryRequest = useRef(0),
     categoryController = useRef<AbortController | null>(null);
   function cancelCategoryRequest() {
@@ -90,7 +96,7 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
     setCategoryBusy(false);
   }
   function invalidateCategory() {
-    if (savedCategoryBinding.current) setClearCategoryBinding(true);
+    if (savedCategoryBinding.current) setClearProposalBinding(true);
     cancelCategoryRequest();
     setCategorySuggestion(null);
     setCategoryPurpose(null);
@@ -130,7 +136,7 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
       return;
     // A new request discards the old suggestion even if its replacement only
     // clarifies or fails. Never silently keep its already-saved learning link.
-    if (savedCategoryBinding.current) setClearCategoryBinding(true);
+    if (savedCategoryBinding.current) setClearProposalBinding(true);
     cancelCategoryRequest();
     const requestId = categoryRequest.current,
       controller = new AbortController();
@@ -140,7 +146,7 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
     setCategoryPurpose(purpose);
     setCategoryBusy(true);
     setCategorySuggestion(null);
-    setProposal(null);
+    discardEntryProposal();
     setError('');
     try {
       const result = await api<CategorySuggestion>('/ai/category', {
@@ -218,16 +224,21 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
       { accountId: debit, debit: amount, credit: '0', exchangeRate: '1', memo: '' },
       { accountId: credit, debit: '0', credit: amount, exchangeRate: '1', memo: '' },
     ]);
-    setProposal(null);
+    discardEntryProposal();
     setQuickReview(true);
   }
   async function suggest() {
     if (!aiText.trim() || aiBusy || !meta?.ai.available) return;
-    const conversation = [...messages, { role: 'user' as const, content: aiText.trim() }].slice(-10);
+    const conversation = [...messages, { role: 'user' as const, content: aiText.trim() }];
+    const budgetError = conversationBudgetError(conversation);
+    if (budgetError) {
+      setError(budgetError);
+      return;
+    }
     setMessages(conversation);
     setAiText('');
     setAiBusy(true);
-    setProposal(null);
+    discardEntryProposal();
     setError('');
     try {
       const result = await write<Proposal>('/ai/entry', { messages: conversation, date });
@@ -295,7 +306,7 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
             expectedRevision: draftRevision,
             proposalId: categoryProposal?.proposalId ?? proposal?.proposalId,
             clearProposal:
-              draftId && clearCategoryBinding && !categoryProposal && !proposal?.proposalId
+              draftId && clearProposalBinding && !categoryProposal && !proposal?.proposalId
                 ? true
                 : undefined,
           },
@@ -304,9 +315,14 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
         );
         setDraftId(result.id);
         setDraftRevision(result.revision);
-        if (categoryProposal) savedCategoryBinding.current = true;
-        else if (clearCategoryBinding) savedCategoryBinding.current = false;
-        setClearCategoryBinding(false);
+        if (categoryProposal || proposal?.proposalId) {
+          savedCategoryBinding.current = Boolean(categoryProposal);
+          savedEntryBinding.current = !categoryProposal && Boolean(proposal?.proposalId);
+        } else if (clearProposalBinding) {
+          savedCategoryBinding.current = false;
+          savedEntryBinding.current = false;
+        }
+        setClearProposalBinding(false);
         const saved = post
           ? await write<Entry>(`/entries/${result.id}/post`, {
               exchangeRatesConfirmed: true,
@@ -371,10 +387,10 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
                 disabled={saving || aiBusy}
                 className={mode === 'ai' ? 'selected' : ''}
                 onClick={() => {
+                  if (mode === 'ai') return;
                   invalidateCategory();
                   setMode('ai');
-                  setProposal(null);
-                  setMessages([]);
+                  discardEntryProposal();
                   setError('');
                 }}
                 aria-pressed={mode === 'ai'}
@@ -396,6 +412,20 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
                 Journal entry
               </button>
             </div>
+          )}
+          {mode === 'ai' && (
+            <button
+              type="button"
+              className="text-button"
+              disabled={aiBusy || saving || !messages.length}
+              onClick={() => {
+                setMessages([]);
+                discardEntryProposal();
+                setError('');
+              }}
+            >
+              New conversation
+            </button>
           )}
           {mode === 'ai' && !aiReady && (
             <section className="ai-composer">
@@ -428,6 +458,7 @@ export function Composer({ state, onClose }: { state: ComposerState; onClose: ()
                       data-autofocus
                       aria-label="Describe your transaction"
                       value={aiText}
+                      maxLength={MAX_MESSAGE_CHARACTERS}
                       onChange={(e) => setAiText(e.target.value)}
                       placeholder="e.g. “Bought $340 of office supplies with the company credit card”"
                       rows={2}

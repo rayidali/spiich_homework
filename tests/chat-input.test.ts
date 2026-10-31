@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { dateSchema } from '../shared/schema';
 import { messagesSchema } from '../server/ai';
 import { readBoundedProviderJson } from '../server/ai-response';
+import { MAX_CONVERSATION_MESSAGES } from '../shared/conversation';
 
 describe('chat request and provider response boundaries', () => {
   it('rejects blank, invented privileged roles and assistant-only requests before model work', () => {
@@ -18,12 +19,14 @@ describe('chat request and provider response boundaries', () => {
         { role: 'assistant', content: 'Which period?' },
         { role: 'user', content: 'This month' },
       ])[0].content,
-    ).toBe('Spending?');
+    ).toBe(' Spending? ');
   });
   it('bounds conversation size and rejects hidden request properties', () => {
     expect(messagesSchema.safeParse([{ role: 'user', content: 'x'.repeat(4001) }]).success).toBe(false);
     expect(
-      messagesSchema.safeParse(Array.from({ length: 13 }, () => ({ role: 'user', content: 'x' }))).success,
+      messagesSchema.safeParse(
+        Array.from({ length: MAX_CONVERSATION_MESSAGES + 1 }, () => ({ role: 'user', content: 'x' })),
+      ).success,
     ).toBe(false);
     expect(messagesSchema.safeParse([{ role: 'user', content: 'x', organizationId: 'other' }]).success).toBe(
       false,

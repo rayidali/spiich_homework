@@ -35,6 +35,8 @@ import {
 } from './financial-calculation';
 import { Decimal, formatCurrency } from '../shared/money';
 import { normalizeAllHistoryFlow, recordedRange, recordedPeriod } from './date-scope';
+import { messagesSchema } from '../shared/conversation';
+export { messagesSchema } from '../shared/conversation';
 
 const proposalSchema = z.strictObject({
   action: z.enum(['READY', 'CLARIFY']),
@@ -56,11 +58,6 @@ const proposalSchema = z.strictObject({
     )
     .max(100),
 });
-export const messagesSchema = z
-  .array(z.strictObject({ role: z.enum(['user', 'assistant']), content: z.string().trim().min(1).max(4000) }))
-  .min(1)
-  .max(12)
-  .refine((messages) => messages.at(-1)?.role === 'user', 'The conversation must end with your question.');
 type Messages = z.infer<typeof messagesSchema>;
 async function validateModelResult<T>(fn: () => Promise<T>) {
   try {

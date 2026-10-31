@@ -11,6 +11,7 @@ import {
   Search,
 } from 'lucide-react';
 import type { InsightEvidence } from '../../server/ai';
+import { conversationBudgetError, MAX_MESSAGE_CHARACTERS } from '../../shared/conversation';
 import { asUiError, type UiError, write } from './api';
 import { useWorkspace } from './context';
 import { ErrorState, Modal, Spinner } from './ui';
@@ -33,14 +34,20 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
   }, [messages, busy, error]);
   async function send() {
     if (!text.trim() || busy || !meta?.ai.available) return;
-    setError('');
     const next: Message[] = [...messages, { role: 'user', content: text.trim() }];
+    const conversation = next.map(({ role, content }) => ({ role, content }));
+    const budgetError = conversationBudgetError(conversation);
+    if (budgetError) {
+      setError(budgetError);
+      return;
+    }
+    setError('');
     setMessages(next);
     setText('');
     setBusy(true);
     try {
       const result = await write<{ answer: string; evidence: InsightEvidence[] }>('/ai/chat', {
-        messages: next.slice(-10).map(({ role, content }) => ({ role, content })),
+        messages: conversation,
       });
       setMessages([...next, { role: 'assistant', content: result.answer, evidence: result.evidence }]);
     } catch (e) {
@@ -147,12 +154,24 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
         <div ref={bottom} />
       </div>
       <div className="chat-input-area">
+        <button
+          type="button"
+          className="text-button"
+          disabled={busy || !messages.length}
+          onClick={() => {
+            setMessages([]);
+            setError('');
+          }}
+        >
+          New conversation
+        </button>
         <div className="chat-input">
           <textarea
             aria-label="Ask a financial question"
             placeholder="Ask about your finances…"
             value={text}
-            maxLength={3500}
+            disabled={busy}
+            maxLength={MAX_MESSAGE_CHARACTERS}
             onChange={(e) => setText(e.target.value)}
             rows={2}
             onKeyDown={(e) => {
@@ -173,7 +192,7 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
         </div>
         <p>
           <Database size={12} />
-          Numbers come from posted entries. Drafts are excluded.
+          Each answer shows the records or assumptions it uses.
         </p>
       </div>
     </Modal>

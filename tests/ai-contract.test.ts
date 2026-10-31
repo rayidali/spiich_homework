@@ -79,6 +79,23 @@ describe('AI proposals stay outside the posting boundary', () => {
     expect((await query('SELECT id FROM journal_entries WHERE organization_id=$1', [org])).length).toBe(0);
     expect(provider.parse.mock.calls[0][0].store).toBe(false);
   });
+  it('passes the original purchase and every clarification beyond twelve messages to the provider', async () => {
+    const conversation: { role: 'user' | 'assistant'; content: string }[] = [...messages];
+    for (let turn = 0; turn < 7; turn++)
+      conversation.push(
+        { role: 'assistant', content: 'Should the original purchase facts stay the same?' },
+        { role: 'user', content: 'Yes, keep the same amount, purpose and company card.' },
+      );
+    const original = structuredClone(conversation);
+    provider.parse.mockResolvedValue({ output_parsed: suggestion() });
+    const result = await proposeEntry(org, conversation, '2026-03-01');
+    expect(provider.parse).toHaveBeenCalledTimes(1);
+    expect(provider.parse.mock.calls[0][0].input).toEqual(original);
+    expect(provider.parse.mock.calls[0][0].input).toHaveLength(15);
+    expect(conversation).toEqual(original);
+    expect(result.entry?.lines[0]).toMatchObject({ accountId: ids['5030'], debit: '340' });
+    expect(await query('SELECT id FROM journal_entries WHERE organization_id=$1', [org])).toEqual([]);
+  });
   it('returns a clarification without silently choosing a payment account', async () => {
     provider.parse.mockResolvedValue({
       output_parsed: {

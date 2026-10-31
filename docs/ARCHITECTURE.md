@@ -1,5 +1,11 @@
 # Architecture and engineering decisions
 
+## Local conversation-retention repair — awaiting CI and deployment
+
+`shared/conversation.ts` now owns the UI/API/calculator input boundary: up to 100 messages, 4,000 characters each, 48,000 raw characters total and 112 KiB of UTF-8 serialized conversation JSON. It rejects overflow and blank content without trimming or summarizing accepted messages. Both assistants send the entire conversation; calculation evidence retains original message indices and spans. The limit increase permits more short turns without increasing the former aggregate character allowance.
+
+Explicit reset retains unsent text. The composer distinguishes retaining a proposal for a deliberate correction, discarding its saved binding after a failed post, and replacing it with a new proposal. The assistant disables input while a request is pending; evidence labels and footer distinguish records, drafts and assumptions. These changes prevent silent transport/state loss, not incorrect model interpretation. Entry-example retrieval still searches only the last 4,000 concatenated user characters, independently of the full conversation sent to the model; retrieval accuracy is not newly measured. Production remains `7ac0a88f`. [Checks and pending evidence](VERIFICATION.md#local-conversation-and-admission-checks--ci-pending).
+
 ## Current promoted broad chat — 2026-10-31
 
 Source **`7ac0a88f9180d569527e00029550c9208608eb31` is promoted** at [Daybook](https://daybook-ledger-delta.vercel.app), deployment `dpl_6MDqQYCsgk9syWdqZGN6ev9uGoUi`. [Full CI41243382980](https://github.com/rayidali/spiich_homework/actions/runs/41243382980) passed verification, native research and Compose; live-AI was skipped and checked separately. The actual stable-alias API and project production target both match this READY/PROMOTED deployment. All-deployment protection remains enabled. [Release and promotion receipt](evidence/chat-broad-release.json).

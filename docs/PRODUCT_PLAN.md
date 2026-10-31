@@ -36,7 +36,23 @@ Gemini scored 33/33 held-out category-and-preference cases versus Jev's 31/33. B
 
 Every original assignment requirement must have a usable workflow and evidence covering its success and failure paths. Passing mocked AI responses is not evidence of provider accuracy. A new category comparison must evaluate the actual implemented selectors on identical inputs and preserve failures. No million-user or perfect-accuracy claim is a completion criterion.
 
-The work below is implemented, tested and delivered with its evidence and limits in the checkpoint. This plan does not narrow the original assignment; it turns the audit into explicit checks.
+The matrix below records delivered work and its evidence limits. New local conversation repairs still await CI/deployment, and the broader question goal remains active. This plan does not narrow the original assignment or treat a completed experiment as universal product completion.
+
+## Broader question goal remains partial
+
+The deployed composable route answers more questions than the former fixed menu, but not every question answerable from stored data. The completed comparisons are evidence for their frozen source and cases, not a general accuracy score for later repairs.
+
+| Remaining gap                      | Concrete boundary and next useful check                                                                                                                                                                                                                                                   |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Full conversation retention        | Implemented locally with shared raw-character/byte limits and explicit reset; eight new browser cases, a 15-message entry contract and real-PostgreSQL HTTP admission await CI. No new model-quality measurement.                                                                         |
+| Meaning retained by a legal plan   | Schema, account and arithmetic checks do not generally prove that a plan retains the user's explicit dates, accounts, currency or filters. Add bounded offline regressions for legal-but-wrong plans and explicit constraint checks before claiming broader semantic protection.          |
+| Cash movement and allocation       | Closing cash balances and arithmetic differences are supported. Gross receipts/payments, payment allocation and vendor-wise cash paid are not established by full-journal totals or mere co-occurrence with a cash account. Dedicated semantics and nonzero contrast fixtures are needed. |
+| Grouping and result-set arithmetic | One grouping dimension per query; no general month-by-vendor grouping, weekly/daily grouping, result-set joins or automatic per-row arithmetic. A few explicitly referenced calculation rows are not a general result-set engine.                                                         |
+| Balance and currency calculations  | Standalone noncash balances work, but every generic account-balance operand is deliberately rejected by the calculator. Non-USD monetary calculation operands are also unsupported. Preserve cash-source protection when designing any extension.                                         |
+| Relevance and abuse                | Typed read-only queries and persistent request admission provide hard boundaries. Off-topic/refusal selection still depends on the model, and request limits are not a dollar billing cap or proof against every injection.                                                               |
+| Generalization and retrieval       | Current-source unseen accuracy, actual correction-retrieval quality and the original 40-case whole-entry live evaluation remain unmeasured/incomplete. Supplied-example category gains do not establish longitudinal learning.                                                            |
+
+Prioritize a bounded offline reliability improvement before another paid run. Preserve every closed experiment and failed release cohort; a future comparison requires its own frozen source, untouched questions and bounded allowance. Missing external facts such as invoice due dates or future commitments require clarification, not inferred precision.
 
 ## Work and acceptance evidence
 

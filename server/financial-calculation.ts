@@ -4,6 +4,7 @@ import { Decimal, formatCurrency } from '../shared/money';
 import { executeFinancialAnalysis, financialQuerySchema, type AnalysisFacts } from './financial-analysis';
 import type { FinancialTool, ModelMessages } from './ai-provider';
 import type { InsightEvidence } from './ai';
+import { conversationSchema } from '../shared/conversation';
 
 const nodeId = z.string().regex(/^[a-z][a-z0-9_]{0,39}$/);
 const decimal = z.string().regex(/^-?(?:0|[1-9]\d{0,17})(?:\.\d{1,12})?$/);
@@ -565,10 +566,7 @@ function checkAveragePeriods(amount: Value, duration: Value, facts: AnalysisFact
 
 function prepare(input: unknown, messages: ModelMessages) {
   const plan = parseFinancialScenario(input);
-  z.array(z.strictObject({ role: z.enum(['user', 'assistant']), content: z.string().min(1).max(4000) }))
-    .min(1)
-    .max(12)
-    .parse(messages);
+  conversationSchema.parse(messages);
   const ids = [...plan.queries, ...plan.assumptions, ...plan.calculations].map((node) => node.id);
   if (new Set(ids).size !== ids.length) invalid('Scenario node IDs must be unique.');
   // A generic stock measure can contain receivables/equipment and cannot be

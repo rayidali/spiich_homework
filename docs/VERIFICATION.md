@@ -1,5 +1,13 @@
 # Verification record
 
+## Local conversation and admission checks — CI pending
+
+The conversation-retention source passed **174 focused local tests**, production build and formatting. The checks cover full role/content transport beyond the old limits, unchanged 48,000-character aggregate allowance, raw-whitespace and UTF-8/JSON bounds, rejection before provider work and original-user calculation citations after seven follow-ups. Independent source review caught and corrected trimming before budget validation and a stale saved-proposal binding after a failed post.
+
+Eight new browser cases are written but await CI execution: both AI flows retain seven turns and refuse overflow without a call or lost draft; explicit reset preserves unsent text; busy assistant failure restores the original question; and saved proposals are cleared, retained or replaced according to the user's action. A separate real-PostgreSQL HTTP test exercises shared admission across chat, entry and category with provider callbacks stubbed, including malformed input, leases, correlated 429 responses and Retry-After. It also checks that both conversation routes reject 80,000 raw padded characters before charging quota or invoking a callback. Its future-window fixture stabilizes the check; it does not demonstrate natural UTC rollover or the deployed default quota settings. A real-PostgreSQL 15-message entry contract checks exact provider-input retention and no journal creation; it also awaits CI.
+
+There were **no provider calls, new model scores or reopened budgets** for this repair. Browser mocks establish transport/state behavior, not model comprehension. Production remains `7ac0a88f` below; current local source must receive its own CI/release evidence.
+
 ## Current promoted broad chat — 2026-10-31
 
 Source **`7ac0a88f9180d569527e00029550c9208608eb31` is promoted** at [Daybook](https://daybook-ledger-delta.vercel.app), deployment `dpl_6MDqQYCsgk9syWdqZGN6ev9uGoUi`. [Full CI41243382980](https://github.com/rayidali/spiich_homework/actions/runs/41243382980) passed verification, native research and Compose; live-AI was skipped and checked separately. The actual stable-alias API and project production target both match this READY/PROMOTED deployment. All-deployment protection remains enabled. [Release and promotion receipt](evidence/chat-broad-release.json).
