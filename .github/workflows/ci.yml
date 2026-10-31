@@ -45,6 +45,53 @@ jobs:
           node -e "Promise.all([import('./api/index.js'), import('./api/cron.js')]).then(() => process.exit(0))"
       - run: npm run db:migrate
       - run: npm test
+      - name: Replay recorded chat plans in disposable PostgreSQL
+        id: chat-replay
+        env:
+          GEMINI_API_KEY: ''
+          OPENAI_API_KEY: ''
+          TYPESAFE_API_KEY: ''
+        run: |
+          node --input-type=module <<'NODE'
+          import { existsSync, mkdirSync, readdirSync } from 'node:fs';
+          import { join } from 'node:path';
+          import { execFileSync } from 'node:child_process';
+          const source = 'docs/evidence/chat-query-runs';
+          const destination = '.tools/chat-query-ci-results';
+          let count = 0;
+          if (existsSync(source)) {
+            for (const run of readdirSync(source, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+              if (!run.isDirectory()) continue;
+              for (const file of readdirSync(join(source, run.name), { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+                if (!file.isFile() || !/^.+-replay-.+\.json$/.test(file.name)) continue;
+                const input = join(source, run.name, file.name);
+                const outputDirectory = join(destination, run.name);
+                mkdirSync(outputDirectory, { recursive: true });
+                const output = join(outputDirectory, file.name.replace(/\.json$/, '-result.json'));
+                // The existing CLI verifies exact source/fixture hashes, CI/local DB identity,
+                // fresh organization isolation and full before/after fingerprints. No model calls.
+                try {
+                  const summary = execFileSync(process.execPath, ['--import', 'tsx', 'scripts/chat-evaluation/cli.ts', 'replay', input, output], {
+                    encoding: 'utf8', timeout: 180000, maxBuffer: 1048576, env: process.env,
+                  });
+                  process.stdout.write(summary);
+                  count++;
+                } catch {
+                  console.error(JSON.stringify({ error: 'CHAT_REPLAY_CI_FAILED', bundle: input }));
+                  process.exit(1);
+                }
+              }
+            }
+          }
+          console.log(JSON.stringify({ replayedBundles: count, providerCalls: 0, evidenceDirectory: destination }));
+          NODE
+      - name: Upload recorded chat replay evidence
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: chat-query-replay-evidence
+          path: .tools/chat-query-ci-results/
+          if-no-files-found: ignore
       - run: npx playwright install --with-deps chromium
       - name: Run production browser workflows
         id: browser
