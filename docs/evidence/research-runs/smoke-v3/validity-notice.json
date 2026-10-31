@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "runId": "smoke-v3",
+  "recordedAt": "2026-10-31T01:07:58.723490+00:00",
+  "eligibleForSelection": false,
+  "classification": "Complete development smoke with diagnosed asymmetric date-scope evidence mapping",
+  "originalResultsSha256": "fea5077fe15030d9659167e64901c4a2d9e71cd3c73e70e5ec9a41d4c7641632",
+  "issues": [
+    {
+      "code": "MONTH_ROW_SCOPE_LOST",
+      "detail": "Custom month-grouped query results were stamped with the whole query date range, discarding actual row-month scope. Seven analytics routes returned all four required values but lost provenance credit for valid subperiod claims."
+    },
+    {
+      "code": "WREN_MISSING_SCOPE_WILDCARD",
+      "detail": "Wren result evidence omitted date qualifiers, and the scorer treated missing source scope as a wildcard. The equivalent financial evidence was therefore not checked symmetrically across backends. Final correction must derive supported scopes from validated plans/AST and reject unknown scope rather than remove date checks."
+    }
+  ],
+  "interpretation": "All 54 planned development episodes completed with unchanged source and full scoped ledger/document/vector fingerprint. There were no transport errors. The evidence mapping defect makes this run diagnostic and ineligible for architecture selection. Original raw records, scores and usage are preserved. Derived-citation validation failures, entity protocol mismatches and unavailable baseline capabilities remain legitimate recorded failures, not reasons to weaken checks. No held-out outcome informed corrections."
+}

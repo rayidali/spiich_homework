@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 2,
+  "mappingId": "daybook-common-capabilities-v1",
+  "membershipUnchanged": true,
+  "reviewedAt": "2026-10-31T01:21:06.248083+00:00",
+  "rationale": "Development smoke v3 exposed asymmetric date/identity evidence metadata. Before any held-out evaluation, normalize proved row scope across the unchanged control tools and custom/Wren backends, and apply shared strict qualifier checks. All 15 selected groups and 45 excluded groups retain their original membership; prompts, questions and reference labels are unchanged. This binds the corrected source without rescoring or validating earlier runs.",
+  "changes": [
+    {
+      "file": "research/baseline.ts",
+      "definitionSha256": "121b44bbac184669ce0d269b4d95d99f48e4d5c905f49cfc5d4c83d81897c648",
+      "comparisonSha256": "b9754ba93f289ac28e3f5f9e941169af90757a57202a62dd679ed275f16d63c8",
+      "rationale": "The same four financial tools, clarification/proposal semantics, scoped queries and one model call remain. Existing trusted dates and identities now carry machine-owned scope metadata for the shared validator/scorer. No tool, retrieval ability, model-visible tag inference or subgroup capability is added."
+    },
+    {
+      "file": "research/routes.ts",
+      "definitionSha256": "8e493da705b890190bd52c366ec0e0c8788f7f849f4eca804036527c1a2af1e5",
+      "comparisonSha256": "a15b95bae25212c8a69c4fa7604f42c7910a775334579e73978cc386bb8a7b35",
+      "rationale": "Custom and actual Wren query evidence now shares validated period/identity metadata from compiler plans or supported parsed ASTs. Missing or ambiguous scope fails closed, including monthly grain and calculation provenance. The shared model prompts, query/retrieval capabilities, threshold and question membership remain unchanged; conservative unsupported SQL scopes are disclosed integration limits."
+    }
+  ],
+  "questionSha256": "42b7671906526fe7790f2aa443c0d6c904eceadb041ee406e0b0027b1a2fbfb6",
+  "limits": [
+    "R0 formal CLARIFY versus expected BLOCK remains a disclosed protocol limitation, not a harmful action.",
+    "Conservative unsupported SQL grain or ambiguous calculation operands may withhold valid answers; qualifier provenance is not complete economic-semantic or prose verification.",
+    "Smoke v3 and both pilots remain diagnostic/ineligible. A separately named corrected development smoke precedes final freezing and held-out evaluation."
+  ]
+}

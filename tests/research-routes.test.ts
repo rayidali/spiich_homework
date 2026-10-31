@@ -112,6 +112,14 @@ function scriptedGeneration(
 }
 function mockWren(
   columnUnits: Record<string, 'USD' | 'count' | 'native' | 'unsupported'> = { value: 'USD' },
+  rowScope:
+    | { provenance: 'ast-scope-v1'; supported: true; from: string | null; toExclusive: string | null }
+    | { provenance: 'ast-scope-v1'; supported: false } = {
+    provenance: 'ast-scope-v1',
+    supported: true,
+    from: null,
+    toExclusive: '2026-10-01',
+  },
 ) {
   return vi.spyOn(wren, 'planWithWren').mockResolvedValue({
     ok: true,
@@ -119,12 +127,14 @@ function mockWren(
     engine: 'wren-core-py',
     engineVersion: '0.8.2',
     sqlglotVersion: '30.27.0',
-    plannedSql: 'SELECT sum(base_debit-base_credit)::text AS value FROM research.scoped_ledger WHERE is_cash',
+    plannedSql:
+      "SELECT sum(base_debit-base_credit)::text AS value FROM research.scoped_ledger WHERE is_cash AND date <= '2026-09-30'",
     inputSha256: 'a'.repeat(64),
     manifestSha256: 'b'.repeat(64),
     planningMs: 2,
     maxRows: 100,
     columnUnits,
+    rowScope,
   });
 }
 afterEach(() => {
@@ -290,7 +300,12 @@ describe('Wren evidence must be typed rather than guessed from arbitrary numeric
     scriptedGeneration(
       planner({
         queries: [],
-        sqlQueries: [{ id: 'cash', sql: 'SELECT SUM(net_debit) AS value FROM ledger WHERE is_cash' }],
+        sqlQueries: [
+          {
+            id: 'cash',
+            sql: "SELECT SUM(net_debit) AS value FROM ledger WHERE is_cash AND date <= '2026-09-30'",
+          },
+        ],
       }),
       candidate(),
     );
@@ -318,7 +333,10 @@ describe('Wren evidence must be typed rather than guessed from arbitrary numeric
   });
   it('supports safe integer count outputs but never converts numeric IDs or years into USD evidence', async () => {
     const { env } = environment([{ count: 2, year: '2026', account_code: '1000' }]);
-    mockWren({ count: 'count', year: 'unsupported', account_code: 'unsupported' });
+    mockWren(
+      { count: 'count', year: 'unsupported', account_code: 'unsupported' },
+      { provenance: 'ast-scope-v1', supported: true, from: null, toExclusive: null },
+    );
     scriptedGeneration(
       planner({ queries: [], sqlQueries: [{ id: 'cash', sql: 'SELECT COUNT(*) AS count FROM ledger' }] }),
       candidate({
@@ -342,6 +360,20 @@ describe('Wren evidence must be typed rather than guessed from arbitrary numeric
     const facts = result.evidence.find((e) => e.id === 'query:cash')?.facts ?? [];
     expect(facts).toContainEqual(expect.objectContaining({ value: '2', unit: 'count' }));
     expect(facts.some((f) => f.value === '2026' || f.value === '1000')).toBe(false);
+  });
+  it('withholds date-qualified financial facts when Wren has no scope proof', async () => {
+    const { env } = environment();
+    mockWren({ value: 'USD' }, { provenance: 'ast-scope-v1', supported: false });
+    scriptedGeneration(
+      planner({
+        queries: [],
+        sqlQueries: [{ id: 'cash', sql: 'SELECT SUM(net_debit) AS value FROM ledger' }],
+      }),
+      candidate(),
+    );
+    const result = await executeRoute('R6', questions[0], env);
+    expect('validation' in result && result.validation.valid).toBe(false);
+    expect('validation' in result && result.validation.reasons).toContain('UNSUPPORTED_LEDGER_SCOPE');
   });
 });
 

@@ -1,0 +1,46 @@
+{
+  "runId": "smoke-v3",
+  "suite": "smoke",
+  "split": "development",
+  "repeats": 1,
+  "routeIds": [
+    "R0",
+    "R1",
+    "R2",
+    "R3",
+    "R4",
+    "R5",
+    "R6",
+    "R7",
+    "R8"
+  ],
+  "questionIds": [
+    "financial-01-1",
+    "analytics-01-1",
+    "documents-01-1",
+    "scenario-01-1",
+    "entry-01-1",
+    "adversarial-01-1"
+  ],
+  "createdAt": "2026-10-31T00:57:17.683Z",
+  "transport": "queue",
+  "generator": "gemini-3.5-flash-lite",
+  "critic": "gemini-3.5-flash-lite",
+  "jev": "jev-1.14.0",
+  "embedding": "gemini-embedding-001",
+  "dimensions": 768,
+  "minimumGeminiStartSpacingMs": 4200,
+  "sourceRevision": "eb75bf106cc91c023ee749873d1cd91057934cd3",
+  "protocolHash": "d5730d4d60c6e2641dd604503ba17301459d76a3ada568d33bffd0872a4b2177",
+  "datasetHash": "9103a8a057e514d8515390a585866e751460714f4a057bde85e7758f962775fd",
+  "sourceHash": "1a6d6fae9bdd9fb6f9dd32fa41e334053f8955aa9b695334770e820a8b9683ab",
+  "runtime": {
+    "node": "v22.23.4",
+    "platform": "darwin",
+    "architecture": "arm64"
+  },
+  "indexHash": "f0420b1c0fc1dda49d4cbc937f2fce4c57f43660688de0c5a4914d001279a2a1",
+  "verifierThreshold": 0.8,
+  "verifierConfigHash": "d44bc306028ba66bb1cb7877db05bf1c95d9938768e144781a05e58df96e64db",
+  "sourceRevisionMeaning": "Last published ancestor; sourceHash identifies actual working source"
+}

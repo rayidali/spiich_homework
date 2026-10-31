@@ -36,7 +36,7 @@ GRAY = colors.HexColor('#627580')
 GRID = colors.HexColor('#d5dde1')
 ROUTES = [f'R{i}' for i in range(9)]
 FAMILIES = ['financial', 'analytics', 'documents', 'scenario', 'entry', 'adversarial']
-VERSION = 'daybook-pdf-report-v1'
+VERSION = 'daybook-pdf-report-v2'
 
 
 def number(value):
@@ -70,6 +70,57 @@ def read_input(path, role):
     if not isinstance(value, dict):
         raise ValueError(f'{role} must contain a JSON object')
     return value, {'role': role, 'filename': path.name, 'sha256': sha(content)}
+
+
+def read_analysis(path, role, main_hash, verifier_hash=None):
+    """Require the analyzer's explicit binding to the exact primary snapshot."""
+    value, metadata = read_input(path, role)
+    provenance, provenance_metadata = read_input(Path(path).with_name('analysis-provenance.json'), role + ' provenance')
+    if provenance.get('primaryReportSha256') != main_hash or provenance.get('runId') != value.get('runId'):
+        raise ValueError(f'{role} primary snapshot binding differs')
+    if verifier_hash is not None and value.get('reviewers', {}).get('available'):
+        if provenance.get('verifierResultsSha256') != verifier_hash:
+            raise ValueError(f'{role} verifier snapshot binding differs')
+    return value, [metadata, provenance_metadata]
+
+
+def validate_secondary(main, common=None, sensitivity=None, decisions=None):
+    for role, value in [('Common-capability', common), ('Weight-sensitivity', sensitivity), ('Decision', decisions)]:
+        if value is None:
+            continue
+        if value.get('runId') != main.get('runId') or value.get('split') != main.get('split'):
+            raise ValueError(f'{role} snapshot differs')
+        if role != 'Decision' and sorted(row.get('route') for row in value.get('routes', [])) != ROUTES:
+            raise ValueError(f'{role} route set differs')
+    if decisions is not None:
+        if not isinstance(decisions.get('eligibility'), dict) or not isinstance(decisions.get('components'), list):
+            raise ValueError('Decision eligibility and components are required')
+        for row in decisions['components']:
+            if row.get('route') not in ROUTES or row.get('control') not in ROUTES:
+                raise ValueError('Unknown decision route')
+            for key in ['targetedEffect', 'overallEffect', 'entryEffect', 'adversarialEffect']:
+                effect = row.get(key)
+                if effect is not None:
+                    for measure in ['estimate', 'low', 'high']:
+                        v = effect.get(measure)
+                        if v is not None and (not number(v) or not -1 <= v <= 1):
+                            raise ValueError('Invalid decision effect')
+    if sensitivity is not None:
+        weights = sensitivity.get('weights', [])
+        if len(weights) != 5 or len({w.get('id') for w in weights}) != 5:
+            raise ValueError('Weight-sensitivity requires five distinct prespecified columns')
+        for weight in weights:
+            values = [weight.get(key) for key in ['factual', 'completion', 'grounding', 'uncertainty']]
+            if any(not number(v) or v < 0 for v in values) or sum(values) != 90:
+                raise ValueError('Weight-sensitivity weights must total 90')
+        for row in sensitivity['routes']:
+            columns = row.get('columns', [])
+            if sorted(c.get('id') for c in columns) != sorted(w['id'] for w in weights):
+                raise ValueError('Weight-sensitivity columns differ from specification')
+            for column in columns:
+                v = column.get('familyMacro90')
+                if v is not None and (not number(v) or not 0 <= v <= 90):
+                    raise ValueError('Invalid secondary score')
 
 
 def validate_inputs(main, verifier, verifier_split, supplement=None):
@@ -287,8 +338,47 @@ def reviewer_chart(verifier):
     return d
 
 
-def build_pdf(main, verifier, verifier_split, output, inputs, supplement=None, command=None, validity_notice=None):
+def effect_text(effect):
+    if not effect or not number(effect.get('estimate')):
+        return 'N/A'
+    point = f'{100 * effect["estimate"]:+.1f} pp'
+    if not number(effect.get('low')) or not number(effect.get('high')):
+        return point + '; interval N/A'
+    return point + f' [{100 * effect["low"]:+.1f}, {100 * effect["high"]:+.1f}]'
+
+
+def targeted_chart(decisions):
+    rows = decisions.get('components', [])
+    height = max(210, 76 + len(rows) * 30)
+    d = Drawing(WIDTH, height)
+    title(d, 'Targeted component effects: paired structured success')
+    left, width = 110, WIDTH - 160
+    def x(v):
+        return left + (v + 1) * width / 2
+    for value in [-1, -.5, 0, .5, 1]:
+        d.add(Line(x(value), 35, x(value), height - 45, strokeColor=GRID, strokeWidth=.5))
+        label(d, x(value), 22, f'{100 * value:.0f} pp', 7, GRAY, anchor='middle')
+    d.add(Line(x(.05), 35, x(.05), height - 45, strokeColor=GOLD, strokeWidth=1))
+    for i, row in enumerate(rows):
+        y = height - 58 - i * 30
+        label(d, 0, y - 2, f'{row["hypothesis"]}: {row["route"]} - {row["control"]}', 8, bold=True)
+        effect = row.get('targetedEffect') or {}
+        if number(effect.get('estimate')):
+            if number(effect.get('low')) and number(effect.get('high')):
+                d.add(Line(x(effect['low']), y, x(effect['high']), y, strokeColor=BLUE, strokeWidth=1.3))
+            else:
+                label(d, WIDTH - 1, y - 2, 'CI N/A', 7, GRAY, anchor='end')
+            d.add(Circle(x(effect['estimate']), y, 3, fillColor=BLUE, strokeColor=None))
+        else:
+            label(d, x(0), y - 2, 'N/A', 8, GRAY)
+    label(d, left, 8, 'Gold: +5 pp practical target. Intervals: unadjusted 95%.', 7, GRAY)
+    return d
+
+
+def build_pdf(main, verifier, verifier_split, output, inputs, supplement=None, command=None, validity_notice=None,
+              common=None, sensitivity=None, decisions=None):
     validate_inputs(main, verifier, verifier_split, supplement)
+    validate_secondary(main, common, sensitivity, decisions)
     main_hash = next((item['sha256'] for item in inputs if item.get('role') == 'main results'), None)
     validate_validity_notice(validity_notice, main, main_hash)
     known_defects = validity_notice is not None and validity_notice.get('eligibleForSelection') is False
@@ -477,6 +567,74 @@ def build_pdf(main, verifier, verifier_split, output, inputs, supplement=None, c
         story += [heading('Most frequent observed conditions'), table(['Condition', 'Episodes'], [[x['category'], x['episodes']] for x in failures], [WIDTH - 70, 70]),
                   p('Conditions overlap and are not proven root causes. Key/schema/scope mismatch is not automatically an arithmetic error. Full per-episode records remain in the supplemental JSON.', 'StudyCaption'), PageBreak()]
 
+    if common is not None:
+        story += [heading('Shared capabilities: a secondary comparison'),
+                  p(f'{len(common.get("selectedQuestionIds", []))} questions in {len(common.get("selectedGroupIds", []))} scenario groups. Eligibility: {"complete measurement" if common.get("eligibleForConclusion") else "diagnostic / ineligible"}.'),
+                  p('Membership was defined from available tools before held-out results. This subset does not replace the six-family primary score; whole-benchmark hard gates still apply.')]
+        common_rows = [[r['route'], f'{r.get("episodes", 0)}/{r.get("fullSplitPlannedEpisodes", 0)}',
+                        percent(r.get('microSuccessRate')), percent(r.get('observedFamilyMacro')),
+                        r.get('errors', 0), 'Disqualified' if r.get('disqualified') else 'No observed violation']
+                       for r in common['routes']]
+        story += [table(['Route', 'Observed / planned', 'Micro success', 'Observed-family macro', 'Errors', 'Hard gate'], common_rows,
+                        [34, 82, 77, 101, 40, WIDTH - 334]),
+                  p('The held-out subgroup has only six scenario groups and covers financial and entry tasks. Paired intervals and exact membership are in the accompanying common-capability analysis. No additional winner is chosen from this subgroup.', 'StudyCaption'), PageBreak()]
+
+    if sensitivity is not None:
+        story += [heading('Sensitivity to fixed rubric weights'),
+                  p('All five columns are automated scores out of 90, equally averaged across task families. The human clarity dimension remains unavailable. These weights were declared during development; no favorable column is selected as the result.')]
+        weights = sensitivity['weights']
+        sensitivity_rows = []
+        for row in sensitivity['routes']:
+            columns = {c['id']: c for c in row['columns']}
+            ranks = 'N/A' if row.get('minimumRank') is None else f'{row["minimumRank"]} to {row["maximumRank"]}'
+            sensitivity_rows.append([row['route']] + [decimal(columns[w['id']].get('familyMacro90')) for w in weights] + [ranks])
+        story += [table(['Route'] + [w['label'] for w in weights] + ['Rank range'], sensitivity_rows,
+                        [34] + [(WIDTH - 88) / 5] * 5 + [54]),
+                  table(['Weighting', 'Factual', 'Completion', 'Grounding', 'Uncertainty'],
+                        [[w['label']] + [w[k] for k in ['factual', 'completion', 'grounding', 'uncertainty']] for w in weights],
+                        [WIDTH - 260, 65, 65, 65, 65]),
+                  p('Errors retain their zero rubric components; missing observations remain missing. Rank ranges are unavailable when the analysis is ineligible. Stable ranks do not establish prose faithfulness or statistical superiority.', 'StudyCaption'), PageBreak()]
+
+    if decisions is not None:
+        story += [heading('Predeclared component decision criteria'),
+                  p('These targeted comparisons supplement the primary six-family result. Financial and analytics tasks assess broader tools and Wren; document and scenario tasks assess retrieval and reranking. The practical target is +5 percentage points. Uncertain tradeoffs remain inconclusive.'),
+                  p('Interpretation eligibility: ' + ('verified' if decisions['eligibility'].get('eligible') else 'ineligible / diagnostic')),
+                  targeted_chart(decisions),
+                  p('Each point is a treatment-minus-control difference in structured success. Scenario-group resampling keeps paraphrases and repeats together. Missing intervals are labeled CI N/A, not drawn as zero-width certainty. The few groups and multiple comparisons limit precision; the figure is not a significance claim.', 'StudyCaption'), PageBreak()]
+        rows = [[r['hypothesis'], f'{r["route"]} / {r["control"]}', ', '.join(r.get('targetFamilies', [])),
+                 effect_text(r.get('targetedEffect')), r.get('status', 'unavailable').replace('_', ' ')]
+                for r in decisions['components']]
+        story += [heading('Component assessments'), table(['Test', 'Route / control', 'Target families', 'Effect [interval]', 'Assessment'], rows,
+                                                          [35, 62, 104, 140, WIDTH - 341]),
+                  p('A candidate for further experiment is not a production recommendation. No combination of components is assumed to inherit individually measured benefits. Source integrity, hard gates, provider errors, useful task completion, latency and cost still constrain the decision.', 'StudyCaption')]
+        reviewers = decisions.get('reviewers', {})
+        if reviewers.get('available'):
+            story += [heading('Reviewer tradeoffs against deterministic checks')]
+            rows = [[r['method'], effect_text(r.get('operationalFalseAcceptanceDifference')),
+                     effect_text(r.get('additionalCorrectWithholding')),
+                     effect_text(r.get('conditionalPairedFalseAcceptanceDifference')),
+                     r.get('status', 'unavailable').replace('_', ' ')] for r in reviewers.get('comparisons', [])]
+            story += [table(['Method', 'Flawed acceptance difference', 'Added correct withholding', 'Conditional flawed acceptance', 'Assessment'], rows,
+                            [47, 110, 110, 110, WIDTH - 377]),
+                      p('The point criterion requires less operational acceptance of flawed candidates and no more than +5 pp additional withholding of correct candidates. Conditional comparisons retain completed paired judgments only. Provider errors are withholding, not evidence that a flaw was detected.', 'StudyCaption')]
+        story += [PageBreak()]
+        if decisions.get('complexity'):
+            story += [heading('What each configuration adds'),
+                      table(['Route', 'Components', 'Operational obligations'],
+                            [[r['route'], r['components'], r['obligations']] for r in decisions['complexity']],
+                            [34, 211, WIDTH - 245]),
+                      p('These are implementation responsibilities, not an invented complexity score. The simpler existing product remains the default when comparative benefit is below target or unresolved.', 'StudyCaption')]
+            fronts = decisions.get('pareto', {})
+            rows = []
+            for key, label_text in [('overall', 'All six families'), ('financialAndAnalytics', 'Financial + analytics'),
+                                    ('documentsAndScenario', 'Documents + scenario')]:
+                front = fronts.get(key, {})
+                eligible_rows = [r for r in front.get('rows', []) if r.get('comparable')]
+                undominated = [r['route'] for r in eligible_rows if not r.get('dominatedBy')]
+                rows.append([label_text, ', '.join(undominated) if eligible_rows else 'N/A'])
+            story += [table(['Observed tradeoff view', 'Not dominated on measured point estimates'], rows, [180, WIDTH - 180]),
+                      p('Dominance compares overall and targeted success, execution-error rate, p95 harness latency and tracked cost per successful task. It ignores interval uncertainty and does not establish statistical superiority or a production winner.', 'StudyCaption'), PageBreak()]
+
     story += [heading('Limitations and interpretation')]
     limitations = list(dict.fromkeys(main.get('limitations', []) + verifier.get('limitations', [])))
     for index, limitation in enumerate(limitations, 1):
@@ -537,6 +695,9 @@ def main_cli():
     parser.add_argument('--verifier-results', required=True)
     parser.add_argument('--verifier-split', required=True, choices=['development', 'holdout'])
     parser.add_argument('--supplement')
+    parser.add_argument('--common', help='Common-capability JSON with adjacent analysis-provenance.json')
+    parser.add_argument('--sensitivity', help='Weight-sensitivity JSON with adjacent analysis-provenance.json')
+    parser.add_argument('--decisions', help='Decision-supplement JSON with adjacent analysis-provenance.json')
     parser.add_argument('--validity-notice', help='Defaults to validity-notice.json beside the main results')
     parser.add_argument('--output', required=True)
     parser.add_argument('--render-dir')
@@ -551,14 +712,28 @@ def main_cli():
     if args.supplement:
         supplement, provenance = read_input(args.supplement, 'retrieval supplement')
         inputs.append(provenance)
+    common = sensitivity = decisions = None
+    if args.common:
+        common, provenance = read_analysis(args.common, 'common-capability analysis', main_provenance['sha256'])
+        inputs.extend(provenance)
+    if args.sensitivity:
+        sensitivity, provenance = read_analysis(args.sensitivity, 'weight-sensitivity analysis', main_provenance['sha256'])
+        inputs.extend(provenance)
+    if args.decisions:
+        decisions, provenance = read_analysis(args.decisions, 'decision analysis', main_provenance['sha256'], verifier_provenance['sha256'])
+        inputs.extend(provenance)
     import shlex
     command = '.tools/report-render/bin/python scripts/export-research-report.py ' + ' '.join(
         shlex.quote(value) for value in ['--main-results', args.main_results, '--verifier-results', args.verifier_results,
                                        '--verifier-split', args.verifier_split, '--output', args.output]
         + (['--supplement', args.supplement] if args.supplement else [])
+        + (['--common', args.common] if args.common else [])
+        + (['--sensitivity', args.sensitivity] if args.sensitivity else [])
+        + (['--decisions', args.decisions] if args.decisions else [])
         + (['--validity-notice', validity_path] if validity_path else [])
     )
-    provenance = build_pdf(main, verifier, args.verifier_split, args.output, inputs, supplement, command, validity_notice)
+    provenance = build_pdf(main, verifier, args.verifier_split, args.output, inputs, supplement, command, validity_notice,
+                           common, sensitivity, decisions)
     provenance['exporterSourceHash'] = sha(Path(__file__).read_bytes())
     provenance['validation'] = validate_pdf(args.output, args.render_dir)
     provenance['pdfHash'] = sha(Path(args.output).read_bytes())

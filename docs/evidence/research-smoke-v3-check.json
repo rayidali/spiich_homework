@@ -1,0 +1,29 @@
+{
+  "recordedAt": "2026-10-31T01:07:58.723490+00:00",
+  "runId": "smoke-v3",
+  "episodes": 54,
+  "plannedEpisodes": 54,
+  "statuses": {
+    "ok": 47,
+    "blocked": 7,
+    "error": 0
+  },
+  "sourceHash": "1a6d6fae9bdd9fb6f9dd32fa41e334053f8955aa9b695334770e820a8b9683ab",
+  "snapshotIntegrity": {
+    "status": "verified",
+    "before": "2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c",
+    "after": "2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c",
+    "scope": "ledger_and_corpus"
+  },
+  "providerUsage": {
+    "gemini": {
+      "calls": 127,
+      "trackedUsd": 0.17572225
+    },
+    "jev": {
+      "calls": 9,
+      "trackedUsd": 0.001052184
+    }
+  },
+  "eligibleForSelection": false
+}

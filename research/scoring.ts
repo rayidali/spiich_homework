@@ -1,6 +1,7 @@
 import Decimal from 'decimal.js';
 import { assumptionTags, clarificationTopicTags, type TaskFamily, type StudySplit } from './dataset';
 import type { ReferenceAnswer, ReferenceFact } from './reference';
+import { calculationScopeBound, ledgerFactBound, type ScopedFact } from './scope';
 
 export const ROUTES = ['R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6', 'R7', 'R8'] as const;
 export type StudyRoute = (typeof ROUTES)[number];
@@ -55,7 +56,8 @@ export interface EvidenceRecord {
   organizationId?: string;
   documentId?: string;
   text?: string;
-  facts?: (Omit<ReferenceFact, 'unit'> & { unit: string })[];
+  facts?: ScopedFact[];
+  ledgerAncestors?: ScopedFact[];
 }
 export interface StudyEpisode {
   id: string;
@@ -287,22 +289,25 @@ export function scoreEpisode(episode: StudyEpisode, reference: ReferenceAnswer):
       return (
         source &&
         ['ledger', 'calculation'].includes(source.kind ?? '') &&
-        source.facts?.some((value) => {
-          if (value.unit !== fact.unit) return false;
-          for (const dimension of ['from', 'to', 'asOf'] as const)
-            if (fact[dimension] && value[dimension] && fact[dimension] !== value[dimension]) return false;
-          if (fact.entity && value.entity && !sameEntity(fact.entity, value.entity)) return false;
-          const actual = decimal(fact.value),
-            target = decimal(value.value);
-          return (
-            actual !== null &&
-            target !== null &&
-            actual
-              .minus(target)
-              .abs()
-              .lte(['percent', 'months'].includes(fact.unit) ? '0.01' : '0')
-          );
-        })
+        (source.kind === 'ledger'
+          ? ledgerFactBound(fact, source.facts ?? [])
+          : calculationScopeBound(fact, source.ledgerAncestors ?? []) &&
+            source.facts?.some((value) => {
+              if (value.unit !== fact.unit) return false;
+              for (const dimension of ['from', 'to', 'asOf'] as const)
+                if (fact[dimension] && value[dimension] && fact[dimension] !== value[dimension]) return false;
+              if (fact.entity && value.entity && !sameEntity(fact.entity, value.entity)) return false;
+              const actual = decimal(fact.value),
+                target = decimal(value.value);
+              return (
+                actual !== null &&
+                target !== null &&
+                actual
+                  .minus(target)
+                  .abs()
+                  .lte(['percent', 'months'].includes(fact.unit) ? '0.01' : '0')
+              );
+            }))
       );
     });
   const requiredMatches = reference.facts.map((required) =>

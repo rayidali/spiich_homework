@@ -1,12 +1,24 @@
 # Verification record
 
+## Shared evidence-scope correction — 2026-10-30
+
+The complete funded smoke recorded 54/54 episodes with unchanged source/data, 47 execution successes, seven validation blocks and zero execution errors. Its [validity notice](evidence/research-runs/smoke-v3/validity-notice.json) identifies asymmetric period metadata between custom and Wren evidence; it cannot select an architecture.
+
+The correction derives row period/identity/grain from validated plans or supported Wren ASTs, applies the same checks to both backends and R0, and fails closed on ambiguous scope. Internal code review found and corrected daily movements masquerading as balances, omitted raw-row identity, grouped vendor collapse and arithmetic wrappers erasing source scope. This is qualifier/provenance verification, not complete economic semantics or human prose adjudication.
+
+Source hash `fec9f71ad1426c8525d63c353d2f4f83892bdf24a8a5249e0383194f3c2fed08` passed **511 isolated tests in 32 files**, strict TypeScript/production build, global formatting, **35 actual Wren Python tests** and **nine PDF exporter tests**. [Local evidence](evidence/research-local-v4.json). The common-capability source amendment preserves all membership. Prompts, reference labels, fixtures and previous outcomes are unchanged. Fresh full CI and `smoke-v4` follow; no held-out result is claimed.
+
 ## Funded continuation checks — 2026-10-30
 
-The parent-bound study allowance and fatal runner-stop handling passed **453 isolated tests in29files**, strict TypeScript/production build and global formatting. [Local evidence](evidence/research-local-funded.json). Independent review found no critical issue. The real policy installation preserved all841historical usage records and prior policy/marker/recovery bytes and was verified across process reconstruction. [Installation receipt](evidence/research-funded-resumption.json).
+The parent-bound study allowance and fatal runner-stop handling passed **453 isolated tests in 29 files**, strict TypeScript/production build and global formatting. [Local evidence](evidence/research-local-funded.json). Independent review found no critical issue. The real policy installation preserved all 841 historical usage records and prior policy/marker/recovery bytes and was verified across process reconstruction. [Installation receipt](evidence/research-funded-resumption.json).
 
-The current key received403for the old managed File Search store; its existing generation probe remains successful. Re-indexing the39authorized synthetic documents for the current key is in progress, preserving40database vectors and the old index state. This is setup, not a live accuracy result. A new full CI result will be recorded after publishing this revision.
+The current key received HTTP 403 for the old managed File Search store. A fresh store is now verified with **39 active / 0 pending / 0 failed authorized documents**, preserving the old index state and existing database vectors. [Index evidence](evidence/research-funded-index-ready.json). Fresh read-only database checks matched **114 posted lines, 57 entries, 39 authorized documents and 39 embeddings**, with unchanged fingerprints. [Fixture evidence](evidence/research-funded-fixture-check.json). The original undispatched timeout is retained separately; the private dispatcher fairness correction preceded scored runs.
 
-## Changed-key check and spending guard — 2026-10-30
+Published executable `eb75bf106cc91c023ee749873d1cd91057934cd3` passed [full CI 41152133267](https://github.com/rayidali/spiich_homework/actions/runs/41152133267): application/browser, Docker/persistence and native Wren/pgvector jobs succeeded; live-AI was skipped. [CI evidence](evidence/research-ci-funded.json). These are engineering/setup checks, not live answer accuracy. The final 54-episode development smoke and frozen held-out measurements follow; production was not redeployed.
+
+## Historical changed-key check and spending guard — 2026-10-30
+
+The following one-request restriction was superseded by the explicit funded allowance above. Its records and policy remain preserved as the new policy's parent.
 
 The replacement local Gemini key passed exactly one fixed availability request: HTTP 200, 878 ms, 14 input/5 output tokens, $0.0000167 paid-equivalent estimated usage. [Receipt](evidence/gemini-key-check-2026-10-30.json). No study questions, documents, indexing, Jev requests or hosted deployment were involved. Account balance, project identity, remaining quota and existing File Search access are unverified.
 

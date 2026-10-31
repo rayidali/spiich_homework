@@ -1,0 +1,320 @@
+{
+  "protocol": "daybook-fixture-consistency-v1",
+  "at": "2026-10-31T00:50:01.216Z",
+  "datasetVersion": "daybook-study-v1",
+  "organizationId": "11111111-1111-4111-8111-111111111111",
+  "passed": true,
+  "contentMatches": true,
+  "embeddingsComplete": true,
+  "expected": {
+    "ledgerLines": 114,
+    "entries": 57,
+    "documents": 39,
+    "corpusDocuments": 40
+  },
+  "observed": {
+    "ledgerLines": 114,
+    "entries": 57,
+    "documents": 39,
+    "embeddingsPresent": 39,
+    "validEmbeddings": 39
+  },
+  "sourceManifestSha256": "b268953550a96f77186387d3eef203055460e155fb094321c6576e8ad67adb0e",
+  "storedManifestSha256": "b268953550a96f77186387d3eef203055460e155fb094321c6576e8ad67adb0e",
+  "snapshotSha256": "92132d41e9f95ecc1804d68d646640aa8428bf054e480d92155ddbfeea23083e",
+  "sourceLedgerSha256": "deaaacc1bc1945333feb4bd7b876f976f624ef0dc1044c67e5c4ce41b83a0c75",
+  "storedLedgerSha256": "deaaacc1bc1945333feb4bd7b876f976f624ef0dc1044c67e5c4ce41b83a0c75",
+  "sourceDocumentsSha256": "335836f9bc0896ec7a230b678c1b5c8358148187a36dec0686f77ebb7b4522d5",
+  "storedDocumentsSha256": "335836f9bc0896ec7a230b678c1b5c8358148187a36dec0686f77ebb7b4522d5",
+  "embeddings": [
+    {
+      "id": "acme-contract",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "89775f47bffc0530057eef4f0e242f2ce49d296872da96ebc65d02054e3d359d"
+    },
+    {
+      "id": "acme-oct-invoice",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "a3c2f1c4650cf588bf21238d745f1b544dcbd4b0862205fbb0328edbbabf0c04"
+    },
+    {
+      "id": "bank-loan",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "c616277f5840ae37829bf558598de3e89fe3c93a74d7926cda065251d1dc8344"
+    },
+    {
+      "id": "cash-definitions",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "cd978e2215576d0934db3c8138d59bd70c5aa70098506f341c857691bd8c0586"
+    },
+    {
+      "id": "clouddesk-v1",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "100e91e02f96e144ed7993358da2e05d758b9a8f167416ae36c89f501882d750"
+    },
+    {
+      "id": "clouddesk-v2",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "e8f59767d19cd563cbfbd2d100a81cc6982b606fcce3c61c2287edbe16b4e68b"
+    },
+    {
+      "id": "contractor-plan",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "1c0dbf4eee77bc04ca2773dbb8c8884d9d83698d53b9cdae7108f4ed9cd42fc1"
+    },
+    {
+      "id": "correction-hosting",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "8ff813150906aea27d2a5823f86d244eafa6fcdece4c3917cf6acf96a4a2dfe4"
+    },
+    {
+      "id": "correction-paper",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "355f7498f798b4699d1303e530e79dcadd6fc59b399bf4d4ec4e0628363348b9"
+    },
+    {
+      "id": "draft-note",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "af27d76ecd159ba057d55ef6a40c507d59f8f0a9a88e09062fe001a3ab371860"
+    },
+    {
+      "id": "equipment-policy",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "65ba8d69a479014cf787299ecf454468e571cfc682977186f81e7db2f5ee3317"
+    },
+    {
+      "id": "furniture-quote",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "a258bb278efbc10bf64832355428b3f2f35eae2e06b822f7d563c270337887fb"
+    },
+    {
+      "id": "future-lease",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "a4559669df5d744de55adbe72eaccdeac8839ceab6eec4cd35ca04d398054914"
+    },
+    {
+      "id": "fx-policy",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "513ee74c857af5df1d0dbdc34a6926966bc9dca3bcd9bdf57951f464c1dd0d52"
+    },
+    {
+      "id": "insurance-policy",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "c0a339b953f966f26e976f376a6534722b7df1a21abde6ac0bd6eeee80640799"
+    },
+    {
+      "id": "lease-v1",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "c206e4d5aa9dbc9a4681d58bfb5baed8789d36b75b909489aa3e2a84162213ea"
+    },
+    {
+      "id": "lease-v2",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "cf5c64be7261625441948816ab18b3899a9e4223ea055a1867e020021c93d490"
+    },
+    {
+      "id": "malicious-invoice",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "7ab4bff4723d2c1d4960c94dae4c7bd3a0124b755b31ca24c6456473b3156384"
+    },
+    {
+      "id": "maple-receipt",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "bf891808a0ada3205bc4233cb957b35eb4db611fb4e417353f280bf89ec65b34"
+    },
+    {
+      "id": "marketing-distractor",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "1d69b7b307f97bd6e2d99e535bf48792becfd7852b52c87e8a73c1fd2a046ec7"
+    },
+    {
+      "id": "old-hiring-draft",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "d2f1febf47ec2ca12acf9d8a682c5bb8054e0b017fceb6c40ad0d534ce28cbb7"
+    },
+    {
+      "id": "payroll-engineer",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "649ff624de9078106cdbaf5a64f4c70418840c1a04ccff6da606d06de48c7578"
+    },
+    {
+      "id": "payroll-support",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "b53f1fe750312073d3fea3dbd908bd69ffce5f78109dc042f31e627faf802677"
+    },
+    {
+      "id": "purchase-policy",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "f45b38b20184ed2177f87e2b21cef8debef89d776f487c1e7ba7f3b64bfbe6c6"
+    },
+    {
+      "id": "rail-receipt",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "382fbcab066c50986f82590440ff2ef3803c07d4ef9d03dbfd441ef06c941b75"
+    },
+    {
+      "id": "recipe-distractor",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "582c969bc3496c322d48f65a208fd01a776e928268e1bde993368d7004101aef"
+    },
+    {
+      "id": "renewal-quote-a",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "ef1ae5c30ad10fa460d3c21f16b927f65bd3b4d9cf4fb732d4f238f199829147"
+    },
+    {
+      "id": "renewal-quote-b",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "c5df01b9f8bf175df491047576b4ba4ebcf80ea870745cab6c30beed5023c3e6"
+    },
+    {
+      "id": "rent-notice",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "dc2ad64fc6f602274a7e9e3edfae08680363aa128e69c5c1ef0ad4ea92bfe5cb"
+    },
+    {
+      "id": "reserve-policy",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "389d9c0e70252d75438713b03a686e34b0e0ccadd2cc7b0550731802e0695df1"
+    },
+    {
+      "id": "reversal-note",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "db139f4b044c5bef5fea571da076a4f8439b21d8c80354e66bef57d01d1bbab6"
+    },
+    {
+      "id": "staffing-target",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "1f7d4e8c362a3d40e95aa328a9b7d6c42e09513e6b247c74a86a90945005f342"
+    },
+    {
+      "id": "station-receipt",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "2536ee8263e62f299699a2a849ae89cd3c86ddacf65f9ec114c3a2a394217d8e"
+    },
+    {
+      "id": "supplier-credit",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "304fc75ccbbec50381a5a1251193caadbe11d23587d20119656bc1adc6a36fa5"
+    },
+    {
+      "id": "tax-missing",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "6b88936ccceb114d9ef77c10a427b6c1d851fdfea658d223ef00cc6a00427e8d"
+    },
+    {
+      "id": "travel-policy-v1",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "9054bf232db80e0ea90c00c1d6d31d5921a1f6086d0f0b7f16d482540b17ddb3"
+    },
+    {
+      "id": "travel-policy-v2",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "f99114d13af1c362bba930214e0ef7c0fa09a3c59b34b59dfc9a8fcb740c88ea"
+    },
+    {
+      "id": "unpaid-zephyr",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "ac8dd8927e9eae64e7dd38b3fc89c429f1f52e4855458735b3c3ca24a60c6d64"
+    },
+    {
+      "id": "zephyr-contract",
+      "present": true,
+      "valid": true,
+      "dimensions": 768,
+      "sha256": "3a25fd673425d87cc73a3f20f5d109959d2359911a3620ee89c0d0a7ed7c8fee"
+    }
+  ],
+  "failures": [],
+  "limitations": [
+    "The reader verifies all posted primary-workspace ledger lines and all authorized documents; other-organization and draft rows are intentionally inaccessible.",
+    "Every stored amount/rate is normalized as an exact decimal string without rounding; row order and trailing decimal zeros do not affect content equality.",
+    "Document source URI and entry reversal-link metadata are not columns in the research view; their source-file definitions are outside this stored-row equality check.",
+    "Embedding presence, dimension, finite/nonzero values and a vector-content hash are checked. This does not prove which model produced a vector or whether it semantically represents the document.",
+    "The source fixture has forty corpus documents, but only the authorized subset is verified through this reader; this is not a claim to have inspected inaccessible vectors."
+  ],
+  "attempt": 2,
+  "previousAttemptEvidence": "docs/evidence/research-funded-fixture-check-initial.json",
+  "fingerprintScope": "scoped_ledger_and_documents_including_embeddings",
+  "fingerprintBefore": "2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c",
+  "fingerprintAfter": "2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c",
+  "fingerprintUnchanged": true,
+  "readOnly": true,
+  "providerModelCalls": 0
+}

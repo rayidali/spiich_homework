@@ -6,6 +6,7 @@ import { scoreEpisode, type StudyEpisode } from '../research/scoring';
 import { getReference } from '../research/reference';
 import type { ResearchDatabase, QueryResult } from '../research/database';
 import type { ResearchRequest } from '../research/providers';
+import { ledgerFactBound } from '../research/scope';
 
 const rows = (data: Record<string, unknown>[]): QueryResult => ({
   fields: [],
@@ -189,5 +190,60 @@ describe('R0 shared validation and deterministic evidence adapter', () => {
     expect(score(question.id, result).failures).toContain('deterministic_validation_failed');
     expect(transport).toHaveBeenCalledTimes(1); // no repair or reviewer request
     expect(result.review).toBeNull();
+  });
+  it.each(['expense_summary', 'find_transactions'])(
+    'preserves exact period/entity proof for the unchanged R0 %s tool',
+    async (name) => {
+      const question = questions.find((q) => q.id === 'financial-01-1')!;
+      const { env, db, transport } = environment(
+        queryResponse(name, {
+          from: '2026-09-01',
+          to: '2026-09-30',
+          ...(name === 'find_transactions' ? { search: 'Acme' } : {}),
+        }),
+      );
+      db.batch.mockResolvedValue(
+        name === 'expense_summary'
+          ? [rows([{ label: 'total', value: '1000.00' }]), rows([{ label: '5000 Rent', value: '1000.00' }])]
+          : [
+              rows([
+                {
+                  entry_id: 'test-acme',
+                  date: '2026-09-10',
+                  description: 'Acme receipt',
+                  vendor: 'Acme Corp',
+                  value: '500.00',
+                },
+              ]),
+            ],
+      );
+      const result = await executeRoute('R0', question, env);
+      expect(result.validation.valid).toBe(true);
+      for (const fact of result.answer.facts) {
+        const facts = result.evidence
+          .filter((source) => fact.evidenceIds.includes(source.id))
+          .flatMap((source) => source.facts ?? []);
+        expect(ledgerFactBound(fact, facts)).toBe(true);
+        expect(ledgerFactBound({ ...fact, entity: 'Another company' }, facts)).toBe(false);
+        expect(ledgerFactBound({ ...fact, asOf: '2025-01-01' }, facts)).toBe(false);
+      }
+      expect(transport).toHaveBeenCalledTimes(1);
+    },
+  );
+  it('withholds a correct R0 cash amount when the claim silently changes the date', async () => {
+    const question = questions.find((q) => q.id === 'financial-01-1')!;
+    const { env, db } = environment(queryResponse('cash_position', { asOf: '2026-09-30' }));
+    db.batch.mockResolvedValue([rows([{ label: 'total', value: '164615.00' }]), rows([])]);
+    const candidate = await baseline.runBaseline({
+      question,
+      db: env.db,
+      transport: env.transport,
+      apiKey: env.geminiKey,
+      snapshot: env.snapshot,
+    });
+    candidate.answer.facts[0].asOf = '2026-08-31';
+    vi.spyOn(baseline, 'runBaseline').mockResolvedValue(candidate);
+    const result = await executeRoute('R0', question, env);
+    expect(result.validation.reasons).toContain('UNSUPPORTED_LEDGER_SCOPE');
   });
 });

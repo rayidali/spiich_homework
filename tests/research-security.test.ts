@@ -50,6 +50,7 @@ function dependencies(
         manifestSha256: 'b'.repeat(64),
         planningMs: 1,
         maxRows: 100,
+        rowScope: { provenance: 'ast-scope-v1', supported: false },
       };
     throw new Error('WREN_PLAN_REJECTED');
   });

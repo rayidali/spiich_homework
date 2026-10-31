@@ -2,6 +2,52 @@ import { spawn } from 'node:child_process';
 import { resolve } from 'node:path';
 import { z } from 'zod';
 
+const scopeDate = z.string().date();
+const scopeName = z
+  .string()
+  .min(1)
+  .max(1000)
+  .refine((value) => !['__proto__', 'prototype', 'constructor'].includes(value));
+export const wrenRowScopeSchema = z
+  .discriminatedUnion('supported', [
+    z.object({ provenance: z.literal('ast-scope-v1'), supported: z.literal(false) }).strict(),
+    z
+      .object({
+        provenance: z.literal('ast-scope-v1'),
+        supported: z.literal(true),
+        from: scopeDate.nullable(),
+        toExclusive: scopeDate.nullable(),
+        periodColumn: z
+          .object({ name: scopeName, kind: z.enum(['month', 'date']) })
+          .strict()
+          .optional(),
+        identityColumns: z
+          .object({
+            accountCode: scopeName.optional(),
+            accountName: scopeName.optional(),
+            vendor: scopeName.optional(),
+            entryId: scopeName.optional(),
+          })
+          .strict()
+          .optional(),
+        fixedIdentity: z
+          .object({
+            accountCode: z.string().min(1).max(1000).optional(),
+            accountName: z.string().min(1).max(1000).optional(),
+            vendor: z.string().min(1).max(1000).optional(),
+          })
+          .strict()
+          .optional(),
+      })
+      .strict(),
+  ])
+  .refine(
+    (scope) =>
+      !scope.supported || scope.from === null || scope.toExclusive === null || scope.from < scope.toExclusive,
+    'Scope boundaries must form a nonempty interval',
+  );
+export type WrenRowScope = z.infer<typeof wrenRowScopeSchema>;
+
 const planned = z
   .object({
     ok: z.literal(true),
@@ -18,6 +64,7 @@ const planned = z
     unitProvenance: z.literal('ast-v1').optional(),
     nativeCurrency: z.enum(['USD', 'EUR', 'GBP', 'CAD', 'JPY']).optional(),
     currencyColumn: z.string().optional(),
+    rowScope: wrenRowScopeSchema.default({ provenance: 'ast-scope-v1', supported: false }),
   })
   .strict();
 

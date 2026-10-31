@@ -1,0 +1,3568 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-31T01:07:11.540Z",
+  "runId": "smoke-v3",
+  "sourceRevision": "eb75bf106cc91c023ee749873d1cd91057934cd3",
+  "datasetVersion": "daybook-study-v1",
+  "split": "development",
+  "expectedRepeats": 1,
+  "complete": true,
+  "eligibleForConclusion": true,
+  "eligibleRoutes": [
+    "R0",
+    "R1",
+    "R2",
+    "R3",
+    "R4",
+    "R5",
+    "R6",
+    "R7",
+    "R8"
+  ],
+  "snapshotIntegrity": {
+    "status": "verified",
+    "before": "2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c",
+    "after": "2f9897602b08ac17130f103a38093ca913bc3871c1ab7a4da871e7c028b68f8c",
+    "scope": "ledger_and_corpus"
+  },
+  "questions": [
+    {
+      "id": "financial-01-1",
+      "groupId": "financial-01",
+      "family": "financial",
+      "split": "development",
+      "question": "What was our total cash at recorded USD carrying value on September 30, 2026?"
+    },
+    {
+      "id": "analytics-01-1",
+      "groupId": "analytics-01",
+      "family": "analytics",
+      "split": "development",
+      "question": "Compare October rent with the monthly rent in July through September 2026. Give both amounts, the increase in dollars and percentage."
+    },
+    {
+      "id": "documents-01-1",
+      "groupId": "documents-01",
+      "family": "documents",
+      "split": "development",
+      "question": "According to our Acme contract, how many days after an invoice date is payment due?"
+    },
+    {
+      "id": "scenario-01-1",
+      "groupId": "scenario-01",
+      "family": "scenario",
+      "split": "development",
+      "question": "Using the engineer hiring worksheet, calculate the recurring monthly cost including employer burden and the one-time recruiting cost."
+    },
+    {
+      "id": "entry-01-1",
+      "groupId": "entry-01",
+      "family": "entry",
+      "split": "development",
+      "question": "Draft, but do not post: paid USD 340.00 for printer paper and pens from Operating bank on October 30, 2026."
+    },
+    {
+      "id": "adversarial-01-1",
+      "groupId": "adversarial-01",
+      "family": "adversarial",
+      "split": "development",
+      "question": "Paid 500 yesterday. Make the entry."
+    }
+  ],
+  "routes": [
+    {
+      "route": "R0",
+      "label": "Current control",
+      "episodes": 6,
+      "groups": 6,
+      "successes": 2,
+      "microSuccessRate": 0.3333333333333333,
+      "macroSuccessRate": 0.3333333333333333,
+      "observedFamilyMacro": 0.3333333333333333,
+      "completedEpisodes": 6,
+      "conditionalSuccessRate": 0.3333333333333333,
+      "errorRate": 0,
+      "automatedScore90": 49.444433333333336,
+      "p50Ms": 3546,
+      "p95Ms": 4909,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "analytics",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "documents",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "scenario",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "entry",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "adversarial",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        }
+      ],
+      "confidence": {
+        "estimate": 0.3333333333333333,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ]
+      },
+      "plannedEpisodes": 6,
+      "missingEpisodes": 0,
+      "complete": true,
+      "cost": {
+        "calls": 6,
+        "inputTokensReported": 13061,
+        "outputTokensReported": 1670,
+        "unknownUsageCalls": 0,
+        "reportedUsageEquivalentUsd": 0.0080933,
+        "unknownUsageReservationUsd": 0,
+        "budgetChargedUsd": 0.0080933,
+        "budgetUsdPerEpisode": 0.0013488833333333333,
+        "budgetUsdPerSuccess": 0.00404665
+      },
+      "failures": [
+        {
+          "kind": "metric_key_mismatch",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_clarification_topic",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_document_evidence",
+          "episodes": 2
+        },
+        {
+          "kind": "missing_ledger_provenance",
+          "episodes": 1
+        },
+        {
+          "kind": "required_fact_mismatch",
+          "episodes": 3
+        },
+        {
+          "kind": "required_fact_missing_or_multiple_mismatches",
+          "episodes": 3
+        },
+        {
+          "kind": "wrong_behavior",
+          "episodes": 1
+        }
+      ]
+    },
+    {
+      "route": "R1",
+      "label": "Broad tools",
+      "episodes": 6,
+      "groups": 6,
+      "successes": 2,
+      "microSuccessRate": 0.3333333333333333,
+      "macroSuccessRate": 0.3333333333333333,
+      "observedFamilyMacro": 0.3333333333333333,
+      "completedEpisodes": 6,
+      "conditionalSuccessRate": 0.3333333333333333,
+      "errorRate": 0,
+      "automatedScore90": 53.333333333333336,
+      "p50Ms": 9296,
+      "p95Ms": 10569,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "analytics",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "documents",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "scenario",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "entry",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "adversarial",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        }
+      ],
+      "confidence": {
+        "estimate": 0.3333333333333333,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ]
+      },
+      "plannedEpisodes": 6,
+      "missingEpisodes": 0,
+      "complete": true,
+      "cost": {
+        "calls": 12,
+        "inputTokensReported": 18537,
+        "outputTokensReported": 5480,
+        "unknownUsageCalls": 0,
+        "reportedUsageEquivalentUsd": 0.0192611,
+        "unknownUsageReservationUsd": 0,
+        "budgetChargedUsd": 0.0192611,
+        "budgetUsdPerEpisode": 0.0032101833333333333,
+        "budgetUsdPerSuccess": 0.00963055
+      },
+      "failures": [
+        {
+          "kind": "missing_assumption",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_clarification_topic",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_document_evidence",
+          "episodes": 2
+        },
+        {
+          "kind": "missing_ledger_provenance",
+          "episodes": 1
+        },
+        {
+          "kind": "required_fact_mismatch",
+          "episodes": 2
+        },
+        {
+          "kind": "required_fact_missing_or_multiple_mismatches",
+          "episodes": 2
+        },
+        {
+          "kind": "unsupported_or_unassessed_fact",
+          "episodes": 1
+        },
+        {
+          "kind": "wrong_behavior",
+          "episodes": 2
+        }
+      ]
+    },
+    {
+      "route": "R2",
+      "label": "Lexical documents",
+      "episodes": 6,
+      "groups": 6,
+      "successes": 3,
+      "microSuccessRate": 0.5,
+      "macroSuccessRate": 0.5,
+      "observedFamilyMacro": 0.5,
+      "completedEpisodes": 6,
+      "conditionalSuccessRate": 0.5,
+      "errorRate": 0,
+      "automatedScore90": 68.33333333333333,
+      "p50Ms": 9123,
+      "p95Ms": 10341,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "analytics",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "documents",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "scenario",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "entry",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "adversarial",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        }
+      ],
+      "confidence": {
+        "estimate": 0.5,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ]
+      },
+      "plannedEpisodes": 6,
+      "missingEpisodes": 0,
+      "complete": true,
+      "cost": {
+        "calls": 12,
+        "inputTokensReported": 23575,
+        "outputTokensReported": 3999,
+        "unknownUsageCalls": 0,
+        "reportedUsageEquivalentUsd": 0.01707,
+        "unknownUsageReservationUsd": 0,
+        "budgetChargedUsd": 0.01707,
+        "budgetUsdPerEpisode": 0.002845,
+        "budgetUsdPerSuccess": 0.00569
+      },
+      "failures": [
+        {
+          "kind": "deterministic_validation_failed",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_assumption",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_clarification_topic",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_document_evidence",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_ledger_provenance",
+          "episodes": 1
+        },
+        {
+          "kind": "required_fact_mismatch",
+          "episodes": 1
+        },
+        {
+          "kind": "required_fact_missing_or_multiple_mismatches",
+          "episodes": 1
+        },
+        {
+          "kind": "unsupported_or_unassessed_fact",
+          "episodes": 1
+        },
+        {
+          "kind": "wrong_behavior",
+          "episodes": 1
+        }
+      ]
+    },
+    {
+      "route": "R3",
+      "label": "Managed File Search",
+      "episodes": 6,
+      "groups": 6,
+      "successes": 4,
+      "microSuccessRate": 0.6666666666666666,
+      "macroSuccessRate": 0.6666666666666666,
+      "observedFamilyMacro": 0.6666666666666666,
+      "completedEpisodes": 6,
+      "conditionalSuccessRate": 0.6666666666666666,
+      "errorRate": 0,
+      "automatedScore90": 70,
+      "p50Ms": 13326,
+      "p95Ms": 22446,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "analytics",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "documents",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "scenario",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "entry",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "adversarial",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        }
+      ],
+      "confidence": {
+        "estimate": 0.6666666666666666,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ]
+      },
+      "plannedEpisodes": 6,
+      "missingEpisodes": 0,
+      "complete": true,
+      "cost": {
+        "calls": 16,
+        "inputTokensReported": 81266,
+        "outputTokensReported": 4171,
+        "unknownUsageCalls": 0,
+        "reportedUsageEquivalentUsd": 0.034807300000000006,
+        "unknownUsageReservationUsd": 0,
+        "budgetChargedUsd": 0.034807300000000006,
+        "budgetUsdPerEpisode": 0.005801216666666668,
+        "budgetUsdPerSuccess": 0.008701825000000002
+      },
+      "failures": [
+        {
+          "kind": "deterministic_validation_failed",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_assumption",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_document_evidence",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_ledger_provenance",
+          "episodes": 1
+        },
+        {
+          "kind": "required_fact_mismatch",
+          "episodes": 1
+        },
+        {
+          "kind": "required_fact_missing_or_multiple_mismatches",
+          "episodes": 1
+        },
+        {
+          "kind": "unsupported_or_unassessed_fact",
+          "episodes": 1
+        },
+        {
+          "kind": "wrong_behavior",
+          "episodes": 1
+        }
+      ]
+    },
+    {
+      "route": "R4",
+      "label": "Custom hybrid",
+      "episodes": 6,
+      "groups": 6,
+      "successes": 3,
+      "microSuccessRate": 0.5,
+      "macroSuccessRate": 0.5,
+      "observedFamilyMacro": 0.5,
+      "completedEpisodes": 6,
+      "conditionalSuccessRate": 0.5,
+      "errorRate": 0,
+      "automatedScore90": 68.33333333333333,
+      "p50Ms": 13897,
+      "p95Ms": 14210,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "analytics",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "documents",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "scenario",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "entry",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "adversarial",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        }
+      ],
+      "confidence": {
+        "estimate": 0.5,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ]
+      },
+      "plannedEpisodes": 6,
+      "missingEpisodes": 0,
+      "complete": true,
+      "cost": {
+        "calls": 16,
+        "inputTokensReported": 26544,
+        "outputTokensReported": 4606,
+        "unknownUsageCalls": 4,
+        "reportedUsageEquivalentUsd": 0.0194782,
+        "unknownUsageReservationUsd": 0.00133935,
+        "budgetChargedUsd": 0.02081755,
+        "budgetUsdPerEpisode": 0.003469591666666667,
+        "budgetUsdPerSuccess": 0.006939183333333334
+      },
+      "failures": [
+        {
+          "kind": "deterministic_validation_failed",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_assumption",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_clarification_topic",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_document_evidence",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_ledger_provenance",
+          "episodes": 1
+        },
+        {
+          "kind": "required_fact_mismatch",
+          "episodes": 1
+        },
+        {
+          "kind": "required_fact_missing_or_multiple_mismatches",
+          "episodes": 1
+        },
+        {
+          "kind": "unsupported_or_unassessed_fact",
+          "episodes": 1
+        },
+        {
+          "kind": "wrong_behavior",
+          "episodes": 1
+        }
+      ]
+    },
+    {
+      "route": "R5",
+      "label": "Jev reranking",
+      "episodes": 6,
+      "groups": 6,
+      "successes": 3,
+      "microSuccessRate": 0.5,
+      "macroSuccessRate": 0.5,
+      "observedFamilyMacro": 0.5,
+      "completedEpisodes": 6,
+      "conditionalSuccessRate": 0.5,
+      "errorRate": 0,
+      "automatedScore90": 68.33333333333333,
+      "p50Ms": 13268,
+      "p95Ms": 13802,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "analytics",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "documents",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "scenario",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "entry",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "adversarial",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        }
+      ],
+      "confidence": {
+        "estimate": 0.5,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ]
+      },
+      "plannedEpisodes": 6,
+      "missingEpisodes": 0,
+      "complete": true,
+      "cost": {
+        "calls": 20,
+        "inputTokensReported": 42488,
+        "outputTokensReported": 4097,
+        "unknownUsageCalls": 4,
+        "reportedUsageEquivalentUsd": 0.01657769,
+        "unknownUsageReservationUsd": 0.0013383,
+        "budgetChargedUsd": 0.01791599,
+        "budgetUsdPerEpisode": 0.0029859983333333333,
+        "budgetUsdPerSuccess": 0.0059719966666666666
+      },
+      "failures": [
+        {
+          "kind": "deterministic_validation_failed",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_assumption",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_clarification_topic",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_document_evidence",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_ledger_provenance",
+          "episodes": 1
+        },
+        {
+          "kind": "required_fact_mismatch",
+          "episodes": 1
+        },
+        {
+          "kind": "required_fact_missing_or_multiple_mismatches",
+          "episodes": 1
+        },
+        {
+          "kind": "unsupported_or_unassessed_fact",
+          "episodes": 1
+        },
+        {
+          "kind": "wrong_behavior",
+          "episodes": 1
+        }
+      ]
+    },
+    {
+      "route": "R6",
+      "label": "Wren analytics",
+      "episodes": 6,
+      "groups": 6,
+      "successes": 4,
+      "microSuccessRate": 0.6666666666666666,
+      "macroSuccessRate": 0.6666666666666666,
+      "observedFamilyMacro": 0.6666666666666666,
+      "completedEpisodes": 6,
+      "conditionalSuccessRate": 0.6666666666666666,
+      "errorRate": 0,
+      "automatedScore90": 73.33333333333333,
+      "p50Ms": 9531,
+      "p95Ms": 14507,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "analytics",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "documents",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "scenario",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "entry",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "adversarial",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        }
+      ],
+      "confidence": {
+        "estimate": 0.6666666666666666,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ]
+      },
+      "plannedEpisodes": 6,
+      "missingEpisodes": 0,
+      "complete": true,
+      "cost": {
+        "calls": 14,
+        "inputTokensReported": 25904,
+        "outputTokensReported": 4505,
+        "unknownUsageCalls": 2,
+        "reportedUsageEquivalentUsd": 0.0190337,
+        "unknownUsageReservationUsd": 0.0006747,
+        "budgetChargedUsd": 0.0197084,
+        "budgetUsdPerEpisode": 0.0032847333333333333,
+        "budgetUsdPerSuccess": 0.0049271
+      },
+      "failures": [
+        {
+          "kind": "deterministic_validation_failed",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_assumption",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_clarification_topic",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_document_evidence",
+          "episodes": 1
+        },
+        {
+          "kind": "required_fact_mismatch",
+          "episodes": 1
+        },
+        {
+          "kind": "required_fact_missing_or_multiple_mismatches",
+          "episodes": 1
+        },
+        {
+          "kind": "wrong_behavior",
+          "episodes": 1
+        }
+      ]
+    },
+    {
+      "route": "R7",
+      "label": "LLM verifier",
+      "episodes": 6,
+      "groups": 6,
+      "successes": 2,
+      "microSuccessRate": 0.3333333333333333,
+      "macroSuccessRate": 0.3333333333333333,
+      "observedFamilyMacro": 0.3333333333333333,
+      "completedEpisodes": 6,
+      "conditionalSuccessRate": 0.3333333333333333,
+      "errorRate": 0,
+      "automatedScore90": 57.22221666666667,
+      "p50Ms": 13075,
+      "p95Ms": 17946,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "analytics",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "documents",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "scenario",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "entry",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "adversarial",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        }
+      ],
+      "confidence": {
+        "estimate": 0.3333333333333333,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ]
+      },
+      "plannedEpisodes": 6,
+      "missingEpisodes": 0,
+      "complete": true,
+      "cost": {
+        "calls": 19,
+        "inputTokensReported": 26207,
+        "outputTokensReported": 3719,
+        "unknownUsageCalls": 2,
+        "reportedUsageEquivalentUsd": 0.0171596,
+        "unknownUsageReservationUsd": 0.00066345,
+        "budgetChargedUsd": 0.01782305,
+        "budgetUsdPerEpisode": 0.0029705083333333333,
+        "budgetUsdPerSuccess": 0.008911525
+      },
+      "failures": [
+        {
+          "kind": "deterministic_validation_failed",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_assumption",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_clarification_topic",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_document_evidence",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_ledger_provenance",
+          "episodes": 1
+        },
+        {
+          "kind": "required_fact_mismatch",
+          "episodes": 2
+        },
+        {
+          "kind": "required_fact_missing_or_multiple_mismatches",
+          "episodes": 1
+        },
+        {
+          "kind": "required_scope_or_unit_mismatch",
+          "episodes": 1
+        },
+        {
+          "kind": "unsupported_or_unassessed_fact",
+          "episodes": 2
+        },
+        {
+          "kind": "wrong_behavior",
+          "episodes": 1
+        }
+      ]
+    },
+    {
+      "route": "R8",
+      "label": "Jev verifier",
+      "episodes": 6,
+      "groups": 6,
+      "successes": 3,
+      "microSuccessRate": 0.5,
+      "macroSuccessRate": 0.5,
+      "observedFamilyMacro": 0.5,
+      "completedEpisodes": 6,
+      "conditionalSuccessRate": 0.5,
+      "errorRate": 0,
+      "automatedScore90": 68.33333333333333,
+      "p50Ms": 13697,
+      "p95Ms": 15546,
+      "disqualified": false,
+      "hardGateViolations": [],
+      "families": [
+        {
+          "family": "financial",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "analytics",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "documents",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "scenario",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        },
+        {
+          "family": "entry",
+          "episodes": 1,
+          "successes": 1,
+          "rate": 1
+        },
+        {
+          "family": "adversarial",
+          "episodes": 1,
+          "successes": 0,
+          "rate": 0
+        }
+      ],
+      "confidence": {
+        "estimate": 0.5,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ]
+      },
+      "plannedEpisodes": 6,
+      "missingEpisodes": 0,
+      "complete": true,
+      "cost": {
+        "calls": 21,
+        "inputTokensReported": 35330,
+        "outputTokensReported": 5295,
+        "unknownUsageCalls": 4,
+        "reportedUsageEquivalentUsd": 0.019939294,
+        "unknownUsageReservationUsd": 0.00133845,
+        "budgetChargedUsd": 0.021277744,
+        "budgetUsdPerEpisode": 0.003546290666666667,
+        "budgetUsdPerSuccess": 0.007092581333333334
+      },
+      "failures": [
+        {
+          "kind": "deterministic_validation_failed",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_assumption",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_clarification_topic",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_document_evidence",
+          "episodes": 1
+        },
+        {
+          "kind": "missing_ledger_provenance",
+          "episodes": 1
+        },
+        {
+          "kind": "required_fact_mismatch",
+          "episodes": 1
+        },
+        {
+          "kind": "required_fact_missing_or_multiple_mismatches",
+          "episodes": 1
+        },
+        {
+          "kind": "unsupported_or_unassessed_fact",
+          "episodes": 1
+        },
+        {
+          "kind": "wrong_behavior",
+          "episodes": 1
+        }
+      ]
+    }
+  ],
+  "scores": [
+    {
+      "id": "smoke-v3:R0:financial-01-1:0",
+      "route": "R0",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "family": "financial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 3,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 1547,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R1:financial-01-1:0",
+      "route": "R1",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "family": "financial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 1,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 9296,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R2:financial-01-1:0",
+      "route": "R2",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "family": "financial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 1,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 9207,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R3:financial-01-1:0",
+      "route": "R3",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "family": "financial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 1,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 22446,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R4:financial-01-1:0",
+      "route": "R4",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "family": "financial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 1,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 13897,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R5:financial-01-1:0",
+      "route": "R5",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "family": "financial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 1,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 13802,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R6:financial-01-1:0",
+      "route": "R6",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "family": "financial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 1,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 8956,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R7:financial-01-1:0",
+      "route": "R7",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "family": "financial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 1,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 13587,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R8:financial-01-1:0",
+      "route": "R8",
+      "questionId": "financial-01-1",
+      "groupId": "financial-01",
+      "family": "financial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 1,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 14836,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R1:analytics-01-1:0",
+      "route": "R1",
+      "questionId": "analytics-01-1",
+      "groupId": "analytics-01",
+      "family": "analytics",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": false,
+      "behaviorCorrect": true,
+      "factsRequired": 4,
+      "factsMatched": 4,
+      "factsEmitted": 4,
+      "unsupportedFacts": 2,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": false,
+      "factual": 20,
+      "completion": 20,
+      "grounding": 10,
+      "uncertainty": 10,
+      "automatedScore": 60,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 9706,
+      "hardGateViolations": [],
+      "failures": [
+        "unsupported_or_unassessed_fact",
+        "missing_ledger_provenance"
+      ]
+    },
+    {
+      "id": "smoke-v3:R2:analytics-01-1:0",
+      "route": "R2",
+      "questionId": "analytics-01-1",
+      "groupId": "analytics-01",
+      "family": "analytics",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": false,
+      "behaviorCorrect": true,
+      "factsRequired": 4,
+      "factsMatched": 4,
+      "factsEmitted": 4,
+      "unsupportedFacts": 2,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": false,
+      "factual": 20,
+      "completion": 20,
+      "grounding": 10,
+      "uncertainty": 10,
+      "automatedScore": 60,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 9202,
+      "hardGateViolations": [],
+      "failures": [
+        "unsupported_or_unassessed_fact",
+        "missing_ledger_provenance"
+      ]
+    },
+    {
+      "id": "smoke-v3:R3:analytics-01-1:0",
+      "route": "R3",
+      "questionId": "analytics-01-1",
+      "groupId": "analytics-01",
+      "family": "analytics",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": false,
+      "behaviorCorrect": true,
+      "factsRequired": 4,
+      "factsMatched": 4,
+      "factsEmitted": 4,
+      "unsupportedFacts": 2,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": false,
+      "factual": 20,
+      "completion": 20,
+      "grounding": 10,
+      "uncertainty": 10,
+      "automatedScore": 60,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 14819,
+      "hardGateViolations": [],
+      "failures": [
+        "unsupported_or_unassessed_fact",
+        "missing_ledger_provenance"
+      ]
+    },
+    {
+      "id": "smoke-v3:R4:analytics-01-1:0",
+      "route": "R4",
+      "questionId": "analytics-01-1",
+      "groupId": "analytics-01",
+      "family": "analytics",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": false,
+      "behaviorCorrect": true,
+      "factsRequired": 4,
+      "factsMatched": 4,
+      "factsEmitted": 4,
+      "unsupportedFacts": 2,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": false,
+      "factual": 20,
+      "completion": 20,
+      "grounding": 10,
+      "uncertainty": 10,
+      "automatedScore": 60,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 14210,
+      "hardGateViolations": [],
+      "failures": [
+        "unsupported_or_unassessed_fact",
+        "missing_ledger_provenance"
+      ]
+    },
+    {
+      "id": "smoke-v3:R5:analytics-01-1:0",
+      "route": "R5",
+      "questionId": "analytics-01-1",
+      "groupId": "analytics-01",
+      "family": "analytics",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": false,
+      "behaviorCorrect": true,
+      "factsRequired": 4,
+      "factsMatched": 4,
+      "factsEmitted": 4,
+      "unsupportedFacts": 2,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": false,
+      "factual": 20,
+      "completion": 20,
+      "grounding": 10,
+      "uncertainty": 10,
+      "automatedScore": 60,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 13268,
+      "hardGateViolations": [],
+      "failures": [
+        "unsupported_or_unassessed_fact",
+        "missing_ledger_provenance"
+      ]
+    },
+    {
+      "id": "smoke-v3:R6:analytics-01-1:0",
+      "route": "R6",
+      "questionId": "analytics-01-1",
+      "groupId": "analytics-01",
+      "family": "analytics",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 4,
+      "factsMatched": 4,
+      "factsEmitted": 4,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 9422,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R7:analytics-01-1:0",
+      "route": "R7",
+      "questionId": "analytics-01-1",
+      "groupId": "analytics-01",
+      "family": "analytics",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": false,
+      "behaviorCorrect": true,
+      "factsRequired": 4,
+      "factsMatched": 4,
+      "factsEmitted": 4,
+      "unsupportedFacts": 2,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": false,
+      "factual": 20,
+      "completion": 20,
+      "grounding": 10,
+      "uncertainty": 10,
+      "automatedScore": 60,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 12428,
+      "hardGateViolations": [],
+      "failures": [
+        "unsupported_or_unassessed_fact",
+        "missing_ledger_provenance"
+      ]
+    },
+    {
+      "id": "smoke-v3:R8:analytics-01-1:0",
+      "route": "R8",
+      "questionId": "analytics-01-1",
+      "groupId": "analytics-01",
+      "family": "analytics",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": false,
+      "behaviorCorrect": true,
+      "factsRequired": 4,
+      "factsMatched": 4,
+      "factsEmitted": 4,
+      "unsupportedFacts": 2,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": false,
+      "factual": 20,
+      "completion": 20,
+      "grounding": 10,
+      "uncertainty": 10,
+      "automatedScore": 60,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 15546,
+      "hardGateViolations": [],
+      "failures": [
+        "unsupported_or_unassessed_fact",
+        "missing_ledger_provenance"
+      ]
+    },
+    {
+      "id": "smoke-v3:R0:analytics-01-1:0",
+      "route": "R0",
+      "questionId": "analytics-01-1",
+      "groupId": "analytics-01",
+      "family": "analytics",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": false,
+      "behaviorCorrect": true,
+      "factsRequired": 4,
+      "factsMatched": 0,
+      "factsEmitted": 5,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": false,
+      "factual": 0,
+      "completion": 0,
+      "grounding": 13.3333,
+      "uncertainty": 10,
+      "automatedScore": 23.3333,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 3150,
+      "hardGateViolations": [],
+      "failures": [
+        "required_fact_mismatch",
+        "metric_key_mismatch",
+        "required_fact_missing_or_multiple_mismatches",
+        "missing_ledger_provenance"
+      ]
+    },
+    {
+      "id": "smoke-v3:R2:documents-01-1:0",
+      "route": "R2",
+      "questionId": "documents-01-1",
+      "groupId": "documents-01",
+      "family": "documents",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 1,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 8906,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R3:documents-01-1:0",
+      "route": "R3",
+      "questionId": "documents-01-1",
+      "groupId": "documents-01",
+      "family": "documents",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 1,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 13968,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R4:documents-01-1:0",
+      "route": "R4",
+      "questionId": "documents-01-1",
+      "groupId": "documents-01",
+      "family": "documents",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 1,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 14037,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R5:documents-01-1:0",
+      "route": "R5",
+      "questionId": "documents-01-1",
+      "groupId": "documents-01",
+      "family": "documents",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 1,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 13798,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R6:documents-01-1:0",
+      "route": "R6",
+      "questionId": "documents-01-1",
+      "groupId": "documents-01",
+      "family": "documents",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 1,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 13592,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R7:documents-01-1:0",
+      "route": "R7",
+      "questionId": "documents-01-1",
+      "groupId": "documents-01",
+      "family": "documents",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": false,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 0,
+      "factsEmitted": 1,
+      "unsupportedFacts": 1,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 0,
+      "completion": 0,
+      "grounding": 13.3333,
+      "uncertainty": 10,
+      "automatedScore": 23.3333,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 17946,
+      "hardGateViolations": [],
+      "failures": [
+        "required_fact_mismatch",
+        "required_scope_or_unit_mismatch",
+        "unsupported_or_unassessed_fact"
+      ]
+    },
+    {
+      "id": "smoke-v3:R8:documents-01-1:0",
+      "route": "R8",
+      "questionId": "documents-01-1",
+      "groupId": "documents-01",
+      "family": "documents",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 1,
+      "factsEmitted": 1,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 15431,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R0:documents-01-1:0",
+      "route": "R0",
+      "questionId": "documents-01-1",
+      "groupId": "documents-01",
+      "family": "documents",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": false,
+      "behaviorCorrect": true,
+      "factsRequired": 1,
+      "factsMatched": 0,
+      "factsEmitted": 5,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [
+        "acme-contract"
+      ],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 0,
+      "completion": 0,
+      "grounding": 13.3333,
+      "uncertainty": 10,
+      "automatedScore": 23.3333,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 4056,
+      "hardGateViolations": [],
+      "failures": [
+        "required_fact_mismatch",
+        "required_fact_missing_or_multiple_mismatches",
+        "missing_document_evidence"
+      ]
+    },
+    {
+      "id": "smoke-v3:R1:documents-01-1:0",
+      "route": "R1",
+      "questionId": "documents-01-1",
+      "groupId": "documents-01",
+      "family": "documents",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": false,
+      "behaviorCorrect": false,
+      "factsRequired": 1,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [
+        "acme-contract"
+      ],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 0,
+      "completion": 0,
+      "grounding": 0,
+      "uncertainty": 0,
+      "automatedScore": 0,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 9678,
+      "hardGateViolations": [],
+      "failures": [
+        "wrong_behavior",
+        "required_fact_mismatch",
+        "required_fact_missing_or_multiple_mismatches",
+        "missing_document_evidence"
+      ]
+    },
+    {
+      "id": "smoke-v3:R3:scenario-01-1:0",
+      "route": "R3",
+      "questionId": "scenario-01-1",
+      "groupId": "scenario-01",
+      "family": "scenario",
+      "split": "development",
+      "repeat": 0,
+      "status": "blocked",
+      "success": false,
+      "behaviorCorrect": false,
+      "factsRequired": 2,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [
+        "payroll-engineer"
+      ],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [
+        "PLANNING_ESTIMATE"
+      ],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 0,
+      "completion": 0,
+      "grounding": 0,
+      "uncertainty": 0,
+      "automatedScore": 0,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 13326,
+      "hardGateViolations": [],
+      "failures": [
+        "wrong_behavior",
+        "required_fact_mismatch",
+        "required_fact_missing_or_multiple_mismatches",
+        "missing_document_evidence",
+        "missing_assumption",
+        "deterministic_validation_failed"
+      ]
+    },
+    {
+      "id": "smoke-v3:R4:scenario-01-1:0",
+      "route": "R4",
+      "questionId": "scenario-01-1",
+      "groupId": "scenario-01",
+      "family": "scenario",
+      "split": "development",
+      "repeat": 0,
+      "status": "blocked",
+      "success": false,
+      "behaviorCorrect": false,
+      "factsRequired": 2,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [
+        "payroll-engineer"
+      ],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [
+        "PLANNING_ESTIMATE"
+      ],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 0,
+      "completion": 0,
+      "grounding": 0,
+      "uncertainty": 0,
+      "automatedScore": 0,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 13931,
+      "hardGateViolations": [],
+      "failures": [
+        "wrong_behavior",
+        "required_fact_mismatch",
+        "required_fact_missing_or_multiple_mismatches",
+        "missing_document_evidence",
+        "missing_assumption",
+        "deterministic_validation_failed"
+      ]
+    },
+    {
+      "id": "smoke-v3:R5:scenario-01-1:0",
+      "route": "R5",
+      "questionId": "scenario-01-1",
+      "groupId": "scenario-01",
+      "family": "scenario",
+      "split": "development",
+      "repeat": 0,
+      "status": "blocked",
+      "success": false,
+      "behaviorCorrect": false,
+      "factsRequired": 2,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [
+        "payroll-engineer"
+      ],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [
+        "PLANNING_ESTIMATE"
+      ],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 0,
+      "completion": 0,
+      "grounding": 0,
+      "uncertainty": 0,
+      "automatedScore": 0,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 13690,
+      "hardGateViolations": [],
+      "failures": [
+        "wrong_behavior",
+        "required_fact_mismatch",
+        "required_fact_missing_or_multiple_mismatches",
+        "missing_document_evidence",
+        "missing_assumption",
+        "deterministic_validation_failed"
+      ]
+    },
+    {
+      "id": "smoke-v3:R6:scenario-01-1:0",
+      "route": "R6",
+      "questionId": "scenario-01-1",
+      "groupId": "scenario-01",
+      "family": "scenario",
+      "split": "development",
+      "repeat": 0,
+      "status": "blocked",
+      "success": false,
+      "behaviorCorrect": false,
+      "factsRequired": 2,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [
+        "payroll-engineer"
+      ],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [
+        "PLANNING_ESTIMATE"
+      ],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 0,
+      "completion": 0,
+      "grounding": 0,
+      "uncertainty": 0,
+      "automatedScore": 0,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 14507,
+      "hardGateViolations": [],
+      "failures": [
+        "wrong_behavior",
+        "required_fact_mismatch",
+        "required_fact_missing_or_multiple_mismatches",
+        "missing_document_evidence",
+        "missing_assumption",
+        "deterministic_validation_failed"
+      ]
+    },
+    {
+      "id": "smoke-v3:R7:scenario-01-1:0",
+      "route": "R7",
+      "questionId": "scenario-01-1",
+      "groupId": "scenario-01",
+      "family": "scenario",
+      "split": "development",
+      "repeat": 0,
+      "status": "blocked",
+      "success": false,
+      "behaviorCorrect": false,
+      "factsRequired": 2,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [
+        "payroll-engineer"
+      ],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [
+        "PLANNING_ESTIMATE"
+      ],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 0,
+      "completion": 0,
+      "grounding": 0,
+      "uncertainty": 0,
+      "automatedScore": 0,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 13088,
+      "hardGateViolations": [],
+      "failures": [
+        "wrong_behavior",
+        "required_fact_mismatch",
+        "required_fact_missing_or_multiple_mismatches",
+        "missing_document_evidence",
+        "missing_assumption",
+        "deterministic_validation_failed"
+      ]
+    },
+    {
+      "id": "smoke-v3:R8:scenario-01-1:0",
+      "route": "R8",
+      "questionId": "scenario-01-1",
+      "groupId": "scenario-01",
+      "family": "scenario",
+      "split": "development",
+      "repeat": 0,
+      "status": "blocked",
+      "success": false,
+      "behaviorCorrect": false,
+      "factsRequired": 2,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [
+        "payroll-engineer"
+      ],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [
+        "PLANNING_ESTIMATE"
+      ],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 0,
+      "completion": 0,
+      "grounding": 0,
+      "uncertainty": 0,
+      "automatedScore": 0,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 13697,
+      "hardGateViolations": [],
+      "failures": [
+        "wrong_behavior",
+        "required_fact_mismatch",
+        "required_fact_missing_or_multiple_mismatches",
+        "missing_document_evidence",
+        "missing_assumption",
+        "deterministic_validation_failed"
+      ]
+    },
+    {
+      "id": "smoke-v3:R0:scenario-01-1:0",
+      "route": "R0",
+      "questionId": "scenario-01-1",
+      "groupId": "scenario-01",
+      "family": "scenario",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": false,
+      "behaviorCorrect": false,
+      "factsRequired": 2,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [
+        "payroll-engineer"
+      ],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 0,
+      "completion": 0,
+      "grounding": 0,
+      "uncertainty": 0,
+      "automatedScore": 0,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 4909,
+      "hardGateViolations": [],
+      "failures": [
+        "wrong_behavior",
+        "required_fact_mismatch",
+        "required_fact_missing_or_multiple_mismatches",
+        "missing_document_evidence"
+      ]
+    },
+    {
+      "id": "smoke-v3:R1:scenario-01-1:0",
+      "route": "R1",
+      "questionId": "scenario-01-1",
+      "groupId": "scenario-01",
+      "family": "scenario",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": false,
+      "behaviorCorrect": false,
+      "factsRequired": 2,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [
+        "payroll-engineer"
+      ],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [
+        "PLANNING_ESTIMATE"
+      ],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 0,
+      "completion": 0,
+      "grounding": 0,
+      "uncertainty": 0,
+      "automatedScore": 0,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 8830,
+      "hardGateViolations": [],
+      "failures": [
+        "wrong_behavior",
+        "required_fact_mismatch",
+        "required_fact_missing_or_multiple_mismatches",
+        "missing_document_evidence",
+        "missing_assumption"
+      ]
+    },
+    {
+      "id": "smoke-v3:R2:scenario-01-1:0",
+      "route": "R2",
+      "questionId": "scenario-01-1",
+      "groupId": "scenario-01",
+      "family": "scenario",
+      "split": "development",
+      "repeat": 0,
+      "status": "blocked",
+      "success": false,
+      "behaviorCorrect": false,
+      "factsRequired": 2,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [
+        "payroll-engineer"
+      ],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [
+        "PLANNING_ESTIMATE"
+      ],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 0,
+      "completion": 0,
+      "grounding": 0,
+      "uncertainty": 0,
+      "automatedScore": 0,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 10341,
+      "hardGateViolations": [],
+      "failures": [
+        "wrong_behavior",
+        "required_fact_mismatch",
+        "required_fact_missing_or_multiple_mismatches",
+        "missing_document_evidence",
+        "missing_assumption",
+        "deterministic_validation_failed"
+      ]
+    },
+    {
+      "id": "smoke-v3:R4:entry-01-1:0",
+      "route": "R4",
+      "questionId": "entry-01-1",
+      "groupId": "entry-01",
+      "family": "entry",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 0,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 9374,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R5:entry-01-1:0",
+      "route": "R5",
+      "questionId": "entry-01-1",
+      "groupId": "entry-01",
+      "family": "entry",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 0,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 7751,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R6:entry-01-1:0",
+      "route": "R6",
+      "questionId": "entry-01-1",
+      "groupId": "entry-01",
+      "family": "entry",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 0,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 10628,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R7:entry-01-1:0",
+      "route": "R7",
+      "questionId": "entry-01-1",
+      "groupId": "entry-01",
+      "family": "entry",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 0,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 11851,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R8:entry-01-1:0",
+      "route": "R8",
+      "questionId": "entry-01-1",
+      "groupId": "entry-01",
+      "family": "entry",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 0,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 9779,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R0:entry-01-1:0",
+      "route": "R0",
+      "questionId": "entry-01-1",
+      "groupId": "entry-01",
+      "family": "entry",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 0,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 4467,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R1:entry-01-1:0",
+      "route": "R1",
+      "questionId": "entry-01-1",
+      "groupId": "entry-01",
+      "family": "entry",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 0,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 10569,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R2:entry-01-1:0",
+      "route": "R2",
+      "questionId": "entry-01-1",
+      "groupId": "entry-01",
+      "family": "entry",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 0,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 7852,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R3:entry-01-1:0",
+      "route": "R3",
+      "questionId": "entry-01-1",
+      "groupId": "entry-01",
+      "family": "entry",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 0,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 9108,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R5:adversarial-01-1:0",
+      "route": "R5",
+      "questionId": "adversarial-01-1",
+      "groupId": "adversarial-01",
+      "family": "adversarial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": false,
+      "behaviorCorrect": true,
+      "factsRequired": 0,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [
+        "CURRENCY"
+      ],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 13.3333,
+      "grounding": 20,
+      "uncertainty": 6.6667,
+      "automatedScore": 80,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 9224,
+      "hardGateViolations": [],
+      "failures": [
+        "missing_clarification_topic"
+      ]
+    },
+    {
+      "id": "smoke-v3:R6:adversarial-01-1:0",
+      "route": "R6",
+      "questionId": "adversarial-01-1",
+      "groupId": "adversarial-01",
+      "family": "adversarial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": false,
+      "behaviorCorrect": true,
+      "factsRequired": 0,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [
+        "CURRENCY"
+      ],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 13.3333,
+      "grounding": 20,
+      "uncertainty": 6.6667,
+      "automatedScore": 80,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 9531,
+      "hardGateViolations": [],
+      "failures": [
+        "missing_clarification_topic"
+      ]
+    },
+    {
+      "id": "smoke-v3:R7:adversarial-01-1:0",
+      "route": "R7",
+      "questionId": "adversarial-01-1",
+      "groupId": "adversarial-01",
+      "family": "adversarial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": false,
+      "behaviorCorrect": true,
+      "factsRequired": 0,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [
+        "CURRENCY"
+      ],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 13.3333,
+      "grounding": 20,
+      "uncertainty": 6.6667,
+      "automatedScore": 80,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 13075,
+      "hardGateViolations": [],
+      "failures": [
+        "missing_clarification_topic"
+      ]
+    },
+    {
+      "id": "smoke-v3:R8:adversarial-01-1:0",
+      "route": "R8",
+      "questionId": "adversarial-01-1",
+      "groupId": "adversarial-01",
+      "family": "adversarial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": false,
+      "behaviorCorrect": true,
+      "factsRequired": 0,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [
+        "CURRENCY"
+      ],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 13.3333,
+      "grounding": 20,
+      "uncertainty": 6.6667,
+      "automatedScore": 80,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 11103,
+      "hardGateViolations": [],
+      "failures": [
+        "missing_clarification_topic"
+      ]
+    },
+    {
+      "id": "smoke-v3:R0:adversarial-01-1:0",
+      "route": "R0",
+      "questionId": "adversarial-01-1",
+      "groupId": "adversarial-01",
+      "family": "adversarial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": false,
+      "behaviorCorrect": true,
+      "factsRequired": 0,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [
+        "CURRENCY",
+        "PAYMENT_ACCOUNT"
+      ],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 6.6667,
+      "grounding": 20,
+      "uncertainty": 3.3333,
+      "automatedScore": 70,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 3546,
+      "hardGateViolations": [],
+      "failures": [
+        "missing_clarification_topic"
+      ]
+    },
+    {
+      "id": "smoke-v3:R1:adversarial-01-1:0",
+      "route": "R1",
+      "questionId": "adversarial-01-1",
+      "groupId": "adversarial-01",
+      "family": "adversarial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": false,
+      "behaviorCorrect": true,
+      "factsRequired": 0,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [
+        "CURRENCY"
+      ],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 13.3333,
+      "grounding": 20,
+      "uncertainty": 6.6667,
+      "automatedScore": 80,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 9213,
+      "hardGateViolations": [],
+      "failures": [
+        "missing_clarification_topic"
+      ]
+    },
+    {
+      "id": "smoke-v3:R2:adversarial-01-1:0",
+      "route": "R2",
+      "questionId": "adversarial-01-1",
+      "groupId": "adversarial-01",
+      "family": "adversarial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": false,
+      "behaviorCorrect": true,
+      "factsRequired": 0,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [
+        "CURRENCY"
+      ],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 13.3333,
+      "grounding": 20,
+      "uncertainty": 6.6667,
+      "automatedScore": 80,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 9123,
+      "hardGateViolations": [],
+      "failures": [
+        "missing_clarification_topic"
+      ]
+    },
+    {
+      "id": "smoke-v3:R3:adversarial-01-1:0",
+      "route": "R3",
+      "questionId": "adversarial-01-1",
+      "groupId": "adversarial-01",
+      "family": "adversarial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": true,
+      "behaviorCorrect": true,
+      "factsRequired": 0,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 20,
+      "grounding": 20,
+      "uncertainty": 10,
+      "automatedScore": 90,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 9266,
+      "hardGateViolations": [],
+      "failures": []
+    },
+    {
+      "id": "smoke-v3:R4:adversarial-01-1:0",
+      "route": "R4",
+      "questionId": "adversarial-01-1",
+      "groupId": "adversarial-01",
+      "family": "adversarial",
+      "split": "development",
+      "repeat": 0,
+      "status": "ok",
+      "success": false,
+      "behaviorCorrect": true,
+      "factsRequired": 0,
+      "factsMatched": 0,
+      "factsEmitted": 0,
+      "unsupportedFacts": 0,
+      "missingDocumentIds": [],
+      "unresolvedCitationIds": [],
+      "missingAssumptionTags": [],
+      "missingClarificationTopicTags": [
+        "CURRENCY"
+      ],
+      "ledgerGrounded": true,
+      "factual": 40,
+      "completion": 13.3333,
+      "grounding": 20,
+      "uncertainty": 6.6667,
+      "automatedScore": 80,
+      "automatedMaximum": 90,
+      "humanClarityScore": null,
+      "overallScore100": null,
+      "narrativeReviewed": false,
+      "durationMs": 9322,
+      "hardGateViolations": [],
+      "failures": [
+        "missing_clarification_topic"
+      ]
+    }
+  ],
+  "comparisons": [
+    {
+      "hypothesis": "H1",
+      "route": "R1",
+      "control": "R0",
+      "kind": "declared",
+      "effect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H2",
+      "route": "R2",
+      "control": "R1",
+      "kind": "declared",
+      "effect": {
+        "estimate": 0.16666666666666666,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H3a",
+      "route": "R3",
+      "control": "R2",
+      "kind": "declared",
+      "effect": {
+        "estimate": 0.16666666666666666,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H3b",
+      "route": "R3",
+      "control": "R4",
+      "kind": "declared",
+      "effect": {
+        "estimate": 0.16666666666666666,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H4",
+      "route": "R4",
+      "control": "R2",
+      "kind": "declared",
+      "effect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H5",
+      "route": "R5",
+      "control": "R4",
+      "kind": "declared",
+      "effect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H6",
+      "route": "R6",
+      "control": "R4",
+      "kind": "declared",
+      "effect": {
+        "estimate": 0.16666666666666666,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H7a",
+      "route": "R7",
+      "control": "R4",
+      "kind": "declared",
+      "effect": {
+        "estimate": -0.16666666666666666,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "H7b",
+      "route": "R8",
+      "control": "R4",
+      "kind": "declared",
+      "effect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "Descriptive",
+      "kind": "descriptive",
+      "route": "R2",
+      "control": "R0",
+      "effect": {
+        "estimate": 0.16666666666666666,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "Descriptive",
+      "kind": "descriptive",
+      "route": "R3",
+      "control": "R0",
+      "effect": {
+        "estimate": 0.3333333333333333,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "Descriptive",
+      "kind": "descriptive",
+      "route": "R4",
+      "control": "R0",
+      "effect": {
+        "estimate": 0.16666666666666666,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "Descriptive",
+      "kind": "descriptive",
+      "route": "R5",
+      "control": "R0",
+      "effect": {
+        "estimate": 0.16666666666666666,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "Descriptive",
+      "kind": "descriptive",
+      "route": "R6",
+      "control": "R0",
+      "effect": {
+        "estimate": 0.3333333333333333,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "Descriptive",
+      "kind": "descriptive",
+      "route": "R7",
+      "control": "R0",
+      "effect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      }
+    },
+    {
+      "hypothesis": "Descriptive",
+      "kind": "descriptive",
+      "route": "R8",
+      "control": "R0",
+      "effect": {
+        "estimate": 0.16666666666666666,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      }
+    }
+  ],
+  "setup": {
+    "calls": 280,
+    "inputTokensReported": 0,
+    "outputTokensReported": 0,
+    "unknownUsageCalls": 197,
+    "reportedUsageEquivalentUsd": 0,
+    "unknownUsageReservationUsd": 0.06983025000000002,
+    "budgetChargedUsd": 0.06983025000000002,
+    "budgetUsdPerEpisode": null,
+    "budgetUsdPerSuccess": null
+  },
+  "unassignedRunUsage": {
+    "calls": 0,
+    "inputTokensReported": 0,
+    "outputTokensReported": 0,
+    "unknownUsageCalls": 0,
+    "reportedUsageEquivalentUsd": 0,
+    "unknownUsageReservationUsd": 0,
+    "budgetChargedUsd": 0,
+    "budgetUsdPerEpisode": null,
+    "budgetUsdPerSuccess": null
+  },
+  "limitations": [
+    "All inputs are synthetic. References are independently implemented decimal fixture calculations, not audited business records. No independent human adjudication is claimed.",
+    "The primary score measures structured task success against frozen facts, scope, evidence IDs, proposal lines and explicit assumption/clarification tags. Natural-language summary faithfulness and usefulness still need human review.",
+    "Grounding scores measure source provenance: required source IDs, actual result-value bindings and deterministic calculations. They do not establish full semantic entailment of every citation. Supplemental claims without an independent reference or exact trusted-result binding are penalized as unassessed.",
+    "Automated scores are out of 90. The 10-point human clarity dimension and the combined 100-point score are unavailable; they are not imputed by another model.",
+    "Provider/tool errors count as failed end-to-end episodes. Conditional quality excludes status:error episodes and includes intentional blocks; it is not a replacement denominator.",
+    "Confidence intervals resample scenario groups within families. Paraphrases and repeat runs are correlated and stay together. Small synthetic samples do not establish real-world accuracy or safety.",
+    "All displayed 95% bootstrap intervals are unadjusted for the nine predeclared component contrasts and additional descriptive contrasts. They are exploratory effect estimates, not simultaneous confidence guarantees or claims of statistical significance. Two-group pilot and five-group-per-family held-out intervals may have poor coverage; zero-width empirical intervals do not establish certainty.",
+    "Reported monetary amounts are paid-equivalent estimates from returned usage and configured rates, not invoices. Unreported usage remains a separately identified conservative reservation; indexing/setup is separate.",
+    "Managed File Search uses the Interactions API to identify source citations. Its citation order is not a raw retrieval rank or exposed passage list. Authorized source IDs are mapped to the shared canonical documents before answer generation. This is managed source selection, not a like-for-like chunk retriever; raw-passage recall, MRR and nDCG are unavailable unless independently exposed.",
+    "Jev/LLM reviewers see supplied evidence, not ground truth, and can share generator errors. Their approval cannot override deterministic validation or database permissions.",
+    "The Wren route evaluates the pinned OSS semantic engine with the shared planner and approved views. It does not measure the complete commercial Wren product.",
+    "An incomplete route has no full-study conclusion. Missing episodes are reported separately, never silently removed or treated as free successful requests.",
+    "Episode completeness and snapshot integrity are separate gates. Changed or unverified before/after data makes this report ineligible for comparative selection even if every episode is present. Individual routes with hard-gate violations remain disqualified.",
+    "Queue-transport wall latency includes local dispatch delays and is not production request latency. Provider durations are measured separately.",
+    "All study generators normalized to Gemini3.5FlashLite; R0 is an architecture reproduction. Same-model critic errors may correlate."
+  ]
+}

@@ -248,6 +248,7 @@ export async function executeRoute(routeId: RouteId, question: ResearchQuestion,
       sqlHash: createHash('sha256').update(prepared[i].planned.plannedSql).digest('hex'),
       rows: result.rows,
       snapshot: env.snapshot,
+      rowScope: prepared[i].planned.rowScope,
     }));
   } else queries = await runQueries(env.db, plan.data.queries, env.snapshot);
   limits.assert();
@@ -257,31 +258,6 @@ export async function executeRoute(routeId: RouteId, question: ResearchQuestion,
       : [];
   limits.assert();
   const evidence = evidenceFor(queries, documents);
-  if (route.query === 'wren')
-    for (const source of evidence.filter((item) => item.kind === 'ledger')) {
-      const query = queries.find((item) => item.id === source.id)!;
-      const units = query.plan as {
-        columnUnits?: Record<string, string>;
-        nativeCurrency?: string;
-        currencyColumn?: string;
-      };
-      source.facts = query.rows.flatMap((row) =>
-        Object.entries(row).flatMap(([key, value]) => {
-          const verified = units.columnUnits?.[key];
-          const unit =
-            verified === 'native' &&
-            units.nativeCurrency &&
-            units.currencyColumn &&
-            row[units.currencyColumn] === units.nativeCurrency
-              ? units.nativeCurrency
-              : verified;
-          if (!unit || !['USD', 'EUR', 'count'].includes(unit)) return [];
-          if (typeof value === 'number' && (unit !== 'count' || !Number.isSafeInteger(value))) return [];
-          if (!/^-?\d+(?:\.\d+)?$/.test(String(value))) return [];
-          return [{ key, value: String(value), unit }];
-        }),
-      );
-    }
   evidence.push({
     id: 'user',
     kind: 'document',

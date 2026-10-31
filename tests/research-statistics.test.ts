@@ -186,7 +186,12 @@ describe('score diagnostics and connected provenance', () => {
     const e = episode();
     e.answer!.facts[0].evidenceIds = ['calc:total'];
     e.answer!.calculations = [{ id: 'total', evidenceIds: ['query:cash'] }];
-    e.evidence!.push({ id: 'calc:total', kind: 'calculation', facts: [{ ...fact, unit: 'EUR' }] });
+    e.evidence!.push({
+      id: 'calc:total',
+      kind: 'calculation',
+      facts: [{ ...fact, unit: 'EUR' }],
+      ledgerAncestors: [fact],
+    });
     expect(scoreEpisode(e, reference).success).toBe(false);
     e.evidence![1].facts![0].unit = 'USD';
     expect(scoreEpisode(e, reference).success).toBe(true);
@@ -200,6 +205,7 @@ describe('score diagnostics and connected provenance', () => {
     expect(scoreEpisode(e, reference).ledgerGrounded).toBe(false);
     e.answer!.calculations = [{ id: 'total', evidenceIds: ['query:cash'] }];
     e.evidence.push({ id: 'query:cash', kind: 'ledger', facts: [fact] });
+    e.evidence[0].ledgerAncestors = [fact];
     expect(scoreEpisode(e, reference).success).toBe(true);
   });
 

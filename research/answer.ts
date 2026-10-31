@@ -1,8 +1,9 @@
 import { z } from 'zod';
 import { Decimal } from '../shared/money';
 import { accounts, primaryOrganizationId, type ResearchQuestion } from './dataset';
-import { calculate, calculationSchema, querySchema, type ToolEvidence } from './analytics';
+import { calculate, calculationSchema, customRowScope, querySchema, type ToolEvidence } from './analytics';
 import type { RetrievedDocument } from './retrieval';
+import { calculationScopeBound, ledgerFactBound, rowQualifiers, type ScopedFact } from './scope';
 
 export const factSchema = z
   .object({
@@ -49,29 +50,56 @@ export interface AnswerEvidence {
   organizationId: string;
   documentId?: string;
   text?: string;
-  facts?: {
-    key: string;
-    value: string;
-    unit: string;
-    entity?: string;
-    from?: string;
-    to?: string;
-    asOf?: string;
-  }[];
+  facts?: ScopedFact[];
+  ledgerAncestors?: ScopedFact[];
 }
 export function evidenceFor(queries: ToolEvidence[], docs: RetrievedDocument[]): AnswerEvidence[] {
   return [
     ...queries.map((query) => {
       const plan = querySchema.safeParse(query.plan);
       const q = plan.success ? plan.data : null;
+      const scope = query.rowScope ?? (q ? customRowScope(q) : undefined);
+      const wren = query.plan as {
+        backend?: string;
+        columnUnits?: Record<string, string>;
+        nativeCurrency?: string;
+        currencyColumn?: string;
+      };
       const unit =
         q?.metric === 'transaction_count'
           ? 'count'
           : q?.metric === 'native_account_balance'
             ? (accounts.find((a) => a.code === q.accountCodes[0])?.currency ?? 'UNKNOWN')
             : 'USD';
-      const facts = query.rows.flatMap((row) =>
-        Object.entries(row)
+      const facts = query.rows.flatMap((row) => {
+        const accountLabel =
+          q?.groupBy === 'account' && typeof row.label === 'string' ? /^(\d+) (.+)$/.exec(row.label) : null;
+        const qualifiers = rowQualifiers(
+          scope,
+          {
+            ...row,
+            ...(accountLabel
+              ? { __scope_account_code: accountLabel[1], __scope_account_name: accountLabel[2] }
+              : {}),
+          },
+          accounts,
+        );
+        if (wren.backend === 'wren')
+          return Object.entries(row).flatMap(([key, value]) => {
+            const verified = wren.columnUnits?.[key];
+            const native =
+              verified === 'native' &&
+              wren.nativeCurrency &&
+              wren.currencyColumn &&
+              row[wren.currencyColumn] === wren.nativeCurrency;
+            const resultUnit = native ? wren.nativeCurrency! : verified;
+            if (!resultUnit || !['USD', 'EUR', 'count'].includes(resultUnit)) return [];
+            if (typeof value === 'number' && (resultUnit !== 'count' || !Number.isSafeInteger(value)))
+              return [];
+            if (!/^-?\d+(?:\.\d+)?$/.test(String(value))) return [];
+            return [{ key, value: String(value), unit: resultUnit, ...qualifiers }];
+          });
+        return Object.entries(row)
           .filter(
             ([key, value]) => key === 'value' && typeof value === 'string' && /^-?\d+(?:\.\d+)?$/.test(value),
           )
@@ -84,26 +112,9 @@ export function evidenceFor(queries: ToolEvidence[], docs: RetrievedDocument[]):
                   : (q?.metric ?? 'query_value'),
             value: String(value),
             unit,
-            ...(q?.from ? { from: q.from } : {}),
-            ...(q ? { to: q.to } : {}),
-            ...(q &&
-            [
-              'cash_balance',
-              'account_balance',
-              'native_account_balance',
-              'receivables',
-              'payables',
-              'assets',
-              'liabilities',
-              'equity',
-            ].includes(q.metric)
-              ? { asOf: q.to }
-              : {}),
-            ...(q && ['account', 'vendor'].includes(q.groupBy) && typeof row.label === 'string'
-              ? { entity: q.groupBy === 'account' ? row.label.replace(/^\d+\s+/, '') : row.label }
-              : {}),
-          })),
-      );
+            ...qualifiers,
+          }));
+      });
       return {
         id: query.id,
         kind: 'ledger' as const,
@@ -192,6 +203,7 @@ export function validateAnswer(input: unknown, question: ResearchQuestion, evide
   const allowed = new Set([...sources.keys(), ...answer.calculations.map((c) => `calc:${c.id}`), 'user']);
   if (ids.some((id) => !allowed.has(id))) reasons.push('UNKNOWN_EVIDENCE');
   const resolved = new Map<string, { value: string; unit: string }>();
+  const calculationLedger = new Map<string, ScopedFact[]>();
   const calculationSources = new Map(answer.calculations.map((c) => [`calc:${c.id}`, c.evidenceIds]));
   const hasLedger = (ids: string[], seen = new Set<string>()): boolean =>
     ids.some((id) => {
@@ -207,7 +219,7 @@ export function validateAnswer(input: unknown, question: ResearchQuestion, evide
         ? extractSourceAmounts(question.question)
         : resolved.has(id)
           ? [{ key: id, ...resolved.get(id)! }]
-          : (sources.get(id)?.facts ?? []),
+          : (sources.get(id)?.facts ?? []).filter((fact) => fact.scopeSupported !== false),
     );
   for (const c of answer.calculations) {
     const available = availableFacts(c.evidenceIds);
@@ -224,6 +236,40 @@ export function validateAnswer(input: unknown, question: ResearchQuestion, evide
     try {
       const value = calculate(c);
       resolved.set(`calc:${c.id}`, { value, unit: c.unit });
+      const ledgerOperands = c.operands.flatMap((operand, i): ScopedFact[] => {
+        const alternatives = c.evidenceIds.flatMap((id): ScopedFact[][] => {
+          if (resolved.has(id)) {
+            const source = resolved.get(id)!;
+            const parents = calculationLedger.get(id) ?? [];
+            return parents.length && eq(operand, source.value) && c.operandUnits[i] === source.unit
+              ? [parents]
+              : [];
+          }
+          const source = sources.get(id);
+          return source?.kind === 'ledger'
+            ? (source.facts ?? [])
+                .filter(
+                  (fact) =>
+                    fact.scopeSupported !== false &&
+                    eq(operand, fact.value) &&
+                    c.operandUnits[i] === fact.unit,
+                )
+                .map((fact) => [fact])
+            : [];
+        });
+        const unique = [...new Map(alternatives.map((facts) => [JSON.stringify(facts), facts])).values()];
+        if (unique.length > 1)
+          return [
+            {
+              key: 'ambiguous_operand_scope',
+              value: operand,
+              unit: c.operandUnits[i],
+              scopeSupported: false,
+            },
+          ];
+        return unique[0] ?? [];
+      });
+      calculationLedger.set(`calc:${c.id}`, ledgerOperands);
     } catch {
       reasons.push('INVALID_CALCULATION');
     }
@@ -257,6 +303,30 @@ export function validateAnswer(input: unknown, question: ResearchQuestion, evide
     if (!['text', 'boolean'].includes(f.unit)) {
       if (!availableFacts(f.evidenceIds).some((n) => eq(f.value, n.value) && n.unit === f.unit))
         reasons.push('UNSUPPORTED_NUMERIC_FACT');
+      const directLedger = f.evidenceIds.flatMap((id) =>
+        sources.get(id)?.kind === 'ledger' ? [sources.get(id)!] : [],
+      );
+      const hasCalculatedValue = f.evidenceIds.some(
+        (id) => resolved.has(id) && eq(f.value, resolved.get(id)!.value) && f.unit === resolved.get(id)!.unit,
+      );
+      if (
+        directLedger.length &&
+        !hasCalculatedValue &&
+        !directLedger.some((source) => ledgerFactBound(f, source.facts ?? []))
+      )
+        reasons.push('UNSUPPORTED_LEDGER_SCOPE');
+      if (
+        hasCalculatedValue &&
+        hasLedger(f.evidenceIds) &&
+        !f.evidenceIds.some(
+          (id) =>
+            resolved.has(id) &&
+            eq(f.value, resolved.get(id)!.value) &&
+            f.unit === resolved.get(id)!.unit &&
+            calculationScopeBound(f, calculationLedger.get(id) ?? []),
+        )
+      )
+        reasons.push('UNSUPPORTED_CALCULATION_SCOPE');
     }
   }
   if (answer.behavior === 'PROPOSAL') {
@@ -290,6 +360,7 @@ export function validateAnswer(input: unknown, question: ResearchQuestion, evide
           organizationId: question.organizationId,
           text: resolved.get(`calc:${c.id}`)!.value,
           facts: [{ key: c.id, ...resolved.get(`calc:${c.id}`)! }],
+          ledgerAncestors: calculationLedger.get(`calc:${c.id}`) ?? [],
         });
   return {
     answer,

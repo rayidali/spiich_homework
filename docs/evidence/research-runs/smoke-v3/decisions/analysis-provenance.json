@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-10-31T01:14:52.321Z",
+  "primaryReportSha256": "fea5077fe15030d9659167e64901c4a2d9e71cd3c73e70e5ec9a41d4c7641632",
+  "sourceManifestSha256": "acca9c6122560460119c990ca0d7393fcc43e068f836cbff4978faa0ae0ce7d5",
+  "manifestSha256": "c0e1099306da9872d1940f6606ba38cec0259bca38c41809bd1afe949c90fa35",
+  "beforeSha256": "d464c8501faf295e403f70bff35ec479b7cafe99dfb37df46f49465144ceffe0",
+  "afterSha256": "d3be47b23fb336289631bdf2a0b4143456802396baaaf28521b3da84cbc0399a",
+  "commonAnalysisSha256": null,
+  "commonProvenanceSha256": null,
+  "validityNoticeSha256": "fb7ab4c3d61fd6a3b3f0bcde53386dff8933eccf6893d385729d9c7bb2e421f3",
+  "runId": "smoke-v3",
+  "analyzerSha256": "3b9935ae0cacc4509f6a6c8977becf130ec22cb6c93cd1ffa681292ee14bc837",
+  "pairedScorerSha256": "790b0437ef7b3bdc4ffe5e79f31a2ebec38e276fd67d88c30170f4b1081f8ce2",
+  "protocolSha256": "525016c029d869198d0129f676f40e282fc3f7cc9ff60059f4fde68528a25d49",
+  "specificationSha256": "262916c91249eadc2c0f5648c0218efc54fee36d967da3f9d45953d418992d5f"
+}

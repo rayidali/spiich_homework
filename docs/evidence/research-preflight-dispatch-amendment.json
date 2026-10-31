@@ -1,0 +1,17 @@
+{
+  "phase": "applied-and-tested",
+  "recordedAt": "2026-10-31T00:48:38.393437+00:00",
+  "file": ".tools/research/pump-support.py",
+  "beforeSha256": "11aade9b3ad46efaa975cab5af45fad69012811a7d0901ce9b3dd4d0e9111328",
+  "reason": "Earliest-expiry then creation-time selection replaces UUID sorting after an undispatched concurrent Neon preflight timeout. No scientific run was active. Existing claimed requests and all historical evidence are preserved.",
+  "completedAt": "2026-10-31T00:49:06.697853+00:00",
+  "afterSha256": "6ba272427fe573c5a3a345eb5351907d5029dddc472741f07ebde8559d966f33",
+  "syntheticTestsPassed": 11,
+  "scientificRunActive": false,
+  "preservedFailure": {
+    "kind": "database",
+    "approxCreatedAt": "2026-10-31T00:45:40.862515+00:00",
+    "dispatched": false,
+    "newerGoogleJobsCompletedBeforeTimeout": 4
+  }
+}

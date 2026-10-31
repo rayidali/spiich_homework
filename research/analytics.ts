@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { Decimal } from '../shared/money';
 import type { ResearchDatabase } from './database';
 import { accounts } from './dataset';
+import { nextDay, type RowScope } from './scope';
 
 export const querySchema = z
   .object({
@@ -39,6 +40,28 @@ export interface ToolEvidence {
   sqlHash: string;
   rows: Record<string, unknown>[];
   snapshot: string;
+  rowScope?: RowScope;
+}
+export function customRowScope(q: AnalyticalQuery): RowScope {
+  return {
+    provenance: 'compiled-scope-v1',
+    supported: true,
+    from: q.from,
+    toExclusive: nextDay(q.to),
+    ...(q.metric === 'transactions'
+      ? {
+          periodColumn: { name: 'date', kind: 'date' as const },
+          identityColumns: { entryId: 'entry_id', vendor: 'vendor' },
+        }
+      : q.groupBy === 'month'
+        ? { periodColumn: { name: 'label', kind: 'month' as const } }
+        : q.groupBy === 'account'
+          ? { identityColumns: { accountCode: '__scope_account_code', accountName: '__scope_account_name' } }
+          : q.groupBy === 'vendor'
+            ? { identityColumns: { vendor: 'label' } }
+            : {}),
+    ...(q.accountCodes.length === 1 ? { fixedIdentity: { accountCode: q.accountCodes[0] } } : {}),
+  };
 }
 const groups = {
   none: "'total'",
@@ -89,6 +112,20 @@ export function compileQuery(input: unknown) {
     ].includes(q.metric)
   )
     throw new Error('RESEARCH_BALANCE_REQUIRES_INCEPTION');
+  if (
+    q.groupBy === 'month' &&
+    [
+      'cash_balance',
+      'account_balance',
+      'native_account_balance',
+      'receivables',
+      'payables',
+      'assets',
+      'liabilities',
+      'equity',
+    ].includes(q.metric)
+  )
+    throw new Error('RESEARCH_BALANCE_MONTH_GROUP_REQUIRES_CUMULATIVE_QUERY');
   if (q.metric === 'native_account_balance' && q.accountCodes.length !== 1)
     throw new Error('RESEARCH_NATIVE_CURRENCY_SCOPE');
   const params: unknown[] = [q.to];
@@ -140,6 +177,7 @@ export async function runQueries(
     sqlHash: createHash('sha256').update(compiled[i].query).digest('hex'),
     rows: result.rows,
     snapshot,
+    rowScope: customRowScope(compiled[i].plan),
   }));
 }
 

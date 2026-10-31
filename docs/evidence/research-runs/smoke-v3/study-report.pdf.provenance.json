@@ -1,0 +1,36 @@
+{
+  "exporter": "daybook-pdf-report-v2",
+  "status": "DEVELOPMENT | COMPLETE",
+  "selectionStatus": "KNOWN STUDY DEFECTS / NOT FOR SELECTION",
+  "observedEpisodes": 54,
+  "plannedEpisodes": 54,
+  "inputs": [
+    {
+      "role": "main results",
+      "filename": "results.json",
+      "sha256": "fea5077fe15030d9659167e64901c4a2d9e71cd3c73e70e5ec9a41d4c7641632"
+    },
+    {
+      "role": "verifier results",
+      "filename": "development-results.json",
+      "sha256": "141384fcc93b9e8dbd008b411b98ca419efeed4b501615a10181a11263b0da2f"
+    },
+    {
+      "role": "validity notice",
+      "filename": "validity-notice.json",
+      "sha256": "fb7ab4c3d61fd6a3b3f0bcde53386dff8933eccf6893d385729d9c7bb2e421f3"
+    }
+  ],
+  "inputBundleHash": "c65ce20dabfde8ff144c6df39b3e002ef199dac21ecbbc23c0d1640933967078",
+  "reportlabVersion": "5.1.0",
+  "exporterSourceHash": "c8c86057310bef679cb02a36cbb5473ebc48424dc86443bf17d1f200d61adeb9",
+  "validation": {
+    "available": true,
+    "pages": 10,
+    "emptyPages": [],
+    "textOutsidePage": [],
+    "rendered": false,
+    "visualReview": "Rendering and text bounds checks only; inspection must be recorded separately."
+  },
+  "pdfHash": "79a6430a15e53a42da7076b9a6f395b0d76de239dceab0990180af1846229e26"
+}

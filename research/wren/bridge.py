@@ -8,6 +8,7 @@ Neither database credentials nor a database connection enter this process.
 from __future__ import annotations
 
 import base64
+from datetime import date as calendar_date, timedelta
 from decimal import Decimal
 import hashlib
 from importlib.metadata import version
@@ -181,6 +182,202 @@ def column_units(ast: exp.Expression, expanded: exp.Expression | None = None) ->
     return result
 
 
+def row_scope(ast: exp.Expression, expanded: exp.Expression | None = None) -> dict:
+    """Prove row periods/identities for a deliberately small SQL subset.
+
+    Null boundaries mean known unbounded history. Unsupported lineage is an
+    explicit absence of proof, never a wildcard period or model-supplied scope.
+    Per-row month/day clipping is performed by the shared TypeScript adapter.
+    """
+    unsupported = {"provenance": "ast-scope-v1", "supported": False}
+    output = expanded if expanded is not None else ast
+    if (
+        not isinstance(ast, exp.Select) or not isinstance(output, exp.Select)
+        or ast.args.get("with_") or ast.args.get("having")
+        or ast.args.get("distinct")
+        or len(list(ast.find_all(exp.Table))) != 1
+        or len(output.expressions) != len(ast.expressions)
+        or any(alias.args.get("columns") for alias in ast.find_all(exp.TableAlias))
+        or any(isinstance(node, (exp.Join, exp.Subquery, exp.Or, exp.Not, exp.Case,
+                                exp.If, exp.Filter, exp.Window)) for node in ast.walk())
+    ):
+        return unsupported
+
+    def bare(node):
+        while isinstance(node, (exp.Alias, exp.Paren)):
+            node = node.this
+        return node
+
+    def column(node):
+        node = bare(node)
+        if isinstance(node, exp.Cast) and node.args["to"].this == exp.DataType.Type.DATE:
+            inner = bare(node.this)
+            if not isinstance(inner, exp.Column) or inner.name.lower() != "date":
+                return None
+            node = inner
+        return node.name.lower() if isinstance(node, exp.Column) else None
+
+    def date_value(node):
+        node = bare(node)
+        if isinstance(node, exp.Cast) and node.args["to"].this == exp.DataType.Type.DATE:
+            node = bare(node.this)
+        if not isinstance(node, exp.Literal) or not node.is_string:
+            raise ValueError("Not a literal ISO date")
+        value = calendar_date.fromisoformat(node.this)
+        if value.isoformat() != node.this:
+            raise ValueError("Not a canonical ISO date")
+        return value
+
+    def conjuncts(node):
+        node = bare(node)
+        return [*conjuncts(node.this), *conjuncts(node.expression)] if isinstance(node, exp.And) else [node]
+
+    identity_keys = {"account_code": "accountCode", "account_name": "accountName",
+                     "vendor": "vendor", "entry_id": "entryId"}
+    physical_columns = {"organization_id", "entry_id", "date", "description", "vendor",
+                        "account_code", "account_name", "account_type", "currency", "debit",
+                        "credit", "base_debit", "base_credit", "exchange_rate", "status",
+                        "is_cash", "net_debit", "net_credit"}
+    fixed = {}
+    lower = upper = None
+    try:
+        where = ast.args.get("where")
+        for predicate in conjuncts(where.this) if where else []:
+            # Date bounds must be actual conjunctive predicates, not words in a literal.
+            date_columns = [c for c in predicate.find_all(exp.Column) if c.name.lower() == "date"]
+            if date_columns:
+                if isinstance(predicate, exp.Between) and column(predicate.this) == "date" and not predicate.args.get("symmetric"):
+                    start = date_value(predicate.args["low"])
+                    end = date_value(predicate.args["high"]) + timedelta(days=1)
+                    lower = max(lower, start) if lower else start
+                    upper = min(upper, end) if upper else end
+                elif isinstance(predicate, (exp.EQ, exp.GT, exp.GTE, exp.LT, exp.LTE)):
+                    left, right = predicate.this, predicate.expression
+                    kind = type(predicate)
+                    if column(left) != "date":
+                        left, right = right, left
+                        kind = {exp.GT: exp.LT, exp.GTE: exp.LTE, exp.LT: exp.GT,
+                                exp.LTE: exp.GTE, exp.EQ: exp.EQ}[kind]
+                    if column(left) != "date":
+                        return unsupported
+                    value = date_value(right)
+                    if kind in {exp.EQ, exp.GT, exp.GTE}:
+                        start = value + timedelta(days=1) if kind is exp.GT else value
+                        lower = max(lower, start) if lower else start
+                    if kind in {exp.EQ, exp.LT, exp.LTE}:
+                        end = value if kind is exp.LT else value + timedelta(days=1)
+                        upper = min(upper, end) if upper else end
+                else:
+                    return unsupported
+            if isinstance(predicate, exp.EQ):
+                left, right = bare(predicate.this), bare(predicate.expression)
+                if isinstance(right, exp.Column):
+                    left, right = right, left
+                if isinstance(left, exp.Column) and isinstance(right, (exp.Literal, exp.Boolean)):
+                    name = left.name.lower()
+                    value = right.this
+                    if name in fixed and fixed[name] != value:
+                        return unsupported
+                    fixed[name] = value
+        if lower and upper and lower >= upper:
+            return unsupported
+    except (ValueError, OverflowError, KeyError):
+        return unsupported
+
+    def output_name(node):
+        if node.alias:
+            return node.alias
+        node = bare(node)
+        return node.name if isinstance(node, exp.Column) else node.output_name
+
+    names = [output_name(node) for node in output.expressions]
+    if any(not name or name in {"__proto__", "prototype", "constructor"} for name in names) or len(set(names)) != len(names):
+        return unsupported
+
+    def grain(node):
+        node = bare(node)
+        name = column(node)
+        if name:
+            return ("date",) if name == "date" else ("column", name)
+        if isinstance(node, (exp.TimestampTrunc, exp.DateTrunc)):
+            unit = node.args.get("unit")
+            if not node.args.get("zone") and column(node.this) == "date" and unit and str(unit.this).upper() == "MONTH":
+                return ("month",)
+        return None
+
+    # Resolve only unambiguous aliases: a real input column wins in PostgreSQL GROUP BY.
+    aliases = {node.alias: bare(node) for node in ast.expressions if node.alias}
+    groups = []
+    group = ast.args.get("group")
+    if group:
+        if any(value for key, value in group.args.items() if key != "expressions"):
+            return unsupported
+        for expression in group.expressions:
+            expression = bare(expression)
+            if isinstance(expression, exp.Literal) and expression.is_int:
+                index = int(expression.this) - 1
+                if not 0 <= index < len(ast.expressions):
+                    return unsupported
+                expression = bare(ast.expressions[index])
+            elif isinstance(expression, exp.Column) and not expression.table and expression.name.lower() not in physical_columns:
+                expression = aliases.get(expression.name, expression)
+            key = grain(expression)
+            if key is None:
+                return unsupported
+            groups.append(key)
+    aggregated = any(True for _ in ast.find_all(exp.AggFunc))
+    period_columns = []
+    identity_columns = {}
+    projected_grains = set()
+    for expression, name in zip(ast.expressions, names):
+        key = grain(expression)
+        if key is None:
+            continue
+        if aggregated and key not in groups:
+            # Do not label an aggregate using a non-grouped projection.
+            return unsupported
+        if key[0] == "month" and key not in groups:
+            return unsupported
+        projected_grains.add(key)
+        if key[0] in {"month", "date"}:
+            period_columns.append({"name": name, "kind": key[0]})
+        elif key[1] in identity_keys:
+            field = identity_keys[key[1]]
+            if field in identity_columns:
+                return unsupported
+            identity_columns[field] = name
+    if len(period_columns) > 1:
+        return unsupported
+    if not aggregated and (
+        not period_columns or period_columns[0]["kind"] != "date"
+        or "entryId" not in identity_columns
+    ):
+        # An individual line selected before a cutoff is not a cumulative balance.
+        # Raw money is only evidence for a dated, identified event; shared TS
+        # narrows its bounds to that event day and forbids stock-asOf promotion.
+        return unsupported
+    for key in groups:
+        if key[0] in {"month", "date"} or key[1] in identity_keys:
+            if key not in projected_grains:
+                return unsupported
+        elif key[1] not in fixed:
+            # Unsupported/hidden buckets cannot pretend to represent a whole period.
+            return unsupported
+
+    result = {"provenance": "ast-scope-v1", "supported": True,
+              "from": lower.isoformat() if lower else None,
+              "toExclusive": upper.isoformat() if upper else None}
+    if period_columns:
+        result["periodColumn"] = period_columns[0]
+    if identity_columns:
+        result["identityColumns"] = identity_columns
+    fixed_identity = {identity_keys[name]: value for name, value in fixed.items()
+                      if name in {"account_code", "account_name", "vendor"} and isinstance(value, str)}
+    if fixed_identity:
+        result["fixedIdentity"] = fixed_identity
+    return result
+
+
 def checked_ast(sql: str, *, planned: bool = False) -> exp.Expression:
     if not isinstance(sql, str) or not sql.strip() or len(sql.encode()) > MAX_INPUT_BYTES:
         raise PolicyError("SQL_SIZE")
@@ -270,6 +467,7 @@ class Planner:
             "planningMs": round((time.perf_counter() - start) * 1000, 3),
             "maxRows": MAX_ROWS,
             **column_units(ast, expanded_ast),
+            "rowScope": row_scope(ast, expanded_ast),
         }
 
 

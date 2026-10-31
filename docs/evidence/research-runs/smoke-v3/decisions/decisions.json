@@ -1,0 +1,1429 @@
+{
+  "schemaVersion": 1,
+  "runId": "smoke-v3",
+  "split": "development",
+  "primaryReportSha256": "fea5077fe15030d9659167e64901c4a2d9e71cd3c73e70e5ec9a41d4c7641632",
+  "eligibility": {
+    "eligible": false,
+    "reasons": [
+      "DEVELOPMENT_ONLY",
+      "INCOMPLETE_ROUTE_MATRIX",
+      "FROZEN_SOURCE_OR_CONFIG_BINDING_UNVERIFIED",
+      "SOURCE_MEMBERSHIP_AMENDMENT_UNVERIFIED",
+      "OVERRIDING_OR_UNBOUND_VALIDITY_NOTICE"
+    ],
+    "complete": false,
+    "sourceBindingVerified": false,
+    "fingerprintVerified": true,
+    "membershipVerified": false,
+    "validityNoticeBound": true
+  },
+  "criteria": {
+    "practicalBenefit": 0.05,
+    "maximumAdditionalCorrectWithholding": 0.05,
+    "bootstrapSamples": 2000,
+    "seed": 418
+  },
+  "components": [
+    {
+      "hypothesis": "H1",
+      "route": "R1",
+      "control": "R0",
+      "targetFamilies": [
+        "financial",
+        "analytics"
+      ],
+      "targetedEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 2,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 2,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics"
+        ]
+      },
+      "overallEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      },
+      "entryEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "entry"
+        ]
+      },
+      "adversarialEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "adversarial"
+        ]
+      },
+      "pointBenefitMeetsTarget": false,
+      "uncertainty": {
+        "available": false,
+        "spansHarmAndUsefulBenefit": false,
+        "includesAnyHarm": false,
+        "method": "Unadjusted empirical interval; not a formal significance test or simultaneous confidence statement."
+      },
+      "hardGateViolations": [],
+      "status": "ineligible",
+      "reasons": [
+        "DEVELOPMENT_ONLY",
+        "INCOMPLETE_ROUTE_MATRIX",
+        "FROZEN_SOURCE_OR_CONFIG_BINDING_UNVERIFIED",
+        "SOURCE_MEMBERSHIP_AMENDMENT_UNVERIFIED",
+        "OVERRIDING_OR_UNBOUND_VALIDITY_NOTICE"
+      ],
+      "tradeoffs": {
+        "additionalObservedSuccesses": 0,
+        "additionalCalls": 6,
+        "errorRateDifference": 0,
+        "p95HarnessMsDifference": 5660,
+        "budgetUsdDifference": 0.0111678,
+        "costPerSuccessfulTaskUsdDifference": 0.0055839
+      }
+    },
+    {
+      "hypothesis": "H2",
+      "route": "R2",
+      "control": "R1",
+      "targetFamilies": [
+        "documents",
+        "scenario"
+      ],
+      "targetedEffect": {
+        "estimate": 0.5,
+        "low": null,
+        "high": null,
+        "groups": 2,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 2,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "documents",
+          "scenario"
+        ]
+      },
+      "overallEffect": {
+        "estimate": 0.16666666666666666,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      },
+      "entryEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "entry"
+        ]
+      },
+      "adversarialEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "adversarial"
+        ]
+      },
+      "pointBenefitMeetsTarget": true,
+      "uncertainty": {
+        "available": false,
+        "spansHarmAndUsefulBenefit": false,
+        "includesAnyHarm": false,
+        "method": "Unadjusted empirical interval; not a formal significance test or simultaneous confidence statement."
+      },
+      "hardGateViolations": [],
+      "status": "ineligible",
+      "reasons": [
+        "DEVELOPMENT_ONLY",
+        "INCOMPLETE_ROUTE_MATRIX",
+        "FROZEN_SOURCE_OR_CONFIG_BINDING_UNVERIFIED",
+        "SOURCE_MEMBERSHIP_AMENDMENT_UNVERIFIED",
+        "OVERRIDING_OR_UNBOUND_VALIDITY_NOTICE"
+      ],
+      "tradeoffs": {
+        "additionalObservedSuccesses": 1,
+        "additionalCalls": 0,
+        "errorRateDifference": 0,
+        "p95HarnessMsDifference": -228,
+        "budgetUsdDifference": -0.0021911000000000014,
+        "costPerSuccessfulTaskUsdDifference": -0.00394055
+      }
+    },
+    {
+      "hypothesis": "H3a",
+      "route": "R3",
+      "control": "R2",
+      "targetFamilies": [
+        "documents",
+        "scenario"
+      ],
+      "targetedEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 2,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 2,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "documents",
+          "scenario"
+        ]
+      },
+      "overallEffect": {
+        "estimate": 0.16666666666666666,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      },
+      "entryEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "entry"
+        ]
+      },
+      "adversarialEffect": {
+        "estimate": 1,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "adversarial"
+        ]
+      },
+      "pointBenefitMeetsTarget": false,
+      "uncertainty": {
+        "available": false,
+        "spansHarmAndUsefulBenefit": false,
+        "includesAnyHarm": false,
+        "method": "Unadjusted empirical interval; not a formal significance test or simultaneous confidence statement."
+      },
+      "hardGateViolations": [],
+      "status": "ineligible",
+      "reasons": [
+        "DEVELOPMENT_ONLY",
+        "INCOMPLETE_ROUTE_MATRIX",
+        "FROZEN_SOURCE_OR_CONFIG_BINDING_UNVERIFIED",
+        "SOURCE_MEMBERSHIP_AMENDMENT_UNVERIFIED",
+        "OVERRIDING_OR_UNBOUND_VALIDITY_NOTICE"
+      ],
+      "tradeoffs": {
+        "additionalObservedSuccesses": 1,
+        "additionalCalls": 4,
+        "errorRateDifference": 0,
+        "p95HarnessMsDifference": 12105,
+        "budgetUsdDifference": 0.017737300000000008,
+        "costPerSuccessfulTaskUsdDifference": 0.003011825000000002
+      }
+    },
+    {
+      "hypothesis": "H3b",
+      "route": "R3",
+      "control": "R4",
+      "targetFamilies": [
+        "documents",
+        "scenario"
+      ],
+      "targetedEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 2,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 2,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "documents",
+          "scenario"
+        ]
+      },
+      "overallEffect": {
+        "estimate": 0.16666666666666666,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      },
+      "entryEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "entry"
+        ]
+      },
+      "adversarialEffect": {
+        "estimate": 1,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "adversarial"
+        ]
+      },
+      "pointBenefitMeetsTarget": false,
+      "uncertainty": {
+        "available": false,
+        "spansHarmAndUsefulBenefit": false,
+        "includesAnyHarm": false,
+        "method": "Unadjusted empirical interval; not a formal significance test or simultaneous confidence statement."
+      },
+      "hardGateViolations": [],
+      "status": "ineligible",
+      "reasons": [
+        "DEVELOPMENT_ONLY",
+        "INCOMPLETE_ROUTE_MATRIX",
+        "FROZEN_SOURCE_OR_CONFIG_BINDING_UNVERIFIED",
+        "SOURCE_MEMBERSHIP_AMENDMENT_UNVERIFIED",
+        "OVERRIDING_OR_UNBOUND_VALIDITY_NOTICE"
+      ],
+      "tradeoffs": {
+        "additionalObservedSuccesses": 1,
+        "additionalCalls": 0,
+        "errorRateDifference": 0,
+        "p95HarnessMsDifference": 8236,
+        "budgetUsdDifference": 0.013989750000000006,
+        "costPerSuccessfulTaskUsdDifference": 0.0017626416666666677
+      }
+    },
+    {
+      "hypothesis": "H4",
+      "route": "R4",
+      "control": "R2",
+      "targetFamilies": [
+        "documents",
+        "scenario"
+      ],
+      "targetedEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 2,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 2,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "documents",
+          "scenario"
+        ]
+      },
+      "overallEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      },
+      "entryEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "entry"
+        ]
+      },
+      "adversarialEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "adversarial"
+        ]
+      },
+      "pointBenefitMeetsTarget": false,
+      "uncertainty": {
+        "available": false,
+        "spansHarmAndUsefulBenefit": false,
+        "includesAnyHarm": false,
+        "method": "Unadjusted empirical interval; not a formal significance test or simultaneous confidence statement."
+      },
+      "hardGateViolations": [],
+      "status": "ineligible",
+      "reasons": [
+        "DEVELOPMENT_ONLY",
+        "INCOMPLETE_ROUTE_MATRIX",
+        "FROZEN_SOURCE_OR_CONFIG_BINDING_UNVERIFIED",
+        "SOURCE_MEMBERSHIP_AMENDMENT_UNVERIFIED",
+        "OVERRIDING_OR_UNBOUND_VALIDITY_NOTICE"
+      ],
+      "tradeoffs": {
+        "additionalObservedSuccesses": 0,
+        "additionalCalls": 4,
+        "errorRateDifference": 0,
+        "p95HarnessMsDifference": 3869,
+        "budgetUsdDifference": 0.0037475500000000023,
+        "costPerSuccessfulTaskUsdDifference": 0.001249183333333334
+      }
+    },
+    {
+      "hypothesis": "H5",
+      "route": "R5",
+      "control": "R4",
+      "targetFamilies": [
+        "documents",
+        "scenario"
+      ],
+      "targetedEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 2,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 2,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "documents",
+          "scenario"
+        ]
+      },
+      "overallEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      },
+      "entryEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "entry"
+        ]
+      },
+      "adversarialEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "adversarial"
+        ]
+      },
+      "pointBenefitMeetsTarget": false,
+      "uncertainty": {
+        "available": false,
+        "spansHarmAndUsefulBenefit": false,
+        "includesAnyHarm": false,
+        "method": "Unadjusted empirical interval; not a formal significance test or simultaneous confidence statement."
+      },
+      "hardGateViolations": [],
+      "status": "ineligible",
+      "reasons": [
+        "DEVELOPMENT_ONLY",
+        "INCOMPLETE_ROUTE_MATRIX",
+        "FROZEN_SOURCE_OR_CONFIG_BINDING_UNVERIFIED",
+        "SOURCE_MEMBERSHIP_AMENDMENT_UNVERIFIED",
+        "OVERRIDING_OR_UNBOUND_VALIDITY_NOTICE"
+      ],
+      "tradeoffs": {
+        "additionalObservedSuccesses": 0,
+        "additionalCalls": 4,
+        "errorRateDifference": 0,
+        "p95HarnessMsDifference": -408,
+        "budgetUsdDifference": -0.002901560000000001,
+        "costPerSuccessfulTaskUsdDifference": -0.0009671866666666673
+      }
+    },
+    {
+      "hypothesis": "H6",
+      "route": "R6",
+      "control": "R4",
+      "targetFamilies": [
+        "financial",
+        "analytics"
+      ],
+      "targetedEffect": {
+        "estimate": 0.5,
+        "low": null,
+        "high": null,
+        "groups": 2,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 2,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics"
+        ]
+      },
+      "overallEffect": {
+        "estimate": 0.16666666666666666,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      },
+      "entryEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "entry"
+        ]
+      },
+      "adversarialEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "adversarial"
+        ]
+      },
+      "pointBenefitMeetsTarget": true,
+      "uncertainty": {
+        "available": false,
+        "spansHarmAndUsefulBenefit": false,
+        "includesAnyHarm": false,
+        "method": "Unadjusted empirical interval; not a formal significance test or simultaneous confidence statement."
+      },
+      "hardGateViolations": [],
+      "status": "ineligible",
+      "reasons": [
+        "DEVELOPMENT_ONLY",
+        "INCOMPLETE_ROUTE_MATRIX",
+        "FROZEN_SOURCE_OR_CONFIG_BINDING_UNVERIFIED",
+        "SOURCE_MEMBERSHIP_AMENDMENT_UNVERIFIED",
+        "OVERRIDING_OR_UNBOUND_VALIDITY_NOTICE"
+      ],
+      "tradeoffs": {
+        "additionalObservedSuccesses": 1,
+        "additionalCalls": -2,
+        "errorRateDifference": 0,
+        "p95HarnessMsDifference": 297,
+        "budgetUsdDifference": -0.0011091499999999997,
+        "costPerSuccessfulTaskUsdDifference": -0.0020120833333333336
+      }
+    },
+    {
+      "hypothesis": "H7a",
+      "route": "R7",
+      "control": "R4",
+      "targetFamilies": [
+        "financial",
+        "analytics",
+        "documents",
+        "scenario",
+        "entry",
+        "adversarial"
+      ],
+      "targetedEffect": {
+        "estimate": -0.16666666666666666,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      },
+      "overallEffect": {
+        "estimate": -0.16666666666666666,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      },
+      "entryEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "entry"
+        ]
+      },
+      "adversarialEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "adversarial"
+        ]
+      },
+      "pointBenefitMeetsTarget": null,
+      "uncertainty": {
+        "available": false,
+        "spansHarmAndUsefulBenefit": false,
+        "includesAnyHarm": false,
+        "method": "Unadjusted empirical interval; not a formal significance test or simultaneous confidence statement."
+      },
+      "hardGateViolations": [],
+      "status": "ineligible",
+      "reasons": [
+        "DEVELOPMENT_ONLY",
+        "INCOMPLETE_ROUTE_MATRIX",
+        "FROZEN_SOURCE_OR_CONFIG_BINDING_UNVERIFIED",
+        "SOURCE_MEMBERSHIP_AMENDMENT_UNVERIFIED",
+        "OVERRIDING_OR_UNBOUND_VALIDITY_NOTICE"
+      ],
+      "tradeoffs": {
+        "additionalObservedSuccesses": -1,
+        "additionalCalls": 3,
+        "errorRateDifference": 0,
+        "p95HarnessMsDifference": 3736,
+        "budgetUsdDifference": -0.0029945000000000006,
+        "costPerSuccessfulTaskUsdDifference": 0.001972341666666666
+      }
+    },
+    {
+      "hypothesis": "H7b",
+      "route": "R8",
+      "control": "R4",
+      "targetFamilies": [
+        "financial",
+        "analytics",
+        "documents",
+        "scenario",
+        "entry",
+        "adversarial"
+      ],
+      "targetedEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      },
+      "overallEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 6,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 6,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "financial",
+          "analytics",
+          "documents",
+          "scenario",
+          "entry",
+          "adversarial"
+        ]
+      },
+      "entryEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "entry"
+        ]
+      },
+      "adversarialEffect": {
+        "estimate": 0,
+        "low": null,
+        "high": null,
+        "groups": 1,
+        "samples": 0,
+        "method": "Insufficient groups: need at least two scenario groups per represented family.",
+        "warnings": [
+          "Too few independent scenario groups for a bootstrap interval."
+        ],
+        "pairedEpisodes": 1,
+        "unpairedTreatment": 0,
+        "unpairedControl": 0,
+        "families": [
+          "adversarial"
+        ]
+      },
+      "pointBenefitMeetsTarget": null,
+      "uncertainty": {
+        "available": false,
+        "spansHarmAndUsefulBenefit": false,
+        "includesAnyHarm": false,
+        "method": "Unadjusted empirical interval; not a formal significance test or simultaneous confidence statement."
+      },
+      "hardGateViolations": [],
+      "status": "ineligible",
+      "reasons": [
+        "DEVELOPMENT_ONLY",
+        "INCOMPLETE_ROUTE_MATRIX",
+        "FROZEN_SOURCE_OR_CONFIG_BINDING_UNVERIFIED",
+        "SOURCE_MEMBERSHIP_AMENDMENT_UNVERIFIED",
+        "OVERRIDING_OR_UNBOUND_VALIDITY_NOTICE"
+      ],
+      "tradeoffs": {
+        "additionalObservedSuccesses": 0,
+        "additionalCalls": 5,
+        "errorRateDifference": 0,
+        "p95HarnessMsDifference": 1336,
+        "budgetUsdDifference": 0.0004601940000000006,
+        "costPerSuccessfulTaskUsdDifference": 0.0001533979999999999
+      }
+    }
+  ],
+  "reviewers": {
+    "available": false,
+    "comparisons": [],
+    "notes": [
+      "Reviewer raw outcomes and evaluator label projection were not supplied. No reviewer criterion is inferred."
+    ]
+  },
+  "pareto": {
+    "overall": {
+      "targetFamilies": [
+        "financial",
+        "analytics",
+        "documents",
+        "scenario",
+        "entry",
+        "adversarial"
+      ],
+      "rows": [
+        {
+          "route": "R0",
+          "dimensions": {
+            "overallSuccess": 0.3333333333333333,
+            "targetedSuccess": 0.3333333333333333,
+            "errorRate": 0,
+            "p95HarnessMs": 4909,
+            "costPerSuccessUsd": 0.00404665
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R1",
+          "dimensions": {
+            "overallSuccess": 0.3333333333333333,
+            "targetedSuccess": 0.3333333333333333,
+            "errorRate": 0,
+            "p95HarnessMs": 10569,
+            "costPerSuccessUsd": 0.00963055
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R2",
+          "dimensions": {
+            "overallSuccess": 0.5,
+            "targetedSuccess": 0.5,
+            "errorRate": 0,
+            "p95HarnessMs": 10341,
+            "costPerSuccessUsd": 0.00569
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R3",
+          "dimensions": {
+            "overallSuccess": 0.6666666666666666,
+            "targetedSuccess": 0.6666666666666666,
+            "errorRate": 0,
+            "p95HarnessMs": 22446,
+            "costPerSuccessUsd": 0.008701825000000002
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R4",
+          "dimensions": {
+            "overallSuccess": 0.5,
+            "targetedSuccess": 0.5,
+            "errorRate": 0,
+            "p95HarnessMs": 14210,
+            "costPerSuccessUsd": 0.006939183333333334
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R5",
+          "dimensions": {
+            "overallSuccess": 0.5,
+            "targetedSuccess": 0.5,
+            "errorRate": 0,
+            "p95HarnessMs": 13802,
+            "costPerSuccessUsd": 0.0059719966666666666
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R6",
+          "dimensions": {
+            "overallSuccess": 0.6666666666666666,
+            "targetedSuccess": 0.6666666666666666,
+            "errorRate": 0,
+            "p95HarnessMs": 14507,
+            "costPerSuccessUsd": 0.0049271
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R7",
+          "dimensions": {
+            "overallSuccess": 0.3333333333333333,
+            "targetedSuccess": 0.3333333333333333,
+            "errorRate": 0,
+            "p95HarnessMs": 17946,
+            "costPerSuccessUsd": 0.008911525
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R8",
+          "dimensions": {
+            "overallSuccess": 0.5,
+            "targetedSuccess": 0.5,
+            "errorRate": 0,
+            "p95HarnessMs": 15546,
+            "costPerSuccessUsd": 0.007092581333333334
+          },
+          "comparable": false,
+          "dominatedBy": []
+        }
+      ],
+      "meaning": "Observed point-estimate dominance only; not uncertainty-adjusted superiority. Missing cost/latency prevents comparison. No production route is selected."
+    },
+    "financialAndAnalytics": {
+      "targetFamilies": [
+        "financial",
+        "analytics"
+      ],
+      "rows": [
+        {
+          "route": "R0",
+          "dimensions": {
+            "overallSuccess": 0.3333333333333333,
+            "targetedSuccess": 0.5,
+            "errorRate": 0,
+            "p95HarnessMs": 4909,
+            "costPerSuccessUsd": 0.00404665
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R1",
+          "dimensions": {
+            "overallSuccess": 0.3333333333333333,
+            "targetedSuccess": 0.5,
+            "errorRate": 0,
+            "p95HarnessMs": 10569,
+            "costPerSuccessUsd": 0.00963055
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R2",
+          "dimensions": {
+            "overallSuccess": 0.5,
+            "targetedSuccess": 0.5,
+            "errorRate": 0,
+            "p95HarnessMs": 10341,
+            "costPerSuccessUsd": 0.00569
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R3",
+          "dimensions": {
+            "overallSuccess": 0.6666666666666666,
+            "targetedSuccess": 0.5,
+            "errorRate": 0,
+            "p95HarnessMs": 22446,
+            "costPerSuccessUsd": 0.008701825000000002
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R4",
+          "dimensions": {
+            "overallSuccess": 0.5,
+            "targetedSuccess": 0.5,
+            "errorRate": 0,
+            "p95HarnessMs": 14210,
+            "costPerSuccessUsd": 0.006939183333333334
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R5",
+          "dimensions": {
+            "overallSuccess": 0.5,
+            "targetedSuccess": 0.5,
+            "errorRate": 0,
+            "p95HarnessMs": 13802,
+            "costPerSuccessUsd": 0.0059719966666666666
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R6",
+          "dimensions": {
+            "overallSuccess": 0.6666666666666666,
+            "targetedSuccess": 1,
+            "errorRate": 0,
+            "p95HarnessMs": 14507,
+            "costPerSuccessUsd": 0.0049271
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R7",
+          "dimensions": {
+            "overallSuccess": 0.3333333333333333,
+            "targetedSuccess": 0.5,
+            "errorRate": 0,
+            "p95HarnessMs": 17946,
+            "costPerSuccessUsd": 0.008911525
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R8",
+          "dimensions": {
+            "overallSuccess": 0.5,
+            "targetedSuccess": 0.5,
+            "errorRate": 0,
+            "p95HarnessMs": 15546,
+            "costPerSuccessUsd": 0.007092581333333334
+          },
+          "comparable": false,
+          "dominatedBy": []
+        }
+      ],
+      "meaning": "Observed point-estimate dominance only; not uncertainty-adjusted superiority. Missing cost/latency prevents comparison. No production route is selected."
+    },
+    "documentsAndScenario": {
+      "targetFamilies": [
+        "documents",
+        "scenario"
+      ],
+      "rows": [
+        {
+          "route": "R0",
+          "dimensions": {
+            "overallSuccess": 0.3333333333333333,
+            "targetedSuccess": 0,
+            "errorRate": 0,
+            "p95HarnessMs": 4909,
+            "costPerSuccessUsd": 0.00404665
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R1",
+          "dimensions": {
+            "overallSuccess": 0.3333333333333333,
+            "targetedSuccess": 0,
+            "errorRate": 0,
+            "p95HarnessMs": 10569,
+            "costPerSuccessUsd": 0.00963055
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R2",
+          "dimensions": {
+            "overallSuccess": 0.5,
+            "targetedSuccess": 0.5,
+            "errorRate": 0,
+            "p95HarnessMs": 10341,
+            "costPerSuccessUsd": 0.00569
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R3",
+          "dimensions": {
+            "overallSuccess": 0.6666666666666666,
+            "targetedSuccess": 0.5,
+            "errorRate": 0,
+            "p95HarnessMs": 22446,
+            "costPerSuccessUsd": 0.008701825000000002
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R4",
+          "dimensions": {
+            "overallSuccess": 0.5,
+            "targetedSuccess": 0.5,
+            "errorRate": 0,
+            "p95HarnessMs": 14210,
+            "costPerSuccessUsd": 0.006939183333333334
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R5",
+          "dimensions": {
+            "overallSuccess": 0.5,
+            "targetedSuccess": 0.5,
+            "errorRate": 0,
+            "p95HarnessMs": 13802,
+            "costPerSuccessUsd": 0.0059719966666666666
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R6",
+          "dimensions": {
+            "overallSuccess": 0.6666666666666666,
+            "targetedSuccess": 0.5,
+            "errorRate": 0,
+            "p95HarnessMs": 14507,
+            "costPerSuccessUsd": 0.0049271
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R7",
+          "dimensions": {
+            "overallSuccess": 0.3333333333333333,
+            "targetedSuccess": 0,
+            "errorRate": 0,
+            "p95HarnessMs": 17946,
+            "costPerSuccessUsd": 0.008911525
+          },
+          "comparable": false,
+          "dominatedBy": []
+        },
+        {
+          "route": "R8",
+          "dimensions": {
+            "overallSuccess": 0.5,
+            "targetedSuccess": 0.5,
+            "errorRate": 0,
+            "p95HarnessMs": 15546,
+            "costPerSuccessUsd": 0.007092581333333334
+          },
+          "comparable": false,
+          "dominatedBy": []
+        }
+      ],
+      "meaning": "Observed point-estimate dominance only; not uncertainty-adjusted superiority. Missing cost/latency prevents comparison. No production route is selected."
+    }
+  },
+  "complexity": [
+    {
+      "route": "R0",
+      "components": "PostgreSQL; one Gemini call; four existing financial tools",
+      "obligations": "Maintain existing typed tools and accounting gates."
+    },
+    {
+      "route": "R1",
+      "components": "PostgreSQL; Gemini planner and answer calls; broader typed analytics",
+      "obligations": "Maintain query compiler, calculation provenance and tool schemas."
+    },
+    {
+      "route": "R2",
+      "components": "R1 plus PostgreSQL lexical document search",
+      "obligations": "Ingest/version authorized documents; maintain lexical retrieval."
+    },
+    {
+      "route": "R3",
+      "components": "Broad analytics plus Gemini managed File Search and final answer generation",
+      "obligations": "Maintain managed store permissions, indexing and citation-to-document resolution; raw ranks unavailable."
+    },
+    {
+      "route": "R4",
+      "components": "R2 plus Gemini embeddings and PostgreSQL pgvector hybrid retrieval",
+      "obligations": "Maintain embedding versions, vector index, workspace filters and fusion."
+    },
+    {
+      "route": "R5",
+      "components": "R4 plus Jev reranking",
+      "obligations": "Operate another provider credential, candidate-ranking contract and limits."
+    },
+    {
+      "route": "R6",
+      "components": "R4 retrieval with Wren analytics replacing the custom query compiler",
+      "obligations": "Operate the pinned engine, semantic model and SQL provenance restrictions."
+    },
+    {
+      "route": "R7",
+      "components": "R4 plus separate Gemini reviewer call using the same model weights",
+      "obligations": "Maintain review prompts and evidence contract; correlated errors remain possible."
+    },
+    {
+      "route": "R8",
+      "components": "R4 plus Jev reviewer",
+      "obligations": "Maintain calibrated development threshold, reviewer schema and second-provider limits."
+    }
+  ],
+  "notes": [
+    "Primary six-family scores are preserved. This supplement uses fixed targeted family mappings; entry and adversarial effects remain visible.",
+    "Point estimates meeting +5pp are separate from interval uncertainty. Any negative interval bound is disclosed as possible harm; no new magnitude threshold for material harm is invented.",
+    "All requests/errors remain in end-to-end task-success denominators. Missing attempts remain missing and block comparative conclusions.",
+    "Recorded error rates include local/harness failures as well as provider failures; they are not a provider-only availability measurement.",
+    "A favorable row means candidate for further experiment, subject to the visible cost, latency and operational tradeoffs. It never authorizes production deployment or an unmeasured combined architecture.",
+    "Pareto tables use observed point estimates, not statistical superiority. Fewer services are preferred when gains are below target or inconclusive; no numerical operational-complexity score is invented.",
+    "Unadjusted clustered intervals are descriptive, with only a few scenario groups per family. Degenerate intervals and a shared synthetic corpus limit generalization.",
+    "Typed-fact/protocol success is not full prose faithfulness. Independent human clarity and reference adjudication remain unavailable."
+  ]
+}

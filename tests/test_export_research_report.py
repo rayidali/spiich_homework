@@ -36,6 +36,76 @@ def fixture():
 
 
 class ExportTests(unittest.TestCase):
+    def test_secondary_appendices_render_with_diagnostic_labels_and_missing_intervals(self):
+        main, verifier = fixture()
+        common = {'runId': main['runId'], 'split': 'development', 'eligibleForConclusion': False,
+                  'selectedQuestionIds': ['toy'], 'selectedGroupIds': ['toy'],
+                  'routes': [{'route': f'R{i}', 'episodes': 1, 'fullSplitPlannedEpisodes': 2,
+                              'microSuccessRate': 0, 'observedFamilyMacro': 0, 'errors': 0}
+                             for i in range(9)]}
+        weights = [{'id': key, 'label': label, 'factual': values[0], 'completion': values[1],
+                    'grounding': values[2], 'uncertainty': values[3]} for key, label, values in [
+                        ('original', 'Original', (40, 20, 20, 10)),
+                        ('financial', 'Financial emphasis', (50, 15, 15, 10)),
+                        ('evidence', 'Evidence emphasis', (30, 15, 35, 10)),
+                        ('uncertainty', 'Uncertainty emphasis', (30, 15, 20, 25)),
+                        ('equal', 'Equal dimensions', (22.5, 22.5, 22.5, 22.5))]]
+        sensitivity = {'runId': main['runId'], 'split': 'development', 'weights': weights,
+                       'routes': [{'route': f'R{i}', 'columns': [{'id': w['id'], 'familyMacro90': None} for w in weights],
+                                   'minimumRank': None, 'maximumRank': None} for i in range(9)]}
+        effect = {'estimate': .05, 'low': None, 'high': None}
+        decisions = {'runId': main['runId'], 'split': 'development', 'eligibility': {'eligible': False},
+                     'components': [{'hypothesis': 'H1', 'route': 'R1', 'control': 'R0',
+                                     'targetFamilies': ['financial', 'analytics'], 'targetedEffect': effect,
+                                     'status': 'ineligible'}],
+                     'reviewers': {'available': True, 'comparisons': [
+                         {'method': 'llm', 'operationalFalseAcceptanceDifference': effect,
+                          'additionalCorrectWithholding': effect,
+                          'conditionalPairedFalseAcceptanceDifference': None, 'status': 'inconclusive'}]}}
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / 'appendices.pdf'
+            pdf.build_pdf(main, verifier, 'development', path, [], common=common,
+                          sensitivity=sensitivity, decisions=decisions)
+            self.assertEqual(pdf.validate_pdf(path)['textOutsidePage'], [])
+            import fitz
+            with fitz.open(path) as doc:
+                content = '\n'.join(page.get_text() for page in doc)
+            self.assertIn('Shared capabilities', content)
+            self.assertIn('Sensitivity to fixed rubric weights', content)
+            self.assertIn('Component assessments', content)
+            self.assertIn('interval N/A', content)
+            self.assertIn('ineligible / diagnostic', content)
+            self.assertNotIn('Score /100', content)
+        sensitivity['routes'][0]['columns'][0]['familyMacro90'] = 91
+        with self.assertRaisesRegex(ValueError, 'Invalid secondary score'):
+            pdf.validate_secondary(main, sensitivity=sensitivity)
+
+    def test_secondary_inputs_require_matching_primary_bytes_and_run(self):
+        main, _ = fixture()
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / 'sensitivity.json'
+            path.write_text(json.dumps({'runId': main['runId']}))
+            provenance = Path(folder) / 'analysis-provenance.json'
+            provenance.write_text(json.dumps({'runId': main['runId'], 'primaryReportSha256': 'a' * 64}))
+            value, inputs = pdf.read_analysis(path, 'sensitivity', 'a' * 64)
+            self.assertEqual(value['runId'], main['runId'])
+            self.assertEqual(len(inputs), 2)
+            with self.assertRaisesRegex(ValueError, 'binding differs'):
+                pdf.read_analysis(path, 'sensitivity', 'b' * 64)
+            path.write_text(json.dumps({'runId': main['runId'], 'reviewers': {'available': True}}))
+            with self.assertRaisesRegex(ValueError, 'verifier snapshot binding differs'):
+                pdf.read_analysis(path, 'decisions', 'a' * 64, 'c' * 64)
+        with self.assertRaisesRegex(ValueError, 'snapshot differs'):
+            pdf.validate_secondary(main, decisions={'runId': 'wrong', 'split': 'development'})
+
+    def test_invalid_decision_effects_are_rejected(self):
+        main, _ = fixture()
+        decisions = {'runId': main['runId'], 'split': 'development', 'eligibility': {},
+                     'components': [{'route': 'R1', 'control': 'R0',
+                                     'targetedEffect': {'estimate': float('nan')}}]}
+        with self.assertRaisesRegex(ValueError, 'Invalid decision effect'):
+            pdf.validate_secondary(main, decisions=decisions)
+
     def test_complete_run_with_known_defects_remains_ineligible_and_keeps_scores(self):
         main, verifier = fixture()
         main['complete'] = True

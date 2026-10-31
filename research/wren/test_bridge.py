@@ -8,7 +8,7 @@ import subprocess
 import sys
 import unittest
 
-from bridge import Planner, PolicyError, checked_ast, column_units
+from bridge import Planner, PolicyError, checked_ast, column_units, row_scope
 
 
 class WrenTests(unittest.TestCase):
@@ -215,6 +215,124 @@ class WrenTests(unittest.TestCase):
         result = column_units(checked_ast("SELECT currency AS same, SUM(debit) AS same FROM ledger WHERE currency='EUR' GROUP BY currency"))
         self.assertNotIn("nativeCurrency", result)
         self.assertEqual(result["columnUnits"], {"same": "unsupported"})
+
+    def test_scope_proves_explicit_unbounded_history(self):
+        result = self.planner.plan("SELECT SUM(net_debit) AS amount FROM ledger WHERE is_cash = TRUE")
+        self.assertEqual(result["rowScope"], {"provenance": "ast-scope-v1", "supported": True, "from": None, "toExclusive": None})
+
+    def test_scope_normalizes_inclusive_and_reversed_date_bounds(self):
+        cases = [
+            ("date >= DATE '2026-01-01' AND date <= '2026-01-31'", "2026-01-01", "2026-02-01"),
+            ("'2026-01-01' <= date AND '2026-02-01' > date", "2026-01-01", "2026-02-01"),
+            ("date > '2026-01-01' AND date < '2026-02-01'", "2026-01-02", "2026-02-01"),
+            ("date BETWEEN '2026-01-01' AND DATE '2026-01-31'", "2026-01-01", "2026-02-01"),
+            ("CAST(date AS DATE) = '2026-01-15'", "2026-01-15", "2026-01-16"),
+            ("date >= '2026-01-01' AND date >= '2026-01-15' AND date < '2026-03-01' AND date < '2026-02-01'", "2026-01-15", "2026-02-01"),
+        ]
+        for where, start, end in cases:
+            with self.subTest(where=where):
+                result = self.planner.plan(f"SELECT SUM(base_debit) AS amount FROM ledger WHERE {where}")
+                self.assertEqual(result["rowScope"], {"provenance": "ast-scope-v1", "supported": True, "from": start, "toExclusive": end})
+
+    def test_scope_retains_one_sided_asof_bounds(self):
+        result = self.planner.plan("SELECT SUM(net_debit) AS amount FROM ledger WHERE is_cash = TRUE AND date <= DATE '2026-09-30'")
+        self.assertEqual(result["rowScope"]["from"], None)
+        self.assertEqual(result["rowScope"]["toExclusive"], "2026-10-01")
+
+    def test_scope_returns_month_projection_and_actual_vendor_column(self):
+        result = self.planner.plan("SELECT DATE_TRUNC('month', date) AS period, vendor AS customer, SUM(net_credit) AS revenue FROM ledger WHERE date >= '2026-07-15' AND date < '2026-10-01' AND account_type='REVENUE' GROUP BY DATE_TRUNC('month', date), vendor")
+        self.assertEqual(result["rowScope"], {"provenance": "ast-scope-v1", "supported": True, "from": "2026-07-15", "toExclusive": "2026-10-01", "periodColumn": {"name": "period", "kind": "month"}, "identityColumns": {"vendor": "customer"}})
+
+    def test_scope_resolves_unambiguous_group_aliases_and_positions(self):
+        for group in ["period, vendor", "1, 2"]:
+            with self.subTest(group=group):
+                result = self.planner.plan(f"SELECT DATE_TRUNC('month', date) AS period, vendor, SUM(net_credit) AS amount FROM ledger GROUP BY {group}")
+                self.assertTrue(result["rowScope"]["supported"])
+                self.assertEqual(result["rowScope"]["periodColumn"], {"name": "period", "kind": "month"})
+
+    def test_scope_direct_rows_preserve_entry_and_account_identity(self):
+        result = self.planner.plan("SELECT date AS day, entry_id AS transaction, account_name AS vendor, account_code, base_debit AS amount FROM ledger WHERE 'Acme'=vendor AND account_code='6100' AND date='2026-09-01'")
+        scope = result["rowScope"]
+        self.assertEqual(scope["periodColumn"], {"name": "day", "kind": "date"})
+        self.assertEqual(scope["identityColumns"], {"entryId": "transaction", "accountName": "vendor", "accountCode": "account_code"})
+        self.assertEqual(scope["fixedIdentity"], {"vendor": "Acme", "accountCode": "6100"})
+
+    def test_scope_fixed_native_currency_group_is_supported(self):
+        result = self.planner.plan("SELECT currency, SUM(debit-credit) AS amount FROM ledger WHERE currency='EUR' AND account_code='1010' GROUP BY currency")
+        self.assertTrue(result["rowScope"]["supported"])
+        self.assertEqual(result["rowScope"]["fixedIdentity"], {"accountCode": "1010"})
+        self.assertEqual(result["columnUnits"]["amount"], "native")
+
+    def test_scope_does_not_infer_date_filters_from_literal_text(self):
+        scope = self.planner.plan("SELECT COUNT(*) AS n FROM ledger WHERE description='date >= 2026-01-01 OR vendor=Acme'")["rowScope"]
+        self.assertTrue(scope["supported"])
+        self.assertIsNone(scope["from"])
+        self.assertNotIn("fixedIdentity", scope)
+
+    def test_scope_rejects_ambiguous_or_invalid_date_lineage(self):
+        predicates = [
+            "date >= '2026-01-01' OR vendor='Acme'", "NOT date < '2026-01-01'",
+            "EXTRACT(YEAR FROM date)=2026", "CAST(date AS TIMESTAMP) >= '2026-01-01'",
+            "date >= '2026-02-01' AND date < '2026-01-01'", "date = '2026-02-30'",
+            "date = '20260101'", "date <= '9999-12-31'", "date = date",
+            "date != '2026-01-01'", "account_code='1000' AND account_code='1010'",
+        ]
+        for predicate in predicates:
+            with self.subTest(predicate=predicate):
+                scope = row_scope(checked_ast(f"SELECT SUM(base_debit) AS amount FROM ledger WHERE {predicate}"))
+                self.assertEqual(scope, {"provenance": "ast-scope-v1", "supported": False})
+
+    def test_scope_rejects_conditional_and_complex_aggregate_lineage(self):
+        queries = [
+            "SELECT SUM(CASE WHEN date >= '2026-01-01' THEN net_debit ELSE 0 END) AS amount FROM ledger",
+            "SELECT SUM(net_debit) FILTER(WHERE account_code='1000') AS amount FROM ledger",
+            "WITH x AS (SELECT date, base_debit FROM ledger) SELECT SUM(base_debit) FROM x",
+            "SELECT SUM(a.base_debit) FROM ledger a JOIN ledger b ON a.entry_id=b.entry_id",
+            "SELECT base_debit FROM ledger UNION ALL SELECT base_credit FROM ledger",
+            "SELECT SUM(base_debit) AS amount FROM ledger GROUP BY vendor HAVING SUM(base_debit)>10",
+        ]
+        for query in queries:
+            with self.subTest(query=query):
+                self.assertFalse(row_scope(checked_ast(query))["supported"])
+
+    def test_scope_rejects_hidden_or_unsupported_group_buckets(self):
+        queries = [
+            "SELECT SUM(net_debit) AS amount FROM ledger GROUP BY DATE_TRUNC('month', date)",
+            "SELECT SUM(net_debit) AS amount FROM ledger GROUP BY vendor",
+            "SELECT currency, SUM(net_debit) AS amount FROM ledger GROUP BY currency",
+            "SELECT EXTRACT(YEAR FROM date) AS year, SUM(net_debit) AS amount FROM ledger GROUP BY EXTRACT(YEAR FROM date)",
+            "SELECT DATE_TRUNC('month', date) AS month, net_debit AS amount FROM ledger",
+            "SELECT DATE_TRUNC('month', date) AS vendor, SUM(net_debit) AS amount FROM ledger GROUP BY vendor",
+            "SELECT DATE_TRUNC('month', date, 'America/New_York') AS month, SUM(net_debit) AS amount FROM ledger GROUP BY 1",
+            "SELECT date, date AS day, base_debit FROM ledger",
+        ]
+        for query in queries:
+            with self.subTest(query=query):
+                self.assertFalse(row_scope(checked_ast(query))["supported"])
+
+    def test_scope_aliases_cannot_forge_period_or_vendor_identity(self):
+        scope = row_scope(checked_ast("SELECT date AS day, entry_id, description AS month, account_name AS customer, base_debit AS amount FROM ledger"))
+        self.assertTrue(scope["supported"])
+        self.assertEqual(scope["periodColumn"], {"name": "day", "kind": "date"})
+        self.assertEqual(scope["identityColumns"], {"entryId": "entry_id", "accountName": "customer"})
+        scope = row_scope(checked_ast("SELECT CAST(vendor AS DATE) AS date, base_debit FROM ledger"))
+        self.assertNotIn("periodColumn", scope)
+        self.assertNotIn("identityColumns", scope)
+        for query in ["SELECT date AS same, vendor AS same, base_debit FROM ledger", "SELECT base_debit AS cash FROM ledger AS x(base_debit)"]:
+            self.assertFalse(row_scope(checked_ast(query))["supported"])
+
+    def test_scope_raw_cash_lines_cannot_prove_a_cumulative_balance(self):
+        for projection in ["net_debit AS amount", "date, net_debit AS amount", "entry_id, net_debit AS amount"]:
+            with self.subTest(projection=projection):
+                result = self.planner.plan(f"SELECT {projection} FROM ledger WHERE is_cash=TRUE AND date<=DATE '2026-09-30'")
+                self.assertEqual(result["rowScope"], {"provenance": "ast-scope-v1", "supported": False})
+                self.assertEqual(result["columnUnits"]["amount"], "USD")
+        raw = self.planner.plan("SELECT date, entry_id, net_debit AS amount FROM ledger WHERE is_cash=TRUE AND date<=DATE '2026-09-30'")
+        self.assertEqual(raw["rowScope"]["periodColumn"], {"name": "date", "kind": "date"})
+        self.assertEqual(raw["rowScope"]["identityColumns"], {"entryId": "entry_id"})
+        summed = self.planner.plan("SELECT SUM(net_debit) AS amount FROM ledger WHERE is_cash=TRUE AND date<=DATE '2026-09-30'")
+        self.assertTrue(summed["rowScope"]["supported"])
+        self.assertNotIn("periodColumn", summed["rowScope"])
 
 
 if __name__ == "__main__":

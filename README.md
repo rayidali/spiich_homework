@@ -1,6 +1,6 @@
 # Daybook · Accounting workspace
 
-> Updated 2026-10-30: the deployed accounting application remains separate from the research study. The latest research pilot stopped at **101/108 episodes** after Gemini's daily free-tier quota was exhausted; its full data fingerprint was unchanged. The planned held-out comparison is unrun, and no winning architecture is claimed. See the [study narrative](docs/reports/research-study.md), [V2 validity notice](docs/evidence/research-runs/pilot-v2/validity-notice.json) and [checkpoint](CHECKPOINT.md).
+> Updated 2026-10-30: the funded 54-episode development smoke completed with unchanged data and no execution errors, then exposed asymmetric date-scope evidence. The correction passes 511 isolated tests, build and formatting; fresh full CI and a separately named development check follow before holdout. The deployed application is unchanged, and no winning architecture is claimed. See the [study narrative](docs/reports/research-study.md), [verification](docs/VERIFICATION.md) and [checkpoint](CHECKPOINT.md).
 
 A React and TypeScript accounting workspace backed by PostgreSQL. Every posted journal entry is balanced and immutable at the database level. AI prepares entries for review and selects read-only financial queries; the ledger and SQL own the financial numbers.
 

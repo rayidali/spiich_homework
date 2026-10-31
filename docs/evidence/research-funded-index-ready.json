@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-31T00:53:20.792Z",
+  "scope": "Read-only access to previously indexed managed store with current local key",
+  "status": 200,
+  "activeDocuments": 39,
+  "pendingDocuments": 0,
+  "failedDocuments": 0,
+  "expectedAuthorizedDocuments": 39,
+  "ready": true,
+  "providerCalls": 1,
+  "estimatedUsd": 0,
+  "reserveUsd": 0,
+  "error": null,
+  "corpusHash": "3a2b01e5b46655f3b9bb6ce99f1d6cf57995ad85f1ee1da5fed18310131d2643",
+  "indexedFilesCreatedOrChanged": false,
+  "billingTierVerified": false
+}

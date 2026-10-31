@@ -330,6 +330,9 @@ function toolEvidence(
         ...(f.from ? { from: f.from } : {}),
         ...(f.to ? { to: f.to } : {}),
         ...(f.asOf ? { asOf: f.asOf } : {}),
+        scopeSupported: true,
+        periodKind: f.key === 'entry_total' ? ('event' as const) : ('range' as const),
+        ...(f.entity ? { entityAliases: [f.entity] } : {}),
       })),
   }));
 }

@@ -1,0 +1,39 @@
+{
+  "runId": "smoke-v3",
+  "startedAt": "2026-10-31T00:56:58.585106+00:00",
+  "endedAt": "2026-10-31T01:07:11.857826+00:00",
+  "requests": 197,
+  "googleRequests": 127,
+  "httpStatuses": {
+    "200": 197
+  },
+  "incompleteFooters": 0,
+  "nonzeroCurlExits": 0,
+  "expiredWithoutDispatch": 0,
+  "googlePreCurlStartGapsMs": {
+    "min": 4571,
+    "p50": 4596.0,
+    "p95": 4667,
+    "max": 13392
+  },
+  "queueWaitMs": {
+    "min": 9,
+    "p50": 2098,
+    "p95": 3807,
+    "max": 3977
+  },
+  "networkDurationMs": {
+    "min": 92,
+    "p50": 1010,
+    "p95": 2502,
+    "max": 12793
+  },
+  "ownerLockPresent": false,
+  "runnerLockPresent": false,
+  "readyJobs": 0,
+  "claimedWithoutDone": 0,
+  "watcherExitCode": 0,
+  "sourceEditedDuringRun": false,
+  "measurementLimit": "Queued harness timing, not production latency. Start observations precede curl invocation, not packet capture. HTTP 200 is transport completion, not task correctness.",
+  "validityNotice": "research-runs/smoke-v3/validity-notice.json"
+}
