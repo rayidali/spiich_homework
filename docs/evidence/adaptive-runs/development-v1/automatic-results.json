@@ -1,0 +1,318 @@
+{
+  "version": "adaptive-development-v1-public-extract",
+  "phase": "development",
+  "sourceCommit": "e0f21342e90c08ebe6f6152f587038ff4d283c28",
+  "sourceHash": "5339d774fb3c60dedd7ce985a234e82b2c0b7739b7005418620666cc2d9ccda3",
+  "runId": "41256839576",
+  "workflowUrl": "https://github.com/rayidali/spiich_homework/actions/runs/41256839576",
+  "finishedAt": "2026-11-01T00:29:02.132Z",
+  "complete": true,
+  "primaryAutomaticScoresUnchanged": true,
+  "executions": {
+    "planned": 8,
+    "completed": 8
+  },
+  "trials": [
+    {
+      "caseId": "D01",
+      "route": "composable",
+      "durationMs": 1309,
+      "attempts": 1,
+      "score": {
+        "caseId": "D01",
+        "split": "development",
+        "family": "common",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+        "requiredClaims": 1,
+        "matchedClaims": ["software_may"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged"
+      }
+    },
+    {
+      "caseId": "D01",
+      "route": "adaptive",
+      "durationMs": 1269,
+      "attempts": 1,
+      "score": {
+        "caseId": "D01",
+        "split": "development",
+        "family": "common",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+        "requiredClaims": 1,
+        "matchedClaims": ["software_may"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged"
+      }
+    },
+    {
+      "caseId": "D02",
+      "route": "adaptive",
+      "durationMs": 4863,
+      "attempts": 3,
+      "score": {
+        "caseId": "D02",
+        "split": "development",
+        "family": "discovery",
+        "classification": "safe-no-answer",
+        "passed": false,
+        "reasons": ["ANSWERABLE_COVERAGE_MISS"],
+        "requiredClaims": 3,
+        "matchedClaims": [],
+        "extraClaims": 0,
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged"
+      }
+    },
+    {
+      "caseId": "D02",
+      "route": "composable",
+      "durationMs": 3744,
+      "attempts": 1,
+      "score": {
+        "caseId": "D02",
+        "split": "development",
+        "family": "discovery",
+        "classification": "wrong-answer",
+        "passed": false,
+        "reasons": ["UNEXPECTED_OR_INCORRECT_FINANCIAL_CLAIMS"],
+        "requiredClaims": 3,
+        "matchedClaims": ["selected_may", "selected_june"],
+        "extraClaims": 4,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged"
+      }
+    },
+    {
+      "caseId": "D03",
+      "route": "composable",
+      "durationMs": 2925,
+      "attempts": 1,
+      "score": {
+        "caseId": "D03",
+        "split": "development",
+        "family": "arithmetic",
+        "classification": "wrong-answer",
+        "passed": false,
+        "reasons": ["UNEXPECTED_OR_INCORRECT_FINANCIAL_CLAIMS"],
+        "requiredClaims": 3,
+        "matchedClaims": ["supplies", "marketing"],
+        "extraClaims": 1,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged"
+      }
+    },
+    {
+      "caseId": "D03",
+      "route": "adaptive",
+      "durationMs": 1652,
+      "attempts": 1,
+      "score": {
+        "caseId": "D03",
+        "split": "development",
+        "family": "arithmetic",
+        "classification": "partial-answer",
+        "passed": false,
+        "reasons": ["MISSING_REQUIRED_CLAIMS"],
+        "requiredClaims": 3,
+        "matchedClaims": ["marketing", "supplies"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged"
+      }
+    },
+    {
+      "caseId": "D04",
+      "route": "adaptive",
+      "durationMs": 1911,
+      "attempts": 1,
+      "score": {
+        "caseId": "D04",
+        "split": "development",
+        "family": "clarification",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "requiredClaims": 0,
+        "matchedClaims": [],
+        "extraClaims": 0,
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged"
+      }
+    },
+    {
+      "caseId": "D04",
+      "route": "composable",
+      "durationMs": 1514,
+      "attempts": 1,
+      "score": {
+        "caseId": "D04",
+        "split": "development",
+        "family": "clarification",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "requiredClaims": 0,
+        "matchedClaims": [],
+        "extraClaims": 0,
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged"
+      }
+    }
+  ],
+  "aggregate": {
+    "split": "development",
+    "plannedPairs": 4,
+    "completedPairs": 4,
+    "complete": true,
+    "expectedDesignPairs": 4,
+    "designCountMatches": true,
+    "composablePassed": 2,
+    "adaptivePassed": 2,
+    "bothPass": 2,
+    "bothFail": 2,
+    "composableOnly": 0,
+    "adaptiveOnly": 0,
+    "pairedDifference": 0,
+    "exactTwoSidedMcNemarP": 1,
+    "composableWilson95": [0.15003898915214947, 0.8499610108478506],
+    "adaptiveWilson95": [0.15003898915214947, 0.8499610108478506],
+    "adaptiveWinAmongDiscordantWilson95": null,
+    "families": [
+      {
+        "family": "arithmetic",
+        "planned": 1,
+        "paired": 1,
+        "composablePassed": 0,
+        "adaptivePassed": 0
+      },
+      {
+        "family": "clarification",
+        "planned": 1,
+        "paired": 1,
+        "composablePassed": 1,
+        "adaptivePassed": 1
+      },
+      {
+        "family": "common",
+        "planned": 1,
+        "paired": 1,
+        "composablePassed": 1,
+        "adaptivePassed": 1
+      },
+      {
+        "family": "discovery",
+        "planned": 1,
+        "paired": 1,
+        "composablePassed": 0,
+        "adaptivePassed": 0
+      }
+    ],
+    "pairs": [
+      {
+        "caseId": "D01",
+        "family": "common",
+        "composable": true,
+        "adaptive": true,
+        "composableClassification": "structured-correct",
+        "adaptiveClassification": "structured-correct"
+      },
+      {
+        "caseId": "D02",
+        "family": "discovery",
+        "composable": false,
+        "adaptive": false,
+        "composableClassification": "wrong-answer",
+        "adaptiveClassification": "safe-no-answer"
+      },
+      {
+        "caseId": "D03",
+        "family": "arithmetic",
+        "composable": false,
+        "adaptive": false,
+        "composableClassification": "wrong-answer",
+        "adaptiveClassification": "partial-answer"
+      },
+      {
+        "caseId": "D04",
+        "family": "clarification",
+        "composable": true,
+        "adaptive": true,
+        "composableClassification": "structured-correct",
+        "adaptiveClassification": "structured-correct"
+      }
+    ],
+    "interpretation": "Small purpose-built paired set, one outcome per route and question. Exact McNemar is descriptive; Wilson intervals are not paired-effect intervals. No universal accuracy or causal superiority claim."
+  },
+  "budget": {
+    "state": "closed",
+    "attempts": 10,
+    "knownUsd": "0.0430523",
+    "unknownReservedUsd": "0",
+    "chargedUsd": "0.0430523",
+    "haltReason": null,
+    "pending": 0,
+    "activeTrial": null
+  },
+  "fixture": {
+    "before": {
+      "sha256": "c05204dff15b2815745a940b648c6610f62835615e3aa78bcd0b04ce6a495f07",
+      "organizations": 2,
+      "accounts": 46,
+      "entries": 41,
+      "lines": 86,
+      "scope": "full_org_account_entry_line_rows"
+    },
+    "after": {
+      "sha256": "c05204dff15b2815745a940b648c6610f62835615e3aa78bcd0b04ce6a495f07",
+      "organizations": 2,
+      "accounts": 46,
+      "entries": 41,
+      "lines": 86,
+      "scope": "full_org_account_entry_line_rows"
+    },
+    "unchanged": true
+  },
+  "engineeringVerification": {
+    "passedTests": 133,
+    "testFiles": 6,
+    "description": "Evaluator and isolated PostgreSQL fixture checks ran before the provider-enabled step; this is not the complete application CI suite."
+  },
+  "integrityAudit": {
+    "status": "AUDIT_PASS_COMPLETE",
+    "checksPassed": 212,
+    "checksTotal": 212,
+    "auditorProviderCalls": 0,
+    "auditorNetworkCalls": 0
+  },
+  "limitations": [
+    "Synthetic internally authored questions; no production accuracy guarantee.",
+    "Direct service evaluation, not Express admission or browser/hosting validation.",
+    "Current standard-rate estimates plus unknown reservations, not an invoice or account balance.",
+    "Development only: these four pairs are not held-out model accuracy.",
+    "Original automatic classifications include a confirmed D03 representation false-negative; read the separate semantic review.",
+    "One model outcome per route/question; four purpose-built pairs cannot establish general superiority."
+  ]
+}

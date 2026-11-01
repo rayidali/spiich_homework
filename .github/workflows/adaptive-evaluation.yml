@@ -8,9 +8,9 @@ on:
         type: string
         required: true
       phase:
-        description: Run development first; review its retained evidence before holdout
+        description: Holdout only; completed development is reused offline and cannot be rerun
         type: choice
-        options: [development, holdout]
+        options: [holdout]
         required: true
       source_commit:
         description: Exact reviewed Git commit
@@ -21,9 +21,9 @@ on:
         type: string
         required: true
       development_run:
-        description: Successful development run ID, required for holdout
+        description: Fixed closed development predecessor, not a fresh allowance
         type: string
-        default: ''
+        default: '41256839576'
 permissions:
   contents: read
   actions: read
@@ -66,6 +66,13 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci --no-audit --no-fund
+      - name: Download the immutable closed development predecessor
+        uses: actions/download-artifact@v4
+        with:
+          name: adaptive-evaluation-development-41256839576
+          run-id: 41256839576
+          github-token: ${{ github.token }}
+          path: .tools/adaptive-evaluation-predecessor/
       - name: Authorize exact source and reject reused cohort or rerun
         env:
           GH_TOKEN: ${{ github.token }}

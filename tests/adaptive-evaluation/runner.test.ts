@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const mocks = vi.hoisted(() => ({
   source: vi.fn(),
+  predecessor: vi.fn(),
   environment: vi.fn(),
   seed: vi.fn(),
   cases: vi.fn(),
@@ -25,6 +26,7 @@ vi.mock('../../scripts/adaptive-evaluation/protocol', async (original) => ({
   ...(await original<object>()),
   evaluationSource: mocks.source,
   validateRunEnvironment: mocks.environment,
+  validatePredecessorEvidence: mocks.predecessor,
 }));
 vi.mock('../../scripts/adaptive-evaluation/fixtures', () => ({
   seedFixtures: mocks.seed,
@@ -38,6 +40,7 @@ vi.mock('../../scripts/adaptive-evaluation/scoring', () => ({
   scoreAdaptiveResponse: mocks.score,
   aggregatePairedScores: mocks.aggregate,
 }));
+vi.mock('../../scripts/adaptive-evaluation/scoring-v2', () => ({ scoreAdaptiveResponseV2: mocks.score }));
 vi.mock('../../server/config', () => ({ config: mocks.config }));
 vi.mock('../../server/ai', () => ({ financialChat: mocks.chat }));
 vi.mock('../../server/db', () => ({ pool: { end: mocks.endPool } }));
@@ -46,6 +49,19 @@ import { PROTOCOL } from '../../scripts/adaptive-evaluation/protocol';
 
 const sourceHash = 'a'.repeat(64),
   sourceCommit = 'b'.repeat(40);
+const predecessor = {
+  version: 'adaptive-v2-predecessor',
+  runId: '100',
+  sourceCommit: 'e'.repeat(40),
+  sourceHash: 'f'.repeat(64),
+  chargedUsd: '0.0430523',
+  attempts: 10,
+  unknownReservedUsd: '0',
+  calibrationSha256: 'c'.repeat(64),
+  predecessorManifestSha256: 'a'.repeat(64),
+  runtimeHash: 'b'.repeat(64),
+  expectedKeySha256: 'd'.repeat(64),
+};
 const initial = {
   sha256: 'c'.repeat(64),
   organizations: 2,
@@ -99,6 +115,7 @@ beforeEach(() => {
   vi.stubEnv('MIGRATION_DATABASE_URL', 'postgres://owner@localhost/daybook_adaptive_eval_test');
   for (const value of Object.values(mocks)) if (vi.isMockFunction(value)) value.mockReset();
   vi.spyOn(console, 'log').mockImplementation(() => {});
+  mocks.predecessor.mockReturnValue(predecessor);
   mocks.source.mockReturnValue({ hash: sourceHash, files: { source: sourceHash } });
   mocks.environment.mockReturnValue({ phase: 'development', runId: '101', sourceCommit });
   save('authorization.json', {
@@ -107,6 +124,7 @@ beforeEach(() => {
     sourceCommit,
     sourceHash,
     cohort: PROTOCOL.cohort,
+    predecessor,
   });
   const cases = [1, 2, 3, 4].map((n) => ({
     id: `D0${n}`,
@@ -213,6 +231,15 @@ describe('provider-free runner ordering and artifact preservation', () => {
     });
     expect(result.initialFingerprint).toEqual(result.finalFingerprint);
     expect(result.budget.state).toBe('closed');
+    expect(result.cumulativeAccounting).toMatchObject({
+      priorChargedUsd: '0.0430523',
+      totalChargedUsd: '0.0431523',
+      totalAttempts: 18,
+      unusedDevelopmentTransferred: false,
+    });
+    expect(result.predecessor).not.toHaveProperty('expectedKeySha256');
+    expect(read('run.json').predecessor).not.toHaveProperty('expectedKeySha256');
+    expect(read('trials/D01-composable/score-v1.json')).toEqual(read('trials/D01-composable/score.json'));
     expect(mocks.chat.mock.calls.map(([org, _messages, options]) => [org, options.route])).toEqual([
       ['isolated-org', 'composable'],
       ['isolated-org', 'adaptive'],
@@ -251,6 +278,28 @@ describe('provider-free runner ordering and artifact preservation', () => {
     save('authorization.json', { runId: 'wrong' });
     await expect(runEvaluation(directory)).rejects.toThrow('EVALUATION_AUTHORIZATION_MISMATCH');
     expect(mocks.seed).not.toHaveBeenCalled();
+    expect(mocks.createTransport).not.toHaveBeenCalled();
+  });
+
+  it('refuses changed predecessor evidence before any model or fixture access', async () => {
+    mocks.predecessor.mockReturnValue({ ...predecessor, chargedUsd: '0' });
+    await expect(runEvaluation(directory)).rejects.toThrow('EVALUATION_PREDECESSOR_AUTHORIZATION_MISMATCH');
+    expect(mocks.createTransport).not.toHaveBeenCalled();
+    expect(mocks.seed).not.toHaveBeenCalled();
+  });
+
+  it('refuses a different credential binding before creating a transport', async () => {
+    vi.stubEnv('EVALUATION_KEY_SHA256', '9'.repeat(64));
+    await expect(runEvaluation(directory)).rejects.toThrow('EVALUATION_PREDECESSOR_KEY_MISMATCH');
+    expect(mocks.createTransport).not.toHaveBeenCalled();
+    expect(mocks.chat).not.toHaveBeenCalled();
+  });
+
+  it('cannot omit prior costs or transfer an excessive allowance', async () => {
+    const altered = { ...predecessor, chargedUsd: '0.49' };
+    mocks.predecessor.mockReturnValue(altered);
+    save('authorization.json', { ...read('authorization.json'), predecessor: altered });
+    await expect(runEvaluation(directory)).rejects.toThrow('EVALUATION_CUMULATIVE_ALLOWANCE_EXCEEDED');
     expect(mocks.createTransport).not.toHaveBeenCalled();
   });
 

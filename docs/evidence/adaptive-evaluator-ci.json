@@ -1,0 +1,56 @@
+{
+  "version": "adaptive-evaluator-v1-source-ci",
+  "sourceCommit": "e0f21342e90c08ebe6f6152f587038ff4d283c28",
+  "runId": 41256806926,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41256806926",
+  "attempt": 1,
+  "conclusion": "success",
+  "jobs": [
+    {
+      "id": 124701597553,
+      "name": "research-native",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T00:27:53Z"
+    },
+    {
+      "id": 124701597732,
+      "name": "verify",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T00:30:25Z"
+    },
+    {
+      "id": 124702300796,
+      "name": "compose",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T00:33:58Z"
+    },
+    {
+      "id": 124703073481,
+      "name": "live-ai",
+      "status": "completed",
+      "conclusion": "skipped",
+      "completed_at": "2026-11-01T00:33:58Z"
+    }
+  ],
+  "tests": {
+    "passed": 1870,
+    "skipped": 4,
+    "filesPassed": 95,
+    "filesSkipped": 1,
+    "browserPassed": 29
+  },
+  "limits": [
+    "Four dedicated adaptive fixture database cases skip in ordinary CI; all four separately passed in manual development CI along with the 129 other evaluator checks.",
+    "Do not add overlapping rerun totals. Engineering provider responses are scripted; the ten actual development provider calls belong to the separate study.",
+    "No hosted deployment change or hosted-browser verification."
+  ],
+  "inputHashes": {
+    "source-ci-run.json": "7eb0b44f0d624cd8ef04664faffe5375be5444fa4900cb98d367b844baaf4a0b",
+    "source-ci-jobs.json": "c0bc86e14384a11719442cb0acec96ebe1236cc2163222f8e0b81b9099eef332",
+    "source-ci-verify.log": "b91629f29e93b6545df3d26928c518351378527381de477bea15249945fcffa0",
+    "source-ci-compose.log": "abc3fed2cc90ae16b4b69413cf10ee5f1eabacd2c3b3f091110083842c168ff8"
+  }
+}

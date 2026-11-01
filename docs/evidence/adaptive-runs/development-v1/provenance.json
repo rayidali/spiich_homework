@@ -1,0 +1,174 @@
+{
+  "version": "adaptive-development-v1-provenance",
+  "sourceCommit": "e0f21342e90c08ebe6f6152f587038ff4d283c28",
+  "sourceHash": "5339d774fb3c60dedd7ce985a234e82b2c0b7739b7005418620666cc2d9ccda3",
+  "runId": "41256839576",
+  "inputs": [
+    {
+      "artifact": "summary.json",
+      "sha256": "68171cedd80a21843961c3d578485e02ce44d4c398a63513623b2690578c6e1e"
+    },
+    {
+      "artifact": "fixture.json",
+      "sha256": "79c2748c8c32ad8bfb20a147ce05b3d286e4ca94611829414a91ce73de461f0d"
+    },
+    {
+      "artifact": "development-independent-audit.json",
+      "sha256": "db17601e0c11b3d31ef30dc78b74625db203f3363bc737c92d390d07dc32b393"
+    },
+    {
+      "artifact": "development-jobs.json",
+      "sha256": "242a867a4d1f4185bbb5809f6c042a859b1fb710d4caf84e04cd2f667a0d13a1"
+    },
+    {
+      "artifact": "development-job.log",
+      "sha256": "ceba660ad20dbedad9b4b44183922c2d5293194592eb33d51d43ec20685ce028"
+    },
+    {
+      "artifact": "fixture-source/development.json",
+      "sha256": "e269de382f808bd6771eeb4709f6919ed1659371eb79077381c5cc1fe7ba1a8e"
+    },
+    {
+      "artifact": "fixture-source/ledger.json",
+      "sha256": "42ea3567b2b32b69a79aed5b99a45ab6c8aa53ce368d9dc308e9c07871242333"
+    },
+    {
+      "artifact": "fixture-source/worked-totals.json",
+      "sha256": "7aee9e959640ffdcc489075fba2c08be8dafc6abbbc24f435333c0f424c76a0f"
+    },
+    {
+      "artifact": "trials/D01-composable/outcome.json",
+      "sha256": "3a758d3fbfc8b22e8c864dec7dfcbdad078e4b71ec1f1e41d0b1a195cf0f5de2"
+    },
+    {
+      "artifact": "trials/D01-composable/score.json",
+      "sha256": "956c284ddd6d85f88e5d29880f20c78670c7463847d48ff679ad20a860dfd534"
+    },
+    {
+      "artifact": "trials/D01-composable/before.json",
+      "sha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+    },
+    {
+      "artifact": "trials/D01-composable/after.json",
+      "sha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+    },
+    {
+      "artifact": "trials/D01-adaptive/outcome.json",
+      "sha256": "a00a406c63ed21fcf85d86d9f957129e97d4efcb746fdeedcffe20f3fbcabc32"
+    },
+    {
+      "artifact": "trials/D01-adaptive/score.json",
+      "sha256": "956c284ddd6d85f88e5d29880f20c78670c7463847d48ff679ad20a860dfd534"
+    },
+    {
+      "artifact": "trials/D01-adaptive/before.json",
+      "sha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+    },
+    {
+      "artifact": "trials/D01-adaptive/after.json",
+      "sha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+    },
+    {
+      "artifact": "trials/D02-adaptive/outcome.json",
+      "sha256": "24a5bc1dc6f83992da80c7ebebd8ab36acbb732688f03dbedd222c2b518c1367"
+    },
+    {
+      "artifact": "trials/D02-adaptive/score.json",
+      "sha256": "4ed0f942bb4c365ec717f0d0358e719681049beb50687c940c9ccbc3e636021f"
+    },
+    {
+      "artifact": "trials/D02-adaptive/before.json",
+      "sha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+    },
+    {
+      "artifact": "trials/D02-adaptive/after.json",
+      "sha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+    },
+    {
+      "artifact": "trials/D02-composable/outcome.json",
+      "sha256": "5ce019e306030b1fcd586fd60e217bc3db6dde3cf6714c923cad41a169a3ec04"
+    },
+    {
+      "artifact": "trials/D02-composable/score.json",
+      "sha256": "115a719ce0f0971cc22796dcfa4a675165cc288bcea1e0fbcad4b9e062ef023e"
+    },
+    {
+      "artifact": "trials/D02-composable/before.json",
+      "sha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+    },
+    {
+      "artifact": "trials/D02-composable/after.json",
+      "sha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+    },
+    {
+      "artifact": "trials/D03-composable/outcome.json",
+      "sha256": "dedf8b824f1dde4206956e366c09f89d156e3162873dc0509bda2f160cacc5f8"
+    },
+    {
+      "artifact": "trials/D03-composable/score.json",
+      "sha256": "97ef425d8e15028d825b1d7707f86048af68e822f34f63930072a27983e209a9"
+    },
+    {
+      "artifact": "trials/D03-composable/before.json",
+      "sha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+    },
+    {
+      "artifact": "trials/D03-composable/after.json",
+      "sha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+    },
+    {
+      "artifact": "trials/D03-adaptive/outcome.json",
+      "sha256": "f17b6a564c7dc266433a5c98b548a3763ae446d4d5d99ef4dcb83776c93e601f"
+    },
+    {
+      "artifact": "trials/D03-adaptive/score.json",
+      "sha256": "89f1153c0e075798fba22ada0db8cab98c2cd90c74d8574d4fc7161b6f967566"
+    },
+    {
+      "artifact": "trials/D03-adaptive/before.json",
+      "sha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+    },
+    {
+      "artifact": "trials/D03-adaptive/after.json",
+      "sha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+    },
+    {
+      "artifact": "trials/D04-adaptive/outcome.json",
+      "sha256": "5e99e75d238fb1820585fba35b1c79e1d42d1bc1eef3ff460b55383e78afbb28"
+    },
+    {
+      "artifact": "trials/D04-adaptive/score.json",
+      "sha256": "b5b6e30fda4a72690d254bba858e5ea27287f6d2c2fdb2282a8c65351befe027"
+    },
+    {
+      "artifact": "trials/D04-adaptive/before.json",
+      "sha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+    },
+    {
+      "artifact": "trials/D04-adaptive/after.json",
+      "sha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+    },
+    {
+      "artifact": "trials/D04-composable/outcome.json",
+      "sha256": "5712588bc67e85d42a45c86202275d4caebc46417e9fc8e853bc3b9109a33beb"
+    },
+    {
+      "artifact": "trials/D04-composable/score.json",
+      "sha256": "b5b6e30fda4a72690d254bba858e5ea27287f6d2c2fdb2282a8c65351befe027"
+    },
+    {
+      "artifact": "trials/D04-composable/before.json",
+      "sha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+    },
+    {
+      "artifact": "trials/D04-composable/after.json",
+      "sha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+    }
+  ],
+  "notes": [
+    "Hashes bind retained original files; public JSON is a selected-field extract, not a byte-for-byte copy of raw provider artifacts.",
+    "Original authorization documents, credential/key hashes, provider signatures and headers are not published.",
+    "Input SHA-256 values are artifact-integrity hashes, not authentication material.",
+    "Original results, scores, source, protocol and budget were not modified by this publication."
+  ]
+}

@@ -16,6 +16,7 @@ import {
   pairedSchedule,
   PROTOCOL,
   validateRunEnvironment,
+  validatePredecessorEvidence,
   type EvaluationRoute,
 } from './protocol';
 import { fixtureMessages, loadCases, seedFixtures } from './fixtures';
@@ -26,6 +27,8 @@ import {
   type AdaptiveScore,
 } from './scoring';
 import { createEvaluationTransport } from './transport';
+import { scoreAdaptiveResponseV2 } from './scoring-v2';
+import { Decimal } from '../../shared/money';
 
 const defaultOutput = '.tools/adaptive-evaluation-output';
 function json(path: string): unknown {
@@ -89,18 +92,27 @@ export async function runEvaluation(output = defaultOutput) {
     throw Error('EVALUATION_AUTHORIZATION_MISMATCH');
   if (process.env.AI_PROVIDER !== 'gemini' || process.env.AI_MODEL !== PROTOCOL.model)
     throw Error('EVALUATION_PROVIDER_MISMATCH');
+  const predecessor = validatePredecessorEvidence();
+  if (JSON.stringify(authorization.predecessor) !== JSON.stringify(predecessor))
+    throw Error('EVALUATION_PREDECESSOR_AUTHORIZATION_MISMATCH');
+  const { expectedKeySha256, ...safePredecessor } = predecessor;
   const apiKey = process.env.GEMINI_API_KEY?.trim();
   const keyHash = process.env.EVALUATION_KEY_SHA256;
   if (!apiKey || !keyHash) throw Error('EVALUATION_KEY_MISSING');
+  if (keyHash !== expectedKeySha256) throw Error('EVALUATION_PREDECESSOR_KEY_MISMATCH');
   const cases = loadCases(binding.phase);
   const schedule = pairedSchedule(cases, binding.phase);
   const phase = PROTOCOL.phases[binding.phase];
+  if (new Decimal(predecessor.chargedUsd).plus(phase.ceilingUsd).gt(PROTOCOL.totalCeilingUsd))
+    throw Error('EVALUATION_CUMULATIVE_ALLOWANCE_EXCEEDED');
   writeEvidence(join(output, 'run.json'), {
     version: PROTOCOL.version,
     ...binding,
     cohort: PROTOCOL.cohort,
     source,
     protocol: PROTOCOL,
+    predecessor: safePredecessor,
+    scoringVersion: 'adaptive-scoring-v2',
     startedAt: new Date().toISOString(),
     schedule: schedule.map(({ item, route }) => ({ caseId: item.id, route })),
     data: 'new isolated synthetic workspaces only',
@@ -190,7 +202,14 @@ export async function runEvaluation(output = defaultOutput) {
       writeEvidence(join(directory, 'after.json'), after);
       if (after.sha256 !== before.sha256) throw Error('EVALUATION_BOOKS_CHANGED');
       if (evaluationSource().hash !== source.hash) throw Error('EVALUATION_SOURCE_DRIFT');
-      const score = scoreAdaptiveResponse(item, outcome, {
+      const scoringContext = {
+        organizationId: fixture.orgId,
+        chart: fixture.chart,
+        counterparties: fixture.counterparties,
+      };
+      const originalV1Score = scoreAdaptiveResponse(item, outcome, scoringContext);
+      writeEvidence(join(directory, 'score-v1.json'), originalV1Score);
+      const score = scoreAdaptiveResponseV2(item, outcome, {
         organizationId: fixture.orgId,
         chart: fixture.chart,
         counterparties: fixture.counterparties,
@@ -278,6 +297,20 @@ export async function runEvaluation(output = defaultOutput) {
     trials,
     aggregate,
     budget,
+    predecessor: safePredecessor,
+    scoringVersion: 'adaptive-scoring-v2',
+    cumulativeAccounting: {
+      priorChargedUsd: predecessor.chargedUsd,
+      currentChargedUsd: (budget as { chargedUsd: string }).chargedUsd,
+      totalChargedUsd: new Decimal(predecessor.chargedUsd)
+        .plus((budget as { chargedUsd: string }).chargedUsd)
+        .toString(),
+      priorAttempts: predecessor.attempts,
+      currentAttempts: (budget as { attempts: number }).attempts,
+      totalAttempts: predecessor.attempts + (budget as { attempts: number }).attempts,
+      totalCeilingUsd: PROTOCOL.totalCeilingUsd,
+      unusedDevelopmentTransferred: false,
+    },
     initialFingerprint: fixture?.initialFingerprint ?? null,
     finalFingerprint,
     finishedAt: new Date().toISOString(),

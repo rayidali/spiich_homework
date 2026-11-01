@@ -1,6 +1,12 @@
 import { pathToFileURL } from 'node:url';
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { evaluationSource, PROTOCOL, validateRunEnvironment } from './protocol';
+import {
+  evaluationSource,
+  PREDECESSOR,
+  PROTOCOL,
+  validatePredecessorEvidence,
+  validateRunEnvironment,
+} from './protocol';
 
 type Run = {
   id: number;
@@ -16,10 +22,11 @@ export function assertNoPreviousRun(runs: Run[], runId: string, phase: string) {
   if (runs.some((run) => run.display_title === title && String(run.id) !== runId))
     throw Error('EVALUATION_COHORT_ALREADY_DISPATCHED');
 }
-export function assertDevelopmentRun(run: Run, sourceCommit: string) {
+export function assertDevelopmentRun(run: Run) {
   if (
+    String(run.id) !== PREDECESSOR.runId ||
     run.display_title !== `adaptive-evaluation/${PROTOCOL.cohort}/development` ||
-    run.head_sha !== sourceCommit ||
+    run.head_sha !== PREDECESSOR.sourceCommit ||
     run.run_attempt !== 1 ||
     run.event !== 'workflow_dispatch' ||
     run.status !== 'completed' ||
@@ -81,8 +88,9 @@ export async function authorizeEvaluation() {
   if (!complete || !observedCurrent) throw Error('EVALUATION_RUN_HISTORY_INCOMPLETE');
   if (binding.phase === 'holdout') {
     if (!observedDevelopment) throw Error('EVALUATION_DEVELOPMENT_WORKFLOW_MISMATCH');
-    assertDevelopmentRun(await get(`/runs/${process.env.EVALUATION_DEVELOPMENT_RUN}`), binding.sourceCommit);
+    assertDevelopmentRun(await get(`/runs/${process.env.EVALUATION_DEVELOPMENT_RUN}`));
   }
+  const predecessor = validatePredecessorEvidence();
   mkdirSync('.tools/adaptive-evaluation-output', { recursive: true, mode: 0o700 });
   writeFileSync(
     '.tools/adaptive-evaluation-output/authorization.json',
@@ -92,6 +100,7 @@ export async function authorizeEvaluation() {
         sourceHash: source.hash,
         cohort: PROTOCOL.cohort,
         developmentRun: process.env.EVALUATION_DEVELOPMENT_RUN || null,
+        predecessor,
         recordedAt: new Date().toISOString(),
         providerCalls: 0,
       },

@@ -1,0 +1,1817 @@
+{
+  "version": "adaptive-development-v1-sanitized-outcomes",
+  "sourceCommit": "e0f21342e90c08ebe6f6152f587038ff4d283c28",
+  "sourceHash": "5339d774fb3c60dedd7ce985a234e82b2c0b7739b7005418620666cc2d9ccda3",
+  "redaction": "Only synthetic questions, application responses, exact tool calls, inspection facts and nonsecret usage are included. Authentication, key bindings, raw provider envelopes, provider signatures and private headers are omitted.",
+  "outcomes": [
+    {
+      "caseId": "D01",
+      "route": "composable",
+      "question": "How much did we spend on Software & subscriptions from 2026-05-01 to 2026-05-31?",
+      "durationMs": 1309,
+      "original": {
+        "outcomeSha256": "3a758d3fbfc8b22e8c864dec7dfcbdad078e4b71ec1f1e41d0b1a195cf0f5de2",
+        "scoreSha256": "956c284ddd6d85f88e5d29880f20c78670c7463847d48ff679ad20a860dfd534",
+        "beforeSha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579",
+        "afterSha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+      },
+      "response": {
+        "answer": "You recorded $210.00 USD in Software & subscriptions expenses from 2026-05-01 to 2026-05-31. Posted credits and reversals are included in this total.",
+        "evidence": [
+          {
+            "title": "Expenses · Software & subscriptions",
+            "period": "2026-05-01 → 2026-05-31",
+            "rows": [
+              {
+                "label": "Software & subscriptions",
+                "value": "$210.00",
+                "href": "/accounts?account=39a3f5f4-473e-4c8e-9de8-61f0da736a37&from=2026-05-01&to=2026-05-31"
+              }
+            ],
+            "href": "/accounts?account=39a3f5f4-473e-4c8e-9de8-61f0da736a37&from=2026-05-01&to=2026-05-31",
+            "scope": "Matched the expense account and date range stated in your question."
+          }
+        ],
+        "query": {
+          "name": "expense_by_account",
+          "args": {
+            "accountCode": "5020",
+            "from": "2026-05-01",
+            "to": "2026-05-31"
+          }
+        },
+        "scopeVerification": {
+          "rule": "explicit_expense_scope_v1",
+          "userMessageIndex": 0,
+          "accountSpan": {
+            "start": 25,
+            "end": 49
+          },
+          "requestedAccount": {
+            "id": "39a3f5f4-473e-4c8e-9de8-61f0da736a37",
+            "code": "5020",
+            "name": "Software & subscriptions"
+          },
+          "resolvedPostingAccountIds": ["39a3f5f4-473e-4c8e-9de8-61f0da736a37"],
+          "period": {
+            "requested": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "fromSpan": {
+                "start": 55,
+                "end": 65
+              },
+              "toSpan": {
+                "start": 69,
+                "end": 79
+              }
+            },
+            "executed": {
+              "from": "2026-05-01",
+              "to": "2026-05-31"
+            }
+          },
+          "checkedFields": [
+            "accountScope",
+            "metric",
+            "aggregation",
+            "status",
+            "currencyMode",
+            "currency",
+            "grouping",
+            "counterparty",
+            "descriptionSearch",
+            "cooccurringAccounts",
+            "amountBounds",
+            "from",
+            "to"
+          ]
+        }
+      },
+      "providerAttempts": [
+        {
+          "attemptId": "0001",
+          "httpStatus": 200,
+          "knownCostUsd": "0.0031662",
+          "usage": {
+            "inputTokens": 8679,
+            "outputTokens": 52,
+            "thinkingTokens": 173,
+            "totalTokens": 8904
+          },
+          "toolCalls": [
+            {
+              "name": "expense_by_account",
+              "args": {
+                "accountCode": "5020",
+                "to": "2026-05-31",
+                "from": "2026-05-01"
+              }
+            }
+          ],
+          "inspectionFeedback": []
+        }
+      ]
+    },
+    {
+      "caseId": "D01",
+      "route": "adaptive",
+      "question": "How much did we spend on Software & subscriptions from 2026-05-01 to 2026-05-31?",
+      "durationMs": 1269,
+      "original": {
+        "outcomeSha256": "a00a406c63ed21fcf85d86d9f957129e97d4efcb746fdeedcffe20f3fbcabc32",
+        "scoreSha256": "956c284ddd6d85f88e5d29880f20c78670c7463847d48ff679ad20a860dfd534",
+        "beforeSha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579",
+        "afterSha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+      },
+      "response": {
+        "answer": "You recorded $210.00 USD in Software & subscriptions expenses from 2026-05-01 to 2026-05-31. Posted credits and reversals are included in this total.",
+        "evidence": [
+          {
+            "title": "Expenses · Software & subscriptions",
+            "period": "2026-05-01 → 2026-05-31",
+            "rows": [
+              {
+                "label": "Software & subscriptions",
+                "value": "$210.00",
+                "href": "/accounts?account=39a3f5f4-473e-4c8e-9de8-61f0da736a37&from=2026-05-01&to=2026-05-31"
+              }
+            ],
+            "href": "/accounts?account=39a3f5f4-473e-4c8e-9de8-61f0da736a37&from=2026-05-01&to=2026-05-31",
+            "scope": "Matched the expense account and date range stated in your question."
+          }
+        ],
+        "query": {
+          "name": "expense_by_account",
+          "args": {
+            "accountCode": "5020",
+            "from": "2026-05-01",
+            "to": "2026-05-31"
+          }
+        },
+        "scopeVerification": {
+          "rule": "explicit_expense_scope_v1",
+          "userMessageIndex": 0,
+          "accountSpan": {
+            "start": 25,
+            "end": 49
+          },
+          "requestedAccount": {
+            "id": "39a3f5f4-473e-4c8e-9de8-61f0da736a37",
+            "code": "5020",
+            "name": "Software & subscriptions"
+          },
+          "resolvedPostingAccountIds": ["39a3f5f4-473e-4c8e-9de8-61f0da736a37"],
+          "period": {
+            "requested": {
+              "from": "2026-05-01",
+              "to": "2026-05-31",
+              "fromSpan": {
+                "start": 55,
+                "end": 65
+              },
+              "toSpan": {
+                "start": 69,
+                "end": 79
+              }
+            },
+            "executed": {
+              "from": "2026-05-01",
+              "to": "2026-05-31"
+            }
+          },
+          "checkedFields": [
+            "accountScope",
+            "metric",
+            "aggregation",
+            "status",
+            "currencyMode",
+            "currency",
+            "grouping",
+            "counterparty",
+            "descriptionSearch",
+            "cooccurringAccounts",
+            "amountBounds",
+            "from",
+            "to"
+          ]
+        }
+      },
+      "providerAttempts": [
+        {
+          "attemptId": "0002",
+          "httpStatus": 200,
+          "knownCostUsd": "0.0040976",
+          "usage": {
+            "inputTokens": 11767,
+            "outputTokens": 52,
+            "thinkingTokens": 175,
+            "totalTokens": 11994
+          },
+          "toolCalls": [
+            {
+              "name": "expense_by_account",
+              "args": {
+                "to": "2026-05-31",
+                "accountCode": "5020",
+                "from": "2026-05-01"
+              }
+            }
+          ],
+          "inspectionFeedback": []
+        }
+      ]
+    },
+    {
+      "caseId": "D02",
+      "route": "adaptive",
+      "question": "Which recorded counterparty caused the largest net decrease in cash from 2026-05-01 to 2026-05-31? Compare that same exact recorded counterparty's net cash movement from 2026-06-01 to 2026-06-30 and give the signed June-minus-May change.",
+      "durationMs": 4863,
+      "original": {
+        "outcomeSha256": "24a5bc1dc6f83992da80c7ebebd8ab36acbb732688f03dbedd222c2b518c1367",
+        "scoreSha256": "4ed0f942bb4c365ec717f0d0358e719681049beb50687c940c9ccbc3e636021f",
+        "beforeSha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579",
+        "afterSha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+      },
+      "response": {
+        "answer": "I couldn't complete that analysis. An operand needs its exact, non-null row from a complete query result. No financial answer has been substituted.",
+        "evidence": [],
+        "query": {
+          "name": "calculate_from_inspection",
+          "args": {
+            "assumptions": [],
+            "calculations": [
+              {
+                "id": "june_minus_may",
+                "operation": "subtract",
+                "operands": [
+                  {
+                    "source": "query",
+                    "id": "june_movement",
+                    "rowId": "total:total",
+                    "field": "value"
+                  },
+                  {
+                    "source": "query",
+                    "id": "may_movement",
+                    "rowId": "counterparty:Cedar%20Properties",
+                    "field": "value"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "limitation": {
+          "code": "INVALID_SCENARIO"
+        },
+        "inspection": {
+          "state": "ready",
+          "readRounds": 2,
+          "queryCount": 2,
+          "retainedResultsUnchanged": true,
+          "snapshotPolicy": "reexecute_all_queries_and_verify_prior_results",
+          "maximumReadRounds": 2,
+          "maximumQueries": 4,
+          "maximumFeedbackBytes": 65536,
+          "scopeNormalizations": [],
+          "verifiedReadScopes": [],
+          "formulaIntentVerified": false
+        }
+      },
+      "providerAttempts": [
+        {
+          "attemptId": "0003",
+          "httpStatus": 200,
+          "knownCostUsd": "0.0059398",
+          "usage": {
+            "inputTokens": 11816,
+            "outputTokens": 152,
+            "thinkingTokens": 806,
+            "totalTokens": 12774
+          },
+          "toolCalls": [
+            {
+              "name": "inspect_financial_data",
+              "args": {
+                "queries": [
+                  {
+                    "order": "value_asc",
+                    "currencyMode": "base",
+                    "accountCodes": [],
+                    "aggregation": "sum",
+                    "groupBy": "counterparty",
+                    "status": "POSTED",
+                    "from": "2026-05-01",
+                    "cooccurringAccountCodes": [],
+                    "to": "2026-05-31",
+                    "limit": 5,
+                    "id": "may_movement",
+                    "maximumAmount": null,
+                    "metric": "net_cash_movement",
+                    "descriptionSearch": "",
+                    "minimumAmount": null,
+                    "counterpartySource": null,
+                    "currency": null,
+                    "counterparty": {
+                      "mode": "any",
+                      "value": ""
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "inspectionFeedback": []
+        },
+        {
+          "attemptId": "0004",
+          "httpStatus": 200,
+          "knownCostUsd": "0.0029747",
+          "usage": {
+            "inputTokens": 8474,
+            "outputTokens": 173,
+            "thinkingTokens": 0,
+            "totalTokens": 8647
+          },
+          "toolCalls": [
+            {
+              "name": "inspect_financial_data",
+              "args": {
+                "queries": [
+                  {
+                    "cooccurringAccountCodes": [],
+                    "counterparty": {
+                      "value": "",
+                      "mode": "any"
+                    },
+                    "descriptionSearch": "",
+                    "minimumAmount": null,
+                    "maximumAmount": null,
+                    "to": "2026-06-30",
+                    "counterpartySource": {
+                      "queryId": "may_movement",
+                      "rowId": "counterparty:Cedar%20Properties"
+                    },
+                    "metric": "net_cash_movement",
+                    "groupBy": "total",
+                    "status": "POSTED",
+                    "order": "value_desc",
+                    "limit": 1,
+                    "from": "2026-06-01",
+                    "aggregation": "sum",
+                    "accountCodes": [],
+                    "currency": null,
+                    "id": "june_movement",
+                    "currencyMode": "base"
+                  }
+                ]
+              }
+            }
+          ],
+          "inspectionFeedback": [
+            {
+              "kind": "untrusted_financial_inspection_results",
+              "readRounds": 1,
+              "queryCount": 1,
+              "facts": [
+                {
+                  "queryId": "may_movement",
+                  "metric": "net_cash_movement",
+                  "aggregation": "sum",
+                  "grain": "counterparty",
+                  "unit": "USD",
+                  "currency": "USD",
+                  "rows": [
+                    {
+                      "rowId": "counterparty:Cedar%20Properties",
+                      "label": "Cedar Properties",
+                      "value": "-900.00",
+                      "entryCount": "1",
+                      "from": "2026-05-01",
+                      "to": "2026-05-31"
+                    },
+                    {
+                      "rowId": "counterparty:Acme",
+                      "label": "Acme",
+                      "value": "-385.00",
+                      "entryCount": "3",
+                      "from": "2026-05-01",
+                      "to": "2026-05-31"
+                    },
+                    {
+                      "rowId": "counterparty:acme",
+                      "label": "acme",
+                      "value": "-360.00",
+                      "entryCount": "1",
+                      "from": "2026-05-01",
+                      "to": "2026-05-31"
+                    },
+                    {
+                      "rowId": "counterparty:Paper%20Ferry",
+                      "label": "Paper Ferry",
+                      "value": "-310.00",
+                      "entryCount": "1",
+                      "from": "2026-05-01",
+                      "to": "2026-05-31"
+                    },
+                    {
+                      "rowId": "counterparty:Orbit%20Tools",
+                      "label": "Orbit Tools",
+                      "value": "-140.00",
+                      "entryCount": "1",
+                      "from": "2026-05-01",
+                      "to": "2026-05-31"
+                    }
+                  ],
+                  "truncated": true,
+                  "scope": {
+                    "organizationId": "d28dd289-4c1b-4a7f-a8fd-a4d9a264410e",
+                    "plan": {
+                      "id": "may_movement",
+                      "metric": "net_cash_movement",
+                      "aggregation": "sum",
+                      "from": "2026-05-01",
+                      "to": "2026-05-31",
+                      "status": "POSTED",
+                      "currencyMode": "base",
+                      "currency": null,
+                      "groupBy": "counterparty",
+                      "accountCodes": [],
+                      "cooccurringAccountCodes": [],
+                      "counterparty": {
+                        "mode": "any",
+                        "value": ""
+                      },
+                      "descriptionSearch": "",
+                      "minimumAmount": null,
+                      "maximumAmount": null,
+                      "order": "value_asc",
+                      "limit": 5
+                    },
+                    "resolvedAccountIds": [
+                      "855f2bc1-ea82-4891-807b-140c7453f4d2",
+                      "b28a3feb-aa5e-4a16-8f53-fb66467df04e",
+                      "c08c5bf6-baf3-4719-af04-7e47862b6e61"
+                    ],
+                    "cooccurringAccountIds": [],
+                    "amountBasis": "net_cash_movement_base_lines",
+                    "statusMeaning": "booked",
+                    "cashMovementSource": {
+                      "selection": "all_cash_asset_posting_accounts",
+                      "accounts": [
+                        {
+                          "id": "855f2bc1-ea82-4891-807b-140c7453f4d2",
+                          "code": "1010",
+                          "type": "ASSET",
+                          "currency": "USD",
+                          "is_cash": true,
+                          "is_group": false,
+                          "archived": false
+                        },
+                        {
+                          "id": "b28a3feb-aa5e-4a16-8f53-fb66467df04e",
+                          "code": "1020",
+                          "type": "ASSET",
+                          "currency": "EUR",
+                          "is_cash": true,
+                          "is_group": false,
+                          "archived": false
+                        },
+                        {
+                          "id": "c08c5bf6-baf3-4719-af04-7e47862b6e61",
+                          "code": "1030",
+                          "type": "ASSET",
+                          "currency": "USD",
+                          "is_cash": true,
+                          "is_group": false,
+                          "archived": true
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "attemptId": "0005",
+          "httpStatus": 200,
+          "knownCostUsd": "0.0022052",
+          "usage": {
+            "inputTokens": 6484,
+            "outputTokens": 104,
+            "thinkingTokens": 0,
+            "totalTokens": 6588
+          },
+          "toolCalls": [
+            {
+              "name": "calculate_from_inspection",
+              "args": {
+                "calculations": [
+                  {
+                    "operation": "subtract",
+                    "operands": [
+                      {
+                        "field": "value",
+                        "id": "june_movement",
+                        "source": "query",
+                        "rowId": "total:total"
+                      },
+                      {
+                        "rowId": "counterparty:Cedar%20Properties",
+                        "field": "value",
+                        "source": "query",
+                        "id": "may_movement"
+                      }
+                    ],
+                    "id": "june_minus_may"
+                  }
+                ],
+                "assumptions": []
+              }
+            }
+          ],
+          "inspectionFeedback": [
+            {
+              "kind": "untrusted_financial_inspection_results",
+              "readRounds": 2,
+              "queryCount": 2,
+              "facts": [
+                {
+                  "queryId": "may_movement",
+                  "metric": "net_cash_movement",
+                  "aggregation": "sum",
+                  "grain": "counterparty",
+                  "unit": "USD",
+                  "currency": "USD",
+                  "rows": [
+                    {
+                      "rowId": "counterparty:Cedar%20Properties",
+                      "label": "Cedar Properties",
+                      "value": "-900.00",
+                      "entryCount": "1",
+                      "from": "2026-05-01",
+                      "to": "2026-05-31"
+                    },
+                    {
+                      "rowId": "counterparty:Acme",
+                      "label": "Acme",
+                      "value": "-385.00",
+                      "entryCount": "3",
+                      "from": "2026-05-01",
+                      "to": "2026-05-31"
+                    },
+                    {
+                      "rowId": "counterparty:acme",
+                      "label": "acme",
+                      "value": "-360.00",
+                      "entryCount": "1",
+                      "from": "2026-05-01",
+                      "to": "2026-05-31"
+                    },
+                    {
+                      "rowId": "counterparty:Paper%20Ferry",
+                      "label": "Paper Ferry",
+                      "value": "-310.00",
+                      "entryCount": "1",
+                      "from": "2026-05-01",
+                      "to": "2026-05-31"
+                    },
+                    {
+                      "rowId": "counterparty:Orbit%20Tools",
+                      "label": "Orbit Tools",
+                      "value": "-140.00",
+                      "entryCount": "1",
+                      "from": "2026-05-01",
+                      "to": "2026-05-31"
+                    }
+                  ],
+                  "truncated": true,
+                  "scope": {
+                    "organizationId": "d28dd289-4c1b-4a7f-a8fd-a4d9a264410e",
+                    "plan": {
+                      "id": "may_movement",
+                      "metric": "net_cash_movement",
+                      "aggregation": "sum",
+                      "from": "2026-05-01",
+                      "to": "2026-05-31",
+                      "status": "POSTED",
+                      "currencyMode": "base",
+                      "currency": null,
+                      "groupBy": "counterparty",
+                      "accountCodes": [],
+                      "cooccurringAccountCodes": [],
+                      "counterparty": {
+                        "mode": "any",
+                        "value": ""
+                      },
+                      "descriptionSearch": "",
+                      "minimumAmount": null,
+                      "maximumAmount": null,
+                      "order": "value_asc",
+                      "limit": 5
+                    },
+                    "resolvedAccountIds": [
+                      "855f2bc1-ea82-4891-807b-140c7453f4d2",
+                      "b28a3feb-aa5e-4a16-8f53-fb66467df04e",
+                      "c08c5bf6-baf3-4719-af04-7e47862b6e61"
+                    ],
+                    "cooccurringAccountIds": [],
+                    "amountBasis": "net_cash_movement_base_lines",
+                    "statusMeaning": "booked",
+                    "cashMovementSource": {
+                      "selection": "all_cash_asset_posting_accounts",
+                      "accounts": [
+                        {
+                          "id": "855f2bc1-ea82-4891-807b-140c7453f4d2",
+                          "code": "1010",
+                          "type": "ASSET",
+                          "currency": "USD",
+                          "is_cash": true,
+                          "is_group": false,
+                          "archived": false
+                        },
+                        {
+                          "id": "b28a3feb-aa5e-4a16-8f53-fb66467df04e",
+                          "code": "1020",
+                          "type": "ASSET",
+                          "currency": "EUR",
+                          "is_cash": true,
+                          "is_group": false,
+                          "archived": false
+                        },
+                        {
+                          "id": "c08c5bf6-baf3-4719-af04-7e47862b6e61",
+                          "code": "1030",
+                          "type": "ASSET",
+                          "currency": "USD",
+                          "is_cash": true,
+                          "is_group": false,
+                          "archived": true
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "queryId": "june_movement",
+                  "metric": "net_cash_movement",
+                  "aggregation": "sum",
+                  "grain": "total",
+                  "unit": "USD",
+                  "currency": "USD",
+                  "rows": [
+                    {
+                      "rowId": "total:total",
+                      "label": "Total",
+                      "value": "-970.00",
+                      "entryCount": "1",
+                      "from": "2026-06-01",
+                      "to": "2026-06-30"
+                    }
+                  ],
+                  "truncated": false,
+                  "scope": {
+                    "organizationId": "d28dd289-4c1b-4a7f-a8fd-a4d9a264410e",
+                    "plan": {
+                      "id": "june_movement",
+                      "metric": "net_cash_movement",
+                      "aggregation": "sum",
+                      "from": "2026-06-01",
+                      "to": "2026-06-30",
+                      "status": "POSTED",
+                      "currencyMode": "base",
+                      "currency": null,
+                      "groupBy": "total",
+                      "accountCodes": [],
+                      "cooccurringAccountCodes": [],
+                      "counterparty": {
+                        "mode": "identity",
+                        "value": "Cedar Properties"
+                      },
+                      "descriptionSearch": "",
+                      "minimumAmount": null,
+                      "maximumAmount": null,
+                      "order": "value_desc",
+                      "limit": 1
+                    },
+                    "resolvedAccountIds": [
+                      "855f2bc1-ea82-4891-807b-140c7453f4d2",
+                      "b28a3feb-aa5e-4a16-8f53-fb66467df04e",
+                      "c08c5bf6-baf3-4719-af04-7e47862b6e61"
+                    ],
+                    "cooccurringAccountIds": [],
+                    "amountBasis": "net_cash_movement_base_lines",
+                    "statusMeaning": "booked",
+                    "counterpartyIdentity": {
+                      "queryId": "may_movement",
+                      "rowId": "counterparty:Cedar%20Properties",
+                      "key": "Cedar Properties"
+                    },
+                    "cashMovementSource": {
+                      "selection": "all_cash_asset_posting_accounts",
+                      "accounts": [
+                        {
+                          "id": "855f2bc1-ea82-4891-807b-140c7453f4d2",
+                          "code": "1010",
+                          "type": "ASSET",
+                          "currency": "USD",
+                          "is_cash": true,
+                          "is_group": false,
+                          "archived": false
+                        },
+                        {
+                          "id": "b28a3feb-aa5e-4a16-8f53-fb66467df04e",
+                          "code": "1020",
+                          "type": "ASSET",
+                          "currency": "EUR",
+                          "is_cash": true,
+                          "is_group": false,
+                          "archived": false
+                        },
+                        {
+                          "id": "c08c5bf6-baf3-4719-af04-7e47862b6e61",
+                          "code": "1030",
+                          "type": "ASSET",
+                          "currency": "USD",
+                          "is_cash": true,
+                          "is_group": false,
+                          "archived": true
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "caseId": "D02",
+      "route": "composable",
+      "question": "Which recorded counterparty caused the largest net decrease in cash from 2026-05-01 to 2026-05-31? Compare that same exact recorded counterparty's net cash movement from 2026-06-01 to 2026-06-30 and give the signed June-minus-May change.",
+      "durationMs": 3744,
+      "original": {
+        "outcomeSha256": "5ce019e306030b1fcd586fd60e217bc3db6dde3cf6714c923cad41a169a3ec04",
+        "scoreSha256": "115a719ce0f0971cc22796dcfa4a675165cc288bcea1e0fbcad4b9e062ef023e",
+        "beforeSha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579",
+        "afterSha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+      },
+      "response": {
+        "answer": "Net cash and bank movement. 2026-05-01 to 2026-05-31. Showing 5 results. There are more; these are not the complete results.\n\nNet cash and bank movement. 2026-06-01 to 2026-06-30. Showing 5 results. There are more; these are not the complete results.",
+        "evidence": [
+          {
+            "title": "Net cash and bank movement",
+            "period": "2026-05-01 → 2026-05-31",
+            "source": "posted",
+            "scope": "2026-05-01 to 2026-05-31, including both dates. Recorded transactions; corrections count on their own dates. All cash-designated asset posting accounts, including archived accounts; receivables, equipment and other noncash assets are excluded. By person or business; smallest values first. Amounts are added together. Cash debits minus cash credits: positive means an increase and negative means a decrease. This is the net movement, not the closing balance, revenue, profit or gross receipts/payments. Transfers cancel across cash accounts included in the same total; individual account or native-currency results can contain only one side. Saved-rate currency transfers can include a recorded carrying-value difference. Amounts are in USD, using the exchange rates saved with each transaction; these are recorded carrying amounts, not current-rate revaluation",
+            "rows": [
+              {
+                "label": "Cedar Properties",
+                "value": "-$900.00"
+              },
+              {
+                "label": "Acme",
+                "value": "-$385.00"
+              },
+              {
+                "label": "acme",
+                "value": "-$360.00"
+              },
+              {
+                "label": "Paper Ferry",
+                "value": "-$310.00"
+              },
+              {
+                "label": "Orbit Tools",
+                "value": "-$140.00"
+              }
+            ],
+            "href": "/reports?from=2026-05-01&to=2026-05-31"
+          },
+          {
+            "title": "Net cash and bank movement",
+            "period": "2026-06-01 → 2026-06-30",
+            "source": "posted",
+            "scope": "2026-06-01 to 2026-06-30, including both dates. Recorded transactions; corrections count on their own dates. All cash-designated asset posting accounts, including archived accounts; receivables, equipment and other noncash assets are excluded. By person or business; smallest values first. Amounts are added together. Cash debits minus cash credits: positive means an increase and negative means a decrease. This is the net movement, not the closing balance, revenue, profit or gross receipts/payments. Transfers cancel across cash accounts included in the same total; individual account or native-currency results can contain only one side. Saved-rate currency transfers can include a recorded carrying-value difference. Amounts are in USD, using the exchange rates saved with each transaction; these are recorded carrying amounts, not current-rate revaluation",
+            "rows": [
+              {
+                "label": "Cedar Properties",
+                "value": "-$970.00"
+              },
+              {
+                "label": "acme",
+                "value": "-$615.00"
+              },
+              {
+                "label": "Device Wharf",
+                "value": "-$500.00"
+              },
+              {
+                "label": "Cobalt Contractors",
+                "value": "-$475.00"
+              },
+              {
+                "label": "Funding Bank",
+                "value": "-$300.00"
+              }
+            ],
+            "href": "/reports?from=2026-06-01&to=2026-06-30"
+          }
+        ],
+        "query": {
+          "name": "financial_analysis",
+          "args": {
+            "queries": [
+              {
+                "id": "may_cash_by_counterparty",
+                "metric": "net_cash_movement",
+                "aggregation": "sum",
+                "from": "2026-05-01",
+                "to": "2026-05-31",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "counterparty",
+                "accountCodes": [],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_asc",
+                "limit": 5
+              },
+              {
+                "id": "june_cash_by_counterparty",
+                "metric": "net_cash_movement",
+                "aggregation": "sum",
+                "from": "2026-06-01",
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "counterparty",
+                "accountCodes": [],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_asc",
+                "limit": 5
+              }
+            ]
+          }
+        },
+        "facts": [
+          {
+            "queryId": "may_cash_by_counterparty",
+            "metric": "net_cash_movement",
+            "aggregation": "sum",
+            "grain": "counterparty",
+            "unit": "USD",
+            "currency": "USD",
+            "rows": [
+              {
+                "rowId": "counterparty:Cedar%20Properties",
+                "label": "Cedar Properties",
+                "value": "-900.00",
+                "entryCount": "1",
+                "from": "2026-05-01",
+                "to": "2026-05-31"
+              },
+              {
+                "rowId": "counterparty:Acme",
+                "label": "Acme",
+                "value": "-385.00",
+                "entryCount": "3",
+                "from": "2026-05-01",
+                "to": "2026-05-31"
+              },
+              {
+                "rowId": "counterparty:acme",
+                "label": "acme",
+                "value": "-360.00",
+                "entryCount": "1",
+                "from": "2026-05-01",
+                "to": "2026-05-31"
+              },
+              {
+                "rowId": "counterparty:Paper%20Ferry",
+                "label": "Paper Ferry",
+                "value": "-310.00",
+                "entryCount": "1",
+                "from": "2026-05-01",
+                "to": "2026-05-31"
+              },
+              {
+                "rowId": "counterparty:Orbit%20Tools",
+                "label": "Orbit Tools",
+                "value": "-140.00",
+                "entryCount": "1",
+                "from": "2026-05-01",
+                "to": "2026-05-31"
+              }
+            ],
+            "truncated": true,
+            "scope": {
+              "organizationId": "d28dd289-4c1b-4a7f-a8fd-a4d9a264410e",
+              "plan": {
+                "id": "may_cash_by_counterparty",
+                "metric": "net_cash_movement",
+                "aggregation": "sum",
+                "from": "2026-05-01",
+                "to": "2026-05-31",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "counterparty",
+                "accountCodes": [],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_asc",
+                "limit": 5
+              },
+              "resolvedAccountIds": [
+                "855f2bc1-ea82-4891-807b-140c7453f4d2",
+                "b28a3feb-aa5e-4a16-8f53-fb66467df04e",
+                "c08c5bf6-baf3-4719-af04-7e47862b6e61"
+              ],
+              "cooccurringAccountIds": [],
+              "amountBasis": "net_cash_movement_base_lines",
+              "statusMeaning": "booked",
+              "cashMovementSource": {
+                "selection": "all_cash_asset_posting_accounts",
+                "accounts": [
+                  {
+                    "id": "855f2bc1-ea82-4891-807b-140c7453f4d2",
+                    "code": "1010",
+                    "type": "ASSET",
+                    "currency": "USD",
+                    "is_cash": true,
+                    "is_group": false,
+                    "archived": false
+                  },
+                  {
+                    "id": "b28a3feb-aa5e-4a16-8f53-fb66467df04e",
+                    "code": "1020",
+                    "type": "ASSET",
+                    "currency": "EUR",
+                    "is_cash": true,
+                    "is_group": false,
+                    "archived": false
+                  },
+                  {
+                    "id": "c08c5bf6-baf3-4719-af04-7e47862b6e61",
+                    "code": "1030",
+                    "type": "ASSET",
+                    "currency": "USD",
+                    "is_cash": true,
+                    "is_group": false,
+                    "archived": true
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "queryId": "june_cash_by_counterparty",
+            "metric": "net_cash_movement",
+            "aggregation": "sum",
+            "grain": "counterparty",
+            "unit": "USD",
+            "currency": "USD",
+            "rows": [
+              {
+                "rowId": "counterparty:Cedar%20Properties",
+                "label": "Cedar Properties",
+                "value": "-970.00",
+                "entryCount": "1",
+                "from": "2026-06-01",
+                "to": "2026-06-30"
+              },
+              {
+                "rowId": "counterparty:acme",
+                "label": "acme",
+                "value": "-615.00",
+                "entryCount": "1",
+                "from": "2026-06-01",
+                "to": "2026-06-30"
+              },
+              {
+                "rowId": "counterparty:Device%20Wharf",
+                "label": "Device Wharf",
+                "value": "-500.00",
+                "entryCount": "1",
+                "from": "2026-06-01",
+                "to": "2026-06-30"
+              },
+              {
+                "rowId": "counterparty:Cobalt%20Contractors",
+                "label": "Cobalt Contractors",
+                "value": "-475.00",
+                "entryCount": "1",
+                "from": "2026-06-01",
+                "to": "2026-06-30"
+              },
+              {
+                "rowId": "counterparty:Funding%20Bank",
+                "label": "Funding Bank",
+                "value": "-300.00",
+                "entryCount": "1",
+                "from": "2026-06-01",
+                "to": "2026-06-30"
+              }
+            ],
+            "truncated": true,
+            "scope": {
+              "organizationId": "d28dd289-4c1b-4a7f-a8fd-a4d9a264410e",
+              "plan": {
+                "id": "june_cash_by_counterparty",
+                "metric": "net_cash_movement",
+                "aggregation": "sum",
+                "from": "2026-06-01",
+                "to": "2026-06-30",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "counterparty",
+                "accountCodes": [],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_asc",
+                "limit": 5
+              },
+              "resolvedAccountIds": [
+                "855f2bc1-ea82-4891-807b-140c7453f4d2",
+                "b28a3feb-aa5e-4a16-8f53-fb66467df04e",
+                "c08c5bf6-baf3-4719-af04-7e47862b6e61"
+              ],
+              "cooccurringAccountIds": [],
+              "amountBasis": "net_cash_movement_base_lines",
+              "statusMeaning": "booked",
+              "cashMovementSource": {
+                "selection": "all_cash_asset_posting_accounts",
+                "accounts": [
+                  {
+                    "id": "855f2bc1-ea82-4891-807b-140c7453f4d2",
+                    "code": "1010",
+                    "type": "ASSET",
+                    "currency": "USD",
+                    "is_cash": true,
+                    "is_group": false,
+                    "archived": false
+                  },
+                  {
+                    "id": "b28a3feb-aa5e-4a16-8f53-fb66467df04e",
+                    "code": "1020",
+                    "type": "ASSET",
+                    "currency": "EUR",
+                    "is_cash": true,
+                    "is_group": false,
+                    "archived": false
+                  },
+                  {
+                    "id": "c08c5bf6-baf3-4719-af04-7e47862b6e61",
+                    "code": "1030",
+                    "type": "ASSET",
+                    "currency": "USD",
+                    "is_cash": true,
+                    "is_group": false,
+                    "archived": true
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "providerAttempts": [
+        {
+          "attemptId": "0006",
+          "httpStatus": 200,
+          "knownCostUsd": "0.0063109",
+          "usage": {
+            "inputTokens": 8728,
+            "outputTokens": 286,
+            "thinkingTokens": 1191,
+            "totalTokens": 10205
+          },
+          "toolCalls": [
+            {
+              "name": "financial_analysis",
+              "args": {
+                "queries": [
+                  {
+                    "maximumAmount": null,
+                    "currencyMode": "base",
+                    "cooccurringAccountCodes": [],
+                    "status": "POSTED",
+                    "accountCodes": [],
+                    "groupBy": "counterparty",
+                    "aggregation": "sum",
+                    "to": "2026-05-31",
+                    "currency": null,
+                    "metric": "net_cash_movement",
+                    "minimumAmount": null,
+                    "limit": 5,
+                    "descriptionSearch": "",
+                    "from": "2026-05-01",
+                    "id": "may_cash_by_counterparty",
+                    "counterparty": {
+                      "mode": "any",
+                      "value": ""
+                    },
+                    "order": "value_asc"
+                  },
+                  {
+                    "counterparty": {
+                      "value": "",
+                      "mode": "any"
+                    },
+                    "aggregation": "sum",
+                    "cooccurringAccountCodes": [],
+                    "minimumAmount": null,
+                    "to": "2026-06-30",
+                    "groupBy": "counterparty",
+                    "descriptionSearch": "",
+                    "accountCodes": [],
+                    "from": "2026-06-01",
+                    "status": "POSTED",
+                    "order": "value_asc",
+                    "currency": null,
+                    "maximumAmount": null,
+                    "limit": 5,
+                    "id": "june_cash_by_counterparty",
+                    "currencyMode": "base",
+                    "metric": "net_cash_movement"
+                  }
+                ]
+              }
+            }
+          ],
+          "inspectionFeedback": []
+        }
+      ]
+    },
+    {
+      "caseId": "D03",
+      "route": "composable",
+      "question": "For 2026-05-01 through 2026-05-31, show Office supplies and Marketing expenses separately and their combined total.",
+      "durationMs": 2925,
+      "original": {
+        "outcomeSha256": "dedf8b824f1dde4206956e366c09f89d156e3162873dc0509bda2f160cacc5f8",
+        "scoreSha256": "97ef425d8e15028d825b1d7707f86048af68e822f34f63930072a27983e209a9",
+        "beforeSha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579",
+        "afterSha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+      },
+      "response": {
+        "answer": "Net expenses · Office supplies: $675.00. 2026-05-01 to 2026-05-31. All 1 results are shown.\n\nNet expenses · Marketing: $80.00. 2026-05-01 to 2026-05-31. All 1 results are shown.\n\nNet expenses · Office supplies, Marketing: $755.00. 2026-05-01 to 2026-05-31. All 1 results are shown.",
+        "evidence": [
+          {
+            "title": "Net expenses · Office supplies",
+            "period": "2026-05-01 → 2026-05-31",
+            "source": "posted",
+            "scope": "2026-05-01 to 2026-05-31, including both dates. Recorded transactions; corrections count on their own dates. Accounts: 5030 Office supplies. One total; largest values first. Amounts are added together. Amounts are in USD, using the exchange rates saved with each transaction; these are recorded carrying amounts, not current-rate revaluation",
+            "rows": [
+              {
+                "label": "Total",
+                "value": "$675.00"
+              }
+            ],
+            "href": "/reports?from=2026-05-01&to=2026-05-31"
+          },
+          {
+            "title": "Net expenses · Marketing",
+            "period": "2026-05-01 → 2026-05-31",
+            "source": "posted",
+            "scope": "2026-05-01 to 2026-05-31, including both dates. Recorded transactions; corrections count on their own dates. Accounts: 5040 Marketing. One total; largest values first. Amounts are added together. Amounts are in USD, using the exchange rates saved with each transaction; these are recorded carrying amounts, not current-rate revaluation",
+            "rows": [
+              {
+                "label": "Total",
+                "value": "$80.00"
+              }
+            ],
+            "href": "/reports?from=2026-05-01&to=2026-05-31"
+          },
+          {
+            "title": "Net expenses · Office supplies, Marketing",
+            "period": "2026-05-01 → 2026-05-31",
+            "source": "posted",
+            "scope": "2026-05-01 to 2026-05-31, including both dates. Recorded transactions; corrections count on their own dates. Accounts: 5030 Office supplies, 5040 Marketing. One total; largest values first. Amounts are added together. Amounts are in USD, using the exchange rates saved with each transaction; these are recorded carrying amounts, not current-rate revaluation",
+            "rows": [
+              {
+                "label": "Total",
+                "value": "$755.00"
+              }
+            ],
+            "href": "/reports?from=2026-05-01&to=2026-05-31"
+          }
+        ],
+        "query": {
+          "name": "financial_analysis",
+          "args": {
+            "queries": [
+              {
+                "id": "office_supplies",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-05-01",
+                "to": "2026-05-31",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "total",
+                "accountCodes": ["5030"],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 5
+              },
+              {
+                "id": "marketing",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-05-01",
+                "to": "2026-05-31",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "total",
+                "accountCodes": ["5040"],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 5
+              },
+              {
+                "id": "combined",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-05-01",
+                "to": "2026-05-31",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "total",
+                "accountCodes": ["5030", "5040"],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 5
+              }
+            ]
+          }
+        },
+        "facts": [
+          {
+            "queryId": "office_supplies",
+            "metric": "net_expense",
+            "aggregation": "sum",
+            "grain": "total",
+            "unit": "USD",
+            "currency": "USD",
+            "rows": [
+              {
+                "rowId": "total:total",
+                "label": "Total",
+                "value": "675.00",
+                "entryCount": "5",
+                "from": "2026-05-01",
+                "to": "2026-05-31"
+              }
+            ],
+            "truncated": false,
+            "scope": {
+              "organizationId": "d28dd289-4c1b-4a7f-a8fd-a4d9a264410e",
+              "plan": {
+                "id": "office_supplies",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-05-01",
+                "to": "2026-05-31",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "total",
+                "accountCodes": ["5030"],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 5
+              },
+              "resolvedAccountIds": ["34ca65c4-0f48-4414-8adf-2a1edf2c96da"],
+              "cooccurringAccountIds": [],
+              "amountBasis": "selected_metric_base_lines",
+              "statusMeaning": "booked"
+            }
+          },
+          {
+            "queryId": "marketing",
+            "metric": "net_expense",
+            "aggregation": "sum",
+            "grain": "total",
+            "unit": "USD",
+            "currency": "USD",
+            "rows": [
+              {
+                "rowId": "total:total",
+                "label": "Total",
+                "value": "80.00",
+                "entryCount": "1",
+                "from": "2026-05-01",
+                "to": "2026-05-31"
+              }
+            ],
+            "truncated": false,
+            "scope": {
+              "organizationId": "d28dd289-4c1b-4a7f-a8fd-a4d9a264410e",
+              "plan": {
+                "id": "marketing",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-05-01",
+                "to": "2026-05-31",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "total",
+                "accountCodes": ["5040"],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 5
+              },
+              "resolvedAccountIds": ["84f84d8b-d60d-4c36-8e5e-dd196b72d135"],
+              "cooccurringAccountIds": [],
+              "amountBasis": "selected_metric_base_lines",
+              "statusMeaning": "booked"
+            }
+          },
+          {
+            "queryId": "combined",
+            "metric": "net_expense",
+            "aggregation": "sum",
+            "grain": "total",
+            "unit": "USD",
+            "currency": "USD",
+            "rows": [
+              {
+                "rowId": "total:total",
+                "label": "Total",
+                "value": "755.00",
+                "entryCount": "6",
+                "from": "2026-05-01",
+                "to": "2026-05-31"
+              }
+            ],
+            "truncated": false,
+            "scope": {
+              "organizationId": "d28dd289-4c1b-4a7f-a8fd-a4d9a264410e",
+              "plan": {
+                "id": "combined",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-05-01",
+                "to": "2026-05-31",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "total",
+                "accountCodes": ["5030", "5040"],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 5
+              },
+              "resolvedAccountIds": [
+                "34ca65c4-0f48-4414-8adf-2a1edf2c96da",
+                "84f84d8b-d60d-4c36-8e5e-dd196b72d135"
+              ],
+              "cooccurringAccountIds": [],
+              "amountBasis": "selected_metric_base_lines",
+              "statusMeaning": "booked"
+            }
+          }
+        ]
+      },
+      "providerAttempts": [
+        {
+          "attemptId": "0007",
+          "httpStatus": 200,
+          "knownCostUsd": "0.0052521",
+          "usage": {
+            "inputTokens": 8682,
+            "outputTokens": 419,
+            "thinkingTokens": 640,
+            "totalTokens": 9741
+          },
+          "toolCalls": [
+            {
+              "name": "financial_analysis",
+              "args": {
+                "queries": [
+                  {
+                    "status": "POSTED",
+                    "aggregation": "sum",
+                    "counterparty": {
+                      "mode": "any",
+                      "value": ""
+                    },
+                    "id": "office_supplies",
+                    "accountCodes": ["5030"],
+                    "order": "value_desc",
+                    "limit": 5,
+                    "currencyMode": "base",
+                    "currency": null,
+                    "groupBy": "total",
+                    "descriptionSearch": "",
+                    "minimumAmount": null,
+                    "maximumAmount": null,
+                    "cooccurringAccountCodes": [],
+                    "metric": "net_expense",
+                    "to": "2026-05-31",
+                    "from": "2026-05-01"
+                  },
+                  {
+                    "counterparty": {
+                      "mode": "any",
+                      "value": ""
+                    },
+                    "accountCodes": ["5040"],
+                    "currencyMode": "base",
+                    "cooccurringAccountCodes": [],
+                    "groupBy": "total",
+                    "metric": "net_expense",
+                    "to": "2026-05-31",
+                    "minimumAmount": null,
+                    "limit": 5,
+                    "maximumAmount": null,
+                    "id": "marketing",
+                    "aggregation": "sum",
+                    "from": "2026-05-01",
+                    "order": "value_desc",
+                    "currency": null,
+                    "descriptionSearch": "",
+                    "status": "POSTED"
+                  },
+                  {
+                    "to": "2026-05-31",
+                    "cooccurringAccountCodes": [],
+                    "status": "POSTED",
+                    "currencyMode": "base",
+                    "from": "2026-05-01",
+                    "counterparty": {
+                      "mode": "any",
+                      "value": ""
+                    },
+                    "groupBy": "total",
+                    "accountCodes": ["5030", "5040"],
+                    "order": "value_desc",
+                    "minimumAmount": null,
+                    "id": "combined",
+                    "aggregation": "sum",
+                    "maximumAmount": null,
+                    "currency": null,
+                    "descriptionSearch": "",
+                    "metric": "net_expense",
+                    "limit": 5
+                  }
+                ]
+              }
+            }
+          ],
+          "inspectionFeedback": []
+        }
+      ]
+    },
+    {
+      "caseId": "D03",
+      "route": "adaptive",
+      "question": "For 2026-05-01 through 2026-05-31, show Office supplies and Marketing expenses separately and their combined total.",
+      "durationMs": 1652,
+      "original": {
+        "outcomeSha256": "f17b6a564c7dc266433a5c98b548a3763ae446d4d5d99ef4dcb83776c93e601f",
+        "scoreSha256": "89f1153c0e075798fba22ada0db8cab98c2cd90c74d8574d4fc7161b6f967566",
+        "beforeSha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579",
+        "afterSha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+      },
+      "response": {
+        "answer": "Net expenses · Office supplies, Marketing. 2026-05-01 to 2026-05-31. All 2 results are shown.",
+        "evidence": [
+          {
+            "title": "Net expenses · Office supplies, Marketing",
+            "period": "2026-05-01 → 2026-05-31",
+            "source": "posted",
+            "scope": "2026-05-01 to 2026-05-31, including both dates. Recorded transactions; corrections count on their own dates. Accounts: 5030 Office supplies, 5040 Marketing. By account; largest values first. Amounts are added together. Amounts are in USD, using the exchange rates saved with each transaction; these are recorded carrying amounts, not current-rate revaluation",
+            "rows": [
+              {
+                "label": "5030 · Office supplies",
+                "value": "$675.00"
+              },
+              {
+                "label": "5040 · Marketing",
+                "value": "$80.00"
+              }
+            ],
+            "href": "/reports?from=2026-05-01&to=2026-05-31"
+          }
+        ],
+        "query": {
+          "name": "financial_analysis",
+          "args": {
+            "queries": [
+              {
+                "id": "q1",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-05-01",
+                "to": "2026-05-31",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "account",
+                "accountCodes": ["5030", "5040"],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 50
+              }
+            ]
+          }
+        },
+        "facts": [
+          {
+            "queryId": "q1",
+            "metric": "net_expense",
+            "aggregation": "sum",
+            "grain": "account",
+            "unit": "USD",
+            "currency": "USD",
+            "rows": [
+              {
+                "rowId": "account:34ca65c4-0f48-4414-8adf-2a1edf2c96da",
+                "label": "5030 · Office supplies",
+                "value": "675.00",
+                "entryCount": "5",
+                "from": "2026-05-01",
+                "to": "2026-05-31"
+              },
+              {
+                "rowId": "account:84f84d8b-d60d-4c36-8e5e-dd196b72d135",
+                "label": "5040 · Marketing",
+                "value": "80.00",
+                "entryCount": "1",
+                "from": "2026-05-01",
+                "to": "2026-05-31"
+              }
+            ],
+            "truncated": false,
+            "scope": {
+              "organizationId": "d28dd289-4c1b-4a7f-a8fd-a4d9a264410e",
+              "plan": {
+                "id": "q1",
+                "metric": "net_expense",
+                "aggregation": "sum",
+                "from": "2026-05-01",
+                "to": "2026-05-31",
+                "status": "POSTED",
+                "currencyMode": "base",
+                "currency": null,
+                "groupBy": "account",
+                "accountCodes": ["5030", "5040"],
+                "cooccurringAccountCodes": [],
+                "counterparty": {
+                  "mode": "any",
+                  "value": ""
+                },
+                "descriptionSearch": "",
+                "minimumAmount": null,
+                "maximumAmount": null,
+                "order": "value_desc",
+                "limit": 50
+              },
+              "resolvedAccountIds": [
+                "34ca65c4-0f48-4414-8adf-2a1edf2c96da",
+                "84f84d8b-d60d-4c36-8e5e-dd196b72d135"
+              ],
+              "cooccurringAccountIds": [],
+              "amountBasis": "selected_metric_base_lines",
+              "statusMeaning": "booked"
+            }
+          }
+        ]
+      },
+      "providerAttempts": [
+        {
+          "attemptId": "0008",
+          "httpStatus": 200,
+          "knownCostUsd": "0.0046085",
+          "usage": {
+            "inputTokens": 11770,
+            "outputTokens": 154,
+            "thinkingTokens": 277,
+            "totalTokens": 12201
+          },
+          "toolCalls": [
+            {
+              "name": "financial_analysis",
+              "args": {
+                "queries": [
+                  {
+                    "metric": "net_expense",
+                    "limit": 50,
+                    "status": "POSTED",
+                    "minimumAmount": null,
+                    "groupBy": "account",
+                    "accountCodes": ["5030", "5040"],
+                    "currency": null,
+                    "cooccurringAccountCodes": [],
+                    "order": "value_desc",
+                    "to": "2026-05-31",
+                    "id": "q1",
+                    "counterparty": {
+                      "value": "",
+                      "mode": "any"
+                    },
+                    "from": "2026-05-01",
+                    "descriptionSearch": "",
+                    "maximumAmount": null,
+                    "currencyMode": "base",
+                    "aggregation": "sum"
+                  }
+                ]
+              }
+            }
+          ],
+          "inspectionFeedback": []
+        }
+      ]
+    },
+    {
+      "caseId": "D04",
+      "route": "adaptive",
+      "question": "In recorded entry AD-MIX on 2026-05-28, exactly how many dollars of Office supplies were funded by Operating bank versus Company credit card? Do not substitute a list of entries.",
+      "durationMs": 1911,
+      "original": {
+        "outcomeSha256": "5e99e75d238fb1820585fba35b1c79e1d42d1bc1eef3ff460b55383e78afbb28",
+        "scoreSha256": "b5b6e30fda4a72690d254bba858e5ea27287f6d2c2fdb2282a8c65351befe027",
+        "beforeSha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579",
+        "afterSha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+      },
+      "response": {
+        "answer": "A journal can contain several expense and payment lines without saying which payment funded each item. I can show entries containing those accounts, but cannot infer that allocation. Would those entries help?",
+        "evidence": [],
+        "query": {
+          "name": "request_details",
+          "args": {
+            "reason": "unsupported_query",
+            "subject": "transactions",
+            "accountCodes": ["5030", "1010", "2100"],
+            "limitation": "payment_allocation"
+          }
+        }
+      },
+      "providerAttempts": [
+        {
+          "attemptId": "0009",
+          "httpStatus": 200,
+          "knownCostUsd": "0.0049156",
+          "usage": {
+            "inputTokens": 11777,
+            "outputTokens": 58,
+            "thinkingTokens": 495,
+            "totalTokens": 12330
+          },
+          "toolCalls": [
+            {
+              "name": "request_details",
+              "args": {
+                "accountCodes": ["5030", "1010", "2100"],
+                "limitation": "payment_allocation",
+                "subject": "transactions",
+                "reason": "unsupported_query"
+              }
+            }
+          ],
+          "inspectionFeedback": []
+        }
+      ]
+    },
+    {
+      "caseId": "D04",
+      "route": "composable",
+      "question": "In recorded entry AD-MIX on 2026-05-28, exactly how many dollars of Office supplies were funded by Operating bank versus Company credit card? Do not substitute a list of entries.",
+      "durationMs": 1514,
+      "original": {
+        "outcomeSha256": "5712588bc67e85d42a45c86202275d4caebc46417e9fc8e853bc3b9109a33beb",
+        "scoreSha256": "b5b6e30fda4a72690d254bba858e5ea27287f6d2c2fdb2282a8c65351befe027",
+        "beforeSha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579",
+        "afterSha256": "f432b40d7bf86b9cc07b538ca52f3fb235ab1afa325419c02858d6d9761f4579"
+      },
+      "response": {
+        "answer": "A journal can contain several expense and payment lines without saying which payment funded each item. I can show entries containing those accounts, but cannot infer that allocation. Would those entries help?",
+        "evidence": [],
+        "query": {
+          "name": "request_details",
+          "args": {
+            "reason": "unsupported_query",
+            "subject": "expenses",
+            "accountCodes": ["5030"],
+            "limitation": "payment_allocation"
+          }
+        }
+      },
+      "providerAttempts": [
+        {
+          "attemptId": "0010",
+          "httpStatus": 200,
+          "knownCostUsd": "0.0035817",
+          "usage": {
+            "inputTokens": 8689,
+            "outputTokens": 44,
+            "thinkingTokens": 346,
+            "totalTokens": 9079
+          },
+          "toolCalls": [
+            {
+              "name": "request_details",
+              "args": {
+                "limitation": "payment_allocation",
+                "accountCodes": ["5030"],
+                "subject": "expenses",
+                "reason": "unsupported_query"
+              }
+            }
+          ],
+          "inspectionFeedback": []
+        }
+      ]
+    }
+  ]
+}

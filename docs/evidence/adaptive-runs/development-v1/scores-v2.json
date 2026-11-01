@@ -1,0 +1,447 @@
+{
+  "version": "adaptive-development-scores-v2",
+  "developmentRun": "41256839576",
+  "providerCalls": 0,
+  "trials": [
+    {
+      "caseId": "D01",
+      "route": "composable",
+      "score": {
+        "caseId": "D01",
+        "split": "development",
+        "family": "common",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+        "requiredClaims": 1,
+        "matchedClaims": ["software_may"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "D01",
+            "split": "development",
+            "family": "common",
+            "classification": "structured-correct",
+            "passed": true,
+            "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+            "requiredClaims": 1,
+            "matchedClaims": ["software_may"],
+            "extraClaims": 0,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "D01",
+      "route": "adaptive",
+      "score": {
+        "caseId": "D01",
+        "split": "development",
+        "family": "common",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+        "requiredClaims": 1,
+        "matchedClaims": ["software_may"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "D01",
+            "split": "development",
+            "family": "common",
+            "classification": "structured-correct",
+            "passed": true,
+            "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+            "requiredClaims": 1,
+            "matchedClaims": ["software_may"],
+            "extraClaims": 0,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "D02",
+      "route": "adaptive",
+      "score": {
+        "caseId": "D02",
+        "split": "development",
+        "family": "discovery",
+        "classification": "safe-no-answer",
+        "passed": false,
+        "reasons": ["ANSWERABLE_COVERAGE_MISS"],
+        "requiredClaims": 3,
+        "matchedClaims": [],
+        "extraClaims": 0,
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "D02",
+            "split": "development",
+            "family": "discovery",
+            "classification": "safe-no-answer",
+            "passed": false,
+            "reasons": ["ANSWERABLE_COVERAGE_MISS"],
+            "requiredClaims": 3,
+            "matchedClaims": [],
+            "extraClaims": 0,
+            "numericCorrect": false,
+            "scopeCorrect": false,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "D02",
+      "route": "composable",
+      "score": {
+        "caseId": "D02",
+        "split": "development",
+        "family": "discovery",
+        "classification": "partial-answer",
+        "passed": false,
+        "reasons": ["MISSING_REQUIRED_CLAIMS", "EXTRA_ROWS_INDEPENDENTLY_VERIFIED_TRUE"],
+        "requiredClaims": 3,
+        "matchedClaims": ["selected_june", "selected_may"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "D02",
+            "split": "development",
+            "family": "discovery",
+            "classification": "wrong-answer",
+            "passed": false,
+            "reasons": ["UNEXPECTED_OR_INCORRECT_FINANCIAL_CLAIMS"],
+            "requiredClaims": 3,
+            "matchedClaims": ["selected_may", "selected_june"],
+            "extraClaims": 4,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 4,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [
+            {
+              "queryId": "june_cash_by_counterparty",
+              "rowId": "counterparty:acme",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "june_cash_by_counterparty",
+              "rowId": "counterparty:Device%20Wharf",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "june_cash_by_counterparty",
+              "rowId": "counterparty:Cobalt%20Contractors",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "june_cash_by_counterparty",
+              "rowId": "counterparty:Funding%20Bank",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            }
+          ],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "D03",
+      "route": "composable",
+      "score": {
+        "caseId": "D03",
+        "split": "development",
+        "family": "arithmetic",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["V2_EXACT_CLAIMS_WITH_DISCLOSED_EQUIVALENCES"],
+        "requiredClaims": 3,
+        "matchedClaims": ["combined", "marketing", "supplies"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "D03",
+            "split": "development",
+            "family": "arithmetic",
+            "classification": "wrong-answer",
+            "passed": false,
+            "reasons": ["UNEXPECTED_OR_INCORRECT_FINANCIAL_CLAIMS"],
+            "requiredClaims": 3,
+            "matchedClaims": ["supplies", "marketing"],
+            "extraClaims": 1,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [
+            { "requiredClaimId": "combined", "accountCodes": ["5030", "5040"], "matched": true }
+          ],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "D03",
+      "route": "adaptive",
+      "score": {
+        "caseId": "D03",
+        "split": "development",
+        "family": "arithmetic",
+        "classification": "partial-answer",
+        "passed": false,
+        "reasons": ["MISSING_REQUIRED_CLAIMS"],
+        "requiredClaims": 3,
+        "matchedClaims": ["marketing", "supplies"],
+        "extraClaims": 0,
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "D03",
+            "split": "development",
+            "family": "arithmetic",
+            "classification": "partial-answer",
+            "passed": false,
+            "reasons": ["MISSING_REQUIRED_CLAIMS"],
+            "requiredClaims": 3,
+            "matchedClaims": ["marketing", "supplies"],
+            "extraClaims": 0,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [
+            { "requiredClaimId": "combined", "accountCodes": ["5030", "5040"], "matched": false }
+          ],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "D04",
+      "route": "adaptive",
+      "score": {
+        "caseId": "D04",
+        "split": "development",
+        "family": "clarification",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "requiredClaims": 0,
+        "matchedClaims": [],
+        "extraClaims": 0,
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "D04",
+            "split": "development",
+            "family": "clarification",
+            "classification": "structured-correct",
+            "passed": true,
+            "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+            "requiredClaims": 0,
+            "matchedClaims": [],
+            "extraClaims": 0,
+            "numericCorrect": false,
+            "scopeCorrect": false,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "D04",
+      "route": "composable",
+      "score": {
+        "caseId": "D04",
+        "split": "development",
+        "family": "clarification",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "requiredClaims": 0,
+        "matchedClaims": [],
+        "extraClaims": 0,
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "D04",
+            "split": "development",
+            "family": "clarification",
+            "classification": "structured-correct",
+            "passed": true,
+            "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+            "requiredClaims": 0,
+            "matchedClaims": [],
+            "extraClaims": 0,
+            "numericCorrect": false,
+            "scopeCorrect": false,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "split": "development",
+    "plannedPairs": 4,
+    "completedPairs": 4,
+    "complete": true,
+    "expectedDesignPairs": 4,
+    "designCountMatches": true,
+    "composablePassed": 3,
+    "adaptivePassed": 2,
+    "bothPass": 2,
+    "bothFail": 1,
+    "composableOnly": 1,
+    "adaptiveOnly": 0,
+    "pairedDifference": -0.25,
+    "exactTwoSidedMcNemarP": 1,
+    "composableWilson95": [0.30064184258240184, 0.9544127391902995],
+    "adaptiveWilson95": [0.15003898915214947, 0.8499610108478506],
+    "adaptiveWinAmongDiscordantWilson95": [0, 0.7934506856227626],
+    "families": [
+      { "family": "arithmetic", "planned": 1, "paired": 1, "composablePassed": 1, "adaptivePassed": 0 },
+      { "family": "clarification", "planned": 1, "paired": 1, "composablePassed": 1, "adaptivePassed": 1 },
+      { "family": "common", "planned": 1, "paired": 1, "composablePassed": 1, "adaptivePassed": 1 },
+      { "family": "discovery", "planned": 1, "paired": 1, "composablePassed": 0, "adaptivePassed": 0 }
+    ],
+    "pairs": [
+      {
+        "caseId": "D01",
+        "family": "common",
+        "composable": true,
+        "adaptive": true,
+        "composableClassification": "structured-correct",
+        "adaptiveClassification": "structured-correct"
+      },
+      {
+        "caseId": "D02",
+        "family": "discovery",
+        "composable": false,
+        "adaptive": false,
+        "composableClassification": "partial-answer",
+        "adaptiveClassification": "safe-no-answer"
+      },
+      {
+        "caseId": "D03",
+        "family": "arithmetic",
+        "composable": true,
+        "adaptive": false,
+        "composableClassification": "structured-correct",
+        "adaptiveClassification": "partial-answer"
+      },
+      {
+        "caseId": "D04",
+        "family": "clarification",
+        "composable": true,
+        "adaptive": true,
+        "composableClassification": "structured-correct",
+        "adaptiveClassification": "structured-correct"
+      }
+    ],
+    "interpretation": "Small purpose-built paired set, one outcome per route and question. Exact McNemar is descriptive; Wilson intervals are not paired-effect intervals. No universal accuracy or causal superiority claim."
+  },
+  "limitations": [
+    "Post-development grader calibration on existing outputs; not new independent model evidence."
+  ]
+}

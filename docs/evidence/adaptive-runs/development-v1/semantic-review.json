@@ -1,0 +1,283 @@
+{
+  "version": "adaptive-development-v1-internal-semantic-review",
+  "phase": "development",
+  "reviewer": {
+    "kind": "internal_AI_artifact_review",
+    "independentHumanReview": false,
+    "relationship": "A separate review of retained outcomes against original questions and independent fixture arithmetic; the reviewing coding agent also authored the scorer."
+  },
+  "sourceCommit": "e0f21342e90c08ebe6f6152f587038ff4d283c28",
+  "sourceHash": "5339d774fb3c60dedd7ce985a234e82b2c0b7739b7005418620666cc2d9ccda3",
+  "runId": "41256839576",
+  "primary": {
+    "composable": {
+      "passed": 2,
+      "total": 4
+    },
+    "adaptive": {
+      "passed": 2,
+      "total": 4
+    },
+    "unchanged": true
+  },
+  "separateSemanticCompleteness": {
+    "composable": {
+      "complete": 3,
+      "total": 4
+    },
+    "adaptive": {
+      "complete": 2,
+      "total": 4
+    },
+    "notReplacementPrimaryScore": true,
+    "notHeldOutAccuracy": true
+  },
+  "observations": {
+    "reviewedExecutions": 8,
+    "observedFalseDollarClaims": 0,
+    "observedHardBoundaryViolations": 0,
+    "scope": "Limited to the retained eight development responses and their synthetic-source evidence; not universal correctness."
+  },
+  "findings": [
+    {
+      "caseId": "D01",
+      "route": "composable",
+      "automatic": "structured-correct",
+      "manual": "complete-correct",
+      "complete": true,
+      "kind": "agreement",
+      "reason": "The answer gives posted May Software & subscriptions (5020), USD210.00, with the requested account and dates."
+    },
+    {
+      "caseId": "D01",
+      "route": "adaptive",
+      "automatic": "structured-correct",
+      "manual": "complete-correct",
+      "complete": true,
+      "kind": "agreement",
+      "reason": "The matching narrow tool returns the same USD210.00 and exact account/date scope without an unnecessary inspection round."
+    },
+    {
+      "caseId": "D02",
+      "route": "composable",
+      "automatic": "wrong-answer",
+      "manual": "incomplete-with-true-extra-results",
+      "complete": false,
+      "kind": "classification-caveat",
+      "reason": "The two independently ranked top-five lists include the correct Cedar Properties May and June amounts, but omit the requested signed June-minus-May change. Four June rows are not in the expected catalogue; all ten displayed amounts are independently correct. The automatic label is not evidence of a wrong dollar amount."
+    },
+    {
+      "caseId": "D02",
+      "route": "adaptive",
+      "automatic": "safe-no-answer",
+      "manual": "safely-withheld-incomplete",
+      "complete": false,
+      "kind": "model-plan-completeness-failure",
+      "reason": "The model discovered Cedar Properties and bound the June query to that exact returned identity. It then tried to use a row from its truncated May discovery as a calculation operand. The declared completeness gate refused it, and the final answer contained no amounts. The second read could have requested both complete selected-May and selected-June totals; this was not done."
+    },
+    {
+      "caseId": "D03",
+      "route": "composable",
+      "automatic": "wrong-answer",
+      "manual": "complete-correct",
+      "complete": true,
+      "kind": "grader-false-negative",
+      "reason": "Three posted May net-expense queries return supplies675.00, marketing80.00 and their disjoint account-union sum755.00. The user requested a combined total, not a particular tool representation. The scorer required a calculation-kind claim and rejected this equivalent ledger aggregate as an extra."
+    },
+    {
+      "caseId": "D03",
+      "route": "adaptive",
+      "automatic": "partial-answer",
+      "manual": "partial-answer",
+      "complete": false,
+      "kind": "agreement",
+      "reason": "Both separate category amounts are correct, but no combined755.00 is shown. Correct partial data does not satisfy the full question."
+    },
+    {
+      "caseId": "D04",
+      "route": "composable",
+      "automatic": "structured-correct",
+      "manual": "correct-refusal",
+      "complete": true,
+      "kind": "agreement",
+      "reason": "The answer explains that the journal does not map individual expense lines to funding lines. It offers a possible entry view without substituting one or inventing an allocation."
+    },
+    {
+      "caseId": "D04",
+      "route": "adaptive",
+      "automatic": "structured-correct",
+      "manual": "correct-refusal",
+      "complete": true,
+      "kind": "agreement",
+      "reason": "The payment-allocation limitation is explicit and no numerical split is invented."
+    }
+  ],
+  "checks": {
+    "D01": {
+      "accountCode": "5020",
+      "from": "2026-05-01",
+      "to": "2026-05-31",
+      "reference": "210.00"
+    },
+    "D02": {
+      "allDisplayedRowsMatchIndependentReference": true,
+      "rows": [
+        {
+          "queryId": "may_cash_by_counterparty",
+          "rawCounterparty": "Cedar Properties",
+          "from": "2026-05-01",
+          "to": "2026-05-31",
+          "observed": "-900.00",
+          "independentReference": "-900.00",
+          "matches": true
+        },
+        {
+          "queryId": "may_cash_by_counterparty",
+          "rawCounterparty": "Acme",
+          "from": "2026-05-01",
+          "to": "2026-05-31",
+          "observed": "-385.00",
+          "independentReference": "-385.00",
+          "matches": true
+        },
+        {
+          "queryId": "may_cash_by_counterparty",
+          "rawCounterparty": "acme",
+          "from": "2026-05-01",
+          "to": "2026-05-31",
+          "observed": "-360.00",
+          "independentReference": "-360.00",
+          "matches": true
+        },
+        {
+          "queryId": "may_cash_by_counterparty",
+          "rawCounterparty": "Paper Ferry",
+          "from": "2026-05-01",
+          "to": "2026-05-31",
+          "observed": "-310.00",
+          "independentReference": "-310.00",
+          "matches": true
+        },
+        {
+          "queryId": "may_cash_by_counterparty",
+          "rawCounterparty": "Orbit Tools",
+          "from": "2026-05-01",
+          "to": "2026-05-31",
+          "observed": "-140.00",
+          "independentReference": "-140.00",
+          "matches": true
+        },
+        {
+          "queryId": "june_cash_by_counterparty",
+          "rawCounterparty": "Cedar Properties",
+          "from": "2026-06-01",
+          "to": "2026-06-30",
+          "observed": "-970.00",
+          "independentReference": "-970.00",
+          "matches": true
+        },
+        {
+          "queryId": "june_cash_by_counterparty",
+          "rawCounterparty": "acme",
+          "from": "2026-06-01",
+          "to": "2026-06-30",
+          "observed": "-615.00",
+          "independentReference": "-615.00",
+          "matches": true
+        },
+        {
+          "queryId": "june_cash_by_counterparty",
+          "rawCounterparty": "Device Wharf",
+          "from": "2026-06-01",
+          "to": "2026-06-30",
+          "observed": "-500.00",
+          "independentReference": "-500.00",
+          "matches": true
+        },
+        {
+          "queryId": "june_cash_by_counterparty",
+          "rawCounterparty": "Cobalt Contractors",
+          "from": "2026-06-01",
+          "to": "2026-06-30",
+          "observed": "-475.00",
+          "independentReference": "-475.00",
+          "matches": true
+        },
+        {
+          "queryId": "june_cash_by_counterparty",
+          "rawCounterparty": "Funding Bank",
+          "from": "2026-06-01",
+          "to": "2026-06-30",
+          "observed": "-300.00",
+          "independentReference": "-300.00",
+          "matches": true
+        }
+      ],
+      "requiredSignedChange": "-70.00",
+      "maySelected": "-900.00",
+      "juneSelected": "-970.00",
+      "adaptiveReadRounds": 2,
+      "adaptiveProviderAttempts": 3,
+      "adaptiveMayTruncated": true,
+      "adaptiveJuneIdentityReference": {
+        "queryId": "may_movement",
+        "rowId": "counterparty:Cedar%20Properties",
+        "rawKey": "Cedar Properties"
+      },
+      "finalArithmeticWithheld": true
+    },
+    "D03": {
+      "equivalenceBasis": "Additivity of the same signed expense measure over disjoint effective posting-account sets; not numeric coincidence.",
+      "leftAccountCodes": ["5030"],
+      "rightAccountCodes": ["5040"],
+      "unionAccountCodes": ["5030", "5040"],
+      "setsDisjoint": true,
+      "matchingScope": {
+        "from": "2026-05-01",
+        "to": "2026-05-31",
+        "status": "POSTED",
+        "currencyMode": "base",
+        "currency": null,
+        "aggregation": "sum",
+        "counterparty": {
+          "mode": "any",
+          "value": ""
+        },
+        "descriptionSearch": "",
+        "cooccurringAccountCodes": [],
+        "minimumAmount": null,
+        "maximumAmount": null
+      },
+      "left": "675.00",
+      "right": "80.00",
+      "union": "755.00",
+      "independentUnionReference": "755.00"
+    },
+    "D04": {
+      "reference": "AD-MIX",
+      "date": "2026-05-28",
+      "expenseLines": {
+        "Office_supplies": "40.00",
+        "Rent": "60.00"
+      },
+      "fundingLines": {
+        "Operating_bank": "70.00",
+        "Company_credit_card": "30.00"
+      },
+      "lineToFundingAllocationExists": false
+    }
+  },
+  "actions": {
+    "rewroteOriginalScores": false,
+    "changedRuntimeOrProtocol": false,
+    "repeatedTrials": false,
+    "reviewProviderCalls": 0,
+    "reviewDatabaseCalls": 0
+  },
+  "limitations": [
+    "Four internally authored development cases, each run once per route.",
+    "The reviewer is an AI coding agent, not an independent human accountant or external evaluator.",
+    "The semantic review cannot be pooled into a held-out score or used to claim provider superiority.",
+    "A known scorer representation gap requires a disclosed correction/version before claiming a general comparison; original failures remain available."
+  ]
+}
