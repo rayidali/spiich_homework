@@ -1,0 +1,93 @@
+name: Bounded adaptive financial-chat comparison
+run-name: adaptive-evaluation/${{ inputs.cohort }}/${{ inputs.phase }}
+on:
+  workflow_dispatch:
+    inputs:
+      cohort:
+        description: Frozen cohort identity; each phase may be dispatched only once
+        type: string
+        required: true
+      phase:
+        description: Run development first; review its retained evidence before holdout
+        type: choice
+        options: [development, holdout]
+        required: true
+      source_commit:
+        description: Exact reviewed Git commit
+        type: string
+        required: true
+      source_hash:
+        description: Exact runtime/evaluator/protocol source fingerprint
+        type: string
+        required: true
+      development_run:
+        description: Successful development run ID, required for holdout
+        type: string
+        default: ''
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: adaptive-evaluation-${{ inputs.cohort }}
+  cancel-in-progress: false
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_USER: spiich
+          POSTGRES_PASSWORD: spiich
+          POSTGRES_DB: daybook_adaptive_eval_v1
+        ports: [5432:5432]
+        options: >-
+          --health-cmd "pg_isready -U spiich -d daybook_adaptive_eval_v1"
+          --health-interval 3s --health-timeout 3s --health-retries 20
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgres://spiich_app:spiich_app_local@127.0.0.1:5432/daybook_adaptive_eval_v1
+      MIGRATION_DATABASE_URL: postgres://spiich:spiich@127.0.0.1:5432/daybook_adaptive_eval_v1
+      AI_PROVIDER: gemini
+      AI_MODEL: gemini-3.5-flash-lite
+      GEMINI_API_KEY: ''
+      OPENAI_API_KEY: ''
+      TYPESAFE_API_KEY: ''
+      EVALUATION_COHORT: ${{ inputs.cohort }}
+      EVALUATION_PHASE: ${{ inputs.phase }}
+      EVALUATION_SOURCE_COMMIT: ${{ inputs.source_commit }}
+      EVALUATION_SOURCE_HASH: ${{ inputs.source_hash }}
+      EVALUATION_DEVELOPMENT_RUN: ${{ inputs.development_run }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Authorize exact source and reject reused cohort or rerun
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node --import tsx scripts/adaptive-evaluation/authorize.ts
+      - run: npm run format:check
+      - run: npm run typecheck
+      - run: npm run db:migrate
+      - name: Test evaluator and isolated fixture without provider credentials
+        env:
+          ADAPTIVE_EVALUATION_DB_TEST: '1'
+        run: npx vitest run tests/adaptive-evaluation
+      - name: Run real financialChat loop within the frozen phase allowance
+        env:
+          GEMINI_API_KEY: ${{ secrets.ADAPTIVE_EVALUATION_GEMINI_KEY }}
+          EVALUATION_KEY_SHA256: ${{ secrets.ADAPTIVE_EVALUATION_GEMINI_KEY_SHA256 }}
+        run: node --import tsx scripts/adaptive-evaluation/cli.ts run
+      - name: Retain partial outcomes, accounting and source bindings
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adaptive-evaluation-${{ inputs.phase }}-${{ github.run_id }}
+          path: .tools/adaptive-evaluation-output/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 90

@@ -1,0 +1,1247 @@
+{
+  "version": "adaptive-fixture-v1",
+  "asOf": "2026-10-31",
+  "authorship": "Synthetic fixtures and labels authored by an AI coding agent; no independent human adjudication.",
+  "accounts": [
+    {
+      "code": "1000",
+      "name": "Assets",
+      "type": "ASSET",
+      "parentCode": null,
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": true,
+      "archived": false
+    },
+    {
+      "code": "1010",
+      "name": "Operating bank",
+      "type": "ASSET",
+      "parentCode": "1000",
+      "currency": "USD",
+      "isCash": true,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "1020",
+      "name": "Euro bank",
+      "type": "ASSET",
+      "parentCode": "1000",
+      "currency": "EUR",
+      "isCash": true,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "1030",
+      "name": "Petty cash",
+      "type": "ASSET",
+      "parentCode": "1000",
+      "currency": "USD",
+      "isCash": true,
+      "isGroup": false,
+      "archived": true
+    },
+    {
+      "code": "1100",
+      "name": "Accounts receivable",
+      "type": "ASSET",
+      "parentCode": "1000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "1200",
+      "name": "Equipment",
+      "type": "ASSET",
+      "parentCode": "1000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "2000",
+      "name": "Liabilities",
+      "type": "LIABILITY",
+      "parentCode": null,
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": true,
+      "archived": false
+    },
+    {
+      "code": "2010",
+      "name": "Business loan",
+      "type": "LIABILITY",
+      "parentCode": "2000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "2100",
+      "name": "Company credit card",
+      "type": "LIABILITY",
+      "parentCode": "2000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "3000",
+      "name": "Equity",
+      "type": "EQUITY",
+      "parentCode": null,
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": true,
+      "archived": false
+    },
+    {
+      "code": "3010",
+      "name": "Owner capital",
+      "type": "EQUITY",
+      "parentCode": "3000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "4000",
+      "name": "Revenue",
+      "type": "REVENUE",
+      "parentCode": null,
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": true,
+      "archived": false
+    },
+    {
+      "code": "4010",
+      "name": "Design services",
+      "type": "REVENUE",
+      "parentCode": "4000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "4020",
+      "name": "Consulting",
+      "type": "REVENUE",
+      "parentCode": "4000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "5000",
+      "name": "Operating expenses",
+      "type": "EXPENSE",
+      "parentCode": null,
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": true,
+      "archived": false
+    },
+    {
+      "code": "5010",
+      "name": "Rent",
+      "type": "EXPENSE",
+      "parentCode": "5000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "5020",
+      "name": "Software & subscriptions",
+      "type": "EXPENSE",
+      "parentCode": "5000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "5030",
+      "name": "Office supplies",
+      "type": "EXPENSE",
+      "parentCode": "5000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "5040",
+      "name": "Marketing",
+      "type": "EXPENSE",
+      "parentCode": "5000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "5050",
+      "name": "Contractors",
+      "type": "EXPENSE",
+      "parentCode": "5000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "5061",
+      "name": "Euro travel",
+      "type": "EXPENSE",
+      "parentCode": "5000",
+      "currency": "EUR",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "5071",
+      "name": "Other costs",
+      "type": "EXPENSE",
+      "parentCode": "5000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "5072",
+      "name": "Other costs",
+      "type": "EXPENSE",
+      "parentCode": "5000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    }
+  ],
+  "entries": [
+    {
+      "id": "OPEN-BANK",
+      "tenant": "primary",
+      "date": "2026-04-30",
+      "description": "Synthetic comparison OPEN-BANK",
+      "counterparty": "Owner",
+      "reference": "OPEN-BANK",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1010",
+          "debit": "12000",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "3010",
+          "debit": "0",
+          "credit": "12000",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "OPEN-EQUIPMENT",
+      "tenant": "primary",
+      "date": "2026-04-30",
+      "description": "Synthetic comparison OPEN-EQUIPMENT",
+      "counterparty": "Owner",
+      "reference": "OPEN-EQUIPMENT",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1200",
+          "debit": "1800",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "3010",
+          "debit": "0",
+          "credit": "1800",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "OPEN-EUR",
+      "tenant": "primary",
+      "date": "2026-04-30",
+      "description": "Synthetic comparison OPEN-EUR",
+      "counterparty": "Owner",
+      "reference": "OPEN-EUR",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1020",
+          "debit": "200",
+          "credit": "0",
+          "exchangeRate": "1.2"
+        },
+        {
+          "accountCode": "3010",
+          "debit": "0",
+          "credit": "240",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "M-RENT",
+      "tenant": "primary",
+      "date": "2026-05-02",
+      "description": "Synthetic comparison M-RENT",
+      "counterparty": "Cedar Properties",
+      "reference": "M-RENT",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5010",
+          "debit": "900",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "900",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "M-ACME-SPLIT",
+      "tenant": "primary",
+      "date": "2026-05-03",
+      "description": "Synthetic comparison M-ACME-SPLIT",
+      "counterparty": "Acme",
+      "reference": "M-ACME-SPLIT",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "210",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "5030",
+          "debit": "30",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "5010",
+          "debit": "60",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "300",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "M-ACME-EXTRA",
+      "tenant": "primary",
+      "date": "2026-05-05",
+      "description": "Synthetic comparison M-ACME-EXTRA",
+      "counterparty": "Acme",
+      "reference": "M-ACME-EXTRA",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "120",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "120",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "M-ACME-REFUND",
+      "tenant": "primary",
+      "date": "2026-05-08",
+      "description": "Synthetic comparison M-ACME-REFUND",
+      "counterparty": "Acme",
+      "reference": "M-ACME-REFUND",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1010",
+          "debit": "35",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "5030",
+          "debit": "0",
+          "credit": "35",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "M-LOWER-ACME",
+      "tenant": "primary",
+      "date": "2026-05-06",
+      "description": "Synthetic comparison M-LOWER-ACME",
+      "counterparty": "acme",
+      "reference": "M-LOWER-ACME",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5010",
+          "debit": "360",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "360",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "M-PAPER",
+      "tenant": "primary",
+      "date": "2026-05-09",
+      "description": "Synthetic comparison M-PAPER",
+      "counterparty": "Paper Ferry",
+      "reference": "M-PAPER",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "310",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "310",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "M-SOFTWARE",
+      "tenant": "primary",
+      "date": "2026-05-11",
+      "description": "Synthetic comparison M-SOFTWARE",
+      "counterparty": "Orbit Tools",
+      "reference": "M-SOFTWARE",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5020",
+          "debit": "140",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "140",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "M-MARKETING",
+      "tenant": "primary",
+      "date": "2026-05-12",
+      "description": "Synthetic comparison M-MARKETING",
+      "counterparty": "Harbor Ads",
+      "reference": "M-MARKETING",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5040",
+          "debit": "80",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "2100",
+          "debit": "0",
+          "credit": "80",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "M-INVOICE",
+      "tenant": "primary",
+      "date": "2026-05-13",
+      "description": "Synthetic comparison M-INVOICE",
+      "counterparty": "Ledger Labs",
+      "reference": "M-INVOICE",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1100",
+          "debit": "2500",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "4010",
+          "debit": "0",
+          "credit": "2500",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "M-PAYMENT",
+      "tenant": "primary",
+      "date": "2026-05-15",
+      "description": "Synthetic comparison M-PAYMENT",
+      "counterparty": "Ledger Labs",
+      "reference": "M-PAYMENT",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1010",
+          "debit": "900",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1100",
+          "debit": "0",
+          "credit": "900",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "M-CONSULTING",
+      "tenant": "primary",
+      "date": "2026-05-16",
+      "description": "Synthetic comparison M-CONSULTING",
+      "counterparty": "Pebble Studio",
+      "reference": "M-CONSULTING",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1010",
+          "debit": "1700",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "4020",
+          "debit": "0",
+          "credit": "1700",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "M-CAPITAL",
+      "tenant": "primary",
+      "date": "2026-05-17",
+      "description": "Synthetic comparison M-CAPITAL",
+      "counterparty": "Owner",
+      "reference": "M-CAPITAL",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1010",
+          "debit": "700",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "3010",
+          "debit": "0",
+          "credit": "700",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "M-LOAN",
+      "tenant": "primary",
+      "date": "2026-05-18",
+      "description": "Synthetic comparison M-LOAN",
+      "counterparty": "Funding Bank",
+      "reference": "M-LOAN",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1010",
+          "debit": "1100",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "2010",
+          "debit": "0",
+          "credit": "1100",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "M-FX-TRANSFER",
+      "tenant": "primary",
+      "date": "2026-05-19",
+      "description": "Synthetic comparison M-FX-TRANSFER",
+      "counterparty": "Internal transfer",
+      "reference": "M-FX-TRANSFER",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1020",
+          "debit": "80",
+          "credit": "0",
+          "exchangeRate": "1.25"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "100",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "M-EUR-TRAVEL",
+      "tenant": "primary",
+      "date": "2026-05-20",
+      "description": "Synthetic comparison M-EUR-TRAVEL",
+      "counterparty": "Alpine Rail",
+      "reference": "M-EUR-TRAVEL",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5061",
+          "debit": "24",
+          "credit": "0",
+          "exchangeRate": "1.25"
+        },
+        {
+          "accountCode": "1020",
+          "debit": "0",
+          "credit": "24",
+          "exchangeRate": "1.25"
+        }
+      ]
+    },
+    {
+      "id": "M-PETTY",
+      "tenant": "primary",
+      "date": "2026-05-21",
+      "description": "Synthetic comparison M-PETTY",
+      "counterparty": "Internal transfer",
+      "reference": "M-PETTY",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1030",
+          "debit": "35",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "35",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "M-REVERSIBLE",
+      "tenant": "primary",
+      "date": "2026-05-22",
+      "description": "Synthetic comparison M-REVERSIBLE",
+      "counterparty": "Reversal App",
+      "reference": "M-REVERSIBLE",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5020",
+          "debit": "70",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "70",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "AD-MIX",
+      "tenant": "primary",
+      "date": "2026-05-28",
+      "description": "Synthetic comparison AD-MIX",
+      "counterparty": "Mix Co",
+      "reference": "AD-MIX",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "40",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "5010",
+          "debit": "60",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "70",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "2100",
+          "debit": "0",
+          "credit": "30",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "M-DRAFT",
+      "tenant": "primary",
+      "date": "2026-05-29",
+      "description": "Synthetic comparison M-DRAFT",
+      "counterparty": "Draft decoy",
+      "reference": "M-DRAFT",
+      "status": "DRAFT",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "888",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "888",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "J-RENT",
+      "tenant": "primary",
+      "date": "2026-06-02",
+      "description": "Synthetic comparison J-RENT",
+      "counterparty": "Cedar Properties",
+      "reference": "J-RENT",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5010",
+          "debit": "970",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "970",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "J-ACME",
+      "tenant": "primary",
+      "date": "2026-06-03",
+      "description": "Synthetic comparison J-ACME",
+      "counterparty": "Acme",
+      "reference": "J-ACME",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "162",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "162",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "J-ACME-REFUND",
+      "tenant": "primary",
+      "date": "2026-06-04",
+      "description": "Synthetic comparison J-ACME-REFUND",
+      "counterparty": "Acme",
+      "reference": "J-ACME-REFUND",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1010",
+          "debit": "40",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "5030",
+          "debit": "0",
+          "credit": "40",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "J-LOWER-ACME",
+      "tenant": "primary",
+      "date": "2026-06-05",
+      "description": "Synthetic comparison J-LOWER-ACME",
+      "counterparty": "acme",
+      "reference": "J-LOWER-ACME",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "615",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "615",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "J-PAPER",
+      "tenant": "primary",
+      "date": "2026-06-06",
+      "description": "Synthetic comparison J-PAPER",
+      "counterparty": "Paper Ferry",
+      "reference": "J-PAPER",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "45",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "45",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "J-SOFTWARE",
+      "tenant": "primary",
+      "date": "2026-06-07",
+      "description": "Synthetic comparison J-SOFTWARE",
+      "counterparty": "Orbit Tools",
+      "reference": "J-SOFTWARE",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5020",
+          "debit": "190",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "2100",
+          "debit": "0",
+          "credit": "190",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "J-MARKETING",
+      "tenant": "primary",
+      "date": "2026-06-08",
+      "description": "Synthetic comparison J-MARKETING",
+      "counterparty": "Harbor Ads",
+      "reference": "J-MARKETING",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5040",
+          "debit": "200",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "200",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "J-CONTRACTOR",
+      "tenant": "primary",
+      "date": "2026-06-09",
+      "description": "Synthetic comparison J-CONTRACTOR",
+      "counterparty": "Cobalt Contractors",
+      "reference": "J-CONTRACTOR",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5050",
+          "debit": "475",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "475",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "J-INVOICE",
+      "tenant": "primary",
+      "date": "2026-06-10",
+      "description": "Synthetic comparison J-INVOICE",
+      "counterparty": "Ledger Labs",
+      "reference": "J-INVOICE",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1100",
+          "debit": "3300",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "4010",
+          "debit": "0",
+          "credit": "3300",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "J-PAYMENT",
+      "tenant": "primary",
+      "date": "2026-06-11",
+      "description": "Synthetic comparison J-PAYMENT",
+      "counterparty": "Ledger Labs",
+      "reference": "J-PAYMENT",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1010",
+          "debit": "1600",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1100",
+          "debit": "0",
+          "credit": "1600",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "J-CONSULTING",
+      "tenant": "primary",
+      "date": "2026-06-12",
+      "description": "Synthetic comparison J-CONSULTING",
+      "counterparty": "Pebble Studio",
+      "reference": "J-CONSULTING",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1010",
+          "debit": "900",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "4020",
+          "debit": "0",
+          "credit": "900",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "J-LOAN-REPAYMENT",
+      "tenant": "primary",
+      "date": "2026-06-13",
+      "description": "Synthetic comparison J-LOAN-REPAYMENT",
+      "counterparty": "Funding Bank",
+      "reference": "J-LOAN-REPAYMENT",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "2010",
+          "debit": "300",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "300",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "J-EQUIPMENT",
+      "tenant": "primary",
+      "date": "2026-06-14",
+      "description": "Synthetic comparison J-EQUIPMENT",
+      "counterparty": "Device Wharf",
+      "reference": "J-EQUIPMENT",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1200",
+          "debit": "500",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "500",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "J-EUR-CONSULTING",
+      "tenant": "primary",
+      "date": "2026-06-15",
+      "description": "Synthetic comparison J-EUR-CONSULTING",
+      "counterparty": "Euro Client",
+      "reference": "J-EUR-CONSULTING",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1020",
+          "debit": "50",
+          "credit": "0",
+          "exchangeRate": "1.3"
+        },
+        {
+          "accountCode": "4020",
+          "debit": "0",
+          "credit": "65",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "J-CARD-PAYMENT",
+      "tenant": "primary",
+      "date": "2026-06-16",
+      "description": "Synthetic comparison J-CARD-PAYMENT",
+      "counterparty": "Card issuer",
+      "reference": "J-CARD-PAYMENT",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "2100",
+          "debit": "220",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "220",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "J-REVERSAL",
+      "tenant": "primary",
+      "date": "2026-06-18",
+      "description": "Synthetic comparison J-REVERSAL",
+      "counterparty": "Reversal App",
+      "reference": "J-REVERSAL",
+      "status": "POSTED",
+      "reverses": "M-REVERSIBLE",
+      "lines": [
+        {
+          "accountCode": "1010",
+          "debit": "70",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "5020",
+          "debit": "0",
+          "credit": "70",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "J-SUPPLIES",
+      "tenant": "primary",
+      "date": "2026-06-30",
+      "description": "Synthetic comparison J-SUPPLIES",
+      "counterparty": "Books & Co",
+      "reference": "J-SUPPLIES",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "27.50",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "27.50",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "OUTSIDE-PERIOD",
+      "tenant": "primary",
+      "date": "2026-07-01",
+      "description": "Synthetic comparison OUTSIDE-PERIOD",
+      "counterparty": "Outside date decoy",
+      "reference": "OUTSIDE-PERIOD",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "999",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "999",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "FOREIGN-DECOY",
+      "tenant": "foreign",
+      "date": "2026-05-03",
+      "description": "Synthetic comparison FOREIGN-DECOY",
+      "counterparty": "Acme",
+      "reference": "FOREIGN-DECOY",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "9999",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "9999",
+          "exchangeRate": "1"
+        }
+      ]
+    }
+  ]
+}

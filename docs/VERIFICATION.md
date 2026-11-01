@@ -1,5 +1,9 @@
 # Verification record
 
+## Complete-loop evaluator — offline verified; real execution pending
+
+The new [adaptive comparison](research/ADAPTIVE_EVALUATION.md) passed **129 offline tests across five files**: 42 transport, ten runner, 36 scorer, eighteen fixture/oracle and 23 protocol/authorization cases. Four real-PostgreSQL fixture tests are explicitly skipped locally and must run in the dedicated manual workflow before paid execution. TypeScript, production build and formatting passed during preparation. All 38 runtime/shared/migration files still match the `2b2de76` candidate below; this work adds an evaluator without changing its behavior. No provider request or new model score has been obtained yet.
+
 ## Adaptive candidate — CI verified, not deployed
 
 Exact source `2b2de7673c65d2aedefd3cdc677cb2f78be0e2a3` passed [full CI 41253615194](https://github.com/rayidali/spiich_homework/actions/runs/41253615194): **1,741 tests across 90 files and all 29 browser workflows**. Native research and Compose also passed, including automatic recurring/anomaly workflows and persistence. Live-AI was skipped. [Audited candidate receipt](evidence/adaptive-candidate-ci.json).

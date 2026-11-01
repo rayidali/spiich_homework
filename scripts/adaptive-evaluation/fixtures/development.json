@@ -1,0 +1,542 @@
+[
+  {
+    "id": "D01",
+    "split": "development",
+    "family": "common",
+    "messages": [
+      {
+        "role": "user",
+        "content": "How much did we spend on Software & subscriptions from 2026-05-01 to 2026-05-31?"
+      }
+    ],
+    "expected": {
+      "behavior": "ANSWER",
+      "required": [
+        {
+          "id": "software_may",
+          "kind": "ledger",
+          "metric": "net_expense",
+          "value": "210.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-05-01",
+            "to": "2026-05-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["5020"],
+            "counterparty": {
+              "mode": "any",
+              "value": ""
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        }
+      ],
+      "supporting": []
+    }
+  },
+  {
+    "id": "D02",
+    "split": "development",
+    "family": "discovery",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Which recorded counterparty caused the largest net decrease in cash from 2026-05-01 to 2026-05-31? Compare that same exact recorded counterparty's net cash movement from 2026-06-01 to 2026-06-30 and give the signed June-minus-May change."
+      }
+    ],
+    "expected": {
+      "behavior": "ANSWER",
+      "required": [
+        {
+          "id": "selected_may",
+          "kind": "ledger",
+          "metric": "net_cash_movement",
+          "value": "-900.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-05-01",
+            "to": "2026-05-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["1010", "1020", "1030"],
+            "counterparty": {
+              "mode": "identity",
+              "value": "Cedar Properties"
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "selected_june",
+          "kind": "ledger",
+          "metric": "net_cash_movement",
+          "value": "-970.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-06-01",
+            "to": "2026-06-30",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["1010", "1020", "1030"],
+            "counterparty": {
+              "mode": "identity",
+              "value": "Cedar Properties"
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "difference",
+          "kind": "calculation",
+          "value": "-70.00",
+          "unit": "USD",
+          "formula": {
+            "operation": "subtract",
+            "operands": [
+              {
+                "claim": "selected_june"
+              },
+              {
+                "claim": "selected_may"
+              }
+            ]
+          },
+          "source": "posted"
+        }
+      ],
+      "supporting": [
+        {
+          "id": "discovery_0",
+          "kind": "ledger",
+          "metric": "net_cash_movement",
+          "value": "-385.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-05-01",
+            "to": "2026-05-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["1010", "1020", "1030"],
+            "counterparty": {
+              "mode": "identity",
+              "value": "Acme"
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "discovery_1",
+          "kind": "ledger",
+          "metric": "net_cash_movement",
+          "value": "-30.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-05-01",
+            "to": "2026-05-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["1010", "1020", "1030"],
+            "counterparty": {
+              "mode": "identity",
+              "value": "Alpine Rail"
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "discovery_2",
+          "kind": "ledger",
+          "metric": "net_cash_movement",
+          "value": "-900.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-05-01",
+            "to": "2026-05-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["1010", "1020", "1030"],
+            "counterparty": {
+              "mode": "identity",
+              "value": "Cedar Properties"
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "discovery_3",
+          "kind": "ledger",
+          "metric": "net_cash_movement",
+          "value": "1100.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-05-01",
+            "to": "2026-05-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["1010", "1020", "1030"],
+            "counterparty": {
+              "mode": "identity",
+              "value": "Funding Bank"
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "discovery_4",
+          "kind": "ledger",
+          "metric": "net_cash_movement",
+          "value": "0.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-05-01",
+            "to": "2026-05-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["1010", "1020", "1030"],
+            "counterparty": {
+              "mode": "identity",
+              "value": "Internal transfer"
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "discovery_5",
+          "kind": "ledger",
+          "metric": "net_cash_movement",
+          "value": "900.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-05-01",
+            "to": "2026-05-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["1010", "1020", "1030"],
+            "counterparty": {
+              "mode": "identity",
+              "value": "Ledger Labs"
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "discovery_6",
+          "kind": "ledger",
+          "metric": "net_cash_movement",
+          "value": "-70.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-05-01",
+            "to": "2026-05-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["1010", "1020", "1030"],
+            "counterparty": {
+              "mode": "identity",
+              "value": "Mix Co"
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "discovery_7",
+          "kind": "ledger",
+          "metric": "net_cash_movement",
+          "value": "-140.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-05-01",
+            "to": "2026-05-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["1010", "1020", "1030"],
+            "counterparty": {
+              "mode": "identity",
+              "value": "Orbit Tools"
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "discovery_8",
+          "kind": "ledger",
+          "metric": "net_cash_movement",
+          "value": "700.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-05-01",
+            "to": "2026-05-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["1010", "1020", "1030"],
+            "counterparty": {
+              "mode": "identity",
+              "value": "Owner"
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "discovery_9",
+          "kind": "ledger",
+          "metric": "net_cash_movement",
+          "value": "-310.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-05-01",
+            "to": "2026-05-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["1010", "1020", "1030"],
+            "counterparty": {
+              "mode": "identity",
+              "value": "Paper Ferry"
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "discovery_10",
+          "kind": "ledger",
+          "metric": "net_cash_movement",
+          "value": "1700.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-05-01",
+            "to": "2026-05-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["1010", "1020", "1030"],
+            "counterparty": {
+              "mode": "identity",
+              "value": "Pebble Studio"
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "discovery_11",
+          "kind": "ledger",
+          "metric": "net_cash_movement",
+          "value": "-70.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-05-01",
+            "to": "2026-05-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["1010", "1020", "1030"],
+            "counterparty": {
+              "mode": "identity",
+              "value": "Reversal App"
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "discovery_12",
+          "kind": "ledger",
+          "metric": "net_cash_movement",
+          "value": "-360.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-05-01",
+            "to": "2026-05-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["1010", "1020", "1030"],
+            "counterparty": {
+              "mode": "identity",
+              "value": "acme"
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "D03",
+    "split": "development",
+    "family": "arithmetic",
+    "messages": [
+      {
+        "role": "user",
+        "content": "For 2026-05-01 through 2026-05-31, show Office supplies and Marketing expenses separately and their combined total."
+      }
+    ],
+    "expected": {
+      "behavior": "ANSWER",
+      "required": [
+        {
+          "id": "supplies",
+          "kind": "ledger",
+          "metric": "net_expense",
+          "value": "675.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-05-01",
+            "to": "2026-05-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["5030"],
+            "counterparty": {
+              "mode": "any",
+              "value": ""
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "marketing",
+          "kind": "ledger",
+          "metric": "net_expense",
+          "value": "80.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-05-01",
+            "to": "2026-05-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["5040"],
+            "counterparty": {
+              "mode": "any",
+              "value": ""
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "combined",
+          "kind": "calculation",
+          "value": "755.00",
+          "unit": "USD",
+          "formula": {
+            "operation": "add",
+            "operands": [
+              {
+                "claim": "supplies"
+              },
+              {
+                "claim": "marketing"
+              }
+            ]
+          },
+          "source": "posted"
+        }
+      ],
+      "supporting": []
+    }
+  },
+  {
+    "id": "D04",
+    "split": "development",
+    "family": "clarification",
+    "messages": [
+      {
+        "role": "user",
+        "content": "In recorded entry AD-MIX on 2026-05-28, exactly how many dollars of Office supplies were funded by Operating bank versus Company credit card? Do not substitute a list of entries."
+      }
+    ],
+    "expected": {
+      "behavior": "REFUSE",
+      "required": [],
+      "supporting": [],
+      "clarification": {
+        "reasons": ["unsupported_query"],
+        "limitation": "payment_allocation"
+      }
+    }
+  }
+]

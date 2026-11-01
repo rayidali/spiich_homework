@@ -1,0 +1,77 @@
+{
+  "authorship": "AI-authored synthetic data and exact reference calculations; not independently human reviewed.",
+  "checks": [
+    {
+      "metric": "net_expense",
+      "period": "May",
+      "codes": null,
+      "value": "2375.00"
+    },
+    {
+      "metric": "net_expense",
+      "period": "June",
+      "codes": null,
+      "value": "2574.50"
+    },
+    {
+      "metric": "net_revenue",
+      "period": "May",
+      "codes": null,
+      "value": "4200.00"
+    },
+    {
+      "metric": "net_revenue",
+      "period": "June",
+      "codes": null,
+      "value": "4265.00"
+    },
+    {
+      "metric": "net_profit",
+      "period": "May",
+      "codes": null,
+      "value": "1825.00"
+    },
+    {
+      "metric": "net_profit",
+      "period": "June",
+      "codes": null,
+      "value": "1690.50"
+    },
+    {
+      "metric": "cash_balance",
+      "period": "May",
+      "codes": null,
+      "value": "14375.00"
+    },
+    {
+      "metric": "cash_balance",
+      "period": "June",
+      "codes": null,
+      "value": "13535.50"
+    },
+    {
+      "metric": "net_cash_movement",
+      "period": "May",
+      "codes": null,
+      "value": "2135.00"
+    },
+    {
+      "metric": "net_cash_movement",
+      "period": "June",
+      "codes": null,
+      "value": "-839.50"
+    }
+  ],
+  "worked": {
+    "May Office supplies": "210 + 30 + 120 - 35 + 310 + 40 = 675.00; draft888 and foreign9999 excluded.",
+    "June Office supplies": "162 - 40 + 615 + 45 + 27.50 = 809.50.",
+    "Acme identity": "May Office supplies325.00; June122.00; change-203.00. Distinct lowercaseacme June615.00; case-folded combined737.00 is wrong for selected Acme.",
+    "EUR carrying versus native": "Native200 +80 -24 +50 =306EUR. StoredUSD240 +100 -30 +65 =375USD. No current-market revaluation.",
+    "Receivable versus receipts": "Ledger Labs revenue May2500/June3300 changes800; cash receipts May900/June1600 change700. Neither invoice recognition is a cash receipt. The accidental equal delta in the initial draft was removed before any provider call or outcome.",
+    "Opening cash": "USD bank12000 + EUR savedbase240 =12240; equipment1800 is not cash.",
+    "Noncash and mixed payment": "Maymarketing80+partAD-MIX30 arecreditcardcharges; June190softwarealsooncard. Cardsettlement220 iscashoutflow, not a second expense. AD-MIX has40supplies+60rent,bank70+card30; no line-to-payment allocation exists.",
+    "Reversal": "Software70 expense May22 and exact reversed credit70 June18 appear in their own dates.",
+    "Draft and isolation": "DraftMay888 and foreignMay9999 are never postedprimary totals.",
+    "Hiring dimensions": "Salary1200USD_per_month times3months =3600USD; plus450USDsetup =4050USD. Cash13535.50 minus4050 =9485.50USD; subtract10000USDreserve =-514.50USD. Assumption unit labels were corrected before any provider call; prompts and numerical answers were unchanged."
+  }
+}

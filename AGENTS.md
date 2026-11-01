@@ -2,6 +2,8 @@
 
 **Adaptive candidate CI verified; not deployed.** Source `2b2de76` passed CI 41253615194: 1,741 tests in 90 files, 29 browser workflows, native research and Compose; live-AI was skipped. The 25 real-PostgreSQL inspection cases are included. Provider contract responses are scripted. Read [ADAPTIVE_CHAT.md](docs/ADAPTIVE_CHAT.md), [evidence](docs/evidence/adaptive-candidate-ci.json) and the latest build-log entry. The hosted/default route remains `composable` on `93a8617`. Next compare actual complete chat executions, not the old first-plan-only runner. Do not reuse an old model score or reopen a closed cohort.
 
+The new [adaptive comparison](docs/research/ADAPTIVE_EVALUATION.md) is implemented but not executed. Its distinct cohort `adaptive-loop-20261031-v1` is bounded to $0.10 development plus $0.40 holdout, maximum 20 plus 80 provider attempts. Dedicated CI secrets are installed; general smoke remains unconfigured. Read the current checkpoint before any dispatch. Freeze source first, retain every failed/partial outcome, and never retry a consumed phase or reset its ledger.
+
 Read [CHECKPOINT.md](CHECKPOINT.md) first. Saved **2026-10-31, America/New_York**. Continue the implemented application; do not rebuild it or rerun completed provider experiments.
 
 ## Current continuation state
