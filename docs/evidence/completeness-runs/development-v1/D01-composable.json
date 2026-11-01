@@ -1,0 +1,173 @@
+{
+  "caseId": "D01",
+  "route": "composable",
+  "durationMs": 1722,
+  "outcome": {
+    "response": {
+      "answer": "Net expenses · Repair parts · Counterparty \"Wheelhouse\": $165.00. 2026-08-01 to 2026-08-31. All 1 results are shown.",
+      "evidence": [
+        {
+          "title": "Net expenses · Repair parts · Counterparty \"Wheelhouse\"",
+          "period": "2026-08-01 → 2026-08-31",
+          "source": "posted",
+          "scope": "2026-08-01 to 2026-08-31, including both dates. Recorded transactions; corrections count on their own dates. Accounts: 5030 Repair parts. Person or business name matches \"Wheelhouse\" exactly, ignoring capitalization. One total; largest values first. Amounts are added together. Amounts are in USD, using the exchange rates saved with each transaction; these are recorded carrying amounts, not current-rate revaluation",
+          "factSource": {
+            "kind": "query_result",
+            "queryId": "q1",
+            "truncated": false
+          },
+          "rows": [
+            {
+              "label": "Total",
+              "value": "$165.00",
+              "factRef": {
+                "kind": "query_row",
+                "queryId": "q1",
+                "rowId": "total:total"
+              }
+            }
+          ],
+          "href": "/reports?from=2026-08-01&to=2026-08-31"
+        }
+      ],
+      "facts": [
+        {
+          "queryId": "q1",
+          "metric": "net_expense",
+          "aggregation": "sum",
+          "grain": "total",
+          "unit": "USD",
+          "currency": "USD",
+          "rows": [
+            {
+              "rowId": "total:total",
+              "label": "Total",
+              "value": "165.00",
+              "entryCount": "1",
+              "from": "2026-08-01",
+              "to": "2026-08-31"
+            }
+          ],
+          "truncated": false,
+          "scope": {
+            "organizationId": "fee2b4af-8e6f-4f68-bdb1-6d8e197240b4",
+            "plan": {
+              "id": "q1",
+              "metric": "net_expense",
+              "aggregation": "sum",
+              "from": "2026-08-01",
+              "to": "2026-08-31",
+              "status": "POSTED",
+              "currencyMode": "base",
+              "currency": null,
+              "groupBy": "total",
+              "accountCodes": ["5030"],
+              "cooccurringAccountCodes": [],
+              "counterparty": {
+                "mode": "exact",
+                "value": "Wheelhouse"
+              },
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "order": "value_desc",
+              "limit": 1
+            },
+            "resolvedAccountIds": ["11c6f57d-9890-4a12-af4e-3a07a53c9025"],
+            "cooccurringAccountIds": [],
+            "amountBasis": "selected_metric_base_lines",
+            "statusMeaning": "booked"
+          }
+        }
+      ],
+      "query": {
+        "name": "financial_analysis",
+        "args": {
+          "queries": [
+            {
+              "id": "q1",
+              "metric": "net_expense",
+              "aggregation": "sum",
+              "from": "2026-08-01",
+              "to": "2026-08-31",
+              "status": "POSTED",
+              "currencyMode": "base",
+              "currency": null,
+              "groupBy": "total",
+              "accountCodes": ["5030"],
+              "cooccurringAccountCodes": [],
+              "counterparty": {
+                "mode": "exact",
+                "value": "Wheelhouse"
+              },
+              "descriptionSearch": "",
+              "minimumAmount": null,
+              "maximumAmount": null,
+              "order": "value_desc",
+              "limit": 1
+            }
+          ]
+        }
+      },
+      "ai": {
+        "provider": "gemini",
+        "model": "gemini-3.5-flash-lite",
+        "modelVersion": "gemini-3.5-flash-lite",
+        "durationMs": 1689,
+        "usage": {
+          "inputTokens": 8836,
+          "outputTokens": 148,
+          "thinkingTokens": 281,
+          "totalTokens": 9265
+        },
+        "attempts": 1,
+        "attemptMetadata": [
+          {
+            "provider": "gemini",
+            "model": "gemini-3.5-flash-lite",
+            "modelVersion": "gemini-3.5-flash-lite",
+            "durationMs": 1689,
+            "usage": {
+              "inputTokens": 8836,
+              "outputTokens": 148,
+              "thinkingTokens": 281,
+              "totalTokens": 9265
+            },
+            "attempts": 1,
+            "attemptIndex": 1,
+            "usageComplete": true
+          }
+        ],
+        "reportedUsage": {
+          "inputTokens": 8836,
+          "outputTokens": 148,
+          "thinkingTokens": 281,
+          "totalTokens": 9265
+        },
+        "unreportedAttempts": 0,
+        "usageComplete": true,
+        "planningDurationMs": 1691,
+        "repairStatus": "not_needed"
+      }
+    }
+  },
+  "score": {
+    "caseId": "D01",
+    "split": "development",
+    "family": "common",
+    "classification": "structured-correct",
+    "passed": true,
+    "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+    "requiredClaims": 1,
+    "matchedClaims": ["august_wheelhouse_parts"],
+    "matchedTables": [],
+    "focusCorrect": true,
+    "primaryMatched": ["august_wheelhouse_parts"],
+    "verifiedExtraClaims": 0,
+    "unverifiableExtraClaims": 0,
+    "wrongFinancialClaims": [],
+    "hardBoundaryViolations": [],
+    "modelCompletionIgnored": true,
+    "wordingReview": "not_model_judged"
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "schema": "daybook-offline-completeness-schema-diagnostic-v1",
+  "status": "OFFLINE_COMPARISON_COMPLETE_CAUSE_UNCONFIRMED",
+  "cohort": "completeness-20261101-v1",
+  "runId": "41274681768",
+  "sourceCommit": "50fecb17cc22effea85c6af67a9dc5af37cf1f7f",
+  "sourceHash": "4ed3d1a060e83033dcae8c66583934f784a4c1a3aad9e62681a823cb4c765ab0",
+  "artifactManifestSha256": "12c9fd37ef0f0985ad20e8afccc16c34c2207823e03728acf10814bbba019227",
+  "artifactContentManifestDigest": "b67aed4b5931c4eb98e74870d819cca6c66e019e8124850bd6bcc0dbad9fd5ee",
+  "reproducerSha256": "39bf09f30e20be09397a1cce19d05d04f3af1091477cf501f5290c0f8f3dc25d",
+  "reproduce": "python3 .tools/completeness-evaluation/schema-diagnostic.py",
+  "definitions": {
+    "requestBytes": "Exact saved UTF-8 request byte count, before parsing or reserialization.",
+    "compactBytes": "Python JSON serialization with separators comma/colon and ensure_ascii=True; parameter schemas exclude tool names/descriptions outside the schema.",
+    "schemaNodes": "Dictionary-valued schema nodes reached through standard schema-map/list/child keywords; properties map entries are child schemas, not keywords.",
+    "enumEntriesIncludingRepeats": "Sum of enum array lengths across every reached schema node, including repeated copies and duplicate values across distinct enums; not a count of distinct labels.",
+    "anyOfAlternatives": "Sum of anyOf array lengths, not possible cross-product combinations.",
+    "maxValueNesting": "Root depth zero; each properties child and items child adds one; union alternatives add zero.",
+    "maxRawJsonDepthWithinParameterSchema": "Root depth zero; each dictionary value or list element adds one, including scalar leaves.",
+    "structuralChecks": "Required lists are unique and name declared properties; enums are nonempty and internally unique. These checks do not establish provider-specific schema support.",
+    "provenance": "Each saved request, completion and reservation hash is checked against the immutable artifact manifest; the request also matches both accounting requestSha256 bindings."
+  },
+  "attempts": [
+    {
+      "attempt": "0001",
+      "trial": "composable/D01",
+      "httpStatus": 200,
+      "requestSha256": "a1f81e0771680721b7b44b50eb51072de4d924c1165a8127d5048ed8f117a2c9",
+      "completionSha256": "8fa4e43b63c8da39e7a42439e9ec9e687a606b77c4f6f5765aa78f19215c1327",
+      "matchesReservationCompletionAndArtifactHashes": true,
+      "metrics": {
+        "schemaNodes": 138,
+        "maxValueNesting": 5,
+        "propertyDeclarations": 92,
+        "enumNodes": 34,
+        "enumEntriesIncludingRepeats": 119,
+        "anyOfAlternatives": 24,
+        "maxRawJsonDepthWithinParameterSchema": 12,
+        "parameterSchemaCompactBytes": 10022,
+        "requestBytes": 34885,
+        "toolCount": 10,
+        "toolsCompactBytes": 22438
+      },
+      "schemaKeywordOccurrences": {
+        "additionalProperties": 20,
+        "anyOf": 11,
+        "default": 2,
+        "description": 19,
+        "enum": 34,
+        "format": 4,
+        "items": 12,
+        "maxLength": 6,
+        "maximum": 3,
+        "minItems": 5,
+        "minLength": 2,
+        "minimum": 3,
+        "pattern": 22,
+        "properties": 20,
+        "required": 20,
+        "type": 127
+      },
+      "enumValueTypes": {
+        "str": 119
+      },
+      "structuralErrors": [],
+      "retainedResponseFileExists": true,
+      "belowFrozenRequestByteLimit": true,
+      "referenceConstOrMaxItemsOccurrences": {
+        "$ref": 0,
+        "const": 0,
+        "maxItems": 0
+      }
+    },
+    {
+      "attempt": "0002",
+      "trial": "adaptive/D01",
+      "httpStatus": 200,
+      "requestSha256": "7cdf2ffebb4f0c78cafddb5c2b5f3e00fffe8c55328cc06bc8648491f6540dcf",
+      "completionSha256": "3de1374b1bb4e28ebe03bf0a844caeee17b19e1e47b8070fb0c550f98f9663e5",
+      "matchesReservationCompletionAndArtifactHashes": true,
+      "metrics": {
+        "schemaNodes": 178,
+        "maxValueNesting": 5,
+        "propertyDeclarations": 115,
+        "enumNodes": 43,
+        "enumEntriesIncludingRepeats": 154,
+        "anyOfAlternatives": 36,
+        "maxRawJsonDepthWithinParameterSchema": 12,
+        "parameterSchemaCompactBytes": 12756,
+        "requestBytes": 47955,
+        "toolCount": 11,
+        "toolsCompactBytes": 32779
+      },
+      "schemaKeywordOccurrences": {
+        "additionalProperties": 24,
+        "anyOf": 17,
+        "default": 2,
+        "description": 19,
+        "enum": 43,
+        "format": 6,
+        "items": 16,
+        "maxLength": 9,
+        "maximum": 4,
+        "minItems": 7,
+        "minLength": 3,
+        "minimum": 4,
+        "pattern": 30,
+        "properties": 24,
+        "required": 24,
+        "type": 161
+      },
+      "enumValueTypes": {
+        "str": 154
+      },
+      "structuralErrors": [],
+      "retainedResponseFileExists": true,
+      "belowFrozenRequestByteLimit": true,
+      "referenceConstOrMaxItemsOccurrences": {
+        "$ref": 0,
+        "const": 0,
+        "maxItems": 0
+      }
+    },
+    {
+      "attempt": "0003",
+      "trial": "complete/D01",
+      "httpStatus": 400,
+      "requestSha256": "3bce98f930244f60f179d8803d4a96b4a9e8af130028e667d85ed39a0ea8bbde",
+      "completionSha256": "eef525c9a6b3fe3ba6b474f4b4e704e61bd04a0718bae349c8e15d6436ea60a8",
+      "matchesReservationCompletionAndArtifactHashes": true,
+      "metrics": {
+        "schemaNodes": 670,
+        "maxValueNesting": 9,
+        "propertyDeclarations": 416,
+        "enumNodes": 178,
+        "enumEntriesIncludingRepeats": 568,
+        "anyOfAlternatives": 192,
+        "maxRawJsonDepthWithinParameterSchema": 23,
+        "parameterSchemaCompactBytes": 46246,
+        "requestBytes": 82491,
+        "toolCount": 4,
+        "toolsCompactBytes": 66391
+      },
+      "schemaKeywordOccurrences": {
+        "additionalProperties": 83,
+        "anyOf": 89,
+        "default": 5,
+        "enum": 178,
+        "format": 30,
+        "items": 58,
+        "maxLength": 42,
+        "maximum": 15,
+        "minItems": 23,
+        "minLength": 12,
+        "minimum": 15,
+        "pattern": 132,
+        "properties": 83,
+        "required": 83,
+        "type": 581
+      },
+      "enumValueTypes": {
+        "str": 568
+      },
+      "structuralErrors": [],
+      "retainedResponseFileExists": false,
+      "belowFrozenRequestByteLimit": true,
+      "referenceConstOrMaxItemsOccurrences": {
+        "$ref": 0,
+        "const": 0,
+        "maxItems": 0
+      }
+    }
+  ],
+  "comparisonChecks": {
+    "contentsIdenticalAcrossRequests": true,
+    "generationConfigurationIdenticalAcrossRequests": true,
+    "failedBaseSchemasEqualAcceptedAdaptiveAfterRemovingCompletionEnvelope": {
+      "financial_analysis": true,
+      "financial_scenario": true,
+      "inspect_financial_data": true,
+      "request_details": true
+    },
+    "allInspectedRequiredAndEnumStructuralChecksPass": true,
+    "keywordsUniqueToFailedRequest": [],
+    "contractCopyCount": 3,
+    "contractCopiesIdentical": true,
+    "singleContractCompactBytes": 11026,
+    "repeatedContractCompactBytes": 33078
+  },
+  "finding": "The failed request adds a repeated and more deeply nested completion envelope to base schemas accepted in the preceding adaptive request. No new schema keyword or checked structural defect was found.",
+  "hypothesis": "Increased schema/grammar complexity is a candidate explanation for HTTP 400; the saved evidence cannot establish the provider rejection reason.",
+  "causeConfirmed": false,
+  "limitations": [
+    "The non-200 provider response body was discarded by the frozen transport and cannot be recovered from these artifacts.",
+    "No applicable provider limit is inferred from counts, and no provider-specific compatibility validator was run.",
+    "A request below the local 256 KiB cap is not proven acceptable to the provider.",
+    "Equal contents and generation settings do not isolate schema changes from changed instructions/tool descriptions.",
+    "The cohort is closed; this diagnosis authorizes no replay or new provider attempt."
+  ],
+  "execution": {
+    "providerCalls": 0,
+    "databaseCalls": 0,
+    "networkCalls": 0,
+    "testsRun": 0,
+    "sourceEdited": false,
+    "retainedArtifactsEdited": false,
+    "heldOutContentRead": false
+  }
+}

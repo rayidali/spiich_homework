@@ -1,0 +1,49 @@
+{
+  "version": "completeness-public-export-v1",
+  "exports": {
+    "summary.json": {
+      "sha256": "8e45ef309cd8ab157ff62ce8c67e098f518981054694e5e7632758744909b062",
+      "sourceSha256": "776f3616cd58a96fcaffb349dce2866ccd54ebe4b03f2f7406e4df67bca0624d"
+    },
+    "integrity-audit.json": {
+      "sha256": "c1f5752e6842609e2ac320ab69a0ba773e167646e1663d0b2ee57c04f458b05c",
+      "sourceSha256": "c1f5752e6842609e2ac320ab69a0ba773e167646e1663d0b2ee57c04f458b05c"
+    },
+    "costs.json": {
+      "sha256": "de1c8245c86fe62c48078bfe9f90530bf6890c727b253c72819293d85f2c6cef",
+      "sourceSha256": "8d3c539c3156d161a28f9b96252475308e80b81d6258b5bced6cad46143f84ce"
+    },
+    "D01-composable.json": {
+      "sha256": "13b86b000aaa803664437b6a776bb68466500e147320d23c69b2a27779ef7e83",
+      "sourceSha256": "551a98b7d7052a5471ccbc204a55d6d9df17fe8344a46b946d31a5d8d2cdca66"
+    },
+    "D01-adaptive.json": {
+      "sha256": "4f06523791946ad34cb43f42fba127ed868f39bb5a45bc893aceb2a170404765",
+      "sourceSha256": "f5dadf50277f2cd6064ad2bfc3e6c9a7a4425fe88e28228aa6161e765723fb70"
+    },
+    "D01-complete.json": {
+      "sha256": "5f560ef7e077580e663e2fce1fbbc7dd27624a609562e7d988e9ef7e878682d9",
+      "sourceSha256": "d027f01c7236e21b5fef8242166135e11922cbbae77c7edd83a7bf60a1ee38d7"
+    },
+    "closure.json": {
+      "sha256": "a1166697c4971e0e710698dd069ea13ab5c9b989016d49e627eebe8002609cac",
+      "sourceSha256": null
+    },
+    "schema-diagnostic.json": {
+      "sha256": "3f0d727da094fbf14dbddecb8a4cf5ba75e4116d57a4310b3703456a0fad9878",
+      "sourceSha256": "3f0d727da094fbf14dbddecb8a4cf5ba75e4116d57a4310b3703456a0fad9878"
+    },
+    "report.md": {
+      "sha256": "2810fc32edf6924e0fe685a27b4a8fd935ac26cb18f68a8001e2be6b34422618",
+      "sourceSha256": null
+    }
+  },
+  "omitted": [
+    "private approval",
+    "provider credential/key digest",
+    "raw provider requests/responses",
+    "thought signatures",
+    "authentication configuration"
+  ],
+  "providerCallsDuringExport": 0
+}

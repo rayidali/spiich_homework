@@ -1,0 +1,153 @@
+{
+  "auditPassed": true,
+  "checks": 362,
+  "failures": [],
+  "limitations": [
+    "This validates saved artifacts, not a fresh database/provider observation.",
+    "Book fingerprints are compared across every recorded snapshot; full raw table rows are not archived for independent database reconstruction.",
+    "Usage prices are recorded standard-rate estimates; unknown reservations are preserved, not invoices or verified billing.",
+    "Score structure and outcome/summary consistency are checked; original-question semantic grading is a separate review.",
+    "Source held-out fixtures are hashed as opaque bytes without decoding question/answer text.",
+    "Manifest hashes detect artifact corruption within GitHub provenance; they are not signatures against a privileged replacement."
+  ],
+  "operations": {
+    "applicationCodeExecuted": false,
+    "artifactsModified": false,
+    "databaseCalls": 0,
+    "networkCalls": 0,
+    "providerCalls": 0
+  },
+  "result": {
+    "accounting": {
+      "attempts": 3,
+      "attemptsCap": 32,
+      "chargedUsd": "0.0434346",
+      "knownUsd": "0.0080729",
+      "phaseCeilingUsd": "0.2",
+      "rows": [
+        {
+          "attemptId": "0001",
+          "httpStatus": 200,
+          "knownUsd": "0.0037233",
+          "reservedUsd": "0.0210799",
+          "responseAvailable": true,
+          "state": "known",
+          "trial": "composable/D01"
+        },
+        {
+          "attemptId": "0002",
+          "httpStatus": 200,
+          "knownUsd": "0.0043496",
+          "reservedUsd": "0.0250009",
+          "responseAvailable": true,
+          "state": "known",
+          "trial": "adaptive/D01"
+        },
+        {
+          "attemptId": "0003",
+          "httpStatus": 400,
+          "knownUsd": null,
+          "reservedUsd": "0.0353617",
+          "responseAvailable": false,
+          "state": "unknown",
+          "trial": "complete/D01"
+        }
+      ],
+      "unknownReservedUsd": "0.0353617"
+    },
+    "artifactManifestFileSha256": "12c9fd37ef0f0985ad20e8afccc16c34c2207823e03728acf10814bbba019227",
+    "artifactManifestSha256": "b67aed4b5931c4eb98e74870d819cca6c66e019e8124850bd6bcc0dbad9fd5ee",
+    "executions": {
+      "missing": [
+        {
+          "caseId": "D02",
+          "route": "adaptive"
+        },
+        {
+          "caseId": "D02",
+          "route": "complete"
+        },
+        {
+          "caseId": "D02",
+          "route": "composable"
+        },
+        {
+          "caseId": "D03",
+          "route": "complete"
+        },
+        {
+          "caseId": "D03",
+          "route": "composable"
+        },
+        {
+          "caseId": "D03",
+          "route": "adaptive"
+        },
+        {
+          "caseId": "D04",
+          "route": "composable"
+        },
+        {
+          "caseId": "D04",
+          "route": "complete"
+        },
+        {
+          "caseId": "D04",
+          "route": "adaptive"
+        }
+      ],
+      "planned": 12,
+      "recorded": 3
+    },
+    "fingerprint": {
+      "accounts": 48,
+      "entries": 51,
+      "lines": 104,
+      "organizations": 2,
+      "scope": "full_org_account_entry_line_rows",
+      "sha256": "0b9dbc011887cd190409701f529a668f3443f370535f99aa18f88668f2def807"
+    },
+    "holdoutAdmissionEligible": false,
+    "manifestFilesVerified": 30,
+    "notes": [
+      "Unknown usage retains full reservation; absent raw error response cannot reveal rejection details: 0003"
+    ],
+    "permitComparedPrivately": true,
+    "phase": "development",
+    "recordedBookFingerprintsAllMatch": true,
+    "recordedFailure": "COMPLETENESS_TRANSPORT_HALTED",
+    "routeResults": [
+      {
+        "classifications": {
+          "structured-correct": 1
+        },
+        "executions": 1,
+        "passed": 1,
+        "route": "composable"
+      },
+      {
+        "classifications": {
+          "structured-correct": 1
+        },
+        "executions": 1,
+        "passed": 1,
+        "route": "adaptive"
+      },
+      {
+        "classifications": {
+          "execution-error": 1
+        },
+        "executions": 1,
+        "passed": 0,
+        "route": "complete"
+      }
+    ],
+    "runComplete": false,
+    "runId": "41274681768",
+    "sourceCommit": "50fecb17cc22effea85c6af67a9dc5af37cf1f7f",
+    "sourceHash": "4ed3d1a060e83033dcae8c66583934f784a4c1a3aad9e62681a823cb4c765ab0",
+    "transportHaltReason": "USAGE_UNKNOWN"
+  },
+  "scriptSha256": "8c58c7896e96b604d2586dff1d25642d8c85c6e555789ea311ab61fde9c9b01b",
+  "version": "independent-completeness-artifact-audit-v1"
+}

@@ -1,0 +1,73 @@
+{
+  "version": "completeness-public-costs-v1",
+  "model": "gemini-3.5-flash-lite",
+  "inputUsdPerMillion": "0.30",
+  "outputAndThinkingUsdPerMillion": "2.50",
+  "budget": {
+    "state": "closed",
+    "attempts": 3,
+    "knownUsd": "0.0080729",
+    "unknownReservedUsd": "0.0353617",
+    "chargedUsd": "0.0434346",
+    "haltReason": "USAGE_UNKNOWN",
+    "pending": 0,
+    "activeTrial": null
+  },
+  "records": [
+    {
+      "id": "0001",
+      "trial": "composable/D01",
+      "reservedUsd": "0.0210799",
+      "state": "known",
+      "costUsd": "0.0037233",
+      "usage": {
+        "inputTokens": 8836,
+        "outputTokens": 148,
+        "thinkingTokens": 281,
+        "totalTokens": 9265
+      },
+      "requestSha256": "a1f81e0771680721b7b44b50eb51072de4d924c1165a8127d5048ed8f117a2c9",
+      "responseSha256": "9263b0c554da2e60167767c22905beb9d1fb58fe9f5d4fa0003b09435c71c279",
+      "httpStatus": 200,
+      "failure": null,
+      "startedAt": "2026-11-01T04:52:14.719Z",
+      "finishedAt": "2026-11-01T04:52:16.391Z"
+    },
+    {
+      "id": "0002",
+      "trial": "adaptive/D01",
+      "reservedUsd": "0.0250009",
+      "state": "known",
+      "costUsd": "0.0043496",
+      "usage": {
+        "inputTokens": 11982,
+        "outputTokens": 159,
+        "thinkingTokens": 143,
+        "totalTokens": 12284
+      },
+      "requestSha256": "7cdf2ffebb4f0c78cafddb5c2b5f3e00fffe8c55328cc06bc8648491f6540dcf",
+      "responseSha256": "c8e94eb58eaf58c90a54c8f7d6c1bea6a4a1757097e195199f941821a9f03689",
+      "httpStatus": 200,
+      "failure": null,
+      "startedAt": "2026-11-01T04:52:16.437Z",
+      "finishedAt": "2026-11-01T04:52:17.944Z"
+    },
+    {
+      "id": "0003",
+      "trial": "complete/D01",
+      "reservedUsd": "0.0353617",
+      "state": "unknown",
+      "costUsd": null,
+      "usage": null,
+      "requestSha256": "3bce98f930244f60f179d8803d4a96b4a9e8af130028e667d85ed39a0ea8bbde",
+      "responseSha256": null,
+      "httpStatus": 400,
+      "failure": null,
+      "startedAt": "2026-11-01T04:52:17.978Z",
+      "finishedAt": "2026-11-01T04:52:18.510Z"
+    }
+  ],
+  "limitations": [
+    "Recorded standard-rate estimates and conservative reservations, not an invoice or verified balance."
+  ]
+}

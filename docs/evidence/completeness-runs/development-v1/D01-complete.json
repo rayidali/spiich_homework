@@ -1,0 +1,29 @@
+{
+  "caseId": "D01",
+  "route": "complete",
+  "durationMs": 542,
+  "outcome": {
+    "error": {
+      "code": "AI_REQUEST_REJECTED"
+    }
+  },
+  "score": {
+    "caseId": "D01",
+    "split": "development",
+    "family": "common",
+    "classification": "execution-error",
+    "passed": false,
+    "reasons": ["AI_REQUEST_REJECTED"],
+    "requiredClaims": 1,
+    "matchedClaims": [],
+    "matchedTables": [],
+    "focusCorrect": false,
+    "primaryMatched": [],
+    "verifiedExtraClaims": 0,
+    "unverifiableExtraClaims": 0,
+    "wrongFinancialClaims": [],
+    "hardBoundaryViolations": [],
+    "modelCompletionIgnored": true,
+    "wordingReview": "not_model_judged"
+  }
+}

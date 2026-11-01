@@ -1,0 +1,47 @@
+{
+  "version": "completeness-cohort-closure-v1",
+  "cohort": "completeness-20261101-v1",
+  "sourceCommit": "50fecb17cc22effea85c6af67a9dc5af37cf1f7f",
+  "sourceHash": "4ed3d1a060e83033dcae8c66583934f784a4c1a3aad9e62681a823cb4c765ab0",
+  "runId": "41274681768",
+  "runAttempt": 1,
+  "runUrl": "https://github.com/rayidali/spiich_homework/actions/runs/41274681768",
+  "workflowConclusion": "failure",
+  "approvedTotalUsd": "0.90",
+  "developmentCeilingUsd": "0.20",
+  "holdoutCeilingUsd": "0.70",
+  "knownUsd": "0.0080729",
+  "unknownReservedUsd": "0.0353617",
+  "chargedAllowanceUsd": "0.0434346",
+  "attempts": 3,
+  "developmentExecutionsRecorded": 3,
+  "developmentExecutionsMissing": 9,
+  "holdoutExecutions": 0,
+  "cohortState": "closed_incomplete",
+  "retryAllowed": false,
+  "holdoutAdmissionEligible": false,
+  "productionChanged": false,
+  "newCohortSecretsRemoved": true,
+  "secretRemovalHttpStatuses": [204, 204],
+  "failureBodyRetained": false,
+  "rootCauseEstablished": false,
+  "preInferenceChecks": {
+    "format": "passed",
+    "typecheck": "passed",
+    "migrations": "passed",
+    "tests": 243,
+    "testFiles": 10,
+    "actualPostgresCasesIncluded": 4
+  },
+  "rawArtifact": {
+    "id": 13071151429,
+    "name": "completeness-evaluation-development-41274681768",
+    "zipSha256": "866a5c02da46823d58e57b02c0a3a5e1a9cbc5abcf4659585b1026be61b4f904",
+    "manifestSha256": "b67aed4b5931c4eb98e74870d819cca6c66e019e8124850bd6bcc0dbad9fd5ee"
+  },
+  "remainingWork": [
+    "Preserve bounded sanitized provider rejection diagnostics in a new version.",
+    "Investigate a smaller declaration grammar; complexity is a hypothesis, not a confirmed cause.",
+    "Declare a new source-bound experiment before further paid requests. No automatic reuse or reset of this cohort."
+  ]
+}
