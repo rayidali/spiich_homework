@@ -1,0 +1,153 @@
+{
+  "version": "provider-compatibility-candidate-ci-v1",
+  "status": "COMPLETE_SUCCESS",
+  "sourceCommit": "49a0d81b5f0c588af39d10bee7ae164f96d955a2",
+  "runId": 41277460581,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41277460581",
+  "attempt": 1,
+  "jobs": [
+    {
+      "id": 124762429630,
+      "name": "verify",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T05:38:06Z"
+    },
+    {
+      "id": 124762429784,
+      "name": "research-native",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T05:35:13Z"
+    },
+    {
+      "id": 124763109018,
+      "name": "compose",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T05:42:06Z"
+    },
+    {
+      "id": 124763821410,
+      "name": "live-ai",
+      "status": "completed",
+      "conclusion": "skipped",
+      "completed_at": "2026-11-01T05:42:06Z"
+    }
+  ],
+  "verification": {
+    "normal": {
+      "passed": 2449,
+      "skipped": 8,
+      "filesPassed": 120,
+      "filesSkipped": 2
+    },
+    "compose": {
+      "passed": 2448,
+      "skipped": 9,
+      "filesPassed": 119,
+      "filesSkipped": 3
+    },
+    "browser": {
+      "passed": 32,
+      "durationSeconds": 49.7
+    },
+    "separateCompletenessFixturePostgres": {
+      "passed": 4,
+      "skipped": 0,
+      "filesPassed": 1,
+      "filesSkipped": 0
+    },
+    "capturedProviderReplay": {
+      "path": "tests/provider-completion-replay-db.test.ts",
+      "testSha256": "8be84402a8c8433080dbaf297d1f75199a37efdf6e1bc5908d7c10f0b828ee03",
+      "testBytesMatchExactGitCommit": true,
+      "capturedDiagnosticRunId": 41276963914,
+      "capturedDiagnosticSourceCommit": "fb5e72a6ee864cf9c423576ad001c866b07f8fb1",
+      "capturedRequestSha256": "cb946003ab5e2bca906367bdf877c523a8dc3d072ca3590c03eba83cbb457fea",
+      "capturedResponseSha256": "24bad0cd9a527ad88a8ecc7fd77bae59177c91e1c7f43c2f46ba21c0977005c4",
+      "privateOfflineProvenanceReceiptSha256": "b9c17607f1e52613e328639d2d9678d682b8375e7ea3386ca9e485d14a1ea8d5",
+      "capturedArgumentsAndMessagesIndependentlyComparedEqual": true,
+      "normal": {
+        "passed": 1,
+        "durationMilliseconds": 248.0
+      },
+      "compose": {
+        "passed": 1,
+        "durationMilliseconds": 261.0
+      },
+      "actualPostgres": true,
+      "providerResponseReplayed": true,
+      "providerCallsDuringReplay": 0,
+      "asserts": [
+        "August, account, exact counterparty and posted-only scope",
+        "165.00 verified ledger amount with month, category, vendor and draft decoys",
+        "Original-user message index 2 and query_row binding",
+        "Fulfilled declared output with visible posted evidence and userIntentVerified:false",
+        "One scripted provider response and unchanged journal/account/line fingerprint, counts and derived balances"
+      ]
+    },
+    "nativeResearch": {
+      "typescript": {
+        "passed": 30,
+        "skipped": 0,
+        "filesPassed": 3,
+        "filesSkipped": 0
+      },
+      "pythonWren": {
+        "passed": 35,
+        "durationSeconds": 0.514
+      },
+      "databaseChecks": {
+        "PASS": 7,
+        "FAIL": 0,
+        "NOT_APPLICABLE": 1
+      },
+      "securityChecks": {
+        "PASS": 57,
+        "FAIL": 0,
+        "UNASSESSED": 3
+      },
+      "securityHardGateFailures": 0,
+      "livePromptBehaviorAssessed": false
+    },
+    "composeRuntimeSteps": [
+      {
+        "name": "Run curl --fail http://localhost:3001/api/health",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Observe automatic scheduling and anomaly lifecycle",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run node scripts/check-compose-persistence.mjs --execute",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ],
+    "countsOverlap": true
+  },
+  "providerCallsInThisCi": 0,
+  "productionChanged": false,
+  "hostedAcceptancePerformed": false,
+  "limitations": [
+    "The captured provider response is replayed locally in CI; no new provider inference or model-accuracy measurement occurs.",
+    "This one known-case regression checks execution of the captured plan, not general question comprehension or exhaustive intent.",
+    "Only the initial answerContract wrapper is canonicalized; semantic fields and strict application validation remain unchanged.",
+    "Normal, Compose, named suites and native TypeScript counts overlap and must not be added.",
+    "The four completeness fixture tests run separately; their ordinary and Compose skips remain recorded in those totals.",
+    "Browser workflows use the CI build and scripted responses, not the hosted deployment or physical devices.",
+    "Completed scientific cohorts remain closed; these engineering results do not replace their failures or scores."
+  ],
+  "inputHashes": {
+    "run.json": "e2ba5a52492640511c6dbfd9f1b4266104b07a5a672ee7d1f5e0016012fa129f",
+    "jobs.json": "100a2e38b68e8fa7bf2c2da328937cdbb30a8e2297b2966b9628d8dc7dddd4cc",
+    "verify.log": "210ca769f696eb95edf78188b7c6245cc450a0839d4a2da5a8476874ea074280",
+    "compose.log": "ce4e3e9572e1c98e9dd5e0593e2967b099373e03bb1ca7287a8cc68a80fd295b",
+    "research-native.log": "b0455e1a377c7624a3c6666b85b1124a94c0cf3eca6fd1040f978bc852ba5718"
+  },
+  "checkerSha256": "1ec9d864a3f7bf0530bd9d5fe4f97d0783b68cdcfb0cf8b116aa27493ea06c0e"
+}

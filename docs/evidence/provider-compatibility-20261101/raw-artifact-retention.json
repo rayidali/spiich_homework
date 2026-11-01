@@ -1,0 +1,31 @@
+{
+  "recordedAt": "2026-11-01T05:38:13.980996+00:00",
+  "reason": "Raw diagnostic captures were transferred through GitHub Actions artifacts. Remove remote copies after verifying byte-identical retained local archives; publish sanitized evidence only.",
+  "items": [
+    {
+      "artifactId": 13071517765,
+      "runId": 41276497696,
+      "archiveSha256": "801c7e2e76db3cdc9a11ebda9ee59829139dce511460c64c9cd8b41510cf6921",
+      "bytes": 16268,
+      "localArchiveRetained": true,
+      "remoteDeleteHttpStatus": 204
+    },
+    {
+      "artifactId": 13071945117,
+      "runId": 41276758923,
+      "archiveSha256": "1ccd8c73330e7784b34c4b11210b2c4899e86d33dcec0387f556b5cc40044eb9",
+      "bytes": 20842,
+      "localArchiveRetained": true,
+      "remoteDeleteHttpStatus": 204
+    },
+    {
+      "artifactId": 13071168641,
+      "runId": 41276963914,
+      "archiveSha256": "d0cfa18831a37d75c6eec4faca13430cf3df6bfe66ebc7b5123c44828823f99b",
+      "bytes": 19870,
+      "localArchiveRetained": true,
+      "remoteDeleteHttpStatus": 204
+    }
+  ],
+  "historicalExposureNote": "These artifacts were temporarily downloadable through the public repository Actions interface; no claim of private remote storage is made."
+}

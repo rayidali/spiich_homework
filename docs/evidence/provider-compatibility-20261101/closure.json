@@ -1,0 +1,48 @@
+{
+  "version": "provider-diagnostic-closure-v1",
+  "state": "closed",
+  "approvedTotalUsd": "0.90",
+  "previousStudyChargedUsd": "0.0434346",
+  "localDnsConservativeReservationsUsd": "0.0707234",
+  "remoteKnownUsd": "0.0222595",
+  "remoteUnknownReservedUsd": "0.0353617",
+  "totalChargedUsd": "0.1717792",
+  "remainingAllowanceNotAnInvoiceOrReusablePermit": true,
+  "remoteAttempts": 3,
+  "localDnsFailures": 2,
+  "temporarySecretRemoved": true,
+  "removalStatus": 204,
+  "slots": [
+    {
+      "slot": "original",
+      "runId": "41276497696",
+      "sourceCommit": "c75f153fe5153fe8ea7703a8d607d86f11997715",
+      "httpStatus": 400,
+      "chargedUsd": "0.0353617",
+      "requestSha256": "3bce98f930244f60f179d8803d4a96b4a9e8af130028e667d85ed39a0ea8bbde",
+      "responseSha256": "b01105ed229707571186fdc753a734401dcd3dca044538c55285824604725bd3"
+    },
+    {
+      "slot": "repair",
+      "runId": "41276758923",
+      "sourceCommit": "42417b9ebdf97b5dd6c00424c9391d8e77faffb2",
+      "httpStatus": 200,
+      "chargedUsd": "0.0115778",
+      "requestSha256": "3fa0873d604edf5622318ebad7712e0565c6c60ed7ebd25587c68dfe28dc5cdf",
+      "responseSha256": "ce25f2dbac1509b04c2d838e393defd93bb38dc099cb405d1753ab45f389fe4f"
+    },
+    {
+      "slot": "multi",
+      "runId": "41276963914",
+      "sourceCommit": "fb5e72a6ee864cf9c423576ad001c866b07f8fb1",
+      "httpStatus": 200,
+      "chargedUsd": "0.0106817",
+      "requestSha256": "cb946003ab5e2bca906367bdf877c523a8dc3d072ca3590c03eba83cbb457fea",
+      "responseSha256": "24bad0cd9a527ad88a8ecc7fd77bae59177c91e1c7f43c2f46ba21c0977005c4"
+    }
+  ],
+  "accountingMeaning": "Charged allowance includes conservative unknown reservations; these are neither invoices nor a verified account balance.",
+  "knownUsageEstimatedUsd": "0.0303324",
+  "temporarySecretName": "GEMINI_DIAGNOSTIC_KEY",
+  "diagnosticReopenAuthorized": false
+}

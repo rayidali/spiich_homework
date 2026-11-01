@@ -1,0 +1,102 @@
+{
+  "schema": "daybook-private-provider-repair-validation-v1",
+  "variant": "repair",
+  "remoteRunId": "41276758923",
+  "remoteSourceCommit": "42417b9ebdf97b5dd6c00424c9391d8e77faffb2",
+  "requestSha256": "3fa0873d604edf5622318ebad7712e0565c6c60ed7ebd25587c68dfe28dc5cdf",
+  "responseSha256": "ce25f2dbac1509b04c2d838e393defd93bb38dc099cb405d1753ab45f389fe4f",
+  "originalRequestSha256": "3bce98f930244f60f179d8803d4a96b4a9e8af130028e667d85ed39a0ea8bbde",
+  "captureReceiptSha256": "99c1e472cb5536c30c99526a43a20e9c51a50b89e23cd14b863a074b9d339891",
+  "validatorSha256": "771b87c1d70cef36b1536a6dc55b155722bb791f3b314706b69859c9037efd3b",
+  "localValidationSource": {
+    "server/ai-provider.ts": "d52da2d27aaba29008d30f95d4e8a7e5671cca2325654122c70e740e17463e11",
+    "server/completion-tools.ts": "66bd8cff87c93e776b2569353506912da0ba9c6fa1b04651e46d6e4c500da2eb",
+    "server/answer-contract.ts": "e5343da9cf4d8ef1128bef60a9e489d83a00839a76a0a8c3155f662bb5c26c6c",
+    "server/answer-completion.ts": "8a17534b980a7f152b1b052f3d337b52ffa047569bdd7f5c9d04b595e13ff14a",
+    "server/financial-analysis.ts": "0827bd16f3ca01a39c756d0faa20a57fd80facde45133281f94d2d4991786de3",
+    "server/financial-calculation.ts": "c062f0271066ccd94115c3ca75e7cf39af634119a42f62c9d38c46c6c90fabb8"
+  },
+  "requestComparison": {
+    "originalMode": "ANY",
+    "candidateMode": "AUTO",
+    "candidateHasAllowedFunctionNames": false,
+    "onlyFunctionCallingConfigurationChanged": true,
+    "differencesConfinedToModeAndInstructions": true,
+    "toolSchemasIdentical": true,
+    "messagesIdentical": true,
+    "generationSettingsIdentical": true
+  },
+  "httpStatus": 200,
+  "providerAcceptedRequest": true,
+  "functionCheck": {
+    "passed": true,
+    "name": "financial_analysis"
+  },
+  "schemaCheck": {
+    "passed": true
+  },
+  "originalUserAnchorAndContractCheck": {
+    "passed": false,
+    "error": {
+      "name": "Error",
+      "code": "INVALID_ANSWER_CONTRACT",
+      "message": "Every output needs an unambiguous exact quotation from an original user message."
+    }
+  },
+  "anchorMetadata": [
+    {
+      "outputId": "repair_parts_aug2026",
+      "declaredMessageIndex": 1,
+      "declaredRole": "assistant",
+      "quoteSha256": "de1544496a48d6e4e686ee869fe231d279ab0cabacc9e6ff940c03377baed992",
+      "quoteCharacters": 68,
+      "exactMatches": [
+        {
+          "messageIndex": 2,
+          "role": "user",
+          "uniqueWithinMessage": true
+        }
+      ]
+    }
+  ],
+  "staticBindingKindReview": [
+    {
+      "outputId": "repair_parts_aug2026",
+      "requirementKind": "value",
+      "actualKind": "query_result",
+      "expectedKind": "query_row",
+      "kindMatches": false
+    }
+  ],
+  "originalMessagesByIndex": [
+    {
+      "index": 0,
+      "role": "user"
+    },
+    {
+      "index": 1,
+      "role": "assistant"
+    },
+    {
+      "index": 2,
+      "role": "user"
+    }
+  ],
+  "validationBeforeFinancialExecutionPassed": false,
+  "endToEndValidated": false,
+  "interpretation": "HTTP acceptance and strict local contract validity are separate. No captured output was normalized or financially executed.",
+  "limitations": [
+    "Static binding-kind review is an independent structural observation; it does not replace the runtime finalizer.",
+    "Source identity, actual query rows, arithmetic and rendered evidence have not been executed or validated here.",
+    "A valid pre-execution contract does not establish complete interpretation of the original user intent.",
+    "This diagnostic is not a resumed scientific cohort or a model-accuracy measurement."
+  ],
+  "execution": {
+    "providerCalls": 0,
+    "networkCalls": 0,
+    "databaseCalls": 0,
+    "financialExecutions": 0,
+    "modelOutputsNormalized": false,
+    "heldOutContentRead": false
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "schema": "provider-compatibility-public-provenance-v1",
+  "candidateSourceCommit": "49a0d81b5f0c588af39d10bee7ae164f96d955a2",
+  "sourceFilesMatchExactCommit": true,
+  "sourceHashes": {
+    "server/ai-provider.ts": "d52da2d27aaba29008d30f95d4e8a7e5671cca2325654122c70e740e17463e11",
+    "server/provider-diagnostics.ts": "bf85e9f85f8c9babde2819d74f985788dcd402f8350214fb241317fe56863c08",
+    "server/diagnostics.ts": "e92bed6431695586e326b1027eebc0c33f777e22c56f24f6b824abd0df1e5330",
+    "server/provider-schema.ts": "c05040e8fb97cc84b9ceeecab80910976838359dacf952d9416e8bab47ed4624",
+    "server/completion-tools.ts": "b541aec96548b577b7f3d5efe6b48d18677475f5078f670b5ff76ec33f125dac",
+    "server/ai.ts": "b7adf72d239add18fc5c97ca773f4e83d24065bdf5e1fc309e92ff7aac3b75fd",
+    "tests/provider-diagnostics.test.ts": "e2d30c1a98e4c00385aaaf2884dfba8a731414156b1032caeb60af4cc393f9a5",
+    "tests/ai-provider.test.ts": "732c9be379453d074050a6a43ad946d14e533a2b9fa032e6602dcc4451fe1d47",
+    "tests/completion-provider-mode.test.ts": "b71a30949e14270fcfd8ba598005c437829b0c974a0eab1c2365bb34b81e63c0",
+    "tests/completion-tools.test.ts": "4b9a3e4447b4276e49f046d16511bf062b229d26c09382ed7f76cfedac755599",
+    "tests/provider-completion-replay-db.test.ts": "8be84402a8c8433080dbaf297d1f75199a37efdf6e1bc5908d7c10f0b828ee03",
+    "scripts/provider-diagnostic.ts": "41bd025dde68de8f4449cb13ecb1a5e5d7e536e0333afb36be10e03987166aff",
+    ".github/workflows/provider-diagnostic.yml": "3e19712353413c051cb89a7a3982ab3097e7d44550c87a12b97b7db0f0dfb0dc"
+  },
+  "publicFiles": {
+    "ci.json": "cacaf09b4934b55130d8816332b9b8c89cd0b3004a571ddcd468065816c1c194",
+    "closure.json": "89a028bb91183bcc619c990eb6c29dc3bfb05a0bc1d33e5a006c6c555438ade6",
+    "instructions-validation-after-wrapper.json": "3590978f4a2b805b53de082246158b2dd69b5966916f63039d1493fff0ca39b4",
+    "instructions-validation-before-wrapper.json": "8f59454eec6bda033baafb5a9bc99a347d34f0aef0bb1301c1e9669aef29b72d",
+    "mode-only-validation.json": "27ff58d823fd1184f46f153286e7f19d5240eb49ee1ad9de63e0549587e692a0",
+    "raw-artifact-retention.json": "43820d4773ba03b083397e30a0c228f2d49ec8a87258a3868905162ace9a0b0e",
+    "report.md": "a6c439437de8b7300b0991ecb1a52f172429b13a451aa1769620e4977d7f0a92",
+    "secret-removal.json": "dac09bcd2ee9ef6560aded0970dc982de5051ee45d092e70fe64cb566bc72abd"
+  },
+  "limitations": [
+    "Hashes establish byte identities, not model accuracy.",
+    "Raw provider responses and private operational configuration are excluded.",
+    "The failed original scientific cohort was not restarted; diagnostic receipts have separate run and source identities."
+  ]
+}
