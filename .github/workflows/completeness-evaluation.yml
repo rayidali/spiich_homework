@@ -1,0 +1,106 @@
+name: Bounded answer-completeness comparison
+run-name: completeness-evaluation/${{ inputs.cohort }}/${{ inputs.phase }}
+on:
+  workflow_dispatch:
+    inputs:
+      cohort:
+        description: Frozen cohort; each phase may be dispatched once
+        type: string
+        required: true
+      phase:
+        type: choice
+        options: [development, holdout]
+        required: true
+      source_commit:
+        description: Exact reviewed Git commit
+        type: string
+        required: true
+      source_hash:
+        description: Exact runtime, evaluator, protocol and fixture fingerprint
+        type: string
+        required: true
+      approval_sha256:
+        description: Digest of the separately approved private permit
+        type: string
+        required: true
+      development_run:
+        description: Holdout requires the successful development run at the same source
+        type: string
+        default: ''
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: completeness-evaluation-${{ inputs.cohort }}
+  cancel-in-progress: false
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_USER: spiich
+          POSTGRES_PASSWORD: spiich
+          POSTGRES_DB: daybook_completeness_eval_v1
+        ports: [5432:5432]
+        options: >-
+          --health-cmd "pg_isready -U spiich -d daybook_completeness_eval_v1"
+          --health-interval 3s --health-timeout 3s --health-retries 20
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgres://spiich_app:spiich_app_local@127.0.0.1:5432/daybook_completeness_eval_v1
+      MIGRATION_DATABASE_URL: postgres://spiich:spiich@127.0.0.1:5432/daybook_completeness_eval_v1
+      AI_PROVIDER: gemini
+      AI_MODEL: gemini-3.5-flash-lite
+      GEMINI_API_KEY: ''
+      OPENAI_API_KEY: ''
+      TYPESAFE_API_KEY: ''
+      COMPLETENESS_COHORT: ${{ inputs.cohort }}
+      COMPLETENESS_PHASE: ${{ inputs.phase }}
+      COMPLETENESS_SOURCE_COMMIT: ${{ inputs.source_commit }}
+      COMPLETENESS_SOURCE_HASH: ${{ inputs.source_hash }}
+      COMPLETENESS_APPROVAL_SHA256: ${{ inputs.approval_sha256 }}
+      COMPLETENESS_DEVELOPMENT_RUN: ${{ inputs.development_run }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Download this cohort's immutable development artifact
+        if: inputs.phase == 'holdout'
+        uses: actions/download-artifact@v4
+        with:
+          name: completeness-evaluation-development-${{ inputs.development_run }}
+          run-id: ${{ inputs.development_run }}
+          github-token: ${{ github.token }}
+          path: .tools/completeness-evaluation-predecessor/
+      - name: Verify source, private approval and unused phase without provider credentials
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COMPLETENESS_PRIVATE_APPROVAL: ${{ secrets.COMPLETENESS_EVALUATION_APPROVAL }}
+        run: node --import tsx scripts/completeness-evaluation/authorize.ts
+      - run: npm run format:check
+      - run: npm run typecheck
+      - run: npm run db:migrate
+      - name: Verify independent oracle, evaluator and isolated PostgreSQL fixture
+        env:
+          COMPLETENESS_EVALUATION_DB_TEST: '1'
+        run: npx vitest run tests/completeness-evaluation
+      - name: Run real financialChat within the separately approved phase allowance
+        env:
+          GEMINI_API_KEY: ${{ secrets.COMPLETENESS_EVALUATION_GEMINI_KEY }}
+          COMPLETENESS_PRIVATE_APPROVAL: ${{ secrets.COMPLETENESS_EVALUATION_APPROVAL }}
+        run: node --import tsx scripts/completeness-evaluation/cli.ts run
+      - name: Retain failures, partial outcomes and cost reservations
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: completeness-evaluation-${{ inputs.phase }}-${{ github.run_id }}
+          path: .tools/completeness-evaluation-output/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 90

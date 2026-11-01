@@ -45,6 +45,25 @@ jobs:
           node -e "Promise.all([import('./api/index.js'), import('./api/cron.js')]).then(() => process.exit(0))"
       - run: npm run db:migrate
       - run: npm test
+      - name: Verify fresh completeness fixture in disposable PostgreSQL
+        env:
+          COMPLETENESS_EVALUATION_DB_TEST: '1'
+          DATABASE_URL: postgres://spiich_app:spiich_app_local@127.0.0.1:5432/daybook_completeness_eval_ci
+          MIGRATION_DATABASE_URL: postgres://spiich:spiich@127.0.0.1:5432/daybook_completeness_eval_ci
+          GEMINI_API_KEY: ''
+          OPENAI_API_KEY: ''
+          TYPESAFE_API_KEY: ''
+        run: |
+          node --input-type=module <<'NODE'
+          import pg from 'pg';
+          const owner = new URL(process.env.MIGRATION_DATABASE_URL);
+          owner.pathname = '/postgres';
+          const client = new pg.Client({ connectionString: owner.href });
+          await client.connect();
+          try { await client.query('CREATE DATABASE daybook_completeness_eval_ci'); }
+          finally { await client.end(); }
+          NODE
+          npx vitest run tests/completeness-evaluation/fixtures-db.test.ts
       - name: Replay recorded chat plans in disposable PostgreSQL
         id: chat-replay
         env:

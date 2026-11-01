@@ -1,0 +1,1156 @@
+{
+  "version": "completeness-worked-totals-v1",
+  "authorship": "AI-authored explicit expected constants and hand-worked equations, checked with independent BigInt cents/rationals. No independent human adjudication. These are fixture invariants, not held-out questions.",
+  "checks": [
+    {
+      "name": "parts_july",
+      "explanation": "425\u221225+180+90+60 =730; the split journal contributes only its60 parts line.",
+      "claim": {
+        "id": "parts_july",
+        "kind": "ledger",
+        "metric": "net_expense",
+        "value": "730.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-07-01",
+          "to": "2026-07-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["5030"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "delivery_july",
+      "explanation": "40+250+180 =470.",
+      "claim": {
+        "id": "delivery_july",
+        "kind": "ledger",
+        "metric": "net_expense",
+        "value": "470.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-07-01",
+          "to": "2026-07-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["5040"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "combined_july",
+      "explanation": "730+470=1200; deliberately equals rent but has a different account scope.",
+      "claim": {
+        "id": "combined_july",
+        "kind": "ledger",
+        "metric": "net_expense",
+        "value": "1200.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-07-01",
+          "to": "2026-07-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["5030", "5040"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "rent_july",
+      "explanation": "One rent journal1200: equal dollars must not substitute account identity.",
+      "claim": {
+        "id": "rent_july",
+        "kind": "ledger",
+        "metric": "net_expense",
+        "value": "1200.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-07-01",
+          "to": "2026-07-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["5010"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "parts_august",
+      "explanation": "165+260+410+35=870; draft999 excluded.",
+      "claim": {
+        "id": "parts_august",
+        "kind": "ledger",
+        "metric": "net_expense",
+        "value": "870.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-08-01",
+          "to": "2026-08-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["5030"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "delivery_august",
+      "explanation": "15+310+230=555.",
+      "claim": {
+        "id": "delivery_august",
+        "kind": "ledger",
+        "metric": "net_expense",
+        "value": "555.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-08-01",
+          "to": "2026-08-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["5040"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "parts_september",
+      "explanation": "220+110+75=405.",
+      "claim": {
+        "id": "parts_september",
+        "kind": "ledger",
+        "metric": "net_expense",
+        "value": "405.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-09-01",
+          "to": "2026-09-30",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["5030"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "delivery_september",
+      "explanation": "190+190+30+45=455; two190 suppliers tie; blank and literal placeholder differ.",
+      "claim": {
+        "id": "delivery_september",
+        "kind": "ledger",
+        "metric": "net_expense",
+        "value": "455.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-09-01",
+          "to": "2026-09-30",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["5040"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "expenses_07",
+      "explanation": "Independent sum of expense account net debits, refunds and reversal on its own date.",
+      "claim": {
+        "id": "expenses_07",
+        "kind": "ledger",
+        "metric": "net_expense",
+        "value": "2621.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-07-01",
+          "to": "2026-07-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["5010", "5020", "5030", "5040", "5050", "5510", "5520"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "revenue_07",
+      "explanation": "Invoice/service credits; receivable settlements do not recognize revenue again.",
+      "claim": {
+        "id": "revenue_07",
+        "kind": "ledger",
+        "metric": "net_revenue",
+        "value": "5050.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-07-01",
+          "to": "2026-07-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["4010", "4020"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "profit_07",
+      "explanation": "5050.00 revenue minus 2621.00 net expenses.",
+      "claim": {
+        "id": "profit_07",
+        "kind": "ledger",
+        "metric": "net_profit",
+        "value": "2429.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-07-01",
+          "to": "2026-07-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["4010", "4020", "5010", "5020", "5030", "5040", "5050", "5510", "5520"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "expenses_08",
+      "explanation": "Independent sum of expense account net debits, refunds and reversal on its own date.",
+      "claim": {
+        "id": "expenses_08",
+        "kind": "ledger",
+        "metric": "net_expense",
+        "value": "2725.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-08-01",
+          "to": "2026-08-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["5010", "5020", "5030", "5040", "5050", "5510", "5520"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "revenue_08",
+      "explanation": "Invoice/service credits; receivable settlements do not recognize revenue again.",
+      "claim": {
+        "id": "revenue_08",
+        "kind": "ledger",
+        "metric": "net_revenue",
+        "value": "5550.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-08-01",
+          "to": "2026-08-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["4010", "4020"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "profit_08",
+      "explanation": "5550.00 revenue minus 2725.00 net expenses.",
+      "claim": {
+        "id": "profit_08",
+        "kind": "ledger",
+        "metric": "net_profit",
+        "value": "2825.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-08-01",
+          "to": "2026-08-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["4010", "4020", "5010", "5020", "5030", "5040", "5050", "5510", "5520"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "expenses_09",
+      "explanation": "Independent sum of expense account net debits, refunds and reversal on its own date.",
+      "claim": {
+        "id": "expenses_09",
+        "kind": "ledger",
+        "metric": "net_expense",
+        "value": "1985.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-09-01",
+          "to": "2026-09-30",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["5010", "5020", "5030", "5040", "5050", "5510", "5520"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "revenue_09",
+      "explanation": "Invoice/service credits; receivable settlements do not recognize revenue again.",
+      "claim": {
+        "id": "revenue_09",
+        "kind": "ledger",
+        "metric": "net_revenue",
+        "value": "900.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-09-01",
+          "to": "2026-09-30",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["4010", "4020"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "profit_09",
+      "explanation": "900.00 revenue minus 1985.00 net expenses.",
+      "claim": {
+        "id": "profit_09",
+        "kind": "ledger",
+        "metric": "net_profit",
+        "value": "-1085.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-09-01",
+          "to": "2026-09-30",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["4010", "4020", "5010", "5020", "5030", "5040", "5050", "5510", "5520"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "cash_06",
+      "explanation": "18000 opening +319 July +1635 August \u22121065 September; apply only completed periods.",
+      "claim": {
+        "id": "cash_06",
+        "kind": "ledger",
+        "metric": "cash_balance",
+        "value": "18000.00",
+        "unit": "USD",
+        "scope": {
+          "from": null,
+          "to": "2026-06-30",
+          "asOf": "2026-06-30",
+          "status": "POSTED",
+          "accountCodes": ["1010", "1020", "1030"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "cash_07",
+      "explanation": "18000 opening +319 July +1635 August \u22121065 September; apply only completed periods.",
+      "claim": {
+        "id": "cash_07",
+        "kind": "ledger",
+        "metric": "cash_balance",
+        "value": "18319.00",
+        "unit": "USD",
+        "scope": {
+          "from": null,
+          "to": "2026-07-31",
+          "asOf": "2026-07-31",
+          "status": "POSTED",
+          "accountCodes": ["1010", "1020", "1030"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "cash_08",
+      "explanation": "18000 opening +319 July +1635 August \u22121065 September; apply only completed periods.",
+      "claim": {
+        "id": "cash_08",
+        "kind": "ledger",
+        "metric": "cash_balance",
+        "value": "19954.00",
+        "unit": "USD",
+        "scope": {
+          "from": null,
+          "to": "2026-08-31",
+          "asOf": "2026-08-31",
+          "status": "POSTED",
+          "accountCodes": ["1010", "1020", "1030"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "cash_09",
+      "explanation": "18000 opening +319 July +1635 August \u22121065 September; apply only completed periods.",
+      "claim": {
+        "id": "cash_09",
+        "kind": "ledger",
+        "metric": "cash_balance",
+        "value": "18889.00",
+        "unit": "USD",
+        "scope": {
+          "from": null,
+          "to": "2026-09-30",
+          "asOf": "2026-09-30",
+          "status": "POSTED",
+          "accountCodes": ["1010", "1020", "1030"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "movement_07",
+      "explanation": "Signed cash debits\u2212credits; internal transfers cancel across all cash accounts.",
+      "claim": {
+        "id": "movement_07",
+        "kind": "ledger",
+        "metric": "net_cash_movement",
+        "value": "319.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-07-01",
+          "to": "2026-07-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["1010", "1020", "1030"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "movement_08",
+      "explanation": "Signed cash debits\u2212credits; internal transfers cancel across all cash accounts.",
+      "claim": {
+        "id": "movement_08",
+        "kind": "ledger",
+        "metric": "net_cash_movement",
+        "value": "1635.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-08-01",
+          "to": "2026-08-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["1010", "1020", "1030"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "movement_09",
+      "explanation": "Signed cash debits\u2212credits; internal transfers cancel across all cash accounts.",
+      "claim": {
+        "id": "movement_09",
+        "kind": "ledger",
+        "metric": "net_cash_movement",
+        "value": "-1065.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-09-01",
+          "to": "2026-09-30",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["1010", "1020", "1030"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "assets_september",
+      "explanation": "18889 cash+5400 receivables+3500 equipment; assets are not cash.",
+      "claim": {
+        "id": "assets_september",
+        "kind": "ledger",
+        "metric": "account_balance",
+        "value": "27789.00",
+        "unit": "USD",
+        "scope": {
+          "from": null,
+          "to": "2026-09-30",
+          "asOf": "2026-09-30",
+          "status": "POSTED",
+          "accountCodes": ["1010", "1020", "1030", "1100", "1200"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "archived_cash",
+      "explanation": "85 historical transfer\u221215 safety purchase; archived history remains included.",
+      "claim": {
+        "id": "archived_cash",
+        "kind": "ledger",
+        "metric": "cash_balance",
+        "value": "70.00",
+        "unit": "USD",
+        "scope": {
+          "from": null,
+          "to": "2026-09-30",
+          "asOf": "2026-09-30",
+          "status": "POSTED",
+          "accountCodes": ["1030"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "native_euro",
+      "explanation": "200\u221230+100\u221220+50=300EUR.",
+      "claim": {
+        "id": "native_euro",
+        "kind": "ledger",
+        "metric": "cash_balance",
+        "value": "300.00",
+        "unit": "EUR",
+        "scope": {
+          "from": null,
+          "to": "2026-09-30",
+          "asOf": "2026-09-30",
+          "status": "POSTED",
+          "accountCodes": ["1020"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "native",
+          "currency": "EUR",
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "saved_euro",
+      "explanation": "230\u221236+130\u221225+70=369 saved USD; no current revaluation.",
+      "claim": {
+        "id": "saved_euro",
+        "kind": "ledger",
+        "metric": "cash_balance",
+        "value": "369.00",
+        "unit": "USD",
+        "scope": {
+          "from": null,
+          "to": "2026-09-30",
+          "asOf": "2026-09-30",
+          "status": "POSTED",
+          "accountCodes": ["1020"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "receipts_july",
+      "explanation": "Cash settlement1500; July invoice4200 is a distinct quantity.",
+      "claim": {
+        "id": "receipts_july",
+        "kind": "ledger",
+        "metric": "net_cash_movement",
+        "value": "1500.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-07-01",
+          "to": "2026-07-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["1010", "1020", "1030"],
+          "counterparty": {
+            "mode": "identity",
+            "value": "North Fleet"
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "receipts_august",
+      "explanation": "Cash settlement2600; August invoice5100 is a distinct quantity.",
+      "claim": {
+        "id": "receipts_august",
+        "kind": "ledger",
+        "metric": "net_cash_movement",
+        "value": "2600.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-08-01",
+          "to": "2026-08-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["1010", "1020", "1030"],
+          "counterparty": {
+            "mode": "identity",
+            "value": "North Fleet"
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "harbor_exact_identity",
+      "explanation": "Raw identity Harbor Repair excludes lowercase harbor repair410.",
+      "claim": {
+        "id": "harbor_exact_identity",
+        "kind": "ledger",
+        "metric": "net_expense",
+        "value": "260.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-08-01",
+          "to": "2026-08-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["5030"],
+          "counterparty": {
+            "mode": "identity",
+            "value": "Harbor Repair"
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "harbor_folded",
+      "explanation": "Case-folded exact search combines260+410.",
+      "claim": {
+        "id": "harbor_folded",
+        "kind": "ledger",
+        "metric": "net_expense",
+        "value": "670.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-08-01",
+          "to": "2026-08-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["5030"],
+          "counterparty": {
+            "mode": "exact",
+            "value": "Harbor Repair"
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "consumables_august",
+      "explanation": "Original posted August purchase.",
+      "claim": {
+        "id": "consumables_august",
+        "kind": "ledger",
+        "metric": "net_expense",
+        "value": "100.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-08-01",
+          "to": "2026-08-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["5050"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "consumables_september",
+      "explanation": "September reversal is negative in September; August remains100.",
+      "claim": {
+        "id": "consumables_september",
+        "kind": "ledger",
+        "metric": "net_expense",
+        "value": "-100.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-09-01",
+          "to": "2026-09-30",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["5050"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "draft_parts",
+      "explanation": "Only the explicit draft, never mixed into posted books.",
+      "claim": {
+        "id": "draft_parts",
+        "kind": "ledger",
+        "metric": "net_expense",
+        "value": "999.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-08-01",
+          "to": "2026-08-31",
+          "asOf": null,
+          "status": "DRAFT",
+          "accountCodes": ["5030"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "parts_journal_count",
+      "explanation": "Five distinct parts journals, including refund and mixed shipment.",
+      "claim": {
+        "id": "parts_journal_count",
+        "kind": "ledger",
+        "metric": "journal_count",
+        "value": "5",
+        "unit": "count",
+        "scope": {
+          "from": "2026-07-01",
+          "to": "2026-07-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["5030"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "parts_full_journals",
+      "explanation": "425+25+180+90+100 full debit totals, not net730 parts.",
+      "claim": {
+        "id": "parts_full_journals",
+        "kind": "ledger",
+        "metric": "journal_total",
+        "value": "820.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-07-01",
+          "to": "2026-07-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["5030"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "parts_average",
+      "explanation": "730 net parts /5 matching journals =146.",
+      "claim": {
+        "id": "parts_average",
+        "kind": "ledger",
+        "metric": "net_expense_average_per_entry",
+        "value": "146.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-07-01",
+          "to": "2026-07-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["5030"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null,
+          "averageDenominator": "5"
+        }
+      }
+    },
+    {
+      "name": "parts_bank_cooccurrence",
+      "explanation": "425\u221225+90+60; matching journal contains Operating bank, not payment allocation.",
+      "claim": {
+        "id": "parts_bank_cooccurrence",
+        "kind": "ledger",
+        "metric": "net_expense",
+        "value": "550.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-07-01",
+          "to": "2026-07-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["5030"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": ["1010"],
+          "descriptionSearch": "",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    },
+    {
+      "name": "parts_joint_threshold",
+      "explanation": "425+180+60; mixed shipment qualifies because parts60+delivery40 meets100 threshold before account grouping.",
+      "claim": {
+        "id": "parts_joint_threshold",
+        "kind": "ledger",
+        "metric": "net_expense",
+        "value": "665.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-07-01",
+          "to": "2026-07-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["5030"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "",
+          "minimumAmount": "100",
+          "maximumAmount": null,
+          "amountThresholdAccountCodes": ["5030", "5040"]
+        }
+      }
+    },
+    {
+      "name": "parts_description",
+      "explanation": "Only JUL-SPLIT description contains split; no merchant fallback.",
+      "claim": {
+        "id": "parts_description",
+        "kind": "ledger",
+        "metric": "net_expense",
+        "value": "60.00",
+        "unit": "USD",
+        "scope": {
+          "from": "2026-07-01",
+          "to": "2026-07-31",
+          "asOf": null,
+          "status": "POSTED",
+          "accountCodes": ["5030"],
+          "counterparty": {
+            "mode": "any",
+            "value": ""
+          },
+          "currencyMode": "base",
+          "currency": null,
+          "cooccurringAccountCodes": [],
+          "descriptionSearch": "split",
+          "minimumAmount": null,
+          "maximumAmount": null
+        }
+      }
+    }
+  ]
+}

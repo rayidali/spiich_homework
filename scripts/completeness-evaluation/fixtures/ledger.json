@@ -1,0 +1,1485 @@
+{
+  "version": "completeness-fixture-v1",
+  "asOf": "2026-09-30",
+  "authorship": "Synthetic fixture authored by an AI coding agent; independent integer/rational oracle, not independently human-adjudicated.",
+  "accounts": [
+    {
+      "code": "1000",
+      "name": "Assets",
+      "type": "ASSET",
+      "parentCode": null,
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": true,
+      "archived": false
+    },
+    {
+      "code": "1010",
+      "name": "Operating bank",
+      "type": "ASSET",
+      "parentCode": "1000",
+      "currency": "USD",
+      "isCash": true,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "1020",
+      "name": "Euro reserve",
+      "type": "ASSET",
+      "parentCode": "1000",
+      "currency": "EUR",
+      "isCash": true,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "1030",
+      "name": "Retired cashbox",
+      "type": "ASSET",
+      "parentCode": "1000",
+      "currency": "USD",
+      "isCash": true,
+      "isGroup": false,
+      "archived": true
+    },
+    {
+      "code": "1100",
+      "name": "Accounts receivable",
+      "type": "ASSET",
+      "parentCode": "1000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "1200",
+      "name": "Workshop equipment",
+      "type": "ASSET",
+      "parentCode": "1000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "2000",
+      "name": "Liabilities",
+      "type": "LIABILITY",
+      "parentCode": null,
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": true,
+      "archived": false
+    },
+    {
+      "code": "2010",
+      "name": "Accounts payable",
+      "type": "LIABILITY",
+      "parentCode": "2000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "2100",
+      "name": "Company card",
+      "type": "LIABILITY",
+      "parentCode": "2000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "2200",
+      "name": "Workshop loan",
+      "type": "LIABILITY",
+      "parentCode": "2000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "3000",
+      "name": "Equity",
+      "type": "EQUITY",
+      "parentCode": null,
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": true,
+      "archived": false
+    },
+    {
+      "code": "3010",
+      "name": "Owner capital",
+      "type": "EQUITY",
+      "parentCode": "3000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "4000",
+      "name": "Revenue",
+      "type": "REVENUE",
+      "parentCode": null,
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": true,
+      "archived": false
+    },
+    {
+      "code": "4010",
+      "name": "Repair services",
+      "type": "REVENUE",
+      "parentCode": "4000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "4020",
+      "name": "Training",
+      "type": "REVENUE",
+      "parentCode": "4000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "5000",
+      "name": "Operating expenses",
+      "type": "EXPENSE",
+      "parentCode": null,
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": true,
+      "archived": false
+    },
+    {
+      "code": "5010",
+      "name": "Workshop rent",
+      "type": "EXPENSE",
+      "parentCode": "5000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "5020",
+      "name": "Software",
+      "type": "EXPENSE",
+      "parentCode": "5000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "5030",
+      "name": "Repair parts",
+      "type": "EXPENSE",
+      "parentCode": "5000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "5040",
+      "name": "Delivery charges",
+      "type": "EXPENSE",
+      "parentCode": "5000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "5050",
+      "name": "Workshop consumables",
+      "type": "EXPENSE",
+      "parentCode": "5000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "5500",
+      "name": "Site operations",
+      "type": "EXPENSE",
+      "parentCode": "5000",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": true,
+      "archived": false
+    },
+    {
+      "code": "5510",
+      "name": "Utilities",
+      "type": "EXPENSE",
+      "parentCode": "5500",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": false
+    },
+    {
+      "code": "5520",
+      "name": "Safety supplies",
+      "type": "EXPENSE",
+      "parentCode": "5500",
+      "currency": "USD",
+      "isCash": false,
+      "isGroup": false,
+      "archived": true
+    }
+  ],
+  "entries": [
+    {
+      "id": "OPEN-BANK",
+      "tenant": "primary",
+      "date": "2026-06-30",
+      "description": "Open Bank",
+      "counterparty": "Owner",
+      "reference": "OPEN-BANK",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1010",
+          "debit": "18000",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "3010",
+          "debit": "0",
+          "credit": "18000",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "OPEN-EQUIPMENT",
+      "tenant": "primary",
+      "date": "2026-06-30",
+      "description": "Open Equipment",
+      "counterparty": "Owner",
+      "reference": "OPEN-EQUIPMENT",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1200",
+          "debit": "3500",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "3010",
+          "debit": "0",
+          "credit": "3500",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "OPEN-CASHBOX",
+      "tenant": "primary",
+      "date": "2026-06-30",
+      "description": "Open Cashbox",
+      "counterparty": "Internal transfer",
+      "reference": "OPEN-CASHBOX",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1030",
+          "debit": "85",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "85",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "JUL-PARTS-WHEEL",
+      "tenant": "primary",
+      "date": "2026-07-03",
+      "description": "Jul Parts Wheel",
+      "counterparty": "Wheelhouse",
+      "reference": "JUL-PARTS-WHEEL",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "425",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "425",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "JUL-PARTS-REFUND",
+      "tenant": "primary",
+      "date": "2026-07-10",
+      "description": "Jul Parts Refund",
+      "counterparty": "Wheelhouse",
+      "reference": "JUL-PARTS-REFUND",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1010",
+          "debit": "25",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "5030",
+          "debit": "0",
+          "credit": "25",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "JUL-PARTS-HARBOR",
+      "tenant": "primary",
+      "date": "2026-07-04",
+      "description": "Jul Parts Harbor",
+      "counterparty": "Harbor Repair",
+      "reference": "JUL-PARTS-HARBOR",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "180",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "2100",
+          "debit": "0",
+          "credit": "180",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "JUL-PARTS-LOWER",
+      "tenant": "primary",
+      "date": "2026-07-05",
+      "description": "Jul Parts Lower",
+      "counterparty": "harbor repair",
+      "reference": "JUL-PARTS-LOWER",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "90",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "90",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "JUL-SPLIT",
+      "tenant": "primary",
+      "date": "2026-07-06",
+      "description": "Jul Split",
+      "counterparty": "Mixed shipment",
+      "reference": "JUL-SPLIT",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "60",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "5040",
+          "debit": "40",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "100",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "JUL-DELIVERY-NORTH",
+      "tenant": "primary",
+      "date": "2026-07-08",
+      "description": "Jul Delivery North",
+      "counterparty": "North Parcel",
+      "reference": "JUL-DELIVERY-NORTH",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5040",
+          "debit": "250",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "250",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "JUL-DELIVERY-ROUTE",
+      "tenant": "primary",
+      "date": "2026-07-09",
+      "description": "Jul Delivery Route",
+      "counterparty": "Route Nine",
+      "reference": "JUL-DELIVERY-ROUTE",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5040",
+          "debit": "180",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "2100",
+          "debit": "0",
+          "credit": "180",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "JUL-RENT",
+      "tenant": "primary",
+      "date": "2026-07-01",
+      "description": "Jul Rent",
+      "counterparty": "Workshop landlord",
+      "reference": "JUL-RENT",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5010",
+          "debit": "1200",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "1200",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "JUL-SOFTWARE",
+      "tenant": "primary",
+      "date": "2026-07-11",
+      "description": "Jul Software",
+      "counterparty": "Bench Tools",
+      "reference": "JUL-SOFTWARE",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5020",
+          "debit": "80",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "80",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "JUL-UTILITIES",
+      "tenant": "primary",
+      "date": "2026-07-12",
+      "description": "Jul Utilities",
+      "counterparty": "City Electric",
+      "reference": "JUL-UTILITIES",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5510",
+          "debit": "55",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "55",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "JUL-SAFETY",
+      "tenant": "primary",
+      "date": "2026-07-13",
+      "description": "Jul Safety",
+      "counterparty": "Old Safety Store",
+      "reference": "JUL-SAFETY",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5520",
+          "debit": "35",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "35",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "JUL-CASHBOX-SPEND",
+      "tenant": "primary",
+      "date": "2026-07-14",
+      "description": "Jul Cashbox Spend",
+      "counterparty": "Old Safety Store",
+      "reference": "JUL-CASHBOX-SPEND",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5520",
+          "debit": "15",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1030",
+          "debit": "0",
+          "credit": "15",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "JUL-INVOICE",
+      "tenant": "primary",
+      "date": "2026-07-15",
+      "description": "Jul Invoice",
+      "counterparty": "North Fleet",
+      "reference": "JUL-INVOICE",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1100",
+          "debit": "4200",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "4010",
+          "debit": "0",
+          "credit": "4200",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "JUL-RECEIPT",
+      "tenant": "primary",
+      "date": "2026-07-22",
+      "description": "Jul Receipt",
+      "counterparty": "North Fleet",
+      "reference": "JUL-RECEIPT",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1010",
+          "debit": "1500",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1100",
+          "debit": "0",
+          "credit": "1500",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "JUL-CASH-REPAIR",
+      "tenant": "primary",
+      "date": "2026-07-23",
+      "description": "Jul Cash Repair",
+      "counterparty": "Bicycle Club",
+      "reference": "JUL-CASH-REPAIR",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1010",
+          "debit": "600",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "4010",
+          "debit": "0",
+          "credit": "600",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "JUL-TRAINING",
+      "tenant": "primary",
+      "date": "2026-07-24",
+      "description": "Jul Training",
+      "counterparty": "Evening Class",
+      "reference": "JUL-TRAINING",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1010",
+          "debit": "250",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "4020",
+          "debit": "0",
+          "credit": "250",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "JUL-EURO-CAPITAL",
+      "tenant": "primary",
+      "date": "2026-07-25",
+      "description": "Jul Euro Capital",
+      "counterparty": "Owner",
+      "reference": "JUL-EURO-CAPITAL",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1020",
+          "debit": "200",
+          "credit": "0",
+          "exchangeRate": "1.15"
+        },
+        {
+          "accountCode": "3010",
+          "debit": "0",
+          "credit": "230",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "JUL-EURO-SOFTWARE",
+      "tenant": "primary",
+      "date": "2026-07-26",
+      "description": "Jul Euro Software",
+      "counterparty": "Euro Tools",
+      "reference": "JUL-EURO-SOFTWARE",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5020",
+          "debit": "36",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1020",
+          "debit": "0",
+          "credit": "30",
+          "exchangeRate": "1.2"
+        }
+      ]
+    },
+    {
+      "id": "AUG-PARTS-WHEEL",
+      "tenant": "primary",
+      "date": "2026-08-03",
+      "description": "Aug Parts Wheel",
+      "counterparty": "Wheelhouse",
+      "reference": "AUG-PARTS-WHEEL",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "165",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "165",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "AUG-PARTS-HARBOR",
+      "tenant": "primary",
+      "date": "2026-08-04",
+      "description": "Aug Parts Harbor",
+      "counterparty": "Harbor Repair",
+      "reference": "AUG-PARTS-HARBOR",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "260",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "260",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "AUG-PARTS-LOWER",
+      "tenant": "primary",
+      "date": "2026-08-05",
+      "description": "Aug Parts Lower",
+      "counterparty": "harbor repair",
+      "reference": "AUG-PARTS-LOWER",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "410",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "2100",
+          "debit": "0",
+          "credit": "410",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "AUG-SPLIT",
+      "tenant": "primary",
+      "date": "2026-08-06",
+      "description": "Aug Split",
+      "counterparty": "Mixed shipment",
+      "reference": "AUG-SPLIT",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "35",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "5040",
+          "debit": "15",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "50",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "AUG-DELIVERY-NORTH",
+      "tenant": "primary",
+      "date": "2026-08-08",
+      "description": "Aug Delivery North",
+      "counterparty": "North Parcel",
+      "reference": "AUG-DELIVERY-NORTH",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5040",
+          "debit": "310",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "310",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "AUG-DELIVERY-ROUTE",
+      "tenant": "primary",
+      "date": "2026-08-09",
+      "description": "Aug Delivery Route",
+      "counterparty": "Route Nine",
+      "reference": "AUG-DELIVERY-ROUTE",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5040",
+          "debit": "230",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "230",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "AUG-INVOICE",
+      "tenant": "primary",
+      "date": "2026-08-15",
+      "description": "Aug Invoice",
+      "counterparty": "North Fleet",
+      "reference": "AUG-INVOICE",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1100",
+          "debit": "5100",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "4010",
+          "debit": "0",
+          "credit": "5100",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "AUG-RECEIPT",
+      "tenant": "primary",
+      "date": "2026-08-22",
+      "description": "Aug Receipt",
+      "counterparty": "North Fleet",
+      "reference": "AUG-RECEIPT",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1010",
+          "debit": "2600",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1100",
+          "debit": "0",
+          "credit": "2600",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "AUG-CASH-REPAIR",
+      "tenant": "primary",
+      "date": "2026-08-23",
+      "description": "Aug Cash Repair",
+      "counterparty": "Bicycle Club",
+      "reference": "AUG-CASH-REPAIR",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1010",
+          "debit": "450",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "4010",
+          "debit": "0",
+          "credit": "450",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "AUG-RENT",
+      "tenant": "primary",
+      "date": "2026-08-01",
+      "description": "Aug Rent",
+      "counterparty": "Workshop landlord",
+      "reference": "AUG-RENT",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5010",
+          "debit": "1200",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "1200",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "AUG-LOAN",
+      "tenant": "primary",
+      "date": "2026-08-24",
+      "description": "Aug Loan",
+      "counterparty": "Community lender",
+      "reference": "AUG-LOAN",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1010",
+          "debit": "800",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "2200",
+          "debit": "0",
+          "credit": "800",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "AUG-CONSUMABLES",
+      "tenant": "primary",
+      "date": "2026-08-25",
+      "description": "Aug Consumables",
+      "counterparty": "Returnable stock",
+      "reference": "AUG-CONSUMABLES",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5050",
+          "debit": "100",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "2100",
+          "debit": "0",
+          "credit": "100",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "SEP-REVERSAL",
+      "tenant": "primary",
+      "date": "2026-09-02",
+      "description": "Sep Reversal",
+      "counterparty": "Returnable stock",
+      "reference": "SEP-REVERSAL",
+      "status": "POSTED",
+      "reverses": "AUG-CONSUMABLES",
+      "lines": [
+        {
+          "accountCode": "2100",
+          "debit": "100",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "5050",
+          "debit": "0",
+          "credit": "100",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "SEP-PARTS-WHEEL",
+      "tenant": "primary",
+      "date": "2026-09-03",
+      "description": "Sep Parts Wheel",
+      "counterparty": "Wheelhouse",
+      "reference": "SEP-PARTS-WHEEL",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "220",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "220",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "SEP-PARTS-HARBOR",
+      "tenant": "primary",
+      "date": "2026-09-04",
+      "description": "Sep Parts Harbor",
+      "counterparty": "Harbor Repair",
+      "reference": "SEP-PARTS-HARBOR",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "110",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "110",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "SEP-PARTS-LOWER",
+      "tenant": "primary",
+      "date": "2026-09-05",
+      "description": "Sep Parts Lower",
+      "counterparty": "harbor repair",
+      "reference": "SEP-PARTS-LOWER",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "75",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "75",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "SEP-DELIVERY-NORTH",
+      "tenant": "primary",
+      "date": "2026-09-08",
+      "description": "Sep Delivery North",
+      "counterparty": "North Parcel",
+      "reference": "SEP-DELIVERY-NORTH",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5040",
+          "debit": "190",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "190",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "SEP-DELIVERY-ROUTE",
+      "tenant": "primary",
+      "date": "2026-09-09",
+      "description": "Sep Delivery Route",
+      "counterparty": "Route Nine",
+      "reference": "SEP-DELIVERY-ROUTE",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5040",
+          "debit": "190",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "2100",
+          "debit": "0",
+          "credit": "190",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "SEP-DELIVERY-BLANK",
+      "tenant": "primary",
+      "date": "2026-09-10",
+      "description": "Sep Delivery Blank",
+      "counterparty": "",
+      "reference": "SEP-DELIVERY-BLANK",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5040",
+          "debit": "30",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "30",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "SEP-DELIVERY-LITERAL",
+      "tenant": "primary",
+      "date": "2026-09-11",
+      "description": "Sep Delivery Literal",
+      "counterparty": "(No counterparty)",
+      "reference": "SEP-DELIVERY-LITERAL",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5040",
+          "debit": "45",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "45",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "SEP-RENT",
+      "tenant": "primary",
+      "date": "2026-09-01",
+      "description": "Sep Rent",
+      "counterparty": "Workshop landlord",
+      "reference": "SEP-RENT",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5010",
+          "debit": "1200",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "1200",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "SEP-INVOICE",
+      "tenant": "primary",
+      "date": "2026-09-15",
+      "description": "Sep Invoice",
+      "counterparty": "North Fleet",
+      "reference": "SEP-INVOICE",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1100",
+          "debit": "900",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "4010",
+          "debit": "0",
+          "credit": "900",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "SEP-RECEIPT",
+      "tenant": "primary",
+      "date": "2026-09-22",
+      "description": "Sep Receipt",
+      "counterparty": "North Fleet",
+      "reference": "SEP-RECEIPT",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1010",
+          "debit": "700",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1100",
+          "debit": "0",
+          "credit": "700",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "SEP-EURO-CAPITAL",
+      "tenant": "primary",
+      "date": "2026-09-25",
+      "description": "Sep Euro Capital",
+      "counterparty": "Owner",
+      "reference": "SEP-EURO-CAPITAL",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1020",
+          "debit": "100",
+          "credit": "0",
+          "exchangeRate": "1.3"
+        },
+        {
+          "accountCode": "3010",
+          "debit": "0",
+          "credit": "130",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "SEP-EURO-SOFTWARE",
+      "tenant": "primary",
+      "date": "2026-09-26",
+      "description": "Sep Euro Software",
+      "counterparty": "Euro Tools",
+      "reference": "SEP-EURO-SOFTWARE",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5020",
+          "debit": "25",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1020",
+          "debit": "0",
+          "credit": "20",
+          "exchangeRate": "1.25"
+        }
+      ]
+    },
+    {
+      "id": "SEP-FX-TRANSFER",
+      "tenant": "primary",
+      "date": "2026-09-27",
+      "description": "Sep Fx Transfer",
+      "counterparty": "Internal transfer",
+      "reference": "SEP-FX-TRANSFER",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1020",
+          "debit": "50",
+          "credit": "0",
+          "exchangeRate": "1.4"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "70",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "DRAFT-PARTS",
+      "tenant": "primary",
+      "date": "2026-08-31",
+      "description": "Draft Parts",
+      "counterparty": "Wheelhouse",
+      "reference": "DRAFT-PARTS",
+      "status": "DRAFT",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "999",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "999",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "FOREIGN-PARTS",
+      "tenant": "foreign",
+      "date": "2026-07-03",
+      "description": "Foreign Parts",
+      "counterparty": "Wheelhouse",
+      "reference": "FOREIGN-PARTS",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5030",
+          "debit": "8730",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "8730",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "FOREIGN-CAPITAL",
+      "tenant": "foreign",
+      "date": "2026-08-01",
+      "description": "Foreign Capital",
+      "counterparty": "Owner",
+      "reference": "FOREIGN-CAPITAL",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "1010",
+          "debit": "99000",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "3010",
+          "debit": "0",
+          "credit": "99000",
+          "exchangeRate": "1"
+        }
+      ]
+    },
+    {
+      "id": "FOREIGN-DELIVERY",
+      "tenant": "foreign",
+      "date": "2026-08-08",
+      "description": "Foreign Delivery",
+      "counterparty": "North Parcel",
+      "reference": "FOREIGN-DELIVERY",
+      "status": "POSTED",
+      "reverses": null,
+      "lines": [
+        {
+          "accountCode": "5040",
+          "debit": "5310",
+          "credit": "0",
+          "exchangeRate": "1"
+        },
+        {
+          "accountCode": "1010",
+          "debit": "0",
+          "credit": "5310",
+          "exchangeRate": "1"
+        }
+      ]
+    }
+  ]
+}

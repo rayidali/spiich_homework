@@ -1,0 +1,400 @@
+[
+  {
+    "id": "D01",
+    "split": "development",
+    "family": "common",
+    "messages": [
+      {
+        "role": "user",
+        "content": "For July 2026, show recorded Repair parts spending with Wheelhouse only."
+      },
+      {
+        "role": "assistant",
+        "content": "I will keep Repair parts, Wheelhouse and posted entries as the filters."
+      },
+      {
+        "role": "user",
+        "content": "Actually use August 2026 instead. Keep the same vendor and category."
+      }
+    ],
+    "expected": {
+      "behavior": "ANSWER",
+      "required": [
+        {
+          "id": "august_wheelhouse_parts",
+          "kind": "ledger",
+          "metric": "net_expense",
+          "value": "165.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-08-01",
+            "to": "2026-08-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["5030"],
+            "counterparty": {
+              "mode": "identity",
+              "value": "Wheelhouse"
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        }
+      ],
+      "supporting": []
+    }
+  },
+  {
+    "id": "D02",
+    "split": "development",
+    "family": "discovery",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Which supplier had the largest recorded Delivery charges in August 2026? Show that supplier’s August and September 2026 amounts and the dollar change from August to September."
+      }
+    ],
+    "expected": {
+      "behavior": "ANSWER",
+      "required": [
+        {
+          "id": "leader_august",
+          "kind": "ledger",
+          "metric": "net_expense",
+          "value": "310.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-08-01",
+            "to": "2026-08-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["5040"],
+            "counterparty": {
+              "mode": "identity",
+              "value": "North Parcel"
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "leader_september",
+          "kind": "ledger",
+          "metric": "net_expense",
+          "value": "190.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-09-01",
+            "to": "2026-09-30",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["5040"],
+            "counterparty": {
+              "mode": "identity",
+              "value": "North Parcel"
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "leader_change",
+          "kind": "calculation",
+          "value": "-120.00",
+          "unit": "USD",
+          "source": "posted",
+          "formula": {
+            "operation": "subtract",
+            "operands": [
+              {
+                "claim": "leader_september"
+              },
+              {
+                "claim": "leader_august"
+              }
+            ]
+          }
+        }
+      ],
+      "supporting": [
+        {
+          "id": "rank_route",
+          "kind": "ledger",
+          "metric": "net_expense",
+          "value": "230.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-08-01",
+            "to": "2026-08-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["5040"],
+            "counterparty": {
+              "mode": "identity",
+              "value": "Route Nine"
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "rank_mixed",
+          "kind": "ledger",
+          "metric": "net_expense",
+          "value": "15.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-08-01",
+            "to": "2026-08-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["5040"],
+            "counterparty": {
+              "mode": "identity",
+              "value": "Mixed shipment"
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        }
+      ],
+      "tables": [
+        {
+          "id": "august_leader",
+          "claimIds": ["leader_august"],
+          "coverage": "leading",
+          "order": "value_desc",
+          "limit": null
+        }
+      ]
+    }
+  },
+  {
+    "id": "D03",
+    "split": "development",
+    "family": "arithmetic",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Compare July 2026 with August 2026 for recorded Repair parts and Delivery charges. Show each category in each month, the combined cost for each month, the dollar change in that combined cost, and the relative change from July to August."
+      }
+    ],
+    "expected": {
+      "behavior": "ANSWER",
+      "required": [
+        {
+          "id": "parts_july",
+          "kind": "ledger",
+          "metric": "net_expense",
+          "value": "730.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-07-01",
+            "to": "2026-07-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["5030"],
+            "counterparty": {
+              "mode": "any",
+              "value": ""
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "delivery_july",
+          "kind": "ledger",
+          "metric": "net_expense",
+          "value": "470.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-07-01",
+            "to": "2026-07-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["5040"],
+            "counterparty": {
+              "mode": "any",
+              "value": ""
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "parts_august",
+          "kind": "ledger",
+          "metric": "net_expense",
+          "value": "870.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-08-01",
+            "to": "2026-08-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["5030"],
+            "counterparty": {
+              "mode": "any",
+              "value": ""
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "delivery_august",
+          "kind": "ledger",
+          "metric": "net_expense",
+          "value": "555.00",
+          "unit": "USD",
+          "scope": {
+            "from": "2026-08-01",
+            "to": "2026-08-31",
+            "asOf": null,
+            "status": "POSTED",
+            "accountCodes": ["5040"],
+            "counterparty": {
+              "mode": "any",
+              "value": ""
+            },
+            "currencyMode": "base",
+            "currency": null,
+            "cooccurringAccountCodes": [],
+            "descriptionSearch": "",
+            "minimumAmount": null,
+            "maximumAmount": null
+          }
+        },
+        {
+          "id": "combined_july",
+          "kind": "calculation",
+          "value": "1200.00",
+          "unit": "USD",
+          "source": "posted",
+          "formula": {
+            "operation": "add",
+            "operands": [
+              {
+                "claim": "parts_july"
+              },
+              {
+                "claim": "delivery_july"
+              }
+            ]
+          }
+        },
+        {
+          "id": "combined_august",
+          "kind": "calculation",
+          "value": "1425.00",
+          "unit": "USD",
+          "source": "posted",
+          "formula": {
+            "operation": "add",
+            "operands": [
+              {
+                "claim": "parts_august"
+              },
+              {
+                "claim": "delivery_august"
+              }
+            ]
+          }
+        },
+        {
+          "id": "combined_change",
+          "kind": "calculation",
+          "value": "225.00",
+          "unit": "USD",
+          "source": "posted",
+          "formula": {
+            "operation": "subtract",
+            "operands": [
+              {
+                "claim": "combined_august"
+              },
+              {
+                "claim": "combined_july"
+              }
+            ]
+          }
+        },
+        {
+          "id": "relative_change",
+          "kind": "calculation",
+          "value": "0.1875",
+          "unit": "ratio",
+          "source": "posted",
+          "formula": {
+            "operation": "divide",
+            "operands": [
+              {
+                "claim": "combined_change"
+              },
+              {
+                "claim": "combined_july"
+              }
+            ]
+          },
+          "exact": {
+            "numerator": "3",
+            "denominator": "16"
+          }
+        }
+      ],
+      "supporting": []
+    }
+  },
+  {
+    "id": "D04",
+    "split": "development",
+    "family": "boundary",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Using the books through September 30, 2026, will we be able to hire two mechanics from October through December 2026 and always keep at least $5,000 in cash? I have not decided their pay or estimated future receipts yet."
+      }
+    ],
+    "expected": {
+      "behavior": "CLARIFY",
+      "required": [],
+      "supporting": [],
+      "clarification": {
+        "reasons": ["missing_assumption", "unsupported_query"]
+      }
+    }
+  }
+]
