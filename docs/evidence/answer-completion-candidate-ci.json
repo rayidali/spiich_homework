@@ -1,0 +1,121 @@
+{
+  "version": "answer-completion-candidate-ci-v1",
+  "status": "COMPLETE_SUCCESS",
+  "sourceCommit": "382f39f93719fead3a622aa3cb3b773bef1ed58f",
+  "runId": 41262702669,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41262702669",
+  "attempt": 1,
+  "jobs": [
+    {
+      "id": 124719043434,
+      "name": "verify",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T01:53:28Z"
+    },
+    {
+      "id": 124719044022,
+      "name": "research-native",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T01:50:38Z"
+    },
+    {
+      "id": 124719695075,
+      "name": "compose",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T01:56:37Z"
+    },
+    {
+      "id": 124720303343,
+      "name": "live-ai",
+      "status": "completed",
+      "conclusion": "skipped",
+      "completed_at": "2026-11-01T01:56:38Z"
+    }
+  ],
+  "runtimeAndEvaluatorSource": {
+    "hash": "0f8ea990f4388841d1acd4e41d39706ac6401955dfda910534fc520130d574e1",
+    "files": 74,
+    "notTheFrozenStudySource": true
+  },
+  "verification": {
+    "normal": {
+      "passed": 2097,
+      "skipped": 4,
+      "filesPassed": 105,
+      "filesSkipped": 1
+    },
+    "compose": {
+      "passed": 2096,
+      "skipped": 5,
+      "filesPassed": 104,
+      "filesSkipped": 2
+    },
+    "browserPassed": 31,
+    "browserDurationSeconds": 48.8,
+    "requiredSuites": {
+      "tests/answer-completion.test.ts": 46,
+      "tests/completion-tools.test.ts": 20,
+      "tests/completion-diagnostics.test.ts": 17,
+      "tests/financial-evidence.test.ts": 23,
+      "tests/financial-complete-chat.test.ts": 22,
+      "tests/answer-completion-db.test.ts": 6
+    },
+    "actualPostgresCompletionCases": 6,
+    "newBrowserTitles": [
+      "a partial answer keeps the missing calculation visible above its supporting records",
+      "a withheld answer displays its explanation without financial cards or internal bindings"
+    ],
+    "countsOverlap": true
+  },
+  "localVerificationReportedByOperator": {
+    "status": "PARTIAL_NONPASS",
+    "passedAssertions": 499,
+    "skippedDatabaseCases": 16,
+    "filesPassed": 14,
+    "filesFailed": 1,
+    "failure": "Local PostgreSQL connection failed with EPERM in financial-analysis beforeAll.",
+    "notAnAdditionalCiPassCount": true,
+    "productionBuildAndFormattingReportedPassed": true
+  },
+  "newProviderCalls": 0,
+  "newProviderSpendUsd": "0",
+  "productionChanged": false,
+  "hostedAcceptancePerformed": false,
+  "limitations": [
+    "Provider responses are scripted; this is engineering evidence, not new live-model accuracy.",
+    "Browser checks use the CI build with scripted chat responses, not hosted or physical-device acceptance.",
+    "The contract checks model-declared outputs and does not prove exhaustive user-intent understanding.",
+    "Normal, Compose, named-suite and local counts overlap and must not be added.",
+    "The local database attempt is preserved as a nonpass; actual PostgreSQL evidence comes from CI.",
+    "Four dedicated evaluator database cases require their separate workflow; ordinary CI is not a rerun of that study.",
+    "Closed model cohorts, frozen scores and existing production remain separate from this candidate."
+  ],
+  "inputHashes": {
+    "completion-ci-run.json": "69dc1ccbabc83bda0a02cd565e75c48941d84792ff5a1e8140ab7d8c11411f5b",
+    "completion-ci-jobs.json": "068198c1df3035e494bae139bc40fb42b686f212bd2c9b7a0310bc198ebcb090",
+    "completion-ci-verify.log": "0f291b0bbe15a9058f61d80080868147b66f7f7c4c8c58b781fce55e97f69b78",
+    "completion-ci-compose.log": "16069b0862e2649c666e414ec2667387ee913f516189957f89a61973eb9236b0",
+    "completion-source.json": "dae8e571f49db3537d62b42d6f372f6d66828e17a4556d44db536e3d907aeeaf"
+  },
+  "exactSourceBindingsVerified": {
+    "workspace": true,
+    "gitCommit": true,
+    "files": 74
+  },
+  "artifactCreatedAt": "2026-11-01T01:57:10.719060+00:00",
+  "checkerSha256": "42dcdab2e0af84cddb2b2eed921d52e305a0316486f618a117e6d35c437ff1c1",
+  "changes": [
+    "Optional complete route freezes model-declared requested outputs before financial-result reads.",
+    "Source-aware finalizer checks scope, ordered exact calculations, original-user quantity occurrences and visible evidence.",
+    "Explicit partial response for missing outputs; invalid sources or bindings withhold financial facts and evidence.",
+    "Server-owned evidence links and execution-snapshot account metadata; no extra provider calls or database queries."
+  ],
+  "remainingWork": [
+    "Fresh source-bound live-model comparison before any promotion; older scores do not test this source.",
+    "Model-declared completeness cannot prove exhaustive question interpretation.",
+    "Missing already-declared calculations are flagged, not automatically executed by this checker."
+  ]
+}

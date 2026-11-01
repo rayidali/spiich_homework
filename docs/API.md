@@ -1,6 +1,6 @@
 # REST API quick reference
 
-## Local declared-completeness candidate — not deployed
+## Declared-completeness candidate — CI verified, not deployed
 
 Server-only `FINANCIAL_CHAT_ROUTE=complete` selects the new [declared-output checker](ANSWER_COMPLETENESS.md). It adds no REST endpoint or client-controlled route selection. The initial typed analysis/scenario/inspection call carries an immutable `answerContract` and `outputBindings`; initial inspection bindings must be empty. Later finish calls supply bindings only. The declaration freezes before financial-amount reads, after the planning account chart is available. It supports at most eight outputs and 16 KiB, with exact original-user quotes, scoped values/tables, ranked identities and ordered arithmetic.
 
@@ -8,7 +8,7 @@ Responses add `answerContract: {hash, contract}`, final `outputBindings`, and `c
 
 Evidence rows now have optional server-owned `factRef` links (`query_row`, `calculation`, `assumption`); query tables may carry `factSource` with query identity and truncation. These fields are additive. The value requirement's optional `selectedAccountCode` chooses one posting-account cell inside its declared scope, including the server-selected cash set, while retaining the original amount-threshold account basis.
 
-The checker makes no provider call or new query. The three-attempt/one-repair, two-read/four-query, 64 KiB feedback and shared 40-second planning limits remain. The authored, composable and ordinary adaptive routes retain their current behavior. This local candidate has no new live-model score, CI release or deployment yet; production remains `93a8617` / `composable`. Initial focused test counts and limitations are recorded in [ANSWER_COMPLETENESS](ANSWER_COMPLETENESS.md#what-has-been-checked-and-what-remains).
+The checker makes no provider call or new query. The three-attempt/one-repair, two-read/four-query, 64 KiB feedback and shared 40-second planning limits remain. The authored, composable and ordinary adaptive routes retain their current behavior. Source `382f39f` passed [full CI](evidence/answer-completion-candidate-ci.json): 2,097 tests, 31 browser workflows, actual PostgreSQL, native research and Docker Compose. It has no new live-model score or deployment; production remains `93a8617` / `composable`. Counts and limitations are recorded in [ANSWER_COMPLETENESS](ANSWER_COMPLETENESS.md#what-has-been-checked-and-what-remains).
 
 The server-only setting `FINANCIAL_CHAT_ROUTE=adaptive` selects the opt-in [inspection candidate](ADAPTIVE_CHAT.md). It adds no REST endpoints and cannot be selected by a client request body. Its internal tools are `inspect_financial_data`, `show_inspected_results` and `calculate_from_inspection`; all financial results remain application-rendered. Source `2b2de76` passed full engineering CI. A later [complete paired service comparison](evidence/adaptive-runs/holdout-v2/report.md) retained real failures and grader limitations; its frozen screen did not qualify the candidate for promotion. It is not deployed. The default is still `composable`.
 
