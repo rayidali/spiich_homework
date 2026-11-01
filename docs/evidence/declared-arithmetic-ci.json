@@ -1,0 +1,129 @@
+{
+  "version": "declared-arithmetic-candidate-ci-v1",
+  "status": "COMPLETE_SUCCESS",
+  "sourceCommit": "eee73f387f85d2676a50c1e0461bd46c3161ebaf",
+  "runId": 41264139687,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41264139687",
+  "attempt": 1,
+  "jobs": [
+    {
+      "id": 124723280425,
+      "name": "research-native",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T02:12:15Z"
+    },
+    {
+      "id": 124723280596,
+      "name": "verify",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T02:14:34Z"
+    },
+    {
+      "id": 124723957557,
+      "name": "compose",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T02:18:28Z"
+    },
+    {
+      "id": 124724784147,
+      "name": "live-ai",
+      "status": "completed",
+      "conclusion": "skipped",
+      "completed_at": "2026-11-01T02:18:28Z"
+    }
+  ],
+  "runtimeAndEvaluatorSource": {
+    "hash": "0057a1eef4cd74380ffe30e3cd03b018c3ff88b1b31c3e01d08eb6f7b2d4b51a",
+    "files": 74,
+    "notTheFrozenStudySource": true
+  },
+  "verification": {
+    "normal": {
+      "passed": 2136,
+      "skipped": 4,
+      "filesPassed": 107,
+      "filesSkipped": 1
+    },
+    "compose": {
+      "passed": 2135,
+      "skipped": 5,
+      "filesPassed": 106,
+      "filesSkipped": 2
+    },
+    "browserPassed": 32,
+    "browserDurationSeconds": 42.8,
+    "requiredSuites": {
+      "tests/answer-completion.test.ts": 46,
+      "tests/completion-tools.test.ts": 20,
+      "tests/completion-diagnostics.test.ts": 17,
+      "tests/financial-evidence.test.ts": 23,
+      "tests/financial-complete-chat.test.ts": 27,
+      "tests/declared-arithmetic.test.ts": 27,
+      "tests/answer-completion-db.test.ts": 6,
+      "tests/declared-arithmetic-db.test.ts": 7
+    },
+    "actualPostgresCompletionCases": 6,
+    "newActualPostgresDeclaredArithmeticCases": 7,
+    "requiredBrowserTitles": [
+      "a partial answer keeps the missing calculation visible above its supporting records",
+      "a withheld answer displays its explanation without financial cards or internal bindings",
+      "a completed declared difference is visible with its recorded source and calculation"
+    ],
+    "newBrowserTitles": [
+      "a completed declared difference is visible with its recorded source and calculation"
+    ],
+    "countsOverlap": true
+  },
+  "localVerificationReportedByOperator": {
+    "status": "FOCUSED_PASS",
+    "passedAssertions": 523,
+    "filesPassed": 15,
+    "notAnAdditionalCiPassCount": true,
+    "productionBuildAndFormattingReportedPassed": true,
+    "actualPostgresAndBrowserExecutionComesFromCi": true
+  },
+  "newProviderCalls": 0,
+  "newProviderSpendUsd": "0",
+  "productionChanged": false,
+  "hostedAcceptancePerformed": false,
+  "limitations": [
+    "Provider responses are scripted; this is engineering evidence, not new live-model accuracy.",
+    "Browser checks use the CI build with scripted chat responses, not hosted or physical-device acceptance.",
+    "The contract checks model-declared outputs and does not prove exhaustive user-intent understanding.",
+    "Normal, Compose, named-suite and local counts overlap and must not be added.",
+    "The new local selected suite passed; the preceding candidate's local EPERM database failure remains historical and is not rewritten.",
+    "Only missing arithmetic already declared in the frozen contract is generated; no missing formula, value binding or query is inferred.",
+    "Deterministic completion reuses cached verified facts and the exact calculator without another provider request or database read.",
+    "Generated operations retain combined eight-calculation/eight-assumption/four-query limits; invalid supplied bindings are not replaced.",
+    "Four dedicated evaluator database cases require their separate workflow; ordinary CI is not a rerun of that study.",
+    "Closed model cohorts, frozen scores and existing production remain separate from this candidate."
+  ],
+  "inputHashes": {
+    "declared-arithmetic-ci-run.json": "7b39b793ac575d7ee67983ce846003d7fe57fb8a56bc3ed7567beeb3c509803e",
+    "declared-arithmetic-ci-jobs.json": "61402e706bad3f11a61c070990655df1e547c326eee4a26c7200dff95e07c452",
+    "declared-arithmetic-ci-verify.log": "6a327d85817e78c7cad2fd08746dccc5d899cf9688c23be4d302d56fa70492a6",
+    "declared-arithmetic-ci-compose.log": "50b38fc1d2678aedbd0d6ebbd136e34de1aca473dc6248396203fb87369480e1",
+    "declared-arithmetic-source.json": "9c7c503f5eed5de7b6fb46e69f42100632f5014c5468fd69e43c6103615aadfd"
+  },
+  "exactSourceBindingsVerified": {
+    "workspace": true,
+    "gitCommit": true,
+    "files": 74
+  },
+  "artifactCreatedAt": "2026-11-01T02:19:32.123744+00:00",
+  "checkerSha256": "41377fb6ee99a914f54d26768bfa679b173e931630b233932b33acd0d608c5d8",
+  "changes": [
+    "Execute only supported arithmetic declared before results and lacking a supplied output binding.",
+    "Reuse the existing exact calculator, fulfilled source bindings, original-user quantity occurrences and complete unique monthly series.",
+    "Preserve original bindings and hidden evidence; retain four-query/eight-calculation/eight-assumption limits including unused original assumption IDs.",
+    "Expose downstream conflicting supplied formulas to whole-answer withholding, and separate model bindings from generated-calculation metadata."
+  ],
+  "remainingWork": [
+    "Fresh source-bound model comparison; old scores do not test this runtime.",
+    "Model-declared completeness cannot prove exhaustive original question interpretation.",
+    "Missing input bindings, ambiguous duration sources and unsupported arithmetic remain unresolved; no new provider continuation is added."
+  ]
+}
