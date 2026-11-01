@@ -1,6 +1,6 @@
 # Architecture and engineering decisions
 
-An opt-in [adaptive inspection candidate](ADAPTIVE_CHAT.md) adds bounded model feedback over actual query results. It uses short snapshots, rechecks earlier results when adding queries, binds discovered counterparties to exact row identities, and performs final arithmetic from cached facts. Source `2b2de76` passed full CI with actual PostgreSQL and scripted provider responses; it has no live-model score and is not deployed. [Candidate evidence](evidence/adaptive-candidate-ci.json). The promoted default and all earlier measured scores remain as documented below.
+An opt-in [adaptive inspection candidate](ADAPTIVE_CHAT.md) adds bounded model feedback over actual query results. It uses short snapshots, rechecks earlier results when adding queries, binds discovered counterparties to exact row identities, and performs final arithmetic from cached facts. Source `2b2de76` passed full CI with actual PostgreSQL and scripted provider responses; a later [real-model comparison](evidence/adaptive-runs/holdout-v2/report.md) did not pass the frozen adoption screen, and the candidate is not deployed. [Candidate evidence](evidence/adaptive-candidate-ci.json). The promoted default and all earlier measured scores remain as documented below.
 
 ## Compound grouping — deployed and CI verified
 

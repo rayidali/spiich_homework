@@ -1,0 +1,54 @@
+{
+  "version": "adaptive-comparison-pdf-publication-v1",
+  "status": "EXACT_REVIEWED_PDF_PUBLISHED",
+  "createdAt": "2026-11-01T00:58:30.688181+00:00",
+  "creationTimeScope": "Receipt creation time; not a reconstructed exact review timestamp.",
+  "runId": "41258129206",
+  "sourceCommit": "84eb5de791b5490f141fb5690ad3ff3f61b3e361",
+  "sourceHash": "1b6f4642c68019a8f20a85af6d4f2b6155c25ac9d0228ca40a51e8a350c926b7",
+  "pdf": {
+    "path": "docs/reports/adaptive-comparison-explained.pdf",
+    "sha256": "89852d6085186a91bc85b3e69531719c2587f9b74ce2a5ede02183a1a1c95af8",
+    "bytes": 8673,
+    "pages": 2
+  },
+  "inputHashes": {
+    "summary": "f7ca498707207aa511b1ed4119e750ae132e3d2cff2aa27795558539064dc38e",
+    "integrityAudit": "48a2a74db443969f68e7138dec4fff8b338bedcf0201bd5c97b3d03abef50912",
+    "semanticReview": "e9371386391bf3599c13b3109552df2b8721a12ef26ddfc1494c19bbc6450c90"
+  },
+  "rendererSha256": "f130fe60bff65e62e69c099dff48c2b52e4a4169fdeaf8f2ecd357d85cbba4de",
+  "privateRenderReceiptSha256": "8d02f618a5565cc5dc1dfb9d0f5ca2d1e1f6de5f1a686d9f69aa2aae5a84b534",
+  "visualReview": {
+    "kind": "root_AI_visual_review",
+    "pagesReviewed": 2,
+    "approvedExactPdfBytes": true,
+    "pageImages": [
+      {
+        "page": 1,
+        "sha256": "54ad78c1fff8139c3c0b738a2794666eae06782fb2d38a2219246f2334663c5f"
+      },
+      {
+        "page": 2,
+        "sha256": "c0ebcc42b53063bed57a02f63aea96cf517ef23bef65bcb1063a4028be862363"
+      }
+    ],
+    "scope": "Digital rendered page images reviewed for readability, layout and disclosed results.",
+    "physicalPrintingTested": false
+  },
+  "offlineRendererTests": {
+    "passed": 8,
+    "providersCalled": 0,
+    "databaseCalls": 0
+  },
+  "primaryScoreReplaced": false,
+  "semanticReviewIncluded": true,
+  "providerCalls": 0,
+  "databaseCalls": 0,
+  "limitations": [
+    "Primary frozen v2 scores remain 8/16 per route; separate internal AI semantic review is 9/16 versus 11/16.",
+    "Primary numerical-answer coverage is 4/12 per route; the main 16-question score also includes four correct boundary responses.",
+    "Rendering and internal AI review do not constitute independent human accounting approval or universal accuracy.",
+    "No new provider inference, deployment, hosted acceptance, or physical print check was performed by this publication."
+  ]
+}

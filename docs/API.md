@@ -1,6 +1,6 @@
 # REST API quick reference
 
-The server-only setting `FINANCIAL_CHAT_ROUTE=adaptive` selects the opt-in [inspection candidate](ADAPTIVE_CHAT.md). It adds no REST endpoints and cannot be selected by a client request body. Its internal tools are `inspect_financial_data`, `show_inspected_results` and `calculate_from_inspection`; all financial results remain application-rendered. Source `2b2de76` passed full engineering CI, but has no live-model score and is not deployed. The default is still `composable`.
+The server-only setting `FINANCIAL_CHAT_ROUTE=adaptive` selects the opt-in [inspection candidate](ADAPTIVE_CHAT.md). It adds no REST endpoints and cannot be selected by a client request body. Its internal tools are `inspect_financial_data`, `show_inspected_results` and `calculate_from_inspection`; all financial results remain application-rendered. Source `2b2de76` passed full engineering CI. A later [complete paired service comparison](evidence/adaptive-runs/holdout-v2/report.md) retained real failures and grader limitations; its frozen screen did not qualify the candidate for promotion. It is not deployed. The default is still `composable`.
 
 ## Compound grouping — deployed and CI verified
 

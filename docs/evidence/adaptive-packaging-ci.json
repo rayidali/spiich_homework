@@ -1,0 +1,88 @@
+{
+  "version": "adaptive-comparison-packaging-ci-v1",
+  "status": "COMPLETE_SUCCESS",
+  "sourceCommit": "70fe12c2f2248732c222039bbfaffc5eb978cf73",
+  "runId": 41258895859,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41258895859",
+  "attempt": 1,
+  "jobs": [
+    {
+      "id": 124707850374,
+      "name": "verify",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T00:59:17Z"
+    },
+    {
+      "id": 124707850559,
+      "name": "research-native",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T00:56:35Z"
+    },
+    {
+      "id": 124708557893,
+      "name": "compose",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T01:02:20Z"
+    },
+    {
+      "id": 124709207099,
+      "name": "live-ai",
+      "status": "completed",
+      "conclusion": "skipped",
+      "completed_at": "2026-11-01T01:02:20Z"
+    }
+  ],
+  "verification": {
+    "testsPassed": 1914,
+    "testsSkipped": 4,
+    "filesPassed": 96,
+    "filesSkipped": 1,
+    "browserPassed": 29,
+    "browserDurationSeconds": 47.1,
+    "composeProtocolFixtureCases": 40,
+    "composeTests": {
+      "passed": 1913,
+      "skipped": 5,
+      "filesPassed": 95,
+      "filesSkipped": 2,
+      "notAddedToNormalTestCount": true
+    }
+  },
+  "frozenEvaluatorHash": "1b6f4642c68019a8f20a85af6d4f2b6155c25ac9d0228ca40a51e8a350c926b7",
+  "frozenEvaluatorFileCount": 67,
+  "repair": "One exact .dockerignore inclusion for public synthetic predecessor manifest; no runtime or evaluator file changed.",
+  "retainedFailure": {
+    "runId": 41258105586,
+    "sourceCommit": "84eb5de791b5490f141fb5690ad3ff3f61b3e361",
+    "failedJob": "compose",
+    "cause": "protocol.test.ts could not read the manifest excluded from Docker context",
+    "verifyAndNativeSucceeded": true
+  },
+  "providerComparison": {
+    "runId": 41258129206,
+    "sourceCommit": "84eb5de791b5490f141fb5690ad3ff3f61b3e361",
+    "evaluatorTestsPassed": 177,
+    "actualPostgresFixturesPassed": 4,
+    "newCallsForPackagingFix": 0
+  },
+  "productionChanged": false,
+  "limitations": [
+    "Overlapping test reruns are not added together.",
+    "Four dedicated evaluator database cases skip in normal CI and passed in the separate manual evaluation.",
+    "Browser tests use the CI build, not production or a physical device.",
+    "This receipt does not upgrade the frozen model comparison or certify universal accuracy."
+  ],
+  "inputHashes": {
+    "packaging-ci-run.json": "9667a04b0c18ee700eb653b80c44da844398970a6380488145e54b3755eff02c",
+    "packaging-ci-jobs.json": "6eabad1c829293dd72843729d5e5886b340b779379ddd5777c9bf81c7d2aca0c",
+    "packaging-ci-verify.log": "4a165e73e056a41b438e32f1f6f211d93b3aa2db4ed8fbbab603f61bb6aee855",
+    "packaging-ci-compose.log": "ffd4782a0f90cf4c94a068692446903f4e4209d32bd04f7bff2b49a647b2633c",
+    "v2-source-ci-run.json": "a635637608cf088f07e2c93051a5aa9c9efb03d318f64e02ec7127a10773c057",
+    "v2-source-ci-jobs.json": "62d37727c67d907ba8b66764e402f14d7d93bf1dba16e6693adc7ced0dcc607d",
+    "v2-source-ci-compose.log": "d80ad173a799bb340a55a240687ebf1b973ce4870e0ef4b3498d0b9fedc4e6ab",
+    "post-study-source.json": "05f0d098db18eb75f12c1b32bca74dfff42620ea1ecb899605417dae25eceb7d"
+  }
+}
