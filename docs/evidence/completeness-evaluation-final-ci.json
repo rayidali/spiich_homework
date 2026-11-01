@@ -1,0 +1,132 @@
+{
+  "version": "completeness-evaluation-final-ci-v1",
+  "status": "COMPLETE_SUCCESS",
+  "sourceCommit": "57361261dbe91175278ed5862c98e1581971902b",
+  "runId": 41267374750,
+  "attempt": 1,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41267374750",
+  "jobs": [
+    {
+      "id": 124732894702,
+      "name": "research-native",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T03:00:55Z"
+    },
+    {
+      "id": 124732894827,
+      "name": "verify",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T03:02:27Z"
+    },
+    {
+      "id": 124733401331,
+      "name": "compose",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T03:06:26Z"
+    },
+    {
+      "id": 124734199506,
+      "name": "live-ai",
+      "status": "completed",
+      "conclusion": "skipped",
+      "completed_at": "2026-11-01T03:06:26Z"
+    }
+  ],
+  "runtimeAndEvaluatorSource": {
+    "hash": "4ed3d1a060e83033dcae8c66583934f784a4c1a3aad9e62681a823cb4c765ab0",
+    "files": 78,
+    "stage": "final_frozen_pre_execution"
+  },
+  "corePreservation": {
+    "coreHash": "e710ba19579102e6905a9f8c5a54eb23c12f9e5f7e4548816182a5345c239f55",
+    "coreFiles": 75,
+    "prefreezeSourceCommit": "e241721fe0b3f9942836de8bb04645e42fcb9d0d",
+    "allCoreFileHashesUnchanged": true,
+    "lateSourcePaths": [
+      "scripts/completeness-evaluation/fixtures/holdout-worked-totals.json",
+      "scripts/completeness-evaluation/fixtures/holdout.json",
+      "scripts/completeness-evaluation/freeze.json"
+    ],
+    "freezeSha256": "b76cb99133ef31c6f5546dbf415f1f6222fffbd0b212bbf10c51297406b45ce3",
+    "freezeCreatedAt": "2026-11-01T02:51:00.295Z",
+    "heldoutContentInspection": "byte hashing only; questions and answers were not parsed"
+  },
+  "verification": {
+    "normal": {
+      "passed": 2375,
+      "skipped": 8,
+      "filesPassed": 116,
+      "filesSkipped": 2
+    },
+    "compose": {
+      "passed": 2374,
+      "skipped": 9,
+      "filesPassed": 115,
+      "filesSkipped": 3
+    },
+    "separateFixtureDatabase": {
+      "passed": 4,
+      "skipped": 0,
+      "filesPassed": 1,
+      "filesSkipped": 0
+    },
+    "newEvaluatorSuites": {
+      "tests/completeness-evaluation/transport.test.ts": 58,
+      "tests/completeness-evaluation/authorization.test.ts": 15,
+      "tests/completeness-evaluation/scoring-development.test.ts": 5,
+      "tests/completeness-evaluation/protocol.test.ts": 21,
+      "tests/completeness-evaluation/scoring.test.ts": 39,
+      "tests/completeness-evaluation/analysis.test.ts": 28,
+      "tests/completeness-evaluation/fixtures.test.ts": 25,
+      "tests/completeness-evaluation/run-integrity.test.ts": 45,
+      "tests/completeness-evaluation/request-size.test.ts": 3
+    },
+    "newPureEvaluatorCases": 239,
+    "actualFixtureDatabaseCases": 4,
+    "browser": {
+      "passed": 32,
+      "durationSeconds": 36.9,
+      "requiredTitles": [
+        "a partial answer keeps the missing calculation visible above its supporting records",
+        "a withheld answer displays its explanation without financial cards or internal bindings",
+        "a completed declared difference is visible with its recorded source and calculation"
+      ]
+    },
+    "countsOverlap": true,
+    "separateFixtureDatabaseNotIncludedInMainTotals": true
+  },
+  "newProviderCalls": 0,
+  "newProviderSpendUsd": "0",
+  "productionChanged": false,
+  "hostedAcceptancePerformed": false,
+  "limitations": [
+    "This is engineering CI evidence for the final frozen comparison source, not a live comparison result or spending authorization.",
+    "The nine evaluator suites use synthetic records and scripted provider responses. No measured model-accuracy claim is made.",
+    "The four fixture database cases run in a separate fresh disposable PostgreSQL database; ordinary main and Compose runs skip those cases.",
+    "Normal, Compose, named-suite and previous local counts overlap and must not be added as independent verification.",
+    "The separate four-case PostgreSQL invocation is reported separately, not silently included in the main Vitest total.",
+    "Browser checks use the CI build; no new hosted, physical-device, production-data or model-inference check was performed.",
+    "Source manifest hashes are checked against workspace bytes and the exact Git commit; closed earlier cohorts and their scores remain unchanged.",
+    "The 75-file core is byte-identical to its prefreeze source; only the freeze record and two separately authored held-out files were added.",
+    "The checker hashes held-out file bytes without parsing their questions or answers; it does not adjudicate their reference labels or prove author independence."
+  ],
+  "inputHashes": {
+    "final-ci-run.json": "49f7e3deaa2c6f9015aeb227dabb49b81dc8fe9a7d646f75f7fe09a6bd64bff3",
+    "final-ci-jobs.json": "2ec2fd782238a20710370cb102c2072fded1cdfe1bd90a7ba112b21e3f7c90f3",
+    "final-ci-verify.log": "8015051eb7d010596b9d7315bdefc269250ac3fcc488dbd74f5c6d4f23ae4eae",
+    "final-ci-compose.log": "21f2fbb3cdd75a4e7cfed2ac03b23c25d132a24a8c7e986ce2e6b9fef3b8bcc5",
+    "final-source.json": "c4030674ff34061ae695fd13149b39e6c5f8d25b514b58a20f30e26df04aef38",
+    "prefreeze-source.json": "a5132151d809d9baf78b514fa63a8e41bc4927a1880c62ce802d2346e93cddb7",
+    "scripts/completeness-evaluation/freeze.json": "b76cb99133ef31c6f5546dbf415f1f6222fffbd0b212bbf10c51297406b45ce3"
+  },
+  "exactSourceBindingsVerified": {
+    "workspace": true,
+    "gitCommit": true,
+    "files": 78
+  },
+  "artifactCreatedAt": "2026-11-01T03:06:34.040366+00:00",
+  "checkerSha256": "d70d8c79965a2ae54bbcb4b5d2748fad3d300f26aef393cab46d266de479dbb5"
+}
