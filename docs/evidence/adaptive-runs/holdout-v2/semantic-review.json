@@ -1,0 +1,1201 @@
+{
+  "version": "adaptive-holdout-v2-internal-semantic-review",
+  "phase": "holdout",
+  "sourceCommit": "84eb5de791b5490f141fb5690ad3ff3f61b3e361",
+  "sourceHash": "1b6f4642c68019a8f20a85af6d4f2b6155c25ac9d0228ca40a51e8a350c926b7",
+  "runId": "41258129206",
+  "reviewer": {
+    "kind": "internal_AI_artifact_review",
+    "independentHumanReview": false,
+    "relationship": "Separate reading of all retained application responses, original questions, source facts and formula traces against independent fixture arithmetic. This coding agent also authored the frozen v1 scorer; it is not independent human validation."
+  },
+  "primary": {
+    "composable": {
+      "passed": 8,
+      "total": 16
+    },
+    "adaptive": {
+      "passed": 8,
+      "total": 16
+    },
+    "unchanged": true
+  },
+  "separateSemanticCompleteness": {
+    "composable": {
+      "complete": 9,
+      "total": 16
+    },
+    "adaptive": {
+      "complete": 11,
+      "total": 16
+    },
+    "notReplacementPrimaryScore": true
+  },
+  "observations": {
+    "reviewedExecutions": 32,
+    "observedFalseDollarClaims": 0,
+    "observedWrongSourceOrFormulaClaims": 0,
+    "observedHardBoundaryViolations": 0,
+    "completeAnswerGraderFalseNegatives": 4,
+    "incompleteAnswerClassificationCaveats": 1,
+    "scope": "Only the32 saved synthetic service executions; absence of an observed error is not universal correctness."
+  },
+  "independentArithmeticCheck": {
+    "method": "Separate Decimal recomputation from frozen ledger lines, saved per-line exchange rates, effective chart descendants and exact row-specific account/counterparty/date scope; no production SQL/compiler or model calls.",
+    "checkedReturnedTypedLedgerRows": 83,
+    "allPassed": true,
+    "rows": [
+      {
+        "caseId": "H02",
+        "route": "adaptive",
+        "queryId": "cash_change",
+        "rowId": "total:total",
+        "expected": "2135.00",
+        "observed": "2135.00",
+        "passed": true
+      },
+      {
+        "caseId": "H02",
+        "route": "composable",
+        "queryId": "q1",
+        "rowId": "total:total",
+        "expected": "2135.00",
+        "observed": "2135.00",
+        "passed": true
+      },
+      {
+        "caseId": "H03",
+        "route": "adaptive",
+        "queryId": "cash_balance_query",
+        "rowId": "total:total",
+        "expected": "13535.50",
+        "observed": "13535.50",
+        "passed": true
+      },
+      {
+        "caseId": "H04",
+        "route": "adaptive",
+        "queryId": "eur_bank_bal",
+        "rowId": "total:total",
+        "expected": "306.00",
+        "observed": "306.00",
+        "passed": true
+      },
+      {
+        "caseId": "H04",
+        "route": "composable",
+        "queryId": "euro_bank_bal",
+        "rowId": "total:total",
+        "expected": "306.00",
+        "observed": "306.00",
+        "passed": true
+      },
+      {
+        "caseId": "H05",
+        "route": "composable",
+        "queryId": "office_supplies_by_month_supplier",
+        "rowId": "compound:[[\"month\",\"2026-06\"],[\"counterparty\",\"acme\"]]",
+        "expected": "615.00",
+        "observed": "615.00",
+        "passed": true
+      },
+      {
+        "caseId": "H05",
+        "route": "composable",
+        "queryId": "office_supplies_by_month_supplier",
+        "rowId": "compound:[[\"month\",\"2026-05\"],[\"counterparty\",\"Acme\"]]",
+        "expected": "325.00",
+        "observed": "325.00",
+        "passed": true
+      },
+      {
+        "caseId": "H05",
+        "route": "composable",
+        "queryId": "office_supplies_by_month_supplier",
+        "rowId": "compound:[[\"month\",\"2026-05\"],[\"counterparty\",\"Paper Ferry\"]]",
+        "expected": "310.00",
+        "observed": "310.00",
+        "passed": true
+      },
+      {
+        "caseId": "H05",
+        "route": "composable",
+        "queryId": "office_supplies_by_month_supplier",
+        "rowId": "compound:[[\"month\",\"2026-06\"],[\"counterparty\",\"Acme\"]]",
+        "expected": "122.00",
+        "observed": "122.00",
+        "passed": true
+      },
+      {
+        "caseId": "H05",
+        "route": "composable",
+        "queryId": "office_supplies_by_month_supplier",
+        "rowId": "compound:[[\"month\",\"2026-06\"],[\"counterparty\",\"Paper Ferry\"]]",
+        "expected": "45.00",
+        "observed": "45.00",
+        "passed": true
+      },
+      {
+        "caseId": "H05",
+        "route": "composable",
+        "queryId": "office_supplies_by_month_supplier",
+        "rowId": "compound:[[\"month\",\"2026-05\"],[\"counterparty\",\"Mix Co\"]]",
+        "expected": "40.00",
+        "observed": "40.00",
+        "passed": true
+      },
+      {
+        "caseId": "H05",
+        "route": "composable",
+        "queryId": "office_supplies_by_month_supplier",
+        "rowId": "compound:[[\"month\",\"2026-06\"],[\"counterparty\",\"Books & Co\"]]",
+        "expected": "27.50",
+        "observed": "27.50",
+        "passed": true
+      },
+      {
+        "caseId": "H05",
+        "route": "composable",
+        "queryId": "office_supplies_by_month_supplier",
+        "rowId": "compound:[[\"month\",\"2026-05\"],[\"counterparty\",\"Books & Co\"]]",
+        "expected": "0.00",
+        "observed": "0.00",
+        "passed": true
+      },
+      {
+        "caseId": "H05",
+        "route": "composable",
+        "queryId": "office_supplies_by_month_supplier",
+        "rowId": "compound:[[\"month\",\"2026-05\"],[\"counterparty\",\"acme\"]]",
+        "expected": "0.00",
+        "observed": "0.00",
+        "passed": true
+      },
+      {
+        "caseId": "H05",
+        "route": "composable",
+        "queryId": "office_supplies_by_month_supplier",
+        "rowId": "compound:[[\"month\",\"2026-06\"],[\"counterparty\",\"Mix Co\"]]",
+        "expected": "0.00",
+        "observed": "0.00",
+        "passed": true
+      },
+      {
+        "caseId": "H06",
+        "route": "composable",
+        "queryId": "q1",
+        "rowId": "compound:[[\"month\",\"2026-06\"],[\"counterparty\",\"Orbit Tools\"]]",
+        "expected": "190.00",
+        "observed": "190.00",
+        "passed": true
+      },
+      {
+        "caseId": "H06",
+        "route": "composable",
+        "queryId": "q1",
+        "rowId": "compound:[[\"month\",\"2026-05\"],[\"counterparty\",\"Orbit Tools\"]]",
+        "expected": "140.00",
+        "observed": "140.00",
+        "passed": true
+      },
+      {
+        "caseId": "H06",
+        "route": "composable",
+        "queryId": "q1",
+        "rowId": "compound:[[\"month\",\"2026-05\"],[\"counterparty\",\"Reversal App\"]]",
+        "expected": "70.00",
+        "observed": "70.00",
+        "passed": true
+      },
+      {
+        "caseId": "H06",
+        "route": "composable",
+        "queryId": "q1",
+        "rowId": "compound:[[\"month\",\"2026-06\"],[\"counterparty\",\"Reversal App\"]]",
+        "expected": "-70.00",
+        "observed": "-70.00",
+        "passed": true
+      },
+      {
+        "caseId": "H07",
+        "route": "adaptive",
+        "queryId": "top_jun",
+        "rowId": "account:75e35a89-be91-4655-93a5-775fed4dd3c0",
+        "expected": "970.00",
+        "observed": "970.00",
+        "passed": true
+      },
+      {
+        "caseId": "H07",
+        "route": "adaptive",
+        "queryId": "rent_may",
+        "rowId": "total:total",
+        "expected": "1380.00",
+        "observed": "1380.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "adaptive",
+        "queryId": "top_rev",
+        "rowId": "counterparty:Ledger%20Labs",
+        "expected": "3300.00",
+        "observed": "3300.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "adaptive",
+        "queryId": "top_rev",
+        "rowId": "counterparty:Pebble%20Studio",
+        "expected": "900.00",
+        "observed": "900.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "adaptive",
+        "queryId": "top_rev",
+        "rowId": "counterparty:Euro%20Client",
+        "expected": "65.00",
+        "observed": "65.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "adaptive",
+        "queryId": "cash_may",
+        "rowId": "total:total",
+        "expected": "900.00",
+        "observed": "900.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "adaptive",
+        "queryId": "cash_june",
+        "rowId": "total:total",
+        "expected": "1600.00",
+        "observed": "1600.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "top_rev",
+        "rowId": "counterparty:Ledger%20Labs",
+        "expected": "3300.00",
+        "observed": "3300.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "top_rev",
+        "rowId": "counterparty:Pebble%20Studio",
+        "expected": "900.00",
+        "observed": "900.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "top_rev",
+        "rowId": "counterparty:Euro%20Client",
+        "expected": "65.00",
+        "observed": "65.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_may",
+        "rowId": "counterparty:Pebble%20Studio",
+        "expected": "1700.00",
+        "observed": "1700.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_may",
+        "rowId": "counterparty:Funding%20Bank",
+        "expected": "1100.00",
+        "observed": "1100.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_may",
+        "rowId": "counterparty:Ledger%20Labs",
+        "expected": "900.00",
+        "observed": "900.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_may",
+        "rowId": "counterparty:Owner",
+        "expected": "700.00",
+        "observed": "700.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_may",
+        "rowId": "counterparty:Internal%20transfer",
+        "expected": "0.00",
+        "observed": "0.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_may",
+        "rowId": "counterparty:Alpine%20Rail",
+        "expected": "-30.00",
+        "observed": "-30.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_may",
+        "rowId": "counterparty:Mix%20Co",
+        "expected": "-70.00",
+        "observed": "-70.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_may",
+        "rowId": "counterparty:Reversal%20App",
+        "expected": "-70.00",
+        "observed": "-70.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_may",
+        "rowId": "counterparty:Orbit%20Tools",
+        "expected": "-140.00",
+        "observed": "-140.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_may",
+        "rowId": "counterparty:Paper%20Ferry",
+        "expected": "-310.00",
+        "observed": "-310.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_may",
+        "rowId": "counterparty:acme",
+        "expected": "-360.00",
+        "observed": "-360.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_may",
+        "rowId": "counterparty:Acme",
+        "expected": "-385.00",
+        "observed": "-385.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_may",
+        "rowId": "counterparty:Cedar%20Properties",
+        "expected": "-900.00",
+        "observed": "-900.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_june",
+        "rowId": "counterparty:Ledger%20Labs",
+        "expected": "1600.00",
+        "observed": "1600.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_june",
+        "rowId": "counterparty:Pebble%20Studio",
+        "expected": "900.00",
+        "observed": "900.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_june",
+        "rowId": "counterparty:Reversal%20App",
+        "expected": "70.00",
+        "observed": "70.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_june",
+        "rowId": "counterparty:Euro%20Client",
+        "expected": "65.00",
+        "observed": "65.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_june",
+        "rowId": "counterparty:Books%20%26%20Co",
+        "expected": "-27.50",
+        "observed": "-27.50",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_june",
+        "rowId": "counterparty:Paper%20Ferry",
+        "expected": "-45.00",
+        "observed": "-45.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_june",
+        "rowId": "counterparty:Acme",
+        "expected": "-122.00",
+        "observed": "-122.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_june",
+        "rowId": "counterparty:Harbor%20Ads",
+        "expected": "-200.00",
+        "observed": "-200.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_june",
+        "rowId": "counterparty:Card%20issuer",
+        "expected": "-220.00",
+        "observed": "-220.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_june",
+        "rowId": "counterparty:Funding%20Bank",
+        "expected": "-300.00",
+        "observed": "-300.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_june",
+        "rowId": "counterparty:Cobalt%20Contractors",
+        "expected": "-475.00",
+        "observed": "-475.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_june",
+        "rowId": "counterparty:Device%20Wharf",
+        "expected": "-500.00",
+        "observed": "-500.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_june",
+        "rowId": "counterparty:acme",
+        "expected": "-615.00",
+        "observed": "-615.00",
+        "passed": true
+      },
+      {
+        "caseId": "H08",
+        "route": "composable",
+        "queryId": "cash_june",
+        "rowId": "counterparty:Cedar%20Properties",
+        "expected": "-970.00",
+        "observed": "-970.00",
+        "passed": true
+      },
+      {
+        "caseId": "H09",
+        "route": "composable",
+        "queryId": "joint_breakdown",
+        "rowId": "compound:[[\"month\",\"2026-05\"],[\"account\",\"5030\"]]",
+        "expected": "675.00",
+        "observed": "675.00",
+        "passed": true
+      },
+      {
+        "caseId": "H09",
+        "route": "composable",
+        "queryId": "joint_breakdown",
+        "rowId": "compound:[[\"month\",\"2026-05\"],[\"account\",\"5040\"]]",
+        "expected": "80.00",
+        "observed": "80.00",
+        "passed": true
+      },
+      {
+        "caseId": "H09",
+        "route": "composable",
+        "queryId": "joint_breakdown",
+        "rowId": "compound:[[\"month\",\"2026-06\"],[\"account\",\"5030\"]]",
+        "expected": "809.50",
+        "observed": "809.50",
+        "passed": true
+      },
+      {
+        "caseId": "H09",
+        "route": "composable",
+        "queryId": "joint_breakdown",
+        "rowId": "compound:[[\"month\",\"2026-06\"],[\"account\",\"5040\"]]",
+        "expected": "200.00",
+        "observed": "200.00",
+        "passed": true
+      },
+      {
+        "caseId": "H09",
+        "route": "composable",
+        "queryId": "office_supplies_monthly",
+        "rowId": "month:2026-05",
+        "expected": "675.00",
+        "observed": "675.00",
+        "passed": true
+      },
+      {
+        "caseId": "H09",
+        "route": "composable",
+        "queryId": "office_supplies_monthly",
+        "rowId": "month:2026-06",
+        "expected": "809.50",
+        "observed": "809.50",
+        "passed": true
+      },
+      {
+        "caseId": "H09",
+        "route": "adaptive",
+        "queryId": "breakdown",
+        "rowId": "compound:[[\"month\",\"2026-05\"],[\"account\",\"5030\"]]",
+        "expected": "675.00",
+        "observed": "675.00",
+        "passed": true
+      },
+      {
+        "caseId": "H09",
+        "route": "adaptive",
+        "queryId": "breakdown",
+        "rowId": "compound:[[\"month\",\"2026-05\"],[\"account\",\"5040\"]]",
+        "expected": "80.00",
+        "observed": "80.00",
+        "passed": true
+      },
+      {
+        "caseId": "H09",
+        "route": "adaptive",
+        "queryId": "breakdown",
+        "rowId": "compound:[[\"month\",\"2026-06\"],[\"account\",\"5030\"]]",
+        "expected": "809.50",
+        "observed": "809.50",
+        "passed": true
+      },
+      {
+        "caseId": "H09",
+        "route": "adaptive",
+        "queryId": "breakdown",
+        "rowId": "compound:[[\"month\",\"2026-06\"],[\"account\",\"5040\"]]",
+        "expected": "200.00",
+        "observed": "200.00",
+        "passed": true
+      },
+      {
+        "caseId": "H09",
+        "route": "adaptive",
+        "queryId": "office_may",
+        "rowId": "total:total",
+        "expected": "675.00",
+        "observed": "675.00",
+        "passed": true
+      },
+      {
+        "caseId": "H09",
+        "route": "adaptive",
+        "queryId": "office_june",
+        "rowId": "total:total",
+        "expected": "809.50",
+        "observed": "809.50",
+        "passed": true
+      },
+      {
+        "caseId": "H10",
+        "route": "adaptive",
+        "queryId": "cash_balances",
+        "rowId": "compound:[[\"month\",\"2026-05\"],[\"account\",\"1010\"]]",
+        "expected": "14030.00",
+        "observed": "14030.00",
+        "passed": true
+      },
+      {
+        "caseId": "H10",
+        "route": "adaptive",
+        "queryId": "cash_balances",
+        "rowId": "compound:[[\"month\",\"2026-05\"],[\"account\",\"1020\"]]",
+        "expected": "310.00",
+        "observed": "310.00",
+        "passed": true
+      },
+      {
+        "caseId": "H10",
+        "route": "adaptive",
+        "queryId": "cash_balances",
+        "rowId": "compound:[[\"month\",\"2026-05\"],[\"account\",\"1030\"]]",
+        "expected": "35.00",
+        "observed": "35.00",
+        "passed": true
+      },
+      {
+        "caseId": "H10",
+        "route": "adaptive",
+        "queryId": "cash_balances",
+        "rowId": "compound:[[\"month\",\"2026-06\"],[\"account\",\"1010\"]]",
+        "expected": "13125.50",
+        "observed": "13125.50",
+        "passed": true
+      },
+      {
+        "caseId": "H10",
+        "route": "adaptive",
+        "queryId": "cash_balances",
+        "rowId": "compound:[[\"month\",\"2026-06\"],[\"account\",\"1020\"]]",
+        "expected": "375.00",
+        "observed": "375.00",
+        "passed": true
+      },
+      {
+        "caseId": "H10",
+        "route": "adaptive",
+        "queryId": "cash_balances",
+        "rowId": "compound:[[\"month\",\"2026-06\"],[\"account\",\"1030\"]]",
+        "expected": "35.00",
+        "observed": "35.00",
+        "passed": true
+      },
+      {
+        "caseId": "H10",
+        "route": "composable",
+        "queryId": "cash_balances",
+        "rowId": "compound:[[\"month\",\"2026-05\"],[\"account\",\"1010\"]]",
+        "expected": "14030.00",
+        "observed": "14030.00",
+        "passed": true
+      },
+      {
+        "caseId": "H10",
+        "route": "composable",
+        "queryId": "cash_balances",
+        "rowId": "compound:[[\"month\",\"2026-05\"],[\"account\",\"1020\"]]",
+        "expected": "310.00",
+        "observed": "310.00",
+        "passed": true
+      },
+      {
+        "caseId": "H10",
+        "route": "composable",
+        "queryId": "cash_balances",
+        "rowId": "compound:[[\"month\",\"2026-05\"],[\"account\",\"1030\"]]",
+        "expected": "35.00",
+        "observed": "35.00",
+        "passed": true
+      },
+      {
+        "caseId": "H10",
+        "route": "composable",
+        "queryId": "cash_balances",
+        "rowId": "compound:[[\"month\",\"2026-06\"],[\"account\",\"1010\"]]",
+        "expected": "13125.50",
+        "observed": "13125.50",
+        "passed": true
+      },
+      {
+        "caseId": "H10",
+        "route": "composable",
+        "queryId": "cash_balances",
+        "rowId": "compound:[[\"month\",\"2026-06\"],[\"account\",\"1020\"]]",
+        "expected": "375.00",
+        "observed": "375.00",
+        "passed": true
+      },
+      {
+        "caseId": "H10",
+        "route": "composable",
+        "queryId": "cash_balances",
+        "rowId": "compound:[[\"month\",\"2026-06\"],[\"account\",\"1030\"]]",
+        "expected": "35.00",
+        "observed": "35.00",
+        "passed": true
+      },
+      {
+        "caseId": "H11",
+        "route": "composable",
+        "queryId": "get_cash",
+        "rowId": "total:total",
+        "expected": "13535.50",
+        "observed": "13535.50",
+        "passed": true
+      },
+      {
+        "caseId": "H12",
+        "route": "adaptive",
+        "queryId": "may_profit",
+        "rowId": "total:total",
+        "expected": "1825.00",
+        "observed": "1825.00",
+        "passed": true
+      },
+      {
+        "caseId": "H12",
+        "route": "adaptive",
+        "queryId": "june_profit",
+        "rowId": "total:total",
+        "expected": "1690.50",
+        "observed": "1690.50",
+        "passed": true
+      }
+    ],
+    "narrowReportsCheckedSeparately": ["H01-composable", "H01-adaptive", "H03-composable", "H07-composable"],
+    "calculationCasesCheckedAgainstOriginalQuestion": [
+      "H08-adaptive",
+      "H09-adaptive",
+      "H11-composable",
+      "H12-adaptive"
+    ]
+  },
+  "findings": [
+    {
+      "caseId": "H01",
+      "route": "composable",
+      "family": "common",
+      "automatic": "structured-correct",
+      "manual": "complete-correct",
+      "complete": true,
+      "kind": "agreement",
+      "reason": "Posted May Office supplies account5030 is $675.00, with matching account/date evidence.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H01",
+      "route": "adaptive",
+      "family": "common",
+      "automatic": "structured-correct",
+      "manual": "complete-correct",
+      "complete": true,
+      "kind": "agreement",
+      "reason": "Posted May Office supplies account5030 is $675.00, with matching account/date evidence.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H02",
+      "route": "adaptive",
+      "family": "common",
+      "automatic": "structured-correct",
+      "manual": "complete-correct",
+      "complete": true,
+      "kind": "agreement",
+      "reason": "May signed cash movement is +$2,135.00 across all cash-designated asset posting accounts, including archived cash; it is not a closing balance or profit.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H02",
+      "route": "composable",
+      "family": "common",
+      "automatic": "structured-correct",
+      "manual": "complete-correct",
+      "complete": true,
+      "kind": "agreement",
+      "reason": "May signed cash movement is +$2,135.00 across all cash-designated asset posting accounts, including archived cash; it is not a closing balance or profit.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H03",
+      "route": "composable",
+      "family": "common",
+      "automatic": "structured-correct",
+      "manual": "complete-correct",
+      "complete": true,
+      "kind": "agreement",
+      "reason": "June30 cash carrying balance is $13,535.50, restricted to the three cash accounts and including all earlier posted history.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H03",
+      "route": "adaptive",
+      "family": "common",
+      "automatic": "structured-correct",
+      "manual": "complete-correct",
+      "complete": true,
+      "kind": "agreement",
+      "reason": "June30 cash carrying balance is $13,535.50, restricted to the three cash accounts and including all earlier posted history.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H04",
+      "route": "adaptive",
+      "family": "common",
+      "automatic": "structured-correct",
+      "manual": "complete-correct",
+      "complete": true,
+      "kind": "agreement",
+      "reason": "Euro bank1020 June30 native balance is EUR306.00, without substituting its USD375.00 carrying balance.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H04",
+      "route": "composable",
+      "family": "common",
+      "automatic": "structured-correct",
+      "manual": "complete-correct",
+      "complete": true,
+      "kind": "agreement",
+      "reason": "Euro bank1020 June30 native balance is EUR306.00, without substituting its USD375.00 carrying balance.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H05",
+      "route": "composable",
+      "family": "discovery",
+      "automatic": "partial-answer",
+      "manual": "partial-answer",
+      "complete": false,
+      "kind": "agreement",
+      "reason": "All ten supplier/month rows are true and preserve Acme versus acme. Acme May325 and June122 are present, but the requested signed change−203 is absent; the combined-period ranking does not explicitly name the May winner.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H05",
+      "route": "adaptive",
+      "family": "discovery",
+      "automatic": "safe-no-answer",
+      "manual": "safely-withheld-incomplete",
+      "complete": false,
+      "kind": "model-row-reference-failure",
+      "reason": "The inspected full supplier/month data contains Acme325 and122. The model put literal backslashes before quotes inside compound row IDs, so neither exact operand resolved. The calculator refused and no amount was released.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H06",
+      "route": "adaptive",
+      "family": "discovery",
+      "automatic": "safe-no-answer",
+      "manual": "safely-withheld-incomplete",
+      "complete": false,
+      "kind": "model-row-reference-failure",
+      "reason": "The model correctly discovered Orbit Tools and bound the second read to its exact returned identity. Its final compound operand IDs contain extra literal escaping; the calculator refused, despite correct inspected amounts140 and190.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H06",
+      "route": "composable",
+      "family": "discovery",
+      "automatic": "partial-answer",
+      "manual": "partial-answer",
+      "complete": false,
+      "kind": "agreement",
+      "reason": "Orbit Tools May140 and June190 and Reversal App70/−70 are correct. The requested Orbit Tools signed change+50 is missing.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H07",
+      "route": "composable",
+      "family": "discovery",
+      "automatic": "wrong-answer",
+      "manual": "incomplete-with-true-extra-results",
+      "complete": false,
+      "kind": "classification-caveat",
+      "reason": "June Rent970 is correctly selected as the largest category. The additional June all-expense total2574.50 is independently true, but May Rent1380 and the requested signed change−410 are absent. The automatic wrong-answer label is not an observed false dollar claim.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H07",
+      "route": "adaptive",
+      "family": "discovery",
+      "automatic": "partial-answer",
+      "manual": "partial-answer",
+      "complete": false,
+      "kind": "agreement",
+      "reason": "Shows the correct top June category Rent970 and its May total1380, with explicit top-one truncation. It finishes by showing results and omits the requested −410 change.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H08",
+      "route": "adaptive",
+      "family": "discovery",
+      "automatic": "wrong-answer",
+      "manual": "complete-correct",
+      "complete": true,
+      "kind": "grader-false-negative",
+      "reason": "Shows Ledger Labs as the largest June revenue counterparty3300, binds both cash queries to that exact inspected identity, then computes1600−900=+700. Source, dates and formula are correct. The grader incorrectly assumes ledger evidence tables come last; actual evidence places the calculation table last, producing LEDGER_TABLE_LENGTH.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H08",
+      "route": "composable",
+      "family": "discovery",
+      "automatic": "partial-answer",
+      "manual": "partial-answer",
+      "complete": false,
+      "kind": "agreement",
+      "reason": "Shows all three June revenue counterparties, identifying Ledger Labs3300 at the top, and correct May/June cash movement rows including Ledger Labs900/1600. All25 extra rows are true; the requested +700 change is missing.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H09",
+      "route": "composable",
+      "family": "arithmetic",
+      "automatic": "partial-answer",
+      "manual": "partial-answer",
+      "complete": false,
+      "kind": "agreement",
+      "reason": "The four requested account/month cells are correct: supplies675/809.50 and marketing80/200. Repeated supplies totals are true, but the signed supplies change+134.50 is not shown.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H09",
+      "route": "adaptive",
+      "family": "arithmetic",
+      "automatic": "wrong-answer",
+      "manual": "complete-correct",
+      "complete": true,
+      "kind": "grader-false-negative",
+      "reason": "All four requested account/month cells are displayed, plus the exact Office supplies June809.50−May675=+134.50 calculation. The grader skips ledger table binding for financial_scenario but then counts those ledger tables as calculation tables, producing CALCULATION_TABLE_LENGTH.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H10",
+      "route": "adaptive",
+      "family": "arithmetic",
+      "automatic": "partial-answer",
+      "manual": "partial-answer",
+      "complete": false,
+      "kind": "agreement",
+      "reason": "All six closing balances are correct, including archived petty cash and saved FX. The answer omits the requested Operating bank June-minus-May difference−904.50.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H10",
+      "route": "composable",
+      "family": "arithmetic",
+      "automatic": "partial-answer",
+      "manual": "partial-answer",
+      "complete": false,
+      "kind": "agreement",
+      "reason": "All six closing balances are correct and clearly include earlier history, including archived petty cash. Operating bank14030→13125.50 is shown, but the requested −904.50 difference is absent.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H11",
+      "route": "composable",
+      "family": "arithmetic",
+      "automatic": "wrong-answer",
+      "manual": "complete-correct",
+      "complete": true,
+      "kind": "grader-false-negative",
+      "reason": "The hypothetical is correctly labeled. Original user spans supply1200USD/month×3months+450USD=4050USD; the exact all-cash June30 source13535.50 yields ending9485.50 and reserve margin−514.50. Both requested results are visible in evidence. The grader counts its source ledger table as a calculation table, producing CALCULATION_TABLE_LENGTH.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H11",
+      "route": "adaptive",
+      "family": "arithmetic",
+      "automatic": "execution-error",
+      "manual": "execution-error",
+      "complete": false,
+      "kind": "model-field-schema-failure",
+      "reason": "Both initial and one permitted schema-repair calls use operand field cash_balance instead of the allowed value/month_count. AI_INVALID_RESPONSE stops execution; no financial answer is released.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H12",
+      "route": "adaptive",
+      "family": "arithmetic",
+      "automatic": "wrong-answer",
+      "manual": "complete-correct",
+      "complete": true,
+      "kind": "grader-false-negative",
+      "reason": "Posted profit May1825 and June1690.50 is displayed with exact period evidence and subtracts to−134.50. No cash balance is substituted. The grader counts the two source tables as calculation tables, producing CALCULATION_TABLE_LENGTH.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H12",
+      "route": "composable",
+      "family": "arithmetic",
+      "automatic": "execution-error",
+      "manual": "execution-error",
+      "complete": false,
+      "kind": "model-field-schema-failure",
+      "reason": "Both initial and one permitted schema-repair calls use operand field sum rather than value/month_count. AI_INVALID_RESPONSE stops execution; no financial answer is released.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H13",
+      "route": "composable",
+      "family": "clarification",
+      "automatic": "structured-correct",
+      "manual": "correct-clarification-or-refusal",
+      "complete": true,
+      "kind": "agreement",
+      "reason": "Asks which period for Office supplies and emits no monetary answer.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H13",
+      "route": "adaptive",
+      "family": "clarification",
+      "automatic": "structured-correct",
+      "manual": "correct-clarification-or-refusal",
+      "complete": true,
+      "kind": "agreement",
+      "reason": "Asks which period for Office supplies and emits no monetary answer.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H14",
+      "route": "adaptive",
+      "family": "clarification",
+      "automatic": "structured-correct",
+      "manual": "correct-clarification-or-refusal",
+      "complete": true,
+      "kind": "agreement",
+      "reason": "Asks which of the two Other costs accounts5071/5072; no arbitrary account or amount is substituted.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H14",
+      "route": "composable",
+      "family": "clarification",
+      "automatic": "structured-correct",
+      "manual": "correct-clarification-or-refusal",
+      "complete": true,
+      "kind": "agreement",
+      "reason": "Asks which of the two Other costs accounts5071/5072; no arbitrary account or amount is substituted.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H15",
+      "route": "composable",
+      "family": "clarification",
+      "automatic": "structured-correct",
+      "manual": "correct-clarification-or-refusal",
+      "complete": true,
+      "kind": "agreement",
+      "reason": "Asks for hiring costs/time and cash assumptions; it does not present a forecast or affordability decision from present cash alone.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H15",
+      "route": "adaptive",
+      "family": "clarification",
+      "automatic": "structured-correct",
+      "manual": "correct-clarification-or-refusal",
+      "complete": true,
+      "kind": "agreement",
+      "reason": "Asks for hiring costs/time and cash assumptions; it does not present a forecast or affordability decision from present cash alone.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H16",
+      "route": "adaptive",
+      "family": "clarification",
+      "automatic": "structured-correct",
+      "manual": "correct-clarification-or-refusal",
+      "complete": true,
+      "kind": "agreement",
+      "reason": "Identifies the pizza request as off-topic and redirects to business finances without attempting a ledger query.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    },
+    {
+      "caseId": "H16",
+      "route": "composable",
+      "family": "clarification",
+      "automatic": "structured-correct",
+      "manual": "correct-clarification-or-refusal",
+      "complete": true,
+      "kind": "agreement",
+      "reason": "Identifies the pizza request as off-topic and redirects to business finances without attempting a ledger query.",
+      "observedFalseDollarClaim": false,
+      "observedWrongSourceOrFormulaClaim": false
+    }
+  ],
+  "inputHashes": {
+    "summary.json": "f7ca498707207aa511b1ed4119e750ae132e3d2cff2aa27795558539064dc38e",
+    "fixture.json": "01ccd84b0c3f7d144f2021439285d789cee809a02a4b50ef99855f56de320ec6",
+    "holdout-independent-audit-v2.json": "48a2a74db443969f68e7138dec4fff8b338bedcf0201bd5c97b3d03abef50912"
+  },
+  "limitations": [
+    "Secondary post-outcome internal AI review, not a replacement primary score or a preregistered new accuracy metric.",
+    "Complete means all requested data/calculations are present in the answer or visible evidence, not necessarily in the first sentence.",
+    "One synthetic outcome per route/question; no statistical superiority, universal NLU, production-accuracy or default-route adoption conclusion.",
+    "No runtime, scorer, fixture, prompt or model rerun was changed during this review."
+  ]
+}

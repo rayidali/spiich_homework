@@ -1,0 +1,2011 @@
+{
+  "version": "adaptive-holdout-v2-public-extract",
+  "phase": "holdout",
+  "sourceCommit": "84eb5de791b5490f141fb5690ad3ff3f61b3e361",
+  "sourceHash": "1b6f4642c68019a8f20a85af6d4f2b6155c25ac9d0228ca40a51e8a350c926b7",
+  "runId": "41258129206",
+  "workflowUrl": "https://github.com/rayidali/spiich_homework/actions/runs/41258129206",
+  "finishedAt": "2026-11-01T00:47:50.608Z",
+  "complete": true,
+  "primaryAutomaticScoresUnchanged": true,
+  "executions": {
+    "planned": 32,
+    "completed": 32
+  },
+  "trials": [
+    {
+      "caseId": "H01",
+      "route": "composable",
+      "durationMs": 1313,
+      "attempts": 1,
+      "score": {
+        "caseId": "H01",
+        "split": "holdout",
+        "family": "common",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+        "requiredClaims": 1,
+        "matchedClaims": ["supplies_may"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H01",
+            "split": "holdout",
+            "family": "common",
+            "classification": "structured-correct",
+            "passed": true,
+            "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+            "requiredClaims": 1,
+            "matchedClaims": ["supplies_may"],
+            "extraClaims": 0,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H01",
+      "route": "adaptive",
+      "durationMs": 1327,
+      "attempts": 1,
+      "score": {
+        "caseId": "H01",
+        "split": "holdout",
+        "family": "common",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+        "requiredClaims": 1,
+        "matchedClaims": ["supplies_may"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H01",
+            "split": "holdout",
+            "family": "common",
+            "classification": "structured-correct",
+            "passed": true,
+            "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+            "requiredClaims": 1,
+            "matchedClaims": ["supplies_may"],
+            "extraClaims": 0,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H02",
+      "route": "adaptive",
+      "durationMs": 1679,
+      "attempts": 1,
+      "score": {
+        "caseId": "H02",
+        "split": "holdout",
+        "family": "common",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+        "requiredClaims": 1,
+        "matchedClaims": ["cash_movement_may"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H02",
+            "split": "holdout",
+            "family": "common",
+            "classification": "structured-correct",
+            "passed": true,
+            "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+            "requiredClaims": 1,
+            "matchedClaims": ["cash_movement_may"],
+            "extraClaims": 0,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H02",
+      "route": "composable",
+      "durationMs": 2132,
+      "attempts": 1,
+      "score": {
+        "caseId": "H02",
+        "split": "holdout",
+        "family": "common",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+        "requiredClaims": 1,
+        "matchedClaims": ["cash_movement_may"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H02",
+            "split": "holdout",
+            "family": "common",
+            "classification": "structured-correct",
+            "passed": true,
+            "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+            "requiredClaims": 1,
+            "matchedClaims": ["cash_movement_may"],
+            "extraClaims": 0,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H03",
+      "route": "composable",
+      "durationMs": 2545,
+      "attempts": 1,
+      "score": {
+        "caseId": "H03",
+        "split": "holdout",
+        "family": "common",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+        "requiredClaims": 1,
+        "matchedClaims": ["cash_june"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H03",
+            "split": "holdout",
+            "family": "common",
+            "classification": "structured-correct",
+            "passed": true,
+            "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+            "requiredClaims": 1,
+            "matchedClaims": ["cash_june"],
+            "extraClaims": 0,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H03",
+      "route": "adaptive",
+      "durationMs": 1360,
+      "attempts": 1,
+      "score": {
+        "caseId": "H03",
+        "split": "holdout",
+        "family": "common",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+        "requiredClaims": 1,
+        "matchedClaims": ["cash_june"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H03",
+            "split": "holdout",
+            "family": "common",
+            "classification": "structured-correct",
+            "passed": true,
+            "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+            "requiredClaims": 1,
+            "matchedClaims": ["cash_june"],
+            "extraClaims": 0,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H04",
+      "route": "adaptive",
+      "durationMs": 2040,
+      "attempts": 1,
+      "score": {
+        "caseId": "H04",
+        "split": "holdout",
+        "family": "common",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+        "requiredClaims": 1,
+        "matchedClaims": ["euro_june"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H04",
+            "split": "holdout",
+            "family": "common",
+            "classification": "structured-correct",
+            "passed": true,
+            "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+            "requiredClaims": 1,
+            "matchedClaims": ["euro_june"],
+            "extraClaims": 0,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H04",
+      "route": "composable",
+      "durationMs": 2392,
+      "attempts": 1,
+      "score": {
+        "caseId": "H04",
+        "split": "holdout",
+        "family": "common",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+        "requiredClaims": 1,
+        "matchedClaims": ["euro_june"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H04",
+            "split": "holdout",
+            "family": "common",
+            "classification": "structured-correct",
+            "passed": true,
+            "reasons": ["EXACT_CLAIMS_SCOPE_AND_FORMULAS"],
+            "requiredClaims": 1,
+            "matchedClaims": ["euro_june"],
+            "extraClaims": 0,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H05",
+      "route": "composable",
+      "durationMs": 4136,
+      "attempts": 2,
+      "score": {
+        "caseId": "H05",
+        "split": "holdout",
+        "family": "discovery",
+        "classification": "partial-answer",
+        "passed": false,
+        "reasons": ["MISSING_REQUIRED_CLAIMS", "EXTRA_ROWS_INDEPENDENTLY_VERIFIED_TRUE"],
+        "requiredClaims": 3,
+        "matchedClaims": ["selected_june", "selected_may"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H05",
+            "split": "holdout",
+            "family": "discovery",
+            "classification": "wrong-answer",
+            "passed": false,
+            "reasons": ["UNEXPECTED_OR_INCORRECT_FINANCIAL_CLAIMS"],
+            "requiredClaims": 3,
+            "matchedClaims": ["selected_may", "selected_june"],
+            "extraClaims": 6,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 6,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [
+            {
+              "queryId": "office_supplies_by_month_supplier",
+              "rowId": "compound:[[\"month\",\"2026-06\"],[\"counterparty\",\"acme\"]]",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "office_supplies_by_month_supplier",
+              "rowId": "compound:[[\"month\",\"2026-06\"],[\"counterparty\",\"Paper Ferry\"]]",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "office_supplies_by_month_supplier",
+              "rowId": "compound:[[\"month\",\"2026-06\"],[\"counterparty\",\"Books & Co\"]]",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "office_supplies_by_month_supplier",
+              "rowId": "compound:[[\"month\",\"2026-05\"],[\"counterparty\",\"Books & Co\"]]",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "office_supplies_by_month_supplier",
+              "rowId": "compound:[[\"month\",\"2026-05\"],[\"counterparty\",\"acme\"]]",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "office_supplies_by_month_supplier",
+              "rowId": "compound:[[\"month\",\"2026-06\"],[\"counterparty\",\"Mix Co\"]]",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            }
+          ],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H05",
+      "route": "adaptive",
+      "durationMs": 4157,
+      "attempts": 2,
+      "score": {
+        "caseId": "H05",
+        "split": "holdout",
+        "family": "discovery",
+        "classification": "safe-no-answer",
+        "passed": false,
+        "reasons": ["ANSWERABLE_COVERAGE_MISS"],
+        "requiredClaims": 3,
+        "matchedClaims": [],
+        "extraClaims": 0,
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H05",
+            "split": "holdout",
+            "family": "discovery",
+            "classification": "safe-no-answer",
+            "passed": false,
+            "reasons": ["ANSWERABLE_COVERAGE_MISS"],
+            "requiredClaims": 3,
+            "matchedClaims": [],
+            "extraClaims": 0,
+            "numericCorrect": false,
+            "scopeCorrect": false,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H06",
+      "route": "adaptive",
+      "durationMs": 4367,
+      "attempts": 3,
+      "score": {
+        "caseId": "H06",
+        "split": "holdout",
+        "family": "discovery",
+        "classification": "safe-no-answer",
+        "passed": false,
+        "reasons": ["ANSWERABLE_COVERAGE_MISS"],
+        "requiredClaims": 3,
+        "matchedClaims": [],
+        "extraClaims": 0,
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H06",
+            "split": "holdout",
+            "family": "discovery",
+            "classification": "safe-no-answer",
+            "passed": false,
+            "reasons": ["ANSWERABLE_COVERAGE_MISS"],
+            "requiredClaims": 3,
+            "matchedClaims": [],
+            "extraClaims": 0,
+            "numericCorrect": false,
+            "scopeCorrect": false,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H06",
+      "route": "composable",
+      "durationMs": 2481,
+      "attempts": 1,
+      "score": {
+        "caseId": "H06",
+        "split": "holdout",
+        "family": "discovery",
+        "classification": "partial-answer",
+        "passed": false,
+        "reasons": ["MISSING_REQUIRED_CLAIMS", "EXTRA_ROWS_INDEPENDENTLY_VERIFIED_TRUE"],
+        "requiredClaims": 3,
+        "matchedClaims": ["selected_june", "selected_may"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H06",
+            "split": "holdout",
+            "family": "discovery",
+            "classification": "wrong-answer",
+            "passed": false,
+            "reasons": ["UNEXPECTED_OR_INCORRECT_FINANCIAL_CLAIMS"],
+            "requiredClaims": 3,
+            "matchedClaims": ["selected_may", "selected_june"],
+            "extraClaims": 1,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 1,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [
+            {
+              "queryId": "q1",
+              "rowId": "compound:[[\"month\",\"2026-06\"],[\"counterparty\",\"Reversal App\"]]",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            }
+          ],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H07",
+      "route": "composable",
+      "durationMs": 2522,
+      "attempts": 1,
+      "score": {
+        "caseId": "H07",
+        "split": "holdout",
+        "family": "discovery",
+        "classification": "wrong-answer",
+        "passed": false,
+        "reasons": ["UNEXPECTED_OR_INCORRECT_FINANCIAL_CLAIMS"],
+        "requiredClaims": 3,
+        "matchedClaims": ["selected_june"],
+        "extraClaims": 1,
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H07",
+            "split": "holdout",
+            "family": "discovery",
+            "classification": "wrong-answer",
+            "passed": false,
+            "reasons": ["UNEXPECTED_OR_INCORRECT_FINANCIAL_CLAIMS"],
+            "requiredClaims": 3,
+            "matchedClaims": ["selected_june"],
+            "extraClaims": 1,
+            "numericCorrect": false,
+            "scopeCorrect": false,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H07",
+      "route": "adaptive",
+      "durationMs": 6116,
+      "attempts": 3,
+      "score": {
+        "caseId": "H07",
+        "split": "holdout",
+        "family": "discovery",
+        "classification": "partial-answer",
+        "passed": false,
+        "reasons": ["MISSING_REQUIRED_CLAIMS"],
+        "requiredClaims": 3,
+        "matchedClaims": ["selected_june", "selected_may"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H07",
+            "split": "holdout",
+            "family": "discovery",
+            "classification": "partial-answer",
+            "passed": false,
+            "reasons": ["MISSING_REQUIRED_CLAIMS"],
+            "requiredClaims": 3,
+            "matchedClaims": ["selected_june", "selected_may"],
+            "extraClaims": 0,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H08",
+      "route": "adaptive",
+      "durationMs": 4651,
+      "attempts": 3,
+      "score": {
+        "caseId": "H08",
+        "split": "holdout",
+        "family": "discovery",
+        "classification": "wrong-answer",
+        "passed": false,
+        "reasons": ["LEDGER_TABLE_LENGTH"],
+        "requiredClaims": 4,
+        "matchedClaims": ["selected_revenue", "receipt_may", "receipt_june"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H08",
+            "split": "holdout",
+            "family": "discovery",
+            "classification": "wrong-answer",
+            "passed": false,
+            "reasons": ["LEDGER_TABLE_LENGTH"],
+            "requiredClaims": 4,
+            "matchedClaims": ["selected_revenue", "receipt_may", "receipt_june"],
+            "extraClaims": 0,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H08",
+      "route": "composable",
+      "durationMs": 5830,
+      "attempts": 1,
+      "score": {
+        "caseId": "H08",
+        "split": "holdout",
+        "family": "discovery",
+        "classification": "partial-answer",
+        "passed": false,
+        "reasons": ["MISSING_REQUIRED_CLAIMS", "EXTRA_ROWS_INDEPENDENTLY_VERIFIED_TRUE"],
+        "requiredClaims": 4,
+        "matchedClaims": ["receipt_june", "receipt_may", "selected_revenue"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H08",
+            "split": "holdout",
+            "family": "discovery",
+            "classification": "wrong-answer",
+            "passed": false,
+            "reasons": ["UNEXPECTED_OR_INCORRECT_FINANCIAL_CLAIMS"],
+            "requiredClaims": 4,
+            "matchedClaims": ["selected_revenue", "receipt_may", "receipt_june"],
+            "extraClaims": 25,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 25,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [
+            {
+              "queryId": "cash_may",
+              "rowId": "counterparty:Pebble%20Studio",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_may",
+              "rowId": "counterparty:Funding%20Bank",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_may",
+              "rowId": "counterparty:Owner",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_may",
+              "rowId": "counterparty:Internal%20transfer",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_may",
+              "rowId": "counterparty:Alpine%20Rail",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_may",
+              "rowId": "counterparty:Mix%20Co",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_may",
+              "rowId": "counterparty:Reversal%20App",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_may",
+              "rowId": "counterparty:Orbit%20Tools",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_may",
+              "rowId": "counterparty:Paper%20Ferry",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_may",
+              "rowId": "counterparty:acme",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_may",
+              "rowId": "counterparty:Acme",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_may",
+              "rowId": "counterparty:Cedar%20Properties",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_june",
+              "rowId": "counterparty:Pebble%20Studio",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_june",
+              "rowId": "counterparty:Reversal%20App",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_june",
+              "rowId": "counterparty:Euro%20Client",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_june",
+              "rowId": "counterparty:Books%20%26%20Co",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_june",
+              "rowId": "counterparty:Paper%20Ferry",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_june",
+              "rowId": "counterparty:Acme",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_june",
+              "rowId": "counterparty:Harbor%20Ads",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_june",
+              "rowId": "counterparty:Card%20issuer",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_june",
+              "rowId": "counterparty:Funding%20Bank",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_june",
+              "rowId": "counterparty:Cobalt%20Contractors",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_june",
+              "rowId": "counterparty:Device%20Wharf",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_june",
+              "rowId": "counterparty:acme",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_june",
+              "rowId": "counterparty:Cedar%20Properties",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            }
+          ],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H09",
+      "route": "composable",
+      "durationMs": 3694,
+      "attempts": 1,
+      "score": {
+        "caseId": "H09",
+        "split": "holdout",
+        "family": "arithmetic",
+        "classification": "partial-answer",
+        "passed": false,
+        "reasons": ["MISSING_REQUIRED_CLAIMS"],
+        "requiredClaims": 5,
+        "matchedClaims": ["marketing_june", "marketing_may", "supplies_june", "supplies_may"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H09",
+            "split": "holdout",
+            "family": "arithmetic",
+            "classification": "partial-answer",
+            "passed": false,
+            "reasons": ["MISSING_REQUIRED_CLAIMS"],
+            "requiredClaims": 5,
+            "matchedClaims": ["marketing_june", "marketing_may", "supplies_june", "supplies_may"],
+            "extraClaims": 0,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H09",
+      "route": "adaptive",
+      "durationMs": 5654,
+      "attempts": 1,
+      "score": {
+        "caseId": "H09",
+        "split": "holdout",
+        "family": "arithmetic",
+        "classification": "wrong-answer",
+        "passed": false,
+        "reasons": ["CALCULATION_TABLE_LENGTH"],
+        "requiredClaims": 5,
+        "matchedClaims": ["supplies_may", "supplies_june", "marketing_may", "marketing_june"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H09",
+            "split": "holdout",
+            "family": "arithmetic",
+            "classification": "wrong-answer",
+            "passed": false,
+            "reasons": ["CALCULATION_TABLE_LENGTH"],
+            "requiredClaims": 5,
+            "matchedClaims": ["supplies_may", "supplies_june", "marketing_may", "marketing_june"],
+            "extraClaims": 0,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H10",
+      "route": "adaptive",
+      "durationMs": 2314,
+      "attempts": 1,
+      "score": {
+        "caseId": "H10",
+        "split": "holdout",
+        "family": "arithmetic",
+        "classification": "partial-answer",
+        "passed": false,
+        "reasons": ["MISSING_REQUIRED_CLAIMS", "EXTRA_ROWS_INDEPENDENTLY_VERIFIED_TRUE"],
+        "requiredClaims": 7,
+        "matchedClaims": ["1010_june", "1010_may", "1020_june", "1020_may", "1030_june", "1030_may"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H10",
+            "split": "holdout",
+            "family": "arithmetic",
+            "classification": "partial-answer",
+            "passed": false,
+            "reasons": ["MISSING_REQUIRED_CLAIMS"],
+            "requiredClaims": 7,
+            "matchedClaims": ["1010_june", "1010_may", "1020_june", "1020_may", "1030_june", "1030_may"],
+            "extraClaims": 0,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 6,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [
+            {
+              "queryId": "cash_balances",
+              "rowId": "compound:[[\"month\",\"2026-05\"],[\"account\",\"1010\"]]",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_balances",
+              "rowId": "compound:[[\"month\",\"2026-05\"],[\"account\",\"1020\"]]",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_balances",
+              "rowId": "compound:[[\"month\",\"2026-05\"],[\"account\",\"1030\"]]",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_balances",
+              "rowId": "compound:[[\"month\",\"2026-06\"],[\"account\",\"1010\"]]",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_balances",
+              "rowId": "compound:[[\"month\",\"2026-06\"],[\"account\",\"1020\"]]",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_balances",
+              "rowId": "compound:[[\"month\",\"2026-06\"],[\"account\",\"1030\"]]",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            }
+          ],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H10",
+      "route": "composable",
+      "durationMs": 3516,
+      "attempts": 1,
+      "score": {
+        "caseId": "H10",
+        "split": "holdout",
+        "family": "arithmetic",
+        "classification": "partial-answer",
+        "passed": false,
+        "reasons": ["MISSING_REQUIRED_CLAIMS", "EXTRA_ROWS_INDEPENDENTLY_VERIFIED_TRUE"],
+        "requiredClaims": 7,
+        "matchedClaims": ["1010_june", "1010_may", "1020_june", "1020_may", "1030_june", "1030_may"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H10",
+            "split": "holdout",
+            "family": "arithmetic",
+            "classification": "partial-answer",
+            "passed": false,
+            "reasons": ["MISSING_REQUIRED_CLAIMS"],
+            "requiredClaims": 7,
+            "matchedClaims": ["1010_june", "1010_may", "1020_june", "1020_may", "1030_june", "1030_may"],
+            "extraClaims": 0,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 6,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [
+            {
+              "queryId": "cash_balances",
+              "rowId": "compound:[[\"month\",\"2026-05\"],[\"account\",\"1010\"]]",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_balances",
+              "rowId": "compound:[[\"month\",\"2026-05\"],[\"account\",\"1020\"]]",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_balances",
+              "rowId": "compound:[[\"month\",\"2026-05\"],[\"account\",\"1030\"]]",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_balances",
+              "rowId": "compound:[[\"month\",\"2026-06\"],[\"account\",\"1010\"]]",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_balances",
+              "rowId": "compound:[[\"month\",\"2026-06\"],[\"account\",\"1020\"]]",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            },
+            {
+              "queryId": "cash_balances",
+              "rowId": "compound:[[\"month\",\"2026-06\"],[\"account\",\"1030\"]]",
+              "result": "verified-true",
+              "extra": true,
+              "reason": "INDEPENDENT_INTEGER_LEDGER_ORACLE"
+            }
+          ],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H11",
+      "route": "composable",
+      "durationMs": 8268,
+      "attempts": 2,
+      "score": {
+        "caseId": "H11",
+        "split": "holdout",
+        "family": "arithmetic",
+        "classification": "wrong-answer",
+        "passed": false,
+        "reasons": ["CALCULATION_TABLE_LENGTH"],
+        "requiredClaims": 2,
+        "matchedClaims": [],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H11",
+            "split": "holdout",
+            "family": "arithmetic",
+            "classification": "wrong-answer",
+            "passed": false,
+            "reasons": ["CALCULATION_TABLE_LENGTH"],
+            "requiredClaims": 2,
+            "matchedClaims": [],
+            "extraClaims": 0,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H11",
+      "route": "adaptive",
+      "durationMs": 4970,
+      "attempts": 2,
+      "score": {
+        "caseId": "H11",
+        "split": "holdout",
+        "family": "arithmetic",
+        "classification": "execution-error",
+        "passed": false,
+        "reasons": ["AI_INVALID_RESPONSE"],
+        "requiredClaims": 2,
+        "matchedClaims": [],
+        "extraClaims": 0,
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H11",
+            "split": "holdout",
+            "family": "arithmetic",
+            "classification": "execution-error",
+            "passed": false,
+            "reasons": ["AI_INVALID_RESPONSE"],
+            "requiredClaims": 2,
+            "matchedClaims": [],
+            "extraClaims": 0,
+            "numericCorrect": false,
+            "scopeCorrect": false,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H12",
+      "route": "adaptive",
+      "durationMs": 1586,
+      "attempts": 1,
+      "score": {
+        "caseId": "H12",
+        "split": "holdout",
+        "family": "arithmetic",
+        "classification": "wrong-answer",
+        "passed": false,
+        "reasons": ["CALCULATION_TABLE_LENGTH"],
+        "requiredClaims": 3,
+        "matchedClaims": ["profit_may", "profit_june"],
+        "extraClaims": 0,
+        "numericCorrect": true,
+        "scopeCorrect": true,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H12",
+            "split": "holdout",
+            "family": "arithmetic",
+            "classification": "wrong-answer",
+            "passed": false,
+            "reasons": ["CALCULATION_TABLE_LENGTH"],
+            "requiredClaims": 3,
+            "matchedClaims": ["profit_may", "profit_june"],
+            "extraClaims": 0,
+            "numericCorrect": true,
+            "scopeCorrect": true,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H12",
+      "route": "composable",
+      "durationMs": 4176,
+      "attempts": 2,
+      "score": {
+        "caseId": "H12",
+        "split": "holdout",
+        "family": "arithmetic",
+        "classification": "execution-error",
+        "passed": false,
+        "reasons": ["AI_INVALID_RESPONSE"],
+        "requiredClaims": 3,
+        "matchedClaims": [],
+        "extraClaims": 0,
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H12",
+            "split": "holdout",
+            "family": "arithmetic",
+            "classification": "execution-error",
+            "passed": false,
+            "reasons": ["AI_INVALID_RESPONSE"],
+            "requiredClaims": 3,
+            "matchedClaims": [],
+            "extraClaims": 0,
+            "numericCorrect": false,
+            "scopeCorrect": false,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H13",
+      "route": "composable",
+      "durationMs": 1500,
+      "attempts": 1,
+      "score": {
+        "caseId": "H13",
+        "split": "holdout",
+        "family": "clarification",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "requiredClaims": 0,
+        "matchedClaims": [],
+        "extraClaims": 0,
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H13",
+            "split": "holdout",
+            "family": "clarification",
+            "classification": "structured-correct",
+            "passed": true,
+            "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+            "requiredClaims": 0,
+            "matchedClaims": [],
+            "extraClaims": 0,
+            "numericCorrect": false,
+            "scopeCorrect": false,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H13",
+      "route": "adaptive",
+      "durationMs": 1809,
+      "attempts": 1,
+      "score": {
+        "caseId": "H13",
+        "split": "holdout",
+        "family": "clarification",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "requiredClaims": 0,
+        "matchedClaims": [],
+        "extraClaims": 0,
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H13",
+            "split": "holdout",
+            "family": "clarification",
+            "classification": "structured-correct",
+            "passed": true,
+            "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+            "requiredClaims": 0,
+            "matchedClaims": [],
+            "extraClaims": 0,
+            "numericCorrect": false,
+            "scopeCorrect": false,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H14",
+      "route": "adaptive",
+      "durationMs": 1682,
+      "attempts": 1,
+      "score": {
+        "caseId": "H14",
+        "split": "holdout",
+        "family": "clarification",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "requiredClaims": 0,
+        "matchedClaims": [],
+        "extraClaims": 0,
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H14",
+            "split": "holdout",
+            "family": "clarification",
+            "classification": "structured-correct",
+            "passed": true,
+            "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+            "requiredClaims": 0,
+            "matchedClaims": [],
+            "extraClaims": 0,
+            "numericCorrect": false,
+            "scopeCorrect": false,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H14",
+      "route": "composable",
+      "durationMs": 1664,
+      "attempts": 1,
+      "score": {
+        "caseId": "H14",
+        "split": "holdout",
+        "family": "clarification",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "requiredClaims": 0,
+        "matchedClaims": [],
+        "extraClaims": 0,
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H14",
+            "split": "holdout",
+            "family": "clarification",
+            "classification": "structured-correct",
+            "passed": true,
+            "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+            "requiredClaims": 0,
+            "matchedClaims": [],
+            "extraClaims": 0,
+            "numericCorrect": false,
+            "scopeCorrect": false,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H15",
+      "route": "composable",
+      "durationMs": 2224,
+      "attempts": 1,
+      "score": {
+        "caseId": "H15",
+        "split": "holdout",
+        "family": "clarification",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "requiredClaims": 0,
+        "matchedClaims": [],
+        "extraClaims": 0,
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H15",
+            "split": "holdout",
+            "family": "clarification",
+            "classification": "structured-correct",
+            "passed": true,
+            "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+            "requiredClaims": 0,
+            "matchedClaims": [],
+            "extraClaims": 0,
+            "numericCorrect": false,
+            "scopeCorrect": false,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H15",
+      "route": "adaptive",
+      "durationMs": 1393,
+      "attempts": 1,
+      "score": {
+        "caseId": "H15",
+        "split": "holdout",
+        "family": "clarification",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "requiredClaims": 0,
+        "matchedClaims": [],
+        "extraClaims": 0,
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H15",
+            "split": "holdout",
+            "family": "clarification",
+            "classification": "structured-correct",
+            "passed": true,
+            "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+            "requiredClaims": 0,
+            "matchedClaims": [],
+            "extraClaims": 0,
+            "numericCorrect": false,
+            "scopeCorrect": false,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H16",
+      "route": "adaptive",
+      "durationMs": 1411,
+      "attempts": 1,
+      "score": {
+        "caseId": "H16",
+        "split": "holdout",
+        "family": "clarification",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "requiredClaims": 0,
+        "matchedClaims": [],
+        "extraClaims": 0,
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H16",
+            "split": "holdout",
+            "family": "clarification",
+            "classification": "structured-correct",
+            "passed": true,
+            "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+            "requiredClaims": 0,
+            "matchedClaims": [],
+            "extraClaims": 0,
+            "numericCorrect": false,
+            "scopeCorrect": false,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    },
+    {
+      "caseId": "H16",
+      "route": "composable",
+      "durationMs": 1283,
+      "attempts": 1,
+      "score": {
+        "caseId": "H16",
+        "split": "holdout",
+        "family": "clarification",
+        "classification": "structured-correct",
+        "passed": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "requiredClaims": 0,
+        "matchedClaims": [],
+        "extraClaims": 0,
+        "numericCorrect": false,
+        "scopeCorrect": false,
+        "hardBoundaryViolations": [],
+        "wordingReview": "not_model_judged",
+        "revision": {
+          "version": "adaptive-scoring-v2",
+          "originalV1": {
+            "caseId": "H16",
+            "split": "holdout",
+            "family": "clarification",
+            "classification": "structured-correct",
+            "passed": true,
+            "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+            "requiredClaims": 0,
+            "matchedClaims": [],
+            "extraClaims": 0,
+            "numericCorrect": false,
+            "scopeCorrect": false,
+            "hardBoundaryViolations": [],
+            "wordingReview": "not_model_judged"
+          },
+          "expenseUnionAlternatives": [],
+          "verifiedTrueExtraRows": 0,
+          "incorrectExtraRows": 0,
+          "unverifiableExtraRows": 0,
+          "rowChecks": [],
+          "limitation": "bounded_fixture_oracle_not_general_semantic_or_prose_judgment"
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "split": "holdout",
+    "plannedPairs": 16,
+    "completedPairs": 16,
+    "complete": true,
+    "expectedDesignPairs": 16,
+    "designCountMatches": true,
+    "composablePassed": 8,
+    "adaptivePassed": 8,
+    "bothPass": 8,
+    "bothFail": 8,
+    "composableOnly": 0,
+    "adaptiveOnly": 0,
+    "pairedDifference": 0,
+    "exactTwoSidedMcNemarP": 1,
+    "composableWilson95": [0.27999563610326017, 0.7200043638967398],
+    "adaptiveWilson95": [0.27999563610326017, 0.7200043638967398],
+    "adaptiveWinAmongDiscordantWilson95": null,
+    "families": [
+      {
+        "family": "arithmetic",
+        "planned": 4,
+        "paired": 4,
+        "composablePassed": 0,
+        "adaptivePassed": 0
+      },
+      {
+        "family": "clarification",
+        "planned": 4,
+        "paired": 4,
+        "composablePassed": 4,
+        "adaptivePassed": 4
+      },
+      {
+        "family": "common",
+        "planned": 4,
+        "paired": 4,
+        "composablePassed": 4,
+        "adaptivePassed": 4
+      },
+      {
+        "family": "discovery",
+        "planned": 4,
+        "paired": 4,
+        "composablePassed": 0,
+        "adaptivePassed": 0
+      }
+    ],
+    "pairs": [
+      {
+        "caseId": "H01",
+        "family": "common",
+        "composable": true,
+        "adaptive": true,
+        "composableClassification": "structured-correct",
+        "adaptiveClassification": "structured-correct"
+      },
+      {
+        "caseId": "H02",
+        "family": "common",
+        "composable": true,
+        "adaptive": true,
+        "composableClassification": "structured-correct",
+        "adaptiveClassification": "structured-correct"
+      },
+      {
+        "caseId": "H03",
+        "family": "common",
+        "composable": true,
+        "adaptive": true,
+        "composableClassification": "structured-correct",
+        "adaptiveClassification": "structured-correct"
+      },
+      {
+        "caseId": "H04",
+        "family": "common",
+        "composable": true,
+        "adaptive": true,
+        "composableClassification": "structured-correct",
+        "adaptiveClassification": "structured-correct"
+      },
+      {
+        "caseId": "H05",
+        "family": "discovery",
+        "composable": false,
+        "adaptive": false,
+        "composableClassification": "partial-answer",
+        "adaptiveClassification": "safe-no-answer"
+      },
+      {
+        "caseId": "H06",
+        "family": "discovery",
+        "composable": false,
+        "adaptive": false,
+        "composableClassification": "partial-answer",
+        "adaptiveClassification": "safe-no-answer"
+      },
+      {
+        "caseId": "H07",
+        "family": "discovery",
+        "composable": false,
+        "adaptive": false,
+        "composableClassification": "wrong-answer",
+        "adaptiveClassification": "partial-answer"
+      },
+      {
+        "caseId": "H08",
+        "family": "discovery",
+        "composable": false,
+        "adaptive": false,
+        "composableClassification": "partial-answer",
+        "adaptiveClassification": "wrong-answer"
+      },
+      {
+        "caseId": "H09",
+        "family": "arithmetic",
+        "composable": false,
+        "adaptive": false,
+        "composableClassification": "partial-answer",
+        "adaptiveClassification": "wrong-answer"
+      },
+      {
+        "caseId": "H10",
+        "family": "arithmetic",
+        "composable": false,
+        "adaptive": false,
+        "composableClassification": "partial-answer",
+        "adaptiveClassification": "partial-answer"
+      },
+      {
+        "caseId": "H11",
+        "family": "arithmetic",
+        "composable": false,
+        "adaptive": false,
+        "composableClassification": "wrong-answer",
+        "adaptiveClassification": "execution-error"
+      },
+      {
+        "caseId": "H12",
+        "family": "arithmetic",
+        "composable": false,
+        "adaptive": false,
+        "composableClassification": "execution-error",
+        "adaptiveClassification": "wrong-answer"
+      },
+      {
+        "caseId": "H13",
+        "family": "clarification",
+        "composable": true,
+        "adaptive": true,
+        "composableClassification": "structured-correct",
+        "adaptiveClassification": "structured-correct"
+      },
+      {
+        "caseId": "H14",
+        "family": "clarification",
+        "composable": true,
+        "adaptive": true,
+        "composableClassification": "structured-correct",
+        "adaptiveClassification": "structured-correct"
+      },
+      {
+        "caseId": "H15",
+        "family": "clarification",
+        "composable": true,
+        "adaptive": true,
+        "composableClassification": "structured-correct",
+        "adaptiveClassification": "structured-correct"
+      },
+      {
+        "caseId": "H16",
+        "family": "clarification",
+        "composable": true,
+        "adaptive": true,
+        "composableClassification": "structured-correct",
+        "adaptiveClassification": "structured-correct"
+      }
+    ],
+    "interpretation": "Small purpose-built paired set, one outcome per route and question. Exact McNemar is descriptive; Wilson intervals are not paired-effect intervals. No universal accuracy or causal superiority claim."
+  },
+  "budget": {
+    "state": "closed",
+    "attempts": 43,
+    "knownUsd": "0.2003728",
+    "unknownReservedUsd": "0",
+    "chargedUsd": "0.2003728",
+    "haltReason": null,
+    "pending": 0,
+    "activeTrial": null
+  },
+  "cumulativeAccounting": {
+    "priorChargedUsd": "0.0430523",
+    "currentChargedUsd": "0.2003728",
+    "totalChargedUsd": "0.2434251",
+    "priorAttempts": 10,
+    "currentAttempts": 43,
+    "totalAttempts": 53,
+    "totalCeilingUsd": "0.50",
+    "unusedDevelopmentTransferred": false
+  },
+  "byRoute": {
+    "composable": {
+      "attempts": 19,
+      "knownUsd": "0.0921112",
+      "medianServiceExecutionMs": 2501.5
+    },
+    "adaptive": {
+      "attempts": 24,
+      "knownUsd": "0.1082616",
+      "medianServiceExecutionMs": 1924.5
+    }
+  },
+  "initialFingerprint": {
+    "sha256": "32ae7854bfe6f155d8efa55153fd8c81bda03378a7012385579837a419a88469",
+    "organizations": 2,
+    "accounts": 46,
+    "entries": 41,
+    "lines": 86,
+    "scope": "full_org_account_entry_line_rows"
+  },
+  "finalFingerprint": {
+    "sha256": "32ae7854bfe6f155d8efa55153fd8c81bda03378a7012385579837a419a88469",
+    "organizations": 2,
+    "accounts": 46,
+    "entries": 41,
+    "lines": 86,
+    "scope": "full_org_account_entry_line_rows"
+  },
+  "executionAudit": {
+    "checksPassed": 866,
+    "checksTotal": 866,
+    "sha256": "48a2a74db443969f68e7138dec4fff8b338bedcf0201bd5c97b3d03abef50912",
+    "status": "AUDIT_PASS_COMPLETE"
+  },
+  "limitations": [
+    "Synthetic internally authored questions; no production accuracy guarantee.",
+    "Direct service evaluation, not Express admission or browser/hosting validation.",
+    "Current standard-rate estimates plus unknown reservations, not an invoice or account balance.",
+    "Primary automatic labels include the preserved grader defects described separately in semantic-review.json.",
+    "Latency includes service execution, not just provider HTTP time; different paths and this small sample do not establish a speed advantage."
+  ]
+}

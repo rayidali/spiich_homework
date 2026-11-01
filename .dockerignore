@@ -8,6 +8,8 @@ coverage
 test-results
 playwright-report
 docs/evidence
+# Public synthetic manifest required by the evaluator's offline contract tests.
+!docs/evidence/adaptive-runs/development-v1/predecessor.json
 *.log
 submission.zip
 .vercel
