@@ -1,0 +1,146 @@
+{
+  "version": "daybook-chat-route-comparison-report-v1",
+  "createdAt": "2026-11-01T07:08:36.558474+00:00",
+  "artifactCreationTimeMeaning": "Receipt creation after approved exact-byte publication; not an inferred review timestamp.",
+  "status": "PUBLISHED_AFTER_INTERNAL_VISUAL_AND_CLAIM_REVIEW",
+  "sourceCommit": "6691d76ad24574343b3eec9617546e9c019b8c95",
+  "sourceHash": "de9118f9d8311ed8084ebb496f50e069a485f046aef980f4b5a540a6f6cfd1cd",
+  "runId": 41282205719,
+  "artifacts": [
+    {
+      "path": "docs/reports/chat-route-comparison-explained.pdf",
+      "sha256": "743b70e7a90b518abd8ee9138725b8b961809feaa63ebe6da7c832e997d280a2",
+      "bytes": 7402
+    },
+    {
+      "path": "docs/reports/chat-route-comparison-explained.html",
+      "sha256": "4b24423c028b0f983be425a9b7ec9ebebaca749610a79837ab7945a879c364f8",
+      "bytes": 18794
+    },
+    {
+      "path": "docs/reports/chat-route-comparison-explained.svg",
+      "sha256": "d4366f2febfa138d735bb58a65dbce69e94adfb77df4108d124640adec9e513e",
+      "bytes": 5680
+    }
+  ],
+  "pages": 2,
+  "minimumFontPoints": 10,
+  "rendererSha256": "b5b0e6574eae82c8b17bc55a1691c41e9c8c6348bff7eb82b86c7b056b1ac8a8",
+  "reportInputHashes": {
+    "summary.json": "94bf380e5facce46adb9eebcf19e746425c0fb2564e308f27aeaaa79df4eb5f5",
+    "source.json": "2e8a2fd710ff30e677512f518ef62b6c8e5790dc22e9ad84890e90810a22a86e",
+    "audit.json": "9f1929c2565b476b5a1345a23dea83c90189c6313d8df25b28ab85fc48305756",
+    "costs.json": "2c0a8deb21cc76de19057c006639f28762ee6ebe708af98299cb09d6273124c3",
+    "decision.json": "92af3052a90da11ac7814fbbf7342c8d4b13a540f5451c39f1a889323ac75ba7",
+    "current-release.json": "75b35ff827ec3f7ad17d7dcd619581b2f7a3d89ee8a88919395b8ba1d0d0d1db",
+    "example.json": "2d71f1d4d8b19f64c29dff8598213447e129b26ec56dce98ea8b31ec5f0cd8df",
+    "example-outcome.json": "cac9ea83e3b8fffb4ead1ebf4c99c8d153f41e0a502a25c85f0598965e270258",
+    "example-case.json": "bc1a078bdc18148d5451fec5d84704b71a6a4d73a12e25f35db05d127b2e8d8c",
+    "grading-review.json": "3b6a91a40b28f71466eb7cd969c4f566ffd51ef956fb48a9a8356d513ed39a61",
+    "sensitivity.json": "cd24d3421cc7ca29583f839a8c598762c4a3162ddfe4864a68e60e8f873127a7",
+    "hosted-v1.json": "e20a0f830904e9fac95a6dde9a5cfc5d32c6d1a17ad3143d7872deea026463c4",
+    "hosted-v2.json": "d8735c78a7cd5a8a9447d380cd02e92685442dc8e9773e5ebc1fd3e7ea9ab9a9",
+    "hosted-review.json": "1edaf06cafa4054a54863f73870b7fdfbfd5501477b97e4decebda0fef752f25"
+  },
+  "reportBindingSha256": "8dda4a1fed6ca3541d6904b128ac862c64c36563dd6605a06c2d164d4fd0d87c",
+  "comparisonAuditSourceSha256": "88a1b9b01a738aaf54f1062a43171d56b073361ec56951792847fca947824550",
+  "comparisonChecks": 979,
+  "hostedSemanticChecks": 37,
+  "checksNotPooled": true,
+  "primary": {
+    "method": "Frozen external checker, unchanged",
+    "questions": 16,
+    "pairedExecutions": 48,
+    "passed": {
+      "composable": 9,
+      "adaptive": 10,
+      "complete": 5
+    },
+    "answerableQuestions": 12,
+    "answerablePassed": {
+      "composable": 6,
+      "adaptive": 7,
+      "complete": 1
+    }
+  },
+  "sameAnswerSensitivity": {
+    "method": "Two diagnosed grader compatibility fixes on the same48savedanswers",
+    "passed": {
+      "composable": 11,
+      "adaptive": 11,
+      "complete": 5
+    },
+    "newInference": 0,
+    "primaryScoresChanged": false,
+    "receiptSha256": "cd24d3421cc7ca29583f839a8c598762c4a3162ddfe4864a68e60e8f873127a7"
+  },
+  "decision": {
+    "selectedRoute": "composable",
+    "action": "retain_composable",
+    "noCandidateQualified": true,
+    "newExperimentalRoutePromoted": false
+  },
+  "currentRelease": {
+    "status": "PROMOTED",
+    "sourceCommit": "6691d76ad24574343b3eec9617546e9c019b8c95",
+    "deploymentId": "dpl_CVQXU5jjfUKHW4Lt9biZm1RCnZe8",
+    "route": "composable",
+    "allDeploymentProtectionRetained": true
+  },
+  "hostedAcceptance": {
+    "knownQuestions": 3,
+    "originalAutomaticPassed": 2,
+    "internallyReviewedPassed": 3,
+    "independentHumanReview": false,
+    "originalFailedTransportRetained": true,
+    "semanticReceiptSha256": "1edaf06cafa4054a54863f73870b7fdfbfd5501477b97e4decebda0fef752f25"
+  },
+  "costs": {
+    "knownUsd": "0.3796494",
+    "unknownReservedUsd": "0.3123378",
+    "chargedUsd": "0.6919872",
+    "approvedCeilingUsd": "0.90",
+    "remainingOverallUsd": "0.2080128",
+    "invoice": false,
+    "unknownReservationsReleased": false
+  },
+  "rootVisualReview": {
+    "reviewedBodyVersion": "v3",
+    "pages": 2,
+    "finding": "Clear, accurate and no clipping",
+    "approvedFinalChange": "Footer changed from private review copy to Daybook engineering evaluation.",
+    "v4TextVerification": "Both pages differ from v3 only in the approved footer; HTML and SVG bytes are unchanged.",
+    "v4PageImageHashes": [
+      {
+        "page": 1,
+        "sha256": "ea13681d371aac5a1d8223db11eb623d1803d1cfe8771ba8d0dd2f7251afc5c7"
+      },
+      {
+        "page": 2,
+        "sha256": "66a4f6ca4bc8d72f105e6d26bf2552ca0f7ab5c7b6d73a779422c3d3c40dfd54"
+      }
+    ],
+    "physicalPrintingClaimed": false
+  },
+  "independentClaimReview": {
+    "reviewer": "Internal AI agent",
+    "version": "v3",
+    "finding": "Clear; primary, diagnostic, costs, release and H01 example match bound evidence."
+  },
+  "newProviderCallsForRendering": 0,
+  "newDatabaseCallsForRendering": 0,
+  "limitations": [
+    "Synthetic small paired comparison; AI-authored cases and references, no independent human accounting adjudication.",
+    "Saved-answer sensitivity is separate diagnostic evidence, not a new held-out run or replacement primary score.",
+    "Three hosted questions are known acceptance cases; original automatic and internally reviewed judgments remain separate.",
+    "Cost figures are usage estimates plus conservative unknown reservations, not invoices or a verified account balance.",
+    "Runtime key, private capture contents, credentials and raw model payloads are excluded."
+  ],
+  "htmlFormatting": {
+    "tool": "Prettier",
+    "sourceRenderedHtmlSha256": "830236b68dac0db4499c86ffe4abdf7fb5377f4a607e32c137da19e058bcf55d",
+    "equivalentChanges": "Whitespace, optional trailing CSS semicolons and HTML void-element syntax only.",
+    "elementStructureAndNonWhitespaceTextUnchanged": true,
+    "pdfAndSvgUnchanged": true
+  }
+}

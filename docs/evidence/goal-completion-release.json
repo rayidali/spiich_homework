@@ -1,0 +1,61 @@
+{
+  "version": "daybook-goal-completion-release-v1",
+  "sourceCommit": "6691d76ad24574343b3eec9617546e9c019b8c95",
+  "evaluationSourceHash": "de9118f9d8311ed8084ebb496f50e069a485f046aef980f4b5a540a6f6cfd1cd",
+  "evaluationFiles": 102,
+  "runtimeSourceFiles": 86,
+  "deploymentId": "dpl_CVQXU5jjfUKHW4Lt9biZm1RCnZe8",
+  "status": "READY/PROMOTED",
+  "route": "composable",
+  "decision": "retain_composable",
+  "stableUrl": "https://daybook-ledger-delta.vercel.app",
+  "promotedAtObserved": "2026-11-01T07:05:33.175035+00:00",
+  "ciRunId": 41282013110,
+  "stableAliasAndProjectTargetMatch": true,
+  "stableHealth": "ok",
+  "allDeploymentProtectionRetained": true,
+  "migrations": "001\u2013007 unchanged",
+  "comparison": {
+    "holdoutRunId": 41282205719,
+    "pairedQuestions": 16,
+    "executions": 48,
+    "frozenPrimary": {
+      "composable": 9,
+      "adaptive": 10,
+      "complete": 5
+    },
+    "sameAnswerGraderSensitivity": {
+      "composable": 11,
+      "adaptive": 11,
+      "complete": 5
+    },
+    "candidateQualified": false,
+    "note": "Sensitivity corrects two documented grader compatibility bugs on the same saved answers; it is not new inference and does not replace the frozen decision."
+  },
+  "acceptance": {
+    "originalAutomaticPasses": 2,
+    "separateSemanticReviewedPasses": 3,
+    "knownHostedQuestions": 3,
+    "runtimeCorrelationChecks": 32,
+    "booksUnchanged": true,
+    "hostedBrowserChecks": 6,
+    "screenshotsReviewed": 6
+  },
+  "temporaryComparisonAndBrowserSecretsRemoved": true,
+  "evidenceHashes": {
+    "release-preparation.json": "baec39fb20e934e1d48f0222c04a2cc0477d1f49db0cdcba3b80562457a48203",
+    "release-ci-run.json": "8b82d535151e96c15de5f0cfb961b8641b2053ed9ae8ecf817141b206c08a28f",
+    "release-ci-jobs.json": "94b1dda5ddadf224894d14e2d4e9743fbcf11cc1ce67eb8b690ad3fd4fc6b773",
+    "release-decision.json": "0f6b7db2eba3ed921b09ac69ece5a0fd1afdb01408d3396e99470bbe54b731c0",
+    "promotion-review.json": "637fcf8c741f5503a78114fbde0c57f226a6d1216b43160c97e8f12bb2458f19",
+    "release-promoted.json": "88ef2e529f97099b4ca184f6c1a0371b5cb0ea263df83b9fde8f02315c161fb7",
+    "project-promoted.json": "af89015cce56734a4be47e99ffb2efe803fae759dfd3674ca7366366db6d9c9b",
+    "alias-promoted.json": "23a2812d6fcf33a0cd5e1dd7be44c28c0b999b96ba2b181fd501b86e8c665365",
+    "stable-health.json": "a29ee2b15c494311c52521766e44af56a3ad2248e7a8ab465e5206463c13d288"
+  },
+  "limitations": [
+    "Finite known-question acceptance and internally authored synthetic comparison; not universal accuracy.",
+    "No arbitrary code generation, million-user load test or physical-device certification.",
+    "Experimental routes remain unselected; no replacement qualified."
+  ]
+}

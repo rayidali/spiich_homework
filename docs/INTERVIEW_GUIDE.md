@@ -1,5 +1,33 @@
 # Explain and demonstrate Daybook
 
+## Start with this explanation
+
+> “Daybook is an accounting workspace. Every posted transaction has balanced account effects, and corrections preserve the original record. The AI reads a question and chooses an allowed plan; database queries and exact calculation code compute the money. I compare the result with its accounts, dates and source records. I tested more complex chat approaches, but they did not qualify to replace the simpler composable route.”
+
+## Rehearse this demo sequence
+
+Use the protected hosted demo after signing in. These amounts were verified on **2026-11-01**; legitimate later postings can change them. This sequence inspects existing records.
+
+1. **Home:** choose **Last month** to show October activity. On November 1, the default current-month view starts a new month with no recorded activity; zero activity is an honest date-filter result, not missing history. Cash balances are a different measure.
+2. **Financial chat:** start a new conversation and ask, “How much did we spend on Office supplies across all recorded history through 2026-11-01?” The checked answer was **$1,740**. Open its evidence and point to the account and full-history dates.
+3. Start a new conversation and ask, “How much did we spend on Office supplies from 2026-10-01 to 2026-10-31?” The checked answer was **$340**. Explain why changing the period changes the amount.
+4. Start a new conversation and ask, “From 2026-10-01 to 2026-10-31, show our Office supplies total and Rent total separately. Then calculate Rent minus Office supplies, and show that difference too.” The checked amounts were **$340**, **$7,200**, and **$6,860**. Show both source totals and the subtraction.
+5. **Settings → accounts:** inspect the expense accounts and their codes. Explain that an account identifies what the money means; a matching dollar amount from another account would still be the wrong answer.
+6. **Transactions:** inspect a posted journal and an existing reversal. Point out the debit/credit lines and the original record. A reversal adds the opposite entry instead of deleting posted history.
+7. **Reports:** select October and trace the same expense account back to its journal lines. Explain posted versus draft entries and why the date filters must agree.
+
+The three chat examples are known hosted regressions, not a new accuracy benchmark. Their automatic check remains **2/3** because of one redundant currency label; a separate 37-check internal semantic review verified **3/3** without another model call. The release also has six hosted browser checks and visual review of six captured views. [Release evidence](evidence/goal-completion-release.json).
+
+## Explain the two comparisons separately
+
+The chat comparison used the same **16 synthetic questions** across three approaches. Frozen scores were **9/16 composable, 10/16 adaptive and 5/16 complete**. A separately labeled grader compatibility replay gives **11/16, 11/16 and 5/16** on the same saved answers. Neither alternative qualified; more machinery did not establish better answers. [Two-page chat paper](reports/chat-route-comparison-explained.pdf).
+
+Jev versus Gemini was a **separate category-selection comparison**, not this chat experiment. Both chose acceptable categories on all 33 held-out category inputs. Gemini followed the taught business preference in **33/33**, Jev in **31/33**, so Gemini remained the category default. A correction becomes a saved example only when the user posts the reviewed entry; a draft alone does not teach. Later suggestions can use those examples as context; model weights are not retrained. [Category paper](reports/category-learning-explained.pdf).
+
+**Current hosted source:** `6691d76ad24574343b3eec9617546e9c019b8c95`, route `composable`, deployment `dpl_CVQXU5jjfUKHW4Lt9biZm1RCnZe8`. The guide below retains earlier walkthroughs and source-specific verification history. Historical counts and candidate labels do not replace this current release or prove arbitrary-question correctness.
+
+## Earlier capabilities and verification history
+
 ## Compound grouping — deployed and CI verified
 
 Questions can now group recorded amounts jointly by two or three ordered dimensions: account, person/business and month or quarter. Account/time views include every scoped posting account; person/business combinations fill missing periods only for tuples actually observed after the requested filters. Closing balances retain opening history. Exact arithmetic keeps each row’s account identity and period. The server caps the complete grid at 30,000 cells and 120 periods, then applies a global 50-row display limit with explicit truncation. This expands supported queries; it does not prove general question or formula intent. [Plain-language grouped-spending walkthrough](COMPOUND_GROUPING.md).
@@ -12,9 +40,9 @@ Exact-source CI passed **1,629 tests across 85 files and all 29 browser workflow
 
 The earlier `012f297` cash-movement release passed **1,530 tests across 81 files and all 28 browser workflows**. The 75 named cash-movement cases—26 compiler/output, seven chat, 30 calculator and 12 real-PostgreSQL tests—are included in that total. Provider responses in engineering tests are stubbed; actual database cases use independently specified arithmetic. Browser checks run against the CI build, not the hosted demo. No provider inference, new model-accuracy score or reopened budget was involved. Protected health, metadata and SPA GETs verify deployment, not hosted browser behavior or model understanding. No fresh full-ledger comparison was made; unchanged current books are not claimed. Earlier studies and live-model results remain bound to their original source.
 
-## Current product status — 2026-10-31
+## Previous product checkpoint — 2026-10-31
 
-Source **`93a8617932daff772c5b5d9c836be15692a64979` is promoted** at [Daybook](https://daybook-ledger-delta.vercel.app), deployment `dpl_2Rh1j9ryaPzor5vsREcDvYJHgFSQ`. [Full CI 41251437109](https://github.com/rayidali/spiich_homework/actions/runs/41251437109) passed verification, native research and Compose; live-AI was skipped. The actual stable alias and project production target match this READY/PROMOTED deployment, with all-deployment protection retained. [Release evidence](evidence/compound-grouping-release.json).
+Source **`93a8617932daff772c5b5d9c836be15692a64979` was promoted at this earlier checkpoint** at [Daybook](https://daybook-ledger-delta.vercel.app), deployment `dpl_2Rh1j9ryaPzor5vsREcDvYJHgFSQ`. [Full CI 41251437109](https://github.com/rayidali/spiich_homework/actions/runs/41251437109) passed verification, native research and Compose; live-AI was skipped. The actual stable alias and project production target then matched this READY/PROMOTED deployment, with all-deployment protection retained. [Release evidence](evidence/compound-grouping-release.json).
 
 The active `composable` chat route combines existing report tools with validated ledger queries and exact scenario arithmetic. The model chooses a structured plan; application code compiles permitted queries and calculates the answer. It cannot execute arbitrary SQL or post entries. Cash sources are server-selected, assumptions require original-user evidence, and eligible explicit all-history requests retain their full date scope. Shared PostgreSQL request admission and safe request/provider/plan diagnostics are enabled. File Search, vector retrieval, Wren and reviewer agents remain separate research paths.
 
@@ -189,9 +217,9 @@ The reviewer experiment also shows a tradeoff. Out of 40 deliberately flawed and
 
 The next justified experiment is limited document access with the existing narrow tools preserved and another evaluation before rollout. An intent router, a different model, or a combination of favorable routes would be a **new, unmeasured configuration**. We have not deployed one. Final research tracking totals approximately **$6.050602768**, including retained unknown-cost reservations; this is not a provider invoice or a verified account balance. [Full cost reconciliation](evidence/research-final-costs/cost-reconciliation.md).
 
-## A six-minute application demo
+## Optional six-minute demo in a disposable workspace
 
-Prepare a demo workspace and rehearse the sequence. The frozen research run is not an interactive demo and should not be restarted casually for a presentation.
+Use a disposable local demo workspace for the posting/reversal sequence below. The current hosted inspection sequence is at the top. A frozen provider study is not an interactive demo and must not be restarted for a presentation.
 
 | Time      | Show                                      | Explain                                                                                                                                             |
 | --------- | ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -246,9 +274,11 @@ A green build alone does not prove the hosted API can run. Earlier invocation an
 
 ## Evidence worth showing
 
+Start with the [current release receipt](evidence/goal-completion-release.json), [current full CI](https://github.com/rayidali/spiich_homework/actions/runs/41282013110) and [completed chat comparison paper](reports/chat-route-comparison-explained.pdf). The table retains earlier evidence for its named sources.
+
 | Evidence                                                                                                                                                                                    | What you can claim                                                                                                                                                                         | What you cannot infer                                                                             |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
-| [Current product CI](https://github.com/rayidali/spiich_homework/actions/runs/41226562746) and [earlier core release receipt](evidence/core-repair-release.json)                            | Real-DB/category/currency checks, all 18 browser workflows and automatic Compose scheduler/worker acceptance; earlier hosted error correlation                                             | General model accuracy, fresh hosted visual/device quality or observed Vercel cron                |
+| [Historical category-release CI](https://github.com/rayidali/spiich_homework/actions/runs/41226562746) and [earlier core release receipt](evidence/core-repair-release.json)                | Real-DB/category/currency checks, all 18 browser workflows and automatic Compose scheduler/worker acceptance; earlier hosted error correlation                                             | General model accuracy, fresh hosted visual/device quality or observed Vercel cron                |
 | [Focused category results](evidence/category-runs/completed-v3/holdout/report.md) and [audit](evidence/category-runs/completed-v3/independent-audit.json)                                   | Complete paired synthetic selector measurement, preserved failures/costs and the declared allocation screen                                                                                | Full-journal correctness, database retrieval quality, weight training or production 100% accuracy |
 | [Historical application CI for executable 7ecb435c](https://github.com/rayidali/spiich_homework/actions/runs/41103851106)                                                                   | 103 backend tests, ten browser workflows, native hosted imports and Docker startup/persistence passed for that revision                                                                    | Complete live model accuracy or physical-device quality                                           |
 | [Latest frozen-study CI](https://github.com/rayidali/spiich_homework/actions/runs/41155033249) and [receipt](evidence/research-ci-v4.json)                                                  | Application verification, Compose and native Wren/pgvector jobs passed for the recorded source; live-AI job was skipped                                                                    | That CI executed the held-out provider experiment                                                 |

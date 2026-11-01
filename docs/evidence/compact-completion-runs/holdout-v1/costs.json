@@ -1,0 +1,80 @@
+{
+  "version": "daybook-final-report-costs-v1",
+  "approvedCeilingUsd": "0.90",
+  "invoice": false,
+  "components": [
+    {
+      "id": "original-completeness-development",
+      "scope": "prior_closed_work",
+      "attempts": 3,
+      "knownUsd": "0.0080729",
+      "unknownReservedUsd": "0.0353617",
+      "chargedUsd": "0.0434346",
+      "sourcePath": "docs/evidence/completeness-runs/development-v1/costs.json",
+      "sourceSha256": "de1c8245c86fe62c48078bfe9f90530bf6890c727b253c72819293d85f2c6cef"
+    },
+    {
+      "id": "local-dns-diagnostic-reservations",
+      "scope": "prior_closed_work",
+      "attempts": 2,
+      "knownUsd": "0",
+      "unknownReservedUsd": "0.0707234",
+      "chargedUsd": "0.0707234",
+      "sourcePath": "docs/evidence/provider-compatibility-20261101/closure.json",
+      "sourceSha256": "89a028bb91183bcc619c990eb6c29dc3bfb05a0bc1d33e5a006c6c555438ade6"
+    },
+    {
+      "id": "remote-provider-diagnostics",
+      "scope": "prior_closed_work",
+      "attempts": 3,
+      "knownUsd": "0.0222595",
+      "unknownReservedUsd": "0.0353617",
+      "chargedUsd": "0.0576212",
+      "sourcePath": "docs/evidence/provider-compatibility-20261101/closure.json",
+      "sourceSha256": "89a028bb91183bcc619c990eb6c29dc3bfb05a0bc1d33e5a006c6c555438ade6"
+    },
+    {
+      "id": "closed-completion-repair-development",
+      "scope": "prior_closed_work",
+      "attempts": 10,
+      "knownUsd": "0.0546772",
+      "unknownReservedUsd": "0.0718688",
+      "chargedUsd": "0.126546",
+      "sourcePath": "docs/evidence/completion-repair-runs/development-v1/costs.json",
+      "sourceSha256": "cb7ce348ce8f3c69c7790d916151d8bdbad7a7e9e2cb012e53e4b106296768fb"
+    },
+    {
+      "id": "compact-completion-smoke",
+      "scope": "development",
+      "attempts": 5,
+      "knownUsd": "0.0164094",
+      "unknownReservedUsd": "0.0214339",
+      "chargedUsd": "0.0378433",
+      "sourcePath": "../development-v1/summary.json",
+      "sourceSha256": "ef6301ee067f1375375ab8c5de6248b46a7ef6f3b39195cfcad792a065ce2992",
+      "correctAnswers": 0,
+      "plannedAnswers": 3,
+      "compatibilityGateOnly": true
+    },
+    {
+      "id": "compact-completion-holdout",
+      "scope": "holdout",
+      "attempts": 52,
+      "knownUsd": "0.2652893",
+      "unknownReservedUsd": "0",
+      "chargedUsd": "0.2652893",
+      "sourcePath": "summary.json",
+      "sourceSha256": "94bf380e5facce46adb9eebcf19e746425c0fb2564e308f27aeaaa79df4eb5f5"
+    }
+  ],
+  "totals": {
+    "knownUsd": "0.3667083",
+    "unknownReservedUsd": "0.2347495",
+    "chargedUsd": "0.6014578"
+  },
+  "attempts": 75,
+  "remainingOverallUsd": "0.2985422",
+  "unknownReservationsReleased": false,
+  "phaseAllowancesTransferred": false,
+  "hostedAcceptanceIncluded": false
+}

@@ -1,0 +1,35 @@
+{
+  "version": "daybook-goal-ci-v1",
+  "sourceCommit": "6691d76ad24574343b3eec9617546e9c019b8c95",
+  "runId": 41282013110,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41282013110",
+  "status": "passed",
+  "normal": {
+    "testsPassed": 2556,
+    "filesPassed": 127,
+    "testsSkipped": 8,
+    "filesSkipped": 2
+  },
+  "separatePostgresFixture": {
+    "testsPassed": 4
+  },
+  "browser": {
+    "workflowsPassed": 32,
+    "durationSeconds": 52.2
+  },
+  "researchNative": {
+    "typescriptTestsPassed": 30,
+    "pythonTestsPassed": 35
+  },
+  "compose": {
+    "testsPassed": 2555,
+    "filesPassed": 126,
+    "testsSkipped": 9,
+    "filesSkipped": 3,
+    "automaticJobsAndAnomalies": "passed",
+    "containerRecreationPersistence": "passed"
+  },
+  "liveAiJob": "skipped",
+  "countsOverlap": true,
+  "providerEvidence": "Separate compact comparison and hosted acceptance, not normal CI."
+}

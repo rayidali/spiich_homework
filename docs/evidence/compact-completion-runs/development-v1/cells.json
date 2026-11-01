@@ -1,0 +1,52 @@
+{
+  "version": "compact-completion-public-cells-v1",
+  "phase": "development",
+  "runId": 41282038984,
+  "cells": [
+    {
+      "caseId": "D01",
+      "route": "complete",
+      "passed": false,
+      "classification": "safe-no-answer",
+      "focusCorrect": false,
+      "validatedFinancialPlan": true,
+      "wrongFinancialClaims": 0,
+      "hardBoundaryViolations": 0,
+      "attempts": 1,
+      "durationMs": 1671,
+      "knownUsd": "0.0041692",
+      "unknownReservedUsd": "0",
+      "errorCode": null
+    },
+    {
+      "caseId": "D02",
+      "route": "complete",
+      "passed": false,
+      "classification": "safe-no-answer",
+      "focusCorrect": false,
+      "validatedFinancialPlan": true,
+      "wrongFinancialClaims": 0,
+      "hardBoundaryViolations": 0,
+      "attempts": 3,
+      "durationMs": 6323,
+      "knownUsd": "0.0122402",
+      "unknownReservedUsd": "0",
+      "errorCode": null
+    },
+    {
+      "caseId": "D03",
+      "route": "complete",
+      "passed": false,
+      "classification": "execution-error",
+      "focusCorrect": false,
+      "validatedFinancialPlan": false,
+      "wrongFinancialClaims": 0,
+      "hardBoundaryViolations": 0,
+      "attempts": 1,
+      "durationMs": 9026,
+      "knownUsd": "0",
+      "unknownReservedUsd": "0.0214339",
+      "errorCode": "AI_INVALID_RESPONSE"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "version": "compact-completion-public-provenance-v1",
+  "sourceCommit": "6691d76ad24574343b3eec9617546e9c019b8c95",
+  "sourceHash": "de9118f9d8311ed8084ebb496f50e069a485f046aef980f4b5a540a6f6cfd1cd",
+  "runId": 41282038984,
+  "phase": "development",
+  "files": {
+    "summary.json": "ef6301ee067f1375375ab8c5de6248b46a7ef6f3b39195cfcad792a065ce2992",
+    "source.json": "2e8a2fd710ff30e677512f518ef62b6c8e5790dc22e9ad84890e90810a22a86e",
+    "attempts.json": "23055b4af056a4f257af58e17875ae14a6ecbf957425e17d844153dc429247dc",
+    "cells.json": "b8735542df549c1a98a65ca003e60d8721f525ea3dd857369926b47d27479c52",
+    "costs.json": "36c58466ab5cfb89eec6995707796b343e26aad27e8f09e36f171d1b8753d9df",
+    "audit.json": "e5b3378b1d74e322e28bc34f8a44d8e33b7b1301ecb5880de8b8bf8af166c941",
+    "closure.json": "e20e68d2d2511cd7d0e75264ade318678aca84c755a786b88c635e0c84778929",
+    "report.md": "ba141a4e1242eb680b46fdbcff14c6070a3983c367c4f271fc9946cb77f4a013"
+  },
+  "encryptedArchiveSha256": "ad9928cbffd0651d8a4c034874ed0dbf327d1994cee6345fc3f468a18be10cc4",
+  "privateArtifactManifestSha256": "d787fc8a0deb89f912ae95363cffc20b17efd1356bccc8a56b4c41f6f661d62e",
+  "rawProviderContentsPublished": false,
+  "exporterSha256": "0c4b7720cdc68e1957dd963fef5edcf5527369be2302f2f3bde0d0e9eaa3080d"
+}

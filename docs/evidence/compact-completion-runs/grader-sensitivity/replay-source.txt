@@ -1,0 +1,72 @@
+/** Offline same-answer sensitivity; never mutates frozen source, cases, outcomes or primary scores. */
+import { readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+process.env.DOTENV_CONFIG_PATH='/dev/null';
+process.env.GEMINI_API_KEY=''; process.env.OPENAI_API_KEY=''; process.env.TYPESAFE_API_KEY='';
+process.env.DATABASE_URL='postgres://offline:offline@127.0.0.1:1/offline';
+globalThis.fetch=(()=>{throw Error('OFFLINE_PROVIDER_FORBIDDEN');}) as typeof fetch;
+const pg=(await import('pg')).default;
+for(const proto of [pg.Pool.prototype,pg.Client.prototype]) {
+  proto.query=function(){throw Error('OFFLINE_DB_FORBIDDEN');} as never;
+  proto.connect=function(){throw Error('OFFLINE_DB_FORBIDDEN');} as never;
+}
+const {loadCases,loadLedger,referenceLedgerClaim}=await import('../../../scripts/completeness-evaluation/fixtures');
+const {scoreCompletenessResponse:originalScore}=await import('../../../scripts/completeness-evaluation/scoring');
+const {scoreCompletenessResponse:reviewedScore}=await import('./corrected-scoring');
+const raw='.tools/goal-completion-20261101/compact/holdout/raw';
+const destination='.tools/goal-completion-20261101/compatibility-sensitivity';
+const read=(p:string)=>JSON.parse(readFileSync(p,'utf8'));
+const sha=(v:string|Buffer)=>createHash('sha256').update(v).digest('hex');
+const hash=(p:string)=>sha(readFileSync(p));
+const run=read(`${raw}/run.json`),summary=read(`${raw}/summary.json`),fixture=read(`${raw}/fixture.json`);
+if(!summary.complete||summary.completedExecutions!==48||summary.sourceCommit!=='6691d76ad24574343b3eec9617546e9c019b8c95')throw Error('TERMINAL_SOURCE_BOUND_RUN_REQUIRED');
+const sourceBefore=Object.fromEntries(Object.keys(run.source.files).map(p=>[p,hash(p)]));
+if(JSON.stringify(sourceBefore)!==JSON.stringify(run.source.files))throw Error('FROZEN_SOURCE_DRIFT');
+const ledger=loadLedger(),cases=loadCases('holdout');
+const context={organizationId:fixture.orgId,chart:fixture.chart,counterparties:fixture.counterparties,referenceLedgerClaim:(claim:Parameters<typeof referenceLedgerClaim>[0])=>referenceLedgerClaim(claim,ledger,fixture.entryAliases)};
+const item=cases.find(c=>c.id==='H10')!,outcome=read(`${raw}/trials/H10-composable/outcome.json`).outcome;
+const calibration:{name:string;expectedPass:boolean;actualPass:boolean;reasons:string[]}[]=[];
+function calibrate(name:string,expectedPass:boolean,edit:(x:any)=>void=()=>{}){
+  const copy=structuredClone(outcome);edit(copy.response);
+  const result=reviewedScore(item,copy,context);
+  if(result.passed!==expectedPass)throw Error(`CALIBRATION_${name}_${result.reasons.join(',')}`);
+  calibration.push({name,expectedPass,actualPass:result.passed,reasons:result.reasons});
+}
+calibrate('actual_runtime_USD_per_month_and_verified_provenance',true);
+calibrate('legacy_shorthand_monthly_display_still_accepted',true,r=>{
+  r.answer=r.answer.replaceAll(' USD/month','/month');
+  for(const t of r.evidence)for(const row of t.rows){row.value=row.value.replaceAll(' USD/month','/month');row.label=row.label.replaceAll(' USD/month','/month');}
+});
+calibrate('wrong_visible_amount',false,r=>r.evidence[3].rows[0].value='$48.00 USD/month');
+calibrate('wrong_display_currency',false,r=>r.evidence[3].rows[0].value='€47.00 EUR/month');
+calibrate('wrong_display_period',false,r=>r.evidence[3].rows[0].value='$47.00 USD/year');
+calibrate('wrong_headline_amount',false,r=>r.answer=r.answer.replace('$56.40','$57.40'));
+calibrate('extra_headline_claim',false,r=>r.answer+=' Guaranteed profit.');
+calibrate('wrong_operand_label',false,r=>r.evidence[4].rows[0].label=r.evidence[4].rows[0].label.replace('$47.00','$48.00'));
+calibrate('false_original_user_anchor',false,r=>{for(const c of r.facts.filter((f:any)=>f.kind==='scenario_calculation'))for(const a of c.assumptions)a.sourceStart++;});
+calibrate('wrong_assumption_quantity',false,r=>{for(const c of r.facts.filter((f:any)=>f.kind==='scenario_calculation'))for(const a of c.assumptions)a.value='0.30';});
+calibrate('wrong_assumption_quote',false,r=>{for(const c of r.facts.filter((f:any)=>f.kind==='scenario_calculation'))for(const a of c.assumptions)a.sourceText='30%';});
+calibrate('wrong_exact_formula',false,r=>r.facts.find((f:any)=>f.id==='monthly_avg').operation='multiply');
+calibrate('missing_zero_activity_month',false,r=>r.facts.find((f:any)=>f.queryId==='month_query').rows=r.facts.find((f:any)=>f.queryId==='month_query').rows.filter((x:any)=>x.rowId!=='month:2026-08'));
+calibrate('scenario_disguised_as_posted',false,r=>{const c=r.facts.find((f:any)=>f.id==='budget_target');c.source='posted';c.hypothetical=false;});
+calibrate('foreign_workspace',false,r=>r.facts[0].scope.organizationId='00000000-0000-4000-8000-000000000001');
+calibrate('missing_requested_budget',false,r=>{r.facts=r.facts.filter((f:any)=>f.id!=='budget_target');r.evidence[4].rows.pop();});
+const select=(s:any)=>({passed:s.passed,classification:s.classification,matchedClaims:s.matchedClaims,matchedTables:s.matchedTables,focusCorrect:s.focusCorrect,reasons:s.reasons,wrongFinancialClaims:s.wrongFinancialClaims,hardBoundaryViolations:s.hardBoundaryViolations});
+const cells=[];
+for(const cell of summary.trials){
+ const path=`${raw}/trials/${cell.caseId}-${cell.route}`;
+ const actual=read(`${path}/outcome.json`),saved=read(`${path}/score.json`),c=cases.find(c=>c.id===cell.caseId)!;
+ const replay=originalScore(c,actual.outcome,context);
+ if(JSON.stringify(replay)!==JSON.stringify(saved)||JSON.stringify(saved)!==JSON.stringify(cell.score))throw Error('ORIGINAL_SCORE_REPLAY_CHANGED');
+ const corrected=reviewedScore(c,actual.outcome,context);
+ cells.push({caseId:cell.caseId,route:cell.route,outcomeSha256:hash(`${path}/outcome.json`),primaryScoreSha256:hash(`${path}/score.json`),original:select(saved),reviewedSensitivity:select(corrected),changed:JSON.stringify(saved)!==JSON.stringify(corrected)});
+}
+if(cells.length!==48||new Set(cells.map(c=>`${c.route}/${c.caseId}`)).size!==48)throw Error('PAIRING');
+const routes=['composable','adaptive','complete'].map(route=>({route,denominator:16,originalPassed:cells.filter(c=>c.route===route&&c.original.passed).length,reviewedSensitivityPassed:cells.filter(c=>c.route===route&&c.reviewedSensitivity.passed).length,originalWrongFinancialCases:cells.filter(c=>c.route===route&&c.original.wrongFinancialClaims.length).map(c=>c.caseId),reviewedWrongFinancialCases:cells.filter(c=>c.route===route&&c.reviewedSensitivity.wrongFinancialClaims.length).map(c=>c.caseId)}));
+for(const [p,h]of Object.entries(sourceBefore))if(hash(p)!==h)throw Error('SOURCE_MUTATED');
+for(const cell of cells){const p=`${raw}/trials/${cell.caseId}-${cell.route}`;if(hash(`${p}/outcome.json`)!==cell.outcomeSha256||hash(`${p}/score.json`)!==cell.primaryScoreSha256)throw Error('RAW_MUTATED');}
+const receipt={version:'compact-completion-two-bug-offline-sensitivity-v1',sourceCommit:summary.sourceCommit,sourceHash:summary.sourceHash,runId:summary.runId,providerCalls:0,databaseCalls:0,newModelInferences:0,originalFrozenScoresReproduced:48,originalSourceFilesUnchanged:Object.keys(sourceBefore).length,originalOutcomesAndScoresUnchanged:48,calibration,cells,routes,changedCells:cells.filter(c=>c.changed).map(c=>`${c.caseId}-${c.route}`),patchSha256:hash(`${destination}/compatibility.patch`),frozenScorerSha256:hash('scripts/completeness-evaluation/scoring.ts'),reviewedScorerSha256:hash(`${destination}/corrected-scoring.ts`),replayScriptSha256:hash(fileURLToPath(import.meta.url)),summarySha256:hash(`${raw}/summary.json`),originalSelectionDecision:'No candidate qualified; unchanged',limitations:['Same saved answers after two identified grader compatibility corrections; not new held-out or live-model evidence.','Internal automatic grading sensitivity, not independent human evaluation or broad semantic re-adjudication.','Primary frozen scores and original adoption decision remain authoritative and unchanged.','No thresholds, questions, reference numbers, runtime behavior or model outputs changed.']};
+writeFileSync(`${destination}/receipt.json`,JSON.stringify(receipt,null,2)+'\n',{flag:'wx',mode:0o600});
+console.log(JSON.stringify({calibrationChecks:calibration.length,preserved48:true,routes,changedCells:receipt.changedCells,providerCalls:0,databaseCalls:0}));

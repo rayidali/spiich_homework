@@ -1,0 +1,36 @@
+{
+  "version": "compact-completion-phase-closure-v1",
+  "cohort": "compact-completion-20261101-v1",
+  "phase": "holdout",
+  "runId": 41282205719,
+  "sourceCommit": "6691d76ad24574343b3eec9617546e9c019b8c95",
+  "sourceHash": "de9118f9d8311ed8084ebb496f50e069a485f046aef980f4b5a540a6f6cfd1cd",
+  "state": "PERMANENTLY_CLOSED",
+  "complete": true,
+  "correctAnswers": [
+    {
+      "route": "composable",
+      "observed": 16,
+      "passed": 9,
+      "planned": 16
+    },
+    {
+      "route": "adaptive",
+      "observed": 16,
+      "passed": 10,
+      "planned": 16
+    },
+    {
+      "route": "complete",
+      "observed": 16,
+      "passed": 5,
+      "planned": 16
+    }
+  ],
+  "failure": null,
+  "chargedUsd": "0.2652893",
+  "unknownReservedUsd": "0",
+  "closedPhaseCannotResume": true,
+  "rawProviderContentsEncryptedAndRetainedPrivately": true,
+  "modelScoresDoNotChangeDeployment": true
+}

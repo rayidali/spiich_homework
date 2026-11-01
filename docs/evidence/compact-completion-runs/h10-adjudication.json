@@ -1,0 +1,55 @@
+{
+  "version": "compact-completion-h10-internal-adjudication-v1",
+  "sourceCommit": "6691d76ad24574343b3eec9617546e9c019b8c95",
+  "runId": 41282205719,
+  "caseId": "H10",
+  "route": "composable",
+  "reviewedBy": "internal_AI_reviewer",
+  "originalClassification": "wrong-answer",
+  "originalPassed": false,
+  "originalReason": "DISPLAY_VALUE_MISMATCH",
+  "manualArithmetic": {
+    "totalUsd": "116.00 + 0.00 + 25.00 = 141.00",
+    "averageUsdPerMonth": "141.00 / 3 = 47.00",
+    "hypotheticalIncrease": "47.00 * 0.20 = 9.40",
+    "hypotheticalBudgetUsdPerMonth": "47.00 + 9.40 = 56.40"
+  },
+  "financialMeaningVerdict": "All three requested outputs are present with correct account/date/currency/posted-versus-scenario scope and exact source/calculation ancestry. No genuine wrong financial claim found in this response.",
+  "diagnosticFindings": [
+    {
+      "kind": "display_template_incompatibility",
+      "frozenScorerLocation": "scripts/completeness-evaluation/scoring.ts:873",
+      "runtimeLocation": "server/financial-calculation.ts:220",
+      "detail": "Grader accepts $47.00/month while product emits $47.00 USD/month; its headline and operand templates share the mismatch."
+    },
+    {
+      "kind": "assumption_input_projection_incompatibility",
+      "frozenScorerLocations": [
+        "scripts/completeness-evaluation/scoring.ts:527",
+        "scripts/completeness-evaluation/scoring.ts:736"
+      ],
+      "runtimeLocation": "server/financial-calculation.ts:508",
+      "detail": "After separately verifying input fields and retained source offsets, verifier passes the entire enriched assumption to assumptionSymbol; spreading it into the strict input schema rejects userMessageIndex, sourceStart, sourceEnd. Private throw-only diagnostic exposed this ZodError."
+    }
+  ],
+  "sensitivityInterpretation": "Changing only four display strings in an in-memory clone removes DISPLAY_VALUE_MISMATCH but reaches UNRECOGNIZED_EVIDENCE from the second compatibility bug. This is not an alternate passing score; no primary record changed.",
+  "primaryScoresChanged": false,
+  "alternatePassingScoreClaimed": false,
+  "rawOutcomeAndFrozenScorerUnchanged": true,
+  "providerCalls": 0,
+  "databaseCalls": 0,
+  "limitations": [
+    "Internal AI adjudication of one known completed outcome; not independent human evaluation.",
+    "Counterfactual display-only formatting is diagnostic evidence, not a replacement saved outcome or primary score.",
+    "No broader correctness guarantee or deployment qualification change."
+  ],
+  "sourceHashes": {
+    ".tools/goal-completion-20261101/compact/holdout/raw/trials/H10-composable/outcome.json": "32521858fd632c99a652af09ff50b672d2a2dd907345d4840f22099ee585075a",
+    ".tools/goal-completion-20261101/compact/holdout/raw/trials/H10-composable/score.json": "8618c538102b176f9c1380d2cde4f0e61ad83a910d391fc719305b15c3ba75f8",
+    "scripts/completeness-evaluation/scoring.ts": "3923e7465eb8fa39f1ff6e89b284c3c7ce2741233d54b8c7c084f2fa70547b90",
+    "scripts/completeness-evaluation/fixtures/holdout.json": "afe8c0479d604d81c8721288afba57ee00758619f7f0eedc4331d664fef35d0c",
+    "server/financial-calculation.ts": "c062f0271066ccd94115c3ca75e7cf39af634119a42f62c9d38c46c6c90fabb8"
+  },
+  "privateReceiptSha256": "3b6a91a40b28f71466eb7cd969c4f566ffd51ef956fb48a9a8356d513ed39a61",
+  "diagnosticScriptSha256": "7a4799cba49f78b93fd18a68a364e556a227a534dae01f362bda29234bc266e4"
+}

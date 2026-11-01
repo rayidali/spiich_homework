@@ -1,0 +1,80 @@
+--- frozen/scoring.ts
++++ private/corrected-scoring.ts
+@@ -1,12 +1,12 @@
+ /** Independent visible-answer grading for the new comparison. No fixture loads,
+  * provider calls, production execution or use of model-declared completion. */
+-import { Decimal, formatCurrency } from '../../shared/money';
+-import type { AnalysisFacts, AnalysisAccount } from '../../server/financial-analysis';
+-import type { ScenarioCalculationFact } from '../../server/financial-calculation';
+-import { scenarioAssumptionQuantityEvidence } from '../../server/financial-calculation';
+-import { parseInsightArgs } from '../../server/ai';
+-import { clarificationAnswer } from '../../server/chat-clarification';
+-import type { ModelMessages } from '../../server/ai-provider';
++import { Decimal, formatCurrency } from '../../../shared/money';
++import type { AnalysisFacts, AnalysisAccount } from '../../../server/financial-analysis';
++import type { ScenarioCalculationFact } from '../../../server/financial-calculation';
++import { scenarioAssumptionQuantityEvidence } from '../../../server/financial-calculation';
++import { parseInsightArgs } from '../../../server/ai';
++import { clarificationAnswer } from '../../../server/chat-clarification';
++import type { ModelMessages } from '../../../server/ai-provider';
+ import type {
+   CompletenessCase,
+   CompletenessOutcome,
+@@ -16,7 +16,7 @@
+   Formula,
+   ScoringContext,
+   ExpectedTable,
+-} from './types';
++} from '../../../scripts/completeness-evaluation/types';
+ 
+ type LedgerClaim = Extract<ExpectedClaim, { kind: 'ledger' }> & {
+   queryId: string;
+@@ -524,7 +524,9 @@
+ }
+ type Assumption = { value: string; unit: string; sourceText: string };
+ function assumptionSymbol(a: Assumption, messages: ModelMessages) {
+-  const proof = scenarioAssumptionQuantityEvidence({ id: 'oracle_assumption', ...a }, messages);
++  const proof = scenarioAssumptionQuantityEvidence(
++    { id: 'oracle_assumption', value: a.value, unit: a.unit, sourceText: a.sourceText }, messages,
++  );
+   return symbol(
+     JSON.stringify({
+       assumption: {
+@@ -870,7 +872,7 @@
+   const currency = unit.replace('_per_month', '');
+   requireEvidence(['USD', 'EUR', 'GBP', 'CAD', 'JPY'].includes(currency), 'DISPLAY_CURRENCY_UNRECOGNIZED');
+   const rendered = formatCurrency(value, currency);
+-  const permitted = unit === 'USD_per_month' ? [`${rendered}/month`] : [rendered, `${rendered} ${currency}`];
++  const permitted = unit === 'USD_per_month' ? [`${rendered}/month`, `${rendered} USD/month`] : [rendered, `${rendered} ${currency}`];
+   requireEvidence(permitted.includes(text), 'DISPLAY_VALUE_MISMATCH');
+ }
+ type VisibleTable = { keys: string[]; complete: boolean; order: string; limit: number; tableIndex: number };
+@@ -1325,6 +1327,10 @@
+     })
+     .join('\n\n');
+ }
++// Equivalent USD-per-month currency spelling only; all values and surrounding text remain strict.
++function canonicalMonthlyPresentation(text: string) {
++  return text.replace(/(-?\$[\d,]+\.\d{2}) USD\/month\b/g, '$1/month');
++}
+ function primaryFocus(response: Json, answer: NormalizedAnswer, ctx: ScoringContext) {
+   if (response.answer === 'Here are the results, with their accounts, dates and sources.') return;
+   if (
+@@ -1346,7 +1352,7 @@
+         : final.source === 'draft'
+           ? `Using unposted drafts, the calculated result is ${value}. This is hypothetical and is not a posted book total.`
+           : `Using these assumptions, the calculated result is ${value}. This is hypothetical, not a forecast or an affordability decision.`;
+-    if (response.answer !== expected) throw new UngradableEvidence('UNKNOWN_ANSWER_PROSE_TEMPLATE');
++    if (canonicalMonthlyPresentation(response.answer) !== expected) throw new UngradableEvidence('UNKNOWN_ANSWER_PROSE_TEMPLATE');
+     answer.headlineCalculations.push(final.id);
+     return;
+   }
+@@ -1382,7 +1388,7 @@
+       const label = /^Calculation [1-9]\d*: (.*)$/.exec(row.label);
+       requireEvidence(
+         label &&
+-          label[1] ===
++          canonicalMonthlyPresentation(label[1]) ===
+             `${operands[0]} ${{ add: '+', subtract: '−', multiply: '×', divide: '÷' }[c.operation]} ${operands[1]}`,
+         'DISPLAY_CALCULATION_OPERANDS',
+       );

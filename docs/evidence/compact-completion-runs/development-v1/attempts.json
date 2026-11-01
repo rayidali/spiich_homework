@@ -1,0 +1,73 @@
+{
+  "version": "compact-completion-public-attempts-v1",
+  "phase": "development",
+  "runId": 41282038984,
+  "attempts": [
+    {
+      "id": "0001",
+      "trial": "complete/D01",
+      "httpStatus": 200,
+      "state": "known",
+      "requestSha256": "c803e0de32bb899c2c96f033f8e113d466eff2b8c1064868e73ea68e576c5742",
+      "requestBytes": 36117,
+      "responseSha256": "92a5c076bee46e2728fdb7f56f9fa7168536299c87992cc3ff0ce4e1792aa083",
+      "finishReason": "STOP",
+      "failure": null,
+      "knownUsd": "0.0041692",
+      "reservedUsd": "0.0214495"
+    },
+    {
+      "id": "0002",
+      "trial": "complete/D02",
+      "httpStatus": 200,
+      "state": "known",
+      "requestSha256": "39c0c51b353d61fc42e00263981e07231e5c8306fff5c98030fff55b83daf281",
+      "requestBytes": 36006,
+      "responseSha256": "250470192f2b0d2f2d8f14436f998840d3d1c2344b737e08845b200827030739",
+      "finishReason": "STOP",
+      "failure": null,
+      "knownUsd": "0.0052028",
+      "reservedUsd": "0.0214162"
+    },
+    {
+      "id": "0003",
+      "trial": "complete/D02",
+      "httpStatus": 200,
+      "state": "known",
+      "requestSha256": "18ff51a0e2af153a47a7b8bcf965db5e2283e49016abb89f253552ec04aae5bc",
+      "requestBytes": 42159,
+      "responseSha256": "8aa1756e7fc8682f4a2506d28b539fcbbbf774d0a12e83b43c9f22e52c5ed9b0",
+      "finishReason": "STOP",
+      "failure": null,
+      "knownUsd": "0.003841",
+      "reservedUsd": "0.0232621"
+    },
+    {
+      "id": "0004",
+      "trial": "complete/D02",
+      "httpStatus": 200,
+      "state": "known",
+      "requestSha256": "60776077882402cf8e4d9e3b54bc36bddfea0e72f4d969a2217da25c422e1103",
+      "requestBytes": 34055,
+      "responseSha256": "e8cc3985700d92df3e502a4ea3079593390013ead03ef688591c9ab7e00ce835",
+      "finishReason": "STOP",
+      "failure": null,
+      "knownUsd": "0.0031964",
+      "reservedUsd": "0.0208309"
+    },
+    {
+      "id": "0005",
+      "trial": "complete/D03",
+      "httpStatus": 200,
+      "state": "unknown",
+      "requestSha256": "fe2d1c388294b3ef47336e520d64ffd33c1d1335bb0939c6ec7f764a41287dc1",
+      "requestBytes": 36065,
+      "responseSha256": "9bd51bed10d4f5172e55b80b953f5c395ed75a7f16691198a614bfb7c9e82be5",
+      "finishReason": "MAX_TOKENS",
+      "failure": null,
+      "knownUsd": null,
+      "reservedUsd": "0.0214339"
+    }
+  ],
+  "rawProviderResponsesPublished": false
+}

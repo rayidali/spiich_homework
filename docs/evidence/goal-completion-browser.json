@@ -1,0 +1,37 @@
+{
+  "version": "daybook-goal-hosted-browser-review-v1",
+  "sourceCommit": "6691d76ad24574343b3eec9617546e9c019b8c95",
+  "deploymentId": "dpl_CVQXU5jjfUKHW4Lt9biZm1RCnZe8",
+  "runId": 41282720408,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41282720408",
+  "automatedChecksPassed": 6,
+  "screenshotsVisuallyReviewed": 6,
+  "pages": [
+    "Desktop Home",
+    "Desktop Transactions",
+    "Desktop Reports",
+    "Desktop Settings",
+    "Mobile Home",
+    "Mobile Reports"
+  ],
+  "readOnlyRequests": 18,
+  "httpErrors": 0,
+  "pageErrors": 0,
+  "consoleErrors": 0,
+  "providerCalls": 0,
+  "applicationMutationsDispatched": 0,
+  "visualResult": "PASS",
+  "visualReviewer": "root AI visual review",
+  "artifactEncrypted": true,
+  "temporarySecretsRemoved": true,
+  "evidenceHashes": {
+    "browser/artifact.zip": "4062c8496f3f5ed2ac2ab487fb2ae668af171953ca04450d6cd008301fd1311a",
+    "browser/receipt.json": "394698487ab647caa4a001eeca3296e5c9cf2452cc5cbc7b7b7c557e82e1ae2c",
+    "browser/visual-review.json": "44bcbce8ab876517ba4fd678bea9b79778f034a6400aec7e0d6245c77c7b69de"
+  },
+  "limitations": [
+    "Viewport emulation, not physical devices.",
+    "Live AI requests and book-integrity checks have separate evidence.",
+    "Raw screenshots remain private."
+  ]
+}

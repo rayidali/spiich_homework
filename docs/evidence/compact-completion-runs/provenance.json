@@ -1,0 +1,14 @@
+{
+  "version": "compact-completion-closure-provenance-v1",
+  "sourceCommit": "6691d76ad24574343b3eec9617546e9c019b8c95",
+  "sourceHash": "de9118f9d8311ed8084ebb496f50e069a485f046aef980f4b5a540a6f6cfd1cd",
+  "files": {
+    "closure.json": "c2a72250fc6f3c8219087e65b34b12bc647a677c536f98daa2adca559883873e",
+    "h10-adjudication.json": "7f31e5717eb620339b7a4aa5faa0388c6323c50f1522a0b39708230a70bdde14",
+    "report.md": "7fcabb1bbdef3ab2a86f8416efae11cdbbc0c24dd29b9cb02a9e1245ac564656",
+    "development-v1/provenance.json": "6d66cfbe99483da9791bf09649f074518bf3d7c53275760ee2244de02b3e43e7",
+    "holdout-v1/provenance.json": "944dd09425dc0f388f8e1490efe1b4afe3b9d5df73af1de66d9720f307136148",
+    "grader-sensitivity/provenance.json": "5ed2e91b89cd044017b293d2953297c2c2dbeb9a084c64894f9e5494a7d4c5aa"
+  },
+  "rawProviderContentsPublished": false
+}

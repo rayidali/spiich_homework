@@ -1,0 +1,111 @@
+{
+  "version": "daybook-goal-hosted-acceptance-review-v1",
+  "sourceCommit": "6691d76ad24574343b3eec9617546e9c019b8c95",
+  "deploymentId": "dpl_CVQXU5jjfUKHW4Lt9biZm1RCnZe8",
+  "reviewedAt": "2026-11-01T07:05:33.175035+00:00",
+  "kind": "Three known hosted regressions with internal AI semantic review; not a new held-out study",
+  "v1": {
+    "status": "closed_incomplete",
+    "attemptedHttp": 1,
+    "providerUsage": "unverified",
+    "reason": "Local curl DNS6 before HTTP response; changed footer capture to curl output-file syntax for separately declared v2",
+    "retainedUnknownUsd": "0.0775883",
+    "booksUnchanged": true
+  },
+  "v2": {
+    "status": "closed",
+    "attemptedHttp": 3,
+    "http200": 3,
+    "originalAutomaticPasses": 2,
+    "originalAutomaticFailure": {
+      "case": "G03",
+      "reason": "DISPLAY_AMOUNT"
+    },
+    "semanticReviewedPasses": 3,
+    "semanticChecks": 37,
+    "runtimeCorrelationChecks": 32,
+    "knownUsd": "0.0129411",
+    "unknownReservedUsd": "0",
+    "booksUnchanged": true,
+    "capturedJournalCount": 75,
+    "capturedAccountCount": 22
+  },
+  "cases": [
+    {
+      "id": "G01",
+      "meaning": "Office supplies, all recorded history through 2026-11-01",
+      "amounts": {
+        "supplies": "1740.00"
+      }
+    },
+    {
+      "id": "G02",
+      "meaning": "Office supplies, October 2026",
+      "amounts": {
+        "supplies": "340.00"
+      }
+    },
+    {
+      "id": "G03",
+      "meaning": "October 2026 supplies and rent, then rent minus supplies",
+      "amounts": {
+        "supplies": "340.00",
+        "rent": "7200.00",
+        "difference": "6860.00"
+      }
+    }
+  ],
+  "adjudication": "G03 raw output was correct. Its exact typed USD calculation/evidence/source passed a separate review; only a diagnostic copy removed the redundant USD display suffix to replay remaining checks. The original automatic failure and raw response remain unchanged. Five wrong-value/formula/source/date/missing-output mutations were rejected.",
+  "runtimeCorrelations": [
+    {
+      "case": "G01",
+      "requestId": "e96c586c-535f-4b4a-8c38-8beebe030135",
+      "httpStatus": 200,
+      "tool": "financial_analysis",
+      "events": {
+        "http_request": 1,
+        "ai_financial_query": 1,
+        "ai_financial_plan": 1,
+        "ai_provider_usage": 1
+      },
+      "knownUsd": "0.0045581"
+    },
+    {
+      "case": "G02",
+      "requestId": "92b7795d-90ed-4c25-8a2b-149cebd2d59d",
+      "httpStatus": 200,
+      "tool": "expense_by_account",
+      "events": {
+        "http_request": 1,
+        "ai_financial_query": 1,
+        "ai_financial_plan": 1,
+        "ai_provider_usage": 1
+      },
+      "knownUsd": "0.0030655"
+    },
+    {
+      "case": "G03",
+      "requestId": "54ebaea6-7e47-48ac-94ad-2cd006803d2e",
+      "httpStatus": 200,
+      "tool": "financial_scenario",
+      "events": {
+        "http_request": 1,
+        "ai_financial_query": 1,
+        "ai_financial_plan": 1,
+        "ai_provider_usage": 1
+      },
+      "knownUsd": "0.0053175"
+    }
+  ],
+  "evidenceHashes": {
+    "hosted-acceptance-v1/closed.json": "e20a0f830904e9fac95a6dde9a5cfc5d32c6d1a17ad3143d7872deea026463c4",
+    "hosted-acceptance-v2/closed.json": "d8735c78a7cd5a8a9447d380cd02e92685442dc8e9773e5ebc1fd3e7ea9ab9a9",
+    "hosted-v2-semantic-adjudication.json": "1edaf06cafa4054a54863f73870b7fdfbfd5501477b97e4decebda0fef752f25",
+    "hosted-runtime-audit.json": "260ba5e9bb526aede878be3ef1339b104905412ef9ee878b16deeb10f2857844"
+  },
+  "limitations": [
+    "Internal AI review, not independent human accounting certification.",
+    "Multiple GET captures are not an atomic database snapshot.",
+    "Three known questions do not establish arbitrary-question accuracy."
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "version": "compact-completion-comparison-closure-v1",
+  "cohort": "compact-completion-20261101-v1",
+  "state": "PERMANENTLY_CLOSED",
+  "sourceCommit": "6691d76ad24574343b3eec9617546e9c019b8c95",
+  "sourceHash": "de9118f9d8311ed8084ebb496f50e069a485f046aef980f4b5a540a6f6cfd1cd",
+  "sourceFiles": 102,
+  "phases": [
+    {
+      "phase": "development",
+      "runId": 41282038984,
+      "executions": 3,
+      "providerAttempts": 5,
+      "passed": 0,
+      "planned": 3,
+      "chargedUsd": "0.0378433",
+      "unknownReservedUsd": "0.0214339",
+      "compatibilityGatePassed": true
+    },
+    {
+      "phase": "holdout",
+      "runId": 41282205719,
+      "executions": 48,
+      "pairedQuestionUnits": 16,
+      "providerAttempts": 52,
+      "chargedUsd": "0.2652893",
+      "unknownReservedUsd": "0",
+      "scores": [
+        { "route": "composable", "observed": 16, "passed": 9, "planned": 16 },
+        { "route": "adaptive", "observed": 16, "passed": 10, "planned": 16 },
+        { "route": "complete", "observed": 16, "passed": 5, "planned": 16 }
+      ]
+    }
+  ],
+  "providerAttempts": 57,
+  "knownUsd": "0.2816987",
+  "unknownReservedUsd": "0.0214339",
+  "chargedUsd": "0.3031326",
+  "priorClosedChargesUsd": "0.2983252",
+  "overallChargedAtComparisonClosureUsd": "0.6014578",
+  "approvedOverallCeilingUsd": "0.90",
+  "remainingForSeparateAcceptanceAtClosureUsd": "0.2985422",
+  "eligibleCandidates": [],
+  "decision": "retain_composable",
+  "noAutomaticDeployment": true,
+  "frozenPrimaryScoresUnchanged": true,
+  "oldCohortsRemainClosed": true,
+  "noPhaseTransferOrRefill": true,
+  "allFullBookFingerprintsUnchanged": true,
+  "secretsRemoved": {
+    "removedAt": "2026-11-01T06:52:26.166156+00:00",
+    "names": [
+      "COMPACT_COMPLETION_APPROVAL",
+      "COMPACT_COMPLETION_GEMINI_KEY",
+      "COMPACT_COMPLETION_ARTIFACT_KEY"
+    ],
+    "statuses": [204, 204, 204],
+    "absenceVerified": true
+  },
+  "secretRemovalReceiptSha256": "35a32a4dd6b3b8d811b4c5c4eb36295f44bd6bc7b42c7fcf932e5efd18461d1d",
+  "rawProviderContentsEncryptedAndRetainedPrivately": true,
+  "estimatesAndReservationsNotInvoices": true,
+  "hostedAcceptanceIncludedInTheseCosts": false
+}

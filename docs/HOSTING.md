@@ -1,5 +1,17 @@
 # Hosting Daybook
 
+## Current promoted release — 2026-11-01
+
+Source **`6691d76ad24574343b3eec9617546e9c019b8c95`** is promoted as **`dpl_CVQXU5jjfUKHW4Lt9biZm1RCnZe8`** at [Daybook](https://daybook-ledger-delta.vercel.app). The stable alias retains deployment protection and the active route is **`composable`**. [Exact-source release evidence](evidence/goal-completion-release.json).
+
+[Full CI 41282013110](https://github.com/rayidali/spiich_homework/actions/runs/41282013110) passed **2,556 normal tests across 127 files**, with eight cases/two files skipped; four separate fixture checks; **32 browser workflows in 52.2 seconds**; native research (30 TypeScript and 35 Python checks); and Compose (**2,555 overlapping tests across 126 files**, nine cases/three files skipped). Ordinary CI used scripted provider responses. Compose and normal totals overlap and are not additive.
+
+The separate held-out comparison completed **48 executions on 16 paired questions**. Its frozen results are **9/16 composable, 10/16 adaptive and 5/16 complete**. The descriptive replay after two grader compatibility corrections is **11/16, 11/16 and 5/16** on the same saved answers. Neither alternative qualified; retaining composable was the selection outcome. [Comparison](evidence/compact-completion-runs/report.md), [paper](reports/chat-route-comparison-explained.pdf).
+
+Separate hosted acceptance captured three actual model responses: Supplies **$1,740 all-history**, Supplies **$340 in October**, and Rent **$7,200** with a **$6,860 Rent-minus-Supplies difference**. The automatic result remains **2/3**, preserving a currency-display formatting rejection. A separate **37-check internal semantic audit verified 3/3** without another model call. **32 runtime-correlation checks** bind the responses to this release. **Six hosted browser checks** and visual review of six captured views supplement the CI browser evidence. All **75 journals and 22 accounts stayed unchanged**. These are bounded hosted checks, not general accuracy or physical-device guarantees.
+
+Total recorded charges and conservative reservations are **$0.6919872 within the approved $0.90**, including preserved failures. No closed cohort is reopened. The historical release descriptions below retain their original evidence; the current deployment is the one named above.
+
 ## Compound grouping — deployed and CI verified
 
 Questions can now group recorded amounts jointly by two or three ordered dimensions: account, person/business and month or quarter. Account/time views include every scoped posting account; person/business combinations fill missing periods only for tuples actually observed after the requested filters. Closing balances retain opening history. Exact arithmetic keeps each row’s account identity and period. The server caps the complete grid at 30,000 cells and 120 periods, then applies a global 50-row display limit with explicit truncation. This expands supported queries; it does not prove general question or formula intent. [Plain-language grouped-spending walkthrough](COMPOUND_GROUPING.md).
@@ -12,9 +24,9 @@ Exact-source CI passed **1,629 tests across 85 files and all 29 browser workflow
 
 The earlier `012f297` cash-movement release passed **1,530 tests across 81 files and all 28 browser workflows**. The 75 named cash-movement cases—26 compiler/output, seven chat, 30 calculator and 12 real-PostgreSQL tests—are included in that total. Provider responses in engineering tests are stubbed; actual database cases use independently specified arithmetic. Browser checks run against the CI build, not the hosted demo. No provider inference, new model-accuracy score or reopened budget was involved. Protected health, metadata and SPA GETs verify deployment, not hosted browser behavior or model understanding. No fresh full-ledger comparison was made; unchanged current books are not claimed. Earlier studies and live-model results remain bound to their original source.
 
-## Current promoted compound-grouping release — 2026-10-31
+## Previous promoted compound-grouping release — 2026-10-31
 
-Source **`93a8617932daff772c5b5d9c836be15692a64979` is promoted** at [Daybook](https://daybook-ledger-delta.vercel.app), deployment `dpl_2Rh1j9ryaPzor5vsREcDvYJHgFSQ`. [Full CI 41251437109](https://github.com/rayidali/spiich_homework/actions/runs/41251437109) passed verification, native research and Compose; live-AI was skipped. The actual stable alias and project production target match this READY/PROMOTED deployment, with all-deployment protection retained. [Release evidence](evidence/compound-grouping-release.json).
+Source **`93a8617932daff772c5b5d9c836be15692a64979` was promoted at this earlier checkpoint** at [Daybook](https://daybook-ledger-delta.vercel.app), deployment `dpl_2Rh1j9ryaPzor5vsREcDvYJHgFSQ`. [Full CI 41251437109](https://github.com/rayidali/spiich_homework/actions/runs/41251437109) passed verification, native research and Compose; live-AI was skipped. The actual stable alias and project production target then matched this READY/PROMOTED deployment, with all-deployment protection retained. [Release evidence](evidence/compound-grouping-release.json).
 
 The active `composable` chat route combines existing report tools with validated ledger queries and exact scenario arithmetic. The model chooses a structured plan; application code compiles permitted queries and calculates the answer. It cannot execute arbitrary SQL or post entries. Cash sources are server-selected, assumptions require original-user evidence, and eligible explicit all-history requests retain their full date scope. Shared PostgreSQL request admission and safe request/provider/plan diagnostics are enabled. File Search, vector retrieval, Wren and reviewer agents remain separate research paths.
 
@@ -57,7 +69,7 @@ The earlier 3.1 outage, rent-account guessing failure and provider-only deployme
 | Owner               | Local CLI identity `rayidali`, team `rayidalis-projects`                    |
 | Vercel project      | `daybook-ledger`; Hobby plan observed during provisioning                   |
 | Stable URL          | https://daybook-ledger-delta.vercel.app                                     |
-| Verified deployment | `dpl_2Rh1j9ryaPzor5vsREcDvYJHgFSQ`, source93a8617, READY/PROMOTED           |
+| Verified deployment | `dpl_CVQXU5jjfUKHW4Lt9biZm1RCnZe8`, source6691d76, READY/PROMOTED           |
 | Database            | Separate Neon `daybook-db`, free plan through an existing integration       |
 | Region              | `iad1`                                                                      |
 | Protection          | Vercel Authentication for all deployments; anonymous requests reach sign-in |
@@ -138,7 +150,7 @@ Recurring generation processes up to 20 templates/50 occurrences, capped at 10 p
 
 These financial figures are synthetic demo observations at the recorded time. They are separate from the accounting walkthrough's five-event fixture and can change after legitimate postings.
 
-Hosted browser visual review is pending. The latest CI's 29 browser workflows run against its built app and isolated PostgreSQL; they are not a live browser test of this protected URL.
+Hosted browser visual review was unverified at this earlier checkpoint. The current release has separate hosted browser and visual evidence above; CI browser workflows alone do not establish hosted behavior.
 
 ## Failures resolved and next checks
 
@@ -147,6 +159,6 @@ Hosted browser visual review is pending. The latest CI's 29 browser workflows ru
 3. A READY deployment still failed API invocation. Explicit native ESM bundling was introduced, then hosted API checks passed; CI now checks both wrapper imports.
 4. The raw scheduler request lacked Express's `req.get()`. Wrapping it in Express resolved the invocation; live authorization/work checks passed.
 
-The provider repair and 11-request hosted regression acceptance are complete. Separate remaining operational checks are the original 40-case live evaluation, automatic hosted cron observation, hosted browser/physical-device inspection and reviewer access. These are not hidden successes of the completed HTTP acceptance. A successful build or metadata call alone would not establish them.
+The current release has separate hosted response, runtime-correlation and browser/visual checks above; the earlier 11-request acceptance remains historical. Remaining checks include the original 40-case whole-entry live evaluation, automatic hosted cron observation, physical-device inspection, broad capacity/recovery validation and reviewer access. The completed bounded checks do not establish those capabilities.
 
 Private operational files are in ignored `.tools/vercel-session/` and contain credentials. Keep them local, excluded from archives and screenshots. Local Node CLI network failure did not imply invalid login: authorized HTTP using the local session worked. If credentials expire, use local login again; never switch to a different chat-connected account.

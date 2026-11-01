@@ -1,0 +1,1597 @@
+{
+  "version": "compact-completion-offline-artifact-audit-v1",
+  "cohort": "compact-completion-20261101-v1",
+  "phase": "development",
+  "runId": 41282038984,
+  "runConclusion": "success",
+  "sourceCommit": "6691d76ad24574343b3eec9617546e9c019b8c95",
+  "sourceHash": "de9118f9d8311ed8084ebb496f50e069a485f046aef980f4b5a540a6f6cfd1cd",
+  "sourceFiles": 102,
+  "archiveSha256": "ad9928cbffd0651d8a4c034874ed0dbf327d1994cee6345fc3f468a18be10cc4",
+  "artifactManifestSha256": "d787fc8a0deb89f912ae95363cffc20b17efd1356bccc8a56b4c41f6f661d62e",
+  "artifactFiles": 39,
+  "complete": true,
+  "failure": null,
+  "haltReason": null,
+  "plannedExecutions": 3,
+  "completedExecutions": 3,
+  "missingExecutions": 0,
+  "providerAttempts": 5,
+  "knownUsd": "0.0164094",
+  "unknownReservedUsd": "0.0214339",
+  "chargedUsd": "0.0378433",
+  "priorChargedUsd": "0.2983252",
+  "comparisonChargedUsd": "0.0378433",
+  "overallChargedUsd": "0.3361685",
+  "remainingOverallUsd": "0.5638315",
+  "sourceMatchesExactGitCommit": true,
+  "fullBooksUnchanged": true,
+  "unknownReservationsRetained": true,
+  "smokeGate": {
+    "runId": "41282038984",
+    "chargedUsd": "0.0378433",
+    "attempts": 5,
+    "artifactSha256": "d787fc8a0deb89f912ae95363cffc20b17efd1356bccc8a56b4c41f6f661d62e"
+  },
+  "scoresRecomputed": 3,
+  "accountingReconciled": true,
+  "frozenScorerReplayMatched": true,
+  "allBookFingerprintsUnchanged": true,
+  "providerCalls": 0,
+  "integrityPassed": true,
+  "routes": [
+    {
+      "route": "composable",
+      "observed": 0,
+      "passed": 0,
+      "planned": 0
+    },
+    {
+      "route": "adaptive",
+      "observed": 0,
+      "passed": 0,
+      "planned": 0
+    },
+    {
+      "route": "complete",
+      "observed": 3,
+      "passed": 0,
+      "planned": 3
+    }
+  ],
+  "cells": [
+    {
+      "caseId": "D01",
+      "route": "complete",
+      "passed": false,
+      "classification": "safe-no-answer",
+      "focusCorrect": false,
+      "validatedFinancialPlan": true,
+      "wrongFinancialClaims": 0,
+      "hardBoundaryViolations": 0,
+      "attempts": 1,
+      "durationMs": 1671,
+      "knownUsd": "0.0041692",
+      "unknownReservedUsd": "0",
+      "errorCode": null
+    },
+    {
+      "caseId": "D02",
+      "route": "complete",
+      "passed": false,
+      "classification": "safe-no-answer",
+      "focusCorrect": false,
+      "validatedFinancialPlan": true,
+      "wrongFinancialClaims": 0,
+      "hardBoundaryViolations": 0,
+      "attempts": 3,
+      "durationMs": 6323,
+      "knownUsd": "0.0122402",
+      "unknownReservedUsd": "0",
+      "errorCode": null
+    },
+    {
+      "caseId": "D03",
+      "route": "complete",
+      "passed": false,
+      "classification": "execution-error",
+      "focusCorrect": false,
+      "validatedFinancialPlan": false,
+      "wrongFinancialClaims": 0,
+      "hardBoundaryViolations": 0,
+      "attempts": 1,
+      "durationMs": 9026,
+      "knownUsd": "0",
+      "unknownReservedUsd": "0.0214339",
+      "errorCode": "AI_INVALID_RESPONSE"
+    }
+  ],
+  "attempts": [
+    {
+      "id": "0001",
+      "trial": "complete/D01",
+      "httpStatus": 200,
+      "state": "known",
+      "requestSha256": "c803e0de32bb899c2c96f033f8e113d466eff2b8c1064868e73ea68e576c5742",
+      "requestBytes": 36117,
+      "responseSha256": "92a5c076bee46e2728fdb7f56f9fa7168536299c87992cc3ff0ce4e1792aa083",
+      "finishReason": "STOP",
+      "failure": null,
+      "knownUsd": "0.0041692",
+      "reservedUsd": "0.0214495"
+    },
+    {
+      "id": "0002",
+      "trial": "complete/D02",
+      "httpStatus": 200,
+      "state": "known",
+      "requestSha256": "39c0c51b353d61fc42e00263981e07231e5c8306fff5c98030fff55b83daf281",
+      "requestBytes": 36006,
+      "responseSha256": "250470192f2b0d2f2d8f14436f998840d3d1c2344b737e08845b200827030739",
+      "finishReason": "STOP",
+      "failure": null,
+      "knownUsd": "0.0052028",
+      "reservedUsd": "0.0214162"
+    },
+    {
+      "id": "0003",
+      "trial": "complete/D02",
+      "httpStatus": 200,
+      "state": "known",
+      "requestSha256": "18ff51a0e2af153a47a7b8bcf965db5e2283e49016abb89f253552ec04aae5bc",
+      "requestBytes": 42159,
+      "responseSha256": "8aa1756e7fc8682f4a2506d28b539fcbbbf774d0a12e83b43c9f22e52c5ed9b0",
+      "finishReason": "STOP",
+      "failure": null,
+      "knownUsd": "0.003841",
+      "reservedUsd": "0.0232621"
+    },
+    {
+      "id": "0004",
+      "trial": "complete/D02",
+      "httpStatus": 200,
+      "state": "known",
+      "requestSha256": "60776077882402cf8e4d9e3b54bc36bddfea0e72f4d969a2217da25c422e1103",
+      "requestBytes": 34055,
+      "responseSha256": "e8cc3985700d92df3e502a4ea3079593390013ead03ef688591c9ab7e00ce835",
+      "finishReason": "STOP",
+      "failure": null,
+      "knownUsd": "0.0031964",
+      "reservedUsd": "0.0208309"
+    },
+    {
+      "id": "0005",
+      "trial": "complete/D03",
+      "httpStatus": 200,
+      "state": "unknown",
+      "requestSha256": "fe2d1c388294b3ef47336e520d64ffd33c1d1335bb0939c6ec7f764a41287dc1",
+      "requestBytes": 36065,
+      "responseSha256": "9bd51bed10d4f5172e55b80b953f5c395ed75a7f16691198a614bfb7c9e82be5",
+      "finishReason": "MAX_TOKENS",
+      "failure": null,
+      "knownUsd": null,
+      "reservedUsd": "0.0214339"
+    }
+  ],
+  "aggregate": null,
+  "checksPassed": 279,
+  "checksTotal": 279,
+  "checks": [
+    {
+      "id": 1,
+      "check": "RUN_BINDING",
+      "passed": true
+    },
+    {
+      "id": 2,
+      "check": "PERMIT",
+      "passed": true
+    },
+    {
+      "id": 3,
+      "check": "ARTIFACT_KEY",
+      "passed": true
+    },
+    {
+      "id": 4,
+      "check": "ARCHIVE_BYTES",
+      "passed": true
+    },
+    {
+      "id": 5,
+      "check": "ARCHIVE_RECEIPT",
+      "passed": true
+    },
+    {
+      "id": 6,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 7,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 8,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 9,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 10,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 11,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 12,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 13,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 14,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 15,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 16,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 17,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 18,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 19,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 20,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 21,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 22,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 23,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 24,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 25,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 26,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 27,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 28,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 29,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 30,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 31,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 32,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 33,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 34,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 35,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 36,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 37,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 38,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 39,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 40,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 41,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 42,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 43,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 44,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 45,
+      "check": "EXISTING_RAW_BYTES",
+      "passed": true
+    },
+    {
+      "id": 46,
+      "check": "COHORT_BINDING",
+      "passed": true
+    },
+    {
+      "id": 47,
+      "check": "SOURCE_BINDING",
+      "passed": true
+    },
+    {
+      "id": 48,
+      "check": "PERMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 49,
+      "check": "SOURCE_MANIFEST_HASH",
+      "passed": true
+    },
+    {
+      "id": 50,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 51,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 52,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 53,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 54,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 55,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 56,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 57,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 58,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 59,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 60,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 61,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 62,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 63,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 64,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 65,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 66,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 67,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 68,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 69,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 70,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 71,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 72,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 73,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 74,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 75,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 76,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 77,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 78,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 79,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 80,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 81,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 82,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 83,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 84,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 85,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 86,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 87,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 88,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 89,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 90,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 91,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 92,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 93,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 94,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 95,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 96,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 97,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 98,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 99,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 100,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 101,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 102,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 103,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 104,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 105,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 106,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 107,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 108,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 109,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 110,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 111,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 112,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 113,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 114,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 115,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 116,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 117,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 118,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 119,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 120,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 121,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 122,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 123,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 124,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 125,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 126,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 127,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 128,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 129,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 130,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 131,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 132,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 133,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 134,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 135,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 136,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 137,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 138,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 139,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 140,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 141,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 142,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 143,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 144,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 145,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 146,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 147,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 148,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 149,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 150,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 151,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 152,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 153,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 154,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 155,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 156,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 157,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 158,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 159,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 160,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 161,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 162,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 163,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 164,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 165,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 166,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 167,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 168,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 169,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 170,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 171,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 172,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 173,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 174,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 175,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 176,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 177,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 178,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 179,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 180,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 181,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 182,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 183,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 184,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 185,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 186,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 187,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 188,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 189,
+      "check": "LOCAL_FROZEN_SCORER_DEPENDENCY",
+      "passed": true
+    },
+    {
+      "id": 190,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 191,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 192,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 193,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 194,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 195,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 196,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 197,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 198,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 199,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 200,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 201,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 202,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 203,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 204,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 205,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 206,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 207,
+      "check": "SOURCE_COMMIT_BYTES",
+      "passed": true
+    },
+    {
+      "id": 208,
+      "check": "FINAL_BOOKS",
+      "passed": true
+    },
+    {
+      "id": 209,
+      "check": "TRANSPORT_CONFIG",
+      "passed": true
+    },
+    {
+      "id": 210,
+      "check": "CLOSED_LEDGER",
+      "passed": true
+    },
+    {
+      "id": 211,
+      "check": "REQUEST_HASH",
+      "passed": true
+    },
+    {
+      "id": 212,
+      "check": "COMPLETION_RECORD",
+      "passed": true
+    },
+    {
+      "id": 213,
+      "check": "DURABLE_RESERVATION",
+      "passed": true
+    },
+    {
+      "id": 214,
+      "check": "RESERVATION_COST",
+      "passed": true
+    },
+    {
+      "id": 215,
+      "check": "SETTLED_RECORD",
+      "passed": true
+    },
+    {
+      "id": 216,
+      "check": "RESPONSE_HASH",
+      "passed": true
+    },
+    {
+      "id": 217,
+      "check": "TOKEN_SUM",
+      "passed": true
+    },
+    {
+      "id": 218,
+      "check": "KNOWN_COST",
+      "passed": true
+    },
+    {
+      "id": 219,
+      "check": "REQUEST_HASH",
+      "passed": true
+    },
+    {
+      "id": 220,
+      "check": "COMPLETION_RECORD",
+      "passed": true
+    },
+    {
+      "id": 221,
+      "check": "DURABLE_RESERVATION",
+      "passed": true
+    },
+    {
+      "id": 222,
+      "check": "RESERVATION_COST",
+      "passed": true
+    },
+    {
+      "id": 223,
+      "check": "SETTLED_RECORD",
+      "passed": true
+    },
+    {
+      "id": 224,
+      "check": "RESPONSE_HASH",
+      "passed": true
+    },
+    {
+      "id": 225,
+      "check": "TOKEN_SUM",
+      "passed": true
+    },
+    {
+      "id": 226,
+      "check": "KNOWN_COST",
+      "passed": true
+    },
+    {
+      "id": 227,
+      "check": "REQUEST_HASH",
+      "passed": true
+    },
+    {
+      "id": 228,
+      "check": "COMPLETION_RECORD",
+      "passed": true
+    },
+    {
+      "id": 229,
+      "check": "DURABLE_RESERVATION",
+      "passed": true
+    },
+    {
+      "id": 230,
+      "check": "RESERVATION_COST",
+      "passed": true
+    },
+    {
+      "id": 231,
+      "check": "SETTLED_RECORD",
+      "passed": true
+    },
+    {
+      "id": 232,
+      "check": "RESPONSE_HASH",
+      "passed": true
+    },
+    {
+      "id": 233,
+      "check": "TOKEN_SUM",
+      "passed": true
+    },
+    {
+      "id": 234,
+      "check": "KNOWN_COST",
+      "passed": true
+    },
+    {
+      "id": 235,
+      "check": "REQUEST_HASH",
+      "passed": true
+    },
+    {
+      "id": 236,
+      "check": "COMPLETION_RECORD",
+      "passed": true
+    },
+    {
+      "id": 237,
+      "check": "DURABLE_RESERVATION",
+      "passed": true
+    },
+    {
+      "id": 238,
+      "check": "RESERVATION_COST",
+      "passed": true
+    },
+    {
+      "id": 239,
+      "check": "SETTLED_RECORD",
+      "passed": true
+    },
+    {
+      "id": 240,
+      "check": "RESPONSE_HASH",
+      "passed": true
+    },
+    {
+      "id": 241,
+      "check": "TOKEN_SUM",
+      "passed": true
+    },
+    {
+      "id": 242,
+      "check": "KNOWN_COST",
+      "passed": true
+    },
+    {
+      "id": 243,
+      "check": "REQUEST_HASH",
+      "passed": true
+    },
+    {
+      "id": 244,
+      "check": "COMPLETION_RECORD",
+      "passed": true
+    },
+    {
+      "id": 245,
+      "check": "DURABLE_RESERVATION",
+      "passed": true
+    },
+    {
+      "id": 246,
+      "check": "RESERVATION_COST",
+      "passed": true
+    },
+    {
+      "id": 247,
+      "check": "SETTLED_RECORD",
+      "passed": true
+    },
+    {
+      "id": 248,
+      "check": "RESPONSE_HASH",
+      "passed": true
+    },
+    {
+      "id": 249,
+      "check": "UNKNOWN_COST",
+      "passed": true
+    },
+    {
+      "id": 250,
+      "check": "COST_SUM",
+      "passed": true
+    },
+    {
+      "id": 251,
+      "check": "PHASE_BUDGET",
+      "passed": true
+    },
+    {
+      "id": 252,
+      "check": "SCHEDULE_COUNT",
+      "passed": true
+    },
+    {
+      "id": 253,
+      "check": "UNIQUE_SCHEDULE",
+      "passed": true
+    },
+    {
+      "id": 254,
+      "check": "SCHEDULE_ORDER",
+      "passed": true
+    },
+    {
+      "id": 255,
+      "check": "CELL_BOOKS",
+      "passed": true
+    },
+    {
+      "id": 256,
+      "check": "CELL_SCORE",
+      "passed": true
+    },
+    {
+      "id": 257,
+      "check": "FROZEN_CASE_PRESENT",
+      "passed": true
+    },
+    {
+      "id": 258,
+      "check": "FROZEN_SCORE_REPLAY",
+      "passed": true
+    },
+    {
+      "id": 259,
+      "check": "CELL_OUTCOME",
+      "passed": true
+    },
+    {
+      "id": 260,
+      "check": "CELL_ATTEMPTS",
+      "passed": true
+    },
+    {
+      "id": 261,
+      "check": "CELL_COST",
+      "passed": true
+    },
+    {
+      "id": 262,
+      "check": "SCHEDULE_ORDER",
+      "passed": true
+    },
+    {
+      "id": 263,
+      "check": "CELL_BOOKS",
+      "passed": true
+    },
+    {
+      "id": 264,
+      "check": "CELL_SCORE",
+      "passed": true
+    },
+    {
+      "id": 265,
+      "check": "FROZEN_CASE_PRESENT",
+      "passed": true
+    },
+    {
+      "id": 266,
+      "check": "FROZEN_SCORE_REPLAY",
+      "passed": true
+    },
+    {
+      "id": 267,
+      "check": "CELL_OUTCOME",
+      "passed": true
+    },
+    {
+      "id": 268,
+      "check": "CELL_ATTEMPTS",
+      "passed": true
+    },
+    {
+      "id": 269,
+      "check": "CELL_COST",
+      "passed": true
+    },
+    {
+      "id": 270,
+      "check": "SCHEDULE_ORDER",
+      "passed": true
+    },
+    {
+      "id": 271,
+      "check": "CELL_BOOKS",
+      "passed": true
+    },
+    {
+      "id": 272,
+      "check": "CELL_SCORE",
+      "passed": true
+    },
+    {
+      "id": 273,
+      "check": "FROZEN_CASE_PRESENT",
+      "passed": true
+    },
+    {
+      "id": 274,
+      "check": "FROZEN_SCORE_REPLAY",
+      "passed": true
+    },
+    {
+      "id": 275,
+      "check": "CELL_OUTCOME",
+      "passed": true
+    },
+    {
+      "id": 276,
+      "check": "CELL_ATTEMPTS",
+      "passed": true
+    },
+    {
+      "id": 277,
+      "check": "CELL_COST",
+      "passed": true
+    },
+    {
+      "id": 278,
+      "check": "COMPLETION_STATUS",
+      "passed": true
+    },
+    {
+      "id": 279,
+      "check": "CUMULATIVE_CAP",
+      "passed": true
+    }
+  ],
+  "auditorSha256": "797873547e3ea3d13914a7b58994ec85f523ea0f7db7db1f108ec5b75d0a3e22",
+  "limitations": [
+    "Internal synthetic comparison, not independent human evaluation or a zero-error guarantee.",
+    "The inherited scorer and analysis method retain their original version identifier; this receipt names the new cohort.",
+    "Unknown usage remains fully reserved; accounting estimates are not invoices.",
+    "CI, model comparison, hosted acceptance and deployment are separate evidence."
+  ],
+  "status": "AUDIT_PASS_COMPLETE",
+  "inputHashes": {
+    "summary.json": "ef6301ee067f1375375ab8c5de6248b46a7ef6f3b39195cfcad792a065ce2992",
+    "source.json": "2e8a2fd710ff30e677512f518ef62b6c8e5790dc22e9ad84890e90810a22a86e",
+    "costs.json": "36c58466ab5cfb89eec6995707796b343e26aad27e8f09e36f171d1b8753d9df"
+  },
+  "originalRunSummarySha256": "5010a923fd4f74c4e2ab957408c3add5bf9523a536af85397fbf24946251441a",
+  "privateAuditSha256": "b6649096c02a62a8405471e713894ae42eedeb072ab0ae340026d292b1111388",
+  "exportedBySha256": "0c4b7720cdc68e1957dd963fef5edcf5527369be2302f2f3bde0d0e9eaa3080d",
+  "projectionChecks": {
+    "safeSummaryEquivalentToSavedSummary": true,
+    "publicCostComponentsReconciled": true,
+    "exactFormattedInputHashesBound": true
+  }
+}

@@ -1,0 +1,1457 @@
+{
+  "version": "compact-completion-two-bug-offline-sensitivity-v1",
+  "sourceCommit": "6691d76ad24574343b3eec9617546e9c019b8c95",
+  "sourceHash": "de9118f9d8311ed8084ebb496f50e069a485f046aef980f4b5a540a6f6cfd1cd",
+  "runId": "41282205719",
+  "providerCalls": 0,
+  "databaseCalls": 0,
+  "newModelInferences": 0,
+  "originalFrozenScoresReproduced": 48,
+  "originalSourceFilesUnchanged": 102,
+  "originalOutcomesAndScoresUnchanged": 48,
+  "calibration": [
+    {
+      "name": "actual_runtime_USD_per_month_and_verified_provenance",
+      "expectedPass": true,
+      "actualPass": true,
+      "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"]
+    },
+    {
+      "name": "legacy_shorthand_monthly_display_still_accepted",
+      "expectedPass": true,
+      "actualPass": true,
+      "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"]
+    },
+    {
+      "name": "wrong_visible_amount",
+      "expectedPass": false,
+      "actualPass": false,
+      "reasons": ["DISPLAY_VALUE_MISMATCH"]
+    },
+    {
+      "name": "wrong_display_currency",
+      "expectedPass": false,
+      "actualPass": false,
+      "reasons": ["DISPLAY_VALUE_MISMATCH"]
+    },
+    {
+      "name": "wrong_display_period",
+      "expectedPass": false,
+      "actualPass": false,
+      "reasons": ["DISPLAY_VALUE_MISMATCH"]
+    },
+    {
+      "name": "wrong_headline_amount",
+      "expectedPass": false,
+      "actualPass": false,
+      "reasons": ["UNKNOWN_ANSWER_PROSE_TEMPLATE"]
+    },
+    {
+      "name": "extra_headline_claim",
+      "expectedPass": false,
+      "actualPass": false,
+      "reasons": ["UNKNOWN_ANSWER_PROSE_TEMPLATE"]
+    },
+    {
+      "name": "wrong_operand_label",
+      "expectedPass": false,
+      "actualPass": false,
+      "reasons": ["DISPLAY_CALCULATION_OPERANDS"]
+    },
+    {
+      "name": "false_original_user_anchor",
+      "expectedPass": false,
+      "actualPass": false,
+      "reasons": ["UNSOURCED_ASSUMPTION"]
+    },
+    {
+      "name": "wrong_assumption_quantity",
+      "expectedPass": false,
+      "actualPass": false,
+      "reasons": ["UNSOURCED_ASSUMPTION"]
+    },
+    {
+      "name": "wrong_assumption_quote",
+      "expectedPass": false,
+      "actualPass": false,
+      "reasons": ["UNSOURCED_ASSUMPTION"]
+    },
+    {
+      "name": "wrong_exact_formula",
+      "expectedPass": false,
+      "actualPass": false,
+      "reasons": ["CALCULATION_UNIT_MISMATCH"]
+    },
+    {
+      "name": "missing_zero_activity_month",
+      "expectedPass": false,
+      "actualPass": false,
+      "reasons": ["INVALID_VISIBLE_QUERY_REFERENCE"]
+    },
+    {
+      "name": "scenario_disguised_as_posted",
+      "expectedPass": false,
+      "actualPass": false,
+      "reasons": ["DISPLAY_STATUS_MISMATCH"]
+    },
+    {
+      "name": "foreign_workspace",
+      "expectedPass": false,
+      "actualPass": false,
+      "reasons": ["FOREIGN_WORKSPACE"]
+    },
+    {
+      "name": "missing_requested_budget",
+      "expectedPass": false,
+      "actualPass": false,
+      "reasons": ["UNKNOWN_ANSWER_PROSE_TEMPLATE"]
+    }
+  ],
+  "cells": [
+    {
+      "caseId": "H01",
+      "route": "composable",
+      "outcomeSha256": "ee63dbdc14e6525939c4836b72a67466dc49a7e9cb14b7d0f7e440dae7622cd0",
+      "primaryScoreSha256": "3921eb26c233dfd68dfef8683d5a96cf64974640db5100e92679d0e0bf21c2fa",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["site_july", "site_august", "site_september"],
+        "matchedTables": ["site_months"],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["site_july", "site_august", "site_september"],
+        "matchedTables": ["site_months"],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H01",
+      "route": "adaptive",
+      "outcomeSha256": "1a804cb96d6ff683c4ad29308c6a29436236cbfac093f0d67cf4aecdd4cc5871",
+      "primaryScoreSha256": "3921eb26c233dfd68dfef8683d5a96cf64974640db5100e92679d0e0bf21c2fa",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["site_july", "site_august", "site_september"],
+        "matchedTables": ["site_months"],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["site_july", "site_august", "site_september"],
+        "matchedTables": ["site_months"],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H01",
+      "route": "complete",
+      "outcomeSha256": "a60aa655d029262e7b352c98d42cf6e24f28694e9b9a147481412b47d7594b99",
+      "primaryScoreSha256": "f59f269d27a73c8b2dc345189e797635ee1b63de87dfcd32c0a31b42b9c78a15",
+      "original": {
+        "passed": false,
+        "classification": "safe-no-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["ANSWERABLE_COVERAGE_MISS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": false,
+        "classification": "safe-no-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["ANSWERABLE_COVERAGE_MISS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H02",
+      "route": "adaptive",
+      "outcomeSha256": "628ea41037f8290829762f8bd40b705ea32cd90f415596e45e0af3a82edb5b8a",
+      "primaryScoreSha256": "cae854dea57a5f057c6c49a23ff1f9cf9a83027a95eae2a23d41fe661bede0bc",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["fleet_revenue_july", "fleet_revenue_august", "fleet_revenue_september"],
+        "matchedTables": ["fleet_revenue_months"],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["fleet_revenue_july", "fleet_revenue_august", "fleet_revenue_september"],
+        "matchedTables": ["fleet_revenue_months"],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H02",
+      "route": "complete",
+      "outcomeSha256": "36930eea9bf4fb5f392e9c157f99be1cbe4ecbbd18d241189202a879264a3157",
+      "primaryScoreSha256": "32cd346137524cd50c2a0facc4f3029057adbbfaad949f36f319530e033d0c23",
+      "original": {
+        "passed": false,
+        "classification": "safe-no-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["ANSWERABLE_COVERAGE_MISS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": false,
+        "classification": "safe-no-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["ANSWERABLE_COVERAGE_MISS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H02",
+      "route": "composable",
+      "outcomeSha256": "e86740e562fdf40a457df848321e26c10158af77f619fb56cc5db64dbb81dcaf",
+      "primaryScoreSha256": "cae854dea57a5f057c6c49a23ff1f9cf9a83027a95eae2a23d41fe661bede0bc",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["fleet_revenue_july", "fleet_revenue_august", "fleet_revenue_september"],
+        "matchedTables": ["fleet_revenue_months"],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["fleet_revenue_july", "fleet_revenue_august", "fleet_revenue_september"],
+        "matchedTables": ["fleet_revenue_months"],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H03",
+      "route": "complete",
+      "outcomeSha256": "14d981ad9e2dfcfc22078460a88197926dd26d3f851ef340fa6aadf99f8fbaf3",
+      "primaryScoreSha256": "34a37db31d20fec99744df3240618b6dcefa0866bd0754ed659ce40edfb6c34a",
+      "original": {
+        "passed": false,
+        "classification": "execution-error",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["INVALID_ANSWER_CONTRACT"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": false,
+        "classification": "execution-error",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["INVALID_ANSWER_CONTRACT"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H03",
+      "route": "composable",
+      "outcomeSha256": "b25a18476eedbbf24352f8ac989d37724d808c8a8ad80fe0db785bee96949928",
+      "primaryScoreSha256": "049860a0c984995630fe340b55758049fd16f402948cb6ca07b41132bfa30138",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["euro_native", "euro_saved_usd"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["euro_native", "euro_saved_usd"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H03",
+      "route": "adaptive",
+      "outcomeSha256": "78b8baaad0af9284a9ff522ad9b96253a31e22e60c20eaec94559e216f8594d2",
+      "primaryScoreSha256": "049860a0c984995630fe340b55758049fd16f402948cb6ca07b41132bfa30138",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["euro_native", "euro_saved_usd"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["euro_native", "euro_saved_usd"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H04",
+      "route": "composable",
+      "outcomeSha256": "12f5b849325f33c9e869bbc94524e21f016f851c74e078add32d89dc2a043b47",
+      "primaryScoreSha256": "304e2b86acd4ebede0317e387737f8694e209ff870f550b117786268dc04d1d5",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["parts_posted", "parts_draft"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["parts_posted", "parts_draft"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H04",
+      "route": "complete",
+      "outcomeSha256": "ce62468fff85b3dffde1f7ce8e399864f3de8d4de90a99f32e98f5d54875e225",
+      "primaryScoreSha256": "304e2b86acd4ebede0317e387737f8694e209ff870f550b117786268dc04d1d5",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["parts_posted", "parts_draft"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["parts_posted", "parts_draft"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H04",
+      "route": "adaptive",
+      "outcomeSha256": "4680c4bfaa3e0114aaf87253854345923a5a1294406524df95d4b4abb9f89d41",
+      "primaryScoreSha256": "304e2b86acd4ebede0317e387737f8694e209ff870f550b117786268dc04d1d5",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["parts_posted", "parts_draft"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["parts_posted", "parts_draft"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H05",
+      "route": "complete",
+      "outcomeSha256": "9fa94f07e328112563377d75c22da95fd1abc5aadf47385b15c52b5d7d6dca56",
+      "primaryScoreSha256": "9b5c9bb8ac56f6b6a7a15a01d743d8f08f23021e26e0a33bdb6fa01715859034",
+      "original": {
+        "passed": false,
+        "classification": "safe-no-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["ANSWERABLE_COVERAGE_MISS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": false,
+        "classification": "safe-no-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["ANSWERABLE_COVERAGE_MISS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H05",
+      "route": "adaptive",
+      "outcomeSha256": "918d19ba97a451d5a50e768fc5863ab0b166ef3228fa267d0c96b3e25d113985",
+      "primaryScoreSha256": "bb10ed20009e78d9c56448da646ca0d76a96fd7a32847aeb15305cda31cae238",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["parts_top_wheelhouse", "parts_top_lowercase"],
+        "matchedTables": ["top_two_parts_suppliers"],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["parts_top_wheelhouse", "parts_top_lowercase"],
+        "matchedTables": ["top_two_parts_suppliers"],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H05",
+      "route": "composable",
+      "outcomeSha256": "4973d0177ed683c2cd72ab99f34d45558350b7dd28c6d2617574bc9e267aa083",
+      "primaryScoreSha256": "bb10ed20009e78d9c56448da646ca0d76a96fd7a32847aeb15305cda31cae238",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["parts_top_wheelhouse", "parts_top_lowercase"],
+        "matchedTables": ["top_two_parts_suppliers"],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["parts_top_wheelhouse", "parts_top_lowercase"],
+        "matchedTables": ["top_two_parts_suppliers"],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H06",
+      "route": "adaptive",
+      "outcomeSha256": "fe9c7ee76f0fe681015499ef1c3e942e1fb4476e9bf95b9809e19c43292d3198",
+      "primaryScoreSha256": "80cdeb90ec903e95f57882d472f58221d15de29f83fc3bf74404015e0a74380b",
+      "original": {
+        "passed": false,
+        "classification": "partial-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["MISSING_REQUIRED_CLAIMS", "MISSING_REQUIRED_TABLE_COVERAGE", "WRONG_ANSWER_FOCUS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": false,
+        "classification": "partial-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["MISSING_REQUIRED_CLAIMS", "MISSING_REQUIRED_TABLE_COVERAGE", "WRONG_ANSWER_FOCUS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H06",
+      "route": "composable",
+      "outcomeSha256": "3fdbcd738cec04369bbd426780220e609ab7cf7274e805f90d9ba006e68984ad",
+      "primaryScoreSha256": "80cdeb90ec903e95f57882d472f58221d15de29f83fc3bf74404015e0a74380b",
+      "original": {
+        "passed": false,
+        "classification": "partial-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["MISSING_REQUIRED_CLAIMS", "MISSING_REQUIRED_TABLE_COVERAGE", "WRONG_ANSWER_FOCUS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": false,
+        "classification": "partial-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["MISSING_REQUIRED_CLAIMS", "MISSING_REQUIRED_TABLE_COVERAGE", "WRONG_ANSWER_FOCUS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H06",
+      "route": "complete",
+      "outcomeSha256": "514ce5c783beef7312192bb26576e1c79a90b0106da3853f50e02eaee7079b56",
+      "primaryScoreSha256": "265890fba2e5bed57aad7a6398a83794e578dac453cd1ada8ec447aa8098109b",
+      "original": {
+        "passed": false,
+        "classification": "partial-answer",
+        "matchedClaims": ["split_parts", "split_delivery"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["MISSING_REQUIRED_CLAIMS", "MISSING_REQUIRED_TABLE_COVERAGE"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": false,
+        "classification": "partial-answer",
+        "matchedClaims": ["split_parts", "split_delivery"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["MISSING_REQUIRED_CLAIMS", "MISSING_REQUIRED_TABLE_COVERAGE"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H07",
+      "route": "composable",
+      "outcomeSha256": "1413f91ac0a40977e619efd114d0b2f75af422df1cfcf4dea8abed9d74d897d9",
+      "primaryScoreSha256": "82ce6664a29dcd4f134f0cec7a9b7153767c417226a44d2caf9f52505c11efb3",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["delivery_north", "delivery_route", "delivery_blank", "delivery_literal"],
+        "matchedTables": ["all_delivery_identities"],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["delivery_north", "delivery_route", "delivery_blank", "delivery_literal"],
+        "matchedTables": ["all_delivery_identities"],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H07",
+      "route": "adaptive",
+      "outcomeSha256": "7497053ccbe1e342728cbe45152a3647a848d48ad97c128fb61970eeaaf817ac",
+      "primaryScoreSha256": "82ce6664a29dcd4f134f0cec7a9b7153767c417226a44d2caf9f52505c11efb3",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["delivery_north", "delivery_route", "delivery_blank", "delivery_literal"],
+        "matchedTables": ["all_delivery_identities"],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["delivery_north", "delivery_route", "delivery_blank", "delivery_literal"],
+        "matchedTables": ["all_delivery_identities"],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H07",
+      "route": "complete",
+      "outcomeSha256": "0e45517f6f84a4f677e50c407ea8edb905ffae08f04708447a66a41dbd8d0b59",
+      "primaryScoreSha256": "7855173bc76fadbc8db6f8be90538d0c26d4f3df25edc4df1249da03baed940e",
+      "original": {
+        "passed": false,
+        "classification": "partial-answer",
+        "matchedClaims": ["delivery_north", "delivery_route", "delivery_blank", "delivery_literal"],
+        "matchedTables": ["all_delivery_identities"],
+        "focusCorrect": true,
+        "reasons": ["EXPLICITLY_PARTIAL_OR_WITHHELD"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": false,
+        "classification": "partial-answer",
+        "matchedClaims": ["delivery_north", "delivery_route", "delivery_blank", "delivery_literal"],
+        "matchedTables": ["all_delivery_identities"],
+        "focusCorrect": true,
+        "reasons": ["EXPLICITLY_PARTIAL_OR_WITHHELD"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H08",
+      "route": "adaptive",
+      "outcomeSha256": "0b6a726645d86efbc01de079246fa615742aaf28718c54e0a0d0fb3dd92c3165",
+      "primaryScoreSha256": "607632248141dde6c92335ddadbb8b6f20370f5120a9d76a85dd245d4646c6c8",
+      "original": {
+        "passed": false,
+        "classification": "partial-answer",
+        "matchedClaims": ["largest_drop_august", "largest_drop_september"],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["MISSING_REQUIRED_CLAIMS", "WRONG_ANSWER_FOCUS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": false,
+        "classification": "partial-answer",
+        "matchedClaims": ["largest_drop_august", "largest_drop_september"],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["MISSING_REQUIRED_CLAIMS", "WRONG_ANSWER_FOCUS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H08",
+      "route": "complete",
+      "outcomeSha256": "3d6e312253d160843919a5415e93eab8f72494f04457b6784b2bb0a3f0b06906",
+      "primaryScoreSha256": "768defabc40175f5e0ab093b573c8a8f46855bc9d9863d641b5dd9757ec536ad",
+      "original": {
+        "passed": false,
+        "classification": "safe-no-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["ANSWERABLE_COVERAGE_MISS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": false,
+        "classification": "safe-no-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["ANSWERABLE_COVERAGE_MISS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H08",
+      "route": "composable",
+      "outcomeSha256": "ee5d5a1d27b01a487e5ec92f1d3bb4fbabbc6c5858395b70277b4eee5e8eb247",
+      "primaryScoreSha256": "607632248141dde6c92335ddadbb8b6f20370f5120a9d76a85dd245d4646c6c8",
+      "original": {
+        "passed": false,
+        "classification": "partial-answer",
+        "matchedClaims": ["largest_drop_august", "largest_drop_september"],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["MISSING_REQUIRED_CLAIMS", "WRONG_ANSWER_FOCUS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": false,
+        "classification": "partial-answer",
+        "matchedClaims": ["largest_drop_august", "largest_drop_september"],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["MISSING_REQUIRED_CLAIMS", "WRONG_ANSWER_FOCUS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H09",
+      "route": "complete",
+      "outcomeSha256": "68e5b76999064cba0996fb5575b1fc5c2958ec493d90c31678ee7d61b4c9b0f9",
+      "primaryScoreSha256": "6006aa8f1506d10d476fb5ec580fd2cee753dcccdc735ed02a4f267b66ae190c",
+      "original": {
+        "passed": false,
+        "classification": "ungradable",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["UNRECOGNIZED_EVIDENCE"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": false,
+        "classification": "partial-answer",
+        "matchedClaims": ["starting_cash", "cash_after_payment", "cash_above_reserve"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["EXPLICITLY_PARTIAL_OR_WITHHELD"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": true
+    },
+    {
+      "caseId": "H09",
+      "route": "composable",
+      "outcomeSha256": "7169e12c19a542236968830d741399ef70666e9d8131c2a2ee0166ce0e6f3781",
+      "primaryScoreSha256": "6006aa8f1506d10d476fb5ec580fd2cee753dcccdc735ed02a4f267b66ae190c",
+      "original": {
+        "passed": false,
+        "classification": "ungradable",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["UNRECOGNIZED_EVIDENCE"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["starting_cash", "cash_after_payment", "cash_above_reserve"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": true
+    },
+    {
+      "caseId": "H09",
+      "route": "adaptive",
+      "outcomeSha256": "86086f3102b11823d67cb585ac2dbb910dd0f4297e27d3ed048a4d91756a36aa",
+      "primaryScoreSha256": "6006aa8f1506d10d476fb5ec580fd2cee753dcccdc735ed02a4f267b66ae190c",
+      "original": {
+        "passed": false,
+        "classification": "ungradable",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["UNRECOGNIZED_EVIDENCE"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["starting_cash", "cash_after_payment", "cash_above_reserve"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": true
+    },
+    {
+      "caseId": "H10",
+      "route": "composable",
+      "outcomeSha256": "32521858fd632c99a652af09ff50b672d2a2dd907345d4840f22099ee585075a",
+      "primaryScoreSha256": "8618c538102b176f9c1380d2cde4f0e61ad83a910d391fc719305b15c3ba75f8",
+      "original": {
+        "passed": false,
+        "classification": "wrong-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["DISPLAY_VALUE_MISMATCH"],
+        "wrongFinancialClaims": ["DISPLAY_VALUE_MISMATCH"],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": ["software_quarter", "software_monthly_average", "software_monthly_budget"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": true
+    },
+    {
+      "caseId": "H10",
+      "route": "complete",
+      "outcomeSha256": "0882ae628abf8f1c0a4ad2545866e13b4cc815948dcce6e048c983a89bf7a37c",
+      "primaryScoreSha256": "b7e0466c8f3b1c3937d3da456fd5db28af01c1ed095faad2497eb0ebad9722b2",
+      "original": {
+        "passed": false,
+        "classification": "safe-no-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["ANSWERABLE_COVERAGE_MISS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": false,
+        "classification": "safe-no-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["ANSWERABLE_COVERAGE_MISS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H10",
+      "route": "adaptive",
+      "outcomeSha256": "8e730f1ba4684928a0d762b16a2c5196be0aacbf9d4b3bbccf274d58f1a5776a",
+      "primaryScoreSha256": "5b2b188a6358f948adf3c1e351acca8b5f011a5b3dd495dfd05180a54214a53c",
+      "original": {
+        "passed": false,
+        "classification": "partial-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["MISSING_REQUIRED_CLAIMS", "WRONG_ANSWER_FOCUS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": false,
+        "classification": "partial-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["MISSING_REQUIRED_CLAIMS", "WRONG_ANSWER_FOCUS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H11",
+      "route": "complete",
+      "outcomeSha256": "f3ea45f18ace0aa4abe0b2e1035bd69865d2cec2d9b2c78c0574619116468428",
+      "primaryScoreSha256": "f894fa595a08214c122684861c58e9d9a31a638094231ef85a99c9fdf261eb44",
+      "original": {
+        "passed": false,
+        "classification": "safe-no-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["ANSWERABLE_COVERAGE_MISS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": false,
+        "classification": "safe-no-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["ANSWERABLE_COVERAGE_MISS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H11",
+      "route": "adaptive",
+      "outcomeSha256": "210509a4fe8b04ed9700e9cf0cee8f74348e014385168d31091ecc6e8c33f503",
+      "primaryScoreSha256": "7d7a18e4a4089a4739af98bb58f8405a7cabd0176aaaeffa610e034b7d9c4a6b",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [
+          "fleet_revenue",
+          "fleet_receipts",
+          "fleet_revenue_less_receipts",
+          "fleet_receipts_share"
+        ],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [
+          "fleet_revenue",
+          "fleet_receipts",
+          "fleet_revenue_less_receipts",
+          "fleet_receipts_share"
+        ],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["EXTERNAL_REQUIREMENTS_VISIBLE_AND_FOCUSED"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H11",
+      "route": "composable",
+      "outcomeSha256": "672ecdf7f4c611f9dd9970bf1b529813a193b92a207528d5b5ce4f6d4494b8aa",
+      "primaryScoreSha256": "7b5bc22ec86fc145a366e98be80fb6fe58261fec15cd15f5f5028cb646a45c24",
+      "original": {
+        "passed": false,
+        "classification": "partial-answer",
+        "matchedClaims": ["fleet_revenue", "fleet_receipts"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["MISSING_REQUIRED_CLAIMS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": false,
+        "classification": "partial-answer",
+        "matchedClaims": ["fleet_revenue", "fleet_receipts"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["MISSING_REQUIRED_CLAIMS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H12",
+      "route": "adaptive",
+      "outcomeSha256": "1c4e77776d8fd43b1dbef67e43fb9627d8478e4def4e724377e4155e5d376dc9",
+      "primaryScoreSha256": "9c6a696803451a43f25b49c6b17a0efe44961e0d3b2da5a9670b617ba3478fde",
+      "original": {
+        "passed": false,
+        "classification": "partial-answer",
+        "matchedClaims": ["consumables_august", "consumables_september"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["MISSING_REQUIRED_CLAIMS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": false,
+        "classification": "partial-answer",
+        "matchedClaims": ["consumables_august", "consumables_september"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["MISSING_REQUIRED_CLAIMS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H12",
+      "route": "composable",
+      "outcomeSha256": "c2c43525c77c4f3ea55bea4c84f4916836c338f15efa262249a8da9c0a51b63c",
+      "primaryScoreSha256": "9c6a696803451a43f25b49c6b17a0efe44961e0d3b2da5a9670b617ba3478fde",
+      "original": {
+        "passed": false,
+        "classification": "partial-answer",
+        "matchedClaims": ["consumables_august", "consumables_september"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["MISSING_REQUIRED_CLAIMS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": false,
+        "classification": "partial-answer",
+        "matchedClaims": ["consumables_august", "consumables_september"],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["MISSING_REQUIRED_CLAIMS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H12",
+      "route": "complete",
+      "outcomeSha256": "ae35af9014a3f2eca23043eb0f8f389edaf8428961f1b371ecfff05c0ac6175d",
+      "primaryScoreSha256": "65d6761f8628cff2f06f4315d944415d356684663a8cb57c2ccde6db2e46ef34",
+      "original": {
+        "passed": false,
+        "classification": "safe-no-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["ANSWERABLE_COVERAGE_MISS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": false,
+        "classification": "safe-no-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["ANSWERABLE_COVERAGE_MISS"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H13",
+      "route": "composable",
+      "outcomeSha256": "3fd5fde699dce638eacaa947d0da72bbb9406edea59e279c0a98cf53bacd4fa9",
+      "primaryScoreSha256": "8acf1215315956fe504f249e3948ee83e53004e03b5ccd77c744cc9d56e71c48",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H13",
+      "route": "adaptive",
+      "outcomeSha256": "f130fc48f3a4fd95ff66534739a49a785155e5fcd5717e6ef3fe97a57fb59dbf",
+      "primaryScoreSha256": "8acf1215315956fe504f249e3948ee83e53004e03b5ccd77c744cc9d56e71c48",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H13",
+      "route": "complete",
+      "outcomeSha256": "4f0898e20c3f18056fcaa8522704d8e4d9ad2aceb7fa498ed23d5a8a9dd4c375",
+      "primaryScoreSha256": "8acf1215315956fe504f249e3948ee83e53004e03b5ccd77c744cc9d56e71c48",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H14",
+      "route": "adaptive",
+      "outcomeSha256": "36a6971ee5df600c72944a31454a17c44cc9a19acbd426222326a3d7fd847800",
+      "primaryScoreSha256": "632ae7c12ab754be070474e02b1c6b7d1d7cc5b2b02a37a29380b0ba841f2a5e",
+      "original": {
+        "passed": false,
+        "classification": "safe-no-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["WRONG_CLARIFICATION_SCOPE"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": false,
+        "classification": "safe-no-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["WRONG_CLARIFICATION_SCOPE"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H14",
+      "route": "complete",
+      "outcomeSha256": "69562f7a58c5006f17269a72075551061cebbb8cb1ba3b8332cc32d27987ea26",
+      "primaryScoreSha256": "9400ea605cb560fa004e9089eabca9514a39069bbcdee139ac6b4ba430b050d3",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H14",
+      "route": "composable",
+      "outcomeSha256": "ce3edc67ceb5de44b93834856ec3a66531f8869086be98e32fd78818ba32071b",
+      "primaryScoreSha256": "1d82a1fb3ea87e9fb98fe499b612b36391bdd25545fc3af2d4cc59a923ca3268",
+      "original": {
+        "passed": false,
+        "classification": "wrong-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["ANSWERED_WITHOUT_REQUIRED_CLARIFICATION"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": false,
+        "classification": "wrong-answer",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": false,
+        "reasons": ["ANSWERED_WITHOUT_REQUIRED_CLARIFICATION"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H15",
+      "route": "complete",
+      "outcomeSha256": "d5b8778001321af6a8bb25e4cde824cc00bcbd665058073e849206ae28b74b14",
+      "primaryScoreSha256": "1b6edb9b19c2659d14388e02fa9d403a25942386e79db29e6c6d2b5203e42671",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H15",
+      "route": "composable",
+      "outcomeSha256": "4bb71c82fba42a7a3ed417e431780e9b862658393707a38f0bb1c9e6bbff0d42",
+      "primaryScoreSha256": "1b6edb9b19c2659d14388e02fa9d403a25942386e79db29e6c6d2b5203e42671",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H15",
+      "route": "adaptive",
+      "outcomeSha256": "eaf09c7f0b02edb129a653cb975f7f4fa703fb8409391ba13c4a6ada378d0235",
+      "primaryScoreSha256": "1b6edb9b19c2659d14388e02fa9d403a25942386e79db29e6c6d2b5203e42671",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H16",
+      "route": "composable",
+      "outcomeSha256": "9a1791b89700ef3af2b899287560e241675476d2fb9d31ce5c4937ceefa6e939",
+      "primaryScoreSha256": "3aecd431349b6049d5bb3cc71d4622f8fad6fd49815fcbfe4bca4dbe3fe84d0b",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H16",
+      "route": "complete",
+      "outcomeSha256": "c23280afa1e5a006fdffed6fbb12cecaab1a7bcfd4d82ad6797c1658da2bf7ea",
+      "primaryScoreSha256": "3aecd431349b6049d5bb3cc71d4622f8fad6fd49815fcbfe4bca4dbe3fe84d0b",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    },
+    {
+      "caseId": "H16",
+      "route": "adaptive",
+      "outcomeSha256": "0617d581ed0a3903263038ad31bedd9ef54da041887926b6a2b04fe15eda1dfb",
+      "primaryScoreSha256": "3aecd431349b6049d5bb3cc71d4622f8fad6fd49815fcbfe4bca4dbe3fe84d0b",
+      "original": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "reviewedSensitivity": {
+        "passed": true,
+        "classification": "structured-correct",
+        "matchedClaims": [],
+        "matchedTables": [],
+        "focusCorrect": true,
+        "reasons": ["STRUCTURED_BOUNDARY_MATCH"],
+        "wrongFinancialClaims": [],
+        "hardBoundaryViolations": []
+      },
+      "changed": false
+    }
+  ],
+  "routes": [
+    {
+      "route": "composable",
+      "denominator": 16,
+      "originalPassed": 9,
+      "reviewedSensitivityPassed": 11,
+      "originalWrongFinancialCases": ["H10"],
+      "reviewedWrongFinancialCases": []
+    },
+    {
+      "route": "adaptive",
+      "denominator": 16,
+      "originalPassed": 10,
+      "reviewedSensitivityPassed": 11,
+      "originalWrongFinancialCases": [],
+      "reviewedWrongFinancialCases": []
+    },
+    {
+      "route": "complete",
+      "denominator": 16,
+      "originalPassed": 5,
+      "reviewedSensitivityPassed": 5,
+      "originalWrongFinancialCases": [],
+      "reviewedWrongFinancialCases": []
+    }
+  ],
+  "changedCells": ["H09-complete", "H09-composable", "H09-adaptive", "H10-composable"],
+  "patchSha256": "0ea23617ebd7822c57a033d69bf01c3392ad2de602469c76e4faaf34834e2112",
+  "frozenScorerSha256": "3923e7465eb8fa39f1ff6e89b284c3c7ce2741233d54b8c7c084f2fa70547b90",
+  "reviewedScorerSha256": "964c54a102e999afd3c652dc041959f16e97f472adcb9d43bf3838430de47513",
+  "replayScriptSha256": "6ce77b8b1157f3fcd00ee9573e361cc60e440e972af35917940e8011be75b045",
+  "summarySha256": "7f64f9c6e44b7ee8602538479d231cd912d1b49060ddbcaa5b6e484f7dad9787",
+  "originalSelectionDecision": "No candidate qualified; unchanged",
+  "limitations": [
+    "Same saved answers after two identified grader compatibility corrections; not new held-out or live-model evidence.",
+    "Internal automatic grading sensitivity, not independent human evaluation or broad semantic re-adjudication.",
+    "Primary frozen scores and original adoption decision remain authoritative and unchanged.",
+    "No thresholds, questions, reference numbers, runtime behavior or model outputs changed."
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "version": "compact-completion-public-provenance-v1",
+  "sourceCommit": "6691d76ad24574343b3eec9617546e9c019b8c95",
+  "sourceHash": "de9118f9d8311ed8084ebb496f50e069a485f046aef980f4b5a540a6f6cfd1cd",
+  "runId": 41282205719,
+  "phase": "holdout",
+  "files": {
+    "summary.json": "94bf380e5facce46adb9eebcf19e746425c0fb2564e308f27aeaaa79df4eb5f5",
+    "source.json": "2e8a2fd710ff30e677512f518ef62b6c8e5790dc22e9ad84890e90810a22a86e",
+    "attempts.json": "29a8efccc9859c2d899802f99da16eec46a5736135dd6d0c13309bfffd936d85",
+    "cells.json": "280c0317166de4b01190c2b5f2734fcbe32f545b75bd31e170e6aa71c0b033c7",
+    "costs.json": "865b594db36a2683ca4422c6d2f94675b0d926c19db1942647e9a5e48ba795f1",
+    "audit.json": "88a1b9b01a738aaf54f1062a43171d56b073361ec56951792847fca947824550",
+    "closure.json": "ec7f7932bf3d9e7958ea805b514d2723df691c3cb214fc51ac09c7688a6b0543",
+    "report.md": "3ecc0ab3b1f5c7421ee0f7973cdc2620b756a5e2c434d329448043e263915279",
+    "comparison.svg": "d169b284669dfb7aca67786aead95d0e0985bab437cb2f0fed5a736e5ac5d986"
+  },
+  "encryptedArchiveSha256": "962ec9429d62f440bc541c4a00289c98325f19d1dc80463fd9e988e061025329",
+  "privateArtifactManifestSha256": "33be587df2ff1471349d00248b4493d02dde27eb43f1ff3d32bb4be8be68642f",
+  "rawProviderContentsPublished": false,
+  "exporterSha256": "0c4b7720cdc68e1957dd963fef5edcf5527369be2302f2f3bde0d0e9eaa3080d"
+}

@@ -1,0 +1,36 @@
+{
+  "version": "daybook-goal-final-costs-v1",
+  "approvedOverallCeilingUsd": "0.90",
+  "priorClosedChargesUsd": "0.2983252",
+  "compactSmoke": {
+    "knownUsd": "0.0164094",
+    "unknownReservedUsd": "0.0214339",
+    "chargedUsd": "0.0378433",
+    "providerAttempts": 5
+  },
+  "compactHoldout": {
+    "knownUsd": "0.2652893",
+    "unknownReservedUsd": "0",
+    "chargedUsd": "0.2652893",
+    "providerAttempts": 52
+  },
+  "hostedV1": {
+    "knownUsd": "0",
+    "unknownReservedUsd": "0.0775883",
+    "chargedUsd": "0.0775883",
+    "attemptedHttp": 1
+  },
+  "hostedV2": {
+    "knownUsd": "0.0129411",
+    "unknownReservedUsd": "0",
+    "chargedUsd": "0.0129411",
+    "providerAttempts": 3
+  },
+  "totalKnownEstimatesUsd": "0.3796494",
+  "totalUnknownReservationsUsd": "0.3123378",
+  "overallChargedAllowanceUsd": "0.6919872",
+  "remainingAllowanceUsd": "0.2080128",
+  "pendingRequests": 0,
+  "allCohortsClosed": true,
+  "monetaryMeaning": "Tracked standard-rate estimates plus deliberately retained unknown reservations; not invoices or a verified account balance. Earlier research/category budgets remain separate and closed."
+}

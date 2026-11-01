@@ -1,5 +1,9 @@
 # Daybook: return to the assignment
 
+**Current release — 2026-11-01:** source `6691d76ad24574343b3eec9617546e9c019b8c95` is promoted at the [protected Daybook demo](https://daybook-ledger-delta.vercel.app), with `composable` retained. The completed 16-question/48-execution comparison scored **9/16 composable, 10/16 adaptive and 5/16 complete** under the frozen checker; a separate same-answer grader sensitivity gives **11/16, 11/16 and 5/16**. Neither alternative qualified. Full CI and separate hosted response/browser checks support this release. [Release evidence](evidence/goal-completion-release.json) · [Two-page comparison](reports/chat-route-comparison-explained.pdf).
+
+Earlier source-specific implementation and verification records below are historical checkpoints. Their candidate, pending or production statements describe those checkpoints; their original scores and failures remain unchanged.
+
 ## Compound grouping — deployed and CI verified
 
 Questions can now group recorded amounts jointly by two or three ordered dimensions: account, person/business and month or quarter. Account/time views include every scoped posting account; person/business combinations fill missing periods only for tuples actually observed after the requested filters. Closing balances retain opening history. Exact arithmetic keeps each row’s account identity and period. The server caps the complete grid at 30,000 cells and 120 periods, then applies a global 50-row display limit with explicit truncation. This expands supported queries; it does not prove general question or formula intent. [Plain-language grouped-spending walkthrough](COMPOUND_GROUPING.md).
@@ -12,9 +16,9 @@ Exact-source CI passed **1,629 tests across 85 files and all 29 browser workflow
 
 The earlier `012f297` cash-movement release passed **1,530 tests across 81 files and all 28 browser workflows**. The 75 named cash-movement cases—26 compiler/output, seven chat, 30 calculator and 12 real-PostgreSQL tests—are included in that total. Provider responses in engineering tests are stubbed; actual database cases use independently specified arithmetic. Browser checks run against the CI build, not the hosted demo. No provider inference, new model-accuracy score or reopened budget was involved. Protected health, metadata and SPA GETs verify deployment, not hosted browser behavior or model understanding. No fresh full-ledger comparison was made; unchanged current books are not claimed. Earlier studies and live-model results remain bound to their original source.
 
-## Current promoted compound-grouping release — 2026-10-31
+## Previous promoted compound-grouping release — 2026-10-31
 
-Source **`93a8617932daff772c5b5d9c836be15692a64979` is promoted** at [Daybook](https://daybook-ledger-delta.vercel.app), deployment `dpl_2Rh1j9ryaPzor5vsREcDvYJHgFSQ`. [Full CI 41251437109](https://github.com/rayidali/spiich_homework/actions/runs/41251437109) passed verification, native research and Compose; live-AI was skipped. The actual stable alias and project production target match this READY/PROMOTED deployment, with all-deployment protection retained. [Release evidence](evidence/compound-grouping-release.json).
+Source **`93a8617932daff772c5b5d9c836be15692a64979` was promoted at this earlier checkpoint** at [Daybook](https://daybook-ledger-delta.vercel.app), deployment `dpl_2Rh1j9ryaPzor5vsREcDvYJHgFSQ`. [Full CI 41251437109](https://github.com/rayidali/spiich_homework/actions/runs/41251437109) passed verification, native research and Compose; live-AI was skipped. The actual stable alias and project production target then matched this READY/PROMOTED deployment, with all-deployment protection retained. [Release evidence](evidence/compound-grouping-release.json).
 
 The active `composable` chat route combines existing report tools with validated ledger queries and exact scenario arithmetic. The model chooses a structured plan; application code compiles permitted queries and calculates the answer. It cannot execute arbitrary SQL or post entries. Cash sources are server-selected, assumptions require original-user evidence, and eligible explicit all-history requests retain their full date scope. Shared PostgreSQL request admission and safe request/provider/plan diagnostics are enabled. File Search, vector retrieval, Wren and reviewer agents remain separate research paths.
 
