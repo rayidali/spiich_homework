@@ -1,0 +1,261 @@
+{
+  "schema": "daybook-private-category-relevance-audit-v1",
+  "status": "PASS",
+  "reviewedSourceCommit": "3674fb8316aa7db6b5ece4ef57c7e2dfa9a0cf6e",
+  "historicalSourceCommit": "b7bf5fe024f6fca33fa5a93ef5e6188e96455bae",
+  "frozenCategorySourceHash": "00ba8a930cba107024cffe45d626500eb2308b33945a047432984e5d85fc1ce0",
+  "auditScriptSha256": "1d6687ea39095fb483a4ebe54743169aeb120694a5f1a6b302053a881af712a9",
+  "frozenManifestSha256": "3ab08204510e2ac9af165dc9a614b97e0e9923a59d0ccc618c76eccd79173c41",
+  "preservedProvenanceSha256": "00aa2af79b8cf5a272c95ecc1720c58cf0072795d9f59756b523b087dc5a4bb5",
+  "provenanceFilesVerified": 228,
+  "boundFiles": {
+    "total": 18,
+    "unchanged": 17,
+    "changed": ["shared/schema.ts"],
+    "exactChange": "Reject year 0000; all other schema bytes unchanged.",
+    "files": [
+      {
+        "path": "server/category-selector.ts",
+        "frozenSha256": "ecc9dea62466462718e3620c778f309386873f51f1f77d2eb7f6fe2b801a19dd",
+        "currentSha256": "ecc9dea62466462718e3620c778f309386873f51f1f77d2eb7f6fe2b801a19dd",
+        "matchesReviewedCommit": true
+      },
+      {
+        "path": "server/errors.ts",
+        "frozenSha256": "375e427d238ccc61ea696517f92f922f3ff6db53d2afe1db7ba6b45fdd819d90",
+        "currentSha256": "375e427d238ccc61ea696517f92f922f3ff6db53d2afe1db7ba6b45fdd819d90",
+        "matchesReviewedCommit": true
+      },
+      {
+        "path": "shared/money.ts",
+        "frozenSha256": "cede2a7644b4bc13d9dd3ae001b5e3a0d8dfd1b8745410d2a9525b0f8f4cb43e",
+        "currentSha256": "cede2a7644b4bc13d9dd3ae001b5e3a0d8dfd1b8745410d2a9525b0f8f4cb43e",
+        "matchesReviewedCommit": true
+      },
+      {
+        "path": "shared/schema.ts",
+        "frozenSha256": "e941a773df155ab81bacb974b027cc6da7366f59cb21360ab99b91c6c13f12c2",
+        "currentSha256": "9cc1dbc9d4c09f5cf1cbe7c944837379cd5575d9829015f1fb25b96edd6a5006",
+        "matchesReviewedCommit": true
+      },
+      {
+        "path": "scripts/category-evaluation/types.ts",
+        "frozenSha256": "99485210caa69e2f3291fee8532833560ff585996b30c2dd2c4827329f7f4510",
+        "currentSha256": "99485210caa69e2f3291fee8532833560ff585996b30c2dd2c4827329f7f4510",
+        "matchesReviewedCommit": true
+      },
+      {
+        "path": "scripts/category-evaluation/fixtures.ts",
+        "frozenSha256": "a7c223a3aef568cd791357fb03859a003f9b00fbc874c51dbcf608ab42decc79",
+        "currentSha256": "a7c223a3aef568cd791357fb03859a003f9b00fbc874c51dbcf608ab42decc79",
+        "matchesReviewedCommit": true
+      },
+      {
+        "path": "scripts/category-evaluation/references.ts",
+        "frozenSha256": "613db771b9a563465b4dd15169221a7fcb1ec8c5eb644ff94a67e4cd3bc0dc10",
+        "currentSha256": "613db771b9a563465b4dd15169221a7fcb1ec8c5eb644ff94a67e4cd3bc0dc10",
+        "matchesReviewedCommit": true
+      },
+      {
+        "path": "scripts/category-evaluation/scoring.ts",
+        "frozenSha256": "c4674f0156c9d7a69fc8af9f87e0fa744b43e1c2c8f343ff37d62caf411d0466",
+        "currentSha256": "c4674f0156c9d7a69fc8af9f87e0fa744b43e1c2c8f343ff37d62caf411d0466",
+        "matchesReviewedCommit": true
+      },
+      {
+        "path": "scripts/category-evaluation/budget.ts",
+        "frozenSha256": "ebd21adf3fa9daedc62aabf46dbae574ec3f648deca9e45ffd6a2ab953aabf77",
+        "currentSha256": "ebd21adf3fa9daedc62aabf46dbae574ec3f648deca9e45ffd6a2ab953aabf77",
+        "matchesReviewedCommit": true
+      },
+      {
+        "path": "scripts/category-evaluation/transport.ts",
+        "frozenSha256": "95d177794b97875e2a5020cd123a191485f23217852f387aa7edf0c92195f26c",
+        "currentSha256": "95d177794b97875e2a5020cd123a191485f23217852f387aa7edf0c92195f26c",
+        "matchesReviewedCommit": true
+      },
+      {
+        "path": "scripts/category-evaluation/dispatch.ts",
+        "frozenSha256": "cea6999055a567360aecfbde80322dac313c57729363f852f35ea400b23b96c7",
+        "currentSha256": "cea6999055a567360aecfbde80322dac313c57729363f852f35ea400b23b96c7",
+        "matchesReviewedCommit": true
+      },
+      {
+        "path": "scripts/category-evaluation/run.ts",
+        "frozenSha256": "9282c1bd7152c8b4d7db3a9b87dadf8361d0dcc2bcdb01357172ea9109353cdf",
+        "currentSha256": "9282c1bd7152c8b4d7db3a9b87dadf8361d0dcc2bcdb01357172ea9109353cdf",
+        "matchesReviewedCommit": true
+      },
+      {
+        "path": "scripts/category-evaluation/report.ts",
+        "frozenSha256": "a55c5e8b8effdae0dabadb2e21c2e2ba3935584de08e2332ac2246e3202905ff",
+        "currentSha256": "a55c5e8b8effdae0dabadb2e21c2e2ba3935584de08e2332ac2246e3202905ff",
+        "matchesReviewedCommit": true
+      },
+      {
+        "path": "docs/CATEGORIZATION_PROTOCOL.md",
+        "frozenSha256": "bbc8df4ea58e61698b766cae01b8da960d59627369c66d7a501d8d5e31513a62",
+        "currentSha256": "bbc8df4ea58e61698b766cae01b8da960d59627369c66d7a501d8d5e31513a62",
+        "matchesReviewedCommit": true
+      },
+      {
+        "path": "docs/evidence/category-pricing-2026-10-31.json",
+        "frozenSha256": "d7c4b13117786274994d4d9a9db8f515716c1716fc0d2bbb2c90a4a7515505e4",
+        "currentSha256": "d7c4b13117786274994d4d9a9db8f515716c1716fc0d2bbb2c90a4a7515505e4",
+        "matchesReviewedCommit": true
+      },
+      {
+        "path": "package.json",
+        "frozenSha256": "d58008e69e15e3c1637adc8e382820d43ad6cff5bc7a0feb148b63673de39b4c",
+        "currentSha256": "d58008e69e15e3c1637adc8e382820d43ad6cff5bc7a0feb148b63673de39b4c",
+        "matchesReviewedCommit": true
+      },
+      {
+        "path": "package-lock.json",
+        "frozenSha256": "8aba402c2034be8e6c123751160e6c473738db36d65def80651dc1a8f0cd2ed1",
+        "currentSha256": "8aba402c2034be8e6c123751160e6c473738db36d65def80651dc1a8f0cd2ed1",
+        "matchesReviewedCommit": true
+      },
+      {
+        "path": "tsconfig.json",
+        "frozenSha256": "aaa48d5c874f76d3830605bce0832ce361f8df482c4c08cbe55e6274a685dc8b",
+        "currentSha256": "aaa48d5c874f76d3830605bce0832ce361f8df482c4c08cbe55e6274a685dc8b",
+        "matchesReviewedCommit": true
+      }
+    ]
+  },
+  "continuityFiles": [
+    {
+      "path": "server/category-selector.ts",
+      "sha256": "ecc9dea62466462718e3620c778f309386873f51f1f77d2eb7f6fe2b801a19dd",
+      "matchesHistoricalCommit": true,
+      "matchesReviewedCommit": true
+    },
+    {
+      "path": "server/category-service.ts",
+      "sha256": "f43301f5dde1c08dbb40c886b0e33f66f3edf5f21d9be9824b288bcc4e7d4173",
+      "matchesHistoricalCommit": true,
+      "matchesReviewedCommit": true
+    },
+    {
+      "path": "server/categorization-memory.ts",
+      "sha256": "62895b7136b9c6bf5aacac5318087d1d2efd92f5547aa265dfb92f3c17b8d309",
+      "matchesHistoricalCommit": true,
+      "matchesReviewedCommit": true
+    },
+    {
+      "path": "server/config.ts",
+      "sha256": "1c52455e3858004324684c326335a663fdb2f333fdb95d73d75f02e17b26ae7f",
+      "matchesHistoricalCommit": true,
+      "matchesReviewedCommit": true
+    },
+    {
+      "path": "server/ledger.ts",
+      "sha256": "08b71ca474e277eec0000b2386725eaedcc0676157c9ab36f06f15f48903a2db",
+      "matchesHistoricalCommit": true,
+      "matchesReviewedCommit": true
+    },
+    {
+      "path": "tests/category-selector.test.ts",
+      "sha256": "fc0e390618c3fdd5d0047a59bf402b60b99164656d98e778bb5357a876f26195",
+      "matchesHistoricalCommit": true,
+      "matchesReviewedCommit": true
+    },
+    {
+      "path": "tests/category-service.test.ts",
+      "sha256": "3e339c82986e4b3648b117b8a65df35a69f2e39295684cc26e159979802f5783",
+      "matchesHistoricalCommit": true,
+      "matchesReviewedCommit": true
+    },
+    {
+      "path": "tests/categorization-memory.test.ts",
+      "sha256": "61c2b44ae7dc8be66cd67bf683c8be5f0ab07919a23d4271c88ce831d58f8b31",
+      "matchesHistoricalCommit": true,
+      "matchesReviewedCommit": true
+    },
+    {
+      "path": "tests/browser/learning.spec.ts",
+      "sha256": "5af3b8585c381c018a941b916559842ac5e365577872ec5cd27430ddbc62330f",
+      "matchesHistoricalCommit": true,
+      "matchesReviewedCommit": true
+    }
+  ],
+  "snapshotVerification": {
+    "inputs": 72,
+    "slots": 216,
+    "matches": 216,
+    "mismatches": 0,
+    "bindingDigestSha256": "8891e8e91e542d9419609fd63afab649c4857a1c3b959e7a6a1af65b8b41807e"
+  },
+  "checks": [
+    {
+      "name": "frozen category source identity",
+      "passed": true
+    },
+    {
+      "name": "frozen manifest source hash recomputes",
+      "passed": true
+    },
+    {
+      "name": "provenance historical source identity",
+      "passed": true
+    },
+    {
+      "name": "expected exported evidence count",
+      "passed": true
+    },
+    {
+      "name": "all exported evidence bytes match preserved provenance",
+      "passed": true
+    },
+    {
+      "name": "all current category-bound files match exact reviewed commit",
+      "passed": true
+    },
+    {
+      "name": "17 of 18 bound files unchanged; shared schema is sole difference",
+      "passed": true
+    },
+    {
+      "name": "sole schema change is year-0000 rejection",
+      "passed": true
+    },
+    {
+      "name": "selector implementation exactly matches frozen measured bytes",
+      "passed": true
+    },
+    {
+      "name": "selector integration, memory, ledger, configuration and named tests are unchanged",
+      "passed": true
+    },
+    {
+      "name": "expected frozen plan and input counts",
+      "passed": true
+    },
+    {
+      "name": "frozen plan slots have unique identities",
+      "passed": true
+    },
+    {
+      "name": "all 72 current inputs and snapshots reproduce all 216 frozen slots",
+      "passed": true
+    }
+  ],
+  "execution": {
+    "testsRun": 0,
+    "providerCalls": 0,
+    "databaseCalls": 0,
+    "networkCalls": 0,
+    "oldResultsRegraded": false,
+    "sourceOrStudyFilesWritten": false
+  },
+  "interpretation": "The historical comparison remains relevant to the unchanged narrow category selector; this audit is code/input continuity evidence, not a new model score.",
+  "limitations": [
+    "No provider inference, accuracy measurement or new scientific adjudication was performed.",
+    "Frozen synthetic supplied-example results do not measure live database retrieval or real saved-correction improvement end to end.",
+    "The shared whole-entry provider and financial routes have changed; the narrow-selector score cannot be transferred to them.",
+    "A configured provider model identifier does not guarantee immutable provider weights.",
+    "The changed date validation is outside the measured cases; snapshot equivalence does not evaluate that new boundary.",
+    "All old cohorts remain closed; no allowance or permission for further provider calls is created."
+  ]
+}

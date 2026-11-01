@@ -1,0 +1,103 @@
+{
+  "auditScript": {
+    "path": ".tools/goal-audit/audit-source-bindings.py",
+    "sha256": "c289175f4e75ddbe95fe1d17f249e9a64d6990a3e1d8f4d0d55f25748cb3dfd1"
+  },
+  "differingFiles": ["server/financial-analysis.ts", "server/financial-calculation.ts"],
+  "files": [
+    {
+      "currentWorkspaceSha256": "381099a94ff769032bce525bf9fc54f99cc019bcdbc604620dba424c8b6b2328",
+      "matchesPreparedRelease": true,
+      "path": "server/ai-admission.ts",
+      "preparedReleaseSha256": "381099a94ff769032bce525bf9fc54f99cc019bcdbc604620dba424c8b6b2328"
+    },
+    {
+      "currentWorkspaceSha256": "8151c1b8c5ac0b525b3d4802c72e43d300a89c8130306a34747d3f48e2adea92",
+      "matchesPreparedRelease": true,
+      "path": "server/app.ts",
+      "preparedReleaseSha256": "8151c1b8c5ac0b525b3d4802c72e43d300a89c8130306a34747d3f48e2adea92"
+    },
+    {
+      "currentWorkspaceSha256": "6a620745090e7bd3ef5f99fee6f00aa946691359e0b37a6c8e785c82d4dcb7f1",
+      "matchesPreparedRelease": true,
+      "path": "server/chat-clarification.ts",
+      "preparedReleaseSha256": "6a620745090e7bd3ef5f99fee6f00aa946691359e0b37a6c8e785c82d4dcb7f1"
+    },
+    {
+      "currentWorkspaceSha256": "c0a838e3f33754e3c5425403af1479578916255c4e3c08b80b8e8779ae759dff",
+      "matchesPreparedRelease": true,
+      "path": "shared/conversation.ts",
+      "preparedReleaseSha256": "c0a838e3f33754e3c5425403af1479578916255c4e3c08b80b8e8779ae759dff"
+    },
+    {
+      "currentWorkspaceSha256": "cc1a88f50b5bea5fd121fa5e8e332f13826e48a41f9644bc5862ef395b9da303",
+      "matchesPreparedRelease": true,
+      "path": "server/expense-request-scope.ts",
+      "preparedReleaseSha256": "cc1a88f50b5bea5fd121fa5e8e332f13826e48a41f9644bc5862ef395b9da303"
+    },
+    {
+      "currentWorkspaceSha256": "028ad5b4ea06b7f5d90c55e327eb05649b3938df6fd97249f1a1ff9fb9ecb7fd",
+      "matchesPreparedRelease": true,
+      "path": "server/date-scope.ts",
+      "preparedReleaseSha256": "028ad5b4ea06b7f5d90c55e327eb05649b3938df6fd97249f1a1ff9fb9ecb7fd"
+    },
+    {
+      "currentWorkspaceSha256": "0827bd16f3ca01a39c756d0faa20a57fd80facde45133281f94d2d4991786de3",
+      "matchesPreparedRelease": false,
+      "path": "server/financial-analysis.ts",
+      "preparedReleaseSha256": "c02e57c6d6449c9da827bd535e2813093f33b6aa222aa107ab4a51a7c6eb5c77"
+    },
+    {
+      "currentWorkspaceSha256": "c062f0271066ccd94115c3ca75e7cf39af634119a42f62c9d38c46c6c90fabb8",
+      "matchesPreparedRelease": false,
+      "path": "server/financial-calculation.ts",
+      "preparedReleaseSha256": "22b1f29eccbdf90b287c9faf7c7a0a4e37d72ac3b5d2d80530084464d81e9425"
+    }
+  ],
+  "latestCiReceipt": {
+    "hostedAcceptancePerformed": false,
+    "newProviderCalls": 0,
+    "path": "docs/evidence/completeness-evaluation-final-ci.json",
+    "productionChanged": false,
+    "runId": 41267374750,
+    "sha256": "501eeaa669ceadb831a26d6654fc1cc9de33b3b828ae25f8bb51cf8f5f7550de",
+    "sourceCommit": "57361261dbe91175278ed5862c98e1581971902b",
+    "status": "COMPLETE_SUCCESS",
+    "url": "https://github.com/rayidali/spiich_homework/actions/runs/41267374750"
+  },
+  "limitations": [
+    "Byte equality is checked against saved prepared-release hashes, not a remote deployment download.",
+    "The saved release status is point-in-time evidence; this audit makes no live hosting request.",
+    "Only the named files are compared; this is not a complete current runtime or archive manifest audit.",
+    "Current query/calculator files differ, so current candidate behavior must not all be attributed to deployed composable.",
+    "CI receipt hashing preserves exact saved evidence; it is not a new CI run or live-model measurement.",
+    "No held-out question text was accessed by this script."
+  ],
+  "matchedFiles": [
+    "server/ai-admission.ts",
+    "server/app.ts",
+    "server/chat-clarification.ts",
+    "shared/conversation.ts",
+    "server/expense-request-scope.ts",
+    "server/date-scope.ts"
+  ],
+  "operations": {
+    "applicationCodeExecuted": false,
+    "databaseCalls": 0,
+    "networkCalls": 0,
+    "providerCalls": 0,
+    "testsRun": false,
+    "writes": [".tools/goal-audit/source-bindings.json"]
+  },
+  "releaseReceipt": {
+    "deploymentId": "dpl_2Rh1j9ryaPzor5vsREcDvYJHgFSQ",
+    "path": "docs/evidence/compound-grouping-release.json",
+    "route": "composable",
+    "savedCiRun": 41251437109,
+    "savedStatus": "PROMOTED_WITH_CI_AND_READ_ONLY_HTTP_CHECKS",
+    "sha256": "0213ffcab447834be272dd53c8de80f16eba79e9765c4d159af3baca3b0da0f9",
+    "sourceCommit": "93a8617932daff772c5b5d9c836be15692a64979"
+  },
+  "status": "SELECTED_SOURCE_RELATIONSHIPS_CONFIRMED",
+  "version": "daybook-goal-audit-source-bindings-v1"
+}
