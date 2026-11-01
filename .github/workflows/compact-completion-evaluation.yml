@@ -1,0 +1,123 @@
+name: Compact completion smoke and held-out comparison
+run-name: compact-completion-evaluation/${{ inputs.cohort }}/${{ inputs.phase }}
+on:
+  workflow_dispatch:
+    inputs:
+      cohort:
+        description: Frozen cohort; each phase may be dispatched once
+        type: string
+        required: true
+      phase:
+        type: choice
+        options: [development, holdout]
+        required: true
+      source_commit:
+        description: Exact reviewed Git commit
+        type: string
+        required: true
+      source_hash:
+        description: Exact runtime, evaluator, protocol and fixture fingerprint
+        type: string
+        required: true
+      approval_sha256:
+        description: Digest of the separately approved private permit
+        type: string
+        required: true
+      development_run:
+        description: Holdout requires the complete three-case smoke at the same source
+        type: string
+        default: ''
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: compact-completion-evaluation-${{ inputs.cohort }}
+  cancel-in-progress: false
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_USER: spiich
+          POSTGRES_PASSWORD: spiich
+          POSTGRES_DB: daybook_completeness_eval_compact_v1
+        ports: [5432:5432]
+        options: >-
+          --health-cmd "pg_isready -U spiich -d daybook_completeness_eval_compact_v1"
+          --health-interval 3s --health-timeout 3s --health-retries 20
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgres://spiich_app:spiich_app_local@127.0.0.1:5432/daybook_completeness_eval_compact_v1
+      MIGRATION_DATABASE_URL: postgres://spiich:spiich@127.0.0.1:5432/daybook_completeness_eval_compact_v1
+      AI_PROVIDER: gemini
+      AI_MODEL: gemini-3.5-flash-lite
+      GEMINI_API_KEY: ''
+      OPENAI_API_KEY: ''
+      TYPESAFE_API_KEY: ''
+      COMPACT_COHORT: ${{ inputs.cohort }}
+      COMPACT_PHASE: ${{ inputs.phase }}
+      COMPACT_SOURCE_COMMIT: ${{ inputs.source_commit }}
+      COMPACT_SOURCE_HASH: ${{ inputs.source_hash }}
+      COMPACT_APPROVAL_SHA256: ${{ inputs.approval_sha256 }}
+      COMPACT_DEVELOPMENT_RUN: ${{ inputs.development_run }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Check artifact key and authenticated encryption before any provider access
+        env:
+          COMPACT_ARTIFACT_KEY: ${{ secrets.COMPACT_COMPLETION_ARTIFACT_KEY }}
+          COMPACT_PRIVATE_APPROVAL: ${{ secrets.COMPACT_COMPLETION_APPROVAL }}
+        run: node --import tsx scripts/compact-completion-evaluation.ts preflight
+      - name: Download this cohort's immutable development artifact
+        if: inputs.phase == 'holdout'
+        uses: actions/download-artifact@v4
+        with:
+          name: compact-completion-evaluation-development-${{ inputs.development_run }}
+          run-id: ${{ inputs.development_run }}
+          github-token: ${{ github.token }}
+          path: .tools/compact-completion-encrypted-predecessor/
+      - name: Decrypt authenticated development predecessor
+        if: inputs.phase == 'holdout'
+        env:
+          COMPACT_ARTIFACT_KEY: ${{ secrets.COMPACT_COMPLETION_ARTIFACT_KEY }}
+          COMPACT_PRIVATE_APPROVAL: ${{ secrets.COMPACT_COMPLETION_APPROVAL }}
+        run: node --import tsx scripts/compact-completion-evaluation.ts decrypt
+      - name: Verify source, private approval and unused phase without provider credentials
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COMPACT_PRIVATE_APPROVAL: ${{ secrets.COMPACT_COMPLETION_APPROVAL }}
+        run: node --import tsx scripts/compact-completion-evaluation.ts authorize
+      - run: npm run format:check
+      - run: npm run typecheck
+      - run: npm run db:migrate
+      - name: Verify independent oracle, evaluator and isolated PostgreSQL fixture
+        env:
+          COMPLETENESS_EVALUATION_DB_TEST: '1'
+        run: npx vitest run tests/completeness-evaluation tests/compact-completion-evaluation.test.ts tests/completion-wire.test.ts tests/completion-repair-evaluation/transport.test.ts tests/completion-repair-evaluation/encrypted-artifact.test.ts
+      - name: Run real financialChat within the separately approved phase allowance
+        env:
+          GEMINI_API_KEY: ${{ secrets.COMPACT_COMPLETION_GEMINI_KEY }}
+          COMPACT_PRIVATE_APPROVAL: ${{ secrets.COMPACT_COMPLETION_APPROVAL }}
+        run: node --import tsx scripts/compact-completion-evaluation.ts run
+      - name: Encrypt raw failures, outcomes and cost reservations
+        if: always()
+        env:
+          COMPACT_ARTIFACT_KEY: ${{ secrets.COMPACT_COMPLETION_ARTIFACT_KEY }}
+          COMPACT_PRIVATE_APPROVAL: ${{ secrets.COMPACT_COMPLETION_APPROVAL }}
+        run: node --import tsx scripts/compact-completion-evaluation.ts encrypt
+      - name: Retain only ciphertext and safe archive metadata
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: compact-completion-evaluation-${{ inputs.phase }}-${{ github.run_id }}
+          path: .tools/compact-completion-encrypted/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 90

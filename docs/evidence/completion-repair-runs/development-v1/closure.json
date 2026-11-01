@@ -1,0 +1,31 @@
+{
+  "version": "completion-repair-development-closure-v1",
+  "cohort": "completion-repair-20261101-v1",
+  "status": "PERMANENTLY_CLOSED_INCOMPLETE",
+  "runId": 41280216704,
+  "sourceCommit": "1e6adba78016bee484b0a41a08e4445b9c310170",
+  "chargedUsd": "0.126546",
+  "overallChargedUsd": "0.2983252",
+  "unknownReservationsRetainedUsd": "0.0718688",
+  "holdoutDispatched": false,
+  "developmentPredecessorValidation": "COMPLETENESS_DEVELOPMENT_NOT_COMPLETE",
+  "secretRemoval": {
+    "removedAt": "2026-11-01T06:24:52.441490+00:00",
+    "names": ["COMPLETION_REPAIR_APPROVAL", "COMPLETION_REPAIR_GEMINI_KEY", "COMPLETION_REPAIR_ARTIFACT_KEY"],
+    "httpStatuses": [204, 204, 204],
+    "localKeysPreserved": true,
+    "holdoutDispatched": false
+  },
+  "encryptedArtifact": {
+    "id": 13072762704,
+    "name": "completion-repair-evaluation-development-41280216704",
+    "size_in_bytes": 621136,
+    "digest": "sha256:b08e2c5daf74c1bd20b1963ba1607a64a449d9d8f301259b817ecbd6e2997b75"
+  },
+  "localArchiveDigestVerified": true,
+  "authenticatedSourceRunPhaseVerified": true,
+  "rawFilesRetainedPrivately": true,
+  "uploadedRawPlaintext": false,
+  "productionChanged": false,
+  "broaderGoalComplete": false
+}

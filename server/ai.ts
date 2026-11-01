@@ -21,6 +21,7 @@ import {
 } from './reports';
 import { diagnostic, safeSchemaIssues } from './diagnostics';
 import { schemaRepairHints } from './schema-repair-hints';
+import { completionWireTools, decodeCompletionWireCall } from './completion-wire';
 import {
   financialAnalysisChart,
   financialAnalysisSchema,
@@ -685,15 +686,19 @@ async function validatedFinancialPlan(
       }
       attempts.push(selected.ai);
       try {
-        const args = await duringStage('model_schema', () =>
-          parseArgs(selected.call.name, selected.call.args),
-        );
+        const call = await duringStage('model_schema', () => {
+          const canonical =
+            selected.ai.provider === 'gemini'
+              ? decodeCompletionWireCall(tools, selected.call)
+              : selected.call;
+          return { name: canonical.name, args: parseArgs(canonical.name, canonical.args) };
+        });
         if (index) repairStatus = 'succeeded';
         session.repairStatus = repairStatus;
         const ai = planningMetadata(attempts, start, repairStatus);
         diagnostic('ai_financial_plan', {
           operation: 'financial_tool',
-          tool: selected.call.name,
+          tool: call.name,
           provider: ai.provider,
           model: ai.model,
           attempts: ai.attempts,
@@ -702,7 +707,7 @@ async function validatedFinancialPlan(
           unreportedAttempts: ai.unreportedAttempts,
           repairStatus,
         });
-        return { call: { name: selected.call.name, args }, ai };
+        return { call, ai };
       } catch (error) {
         if (!(error instanceof z.ZodError)) throw error;
         const issues = safeSchemaIssues(error.issues);
@@ -727,7 +732,11 @@ async function validatedFinancialPlan(
             type: 'untrusted_schema_repair_data',
             invalidCandidate: selected.call,
             issues,
-            hints: schemaRepairHints(tools, selected.call.name, selected.call.args),
+            hints: schemaRepairHints(
+              selected.ai.provider === 'gemini' ? completionWireTools(tools) : tools,
+              selected.call.name,
+              selected.call.args,
+            ),
           });
           if (Buffer.byteLength(feedback, 'utf8') > 16000) {
             feedback = undefined;

@@ -1,0 +1,112 @@
+{
+  "schema": "completion-repair-normal-ci-v1",
+  "runId": 41280198601,
+  "sourceCommit": "1e6adba78016bee484b0a41a08e4445b9c310170",
+  "status": "completed",
+  "conclusion": "success",
+  "attempt": 1,
+  "jobs": [
+    {
+      "id": 124770392994,
+      "name": "research-native",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 124770393089,
+      "name": "verify",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 124770909637,
+      "name": "compose",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 124771716524,
+      "name": "live-ai",
+      "status": "completed",
+      "conclusion": "skipped"
+    }
+  ],
+  "verification": {
+    "verify": {
+      "suites": [
+        {
+          "passed": 2504,
+          "skipped": 8,
+          "filesPassed": 125,
+          "filesSkipped": 2
+        },
+        {
+          "passed": 4,
+          "skipped": 0,
+          "filesPassed": 1,
+          "filesSkipped": 0
+        }
+      ],
+      "browser": {
+        "passed": 32,
+        "durationSeconds": 37.6
+      },
+      "capturedReplay": {
+        "passed": 1,
+        "durationMs": 145.0
+      }
+    },
+    "compose": {
+      "suites": [
+        {
+          "passed": 2503,
+          "skipped": 9,
+          "filesPassed": 124,
+          "filesSkipped": 3
+        }
+      ],
+      "capturedReplay": {
+        "passed": 1,
+        "durationMs": 232.0
+      }
+    },
+    "research-native": {
+      "suites": [
+        {
+          "passed": 30,
+          "skipped": 0,
+          "filesPassed": 3,
+          "filesSkipped": 0
+        }
+      ],
+      "pythonWren": {
+        "passed": 35,
+        "durationSeconds": 0.631
+      }
+    }
+  },
+  "countsOverlap": true,
+  "providerCallsInCi": 0,
+  "productionChanged": false,
+  "inputHashes": {
+    "run.json": "4a5927b94ae9b6333e1494e0c3f80bf80c659d10d6606d2e8473bd36738f5a0c",
+    "jobs.json": "356a29697404d0301abb96ad74d6369182b7c22698f48d56e1aacbc393ddf4a4",
+    "verify.log": "cbcabf6e0b63857fdc59592769833048cd440f3a58316cd2038533fbd061c535",
+    "compose.log": "60c6934a23f08f13b7d8811560319afccc752089d272f4df9b4569df4e8a2198",
+    "research-native.log": "7d98a01587c147e318d710936a453ed238137e79b843de7fd0661f9f0e6450a7"
+  },
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41280198601",
+  "sourceBinding": {
+    "evaluationSourceFiles": 95,
+    "evaluationSourceHash": "f730b430f4e5c5ba6a18a84a208f72b80ace116e79f377ac17edfbe24acb0dc5",
+    "filesVerifiedAgainstExactGitCommit": true
+  },
+  "limitations": [
+    "Normal, Compose, native TypeScript and named suite totals overlap and must not be added.",
+    "Four actual PostgreSQL fixture cases run separately; their normal/Compose skips remain recorded.",
+    "The captured provider response is replayed against actual PostgreSQL with one scripted HTTP response; no new inference occurs in CI.",
+    "Browser workflows exercise the CI build with scripted provider responses, not the hosted application or physical devices.",
+    "Engineering checks do not turn the separately failed paid development into a successful comparison.",
+    "Production and every closed provider cohort remain unchanged."
+  ]
+}

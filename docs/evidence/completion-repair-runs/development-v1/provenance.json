@@ -1,0 +1,33 @@
+{
+  "version": "completion-repair-development-public-provenance-v1",
+  "sourceCommit": "1e6adba78016bee484b0a41a08e4445b9c310170",
+  "developmentRunId": 41280216704,
+  "normalCiRunId": 41280198601,
+  "exporterSha256": "e52b42ccb903535b6d6b94d9a567bf0141ae5cf606fac7fea3f6a46e14a2baf4",
+  "publicFileHashes": {
+    "closure.json": "eddaa1cf78ac2ae2456790affab91df877f5ed69340a1948f8840540c8d78566",
+    "costs.json": "cb7ce348ce8f3c69c7790d916151d8bdbad7a7e9e2cb012e53e4b106296768fb",
+    "failure-metadata.json": "d246af60149a541317e8b0e0be7e2d13a2dd39e9e2c2f2408d804ec1194c0bbd",
+    "integrity-audit.json": "62979125b2543eb7c5f5c8e96a3db8a4853d25f125c32f76082914b4fd0f4d35",
+    "report.md": "52f3a2280f5a067cbe08d055bcafad31b7adaaff1a74256fefc8af461e6f1abc",
+    "summary.json": "097853533fd8b27909570638c034397c49342b9cfe7a0845d05ec90a2f5558a3"
+  },
+  "normalCiReceiptSha256": "2fa5994f7b69e70abfe396138ef200294918e273b1bcd6f705dc4b0f3e0185d7",
+  "privateInputHashes": {
+    "audit.json": "62979125b2543eb7c5f5c8e96a3db8a4853d25f125c32f76082914b4fd0f4d35",
+    "strict-failure-metadata.json": "084376bf74ae48e65db8031b87c32b1fd572632e13b2bfbb8f7b3bcfadfc22a0",
+    "secret-removal.json": "c08ddd4c30bae69764d80e34e1c929fdd7984196316d20c1623ba901dae0a9fa",
+    "run.json": "4dfc19f42af2657f89e1e7060944dc1068b27bbf630f6c380b9a4b3e318a58c6",
+    "jobs.json": "5c259fea5573e87e07a30f031069029d7b1ac45833023ad14f311d19467b0d30",
+    "artifacts.json": "5434a1404d5d26079a7dfde53911d3452f8e1ea252b3f4b12c2ebcd5ddd1311a",
+    "artifact.zip": "b08e2c5daf74c1bd20b1963ba1607a64a449d9d8f301259b817ecbd6e2997b75",
+    "artifact.json": "6f3ee4d892577e98d8a72ee84ce9ffa92b43b84b7fa70848d3965af18258975b",
+    "receipt.json": "867eacf0ff36a05128f7aecf9116e03e4bcac54d5ecd2354fa78a230a324dfd2"
+  },
+  "rawProviderPayloadsPublished": false,
+  "privateApprovalPublished": false,
+  "apiKeysPublished": false,
+  "heldOutQuestionsPublishedInThisExport": false,
+  "accountingIncludesUnknownReservations": true,
+  "separateFullCiDoesNotRegradePaidFailure": true
+}

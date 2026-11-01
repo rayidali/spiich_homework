@@ -1,0 +1,186 @@
+{
+  "version": "completion-repair-development-costs-v1",
+  "attempts": [
+    {
+      "id": "0001",
+      "trial": "composable/D01",
+      "state": "known",
+      "httpStatus": 200,
+      "failure": null,
+      "reservedUsd": "0.0210799",
+      "costUsd": "0.0036658",
+      "requestSha256": "a1f81e0771680721b7b44b50eb51072de4d924c1165a8127d5048ed8f117a2c9",
+      "responseSha256": "523c14e5cfba8e60bf9246d47251f3a68cce5431b9c69970560d31891cb2ed41",
+      "finishReasons": ["STOP"],
+      "usage": {
+        "inputTokens": 8836,
+        "outputTokens": 158,
+        "thinkingTokens": 248,
+        "totalTokens": 9242
+      }
+    },
+    {
+      "id": "0002",
+      "trial": "adaptive/D01",
+      "state": "known",
+      "httpStatus": 200,
+      "failure": null,
+      "reservedUsd": "0.0250009",
+      "costUsd": "0.0050346",
+      "requestSha256": "7cdf2ffebb4f0c78cafddb5c2b5f3e00fffe8c55328cc06bc8648491f6540dcf",
+      "responseSha256": "9530f92c55006dba0997612c0f35c2542fa08c83277e015629d7442d197937a9",
+      "finishReasons": ["STOP"],
+      "usage": {
+        "inputTokens": 11982,
+        "outputTokens": 148,
+        "thinkingTokens": 428,
+        "totalTokens": 12558
+      }
+    },
+    {
+      "id": "0003",
+      "trial": "complete/D01",
+      "state": "known",
+      "httpStatus": 200,
+      "failure": null,
+      "reservedUsd": "0.0355885",
+      "costUsd": "0.0112717",
+      "requestSha256": "cb946003ab5e2bca906367bdf877c523a8dc3d072ca3590c03eba83cbb457fea",
+      "responseSha256": "17daba98cc0fa500dca879ba9295f9cb99c05fd01e7dda92371a30a0707a42eb",
+      "finishReasons": ["STOP"],
+      "usage": {
+        "inputTokens": 26389,
+        "outputTokens": 371,
+        "thinkingTokens": 971,
+        "totalTokens": 27731
+      }
+    },
+    {
+      "id": "0004",
+      "trial": "complete/D01",
+      "state": "unknown",
+      "httpStatus": 200,
+      "failure": null,
+      "reservedUsd": "0.0362959",
+      "costUsd": null,
+      "requestSha256": "50de4a12f1d055ad59bd4dd63d47d8336fd91f48e6979a8c34c88b5ea7f71509",
+      "responseSha256": "869896a5ef9c1e7f56aa1df3f0b2a69f8ea32ac6d7e31c6dbfee985cfc62de5f",
+      "finishReasons": ["MALFORMED_FUNCTION_CALL"],
+      "usage": null
+    },
+    {
+      "id": "0005",
+      "trial": "adaptive/D02",
+      "state": "known",
+      "httpStatus": 200,
+      "failure": null,
+      "reservedUsd": "0.0249676",
+      "costUsd": "0.0050332",
+      "requestSha256": "18972df00f98686a667cf7ff5488990d1f7319c12add1744d006010be4bb1ea5",
+      "responseSha256": "dcf3509f906b30beb41d04c6f8e9e0e0f4dfed8c917a96179d3b6d4158701b2f",
+      "finishReasons": ["STOP"],
+      "usage": {
+        "inputTokens": 11969,
+        "outputTokens": 157,
+        "thinkingTokens": 420,
+        "totalTokens": 12546
+      }
+    },
+    {
+      "id": "0006",
+      "trial": "adaptive/D02",
+      "state": "known",
+      "httpStatus": 200,
+      "failure": null,
+      "reservedUsd": "0.0212647",
+      "costUsd": "0.0030028",
+      "requestSha256": "9aa9350a176d61b870925b1afbf81747a8a9e80e015aa074c0160689de8c845a",
+      "responseSha256": "d315d97efa36cc4aee06dd6ed7100cd70b033f594e0da995718685b8c542d7ae",
+      "finishReasons": ["STOP"],
+      "usage": {
+        "inputTokens": 8351,
+        "outputTokens": 199,
+        "thinkingTokens": 0,
+        "totalTokens": 8550
+      }
+    },
+    {
+      "id": "0007",
+      "trial": "complete/D02",
+      "state": "known",
+      "httpStatus": 200,
+      "failure": null,
+      "reservedUsd": "0.0355552",
+      "costUsd": "0.0140328",
+      "requestSha256": "db030a6ba3160b474276f1d6ea5966b9b9e77c40f7a0a99b7cf595cdd756cd7a",
+      "responseSha256": "1cab71bfb3867305bcd773c2572ea0501ac8e8830351a44314502b1ed26f228a",
+      "finishReasons": ["STOP"],
+      "usage": {
+        "inputTokens": 26376,
+        "outputTokens": 962,
+        "thinkingTokens": 1486,
+        "totalTokens": 28824
+      }
+    },
+    {
+      "id": "0008",
+      "trial": "complete/D02",
+      "state": "known",
+      "httpStatus": 200,
+      "failure": null,
+      "reservedUsd": "0.0369502",
+      "costUsd": "0.0091769",
+      "requestSha256": "96db2fd007d65034f1ecfb0f416b3bcc866b181bcde553fdbb5815f748ee922c",
+      "responseSha256": "ce02b1b5598610d380e654962aa8e47e77ff55ea38e7980d613c43d3eae98190",
+      "finishReasons": ["STOP"],
+      "usage": {
+        "inputTokens": 27398,
+        "outputTokens": 383,
+        "thinkingTokens": 0,
+        "totalTokens": 27781
+      }
+    },
+    {
+      "id": "0009",
+      "trial": "composable/D02",
+      "state": "known",
+      "httpStatus": 200,
+      "failure": null,
+      "reservedUsd": "0.0210466",
+      "costUsd": "0.0034594",
+      "requestSha256": "806fc0f2d3211a9cdd81b1d67247b5dd3e4ce5b4c83b511d87e85c7c543af698",
+      "responseSha256": "5e04653d94939f9f5033870abb37c580a47a485d425e1f88b8cd3ed681425e1b",
+      "finishReasons": ["STOP"],
+      "usage": {
+        "inputTokens": 8823,
+        "outputTokens": 148,
+        "thinkingTokens": 177,
+        "totalTokens": 9148
+      }
+    },
+    {
+      "id": "0010",
+      "trial": "complete/D03",
+      "state": "unknown",
+      "httpStatus": 200,
+      "failure": null,
+      "reservedUsd": "0.0355729",
+      "costUsd": null,
+      "requestSha256": "c5f74ec608e53a9eec0ed3aee7420543dc7679a6fd891e5b633e8d938d01137f",
+      "responseSha256": "20d1b518ad0bb4c61aa3021837b167f4d3fef8679828d49dae1277737102233d",
+      "finishReasons": ["MALFORMED_FUNCTION_CALL"],
+      "usage": null
+    }
+  ],
+  "knownUsd": "0.0546772",
+  "unknownReservedUsd": "0.0718688",
+  "chargedUsd": "0.126546",
+  "developmentCeilingUsd": "0.14",
+  "priorClosedChargesUsd": "0.1717792",
+  "overallChargedUsd": "0.2983252",
+  "approvedOverallCeilingUsd": "0.90",
+  "remainingOverallAllowanceUsd": "0.6016748",
+  "unknownReservationsReleased": false,
+  "closedPhaseAllowanceTransferred": false,
+  "estimatesAndReservationsNotInvoices": true
+}

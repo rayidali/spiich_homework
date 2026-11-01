@@ -206,6 +206,14 @@ const initial = (requested = contract(), queries = [january(), february()], repo
 const show = (outputBindings = bindings()) => response('show_inspected_results', { outputBindings });
 const direct = (requested = contract(false), queries = [january(), february()]) =>
   response('financial_analysis', { queries, answerContract: requested, outputBindings: bindings() });
+const compactArgs = () => ({
+  mode: 'analysis',
+  queries: [january(), february()],
+  assumptions: [],
+  calculations: [],
+  outputs: contract().outputs,
+  bindings: bindings(),
+});
 const ask = () =>
   response('request_details', {
     reason: 'off_topic',
@@ -329,12 +337,46 @@ describe('Completion-required chat with real execution boundaries and scripted H
     const names = bodies()[0].tools.flatMap((x: { functionDeclarations: { name: string }[] }) =>
       x.functionDeclarations.map((t) => t.name),
     );
-    expect(names.sort()).toEqual([
-      'financial_analysis',
-      'financial_scenario',
-      'inspect_financial_data',
-      'request_details',
-    ]);
+    expect(names.sort()).toEqual(['plan_complete_answer', 'request_details']);
+  });
+  it('maps compact syntax before the unchanged declared arithmetic and source checks', async () => {
+    fetchMock.mockResolvedValueOnce(response('plan_complete_answer', compactArgs()));
+    const value = await invoke();
+    expect(completion(value)).toMatchObject({ status: 'fulfilled', userIntentVerified: false });
+    expect(value).toMatchObject({ generatedCalculations: [{ outputId: 'delta' }] });
+    expect(db.analysis).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(JSON.stringify(value.evidence)).toContain('-$150.00 USD');
+  });
+  it('retains the existing single schema repair and reads no amounts for an invalid compact envelope', async () => {
+    const malformed = { ...compactArgs(), type: 'OBJECT' };
+    fetchMock
+      .mockResolvedValueOnce(response('plan_complete_answer', malformed))
+      .mockImplementationOnce(async () => {
+        expect(db.analysis).not.toHaveBeenCalled();
+        return response('plan_complete_answer', compactArgs());
+      });
+    const value = await invoke();
+    expect(completion(value)?.status).toBe('fulfilled');
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(db.analysis).toHaveBeenCalledTimes(1);
+    expect(bodies()[1].contents.at(-1).parts[0].text).toContain('untrusted_schema_repair_data');
+  });
+  it('never strips repeated compact annotations to obtain a financial read', async () => {
+    fetchMock.mockImplementation(async () =>
+      response('plan_complete_answer', { ...compactArgs(), type: 'OBJECT' }),
+    );
+    await expect(invoke()).rejects.toMatchObject({ code: 'AI_INVALID_RESPONSE' });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(db.analysis).not.toHaveBeenCalled();
+  });
+  it('rejects a structurally valid compact declaration with a false original-user anchor before reading amounts', async () => {
+    const args = compactArgs();
+    args.outputs[0].sourceQuotes[0].messageIndex = 1;
+    fetchMock.mockResolvedValueOnce(response('plan_complete_answer', args));
+    await expect(invoke()).rejects.toThrow();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(db.analysis).not.toHaveBeenCalled();
   });
   it('withholds query results when the executor omits its snapshot chart callback', async () => {
     fetchMock.mockResolvedValueOnce(direct());
@@ -443,7 +485,7 @@ describe('Completion-required chat with real execution boundaries and scripted H
       ) => {
         expect(fetchMock).toHaveBeenCalledTimes(1);
         expect(bodies()[0].tools[0].functionDeclarations[0].parametersJsonSchema.required).toContain(
-          'answerContract',
+          'outputs',
         );
         return result(input.queries, options);
       },

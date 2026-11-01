@@ -1,0 +1,159 @@
+{
+  "version": "completion-repair-development-public-summary-v1",
+  "cohort": "completion-repair-20261101-v1",
+  "runId": 41280216704,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41280216704",
+  "sourceCommit": "1e6adba78016bee484b0a41a08e4445b9c310170",
+  "sourceHash": "f730b430f4e5c5ba6a18a84a208f72b80ace116e79f377ac17edfbe24acb0dc5",
+  "sourceFiles": 95,
+  "status": "CLOSED_INCOMPLETE",
+  "complete": false,
+  "failure": "COMPLETENESS_TRANSPORT_HALTED",
+  "haltReason": "BUDGET_EXHAUSTED",
+  "plannedExecutions": 12,
+  "recordedExecutions": 8,
+  "executionsWithProviderAttempts": 7,
+  "missingExecutions": 4,
+  "providerAttempts": 10,
+  "holdoutExecutions": 0,
+  "heldoutAccuracyMeasured": false,
+  "routes": [
+    {
+      "route": "composable",
+      "passed": 1,
+      "observed": 3,
+      "planned": 4
+    },
+    {
+      "route": "adaptive",
+      "passed": 1,
+      "observed": 2,
+      "planned": 4
+    },
+    {
+      "route": "complete",
+      "passed": 0,
+      "observed": 3,
+      "planned": 4
+    }
+  ],
+  "cells": [
+    {
+      "caseId": "D01",
+      "route": "composable",
+      "passed": true,
+      "classification": "structured-correct",
+      "focusCorrect": true,
+      "errorCode": null,
+      "attempts": 1,
+      "knownUsd": "0.0036658",
+      "unknownReservedUsd": "0",
+      "wrongFinancialClaims": 0,
+      "hardBoundaryViolations": 0
+    },
+    {
+      "caseId": "D01",
+      "route": "adaptive",
+      "passed": true,
+      "classification": "structured-correct",
+      "focusCorrect": true,
+      "errorCode": null,
+      "attempts": 1,
+      "knownUsd": "0.0050346",
+      "unknownReservedUsd": "0",
+      "wrongFinancialClaims": 0,
+      "hardBoundaryViolations": 0
+    },
+    {
+      "caseId": "D01",
+      "route": "complete",
+      "passed": false,
+      "classification": "execution-error",
+      "focusCorrect": false,
+      "errorCode": "AI_INVALID_RESPONSE",
+      "attempts": 2,
+      "knownUsd": "0.0112717",
+      "unknownReservedUsd": "0.0362959",
+      "wrongFinancialClaims": 0,
+      "hardBoundaryViolations": 0
+    },
+    {
+      "caseId": "D02",
+      "route": "adaptive",
+      "passed": false,
+      "classification": "safe-no-answer",
+      "focusCorrect": false,
+      "errorCode": null,
+      "attempts": 2,
+      "knownUsd": "0.008036",
+      "unknownReservedUsd": "0",
+      "wrongFinancialClaims": 0,
+      "hardBoundaryViolations": 0
+    },
+    {
+      "caseId": "D02",
+      "route": "complete",
+      "passed": false,
+      "classification": "execution-error",
+      "focusCorrect": false,
+      "errorCode": "AI_INVALID_RESPONSE",
+      "attempts": 2,
+      "knownUsd": "0.0232097",
+      "unknownReservedUsd": "0",
+      "wrongFinancialClaims": 0,
+      "hardBoundaryViolations": 0
+    },
+    {
+      "caseId": "D02",
+      "route": "composable",
+      "passed": false,
+      "classification": "partial-answer",
+      "focusCorrect": true,
+      "errorCode": null,
+      "attempts": 1,
+      "knownUsd": "0.0034594",
+      "unknownReservedUsd": "0",
+      "wrongFinancialClaims": 0,
+      "hardBoundaryViolations": 0
+    },
+    {
+      "caseId": "D03",
+      "route": "complete",
+      "passed": false,
+      "classification": "execution-error",
+      "focusCorrect": false,
+      "errorCode": "AI_INVALID_RESPONSE",
+      "attempts": 1,
+      "knownUsd": "0",
+      "unknownReservedUsd": "0.0355729",
+      "wrongFinancialClaims": 0,
+      "hardBoundaryViolations": 0
+    },
+    {
+      "caseId": "D03",
+      "route": "composable",
+      "passed": false,
+      "classification": "execution-error",
+      "focusCorrect": false,
+      "errorCode": "AI_INVALID_RESPONSE",
+      "attempts": 0,
+      "knownUsd": "0",
+      "unknownReservedUsd": "0",
+      "wrongFinancialClaims": 0,
+      "hardBoundaryViolations": 0
+    }
+  ],
+  "booksUnchanged": true,
+  "productionChanged": false,
+  "preflight": {
+    "passedTests": 298,
+    "passedFiles": 15,
+    "actualPostgresFixtureCasesIncluded": 4,
+    "countsOverlapNormalCi": true
+  },
+  "limitations": [
+    "Incomplete development, not a comparative accuracy result.",
+    "Unknown reservations remain fully charged; missing output usage is not inferred as zero.",
+    "No old cohort is reopened and incomplete development cannot authorize holdout."
+  ]
+}

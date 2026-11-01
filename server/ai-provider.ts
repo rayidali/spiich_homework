@@ -7,6 +7,7 @@ import { diagnostic } from './diagnostics';
 import { readBoundedProviderJson } from './ai-response';
 import { geminiProviderSchema, geminiFunctionCallingConfig } from './provider-schema';
 import { readProviderErrorDiagnostics, type ProviderErrorDiagnostics } from './provider-diagnostics';
+import { completionWireTools } from './completion-wire';
 
 export type ModelMessages = { role: 'user' | 'assistant'; content: string }[];
 export type FinancialTool = {
@@ -381,6 +382,7 @@ function geminiProposalSchema(schema: z.ZodType) {
   return geminiProviderSchema(z.toJSONSchema(schema));
 }
 function geminiFinancialExtra(tools: FinancialTool[]) {
+  tools = completionWireTools(tools);
   return {
     tools: [
       {
@@ -443,7 +445,7 @@ export function parseGeminiFinancialResponse(tools: FinancialTool[], raw: unknow
     .map((part) => part.functionCall!);
   if (calls.length !== 1) throw invalid();
   const call = { name: calls[0].name, args: calls[0].args };
-  if (!tools.some((tool) => tool.name === call.name))
+  if (![...tools, ...completionWireTools(tools)].some((tool) => tool.name === call.name))
     throw new AppError(422, 'UNSUPPORTED_TOOL', 'This financial query is not supported');
   return {
     call,

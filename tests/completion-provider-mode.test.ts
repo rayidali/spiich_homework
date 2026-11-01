@@ -9,13 +9,14 @@ import {
 import { financialAnalysisTool } from '../server/financial-analysis';
 import { financialScenarioTool } from '../server/financial-calculation';
 import { inspectFinancialDataTool, showInspectedResultsTool } from '../server/financial-inspection';
+import { completionWireTools } from '../server/completion-wire';
 
 const base = [financialAnalysisTool, financialScenarioTool, inspectFinancialDataTool];
 const tools = completionInitialTools(base);
 const response = (parts: unknown[]) => ({ candidates: [{ finishReason: 'STOP', content: { parts } }] });
 
 describe('Completion declaration provider mode with unchanged validation', () => {
-  it('uses AUTO only for initial completion declarations and preserves every schema and input', () => {
+  it('uses one compact initial declaration with ANY while preserving canonical tools and input', () => {
     const before = structuredClone(tools);
     const request = buildGeminiFinancialRequest(tools, 'Plan one tool call.', [
       { role: 'user', content: 'Repair parts spending in August 2026?' },
@@ -24,14 +25,20 @@ describe('Completion declaration provider mode with unchanged validation', () =>
       toolConfig: { functionCallingConfig: unknown };
       tools: { functionDeclarations: unknown }[];
     };
-    expect(wire.toolConfig.functionCallingConfig).toEqual({ mode: 'AUTO' });
+    const projected = completionWireTools(tools);
+    expect(wire.toolConfig.functionCallingConfig).toEqual({
+      mode: 'ANY',
+      allowedFunctionNames: projected.map((tool) => tool.name),
+    });
     expect(wire.tools[0].functionDeclarations).toEqual(
-      tools.map((t) => ({
+      projected.map((t) => ({
         name: t.name,
         description: t.description,
         parametersJsonSchema: geminiProviderSchema(t.parameters),
       })),
     );
+    expect(request.body.systemInstruction.parts[0].text).toBe('Plan one tool call.');
+    expect(projected[0].description).toContain('INITIAL WIRE FORMAT:');
     expect(request.body.generationConfig.maxOutputTokens).toBe(4000);
     expect(request.body.contents[0].parts).toEqual([{ text: 'Repair parts spending in August 2026?' }]);
     expect(tools).toEqual(before);

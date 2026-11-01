@@ -1,0 +1,215 @@
+{
+  "version": "completion-repair-development-failure-metadata-v1",
+  "sourceCommit": "1e6adba78016bee484b0a41a08e4445b9c310170",
+  "observations": [
+    {
+      "id": "0003",
+      "requestBytes": 83247,
+      "responseBytes": 8030,
+      "mode": {
+        "mode": "AUTO"
+      },
+      "finishReason": "STOP",
+      "usage": {
+        "promptTokenCount": 26389,
+        "candidatesTokenCount": 371,
+        "totalTokenCount": 27731,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 26389
+          }
+        ],
+        "thoughtsTokenCount": 971,
+        "serviceTier": "standard"
+      },
+      "modelVersion": "gemini-3.5-flash-lite",
+      "candidateKeys": ["content", "finishReason", "index", "finishMessage"],
+      "finishMessageLength": 33,
+      "functionName": "financial_analysis",
+      "schemaValid": false,
+      "schemaError": {
+        "name": "ZodError",
+        "issues": [
+          {
+            "code": "unrecognized_keys",
+            "path": ["answerContract"],
+            "keys": ["type"]
+          }
+        ]
+      }
+    },
+    {
+      "id": "0004",
+      "requestBytes": 85605,
+      "responseBytes": 3209,
+      "mode": {
+        "mode": "AUTO"
+      },
+      "finishReason": "MALFORMED_FUNCTION_CALL",
+      "usage": {
+        "promptTokenCount": 26888,
+        "totalTokenCount": 26888,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 26888
+          }
+        ],
+        "serviceTier": "standard"
+      },
+      "modelVersion": "gemini-3.5-flash-lite",
+      "candidateKeys": ["content", "finishReason", "index", "finishMessage"],
+      "finishMessageLength": 1002,
+      "providerParseError": {
+        "name": "Error",
+        "code": "AI_INVALID_RESPONSE"
+      }
+    },
+    {
+      "id": "0007",
+      "requestBytes": 83136,
+      "responseBytes": 15194,
+      "mode": {
+        "mode": "AUTO"
+      },
+      "finishReason": "STOP",
+      "usage": {
+        "promptTokenCount": 26376,
+        "candidatesTokenCount": 962,
+        "totalTokenCount": 28824,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 26376
+          }
+        ],
+        "thoughtsTokenCount": 1486,
+        "serviceTier": "standard"
+      },
+      "modelVersion": "gemini-3.5-flash-lite",
+      "candidateKeys": ["content", "finishReason", "index", "finishMessage"],
+      "finishMessageLength": 33,
+      "functionName": "inspect_financial_data",
+      "schemaValid": false,
+      "schemaError": {
+        "name": "ZodError",
+        "issues": [
+          {
+            "code": "unrecognized_keys",
+            "path": ["answerContract", "outputs", 0, "requirement"],
+            "keys": ["selectedAccountCode"]
+          }
+        ]
+      }
+    },
+    {
+      "id": "0008",
+      "requestBytes": 87786,
+      "responseBytes": 3777,
+      "mode": {
+        "mode": "AUTO"
+      },
+      "finishReason": "STOP",
+      "usage": {
+        "promptTokenCount": 27398,
+        "candidatesTokenCount": 383,
+        "totalTokenCount": 27781,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 27398
+          }
+        ],
+        "serviceTier": "standard"
+      },
+      "modelVersion": "gemini-3.5-flash-lite",
+      "candidateKeys": ["content", "finishReason", "index", "finishMessage"],
+      "finishMessageLength": 33,
+      "functionName": "inspect_financial_data",
+      "schemaValid": false,
+      "schemaError": {
+        "name": "ZodError",
+        "issues": [
+          {
+            "code": "unrecognized_keys",
+            "path": ["answerContract", "outputs", 0, "requirement"],
+            "keys": ["selectedAccountCode"]
+          },
+          {
+            "code": "unrecognized_keys",
+            "path": ["answerContract"],
+            "keys": ["\"outputs\""]
+          }
+        ]
+      }
+    },
+    {
+      "id": "0010",
+      "requestBytes": 83195,
+      "responseBytes": 11559,
+      "mode": {
+        "mode": "AUTO"
+      },
+      "finishReason": "MALFORMED_FUNCTION_CALL",
+      "usage": {
+        "promptTokenCount": 26390,
+        "totalTokenCount": 26390,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 26390
+          }
+        ],
+        "serviceTier": "standard"
+      },
+      "modelVersion": "gemini-3.5-flash-lite",
+      "candidateKeys": ["content", "finishReason", "index", "finishMessage"],
+      "finishMessageLength": 6892,
+      "providerParseError": {
+        "name": "Error",
+        "code": "AI_INVALID_RESPONSE"
+      }
+    }
+  ],
+  "schemaDetails": [
+    {
+      "attemptId": "0003",
+      "extraFieldPath": ["answerContract", "type"],
+      "extraFieldValue": "OBJECT"
+    },
+    {
+      "attemptId": "0007",
+      "requirementKind": "selected_identity",
+      "extraFieldPath": ["answerContract", "outputs", 0, "requirement", "selectedAccountCode"],
+      "extraFieldValue": null
+    },
+    {
+      "attemptId": "0008",
+      "requirementKind": "selected_identity",
+      "repeatedExtraFieldValue": null,
+      "additionalContractKey": "\"outputs\"",
+      "additionalKeyValueType": "array"
+    }
+  ],
+  "malformedDiagnosticRendering": [
+    {
+      "attemptId": "0004",
+      "dateTokens": 4,
+      "dateTokensWithoutImmediateOpeningQuote": 4
+    },
+    {
+      "attemptId": "0010",
+      "dateTokens": 24,
+      "dateTokensWithoutImmediateOpeningQuote": 24
+    }
+  ],
+  "limits": [
+    "MALFORMED_FUNCTION_CALL is a provider-reported finish reason; these responses contain no structured callable function.",
+    "Date-token observations concern only provider finishMessage diagnostic rendering. They do not prove the internal parser cause.",
+    "No function arguments are reconstructed or executed from diagnostic prose.",
+    "Missing candidatesTokenCount is not inferred as zero even when totalTokenCount equals promptTokenCount.",
+    "Strict validation errors are preserved; no semantic financial/source guard was relaxed."
+  ],
+  "rawProviderContentExported": false
+}
