@@ -1,0 +1,114 @@
+{
+  "version": "completeness-evaluation-prefreeze-ci-v1",
+  "status": "COMPLETE_SUCCESS",
+  "sourceCommit": "e241721fe0b3f9942836de8bb04645e42fcb9d0d",
+  "runId": 41266364491,
+  "attempt": 1,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41266364491",
+  "jobs": [
+    {
+      "id": 124729895372,
+      "name": "verify",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T02:46:20Z"
+    },
+    {
+      "id": 124729895439,
+      "name": "research-native",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T02:44:22Z"
+    },
+    {
+      "id": 124730399624,
+      "name": "compose",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T02:50:17Z"
+    },
+    {
+      "id": 124731130171,
+      "name": "live-ai",
+      "status": "completed",
+      "conclusion": "skipped",
+      "completed_at": "2026-11-01T02:50:17Z"
+    }
+  ],
+  "runtimeAndEvaluatorSource": {
+    "hash": "e710ba19579102e6905a9f8c5a54eb23c12f9e5f7e4548816182a5345c239f55",
+    "files": 75,
+    "stage": "before_core_freeze_and_heldout_authoring"
+  },
+  "verification": {
+    "normal": {
+      "passed": 2375,
+      "skipped": 8,
+      "filesPassed": 116,
+      "filesSkipped": 2
+    },
+    "compose": {
+      "passed": 2374,
+      "skipped": 9,
+      "filesPassed": 115,
+      "filesSkipped": 3
+    },
+    "separateFixtureDatabase": {
+      "passed": 4,
+      "skipped": 0,
+      "filesPassed": 1,
+      "filesSkipped": 0
+    },
+    "newEvaluatorSuites": {
+      "tests/completeness-evaluation/transport.test.ts": 58,
+      "tests/completeness-evaluation/authorization.test.ts": 15,
+      "tests/completeness-evaluation/scoring-development.test.ts": 5,
+      "tests/completeness-evaluation/protocol.test.ts": 21,
+      "tests/completeness-evaluation/scoring.test.ts": 39,
+      "tests/completeness-evaluation/analysis.test.ts": 28,
+      "tests/completeness-evaluation/fixtures.test.ts": 25,
+      "tests/completeness-evaluation/run-integrity.test.ts": 45,
+      "tests/completeness-evaluation/request-size.test.ts": 3
+    },
+    "newPureEvaluatorCases": 239,
+    "actualFixtureDatabaseCases": 4,
+    "browser": {
+      "passed": 32,
+      "durationSeconds": 37.0,
+      "requiredTitles": [
+        "a partial answer keeps the missing calculation visible above its supporting records",
+        "a withheld answer displays its explanation without financial cards or internal bindings",
+        "a completed declared difference is visible with its recorded source and calculation"
+      ]
+    },
+    "countsOverlap": true,
+    "separateFixtureDatabaseNotIncludedInMainTotals": true
+  },
+  "newProviderCalls": 0,
+  "newProviderSpendUsd": "0",
+  "productionChanged": false,
+  "hostedAcceptancePerformed": false,
+  "limitations": [
+    "This is engineering CI evidence before the new core freeze and held-out question authoring, not a live comparison result.",
+    "The nine evaluator suites use synthetic records and scripted provider responses. No measured model-accuracy claim is made.",
+    "The four fixture database cases run in a separate fresh disposable PostgreSQL database; ordinary main and Compose runs skip those cases.",
+    "Normal, Compose, named-suite and previous local counts overlap and must not be added as independent verification.",
+    "The separate four-case PostgreSQL invocation is reported separately, not silently included in the main Vitest total.",
+    "Browser checks use the CI build; no new hosted, physical-device, production-data or model-inference check was performed.",
+    "Source manifest hashes are checked against workspace bytes and the exact Git commit; closed earlier cohorts and their scores remain unchanged."
+  ],
+  "inputHashes": {
+    "prefreeze-ci-run.json": "f37cf86c7f886e306f62ddd5cb5eb8b6000dd2b53719b63443525283d6fb2b88",
+    "prefreeze-ci-jobs.json": "341a8708472a56c0968a4ea1d82c7706402a939f0f5c7c6032fef4de0fbf7454",
+    "prefreeze-ci-verify.log": "baad784ce813c22bdd635955facb3285d6b063b0a884c91a84c3f85ecd7c0f62",
+    "prefreeze-ci-compose.log": "ea273be68a3be4c58bf7c9404f566d79ca51baab3b32025fa847d0198daae61e",
+    "prefreeze-source.json": "a5132151d809d9baf78b514fa63a8e41bc4927a1880c62ce802d2346e93cddb7"
+  },
+  "exactSourceBindingsVerified": {
+    "workspace": true,
+    "gitCommit": true,
+    "files": 75
+  },
+  "artifactCreatedAt": "2026-11-01T02:50:46.324679+00:00",
+  "checkerSha256": "639ea5ef73ad0090f82d63225f888355b80aee74eb13de6df472a9ba8a61c029"
+}

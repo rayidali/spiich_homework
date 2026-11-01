@@ -1,0 +1,46 @@
+{
+  "version": "completeness-holdout-preparation-v1",
+  "status": "PASS",
+  "cohort": "completeness-20261101-v1",
+  "recordedAt": "2026-11-01T02:58:18.752Z",
+  "coreHash": "e710ba19579102e6905a9f8c5a54eb23c12f9e5f7e4548816182a5345c239f55",
+  "freezeSha256": "b76cb99133ef31c6f5546dbf415f1f6222fffbd0b212bbf10c51297406b45ce3",
+  "freezeCreatedAt": "2026-11-01T02:51:00.295Z",
+  "sourceHash": "4ed3d1a060e83033dcae8c66583934f784a4c1a3aad9e62681a823cb4c765ab0",
+  "sourceFiles": 78,
+  "cases": 16,
+  "families": {
+    "common": 4,
+    "discovery": 4,
+    "arithmetic": 4,
+    "boundary": 4
+  },
+  "checkedClaims": 45,
+  "requiredClaims": 37,
+  "supportingClaims": 8,
+  "plannedExecutions": 48,
+  "plannedPerRoute": {
+    "composable": 16,
+    "adaptive": 16,
+    "complete": 16
+  },
+  "ledger": {
+    "accountsPerOrganization": 24,
+    "organizations": 2,
+    "entries": 51,
+    "lines": 104
+  },
+  "fileHashes": {
+    "scripts/completeness-evaluation/fixtures/holdout.json": "afe8c0479d604d81c8721288afba57ee00758619f7f0eedc4331d664fef35d0c",
+    "scripts/completeness-evaluation/fixtures/holdout-worked-totals.json": "673351c7fd007454a8c301458707358b5941facfb37180208bef190866c77e3f"
+  },
+  "providerCalls": 0,
+  "spendUsd": "0",
+  "databaseCalls": 0,
+  "heldoutQuestionsOrAnswersPrinted": false,
+  "checkerSha256": "f68c4b3b7382e7b3ea3182ad817a62beea7ef7a1cfeea47c206b5b97e6eeda93",
+  "limitations": [
+    "This verifies prepared labels and source integrity; it is not a model score.",
+    "Questions and worked references were AI-authored after core freeze; no independent human benchmark is claimed."
+  ]
+}

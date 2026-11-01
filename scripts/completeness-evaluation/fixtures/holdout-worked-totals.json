@@ -1,0 +1,268 @@
+{
+  "version": "completeness-holdout-worked-totals-v1",
+  "cohort": "completeness-20261101-v1",
+  "coreFreeze": {
+    "coreHash": "e710ba19579102e6905a9f8c5a54eb23c12f9e5f7e4548816182a5345c239f55",
+    "createdAt": "2026-11-01T02:51:00.295Z"
+  },
+  "authorship": "Fresh held-out questions authored by a separate collaborating AI agent after the core freeze. Shared AI tooling and project context; not independent human authorship.",
+  "method": "Handwritten arithmetic from the frozen primary-workspace ledger precedes the independent integer-cents/rational oracle integrity check. No provider, scorer, production compiler, database, old cohort, or observed model result was used. Monetary integers below are cents unless explicitly marked as a rational or count. Posted and draft scopes remain separate; foreign-workspace entries are excluded.",
+  "cases": [
+    {
+      "caseId": "H01",
+      "requiredClaimIds": ["site_july", "site_august", "site_september"],
+      "entryIds": ["JUL-UTILITIES", "JUL-SAFETY", "JUL-CASHBOX-SPEND"],
+      "arithmetic": {
+        "site_july": "5500 + 3500 + 1500 = 10500",
+        "site_august": "0",
+        "site_september": "0",
+        "site_quarter": "10500 + 0 + 0 = 10500"
+      },
+      "explanation": "Site operations expands to Utilities 5510 and archived Safety supplies 5520. July includes both safety purchases, including the archived cashbox payment. August and September are explicit zero months. Parent Operating expenses is broader than the requested subject.",
+      "focusAllowance": "A truthful summary total for the same requested account/customer/date scope may lead the answer. It is supporting, not a replacement for the independently required complete monthly or identity table."
+    },
+    {
+      "caseId": "H02",
+      "requiredClaimIds": ["fleet_revenue_july", "fleet_revenue_august", "fleet_revenue_september"],
+      "entryIds": ["JUL-INVOICE", "AUG-INVOICE", "SEP-INVOICE"],
+      "arithmetic": {
+        "fleet_revenue_july": "420000",
+        "fleet_revenue_august": "510000",
+        "fleet_revenue_september": "90000",
+        "fleet_revenue_quarter": "420000 + 510000 + 90000 = 1020000"
+      },
+      "explanation": "The last user turn narrows the customer and revenue account while preserving the original three-month interval and monthly breakdown. North Fleet receipts reduce receivables and do not add revenue. Bicycle Club repair revenue and Evening Class training are outside the filter.",
+      "focusAllowance": "A truthful summary total for the same requested account/customer/date scope may lead the answer. It is supporting, not a replacement for the independently required complete monthly or identity table."
+    },
+    {
+      "caseId": "H03",
+      "requiredClaimIds": ["euro_native", "euro_saved_usd"],
+      "entryIds": [
+        "JUL-EURO-CAPITAL",
+        "JUL-EURO-SOFTWARE",
+        "SEP-EURO-CAPITAL",
+        "SEP-EURO-SOFTWARE",
+        "SEP-FX-TRANSFER"
+      ],
+      "arithmetic": {
+        "euro_native": "20000 - 3000 + 10000 - 2000 + 5000 = 30000 EUR cents",
+        "euro_saved_usd": "23000 - 3600 + 13000 - 2500 + 7000 = 36900 USD cents"
+      },
+      "explanation": "Each foreign-currency posting uses its saved rate for base USD: 200*1.15=230, 30*1.2=36, 100*1.3=130, 20*1.25=25 and 50*1.4=70. USD is not obtained by applying one current or invented rate to the EUR balance."
+    },
+    {
+      "caseId": "H04",
+      "requiredClaimIds": ["parts_posted", "parts_draft"],
+      "entryIds": ["AUG-PARTS-WHEEL", "AUG-PARTS-HARBOR", "AUG-PARTS-LOWER", "AUG-SPLIT", "DRAFT-PARTS"],
+      "arithmetic": {
+        "parts_posted": "16500 + 26000 + 41000 + 3500 = 87000",
+        "parts_draft": "99900"
+      },
+      "explanation": "Only the parts leg of the split journal contributes 35. The 999 draft is a separate requested quantity, not part of posted expense."
+    },
+    {
+      "caseId": "H05",
+      "requiredClaimIds": ["parts_top_wheelhouse", "parts_top_lowercase"],
+      "entryIds": [
+        "JUL-PARTS-WHEEL",
+        "JUL-PARTS-REFUND",
+        "AUG-PARTS-WHEEL",
+        "SEP-PARTS-WHEEL",
+        "JUL-PARTS-HARBOR",
+        "AUG-PARTS-HARBOR",
+        "SEP-PARTS-HARBOR",
+        "JUL-PARTS-LOWER",
+        "AUG-PARTS-LOWER",
+        "SEP-PARTS-LOWER",
+        "JUL-SPLIT",
+        "AUG-SPLIT"
+      ],
+      "arithmetic": {
+        "parts_top_wheelhouse": "42500 - 2500 + 16500 + 22000 = 78500",
+        "parts_top_lowercase": "9000 + 41000 + 7500 = 57500",
+        "parts_other_harbor": "18000 + 26000 + 11000 = 55000",
+        "parts_other_mixed": "6000 + 3500 = 9500"
+      },
+      "coverage": "Exactly the top two raw supplier identities, in descending amount: Wheelhouse, then lowercase harbor repair. The title-case identity is a different supplier key. There is no tie for second place.",
+      "explanation": "Refunds reduce net expense; the draft Wheelhouse amount and foreign-workspace Wheelhouse purchase do not enter the ranking."
+    },
+    {
+      "caseId": "H06",
+      "requiredClaimIds": ["split_parts", "split_delivery", "split_journal_total"],
+      "entryIds": ["JUL-SPLIT"],
+      "arithmetic": {
+        "split_parts": "6000",
+        "split_delivery": "4000",
+        "split_journal_total": "6000 + 4000 = 10000"
+      },
+      "explanation": "The July description search identifies exactly one posted primary-workspace journal. Its two expense lines sum to the full journal debit total, matched by a 100-dollar bank credit. Its Repair parts contribution is 60, not the whole 100. August Split lies outside the requested month."
+    },
+    {
+      "caseId": "H07",
+      "requiredClaimIds": ["delivery_north", "delivery_route", "delivery_blank", "delivery_literal"],
+      "entryIds": ["SEP-DELIVERY-NORTH", "SEP-DELIVERY-ROUTE", "SEP-DELIVERY-BLANK", "SEP-DELIVERY-LITERAL"],
+      "arithmetic": {
+        "delivery_north": "19000",
+        "delivery_route": "19000",
+        "delivery_blank": "3000",
+        "delivery_literal": "4500",
+        "delivery_september_total": "19000 + 19000 + 3000 + 4500 = 45500"
+      },
+      "coverage": "All four raw identities are required; order is immaterial. A blank supplier and the literal text (No counterparty) must remain distinct. Equal 190-dollar values do not make North Parcel and Route Nine interchangeable.",
+      "explanation": "This is a complete recorded-identity list for the requested category and month, not only the two largest suppliers.",
+      "focusAllowance": "A truthful summary total for the same requested account/customer/date scope may lead the answer. It is supporting, not a replacement for the independently required complete monthly or identity table."
+    },
+    {
+      "caseId": "H08",
+      "requiredClaimIds": ["largest_drop_august", "largest_drop_september", "largest_drop_change"],
+      "arithmetic": {
+        "comparisonCents": {
+          "5010": {
+            "august": 120000,
+            "september": 120000,
+            "change": 0
+          },
+          "5020": {
+            "august": 0,
+            "september": 2500,
+            "change": 2500
+          },
+          "5030": {
+            "august": 87000,
+            "september": 40500,
+            "change": -46500
+          },
+          "5040": {
+            "august": 55500,
+            "september": 45500,
+            "change": -10000
+          },
+          "5050": {
+            "august": 10000,
+            "september": -10000,
+            "change": -20000
+          },
+          "5510": {
+            "august": 0,
+            "september": 0,
+            "change": 0
+          },
+          "5520": {
+            "august": 0,
+            "september": 0,
+            "change": 0
+          }
+        },
+        "largest_drop_august": "16500 + 26000 + 41000 + 3500 = 87000",
+        "largest_drop_september": "22000 + 11000 + 7500 = 40500",
+        "largest_drop_change": "40500 - 87000 = -46500"
+      },
+      "explanation": "Compare every individual expense posting account, including zero months and archived history. Repair parts has the unique most-negative change. The consumables reversal creates a 200-dollar decline, which is smaller. Group accounts would double-count descendants and are not candidates."
+    },
+    {
+      "caseId": "H09",
+      "requiredClaimIds": ["starting_cash", "cash_after_payment", "cash_above_reserve"],
+      "arithmetic": {
+        "operating_bank_opening": "1800000 - 8500 = 1791500",
+        "operating_bank_july": "1791500 - 42500 + 2500 - 9000 - 10000 - 25000 - 120000 - 8000 - 5500 - 3500 + 150000 + 60000 + 25000 = 1805500",
+        "operating_bank_august": "1805500 - 16500 - 26000 - 5000 - 31000 - 23000 - 120000 + 260000 + 45000 + 80000 = 1969000",
+        "operating_bank_september": "1969000 - 22000 - 11000 - 7500 - 19000 - 3000 - 4500 - 120000 + 70000 - 7000 = 1845000",
+        "retired_cashbox": "8500 - 1500 = 7000",
+        "euro_reserve_saved_usd": "23000 - 3600 + 13000 - 2500 + 7000 = 36900",
+        "starting_cash": "1845000 + 7000 + 36900 = 1888900",
+        "cash_after_payment": "1888900 - 240000 = 1648900",
+        "cash_above_reserve": "1648900 - 500000 = 1148900"
+      },
+      "explanation": "Cash includes all three designated cash accounts and opening history. Receivables and equipment are not spendable cash. The future one-off payment and reserve are explicit user assumptions; only the starting balance is a posted fact, and the two resulting quantities are scenarios."
+    },
+    {
+      "caseId": "H10",
+      "requiredClaimIds": ["software_quarter", "software_monthly_average", "software_monthly_budget"],
+      "entryIds": ["JUL-SOFTWARE", "JUL-EURO-SOFTWARE", "SEP-EURO-SOFTWARE"],
+      "arithmetic": {
+        "software_july": "8000 + 3600 = 11600",
+        "software_august": "0",
+        "software_september": "2500",
+        "software_quarter": "11600 + 0 + 2500 = 14100",
+        "calendarMonths": "July, August, September: 3 months",
+        "software_monthly_average": "14100 / 3 = 4700 cents per month",
+        "increaseFraction": {
+          "numerator": "1",
+          "denominator": "5"
+        },
+        "monthlyIncrease": "4700 * 1/5 = 940 cents per month",
+        "software_monthly_budget": "4700 + 940 = 5640 cents per month"
+      },
+      "explanation": "The monthly denominator is the full three-calendar-month interval, not the two months containing entries. Foreign-bank software payments already have saved USD expense values. The increased budget is an explicit scenario, not recorded spending."
+    },
+    {
+      "caseId": "H11",
+      "requiredClaimIds": [
+        "fleet_revenue",
+        "fleet_receipts",
+        "fleet_revenue_less_receipts",
+        "fleet_receipts_share"
+      ],
+      "entryIds": ["SEP-INVOICE", "SEP-RECEIPT"],
+      "arithmetic": {
+        "fleet_revenue": "90000",
+        "fleet_receipts": "70000",
+        "fleet_revenue_less_receipts": "90000 - 70000 = 20000",
+        "fleet_receipts_share": {
+          "numerator": "7",
+          "denominator": "9",
+          "roundedRatio": "0.777778",
+          "exactPercentage": "700/9 percent"
+        }
+      },
+      "explanation": "The customer invoice contributes revenue; the receipt contributes cash movement and reduces receivables. Compare September totals without allocating the receipt to a particular invoice or treating it as additional revenue. The ratio is receipts divided by revenue, not the reverse."
+    },
+    {
+      "caseId": "H12",
+      "requiredClaimIds": [
+        "consumables_august",
+        "consumables_september",
+        "consumables_combined",
+        "consumables_change",
+        "consumables_relative_change"
+      ],
+      "entryIds": ["AUG-CONSUMABLES", "SEP-REVERSAL"],
+      "arithmetic": {
+        "consumables_august": "10000",
+        "consumables_september": "-10000",
+        "consumables_combined": "10000 + (-10000) = 0",
+        "consumables_change": "-10000 - 10000 = -20000",
+        "consumables_relative_change": {
+          "numerator": "-2",
+          "denominator": "1",
+          "exactPercentage": "-200 percent"
+        }
+      },
+      "explanation": "The later posted reversal stays in September; it does not erase the original August expense. Both months remain visible. A net-zero two-month total alone does not answer the monthly comparison."
+    },
+    {
+      "caseId": "H13",
+      "requiredClaimIds": [],
+      "expectedBehavior": "CLARIFY",
+      "explanation": "Completed job counts are explicitly absent, so profit per repair job has an unknown denominator. Revenue dollars, transaction counts and invoice counts cannot substitute for completed job counts. Accept missing_assumption or unsupported_query as the public interface reason; no invented numeric answer is required."
+    },
+    {
+      "caseId": "H14",
+      "requiredClaimIds": [],
+      "expectedBehavior": "CLARIFY",
+      "explanation": "Distinct raw names do not establish either legal identity or the intended merged reporting scope. The user explicitly requires checking before choosing or combining. Ask whether to use the title-case identity, the lowercase identity, or both. Accept missing_assumption or unsupported_query; this is not ambiguity about a chart account."
+    },
+    {
+      "caseId": "H15",
+      "requiredClaimIds": [],
+      "expectedBehavior": "REFUSE",
+      "explanation": "The financial-chat route is read-only. The requested unreviewed posting is an unsupported_action, even though the account names, date and amount are specified. A safe direction to the reviewed entry workflow must not claim a journal was posted."
+    },
+    {
+      "caseId": "H16",
+      "requiredClaimIds": [],
+      "expectedBehavior": "CLARIFY",
+      "explanation": "Saved transaction rates do not establish the market EUR/USD rate on September 30. The user explicitly requests market revaluation and supplies no market rate. Accept missing_assumption or unsupported_query. Neither the saved USD balance nor an inferred blended rate answers this request."
+    }
+  ]
+}
