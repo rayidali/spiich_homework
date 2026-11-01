@@ -138,6 +138,7 @@ export class FinancialInspection {
     messages: ModelMessages,
     planningChart: AnalysisAccount[],
     private readonly deadline?: number,
+    private readonly onExecutionChart?: (chart: AnalysisAccount[]) => void,
   ) {
     if (deadline !== undefined && !Number.isFinite(deadline))
       invalid('A finite inspection deadline is required.');
@@ -300,9 +301,17 @@ export class FinancialInspection {
           if (assessment.status === 'verified') proof = assessment.proof;
         }
         this.checkDeadline();
+        let executionChart: AnalysisAccount[] | undefined;
         const result = await executeFinancialAnalysis(this.org, { queries: plans }, db, {
           deadline: this.deadline,
           counterpartyIdentities: Object.fromEntries(identities),
+          ...(this.onExecutionChart
+            ? {
+                onExecutionChart: (chart: AnalysisAccount[]) => {
+                  executionChart = chart;
+                },
+              }
+            : {}),
         });
         this.checkDeadline();
         // Apply the same visible all-history disclosure on both initial and
@@ -321,7 +330,7 @@ export class FinancialInspection {
               }
             : item;
         });
-        return { result, proof };
+        return { result, proof, executionChart };
       });
       this.checkDeadline();
       if (this.state !== 'reading') invalid('The inspection was interrupted by another operation.');
@@ -363,6 +372,8 @@ export class FinancialInspection {
       this.feedbackText = feedback.text;
       this.rowBindings = feedback.bindings;
       this.handlesByRow = feedback.byRow;
+      // Scope metadata belongs to this accepted snapshot, never the planning chart.
+      if (read.executionChart) this.onExecutionChart?.(structuredClone(read.executionChart));
       this.normalizations = structuredClone(allNormalizations);
       this.readScopes = read.proof ? [{ queryIds: plans.map((plan) => plan.id), proof: read.proof }] : [];
       this.retainedResultsUnchanged = previous !== undefined;

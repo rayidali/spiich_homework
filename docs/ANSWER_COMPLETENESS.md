@@ -1,181 +1,116 @@
-# Proposed answer completeness contract
+# Checking declared answer completeness
 
-**Design only. This is not implemented, deployed or evaluated.** It proposes a small extension to a future opt-in adaptive candidate. The production composable route, current provider budgets and frozen studies remain unchanged. No new success score is claimed.
+**Implemented locally as the opt-in `FINANCIAL_CHAT_ROUTE=complete` candidate. It is not deployed or measured with live models.** Production remains `93a8617` / `composable`. The earlier financial-interface candidate passed CI at `1847a67`; that run does not cover this new implementation. Existing studies, failures and closed budgets remain unchanged.
 
-The purpose is to catch a specific failure: an answer can contain correct numbers and still omit something the user requested. The [held-out comparison](evidence/adaptive-runs/holdout-v2/report.md) includes correct month/category tables that omit a requested difference. A separate problem in that comparison was the grader's reliance on table position. Neither problem requires another general-purpose validation agent.
+An answer can contain correct numbers and still omit something the user requested. The [held-out comparison](evidence/adaptive-runs/holdout-v2/report.md) contains examples of correct tables without the requested difference. The new checker makes a declared omission visible. It does not prove that the model understood every part of a question.
 
-## What exists and what is missing
+## Four requested results, not just two correct numbers
 
-Current code validates the selected tool, runs bounded queries, checks exact arithmetic and renders recorded amounts. It does not retain a machine-checkable list of the requested deliverables. `FinancialInspection.show()` can finish after displaying the inspected tables; the scenario renderer emphasizes its last calculation. A successful execution therefore does not establish that the complete question was answered.
+Illustration and offline regression, not a new model trial:
 
-The proposed boundary is:
+> Show January and February spending, the dollar change, and the relative change.
 
-1. Before seeing database results, the planner declares the outputs it intends to deliver.
-2. The application freezes that declaration for the request.
-3. Reads and calculations produce facts under the existing accounting safeguards.
-4. A deterministic finalizer checks whether each declared output has the correct source and is actually visible in the answer.
-5. Missing work is reported explicitly or completed within the existing allowance.
+Suppose the correctly scoped amounts are January **$240** and February **$90**.
 
-This checks **fulfillment of the declared task**, not whether the declaration captures everything the user meant. A model can omit a requirement from both its declaration and its plan. Exact quotations and spans establish where words came from; they do not prove correct or exhaustive interpretation.
+| Declared output   | Checked source or operation |       Result |
+| ----------------- | --------------------------- | -----------: |
+| January spending  | Exact January source row    |         $240 |
+| February spending | Exact February source row   |          $90 |
+| Dollar change     | February minus January      |        −$150 |
+| Relative change   | Change divided by January   | −0.625 ratio |
 
-## Walkthrough: four requested results
+The existing deterministic calculator displays `−0.625 ratio`; this is mathematically −62.5%. The new checker does not introduce free-form percentage conversion or let the model write numerical prose. A zero January denominator remains an undefined calculation, not an invented zero or percentage.
 
-Illustrative example, not a new measured trial:
+Showing only the two amounts is partial. A correct calculation hidden from visible evidence is also partial. An equal amount from another account, date, currency or person does not satisfy the required source.
 
-> Show Acme's January and February spending, the dollar change, and the relative change from January to February.
+```mermaid
+flowchart LR
+  U[Original user conversation] --> P[Planner declares requested outputs]
+  P --> F[Freeze declaration and exact quote spans]
+  F --> D[Existing typed reads and calculator]
+  D --> B[Bind outputs to existing facts]
+  B --> V{Scope, formula and visible evidence match?}
+  V -->|All declared outputs| A[Requested results first, then supporting evidence]
+  V -->|Missing work| M[Explicit partial answer]
+  V -->|Invalid source or binding| X[Withhold financial answer]
+```
 
-Suppose complete, scoped database results are January **$240** and February **$90**. The declaration must contain four outputs:
+The declaration freezes **before reading financial amounts**. The application already reads a planning account chart before the initial model call. Successful scope checks use the chart from the actual financial execution snapshot, not that earlier planning chart.
 
-| Requested output  | Supporting source or operation                                 |                      Result |
-| ----------------- | -------------------------------------------------------------- | --------------------------: |
-| January spending  | Exact January query row for the selected recorded counterparty |                        $240 |
-| February spending | Exact February query row for the same recorded counterparty    |                         $90 |
-| Dollar change     | February minus January                                         |                       −$150 |
-| Relative change   | Dollar change divided by January                               | −0.625, displayed as −62.5% |
+## The implemented contract
 
-There is no model-supplied amount and no invented divisor. The arithmetic is `90 − 240`, then `−150 ÷ 240`. Percentage display is formatting of the checked ratio. If January is zero, division is undefined; the application must explain that limitation rather than invent a percentage.
+The schemas are in [answer-contract.ts](../server/answer-contract.ts). Query descriptors reuse `publicFinancialQuerySchema`; they do not introduce a second natural-language date/account parser or arbitrary SQL.
 
-Showing only the two month totals is partial. Computing the difference internally but hiding it is also partial. Showing the relative change alone does not satisfy the other three outputs. A calculation using another counterparty with coincidentally equal amounts must fail its source check.
+Each of one to eight outputs has a unique ID, one to three exact original-user quotes and one requirement:
 
-## Proposed data contract
+| Requirement         | What is checked                                                                                                                                   |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `value`             | A scalar financial scope: metric, aggregation, accounts, period, status, currency and every filter. A matching account/month cell can fulfill it. |
+| `table`             | The query scope plus grouping, order, limit and declared `all` or `top` coverage.                                                                 |
+| `selected_identity` | An exact first-ranked account/counterparty row, requested ordering and `unique` or `any_one` tie policy.                                          |
+| `arithmetic`        | An ordered add/subtract/multiply/divide operation over earlier scalar outputs, sourced user assumptions or a validated calendar-month count.      |
 
-Keep the **initial requirements** separate from their **later evidence bindings**. The following is an interface sketch, not an existing API:
+Value requirements have `selectedAccountCode: null` by default. A posting code can select a single row within the declared scope, for example the bank cell from a server-selected `cash_balance` account table. It cannot add a noncash account to the cash set. When an amount threshold is present, the original account set used to qualify transactions remains part of the scope: a broad-account threshold followed by account grouping is not equivalent to a narrow-account threshold, even if the displayed amount is equal.
+
+`counterpartyFrom` can bind a value/table to an earlier declared counterparty selection. The application uses its exact stored key, preserving case and whitespace. Copied case-insensitive name filters cannot substitute for that identity. Dynamic account-filter deferral is not implemented; `selectedAccountCode` is an explicit code, not an arbitrary placeholder.
+
+A unique leader needs enough returned ranking evidence to rule out a tie. A single truncated top row does not prove uniqueness. `any_one` has the narrower meaning of one maximal/minimal row under the declared order; it does not claim the complete set of ties.
+
+Later bindings identify existing facts:
 
 ```ts
-type RequestedOutput = {
-  id: string;
-  sourceQuotes: OriginalUserQuote[]; // server resolves and stores exact spans
-  requirement:
-    | { kind: 'values'; queryRequirementId: string; selection: RequestedSelection }
-    | { kind: 'selected_identity'; queryRequirementId: string; selection: RankedSelection }
-    | {
-        kind: 'arithmetic';
-        operation: 'add' | 'subtract' | 'multiply' | 'divide';
-        operands: [RequestedOutputReference, RequestedOutputReference];
-      };
-};
-
 type OutputBinding = {
   outputId: string;
   source:
-    | { kind: 'query_row'; queryId: string; rowReference: string }
+    | { kind: 'query_row'; queryId: string; rowId: string }
     | { kind: 'query_result'; queryId: string }
     | { kind: 'calculation'; calculationId: string };
 };
 ```
 
-`OriginalUserQuote` contains an original conversation message index and a bounded exact quote. The server requires a unique matching substring in that original USER message and computes its UTF-16 start/end positions; do not ask the model to count offsets. Repeated or ambiguous quotes need more context, not fuzzy matching. Inspection feedback, schema-repair data, vendor labels and assistant text do not qualify. Keep the original message array intact. These anchors establish requirement provenance only; they do not authorize numerical assumptions or prove interpretation.
-
-Query requirements should derive validators from the existing `publicFinancialQuerySchema` with `pick`/`omit`, reusing its metric, aggregation, account scope, dates, currency, status and filter rules. Table obligations additionally retain grouping, ordering, limit and all-results versus top-N coverage. Do not maintain a second account/date parser that can disagree with the compiler. Compare a scalar duty against the effective scope of a trusted row, so an appropriate monthly/account cell can satisfy it regardless of table layout.
-
-A deferred identity slot may reference only an earlier immutable `selected_identity` output. For example, the February counterparty must equal the January winner's exact returned identity; the planner cannot silently switch to a new independently ranked winner. Match the actual stored counterparty key or account identity, never its display label or dollar amount.
-
-`RequestedSelection` and `RankedSelection` above deliberately remain design choices. Their exact first-version semantics must be settled before coding. A total, an entire grouped result, the requested top N, and a unique highest-ranked identity are different obligations. One cannot stand in for another merely because they contain the same number.
-
-Prefer eight outputs with one to three original-user anchors each, consistent with the existing calculation limit. Overlapping anchors can be legitimate; assistant or feedback anchors cannot. Validate unique IDs, finite acyclic dependencies, exact source matches and supported requirement kinds. The contract cannot contain arbitrary SQL, executable expressions, model-written numerical answers or free numeric constants. Hypothetical operands still require the existing original-user assumption evidence and units.
-
-Do not confuse a requested quantity with one mandatory implementation. A combined total over disjoint expense accounts may be fulfilled by a correctly scoped direct aggregate, without a separate calculator node. Several duties may share one binding only when their scopes and meanings are equivalent. Unsupported expression equivalence is unassessed, not proof that a displayed dollar amount is wrong. Define any supported equivalence narrowly and test it rather than accepting equal numbers alone.
+Inspection `rowId` values may be request-local handles. They resolve through the committed session map to exact canonical rows. A handle cannot be guessed from a label, copied from another query/session or treated as a supplied amount.
 
 ## Freeze first; bind later
 
-The first planner response establishes the contract **before the first database read**. Deriving it from a final answer would allow an omitted calculation to disappear from both the answer and its checklist.
+[prepareAnswerContract](../server/answer-completion.ts) parses and freezes the initial declaration and stores its hash. Its limit is 16 KiB of serialized UTF-8 data. Each quote is at most 500 characters and must occur exactly once in the specified original USER message. The server computes UTF-16 spans; the model does not count offsets. Assistant text, database labels, inspection data and repair feedback cannot establish those anchors. Original-user assumptions retain their separate numeric/unit validator: an output quote never authorizes an amount.
 
-The application stores an immutable copy and its version/hash in the request-local inspection session. Later tool calls can supply exact bindings or report an unresolved obligation. They cannot remove outputs, replace their original spans, change subtraction order, or broaden a requested account/date/vendor scope. The initial contract must cover an ordinary final-tool path as well as an inspection path; otherwise the planner could bypass the check by choosing `financial_analysis` directly.
+The initial `financial_analysis`, `financial_scenario` or `inspect_financial_data` call carries the declaration. Initial inspection requires empty bindings because no result exists yet. Subsequent inspection cannot replace the declaration; `show_inspected_results` and `calculate_from_inspection` supply final bindings only. IDs and dependencies must be unique and earlier-only. A direct final plan cannot bypass the checker.
 
-Discovered row handles resolve through the committed request-local map. The application then checks the canonical query/row and its actual metadata. A handle identifies a row; it does not prove that the row was the intended winner, that similarly spelled counterparties are one vendor, or that a bank line was allocated to a particular expense.
+The new route exposes these typed tools and `request_details`. The authored, composable and ordinary adaptive routes retain their existing behavior. Missing contracts on the new route cannot silently become a complete answer. Legacy routes without a contract are not given a new completeness claim.
 
-Future conversation turns need a new contract derived from the retained conversation, with explicit dependencies on earlier user constraints. This version must not use a heuristic such as “the latest sentence looks complete, so prior restrictions no longer apply.” Handling contract changes across turns is a separate decision below.
+## Source and visibility checks
 
-## A server finalizer shared by every finish path
+[finalizeAnswerContract](../server/answer-completion.ts) is pure: it checks existing executed facts and makes no database/provider call. It compares effective posting IDs from the execution chart, not names or dollars. Calendar cells retain clipped periods; stock balances retain as-of dates and all-history semantics. Exact counterparty proofs, cash predicates, saved currency basis, co-occurring accounts and amount-filter basis stay separate checks.
 
-The finalizer should receive the immutable contract, exact validated facts, checked calculations and the proposed bindings. It should:
+Arithmetic is replayed through the existing deterministic calculator. The checker compares ordered source ancestry, units and original-user assumption occurrences. Harmless overlapping quote boundaries can identify the same user quantity; another equal-valued occurrence cannot. No operation is inferred merely because two amounts are present. A correctly scoped direct union total can fulfill a value requirement without a separate calculator node. Commutative or more general algebraic equivalence is not newly inferred.
 
-- Resolve each output ID exactly once and reject unknown, duplicate or dangling bindings.
-- Check the requested source scope against the actual query/row: metric, effective posting-account identities, dates, currency, status, filters, dimensions and any declared same-counterparty relationship.
-- Check arithmetic operations, operand order, units and complete source ancestry. Matching dollar values alone are insufficient.
-- Distinguish complete tables from limited rankings. A truncated discovery can support only a declared, provable selection; it remains unsuitable as an arithmetic operand under current rules.
-- Require each fulfilled result to appear in the rendered answer or visible evidence. A hidden fact or unused calculation does not count.
-- Return a structured outcome for every requirement: fulfilled, missing, unsupported or invalid. Invalid scope/source evidence must not be presented as a valid partial answer.
+[Financial evidence references](../shared/financial-evidence.ts) are additive and server-owned. Each visible row may carry a query-row, calculation or assumption reference; whole query tables carry their query identity and truncation state. The checker matches those references and displayed values rather than relying on table titles, positions or a bag of dollar amounts. Empty complete tables can be linked without inventing a zero row. Existing rendering remains compatible.
 
-The renderer needs **additive, server-owned fact references on evidence rows**, such as `{queryId, rowId}` or `{calculationId}`, preserving existing labels, values and rendering. These are generated from the validated execution, not accepted as assertions from the model. Query-result tables also need their query identity and truncation information. The finalizer and future graders should bind by these references, not table titles, position, row counts alone or a bag of matching numbers.
-
-Render requested results first, then supporting tables. A hypothetical request for ending cash and reserve margin should visibly name both outputs, with hypothetical labeling inherited from their actual sources. This improves usability without letting the model write unchecked numerical prose.
-
-## Handling unfinished work
-
-In the first version, the finalizer checks existing validated calculations; it does not synthesize a missing formula or become a new executor. Compare the declared ordered dependency graph with the actual calculation ancestry. Reversing subtraction is not equivalent. Normalize commutative addition/multiplication only if that equivalence is deliberately supported and tested. Reject unknown or cyclic dependencies before any read.
-
-A later extension could compile an already declared operation with complete exact operands into the existing calculator without another model call. That would execute the frozen graph, not guess a formula from a question or two matching amounts, and should be implemented and tested separately.
-
-For the smallest rollout, the finalizer itself makes no provider call and rewrites no query plan: it returns the unresolved outputs. A subsequent extension could expose those IDs as bounded data in an already permitted adaptive continuation. That consumes the **same** remaining provider/time allowance. It does not create a new validator agent, automatic retry budget or unbounded “keep trying” loop; any new continuation policy must be measured as part of the new candidate.
-
-If the allowance is exhausted, return a clear partial result only when the available evidence remains valid and internally consistent. For example: “I found the two monthly amounts. I could not complete the requested percentage change.” Do not equate “all rows from this query are shown” with “the whole question is answered.” A changed snapshot, invalid source or poisoned inspection session must continue withholding its combined result.
-
-Suggested metadata distinguishes what has actually been checked:
+The [answer renderer](../server/completion-answer.ts) shows fulfilled requested results first, then supporting tables. Posted, draft and hypothetical labels are inherited from the server evidence. It replaces the old headline on a partial answer so a valid last calculation does not imply that every requested result was delivered.
 
 ```ts
 {
   completionBasis: 'model_declared',
   userIntentVerified: false,
   status: 'fulfilled' | 'partial' | 'unassessed',
-  outputs: [/* server-computed per-output status and evidence references */]
+  outputs: [/* outputId, fulfilled/missing/unsupported/invalid, evidence locations */]
 }
 ```
 
-For the **new opt-in completion-required candidate**, a missing or invalid initial contract must not produce a final financial answer described as complete. Reject that candidate or use the already permitted bounded schema-repair path. Existing authored and composable routes without the feature remain `unassessed` until separately measured; do not silently label legacy answers complete or change their behavior as part of this experiment.
+Missing or unsupported outputs remain explicitly unresolved. Invalid source/scope/binding evidence causes the integration to withhold all financial facts/evidence, rather than advertise it as a valid partial answer. A missing execution-snapshot chart cannot be replaced by the planning chart.
 
-## Safeguards that remain mandatory
+## Existing safeguards and limits
 
-Retain organization scoping, read-only typed queries, decimal/rational arithmetic, saved exchange rates, cash identity predicates, draft/hypothetical labeling, original-user assumption evidence, complete operand checks and snapshot consistency. The proposed finalizer supplements these checks; it cannot override them.
+The candidate retains organization scoping, read-only typed queries, exact decimal/rational arithmetic, saved exchange rates, cash identity, original-user assumptions, snapshot consistency and truncated-operand refusal. A top-N table can be fulfilled while visibly truncated; those rows still cannot be used as calculator operands. Generic noncash `account_balance` arithmetic remains unsupported. A cash-account calculation must use the supported cash metric and actual cash provenance, never a name or coincidentally equal balance.
 
-Retain the current adaptive limits: three total provider attempts including at most one schema repair, two inspection read rounds, four unique queries, 64 KiB feedback, and the shared 40-second planning/inspection budget with late-result withholding. This is not a guaranteed HTTP wall-time service level. Unknown usage or a provider failure must not fund another attempt. No partial answer should release stale evidence after a failed reread.
+Limits remain three provider attempts including at most one schema repair, two inspection rounds, four unique queries, eight calculator nodes, 64 KiB feedback and a shared 40-second planning/inspection budget with late-result withholding. This is not a guaranteed HTTP wall-time SLA. Unknown usage cannot authorize another continuation, and provider failures do not gain automatic retries. The finalizer adds no call or allowance. Operational logs contain bounded status/count metadata, not user quotes, raw arguments or credentials.
 
-The H10 limitation is material: generic `account_balance` arithmetic is deliberately rejected in the current calculator. For a question specifically about all cash accounts, the planner can use the supported `cash_balance` metric and per-account cash provenance. Do not silently turn a generic balance into cash based on its name or amount. Noncash balance arithmetic remains unsupported until its source/unit semantics are separately implemented and tested. A completeness contract should expose that limitation, not bypass it.
+## What has been checked, and what remains
 
-Log only bounded operational metadata such as output IDs, status counts, reason codes and request ID. User text/spans, business labels, raw model arguments and credentials should not become default logs.
+Focused local checks currently pass **46 pure finalizer cases**, **20 tool-envelope cases** and **22 mocked service integration cases**. They exercise real compiler/calculator/parser behavior with supplied model responses and synthetic database output; they are not live-model accuracy measurements. Six new actual-PostgreSQL finalizer cases are authored and await CI. Aggregate tests/build/CI for the complete implementation are recorded separately when run; earlier candidate CI does not cover this source.
 
-## Decisions to resolve before implementation
+Key regressions include all four example outputs, omitted calculations, hidden correct facts, reordered evidence, equal-dollar wrong account/date/status/filter, threshold basis, single cash-account selection, compound calendar cells, no-transaction averages, exact-case identities, tied rankings, wrong-session handles, different same-dollar assumptions and incomplete monthly coverage. Service tests retain shared repair/attempt/deadline and unknown-usage behavior. Database tests independently seed refunds and amounts, exercise changing group descendants and retained inspection snapshots, and compare book fingerprints.
 
-| Decision                    | Recommended starting point                                                                               | Remaining limitation                                                                    |
-| --------------------------- | -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| First-call API              | One opt-in envelope around the initial adaptive plan and immutable contract; reuse existing validators   | Adds grammar complexity; verify real provider compatibility before claiming reliability |
-| Scope representation        | Reuse typed query descriptors, with explicit deferred identity references                                | Do not allow arbitrary scope placeholders or later unrestricted rewrites                |
-| First supported outputs     | Values/tables and arithmetic over exact existing query results                                           | Unsupported kinds must be explicit; no universal-business-question claim                |
-| Ranked identity selection   | Specify ordering, requested count and tie behavior before execution; clarify unresolved ties             | Current top-one results prove a maximal row, not uniqueness or all tied leaders         |
-| Arithmetic fulfillment      | Check declared operations against exact existing calculation ancestry; no new execution                  | Do not infer a subtraction merely because two periods were read                         |
-| Partial results             | Show verified parts with an explicit missing-output list when the session remains valid                  | Never present invalid or stale source evidence as “partial success”                     |
-| Multi-turn contract changes | Rebuild from the retained original conversation; preserve earlier constraints unless explicitly resolved | General conversational intent resolution remains unverified                             |
-| Adoption                    | First offline contract/renderer tests, then a separately authorized and versioned opt-in evaluation      | Existing held-out outputs are regressions, not fresh independent holdout data           |
+The main limitation is deliberate: a model that omits a user requirement from its initial declaration may fulfill every declared output. The response always retains `userIntentVerified: false`. This version does not solve general conversational interpretation, arbitrary business questions, missing real-world data or all formula selection.
 
-## Required tests
-
-| Case                                                                        | Expected result                                                                    |
-| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| Four correct month/category cells but omitted requested delta               | Partial; a table cannot satisfy the arithmetic obligation                          |
-| January240, February90, requested delta and relative change                 | All four outputs visible; −150 and −0.625 from exact typed sources                 |
-| Difference computed internally but not rendered                             | Not fulfilled                                                                      |
-| Only the last of two requested scenario results rendered                    | Partial; both ending cash and reserve margin are required                          |
-| Wrong account/counterparty with the same dollar amount                      | Reject the binding; value coincidence does not prove scope                         |
-| May/June operands swapped, or currency/status/date changed                  | Reject the requested operation/scope mismatch                                      |
-| Acme and acme are separate ranked rows                                      | Keep exact stored identities; no label-based merging                               |
-| Winner is tied or ranking is insufficiently established                     | Clarify or mark unresolved under the declared tie policy                           |
-| Truncated discovery used directly in arithmetic                             | Preserve current refusal; obtain a complete permitted operand if allowance remains |
-| Complete cash series versus generic/noncash balance arithmetic              | Supported cash source works; generic/noncash restriction remains                   |
-| Relative change with a zero baseline                                        | Explain undefined result; no invented zero, infinity or percentage                 |
-| Missing contract on the new contract-required path                          | No final financial answer claimed complete; legacy route stays unassessed          |
-| Contract output removed or changed after inspection                         | Reject mutation                                                                    |
-| Duplicate, unknown, cross-query or foreign-session binding                  | Reject; no guessed row or amount                                                   |
-| Inspection label or repair feedback masquerades as a requirement/assumption | Cannot establish original-user provenance                                          |
-| Earlier user vendor restriction followed by a standalone-looking question   | Retain the restriction; no implicit reset                                          |
-| Unknown usage, exhausted deadline or maximum attempts reached               | No extra call; no invented completion                                              |
-| Earlier data changes during the next read                                   | Preserve failed-session withholding; no stale partial answer                       |
-| Renderer reorders tables or adds a supporting table                         | Source-linked completeness stays correct; no position-based grading                |
-| Relative ratio versus displayed percentage                                  | Exact ratio−0.625 formats as−62.5%; free prose cannot change the unit              |
-| Nine outputs or more than three anchors for an output                       | Reject the proposed bounds rather than silently dropping duties                    |
-| Original message contains emoji or a repeated quote                         | Compute exact UTF-16 spans; repeated/ambiguous matches require more context        |
-| Direct disjoint-account aggregate fulfills a combined total                 | Accept the checked quantity without forcing a calculator representation            |
-| Model omits a duty from its initial contract                                | Declared outputs may be fulfilled, but `userIntentVerified` remains false          |
-
-Also test the interpreter separately with fresh paraphrases and multi-part questions whose expected requirements are written before execution. Structural tests demonstrate that the contract is enforced. They cannot establish that a model consistently extracts every intended requirement.
-
-The next implementation should remain narrow and reviewable. No changes to the [frozen adaptive protocol](research/ADAPTIVE_EVALUATION_V2.md), original responses, scores or spending ledgers are required to document this design.
+Future work is separate: execute a missing, already-declared operation through the existing calculator; expose unresolved bindings in a continuation within the remaining original budget; support more narrowly proved algebraic equivalences and dynamic identities; and run a separately versioned comparison after source freeze. None is implemented by the current checker, and no old cohort may be reopened to fund it.

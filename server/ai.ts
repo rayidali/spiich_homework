@@ -39,6 +39,8 @@ import { Decimal, formatCurrency } from '../shared/money';
 import { normalizeAllHistoryFlow, recordedRange, recordedPeriod } from './date-scope';
 import { messagesSchema } from '../shared/conversation';
 import type { Db } from './db';
+import type { InsightEvidence } from '../shared/financial-evidence';
+export type { InsightEvidence } from '../shared/financial-evidence';
 import { assessExpenseRequestScope, recognizesExpenseRequest } from './expense-request-scope';
 import {
   FinancialInspection,
@@ -47,6 +49,18 @@ import {
   showInspectedResultsTool,
   calculateFromInspectionTool,
 } from './financial-inspection';
+import {
+  completionInitialTools,
+  completionFollowupTools,
+  parseCompletionArgs,
+  stripCompletionArgs,
+} from './completion-tools';
+import { prepareAnswerContract } from './answer-completion';
+import {
+  completeFinancialAnswer,
+  unassessedCompletion,
+  type AnswerCompletionSession,
+} from './completion-answer';
 export { messagesSchema } from '../shared/conversation';
 
 const proposalSchema = z.strictObject({
@@ -293,15 +307,6 @@ export function parseInsightArgs(name: string, args: unknown): Record<string, un
 }
 
 const dollars = (v: string) => formatCurrency(v);
-export type InsightEvidence = {
-  title: string;
-  period: string;
-  source?: 'posted' | 'draft' | 'scenario';
-  scope?: string;
-  rows: { label: string; value: string; href?: string }[];
-  href: string;
-};
-
 export async function runInsightTool(
   org: string,
   name: string,
@@ -477,7 +482,7 @@ export async function runInsightTool(
   throw new AppError(422, 'UNSUPPORTED_TOOL', 'This financial query is not supported');
 }
 
-export type FinancialChatRoute = 'authored' | 'composable' | 'adaptive';
+export type FinancialChatRoute = 'authored' | 'composable' | 'adaptive' | 'complete';
 export type FinancialPlannerAccount = {
   code: string;
   name: string;
@@ -498,8 +503,17 @@ export function buildFinancialPlannerInput(
   route: FinancialChatRoute,
   chart: FinancialPlannerAccount[],
   date: string,
-) {
+): { tools: FinancialTool[]; instructions: string } {
   dateSchema.parse(date);
+  if (route === 'complete') {
+    const adaptive = buildFinancialPlannerInput('adaptive', chart, date);
+    return {
+      tools: completionInitialTools(adaptive.tools),
+      instructions:
+        adaptive.instructions +
+        '\nThis configuration requires an answerContract before reading financial results. Declare every requested result, table, identity selection and calculation using original-user quotes, including constraints retained from earlier turns. The declaration is frozen after the first valid plan; later steps may bind results but cannot remove or change requested outputs. Original quotes prove where text came from, not that your interpretation is complete. Fill outputBindings for a direct final answer; use an empty array on the first inspection. After inspection, preserve the frozen declaration and copy exact returned row handles. A structurally valid query is insufficient if it omits requested results. Only the supplied typed financial tools and request_details are available in this candidate; express matching report requests with financial_analysis or financial_scenario. Clarify unsupported scope rather than substituting a different report. Do not invent a declaration for an off-topic or ambiguous request; use request_details without financial data.',
+    };
+  }
   if (route === 'authored')
     return {
       tools: insightTools,
@@ -632,6 +646,7 @@ async function validatedFinancialPlan(
   instructions: string,
   messages: Messages,
   session = newPlanningSession(2),
+  parseArgs: typeof parseInsightArgs = parseInsightArgs,
 ) {
   const { start, deadline, attempts } = session;
   let repairStatus = session.repairStatus;
@@ -669,7 +684,7 @@ async function validatedFinancialPlan(
       attempts.push(selected.ai);
       try {
         const args = await duringStage('model_schema', () =>
-          parseInsightArgs(selected.call.name, selected.call.args),
+          parseArgs(selected.call.name, selected.call.args),
         );
         if (index) repairStatus = 'succeeded';
         session.repairStatus = repairStatus;
@@ -769,8 +784,19 @@ async function continueFinancialInspection(
   instructions: string,
   initial: Awaited<ReturnType<typeof validatedFinancialPlan>>,
   session: PlanningSession,
+  completion?: AnswerCompletionSession,
 ) {
-  const inspection = new FinancialInspection(org, messages, planningChart, session.deadline);
+  const inspection = new FinancialInspection(
+    org,
+    messages,
+    planningChart,
+    session.deadline,
+    completion
+      ? (chart) => {
+          completion.executionChart = chart;
+        }
+      : undefined,
+  );
   let selected = initial;
   const metadata = () => planningMetadata(session.attempts, session.start, session.repairStatus);
   const remaining = () => {
@@ -797,6 +823,7 @@ async function continueFinancialInspection(
           query: selected.call,
           ai: metadata(),
           inspection: inspection.summary(),
+          ...(completion ? { completion: unassessedCompletion() } : {}),
         };
       if (
         selected.call.name === 'show_inspected_results' ||
@@ -808,7 +835,17 @@ async function continueFinancialInspection(
             : inspection.calculate(selected.call.args),
         );
         remaining();
-        return { ...result, query: selected.call, ai: metadata(), inspection: inspection.summary() };
+        const finished = {
+          ...result,
+          query: selected.call,
+          ai: metadata(),
+          inspection: inspection.summary(),
+        };
+        const answer = completion
+          ? completeFinancialAnswer(org, completion, finished, inspection.summary().rowReferences)
+          : finished;
+        remaining();
+        return answer;
       }
       if (selected.call.name !== 'inspect_financial_data')
         throw new AppError(
@@ -831,7 +868,7 @@ async function continueFinancialInspection(
         );
       await duringStage('financial_tool', () => inspection.inspect(selected.call.args));
       remaining();
-      const tools = [
+      const baseTools = [
         ...(inspection.summary().readRounds < 2 && session.attempts.length + 1 < session.maxAttempts
           ? [inspectFinancialDataTool]
           : []),
@@ -839,16 +876,38 @@ async function continueFinancialInspection(
         calculateFromInspectionTool,
         chatClarificationTool,
       ];
+      const tools = completion ? completionFollowupTools(baseTools) : baseTools;
       // These are application-produced data messages only. Always retain the
       // separate original conversation for scope and assumption verification.
-      const feedbackMessages: Messages = [...messages, { role: 'user', content: inspection.feedback() }];
+      const feedback = completion
+        ? JSON.stringify({
+            kind: 'untrusted_financial_completion_data',
+            answerContract: completion.prepared.contract,
+            inspection: JSON.parse(inspection.feedback()),
+          })
+        : inspection.feedback();
+      if (Buffer.byteLength(feedback, 'utf8') > 64 * 1024)
+        throw new AppError(
+          422,
+          'INSPECTION_LIMIT',
+          'The complete question and inspected data exceed the feedback limit. Narrow the question; no requirements or rows were dropped.',
+        );
+      const feedbackMessages: Messages = [...messages, { role: 'user', content: feedback }];
       selected = await validatedFinancialPlan(
         tools,
         instructions +
           '\nContinue only from the inspection data using the currently supplied tools. Do not issue ordinary final tools or supply query results yourself.',
         feedbackMessages,
         session,
+        completion
+          ? (name, args) => parseCompletionArgs(name, args, 'followup', parseInsightArgs)
+          : parseInsightArgs,
       );
+      if (completion) {
+        const stripped = stripCompletionArgs(selected.call.args);
+        if (stripped.bindings) completion.bindings = stripped.bindings;
+        selected = { ...selected, call: { ...selected.call, args: stripped.args } };
+      }
     }
   } catch (error) {
     const ai = metadata();
@@ -864,6 +923,8 @@ async function continueFinancialInspection(
         'INVALID_ANALYSIS_ACCOUNT',
         'INVALID_SCENARIO',
         'AI_USAGE_UNAVAILABLE',
+        'INVALID_ANSWER_CONTRACT',
+        'INVALID_ANSWER_BINDING',
       ].includes(error.code)
     )
       throw error;
@@ -896,7 +957,9 @@ export async function financialChat(
   const configuredRoute = process.env.FINANCIAL_CHAT_ROUTE;
   const route =
     options.route ??
-    (configuredRoute === 'authored' || configuredRoute === 'adaptive' ? configuredRoute : 'composable');
+    (configuredRoute === 'authored' || configuredRoute === 'adaptive' || configuredRoute === 'complete'
+      ? configuredRoute
+      : 'composable');
   messages = messagesSchema.parse(messages);
   let completedPlan: FinancialPlanMetadata | undefined;
   try {
@@ -916,17 +979,47 @@ export async function financialChat(
         ...('is_cash' in account ? { isCash: Boolean(account.is_cash) } : {}),
       }));
       const planner = buildFinancialPlannerInput(route, chart, today());
-      const session = newPlanningSession(route === 'adaptive' ? 3 : 2);
-      const { call, ai } = await validatedFinancialPlan(
+      const adaptive = route === 'adaptive' || route === 'complete';
+      const session = newPlanningSession(adaptive ? 3 : 2);
+      let { call, ai } = await validatedFinancialPlan(
         planner.tools,
         planner.instructions,
         messages,
         session,
+        route === 'complete'
+          ? (name, args) => parseCompletionArgs(name, args, 'initial', parseInsightArgs)
+          : parseInsightArgs,
       );
       completedPlan = ai;
+      let completion: AnswerCompletionSession | undefined;
+      if (route === 'complete' && call.name !== 'request_details') {
+        const stripped = stripCompletionArgs(call.args);
+        completion = {
+          prepared: prepareAnswerContract(stripped.contract, messages),
+          bindings: stripped.bindings ?? [],
+        };
+        call = { ...call, args: stripped.args };
+      }
+      const analysisOptions = completion
+        ? {
+            deadline: session.deadline,
+            onExecutionChart: (chart: AnalysisAccount[]) => {
+              completion!.executionChart = chart;
+            },
+          }
+        : undefined;
+      const finish = <T extends { answer: string; evidence: InsightEvidence[] }>(result: T) => {
+        const answer = completion ? completeFinancialAnswer(org, completion, result) : result;
+        if (adaptive && performance.now() >= session.deadline)
+          throw new AppError(
+            422,
+            'INSPECTION_LIMIT',
+            'The analysis reached its time limit before finishing its result checks. No financial answer has been substituted.',
+          );
+        return answer;
+      };
       if (call.name === 'inspect_financial_data') {
-        if (route !== 'adaptive')
-          throw new AppError(422, 'UNSUPPORTED_TOOL', 'This financial query is not supported');
+        if (!adaptive) throw new AppError(422, 'UNSUPPORTED_TOOL', 'This financial query is not supported');
         return await continueFinancialInspection(
           org,
           messages,
@@ -935,10 +1028,11 @@ export async function financialChat(
           planner.instructions,
           { call, ai },
           session,
+          completion,
         );
       }
       const checkAdaptiveDeadline = () => {
-        if (route === 'adaptive' && performance.now() >= session.deadline)
+        if (adaptive && performance.now() >= session.deadline)
           throw new AppError(
             422,
             'INSPECTION_LIMIT',
@@ -971,7 +1065,13 @@ export async function financialChat(
         model: ai.model,
       });
       if (call.name === 'request_details')
-        return { answer: clarificationAnswer(args, chart), evidence: [], query: selectedQuery, ai };
+        return {
+          answer: clarificationAnswer(args, chart),
+          evidence: [],
+          query: selectedQuery,
+          ai,
+          ...(route === 'complete' ? { completion: unassessedCompletion() } : {}),
+        };
       if (call.name === 'ask_clarification')
         return { answer: String(args.question), evidence: [], query: selectedQuery, ai };
       try {
@@ -1002,7 +1102,9 @@ export async function financialChat(
               if (assessment.status === 'conflict') return { kind: 'conflict' as const, assessment };
               const result =
                 call.name === 'financial_analysis'
-                  ? await executeFinancialAnalysis(org, args, db)
+                  ? await (analysisOptions
+                      ? executeFinancialAnalysis(org, args, db, analysisOptions)
+                      : executeFinancialAnalysis(org, args, db))
                   : await runInsightTool(org, call.name, args, db).then((value) => ({
                       answer: value.answer,
                       evidence: [value.evidence],
@@ -1043,7 +1145,7 @@ export async function financialChat(
             const matched = guarded.proof.period.requested
               ? 'Matched the expense account and date range stated in your question.'
               : 'Matched the expense account stated in your question. This check does not verify the selected date range.';
-            return {
+            return finish({
               ...guarded.result,
               evidence: evidenceScope(guarded.result.evidence).map((item) => ({
                 ...item,
@@ -1053,7 +1155,7 @@ export async function financialChat(
               ai,
               scopeVerification: guarded.proof,
               ...normalization,
-            };
+            });
           }
           // Close an unassessed scope transaction before normal execution;
           // do not hold a pool connection while opening another snapshot.
@@ -1061,17 +1163,21 @@ export async function financialChat(
         if (call.name === 'financial_analysis' || call.name === 'financial_scenario') {
           const result = await duringStage('financial_tool', () =>
             call.name === 'financial_scenario'
-              ? executeFinancialScenario(org, args, messages)
-              : executeFinancialAnalysis(org, args),
+              ? analysisOptions
+                ? executeFinancialScenario(org, args, messages, analysisOptions)
+                : executeFinancialScenario(org, args, messages)
+              : analysisOptions
+                ? executeFinancialAnalysis(org, args, undefined, analysisOptions)
+                : executeFinancialAnalysis(org, args),
           );
           checkAdaptiveDeadline();
-          return {
+          return finish({
             ...result,
             evidence: evidenceScope(result.evidence),
             query: selectedQuery,
             ai,
             ...normalization,
-          };
+          });
         }
         // Numeric answers are composed by application code from SQL results.
         const result = await duringStage('financial_tool', () => runInsightTool(org, call.name, args));

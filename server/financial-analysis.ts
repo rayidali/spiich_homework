@@ -5,7 +5,7 @@ import { AppError } from './errors';
 import { Decimal, money, formatCurrency } from '../shared/money';
 import { accountSchema, currencyCodes, dateSchema, type Account } from '../shared/schema';
 import type { FinancialTool } from './ai-provider';
-import type { InsightEvidence } from './ai';
+import type { InsightEvidence } from '../shared/financial-evidence';
 import { ALL_HISTORY_START, recordedPeriod } from './date-scope';
 import {
   groupingSchema,
@@ -415,7 +415,16 @@ export function compileFinancialQuery(
             )
         ).map(({ id, code }) => ({ id, code }))
       : [];
-  return { sql, params, plan, selected, cooccurring, groupingAccounts, counterpartyIdentity };
+  return {
+    sql,
+    params,
+    plan,
+    selected,
+    cooccurring,
+    groupingAccounts,
+    counterpartyIdentity,
+    metricAccountTypes: types,
+  };
 }
 
 type RawRow = {
@@ -603,11 +612,18 @@ function scopeDescription(plan: FinancialQuery, chart: AnalysisAccount[]) {
   ].join('. ');
 }
 
+export type FinancialAnalysisOptions = {
+  deadline?: number;
+  counterpartyIdentities?: Record<string, CounterpartyIdentity>;
+  /** Internal observer of the exact execution chart; never part of model input or output. */
+  onExecutionChart?: (chart: AnalysisAccount[]) => void;
+};
+
 export async function executeFinancialAnalysis(
   org: string,
   input: unknown,
   snapshot?: Db,
-  options: { deadline?: number; counterpartyIdentities?: Record<string, CounterpartyIdentity> } = {},
+  options: FinancialAnalysisOptions = {},
 ): Promise<{ answer: string; evidence: InsightEvidence[]; facts: AnalysisFacts[] }> {
   const request = financialAnalysisSchema.parse(input);
   if (new Set(request.queries.map((item) => item.id)).size !== request.queries.length)
@@ -679,7 +695,7 @@ export async function executeFinancialAnalysis(
         ...(Array.isArray(plan.groupBy) ? { dimensions: row.dimensions! } : {}),
       }));
       const scope = scopeDescription(plan, chart);
-      const tableRows = rows.map((row) => ({
+      const tableRows: InsightEvidence['rows'] = rows.map((row) => ({
         label: `${row.label}${row.from && groupingPeriod(plan.groupBy) ? (isBalanceMetric(plan) ? ` · closing balance as of ${row.to}` : ` · ${row.from} to ${row.to}`) : ''}${plan.aggregation === 'average_per_entry' ? ` · ${row.entryCount} matching transactions` : ''}`,
         value:
           row.value === null
@@ -687,6 +703,7 @@ export async function executeFinancialAnalysis(
             : plan.metric === 'journal_count'
               ? row.value
               : `${formatCurrency(row.value, currency)}${currency !== 'USD' ? ` ${currency}` : ''}`,
+        factRef: { kind: 'query_row', queryId: plan.id, rowId: row.rowId },
         ...(plan.groupBy === 'entry'
           ? {
               href: `/transactions?entry=${encodeURIComponent(decodeURIComponent(row.rowId.slice('entry:'.length)))}`,
@@ -719,6 +736,7 @@ export async function executeFinancialAnalysis(
         period: plan.from ? recordedPeriod(plan.from, plan.to) : `As of ${plan.to}`,
         source: plan.status === 'DRAFT' ? 'draft' : 'posted',
         scope,
+        factSource: { kind: 'query_result', queryId: plan.id, truncated },
         rows: tableRows,
         href: `/reports?${plan.from ? `from=${plan.from}&` : ''}to=${plan.to}`,
       });
@@ -783,6 +801,7 @@ export async function executeFinancialAnalysis(
         },
       });
     }
+    options.onExecutionChart?.(structuredClone(chart));
     return { answer: answers.join('\n\n'), evidence, facts };
   };
   return snapshot ? execute(snapshot) : reportSnapshot(execute);

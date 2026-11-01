@@ -7,9 +7,10 @@ import {
   publicFinancialQuerySchema,
   resolveCounterpartyRowKey,
   type AnalysisFacts,
+  type FinancialAnalysisOptions,
 } from './financial-analysis';
 import type { FinancialTool, ModelMessages } from './ai-provider';
-import type { InsightEvidence } from './ai';
+import type { InsightEvidence } from '../shared/financial-evidence';
 import { conversationSchema } from '../shared/conversation';
 import { currencyCodes, dateSchema } from '../shared/schema';
 import { compoundRowId, groupingDimensions, groupingPeriod } from './financial-grouping';
@@ -285,6 +286,7 @@ const cardinalPattern = new RegExp(
   `\\b(?:${tensCardinals.join('|')})(?:[ -](?:${smallCardinals.slice(1, 10).join('|')}))?\\b|\\b(?:${smallCardinals.join('|')})\\b`,
   'gi',
 );
+const assumptionNumericPattern = /[-+]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?/g;
 
 /** Replace only whole cardinals, retaining an original character span for every
  * normalized character. No unit, punctuation, currency or other word changes. */
@@ -373,7 +375,7 @@ function quotedAssumption(
   const text = normalizedQuote.text;
   if (/[£€¥₹]|\b(?:EUR|GBP|CAD|AUD|JPY|INR|Canadian|Australian|pounds?|euros?|yen)\b/i.test(text))
     invalid('Only explicit USD monetary assumptions are supported.');
-  const literals = [...text.matchAll(/[-+]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?/g)];
+  const literals = [...text.matchAll(assumptionNumericPattern)];
   if (literals.length !== 1)
     invalid('Each assumption quote must contain exactly one unambiguous numeric literal.');
   const literal = literals[0];
@@ -501,6 +503,35 @@ function quotedAssumption(
   };
 }
 
+/** Reuse the original-user quantity validator without exposing private arithmetic values. */
+export function scenarioAssumptionEvidence(input: unknown, messages: ModelMessages) {
+  const assumption = financialScenarioSchema.shape.assumptions.element.parse(input);
+  conversationSchema.parse(messages);
+  return quotedAssumption(assumption, messages).evidence;
+}
+
+/** Identifies the exact validated quantity occurrence, not overlapping prose or
+ * another equal-valued amount. Bounds use original USER UTF-16 character offsets.
+ * This metadata is opt-in; ordinary calculation facts retain their existing shape.
+ */
+export function scenarioAssumptionQuantityEvidence(input: unknown, messages: ModelMessages) {
+  const evidence = scenarioAssumptionEvidence(input, messages);
+  const normalized = normalizeCardinals(evidence.sourceText);
+  const literals = [...normalized.text.matchAll(assumptionNumericPattern)];
+  if (literals.length !== 1 || evidence.sourceStart === undefined || evidence.sourceEnd === undefined)
+    invalid('The assumption quantity has no exact original-user occurrence.');
+  const literal = literals[0];
+  const start = normalized.starts[literal.index!];
+  const end = normalized.ends[literal.index! + literal[0].length - 1];
+  if (start === undefined || end === undefined || start >= end)
+    invalid('The assumption quantity has invalid original-user bounds.');
+  return {
+    ...evidence,
+    quantityStart: evidence.sourceStart + start,
+    quantityEnd: evidence.sourceStart + end,
+  };
+}
+
 function fullMonths(from: string | null, to: string) {
   if (!from || !from.endsWith('-01'))
     invalid('A calendar-month count requires full months, beginning on the first day.');
@@ -548,6 +579,11 @@ function calendarMonths(fact: AnalysisFacts) {
       invalid('Monthly evidence has missing, duplicate, partial or incompatible calendar coverage.');
   }
   return fraction(BigInt(expected.length), 1n);
+}
+
+/** Accept only trusted executed facts, under the same complete-series rules as the calculator. */
+export function scenarioCalendarMonthCount(fact: AnalysisFacts): string {
+  return calendarMonths(fact).numerator.toString();
 }
 
 function checkAveragePeriods(amount: Value, duration: Value, facts: AnalysisFacts[]) {
@@ -999,6 +1035,7 @@ export function evaluateFinancialScenario(
     tableRows.push({
       label: `Calculation ${calculations.length}: ${presentation(left.exact, left.unit).label} ${{ add: '+', subtract: '−', multiply: '×', divide: '÷' }[calculation.operation]} ${presentation(right.exact, right.unit).label}`,
       value: displayed.label,
+      factRef: { kind: 'calculation', calculationId: calculation.id },
     });
     tables.set(source, tableRows);
   }
@@ -1013,6 +1050,7 @@ export function evaluateFinancialScenario(
       rows: [...assumptions.values()].map((a, i) => ({
         label: `Assumption ${i + 1}: “${a.evidence.sourceText}”`,
         value: presentation(a.value.exact, a.value.unit).label,
+        factRef: { kind: 'assumption', assumptionId: a.evidence.id },
       })),
       href: '/transactions',
     });
@@ -1041,11 +1079,16 @@ export function evaluateFinancialScenario(
   };
 }
 
-export async function executeFinancialScenario(org: string, input: unknown, messages: ModelMessages) {
+export async function executeFinancialScenario(
+  org: string,
+  input: unknown,
+  messages: ModelMessages,
+  options: FinancialAnalysisOptions = {},
+) {
   // Validate quotes, identifiers, dependencies and dimensions before any database work.
   const { plan } = prepare(input, messages);
   const queried = plan.queries.length
-    ? await executeFinancialAnalysis(org, { queries: plan.queries })
+    ? await executeFinancialAnalysis(org, { queries: plan.queries }, undefined, options)
     : { facts: [], evidence: [] };
   if (queried.facts.some((fact) => fact.scope.organizationId !== org))
     invalid('Scenario evidence must belong to the current workspace.');

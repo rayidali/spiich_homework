@@ -1,10 +1,18 @@
 # Financial-chat reliability work
 
-## Latest interface repair — verified candidate, not deployed
+## New declared-output checker — local, unpublished candidate
+
+`FINANCIAL_CHAT_ROUTE=complete` now makes the distinction between correct numbers and a complete declared answer explicit. The first valid plan declares required values, tables, identities and calculations using original-user quotes, before financial amounts are read. Later results bind to that frozen declaration through server-owned fact references. Each required result must have the right source and appear in visible evidence.
+
+In an illustrative January 240/February 90 example, a request for both amounts, their difference and relative change declares four duties. The existing calculator yields −150 and −0.625 ratio; showing only the two amounts is partial. A wrong source with the same dollar value is withheld. The renderer shows requested results first, keeps posted/draft/hypothetical labels and avoids a headline that falsely implies completion.
+
+This checks the model's declared duties, not exhaustive user understanding: `completionBasis:'model_declared'` and `userIntentVerified:false` remain explicit. No missing formula is automatically inferred or executed, and no extra call/budget is added. Existing authored/composable/adaptive behavior and the hosted default are unchanged. Focused 46 pure / 20 envelope / 22 mocked-service cases pass; six PostgreSQL and two browser cases await CI. No new model call, accuracy score or deployment is claimed. [Contract, safeguards and limitations](ANSWER_COMPLETENESS.md).
+
+## Earlier interface repair — verified candidate, not deployed
 
 Source `1847a67` passed [full CI](evidence/financial-interface-candidate-ci.json): 1,963 tests, 29 browser workflows, native research and Compose, including 26 actual-PostgreSQL inspection cases. Short request-local references prevent the model from needing to reproduce escaped compound row IDs. Gemini wire-schema normalization and bounded field-specific repair hints address the observed invalid-operand failures. Strict source, arithmetic and usage rules remain intact. This has no new live-model score; production remains `93a8617` / `composable`.
 
-The [completed comparison](evidence/adaptive-runs/holdout-v2/report.md) remains frozen. The [next proposed completeness contract](ANSWER_COMPLETENESS.md) would check whether every model-declared output is visibly supported; it is unimplemented and cannot prove complete user-intent interpretation.
+The [completed comparison](evidence/adaptive-runs/holdout-v2/report.md) remains frozen. The newer [completeness checker](ANSWER_COMPLETENESS.md) is implemented locally as described above; this previous CI and the old model scores do not cover it.
 
 ## Earlier adaptive inspection candidate — historical verification
 

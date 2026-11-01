@@ -427,7 +427,12 @@ describe('Hypothetical financial calculation boundary (no providers)', () => {
       facts: [fact],
     });
     const result = await executeFinancialScenario(org, plan, messages);
-    expect(mocks.executeFinancialAnalysis).toHaveBeenCalledExactlyOnceWith(org, { queries: plan.queries });
+    expect(mocks.executeFinancialAnalysis).toHaveBeenCalledExactlyOnceWith(
+      org,
+      { queries: plan.queries },
+      undefined,
+      {},
+    );
     expect(result.facts[0]).toBe(fact);
     expect(calculationFacts(result)[0]).toMatchObject({
       value: '1.666667',

@@ -56,6 +56,7 @@ IDEMPOTENCY_KEY_REQUIRED INTERNAL_ERROR INVALID_DATE_RANGE INVALID_INPUT INVALID
 QUERY_TIMEOUT RECORD_IN_USE DUPLICATE_RECORD AMOUNT_TOO_SMALL CONFIRM_EXCHANGE_RATES CURRENCY_PRECISION
 IDEMPOTENCY_CONFLICT IMMUTABLE_ENTRY INVALID_ACCOUNT INVALID_EXPENSE_ACCOUNT INVALID_ANALYSIS_SCOPE INVALID_ANALYSIS_ACCOUNT INVALID_SCENARIO REQUEST_SCOPE_MISMATCH INVALID_INSPECTION INSPECTION_CHANGED INSPECTION_LIMIT INVALID_AMOUNT INVALID_CURSOR INVALID_EXCHANGE_RATE
 INVALID_REVERSAL_DATE NOT_POSTED STALE_DRAFT UNBALANCED_ENTRY INVALID_SCHEDULE SCHEDULE_ANCHOR_FIXED
+INVALID_ANSWER_CONTRACT INVALID_ANSWER_BINDING ANSWER_INCOMPLETE
 SCHEDULE_LIMIT STALE_SCHEDULE GROUP_LEDGER METHOD_NOT_ALLOWED SCHEDULE_UNAVAILABLE UNAUTHORIZED
 INVALID_PROPOSAL PROPOSAL_NOT_FOUND PROPOSAL_BINDING_INVALID PROPOSAL_ALREADY_USED PROPOSAL_EXPIRED
 CORRECTION_REQUIRES_POSTING CORRECTION_REVIEW_CHANGED REVIEWED_POSTING_REQUIRED ALERT_RESOLVED
@@ -96,6 +97,7 @@ type DiagnosticEvent =
   | 'ai_provider_usage'
   | 'ai_schema_validation'
   | 'ai_financial_plan'
+  | 'ai_answer_completion'
   | 'database_pool'
   | 'database_rollback_failed'
   | 'worker_error';
@@ -131,11 +133,15 @@ type DiagnosticFields = {
   };
   unreportedAttempts?: number;
   repairStatus?: string;
+  completionStatus?: 'fulfilled' | 'partial' | 'unassessed';
+  fulfilledOutputs?: number;
+  missingOutputs?: number;
+  invalidOutputs?: number;
   issues?: { code: string; path: (string | number)[] }[];
 };
 
 const schemaKeys = new Set(
-  `queries assumptions calculations id metric aggregation from to status currencyMode currency groupBy accountCodes cooccurringAccountCodes counterparty mode value descriptionSearch minimumAmount maximumAmount order limit source rowId field operation operands unit sourceText accountCode previousFrom previousTo view search asOf question reason subject limitation`.split(
+  `queries assumptions calculations id metric aggregation from to status currencyMode currency groupBy accountCodes cooccurringAccountCodes counterparty mode value descriptionSearch minimumAmount maximumAmount order limit source rowId field operation operands unit sourceText accountCode previousFrom previousTo view search asOf question reason subject limitation answerContract outputBindings outputs sourceQuotes messageIndex quote requirement kind scope counterpartyFrom query coverage tiePolicy selectedAccountCode outputId queryId calculationId`.split(
     ' ',
   ),
 );
@@ -276,6 +282,10 @@ export function diagnostic(
   )
     output.repairStatus = fields.repairStatus;
   if (fields.issues) output.issues = safeSchemaIssues(fields.issues);
+  if (['fulfilled', 'partial', 'unassessed'].includes(fields.completionStatus ?? ''))
+    output.completionStatus = fields.completionStatus;
+  for (const key of ['fulfilledOutputs', 'missingOutputs', 'invalidOutputs'] as const)
+    if (count(fields[key]) && fields[key]! <= 8) output[key] = fields[key];
   if (['http', 'transport', 'timeout', 'provider'].includes(fields.failureClass ?? ''))
     output.failureClass = fields.failureClass;
   if (fields.upstreamStatus === null || httpStatus(fields.upstreamStatus))
@@ -289,7 +299,8 @@ export function diagnostic(
     event === 'ai_category_result' ||
     event === 'ai_financial_query' ||
     event === 'ai_provider_usage' ||
-    event === 'ai_financial_plan'
+    event === 'ai_financial_plan' ||
+    event === 'ai_answer_completion'
   )
     console.log(JSON.stringify(output));
   else console.error(JSON.stringify(output));
