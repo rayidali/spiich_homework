@@ -2,7 +2,9 @@
 
 ## Current row-reference and schema-repair candidate
 
-The local candidate passes **151 focused tests across six files**, formatting and the TypeScript/production build. Tests cover Gemini wire-schema normalization, bounded trusted repair hints, one-repair behavior and usage accounting, original-user-only assumptions, and request-local handles with unchanged canonical evidence. A separate code review found no relaxation of financial validation. Provider responses are scripted; no new provider call, model score or production deployment is claimed. Actual PostgreSQL, browser and Compose checks for this candidate remain pending. Missing requested calculations and broader intent verification remain open. [Implementation and limits](ADAPTIVE_CHAT.md).
+Source `1847a67ac1f2e6a4085a0ebba5c76eae72cb6ccf` passed [full CI 41260225345](https://github.com/rayidali/spiich_homework/actions/runs/41260225345): **1,963 tests across 99 files and 29 browser workflows**, native research and Compose. The container passed 1,962 tests across 98 files; five skipped there, compared with four in normal CI. Both runs include all 26 actual-PostgreSQL inspection cases. Counts overlap and must not be added. [Exact-source receipt](evidence/financial-interface-candidate-ci.json).
+
+The changes cover Gemini wire-schema normalization, bounded trusted repair hints, one-repair behavior and usage accounting, original-user-only assumptions, and request-local handles with unchanged canonical evidence. Before publication, 151 focused tests across six files, formatting and TypeScript/production build passed. Independent code review found no relaxation of financial validation. Provider and browser responses are scripted; browser tests use the CI build. Live-AI was skipped, no new provider call or model score is claimed, and production remains unchanged. Missing requested calculations and broader intent verification remain open. [Implementation and limits](ADAPTIVE_CHAT.md); [proposed-only completeness design](ANSWER_COMPLETENESS.md).
 
 ## Latest adaptive comparison and Docker packaging repair
 

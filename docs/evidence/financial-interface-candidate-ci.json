@@ -1,0 +1,93 @@
+{
+  "version": "financial-interface-candidate-ci-v1",
+  "status": "COMPLETE_SUCCESS",
+  "sourceCommit": "1847a67ac1f2e6a4085a0ebba5c76eae72cb6ccf",
+  "runId": 41260225345,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41260225345",
+  "attempt": 1,
+  "jobs": [
+    {
+      "id": 124711778353,
+      "name": "research-native",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T01:14:49Z"
+    },
+    {
+      "id": 124711778470,
+      "name": "verify",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T01:19:11Z"
+    },
+    {
+      "id": 124712863413,
+      "name": "compose",
+      "status": "completed",
+      "conclusion": "success",
+      "completed_at": "2026-11-01T01:22:19Z"
+    },
+    {
+      "id": 124713509391,
+      "name": "live-ai",
+      "status": "completed",
+      "conclusion": "skipped",
+      "completed_at": "2026-11-01T01:22:19Z"
+    }
+  ],
+  "runtimeAndEvaluatorSource": {
+    "hash": "3790baa8ed1f847949a129055686e8fcb948b24ffe6496b11b4a0330ee4c4465",
+    "files": 69,
+    "notTheFrozenStudySource": true
+  },
+  "verification": {
+    "localFocusedTests": 151,
+    "localFocusedFiles": 6,
+    "typecheckAndBuildPassed": true,
+    "normal": {
+      "passed": 1963,
+      "skipped": 4,
+      "filesPassed": 99,
+      "filesSkipped": 1
+    },
+    "browserPassed": 29,
+    "browserDurationSeconds": 47.1,
+    "compose": {
+      "passed": 1962,
+      "skipped": 5,
+      "filesPassed": 98,
+      "filesSkipped": 2
+    },
+    "actualPostgresInspectionCases": 26,
+    "countsOverlap": true
+  },
+  "changes": [
+    "Gemini-only literal-to-singleton-enum wire schema compatibility; application validation remains authoritative.",
+    "Bounded trusted schema field hints inside the existing one-repair allowance.",
+    "Short request-local/query-bound row handles with exact canonical fact and audit mapping."
+  ],
+  "newProviderCalls": 0,
+  "newProviderSpendUsd": "0",
+  "productionChanged": false,
+  "hostedAcceptancePerformed": false,
+  "remainingWork": [
+    "Missing requested calculations and whole-question completeness.",
+    "Fresh live-model evaluation of changed runtime; old scores do not apply.",
+    "New grader version using source-linked application evidence, preserving frozen grades."
+  ],
+  "limitations": [
+    "Provider responses in engineering and browser tests are scripted.",
+    "The browser suite uses the CI build, not production or a physical device.",
+    "Tests verify mechanisms, not universal user-intent understanding.",
+    "Four dedicated evaluator database cases skip in ordinary CI; their old manual run remains separate.",
+    "Existing exact canonical row references remain compatible through strict downstream checks.",
+    "The proposed ANSWER_COMPLETENESS.md design is unimplemented."
+  ],
+  "inputHashes": {
+    "interface-ci-run.json": "1fadc041a24f6824840d80d6b11473fc3d9fdc3545ef5801eecaf3556093888f",
+    "interface-ci-jobs.json": "d772d90d9b002cb8a528b71a9ec8bb4b1406400fe281744e80624e683368f07f",
+    "interface-ci-verify.log": "f52368de6bec92f42bc2ce78bbdd81406be951ea0a9e878bcd679bc43105d67a",
+    "interface-ci-compose.log": "5ec5866e7b5db294db2af207edca37f2438bef60c9a3a05a189dc46530cc6f2a",
+    "interface-source.json": "114a5c9b77114e753586bd77b3dd0127d4f108b98a1a5b3b15b876a103f3a8c7"
+  }
+}

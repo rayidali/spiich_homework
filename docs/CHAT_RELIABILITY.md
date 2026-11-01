@@ -1,8 +1,14 @@
 # Financial-chat reliability work
 
-## Adaptive inspection — CI-verified candidate, not deployed
+## Latest interface repair — verified candidate, not deployed
 
-The opt-in route can read a result before choosing another query or calculation. Review caught a case where separately grouped `Acme` and `acme` records would be combined by ordinary name matching. Follow-up queries now use the exact returned row identity, with source checks through the final calculation. Source `2b2de76` passed full CI, including 25 actual-PostgreSQL inspection cases. Provider responses were scripted; this is not a new model-accuracy result. The deployed route remains `composable`. [Walkthrough and next comparison](ADAPTIVE_CHAT.md), [evidence](evidence/adaptive-candidate-ci.json).
+Source `1847a67` passed [full CI](evidence/financial-interface-candidate-ci.json): 1,963 tests, 29 browser workflows, native research and Compose, including 26 actual-PostgreSQL inspection cases. Short request-local references prevent the model from needing to reproduce escaped compound row IDs. Gemini wire-schema normalization and bounded field-specific repair hints address the observed invalid-operand failures. Strict source, arithmetic and usage rules remain intact. This has no new live-model score; production remains `93a8617` / `composable`.
+
+The [completed comparison](evidence/adaptive-runs/holdout-v2/report.md) remains frozen. The [next proposed completeness contract](ANSWER_COMPLETENESS.md) would check whether every model-declared output is visibly supported; it is unimplemented and cannot prove complete user-intent interpretation.
+
+## Earlier adaptive inspection candidate — historical verification
+
+The opt-in route can read a result before choosing another query or calculation. Review caught a case where separately grouped `Acme` and `acme` records would be combined by ordinary name matching. Follow-up queries now use the exact returned row identity, with source checks through the final calculation. Source `2b2de76` passed full CI, including 25 actual-PostgreSQL inspection cases. Provider responses were scripted; this is not a new model-accuracy result. The deployed route remains `composable`. [Walkthrough and completed comparison](ADAPTIVE_CHAT.md), [evidence](evidence/adaptive-candidate-ci.json).
 
 ## Compound grouping — deployed and CI verified
 
