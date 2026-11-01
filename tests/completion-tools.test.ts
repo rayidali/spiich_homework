@@ -81,6 +81,62 @@ const narrow: FinancialTool = {
 };
 
 describe('Completion-required tool envelopes, no provider calls', () => {
+  it('accepts only the missing initial outputs wrapper without changing the declaration', () => {
+    const canonical = { ...scenario, answerContract: contract, outputBindings: bindings };
+    const shorthand = { ...scenario, answerContract: contract.outputs, outputBindings: bindings };
+    const before = structuredClone(shorthand);
+    expect(parseCompletionArgs('financial_scenario', shorthand, 'initial', base)).toEqual(
+      parseCompletionArgs('financial_scenario', canonical, 'initial', base),
+    );
+    expect(shorthand).toEqual(before);
+    const parsed = parseCompletionArgs('financial_scenario', shorthand, 'initial', base);
+    expect(parsed.answerContract).not.toBe(contract);
+  });
+  it.each(
+    [
+      [],
+      Array.from({ length: 9 }, () => contract.outputs[0]),
+      [{ ...contract.outputs[0], injected: 'unrecognized field' }],
+      [{ ...contract.outputs[0], sourceQuotes: [{ messageIndex: -1, quote: 'Add $2 and $3' }] }],
+      [{ ...contract.outputs[0], requirement: { kind: 'arithmetic', operation: 'execute', operands: [] } }],
+    ].map((outputs) => ({ outputs })),
+  )('rejects invalid shorthand before the base query parser', ({ outputs }) => {
+    const parseBase = vi.fn(base);
+    expect(() =>
+      parseCompletionArgs(
+        'financial_scenario',
+        { ...scenario, answerContract: outputs, outputBindings: bindings },
+        'initial',
+        parseBase,
+      ),
+    ).toThrow();
+    expect(parseBase).not.toHaveBeenCalled();
+  });
+  it('does not allow shorthand to replace follow-up contracts or decorate a clarification', () => {
+    for (const [name, phase] of [
+      ['show_inspected_results', 'followup'],
+      ['request_details', 'initial'],
+    ] as const) {
+      const parseBase = vi.fn(base);
+      expect(() =>
+        parseCompletionArgs(name, { answerContract: contract.outputs, outputBindings: [] }, phase, parseBase),
+      ).toThrow();
+      expect(parseBase).not.toHaveBeenCalled();
+    }
+  });
+  it('preserves incorrect semantic indices and bindings for the existing guards to reject', () => {
+    const outputs = structuredClone(contract.outputs);
+    outputs[0].sourceQuotes[0].messageIndex = 1;
+    const wrongBinding = [{ outputId: 'total', source: { kind: 'query_result', queryId: 'wrong' } }];
+    const result = parseCompletionArgs(
+      'financial_scenario',
+      { ...scenario, answerContract: outputs, outputBindings: wrongBinding },
+      'initial',
+      base,
+    );
+    expect(result.answerContract).toEqual({ outputs });
+    expect(result.outputBindings).toEqual(wrongBinding);
+  });
   it('exposes only supported initial paths and leaves original declarations unchanged', () => {
     const tools = [...allTools, narrow];
     const before = structuredClone(tools);

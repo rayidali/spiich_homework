@@ -95,7 +95,14 @@ export function parseCompletionArgs(
   const metadata = Object.fromEntries(
     metadataNames.filter((key) => Object.hasOwn(object, key)).map((key) => [key, object[key]]),
   );
-  const validated = schema.parse(metadata);
+  // Some valid tool calls omit only the outer {outputs: ...} wrapper. Accept
+  // that unambiguous initial syntax shorthand, then apply the same strict schema.
+  // Never alter a quote, index, binding, scope or operation to make it pass.
+  const canonicalMetadata =
+    phase === 'initial' && name !== 'request_details' && Array.isArray(metadata.answerContract)
+      ? { ...metadata, answerContract: { outputs: metadata.answerContract } }
+      : metadata;
+  const validated = schema.parse(canonicalMetadata);
   const stripped = Object.fromEntries(
     Object.entries(object).filter(([key]) => !metadataNames.some((name) => name === key)),
   );
