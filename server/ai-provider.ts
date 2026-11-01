@@ -6,6 +6,7 @@ import { AppError, failureStage, markFailure, type FailureStage } from './errors
 import { diagnostic } from './diagnostics';
 import { readBoundedProviderJson } from './ai-response';
 import { geminiProviderSchema } from './provider-schema';
+import { readProviderErrorDiagnostics, type ProviderErrorDiagnostics } from './provider-diagnostics';
 
 export type ModelMessages = { role: 'user' | 'assistant'; content: string }[];
 export type FinancialTool = {
@@ -81,7 +82,7 @@ const invalid = (stage: FailureStage = 'model_response') =>
     ),
     stage,
   );
-type ProviderDiagnostic = {
+type ProviderDiagnostic = Partial<ProviderErrorDiagnostics> & {
   failureClass: 'http' | 'transport' | 'timeout' | 'provider';
   upstreamStatus: number | null;
   transportCode?: string;
@@ -107,10 +108,11 @@ class ProviderFailure extends AppError {
     );
   }
 }
-function providerError(status?: number) {
+function providerError(status?: number, details?: ProviderErrorDiagnostics) {
   const diagnostic: ProviderDiagnostic = {
     failureClass: status === undefined ? 'provider' : 'http',
     upstreamStatus: status ?? null,
+    ...details,
   };
   if (status === 400)
     return new ProviderFailure(
@@ -474,11 +476,20 @@ async function geminiRequest(
     if (error instanceof TypeError) throw transportFailure(error);
     throw error;
   }
-  // Never include provider error payloads: they can echo user data or credentials.
+  // Inspect a bounded error body for fixed server-only categories. Never return
+  // provider prose to the browser or logger: it can echo user data or credentials.
   if (!response.ok) {
-    // Stream cleanup must not replace the upstream status with an unrelated error.
-    await response.body?.cancel().catch(() => {});
-    throw providerError(response.status);
+    let details: ProviderErrorDiagnostics;
+    try {
+      details = await readProviderErrorDiagnostics(response, {
+        apiKey: config.aiKey,
+        signal: request.signal ?? undefined,
+      });
+    } catch {
+      // Diagnostic collection must never hide the original provider failure.
+      details = { providerReason: 'unknown', providerBodyState: 'read_failed' };
+    }
+    throw providerError(response.status, details);
   }
   let body: unknown;
   try {

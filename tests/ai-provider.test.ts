@@ -218,16 +218,16 @@ describe('Gemini transport and response contract (no live calls)', () => {
   });
 
   it.each([
-    [400, 'AI_REQUEST_REJECTED'],
-    [401, 'AI_AUTH_ERROR'],
-    [403, 'AI_AUTH_ERROR'],
-    [404, 'AI_MODEL_UNAVAILABLE'],
-    [429, 'AI_RATE_LIMIT'],
-    [500, 'AI_SERVICE_UNAVAILABLE'],
-    [502, 'AI_SERVICE_UNAVAILABLE'],
-    [503, 'AI_SERVICE_UNAVAILABLE'],
-    [504, 'AI_SERVICE_UNAVAILABLE'],
-  ])('maps HTTP %s to a sanitized error without retrying', async (status, code) => {
+    [400, 'AI_REQUEST_REJECTED', 'invalid_argument'],
+    [401, 'AI_AUTH_ERROR', 'unauthenticated'],
+    [403, 'AI_AUTH_ERROR', 'permission_denied'],
+    [404, 'AI_MODEL_UNAVAILABLE', 'not_found'],
+    [429, 'AI_RATE_LIMIT', 'rate_or_quota_limit'],
+    [500, 'AI_SERVICE_UNAVAILABLE', 'service_unavailable'],
+    [502, 'AI_SERVICE_UNAVAILABLE', 'service_unavailable'],
+    [503, 'AI_SERVICE_UNAVAILABLE', 'service_unavailable'],
+    [504, 'AI_SERVICE_UNAVAILABLE', 'service_unavailable'],
+  ])('maps HTTP %s to a sanitized error without retrying', async (status, code, providerReason) => {
     response({ error: { message: 'provider payload containing sensitive request details' } }, Number(status));
     const error = await generateProposal(schema, 'Drafts only.', input).catch((e: unknown) => e);
     expect(error).toMatchObject({ code });
@@ -248,6 +248,8 @@ describe('Gemini transport and response contract (no live calls)', () => {
       status: (error as { status: number }).status,
       failureClass: 'http',
       upstreamStatus: Number(status),
+      providerReason,
+      providerBodyState: 'parsed',
       durationMs: expect.any(Number),
     });
     const logged = JSON.stringify(vi.mocked(console.error).mock.calls);
@@ -256,6 +258,35 @@ describe('Gemini transport and response contract (no live calls)', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(getAiUsage().attempts).toBe(1);
     expect(getAiUsage().unreportedUsage).toBe(1);
+  });
+
+  it('preserves a safe rejection reason through the real provider and logger boundaries', async () => {
+    const privateText = `Private transaction ${input[0].content} ${config.aiKey}`;
+    response(
+      { error: { code: 400, status: 'INVALID_ARGUMENT', message: `Schema too complex. ${privateText}` } },
+      400,
+    );
+    const error = await chooseFinancialTool([tool], 'Private instructions.', input).catch((e: unknown) => e);
+    expect(error).toMatchObject({ code: 'AI_REQUEST_REJECTED', details: undefined });
+    const entries = vi.mocked(console.error).mock.calls.map(([line]) => JSON.parse(line));
+    expect(entries).toHaveLength(1);
+    expect(entries[0]).toMatchObject({
+      event: 'ai_provider_failure',
+      providerReason: 'schema_complexity',
+      providerBodyState: 'parsed',
+      providerStatus: 'INVALID_ARGUMENT',
+      providerCode: 400,
+      upstreamStatus: 400,
+    });
+    for (const secret of [
+      config.aiKey,
+      privateText,
+      input[0].content,
+      'Schema too complex',
+      'Private instructions.',
+    ])
+      expect(JSON.stringify(entries)).not.toContain(secret);
+    expect(fetchMock).toHaveBeenCalledOnce();
   });
 
   it('turns a timeout into a recoverable error without a hidden retry', async () => {

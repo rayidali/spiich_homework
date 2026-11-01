@@ -1,0 +1,73 @@
+name: Bounded provider diagnostic
+run-name: provider-diagnostic/20261101-v1/${{ inputs.slot }}
+on:
+  workflow_dispatch:
+    inputs:
+      slot:
+        description: Each diagnostic slot may be dispatched once; repair and multi initially refuse
+        type: choice
+        options: [original, repair, multi]
+        required: true
+      source_commit:
+        description: Exact reviewed main commit containing this diagnostic
+        type: string
+        required: true
+      source_hash:
+        description: Optional archived study source hash; this is not a new study run
+        type: string
+        default: ''
+      authorization:
+        description: Explicit user diagnosis authorization recorded by the operator
+        type: choice
+        options: [explicit_user_requested_diagnosis_within_existing_0_90_total]
+        required: true
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: provider-diagnostic-20261101-v1
+  cancel-in-progress: false
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      NODE_ENV: test
+      DIAGNOSTIC_SLOT: ${{ inputs.slot }}
+      DIAGNOSTIC_SOURCE_COMMIT: ${{ inputs.source_commit }}
+      DIAGNOSTIC_SOURCE_HASH: ${{ inputs.source_hash }}
+      USER_DIAGNOSTIC_AUTHORIZATION: ${{ inputs.authorization }}
+      GEMINI_API_KEY: ''
+      OPENAI_API_KEY: ''
+      TYPESAFE_API_KEY: ''
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Download the preserved failed development artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: completeness-evaluation-development-41274681768
+          run-id: 41274681768
+          github-token: ${{ github.token }}
+          path: .tools/provider-diagnostic-input/
+      - name: Verify exact source, preserved request and unused diagnostic slot without provider credentials
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node --import tsx scripts/provider-diagnostic.ts authorize
+      - name: Capture one bounded provider response, including HTTP errors
+        env:
+          GEMINI_DIAGNOSTIC_KEY: ${{ secrets.GEMINI_DIAGNOSTIC_KEY }}
+        run: node --import tsx scripts/provider-diagnostic.ts run
+      - name: Preserve diagnostic response and conservative accounting
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: provider-diagnostic-${{ inputs.slot }}-${{ github.run_id }}
+          path: .tools/provider-diagnostic-output/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 90

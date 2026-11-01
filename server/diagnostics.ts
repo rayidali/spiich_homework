@@ -2,6 +2,7 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 import { randomUUID } from 'node:crypto';
 import type { RequestHandler } from 'express';
 import { databaseCode, type FailureStage } from './errors';
+import { safeProviderErrorDiagnostics, type ProviderErrorDiagnostics } from './provider-diagnostics';
 
 export type RequestContext = {
   requestId: string;
@@ -101,7 +102,7 @@ type DiagnosticEvent =
   | 'database_pool'
   | 'database_rollback_failed'
   | 'worker_error';
-type DiagnosticFields = {
+type DiagnosticFields = Partial<ProviderErrorDiagnostics> & {
   tool?: string;
   scopeReason?: string;
   code?: string;
@@ -213,6 +214,10 @@ export function diagnostic(
   )
     output.scopeReason = fields.scopeReason;
   if (httpStatus(fields.status)) output.status = fields.status;
+  if (event === 'ai_provider_failure') {
+    const providerDetails = safeProviderErrorDiagnostics(fields);
+    if (providerDetails) Object.assign(output, providerDetails);
+  }
   if (count(fields.durationMs)) output.durationMs = fields.durationMs;
   if (
     [
