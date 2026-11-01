@@ -15,7 +15,22 @@ import { conversationBudgetError, MAX_MESSAGE_CHARACTERS } from '../../shared/co
 import { asUiError, type UiError, write } from './api';
 import { useWorkspace } from './context';
 import { ErrorState, Modal, Spinner } from './ui';
-type Message = { role: 'user' | 'assistant'; content: string; evidence?: InsightEvidence[] };
+type ConversationContext = {
+  kind: 'clarification' | 'explanation' | 'limitation';
+  grounding: 'general_knowledge' | 'user_context';
+  verifiedFinancialData: false;
+};
+type Message = {
+  role: 'user' | 'assistant';
+  content: string;
+  evidence?: InsightEvidence[];
+  conversation?: ConversationContext;
+};
+const conversationLabels = {
+  clarification: 'Follow-up question',
+  explanation: 'General explanation',
+  limitation: 'Information needed',
+} satisfies Record<ConversationContext['kind'], string>;
 const prompts = [
   { icon: Receipt, text: 'What were my top 5 expenses last month?' },
   { icon: TrendingUp, text: 'How does this quarter’s revenue compare to last quarter?' },
@@ -46,10 +61,22 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
     setText('');
     setBusy(true);
     try {
-      const result = await write<{ answer: string; evidence: InsightEvidence[] }>('/ai/chat', {
+      const result = await write<{
+        answer: string;
+        evidence: InsightEvidence[];
+        conversation?: ConversationContext;
+      }>('/ai/chat', {
         messages: conversation,
       });
-      setMessages([...next, { role: 'assistant', content: result.answer, evidence: result.evidence }]);
+      setMessages([
+        ...next,
+        {
+          role: 'assistant',
+          content: result.answer,
+          evidence: result.evidence,
+          conversation: result.conversation,
+        },
+      ]);
     } catch (e) {
       setError(asUiError(e));
       setText(next.at(-1)!.content);
@@ -62,7 +89,7 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
     <Modal title="Financial assistant" onClose={onClose} drawer>
       <div className="assistant-status">
         <span className={`online-dot ${meta?.ai.available ? '' : 'inactive'}`} />
-        <span>{meta?.ai.available ? 'Answers use your financial records' : 'Assistant not connected'}</span>
+        <span>{meta?.ai.available ? 'Ready to help with your finances' : 'Assistant not connected'}</span>
         <span>Base currency: {meta?.organization.base_currency ?? 'USD'}</span>
       </div>
       <div className="chat-scroll">
@@ -71,8 +98,8 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
             <span className="assistant-icon">
               <MessageSquareText size={27} />
             </span>
-            <h2>Ask about your books</h2>
-            <p>Ask about expenses, revenue, transactions or your cash position.</p>
+            <h2>Ask about your business finances</h2>
+            <p>Explore your records, understand accounting, or work through a financial decision.</p>
             <div className="chat-prompts">
               {prompts.map((p) => (
                 <button key={p.text} onClick={() => setText(p.text)}>
@@ -98,6 +125,11 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
               </span>
             )}
             <div className="chat-message-content">
+              {m.role === 'assistant' && m.conversation?.verifiedFinancialData === false && (
+                <div className="muted" data-conversation-kind={m.conversation.kind}>
+                  {conversationLabels[m.conversation.kind]}
+                </div>
+              )}
               <p>{m.content}</p>
               {m.evidence?.map((e, index) => (
                 <div className="evidence-card" key={index}>
@@ -147,7 +179,7 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
         {busy && (
           <div className="chat-thinking">
             <Spinner />
-            Looking at your books…
+            Working on your question…
           </div>
         )}
         {error && <ErrorState message={error} />}
@@ -192,7 +224,7 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
         </div>
         <p>
           <Database size={12} />
-          Each answer shows the records or assumptions it uses.
+          Financial figures include their records or assumptions.
         </p>
       </div>
     </Modal>

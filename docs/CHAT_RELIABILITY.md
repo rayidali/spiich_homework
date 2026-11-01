@@ -1,5 +1,7 @@
 # Financial-chat reliability work
 
+**New conversational candidate, not yet deployed.** The staffing-question refusal exposed a gap between financial execution and useful conversation. The candidate adds natural clarification/explanation, honest provenance labels and finite decision diagnostics. It has scripted coverage and an unexecuted 31-case/35-turn real-model acceptance specification. Mixed explanation-plus-data answers remain incomplete; general prose is not verified financial evidence. [Current work](CONVERSATIONAL_ASSISTANT.md).
+
 **Current release — 2026-11-01:** source `6691d76ad24574343b3eec9617546e9c019b8c95` is promoted at the [protected Daybook demo](https://daybook-ledger-delta.vercel.app), with `composable` retained. The completed 16-question/48-execution comparison scored **9/16 composable, 10/16 adaptive and 5/16 complete** under the frozen checker; a separate same-answer grader sensitivity gives **11/16, 11/16 and 5/16**. Neither alternative qualified. Full CI and separate hosted response/browser checks support this release. [Release evidence](evidence/goal-completion-release.json) · [Two-page comparison](reports/chat-route-comparison-explained.pdf).
 
 Earlier source-specific implementation and verification records below are historical checkpoints. Their candidate, pending or production statements describe those checkpoints; their original scores and failures remain unchanged.

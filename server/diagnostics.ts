@@ -104,6 +104,8 @@ type DiagnosticEvent =
   | 'worker_error';
 type DiagnosticFields = Partial<ProviderErrorDiagnostics> & {
   tool?: string;
+  replyKind?: string;
+  clarificationReason?: string;
   scopeReason?: string;
   code?: string;
   stage?: FailureStage;
@@ -143,7 +145,7 @@ type DiagnosticFields = Partial<ProviderErrorDiagnostics> & {
 };
 
 const schemaKeys = new Set(
-  `queries assumptions calculations id metric aggregation from to status currencyMode currency groupBy accountCodes cooccurringAccountCodes counterparty mode value descriptionSearch minimumAmount maximumAmount order limit source rowId field operation operands unit sourceText accountCode previousFrom previousTo view search asOf question reason subject limitation answerContract outputBindings outputs sourceQuotes messageIndex quote requirement kind scope counterpartyFrom query coverage tiePolicy selectedAccountCode outputId queryId calculationId`.split(
+  `queries assumptions calculations id metric aggregation from to status currencyMode currency groupBy accountCodes cooccurringAccountCodes counterparty mode value descriptionSearch minimumAmount maximumAmount order limit source rowId field operation operands unit sourceText accountCode previousFrom previousTo view search asOf question message reason subject limitation answerContract outputBindings outputs sourceQuotes messageIndex quote requirement kind scope counterpartyFrom query coverage tiePolicy selectedAccountCode outputId queryId calculationId`.split(
     ' ',
   ),
 );
@@ -229,6 +231,7 @@ export function diagnostic(
       'show_inspected_results',
       'calculate_from_inspection',
       'request_details',
+      'discuss_business',
       'income_summary',
       'period_comparison',
       'revenue_comparison',
@@ -238,6 +241,24 @@ export function diagnostic(
     ].includes(fields.tool ?? '')
   )
     output.tool = fields.tool;
+  if (
+    fields.tool === 'discuss_business' &&
+    ['clarification', 'explanation', 'limitation'].includes(fields.replyKind ?? '')
+  )
+    output.replyKind = fields.replyKind;
+  if (
+    fields.tool === 'request_details' &&
+    [
+      'missing_period',
+      'ambiguous_account',
+      'unknown_account',
+      'missing_assumption',
+      'unsupported_query',
+      'off_topic',
+      'unsupported_action',
+    ].includes(fields.clarificationReason ?? '')
+  )
+    output.clarificationReason = fields.clarificationReason;
   if (
     [
       'category',

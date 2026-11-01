@@ -8,6 +8,8 @@ Open the [protected hosted demo](https://daybook-ledger-delta.vercel.app), or st
 
 ## Run with Docker Compose
 
+**Assistant work in progress:** a new conversational candidate handles natural business clarifications and general explanations alongside financial tools. It is not promoted or measured with the real model. A separate 31-case acceptance specification targets ordinary wording, follow-ups, missing information and unsupported claims. [Behavior and remaining gaps](docs/CONVERSATIONAL_ASSISTANT.md).
+
 Requires Docker Engine/Desktop with Compose v2.
 
 ```sh

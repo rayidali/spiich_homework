@@ -247,6 +247,7 @@ describe('Adaptive financial chat with real provider parsing and stubbed ledger 
     expect(toolNames(first)).toContain('inspect_financial_data');
     expect(toolNames(second)).toEqual([
       'calculate_from_inspection',
+      'discuss_business',
       'inspect_financial_data',
       'request_details',
       'show_inspected_results',
@@ -545,6 +546,79 @@ describe('Adaptive financial chat with real provider parsing and stubbed ledger 
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
+  it('can clarify after inspection without turning inspected amounts into conversational evidence or reading again', async () => {
+    const reply = {
+      kind: 'clarification',
+      message: 'The ledger does not tell me the intended staffing change.',
+      question: 'Do you want to compare its financial impact?',
+    };
+    fetchMock.mockResolvedValueOnce(inspect()).mockResolvedValueOnce(response('discuss_business', reply));
+    const messages: ModelMessages = [
+      {
+        role: 'user',
+        content: 'Inspect October counterparty expenses. Can I reduce headcount?',
+      },
+    ];
+    const value = await invoke(messages);
+    expect(value).toMatchObject({
+      answer: `${reply.message}\n\n${reply.question}`,
+      evidence: [],
+      conversation: { kind: 'clarification', grounding: 'user_context', verifiedFinancialData: false },
+      query: { name: 'discuss_business', args: reply },
+      inspection: { readRounds: 1, queryCount: 1 },
+      ai: { attempts: 2, repairStatus: 'not_needed', usage: { totalTokens: 260 } },
+    });
+    expect(value).not.toHaveProperty('facts');
+    expect(value.answer).not.toMatch(/100|35/);
+    expect(db.analysis).toHaveBeenCalledTimes(1);
+    expect(db.snapshot).toHaveBeenCalledTimes(1);
+    expect(db.cash).not.toHaveBeenCalled();
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    const [first, second] = bodies();
+    expect(toolNames(second)).toContain('discuss_business');
+    expect(second.contents.slice(0, first.contents.length)).toEqual(first.contents);
+    expect(second.contents.at(-1).parts[0].text).toContain('100.00');
+    expect(logs()).toContainEqual(
+      expect.objectContaining({
+        event: 'ai_financial_query',
+        tool: 'discuss_business',
+        replyKind: 'clarification',
+      }),
+    );
+    expect(JSON.stringify(logs())).not.toContain(reply.question);
+    expect(messages).toEqual([
+      { role: 'user', content: 'Inspect October counterparty expenses. Can I reduce headcount?' },
+    ]);
+  });
+
+  it('rejects forged evidence in a post-inspection conversation and repairs within the shared attempt limit', async () => {
+    const reply = {
+      kind: 'limitation',
+      message: 'The books alone do not show why spending changed.',
+      question: 'Would a breakdown by month help investigate?',
+    };
+    fetchMock
+      .mockResolvedValueOnce(inspect())
+      .mockResolvedValueOnce(
+        response('discuss_business', { ...reply, evidence: [{ source: 'posted', value: '$999,999.00' }] }),
+      )
+      .mockResolvedValueOnce(response('discuss_business', reply));
+    const value = await invoke();
+    expect(value).toMatchObject({
+      evidence: [],
+      conversation: { kind: 'limitation', verifiedFinancialData: false },
+      inspection: { readRounds: 1, queryCount: 1 },
+      ai: { attempts: 3, repairStatus: 'succeeded', usage: { totalTokens: 390 } },
+    });
+    expect(value.answer).not.toContain('999,999');
+    expect(value).not.toHaveProperty('facts');
+    expect(db.analysis).toHaveBeenCalledTimes(1);
+    expect(db.snapshot).toHaveBeenCalledTimes(1);
+    expect(db.cash).not.toHaveBeenCalled();
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+    expect(bodies()[2].contents.at(-1).parts[0].text).toContain('untrusted_schema_repair_data');
+  });
+
   it('does not offer another inspection when the initial repair leaves only one provider attempt', async () => {
     fetchMock
       .mockResolvedValueOnce(response('inspect_financial_data', { queries: [query()], extra: secret }))
@@ -553,6 +627,7 @@ describe('Adaptive financial chat with real provider parsing and stubbed ledger 
     await invoke();
     expect(toolNames(bodies()[2])).toEqual([
       'calculate_from_inspection',
+      'discuss_business',
       'request_details',
       'show_inspected_results',
     ]);

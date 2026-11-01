@@ -1,0 +1,208 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { businessConversationAnswer, businessConversationSchema } from '../server/business-conversation';
+
+const db = vi.hoisted(() => ({ chart: vi.fn(), read: vi.fn(), snapshot: vi.fn() }));
+vi.mock('../server/financial-analysis', async (original) => ({
+  ...(await original<typeof import('../server/financial-analysis')>()),
+  financialAnalysisChart: db.chart,
+  executeFinancialAnalysis: db.read,
+}));
+vi.mock('../server/reports', async (original) => ({
+  ...(await original<typeof import('../server/reports')>()),
+  reportSnapshot: db.snapshot,
+}));
+import { buildFinancialPlannerInput, financialChat } from '../server/ai';
+import { config } from '../server/config';
+import { resetAiUsage, setAiBudget, type ModelMessages } from '../server/ai-provider';
+import { diagnostic } from '../server/diagnostics';
+
+const org = '00000000-0000-4000-8000-000000000001';
+const saved = { aiProvider: config.aiProvider, aiKey: config.aiKey, aiModel: config.aiModel };
+const fetchMock = vi.fn();
+const reply = {
+  kind: 'clarification',
+  message: 'I can help compare the financial effects.',
+  question: 'Do you mean the financial impact or whether you are allowed to do that?',
+};
+function response(name: string, args: unknown) {
+  return new Response(
+    JSON.stringify({
+      candidates: [{ content: { parts: [{ functionCall: { name, args } }] }, finishReason: 'STOP' }],
+      usageMetadata: {
+        promptTokenCount: 100,
+        candidatesTokenCount: 30,
+        thoughtsTokenCount: 0,
+        totalTokenCount: 130,
+      },
+    }),
+    { status: 200 },
+  );
+}
+beforeEach(() => {
+  vi.clearAllMocks();
+  vi.spyOn(console, 'log').mockImplementation(() => {});
+  vi.spyOn(console, 'error').mockImplementation(() => {});
+  vi.stubGlobal('fetch', fetchMock);
+  config.aiProvider = 'gemini';
+  config.aiModel = 'gemini-3.5-flash-lite';
+  config.aiKey = 'PRIVATE_CONVERSATION_TEST_KEY';
+  db.chart.mockResolvedValue([]);
+  db.read.mockRejectedValue(new Error('Unexpected financial read'));
+  db.snapshot.mockRejectedValue(new Error('Unexpected database snapshot'));
+  setAiBudget(null);
+  resetAiUsage();
+});
+afterEach(() => {
+  Object.assign(config, saved);
+  setAiBudget(null);
+  vi.unstubAllGlobals();
+  vi.restoreAllMocks();
+});
+
+describe('Conversational response contracts, not model-accuracy measurements', () => {
+  it('renders one focused question without invented evidence or a book-grounding claim', () => {
+    expect(businessConversationAnswer(reply)).toEqual({
+      answer: `${reply.message}\n\n${reply.question}`,
+      evidence: [],
+      conversation: { kind: 'clarification', grounding: 'user_context', verifiedFinancialData: false },
+    });
+    expect(businessConversationAnswer({ ...reply, message: '' }).answer).toBe(reply.question);
+  });
+  it('labels explanations as general knowledge and permits a complete answer without another question', () => {
+    expect(
+      businessConversationAnswer({
+        kind: 'explanation',
+        message: 'Profit and cash are different.',
+        question: null,
+      }),
+    ).toMatchObject({
+      evidence: [],
+      conversation: { grounding: 'general_knowledge', verifiedFinancialData: false },
+    });
+  });
+  it.each([
+    { ...reply, question: null },
+    { ...reply, question: '   ' },
+    { ...reply, question: 'x'.repeat(501) },
+    { ...reply, message: 'x'.repeat(1601) },
+    { ...reply, kind: 'explanation', message: '   ' },
+    { ...reply, kind: 'limitation', message: '' },
+    { ...reply, kind: 'verified_book_answer' },
+    { ...reply, evidence: [{ value: '$999999', source: 'posted' }] },
+    { ...reply, verifiedFinancialData: true },
+    { ...reply, query: 'DELETE FROM journal_entries' },
+    { ...reply, sources: ['https://invented.invalid'] },
+  ])('rejects malformed, oversized or forged response metadata %#', (value) => {
+    expect(businessConversationSchema.safeParse(value).success).toBe(false);
+  });
+  it('does not pretend text validation establishes truth', () => {
+    const untrusted = '<img src=x onerror=alert(1)> Your business is thriving.';
+    const result = businessConversationAnswer({ kind: 'explanation', message: untrusted, question: null });
+    expect(result.answer).toBe(untrusted);
+    expect(result.conversation.verifiedFinancialData).toBe(false);
+    expect(result.evidence).toEqual([]);
+    // The browser renders text inertly; semantic correctness requires separate
+    // live acceptance. There is deliberately no fake "hallucination detector".
+  });
+  it('offers conversation on product and adaptive paths without modifying experimental grammars', () => {
+    for (const route of ['composable', 'adaptive'] as const) {
+      const input = buildFinancialPlannerInput(route, [], '2026-11-01');
+      expect(input.tools.some((tool) => tool.name === 'discuss_business')).toBe(true);
+      expect(input.instructions).toContain('Simple cost/savings arithmetic does NOT require');
+    }
+    for (const route of ['authored', 'complete'] as const) {
+      const input = buildFinancialPlannerInput(route, [], '2026-11-01');
+      expect(input.tools.some((tool) => tool.name === 'discuss_business')).toBe(false);
+      expect(input.instructions).not.toContain('Use discuss_business');
+    }
+  });
+});
+
+describe('Actual provider parsing with scripted responses and trapped financial reads', () => {
+  it.each(['composable', 'adaptive'] as const)(
+    'handles a natural clarification on %s without reading amounts',
+    async (route) => {
+      fetchMock.mockResolvedValueOnce(response('discuss_business', reply));
+      const messages: ModelMessages = [{ role: 'user', content: 'can I fire an emplyee?' }];
+      const value = await financialChat(org, messages, { route });
+      expect(value.answer).toContain(reply.question);
+      expect(value).toMatchObject({ query: { name: 'discuss_business' }, evidence: [], ai: { attempts: 1 } });
+      expect(db.read).not.toHaveBeenCalled();
+      expect(db.snapshot).not.toHaveBeenCalled();
+      expect(fetchMock).toHaveBeenCalledOnce();
+    },
+  );
+  it('retains the real conversation and calculates supplied savings with the exact existing calculator', async () => {
+    fetchMock.mockResolvedValueOnce(response('discuss_business', reply));
+    const messages: ModelMessages = [{ role: 'user', content: 'can I fire an emplyee?' }];
+    const first = await financialChat(org, messages, { route: 'composable' });
+    messages.push(
+      { role: 'assistant', content: first.answer },
+      {
+        role: 'user',
+        content: 'Calculate a reduction of $4,000 per month for 3 months, minus a $2,000 one-time cost.',
+      },
+    );
+    const ref = (source: string, id: string) => ({ source, id, rowId: null, field: 'value' });
+    fetchMock.mockResolvedValueOnce(
+      response('financial_scenario', {
+        queries: [],
+        assumptions: [
+          { id: 'monthly', value: '4000', unit: 'USD_per_month', sourceText: '$4,000 per month' },
+          { id: 'duration', value: '3', unit: 'months', sourceText: '3 months' },
+          { id: 'one_time', value: '2000', unit: 'USD', sourceText: '$2,000 one-time cost' },
+        ],
+        calculations: [
+          {
+            id: 'gross',
+            operation: 'multiply',
+            operands: [ref('assumption', 'monthly'), ref('assumption', 'duration')],
+          },
+          {
+            id: 'net',
+            operation: 'subtract',
+            operands: [ref('calculation', 'gross'), ref('assumption', 'one_time')],
+          },
+        ],
+      }),
+    );
+    const second = await financialChat(org, messages, { route: 'composable' });
+    expect(second.answer).toContain('$10,000.00');
+    expect(second.evidence.length).toBeGreaterThan(0);
+    expect(second.evidence.every((item) => item.source === 'scenario')).toBe(true);
+    expect(second).not.toHaveProperty('conversation');
+    const payload = JSON.parse(fetchMock.mock.calls[1][1].body);
+    expect(payload.contents).toEqual(
+      messages.map((m) => ({
+        role: m.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: m.content }],
+      })),
+    );
+    expect(db.read).not.toHaveBeenCalled();
+    expect(db.snapshot).not.toHaveBeenCalled();
+  });
+  it('uses the same single repair allowance for malformed conversational responses', async () => {
+    fetchMock
+      .mockResolvedValueOnce(response('discuss_business', { ...reply, evidence: ['forged'] }))
+      .mockResolvedValueOnce(response('discuss_business', reply));
+    const value = await financialChat(org, [{ role: 'user', content: 'Should I expand?' }], {
+      route: 'composable',
+    });
+    expect(value.ai).toMatchObject({ attempts: 2, repairStatus: 'succeeded' });
+    expect(value.evidence).toEqual([]);
+    expect(db.read).not.toHaveBeenCalled();
+  });
+  it('logs finite reply/reason labels but never the conversational text', () => {
+    diagnostic('ai_financial_query', { tool: 'discuss_business', replyKind: 'clarification' });
+    diagnostic('ai_financial_query', { tool: 'request_details', clarificationReason: 'off_topic' });
+    diagnostic('ai_financial_query', { tool: 'discuss_business', replyKind: reply.message });
+    diagnostic('ai_financial_query', { tool: 'request_details', clarificationReason: reply.question });
+    const logs = vi.mocked(console.log).mock.calls.map(([line]) => JSON.parse(line));
+    expect(logs[0]).toMatchObject({ tool: 'discuss_business', replyKind: 'clarification' });
+    expect(logs[1]).toMatchObject({ tool: 'request_details', clarificationReason: 'off_topic' });
+    expect(logs[2]).not.toHaveProperty('replyKind');
+    expect(logs[3]).not.toHaveProperty('clarificationReason');
+    expect(JSON.stringify(logs)).not.toContain(reply.message);
+    expect(JSON.stringify(logs)).not.toContain(reply.question);
+  });
+});

@@ -4,6 +4,15 @@
 
 This is the running engineering record for Daybook, built for the Spiich assignment. Completed work and observed checks are recorded separately from plans. No scale or verification claim is implied by a planned item.
 
+## 2026 11 01 Conversational reliability resumed
+
+- The user restarted the broader goal after “can I fire an emplyee?” returned the canned off-topic response. Source inspection found the exact branch; an individual runtime request has not been correlated, so actual provider arguments are not claimed as observed.
+- Added a general `discuss_business` tool to composable/adaptive, including continuation. It generates focused clarification, concept explanation or a specific limitation; it does not add database writes or an extra model pass. Existing financial queries and the exact calculator remain. Conflicting routing guidance was resolved in favor of natural business/scenario clarification.
+- Added server-owned nonfinancial provenance, plain-text UI labels and finite diagnostic decision enums without raw question/answer logging. General generated prose remains a semantic risk; strict shape and empty evidence do not prove its truth.
+- Verified 323 focused tests/11 files, including scripted clarification-to-real-calculator savings, attempt limits, privacy and existing financial guards. Added two browser workflows, pending execution. TypeScript and Vite build passed.
+- An independent collaborating agent authored 31 development cases/35 turns with synthetic books and exact-cents references. Its 12 fixture-integrity/mutation tests passed. No model calls or semantic score exist for this set. Old studies remain unchanged and closed.
+- Full CI, real-model acceptance, mixed explanation-plus-data support and hosted promotion remain pending. The goal is active and the hosted application is unchanged. [Design and limits](CONVERSATIONAL_ASSISTANT.md).
+
 ## 2026 10 28 Initial decisions
 
 - Started from an empty workspace. The user authorized an AI-assisted implementation and requested a record they can use to explain the work.

@@ -1,5 +1,7 @@
 # Delivery and remaining limits
 
+**New goal active, 2026-11-01.** The user restarted broad reliability after a staffing question received a generic refusal. The earlier finite release below does not complete this goal. [Conversational candidate](CONVERSATIONAL_ASSISTANT.md) records the implementation and unverified work. Mixed answers, real-model semantic acceptance and hosted promotion remain pending. Passing scripted tests does not prove arbitrary-question correctness.
+
 The comparison, reviewed release and handoff are complete. Source **6691d76ad24574343b3eec9617546e9c019b8c95** is promoted at [Daybook](https://daybook-ledger-delta.vercel.app), using **composable** chat. The tested alternatives did not earn replacement. [Release evidence](evidence/goal-completion-release.json), [plain two-page explanation](reports/chat-route-comparison-explained.pdf).
 
 The literal promise of answering absolutely every business question without any error is **not established**. The completed work is a bounded, tested accounting application and an honestly reported comparison. It does not generate arbitrary executable code or guarantee an interview outcome.
