@@ -254,7 +254,16 @@ describe('Adaptive financial chat with real provider parsing and stubbed ledger 
     expect(second.contents.slice(0, first.contents.length)).toEqual(first.contents);
     expect(second.contents.at(-1).role).toBe('user');
     const feedback = second.contents.at(-1).parts[0].text;
-    expect(feedback).toContain('counterparty:Acme%20%2F%20West');
+    const inspected = JSON.parse(feedback);
+    expect(inspected.rowReferenceFormat).toBe('request_local_handles');
+    expect(inspected.facts[0].rows[0].rowId).toMatch(/^r_[a-f0-9]{24}_1$/);
+    expect(feedback).not.toContain('counterparty:Acme%20%2F%20West');
+    if (!('inspection' in value) || !value.inspection) throw new Error('Expected an inspection result');
+    expect(value.inspection.rowReferences).toContainEqual({
+      handle: inspected.facts[0].rows[0].rowId,
+      queryId: 'observed',
+      rowId: 'counterparty:Acme%20%2F%20West',
+    });
     expect(Buffer.byteLength(feedback, 'utf8')).toBeLessThanOrEqual(64 * 1024);
     expect(second.systemInstruction.parts[0].text).not.toContain('counterparty:Acme%20%2F%20West');
   });

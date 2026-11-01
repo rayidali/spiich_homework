@@ -138,11 +138,16 @@ function discoveredParty(inspection: FinancialInspection) {
   const feedback = JSON.parse(inspection.feedback()) as { kind: string; facts: AnalysisFacts[] };
   expect(feedback.kind).toBe('untrusted_financial_inspection_results');
   const row = feedback.facts[0].rows[0];
-  expect(row.rowId).toMatch(/^counterparty:/);
+  expect(row.rowId).toMatch(/^r_[a-f0-9]{24}_\d+$/);
+  const binding = inspection
+    .summary()
+    .rowReferences.find((item) => item.handle === row.rowId && item.queryId === feedback.facts[0].queryId)!;
+  expect(binding.rowId).toMatch(/^counterparty:/);
   return {
     queryId: feedback.facts[0].queryId,
     rowId: row.rowId,
-    key: decodeURIComponent(row.rowId.slice('counterparty:'.length)),
+    canonicalRowId: binding.rowId,
+    key: decodeURIComponent(binding.rowId.slice('counterparty:'.length)),
   };
 }
 function detailQueries(source: { queryId: string; rowId: string }) {
@@ -161,8 +166,8 @@ function detailQueries(source: { queryId: string; rowId: string }) {
     },
   ];
 }
-function calculations() {
-  return {
+function calculations(inspection?: FinancialInspection) {
+  const input = {
     assumptions: [],
     calculations: [
       {
@@ -183,6 +188,14 @@ function calculations() {
       },
     ],
   };
+  if (inspection) {
+    const facts = (JSON.parse(inspection.feedback()) as { facts: AnalysisFacts[] }).facts;
+    for (const calculation of input.calculations)
+      for (const operand of calculation.operands)
+        if (operand.source === 'query')
+          operand.rowId = facts.find((fact) => fact.queryId === operand.id)!.rows[0].rowId;
+  }
+  return input;
 }
 async function fingerprint() {
   const [row] = await database.query<{ snapshot: unknown }>(
@@ -213,7 +226,7 @@ describe('Adaptive financial inspection with real PostgreSQL and independently s
     expect(inspection.show().facts[0].rows.map((row) => row.value)).toEqual(['240.00', '220.00']);
     await inspection.inspect({ queries: detailQueries(party) });
     const connections = vi.spyOn(database.pool, 'connect');
-    const result = inspection.calculate(calculations());
+    const result = inspection.calculate(calculations(inspection));
     expect(connections).not.toHaveBeenCalled();
     expect(result.facts.find((fact) => 'id' in fact && fact.id === 'difference')).toMatchObject({
       value: '-150.00',
@@ -478,12 +491,16 @@ async function identityFixture(selected: string, other: string) {
 
 function expectSelectedIdentity(
   inspection: FinancialInspection,
-  source: { queryId: string; rowId: string; key: string },
+  source: { queryId: string; rowId: string; key: string; canonicalRowId?: string },
 ) {
   const result = inspection.show();
   for (const queryId of ['jan', 'feb']) {
     const fact = result.facts.find((item) => item.queryId === queryId)!;
-    expect(fact.scope.counterpartyIdentity).toEqual(source);
+    expect(fact.scope.counterpartyIdentity).toEqual({
+      queryId: source.queryId,
+      rowId: source.canonicalRowId ?? source.rowId,
+      key: source.key,
+    });
     expect(fact.scope.plan.counterparty).toEqual({ mode: 'identity', value: source.key });
     expect(fact.rows[0].value).toBe(queryId === 'jan' ? '240.00' : '90.00');
   }
@@ -520,6 +537,7 @@ describe('Stored counterparty identity across actual PostgreSQL inspection round
     { description: 'surrounding whitespace', selected: ' Acme ', other: 'Acme' },
     { description: 'Unicode case', selected: 'Å', other: 'å' },
     { description: 'Unicode normalization', selected: 'Café', other: 'Cafe\u0301' },
+    { description: 'quotes and slash characters', selected: 'Acme ["West"] \\ /', other: 'Acme West' },
   ])('preserves the actual stored key for $description', async ({ selected, other }) => {
     await identityFixture(selected, other);
     const before = await fingerprint();
@@ -567,7 +585,10 @@ describe('Stored counterparty identity across actual PostgreSQL inspection round
     )!;
     expect(january.value).toBe('240.00');
     expect(january.rowId).toBe('compound:[["month","2026-01"],["counterparty","Acme"]]');
-    const source = { queryId: fact.queryId, rowId: january.rowId, key: 'Acme' };
+    const handle = inspection
+      .summary()
+      .rowReferences.find((item) => item.queryId === fact.queryId && item.rowId === january.rowId)!.handle;
+    const source = { queryId: fact.queryId, rowId: handle, canonicalRowId: january.rowId, key: 'Acme' };
     await inspection.inspect({ queries: detailQueries(source) });
     expectSelectedIdentity(inspection, source);
     expect(inspection.show().facts.find((item) => item.queryId === 'feb')).toMatchObject({

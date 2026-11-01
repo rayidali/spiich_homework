@@ -131,6 +131,86 @@ describe('One schema repair with real provider parsing and mocked HTTP/ledger', 
     expect(getAiUsage().attempts).toBe(2);
     expect(JSON.stringify(logs())).not.toContain(secret);
   });
+  it.each(['cash_balance', 'sum'])(
+    'gives precise repair guidance for an invalid %s operand and still refuses a repeated defect',
+    async (field) => {
+      const candidate = {
+        queries: [],
+        assumptions: [],
+        calculations: [
+          {
+            id: 'delta',
+            operation: 'subtract',
+            operands: [
+              { source: 'query', id: 'june', rowId: 'total:total', field },
+              { source: 'query', id: 'may', rowId: 'total:total', field: 'value' },
+            ],
+          },
+        ],
+      };
+      fetchMock.mockImplementation(async () => response(candidate, 'financial_scenario'));
+      const error = await failure(() => financialChat(org, messages));
+      expect(error).toMatchObject({ code: 'AI_INVALID_RESPONSE' });
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+      expect(db.analysis).not.toHaveBeenCalled();
+      expect(db.cash).not.toHaveBeenCalled();
+      const bodies = fetchMock.mock.calls.map(([, options]) => JSON.parse(String(options.body)));
+      const feedback = JSON.parse(bodies[1].contents.at(-1).parts[0].text);
+      expect(feedback.hints).toEqual([
+        {
+          code: 'allowed_values',
+          path: ['calculations', 0, 'operands', 0, 'field'],
+          allowedValues: ['value'],
+        },
+      ]);
+      expect(feedback.invalidCandidate.args).toEqual(candidate);
+      expect(bodies[1].tools).toEqual(bodies[0].tools);
+      expect(bodies[1].contents.slice(0, -1)).toEqual(bodies[0].contents);
+      expect(getFinancialChatFailureMetadata(error)).toMatchObject({
+        attempts: 2,
+        repairStatus: 'failed',
+        unreportedAttempts: 0,
+      });
+    },
+  );
+  it('executes corrected arithmetic from original user assumptions after a hinted repair', async () => {
+    const plan = {
+      queries: [],
+      assumptions: [
+        { id: 'setup', value: '100', unit: 'USD', sourceText: '$100 setup cost' },
+        { id: 'training', value: '250', unit: 'USD', sourceText: '$250 training cost' },
+      ],
+      calculations: [
+        {
+          id: 'hiring',
+          operation: 'add',
+          operands: [
+            { source: 'assumption', id: 'setup', rowId: null, field: 'value' },
+            { source: 'assumption', id: 'training', rowId: null, field: 'value' },
+          ],
+        },
+      ],
+    };
+    const invalid = structuredClone(plan);
+    invalid.calculations[0].operands[0].field = 'sum';
+    fetchMock
+      .mockResolvedValueOnce(response(invalid, 'financial_scenario'))
+      .mockResolvedValueOnce(response(plan, 'financial_scenario'));
+    const result = await financialChat(org, [
+      { role: 'user', content: 'For a hypothetical hire, add $100 setup cost and $250 training cost.' },
+    ]);
+    expect(result).toMatchObject({
+      facts: expect.arrayContaining([
+        expect.objectContaining({ kind: 'scenario_calculation', value: '350.00' }),
+      ]),
+      ai: { attempts: 2, repairStatus: 'succeeded', unreportedAttempts: 0 },
+    });
+    expect(db.analysis).not.toHaveBeenCalled();
+    const repair = JSON.parse(JSON.parse(fetchMock.mock.calls[1][1].body).contents.at(-1).parts[0].text);
+    expect(repair.hints).toEqual([
+      { code: 'allowed_values', path: ['calculations', 0, 'operands', 0, 'field'], allowedValues: ['value'] },
+    ]);
+  });
   it.each([null, { ...usage, totalTokenCount: 999 }, { promptTokenCount: 100, totalTokenCount: 100 }])(
     'does not fund repair from unknown or inconsistent first usage: %j',
     async (reported) => {

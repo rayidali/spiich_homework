@@ -1,5 +1,9 @@
 # Verification record
 
+## Current row-reference and schema-repair candidate
+
+The local candidate passes **151 focused tests across six files**, formatting and the TypeScript/production build. Tests cover Gemini wire-schema normalization, bounded trusted repair hints, one-repair behavior and usage accounting, original-user-only assumptions, and request-local handles with unchanged canonical evidence. A separate code review found no relaxation of financial validation. Provider responses are scripted; no new provider call, model score or production deployment is claimed. Actual PostgreSQL, browser and Compose checks for this candidate remain pending. Missing requested calculations and broader intent verification remain open. [Implementation and limits](ADAPTIVE_CHAT.md).
+
 ## Latest adaptive comparison and Docker packaging repair
 
 The [complete paired comparison](evidence/adaptive-runs/holdout-v2/report.md) ran 32 real service executions in [workflow 41258129206](https://github.com/rayidali/spiich_homework/actions/runs/41258129206), source `84eb5de`. All **177 evaluator/database tests across seven files passed** before calls. Frozen primary scores are 8/16 for each route; separate internal semantic review is 9/16 composable and 11/16 adaptive after four table-layout grader false-negatives. All 83 typed ledger rows were independently recomputed; no incorrect displayed dollar amount was found. Missing requested answers and invalid model references remain failures. This is a small synthetic service comparison, not hosted browser acceptance or a universal-accuracy claim.

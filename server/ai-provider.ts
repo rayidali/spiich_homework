@@ -5,6 +5,7 @@ import { config } from './config';
 import { AppError, failureStage, markFailure, type FailureStage } from './errors';
 import { diagnostic } from './diagnostics';
 import { readBoundedProviderJson } from './ai-response';
+import { geminiProviderSchema } from './provider-schema';
 
 export type ModelMessages = { role: 'user' | 'assistant'; content: string }[];
 export type FinancialTool = {
@@ -375,14 +376,7 @@ function parseModel<T extends z.ZodType>(schema: T, value: unknown): z.infer<T> 
   }
 }
 function geminiProposalSchema(schema: z.ZodType) {
-  // Large array maxima can exceed Gemini's constrained-decoding state budget.
-  // Keep the complete Zod schema for response validation below; omit only the
-  // provider grammar's array maxima. Output tokens still bound generation.
-  return JSON.parse(
-    JSON.stringify(z.toJSONSchema(schema), (key, value) =>
-      key === 'maxItems' && typeof value === 'number' ? undefined : value,
-    ),
-  ) as Record<string, unknown>;
+  return geminiProviderSchema(z.toJSONSchema(schema));
 }
 function geminiFinancialExtra(tools: FinancialTool[]) {
   return {
@@ -391,13 +385,8 @@ function geminiFinancialExtra(tools: FinancialTool[]) {
         functionDeclarations: tools.map((tool) => ({
           name: tool.name,
           description: tool.description,
-          // The same complete schema is enforced by the application. Large finite
-          // array grammars can exceed the provider's constrained-decoding budget.
-          parametersJsonSchema: JSON.parse(
-            JSON.stringify(tool.parameters, (key, value) =>
-              key === 'maxItems' && typeof value === 'number' ? undefined : value,
-            ),
-          ),
+          // Normalize provider literals without relaxing application validation.
+          parametersJsonSchema: geminiProviderSchema(tool.parameters),
         })),
       },
     ],

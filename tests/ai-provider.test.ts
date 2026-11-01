@@ -116,6 +116,19 @@ describe('Gemini transport and response contract (no live calls)', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
+  it('normalizes proposal literals on the Gemini wire and retains strict local rejection', async () => {
+    const literal = z.strictObject({ action: z.literal('READY') });
+    response(gemini([{ text: '{"action":"READY"}' }]));
+    expect((await generateProposal(literal, 'Drafts only.', input)).data).toEqual({ action: 'READY' });
+    const wire = JSON.parse(fetchMock.mock.calls[0][1].body).generationConfig.responseFormat.text.schema;
+    expect(wire.properties.action).toEqual({ type: 'string', enum: ['READY'] });
+    response(gemini([{ text: '{"action":"POST"}' }]));
+    await expect(generateProposal(literal, 'Drafts only.', input)).rejects.toMatchObject({
+      code: 'AI_INVALID_RESPONSE',
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
   it('omits array maxima from Gemini grammar while preserving the structured shape', async () => {
     const bounded = z.strictObject({
       lines: z.array(z.strictObject({ memo: z.string() })).max(100),
