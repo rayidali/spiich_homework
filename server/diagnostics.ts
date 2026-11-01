@@ -145,7 +145,7 @@ type DiagnosticFields = Partial<ProviderErrorDiagnostics> & {
 };
 
 const schemaKeys = new Set(
-  `queries assumptions calculations id metric aggregation from to status currencyMode currency groupBy accountCodes cooccurringAccountCodes counterparty mode value descriptionSearch minimumAmount maximumAmount order limit source rowId field operation operands unit sourceText accountCode previousFrom previousTo view search asOf question message reason subject limitation answerContract outputBindings outputs sourceQuotes messageIndex quote requirement kind scope counterpartyFrom query coverage tiePolicy selectedAccountCode outputId queryId calculationId`.split(
+  `queries assumptions calculations id metric aggregation from to status currencyMode currency groupBy accountCodes cooccurringAccountCodes counterparty mode value descriptionSearch minimumAmount maximumAmount order limit source rowId field operation operands unit sourceText accountCode previousFrom previousTo view search asOf question message generalExplanation reason subject limitation answerContract outputBindings outputs sourceQuotes messageIndex quote requirement kind scope counterpartyFrom query coverage tiePolicy selectedAccountCode outputId queryId calculationId`.split(
     ' ',
   ),
 );

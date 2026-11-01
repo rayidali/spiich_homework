@@ -11,7 +11,11 @@ import {
   Search,
 } from 'lucide-react';
 import type { InsightEvidence } from '../../server/ai';
-import { conversationBudgetError, MAX_MESSAGE_CHARACTERS } from '../../shared/conversation';
+import {
+  assistantReplyContent,
+  conversationBudgetError,
+  MAX_MESSAGE_CHARACTERS,
+} from '../../shared/conversation';
 import { asUiError, type UiError, write } from './api';
 import { useWorkspace } from './context';
 import { ErrorState, Modal, Spinner } from './ui';
@@ -20,11 +24,17 @@ type ConversationContext = {
   grounding: 'general_knowledge' | 'user_context';
   verifiedFinancialData: false;
 };
+type GeneralExplanation = {
+  text: string;
+  grounding: 'general_knowledge';
+  verifiedFinancialData: false;
+};
 type Message = {
   role: 'user' | 'assistant';
   content: string;
   evidence?: InsightEvidence[];
   conversation?: ConversationContext;
+  generalExplanation?: GeneralExplanation;
 };
 const conversationLabels = {
   clarification: 'Follow-up question',
@@ -50,7 +60,10 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
   async function send() {
     if (!text.trim() || busy || !meta?.ai.available) return;
     const next: Message[] = [...messages, { role: 'user', content: text.trim() }];
-    const conversation = next.map(({ role, content }) => ({ role, content }));
+    const conversation = next.map(({ role, content, generalExplanation }) => ({
+      role,
+      content: assistantReplyContent(content, generalExplanation),
+    }));
     const budgetError = conversationBudgetError(conversation);
     if (budgetError) {
       setError(budgetError);
@@ -65,6 +78,7 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
         answer: string;
         evidence: InsightEvidence[];
         conversation?: ConversationContext;
+        generalExplanation?: GeneralExplanation;
       }>('/ai/chat', {
         messages: conversation,
       });
@@ -75,6 +89,7 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
           content: result.answer,
           evidence: result.evidence,
           conversation: result.conversation,
+          generalExplanation: result.generalExplanation,
         },
       ]);
     } catch (e) {
@@ -125,6 +140,12 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
               </span>
             )}
             <div className="chat-message-content">
+              {m.role === 'assistant' && m.generalExplanation?.verifiedFinancialData === false && (
+                <div data-general-explanation>
+                  <div className="muted">General explanation</div>
+                  <p>{m.generalExplanation.text}</p>
+                </div>
+              )}
               {m.role === 'assistant' && m.conversation?.verifiedFinancialData === false && (
                 <div className="muted" data-conversation-kind={m.conversation.kind}>
                   {conversationLabels[m.conversation.kind]}

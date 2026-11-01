@@ -24,6 +24,68 @@ async function openAssistant(page: Page) {
   };
 }
 
+test('one answer separates a concept explanation from recorded figures and retains both on follow-up', async ({
+  page,
+  baseURL,
+}) => {
+  await enableAssistant(page, baseURL);
+  const question = 'What is profit and what was ours in October 2026?';
+  const explanation =
+    'Profit is recorded revenue minus expenses. It can differ from cash because some invoices have not been paid.';
+  const answer = 'Net profit from 2026-10-01 to 2026-10-31 was $9,000.00 USD.';
+  const submissions: { messages: Message[] }[] = [];
+  await page.route('**/api/ai/chat', (route) => {
+    submissions.push(route.request().postDataJSON());
+    return route.fulfill({
+      json:
+        submissions.length === 1
+          ? {
+              answer,
+              generalExplanation: {
+                text: explanation,
+                grounding: 'general_knowledge',
+                verifiedFinancialData: false,
+              },
+              evidence: [
+                {
+                  title: 'Net profit',
+                  period: '2026-10-01 → 2026-10-31',
+                  source: 'posted',
+                  rows: [{ label: 'Net profit', value: '$9,000.00 USD' }],
+                  href: '/reports',
+                },
+              ],
+            }
+          : {
+              answer: 'Which earlier month should I compare?',
+              evidence: [],
+              conversation: {
+                kind: 'clarification',
+                grounding: 'user_context',
+                verifiedFinancialData: false,
+              },
+            },
+    });
+  });
+  const { chat, input, send } = await openAssistant(page);
+  await input.fill(question);
+  await send.click();
+  await expect(chat.getByText(answer, { exact: true })).toBeVisible();
+  const reply = chat.locator('.chat-message.assistant').last();
+  await expect(reply.locator('[data-general-explanation]')).toContainText(explanation);
+  await expect(reply.locator('[data-general-explanation]')).not.toContainText('FROM YOUR BOOKS');
+  await expect(reply.locator('.evidence-card')).toContainText('FROM YOUR BOOKS');
+  await expect(reply.locator('.evidence-card')).not.toContainText(explanation);
+  await input.fill('Compare that with an earlier month.');
+  await send.click();
+  await expect(chat.getByText('Which earlier month should I compare?', { exact: true })).toBeVisible();
+  expect(submissions[1].messages).toEqual([
+    { role: 'user', content: question },
+    { role: 'assistant', content: `${explanation}\n\n${answer}` },
+    { role: 'user', content: 'Compare that with an earlier month.' },
+  ]);
+});
+
 test('a business clarification keeps its context and becomes a visibly hypothetical calculation', async ({
   page,
   baseURL,

@@ -1,5 +1,11 @@
 import { z } from 'zod';
 
+/** Keep the exact displayed assistant text in later turns, including the
+ * separately labeled general explanation. This text is context, not evidence. */
+export function assistantReplyContent(answer: string, generalExplanation?: { text: string }): string {
+  return generalExplanation ? `${generalExplanation.text}\n\n${answer}` : answer;
+}
+
 export const MAX_CONVERSATION_MESSAGES = 100;
 export const MAX_MESSAGE_CHARACTERS = 4000;
 // Retain the former 12 × 4,000 character maximum while allowing more short

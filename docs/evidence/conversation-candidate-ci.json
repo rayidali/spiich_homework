@@ -1,0 +1,47 @@
+{
+  "version": "conversation-candidate-ci-v1",
+  "sourceCommit": "77dabb34722f5dc98adf943553d9a50bd87e01a4",
+  "runId": 41358036047,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41358036047",
+  "jobs": [
+    {
+      "id": 125002219302,
+      "name": "research-native",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rayidali/spiich_homework/actions/runs/41358036047/job/125002219302",
+      "started_at": "2026-11-01T22:37:10Z",
+      "completed_at": "2026-11-01T22:37:47Z"
+    },
+    {
+      "id": 125002219565,
+      "name": "verify",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rayidali/spiich_homework/actions/runs/41358036047/job/125002219565",
+      "started_at": "2026-11-01T22:37:10Z",
+      "completed_at": "2026-11-01T22:40:57Z"
+    },
+    {
+      "id": 125003171826,
+      "name": "compose",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rayidali/spiich_homework/actions/runs/41358036047/job/125003171826",
+      "started_at": "2026-11-01T22:40:59Z",
+      "completed_at": "2026-11-01T22:44:56Z"
+    },
+    {
+      "id": 125004137364,
+      "name": "live-ai",
+      "status": "completed",
+      "conclusion": "skipped",
+      "html_url": "https://github.com/rayidali/spiich_homework/actions/runs/41358036047/job/125004137364",
+      "started_at": "2026-11-01T22:44:56Z",
+      "completed_at": "2026-11-01T22:44:56Z"
+    }
+  ],
+  "scope": "First conversational candidate: full verification, browser workflows, native research and Compose passed. Live AI skipped. Does not cover subsequent mixed-explanation or acceptance-runner changes.",
+  "providerCallsByThisWorkflow": 0,
+  "productionChanged": false
+}

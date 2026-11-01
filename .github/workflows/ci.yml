@@ -64,6 +64,37 @@ jobs:
           finally { await client.end(); }
           NODE
           npx vitest run tests/completeness-evaluation/fixtures-db.test.ts
+      - name: Verify conversational acceptance fixture without provider calls
+        env:
+          CONVERSATION_DATABASE_NAME: daybook_conversation_ci
+          CONVERSATION_OWNER_DATABASE_URL: postgres://spiich:spiich@127.0.0.1:5432/daybook_conversation_ci
+          CONVERSATION_DATABASE_URL: postgres://spiich_app:spiich_app_local@127.0.0.1:5432/daybook_conversation_ci
+          DATABASE_URL: postgres://spiich_app:spiich_app_local@127.0.0.1:5432/daybook_conversation_ci
+          MIGRATION_DATABASE_URL: postgres://spiich:spiich@127.0.0.1:5432/daybook_conversation_ci
+          GEMINI_API_KEY: ''
+          OPENAI_API_KEY: ''
+          TYPESAFE_API_KEY: ''
+        run: |
+          node --input-type=module <<'NODE'
+          import pg from 'pg';
+          const owner = new URL(process.env.MIGRATION_DATABASE_URL);
+          owner.pathname = '/postgres';
+          const client = new pg.Client({ connectionString: owner.href });
+          await client.connect();
+          try { await client.query('CREATE DATABASE daybook_conversation_ci'); }
+          finally { await client.end(); }
+          NODE
+          npm run db:migrate
+          mkdir -p .tools
+          node --import tsx scripts/conversation-acceptance/cli.ts check-db > .tools/conversation-fixture-ci.json
+      - name: Retain conversational fixture evidence
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: conversation-fixture-evidence
+          path: .tools/conversation-fixture-ci.json
+          include-hidden-files: true
+          if-no-files-found: ignore
       - name: Replay recorded chat plans in disposable PostgreSQL
         id: chat-replay
         env:

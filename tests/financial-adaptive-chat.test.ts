@@ -281,6 +281,49 @@ describe('Adaptive financial chat with real provider parsing and stubbed ledger 
     expect(facts.find((fact) => fact.kind === 'scenario_calculation')).toMatchObject({ value: '65.00' });
   });
 
+  it('attaches a general explanation to a checked adaptive calculation without mixing it into facts or adding a read', async () => {
+    const explanation =
+      'A spending difference compares recorded amounts; it does not establish why the amounts differ.';
+    const financialArgs = calculation();
+    fetchMock
+      .mockResolvedValueOnce(inspect())
+      .mockResolvedValueOnce(
+        response('calculate_from_inspection', { ...financialArgs, generalExplanation: explanation }),
+      );
+    const value = await invoke([
+      {
+        role: 'user',
+        content:
+          'Explain what a spending difference means, then compare October 2026 counterparty expenses and calculate the difference between the first two results.',
+      },
+    ]);
+    expect(value).toMatchObject({
+      generalExplanation: {
+        text: explanation,
+        grounding: 'general_knowledge',
+        verifiedFinancialData: false,
+      },
+      query: { name: 'calculate_from_inspection', args: financialArgs },
+      inspection: { readRounds: 1, queryCount: 1 },
+      ai: { attempts: 2, repairStatus: 'not_needed', usage: { totalTokens: 260 } },
+    });
+    expect(value.answer).toContain('$65.00');
+    expect(value.answer).not.toContain(explanation);
+    expect(value.evidence.length).toBeGreaterThan(0);
+    expect(value.evidence.every((item) => item.source === 'posted')).toBe(true);
+    expect(JSON.stringify(value.evidence)).not.toContain(explanation);
+    expect(value.query.args).not.toHaveProperty('generalExplanation');
+    expect(value).toHaveProperty('facts');
+    const facts = (value as { facts: { kind?: string; value?: string }[] }).facts;
+    expect(facts.find((fact) => fact.kind === 'scenario_calculation')).toMatchObject({ value: '65.00' });
+    expect(JSON.stringify(facts)).not.toContain(explanation);
+    expect(db.analysis).toHaveBeenCalledTimes(1);
+    expect(db.snapshot).toHaveBeenCalledTimes(1);
+    expect(db.cash).not.toHaveBeenCalled();
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(JSON.stringify(logs())).not.toContain(explanation);
+  });
+
   it('permits two read rounds followed by one calculation, retaining three distinct usage records', async () => {
     const args = calculation('second');
     fetchMock
@@ -301,13 +344,16 @@ describe('Adaptive financial chat with real provider parsing and stubbed ledger 
   });
 
   it('withholds an unknown row reference after inspection without another database read or model retry', async () => {
-    fetchMock
-      .mockResolvedValueOnce(inspect())
-      .mockResolvedValueOnce(
-        response('calculate_from_inspection', calculation('observed', 'counterparty:invented')),
-      );
+    fetchMock.mockResolvedValueOnce(inspect()).mockResolvedValueOnce(
+      response('calculate_from_inspection', {
+        ...calculation('observed', 'counterparty:invented'),
+        generalExplanation: 'This explanation must not survive a rejected calculation.',
+      }),
+    );
     const value = await invoke();
     expect(value).toMatchObject({ evidence: [], limitation: { code: 'INVALID_SCENARIO' } });
+    expect(value).not.toHaveProperty('generalExplanation');
+    expect(value.query).not.toHaveProperty('generalExplanation');
     expect(value.answer).not.toContain('65.00');
     expect(db.analysis).toHaveBeenCalledTimes(1);
     expect(fetchMock).toHaveBeenCalledTimes(2);

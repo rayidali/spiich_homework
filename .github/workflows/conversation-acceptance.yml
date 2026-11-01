@@ -1,0 +1,112 @@
+name: Manual conversation acceptance
+run-name: conversation-acceptance/${{ inputs.cohort }}
+on:
+  workflow_dispatch:
+    inputs:
+      cohort:
+        description: New explicitly approved cohort, dispatched once only
+        type: string
+        required: true
+      source_commit:
+        description: Exact reviewed commit containing this workflow and candidate
+        type: string
+        required: true
+      source_hash:
+        description: Exact candidate, fixture and runner source fingerprint
+        type: string
+        required: true
+      approval_sha256:
+        description: Digest of the separately approved private permit
+        type: string
+        required: true
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: conversation-acceptance-${{ inputs.cohort }}
+  cancel-in-progress: false
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_USER: spiich
+          POSTGRES_PASSWORD: spiich
+          POSTGRES_DB: daybook_conversation_live
+        ports: [5432:5432]
+        options: >-
+          --health-cmd "pg_isready -U spiich -d daybook_conversation_live"
+          --health-interval 3s --health-timeout 3s --health-retries 20
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgres://spiich_app:spiich_app_local@127.0.0.1:5432/daybook_conversation_live
+      MIGRATION_DATABASE_URL: postgres://spiich:spiich@127.0.0.1:5432/daybook_conversation_live
+      CONVERSATION_DATABASE_URL: postgres://spiich_app:spiich_app_local@127.0.0.1:5432/daybook_conversation_live
+      CONVERSATION_OWNER_DATABASE_URL: postgres://spiich:spiich@127.0.0.1:5432/daybook_conversation_live
+      AI_PROVIDER: gemini
+      AI_MODEL: gemini-3.5-flash-lite
+      GEMINI_API_KEY: ''
+      OPENAI_API_KEY: ''
+      TYPESAFE_API_KEY: ''
+      CONVERSATION_COHORT: ${{ inputs.cohort }}
+      CONVERSATION_SOURCE_COMMIT: ${{ inputs.source_commit }}
+      CONVERSATION_SOURCE_HASH: ${{ inputs.source_hash }}
+      CONVERSATION_APPROVAL_SHA256: ${{ inputs.approval_sha256 }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Require exact reviewed workflow source before installation
+        run: |
+          node --input-type=module - <<'JS'
+          import { execFileSync } from 'node:child_process';
+          const commit = process.env.CONVERSATION_SOURCE_COMMIT;
+          if (!/^[a-f0-9]{40}$/.test(commit ?? '') || process.env.GITHUB_SHA !== commit ||
+              process.env.GITHUB_RUN_ATTEMPT !== '1' || process.env.GITHUB_EVENT_NAME !== 'workflow_dispatch' ||
+              execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim() !== commit)
+            throw Error('EXACT_MANUAL_SOURCE_REQUIRED');
+          JS
+      - run: npm ci --no-audit --no-fund
+      - name: Verify artifact key and authenticated encryption before provider access
+        env:
+          CONVERSATION_ARTIFACT_KEY: ${{ secrets.CONVERSATION_ACCEPTANCE_ARTIFACT_KEY }}
+          CONVERSATION_PRIVATE_APPROVAL: ${{ secrets.CONVERSATION_ACCEPTANCE_APPROVAL }}
+        run: node --import tsx scripts/conversation-acceptance/workflow.ts preflight
+      - name: Verify unused cohort from complete workflow history
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CONVERSATION_PRIVATE_APPROVAL: ${{ secrets.CONVERSATION_ACCEPTANCE_APPROVAL }}
+        run: node --import tsx scripts/conversation-acceptance/workflow.ts authorize
+      - run: npm run format:check
+      - run: npm run typecheck
+      - name: Check runner and evidence semantics without inference
+        run: npx vitest run tests/conversation-acceptance-runner.test.ts tests/conversation-acceptance-scoring.test.ts tests/conversation-acceptance-workflow.test.ts tests/conversation-acceptance/specification.test.ts
+      - name: Migrate the fresh service database
+        run: npm run db:migrate
+      - name: Run the separately approved bounded conversation acceptance
+        env:
+          GEMINI_API_KEY: ${{ secrets.CONVERSATION_ACCEPTANCE_GEMINI_KEY }}
+          CONVERSATION_PRIVATE_APPROVAL: ${{ secrets.CONVERSATION_ACCEPTANCE_APPROVAL }}
+        run: node --import tsx scripts/conversation-acceptance/workflow.ts run
+      - name: Encrypt retained outcomes, failures and reservations
+        if: always()
+        env:
+          CONVERSATION_ARTIFACT_KEY: ${{ secrets.CONVERSATION_ACCEPTANCE_ARTIFACT_KEY }}
+          CONVERSATION_PRIVATE_APPROVAL: ${{ secrets.CONVERSATION_ACCEPTANCE_APPROVAL }}
+        run: node --import tsx scripts/conversation-acceptance/workflow.ts encrypt
+      - name: Retain ciphertext and sanitized receipt only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: conversation-acceptance-${{ github.run_id }}
+          path: .tools/conversation-encrypted/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 30

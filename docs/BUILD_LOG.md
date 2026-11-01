@@ -13,6 +13,8 @@ This is the running engineering record for Daybook, built for the Spiich assignm
 - An independent collaborating agent authored 31 development cases/35 turns with synthetic books and exact-cents references. Its 12 fixture-integrity/mutation tests passed. No model calls or semantic score exist for this set. Old studies remain unchanged and closed.
 - Full CI, real-model acceptance, mixed explanation-plus-data support and hosted promotion remain pending. The goal is active and the hosted application is unchanged. [Design and limits](CONVERSATIONAL_ASSISTANT.md).
 
+Subsequent work: `77dabb3` passed full CI 41358036047, including browser and Compose. Mixed questions now attach a bounded general explanation to an existing financial tool, strip it before unchanged financial validation, and display it separately only when the financial result succeeds. Both texts are retained as assistant context. A regression in optional-explanation repair hints was caught and repaired; three existing precise-repair tests pass again without weakening their assertions. The new 31-case/35-turn runner, independent numerical/source assessment and manual encrypted workflow are prepared but unexecuted. Its proposed $0.20 allowance is not yet authorized. Combined CI and actual semantic acceptance remain required; no new provider spend or deployment occurred.
+
 ## 2026 10 28 Initial decisions
 
 - Started from an empty workspace. The user authorized an AI-assisted implementation and requested a record they can use to explain the work.

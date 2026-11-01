@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { businessConversationAnswer, businessConversationSchema } from '../server/business-conversation';
 
-const db = vi.hoisted(() => ({ chart: vi.fn(), read: vi.fn(), snapshot: vi.fn() }));
+const db = vi.hoisted(() => ({ chart: vi.fn(), read: vi.fn(), snapshot: vi.fn(), income: vi.fn() }));
 vi.mock('../server/financial-analysis', async (original) => ({
   ...(await original<typeof import('../server/financial-analysis')>()),
   financialAnalysisChart: db.chart,
@@ -10,6 +10,7 @@ vi.mock('../server/financial-analysis', async (original) => ({
 vi.mock('../server/reports', async (original) => ({
   ...(await original<typeof import('../server/reports')>()),
   reportSnapshot: db.snapshot,
+  incomeStatement: db.income,
 }));
 import { buildFinancialPlannerInput, financialChat } from '../server/ai';
 import { config } from '../server/config';
@@ -119,6 +120,88 @@ describe('Conversational response contracts, not model-accuracy measurements', (
 });
 
 describe('Actual provider parsing with scripted responses and trapped financial reads', () => {
+  it('answers a mixed concept and recorded profit question in one call, keeping explanation out of financial arguments', async () => {
+    const explanation = 'Profit is recorded revenue minus expenses; it can differ from cash.';
+    const snapshot = { query: vi.fn() };
+    db.snapshot.mockImplementation((read) => read(snapshot));
+    db.income.mockResolvedValue({ totalRevenue: '10000', totalExpenses: '1000', netIncome: '9000' });
+    fetchMock.mockResolvedValueOnce(
+      response('income_summary', {
+        metric: 'profit',
+        from: '2026-10-01',
+        to: '2026-10-31',
+        generalExplanation: explanation,
+      }),
+    );
+    const value = await financialChat(
+      org,
+      [{ role: 'user', content: 'What is profit and what was ours last month?' }],
+      {
+        route: 'composable',
+        asOfDate: '2026-11-01',
+      },
+    );
+    expect(value.answer).toContain('$9,000.00');
+    expect(value.answer).not.toContain(explanation);
+    expect(value).toMatchObject({
+      generalExplanation: {
+        text: explanation,
+        grounding: 'general_knowledge',
+        verifiedFinancialData: false,
+      },
+    });
+    expect(value.query.args).toEqual({ metric: 'profit', from: '2026-10-01', to: '2026-10-31' });
+    expect(value.evidence[0]).toMatchObject({
+      title: 'Net profit',
+      rows: [{ label: 'Net profit', value: '$9,000.00' }],
+    });
+    expect(db.income).toHaveBeenCalledExactlyOnceWith(org, '2026-10-01', '2026-10-31', snapshot);
+    expect(fetchMock).toHaveBeenCalledOnce();
+  });
+  it('does not allow a general explanation envelope to bypass financial validation or replace an error with success', async () => {
+    fetchMock.mockResolvedValueOnce(
+      response('financial_scenario', {
+        queries: [],
+        assumptions: [],
+        calculations: [
+          {
+            id: 'invented',
+            operation: 'add',
+            operands: [
+              { source: 'assumption', id: 'absent', rowId: null, field: 'value' },
+              { source: 'assumption', id: 'absent', rowId: null, field: 'value' },
+            ],
+          },
+        ],
+        generalExplanation: 'This would be profitable.',
+      }),
+    );
+    const value = await financialChat(
+      org,
+      [{ role: 'user', content: 'Explain cost reduction and calculate our saving.' }],
+      { route: 'composable' },
+    );
+    expect(value).toMatchObject({ evidence: [], limitation: { code: 'INVALID_SCENARIO' } });
+    expect(value).not.toHaveProperty('generalExplanation');
+    expect(value.answer).not.toContain('This would be profitable.');
+    expect(db.read).not.toHaveBeenCalled();
+  });
+  it('uses a validated internal clock for reproducible evaluations without changing ordinary request input', async () => {
+    fetchMock.mockResolvedValueOnce(response('discuss_business', reply));
+    await financialChat(org, [{ role: 'user', content: 'What does profit mean?' }], {
+      route: 'composable',
+      asOfDate: '2026-11-01',
+    });
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body).systemInstruction.parts[0].text).toContain(
+      'Today is 2026-11-01',
+    );
+    vi.clearAllMocks();
+    await expect(
+      financialChat(org, [{ role: 'user', content: 'Help' }], { asOfDate: '2026-02-30' }),
+    ).rejects.toThrow();
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(db.chart).not.toHaveBeenCalled();
+  });
   it.each(['composable', 'adaptive'] as const)(
     'handles a natural clarification on %s without reading amounts',
     async (route) => {
