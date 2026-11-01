@@ -324,7 +324,7 @@ describe('Completion-required tool envelopes, no provider calls', () => {
       { type: 'string', enum: ['selected_identity'] },
       { type: 'string', enum: ['arithmetic'] },
     ]);
-    expect(wire.toolConfig.functionCallingConfig.allowedFunctionNames).toEqual(['financial_scenario']);
+    expect(wire.toolConfig.functionCallingConfig).toEqual({ mode: 'AUTO' });
     expect(wire.generationConfig.maxOutputTokens).toBe(4000);
   });
 });

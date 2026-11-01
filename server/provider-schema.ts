@@ -16,6 +16,25 @@ const schemaChildren = new Set([
   'unevaluatedItems',
 ]);
 
+/** Completion declarations use a large nested grammar. AUTO permits generation
+ * without the forced ANY decoder; the application still requires exactly one
+ * known call and validates its original strict schema before financial reads.
+ * Ordinary tools retain their existing forced-call behavior. */
+export function geminiFunctionCallingConfig(tools: { name: string; parameters: Record<string, unknown> }[]) {
+  const completionDeclaration = tools.some(({ parameters }) => {
+    const properties = parameters.properties;
+    return (
+      properties &&
+      typeof properties === 'object' &&
+      Object.hasOwn(properties, 'answerContract') &&
+      Object.hasOwn(properties, 'outputBindings')
+    );
+  });
+  return completionDeclaration
+    ? { mode: 'AUTO' as const }
+    : { mode: 'ANY' as const, allowedFunctionNames: tools.map((tool) => tool.name) };
+}
+
 /** Gemini wire compatibility only; the original application schema remains authoritative. */
 export function geminiProviderSchema(schema: Record<string, unknown>): Record<string, unknown> {
   // Clone JSON data first. In particular, enum/default/example objects are data,

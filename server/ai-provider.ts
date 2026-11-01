@@ -5,7 +5,7 @@ import { config } from './config';
 import { AppError, failureStage, markFailure, type FailureStage } from './errors';
 import { diagnostic } from './diagnostics';
 import { readBoundedProviderJson } from './ai-response';
-import { geminiProviderSchema } from './provider-schema';
+import { geminiProviderSchema, geminiFunctionCallingConfig } from './provider-schema';
 import { readProviderErrorDiagnostics, type ProviderErrorDiagnostics } from './provider-diagnostics';
 
 export type ModelMessages = { role: 'user' | 'assistant'; content: string }[];
@@ -393,7 +393,7 @@ function geminiFinancialExtra(tools: FinancialTool[]) {
       },
     ],
     toolConfig: {
-      functionCallingConfig: { mode: 'ANY', allowedFunctionNames: tools.map((tool) => tool.name) },
+      functionCallingConfig: geminiFunctionCallingConfig(tools),
     },
   };
 }

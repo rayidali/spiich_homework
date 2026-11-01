@@ -165,4 +165,21 @@ describe('One-shot provider diagnostic, offline only', () => {
       diagnosticUsage({ ...raw, usageMetadata: { ...raw.usageMetadata, totalTokenCount: 16 } }),
     ).toBeNull();
   });
+  it('does not expose arbitrary uppercase provider status text', async () => {
+    const task = capture(
+      new Response(
+        JSON.stringify({
+          error: { status: 'PRIVATE_ACCOUNTING_PROMPT_DO_NOT_LOG', message: 'Private user contents' },
+        }),
+        { status: 400 },
+      ),
+    );
+    const receipt = await task.run();
+    expect(receipt.providerStatus).toBeNull();
+    expect(JSON.stringify(receipt)).not.toContain('PRIVATE_ACCOUNTING_PROMPT_DO_NOT_LOG');
+  });
+  it.each(['not JSON', '[]', 'null'])('never calls malformed HTTP200 data accepted: %s', async (raw) => {
+    const task = capture(new Response(raw, { status: 200 }));
+    expect((await task.run()).requestAccepted).toBe(false);
+  });
 });

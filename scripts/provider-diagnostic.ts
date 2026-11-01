@@ -3,6 +3,8 @@ import { closeSync, existsSync, fsyncSync, mkdirSync, openSync, readFileSync, wr
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { Decimal } from '../shared/money';
+import { parseProviderErrorDiagnostics } from '../server/provider-diagnostics';
+import { geminiFunctionCallingConfig } from '../server/provider-schema';
 import { jsonFile, verifyArtifacts, writeEvidence } from './completeness-evaluation/artifacts';
 
 /** Separate debugging only. The failed scientific cohort and its allowance stay closed. */
@@ -102,10 +104,25 @@ export function assertUnusedDiagnosticSlot(runs: DiagnosticWorkflowRun[], bindin
 
 export function prepareDiagnosticRequest(slot: string, original: Uint8Array) {
   requireValue(hash(original) === DIAGNOSTIC.originalRequestSha256, 'ORIGINAL_REQUEST_CHANGED');
-  // An independently reviewed future transform must explicitly implement each
-  // other named slot. Never silently substitute the original or call a provider.
-  requireValue(slot === 'original', 'SLOT_TRANSFORM_NOT_IMPLEMENTED');
-  return validateDiagnosticBody(original);
+  requireValue(slot === 'original' || slot === 'repair', 'SLOT_TRANSFORM_NOT_IMPLEMENTED');
+  if (slot === 'original') return validateDiagnosticBody(original);
+  const request = JSON.parse(Buffer.from(original).toString('utf8'));
+  const declarations = request.tools[0].functionDeclarations as {
+    name: string;
+    parametersJsonSchema: Record<string, unknown>;
+  }[];
+  requireValue(request.toolConfig.functionCallingConfig.mode === 'ANY', 'ORIGINAL_MODE_INVALID');
+  const configuration = geminiFunctionCallingConfig(
+    declarations.map((tool) => ({
+      name: tool.name,
+      parameters: tool.parametersJsonSchema,
+    })),
+  );
+  requireValue(configuration.mode === 'AUTO', 'REPAIR_NOT_APPLICABLE');
+  // The only changed field is the tool-calling configuration. Full original
+  // schemas, prompts, user message, model and generation limits stay identical.
+  request.toolConfig.functionCallingConfig = configuration;
+  return validateDiagnosticBody(Buffer.from(JSON.stringify(request)));
 }
 export function validateDiagnosticBody(original: Uint8Array) {
   const body = Buffer.from(original);
@@ -308,9 +325,7 @@ export async function captureDiagnostic(options: {
     responseFile = raw === undefined ? 'response.txt' : 'response.json';
     exclusiveBytes(join(directory, responseFile), body);
     responseSha256 = hash(body);
-    if (object(raw) && object(raw.error) && typeof raw.error.status === 'string') {
-      if (/^[A-Z][A-Z_]{0,63}$/.test(raw.error.status)) providerStatus = raw.error.status;
-    }
+    providerStatus = parseProviderErrorDiagnostics(body, { httpStatus, apiKey }).providerStatus ?? null;
   } catch (error) {
     failure = signal.aborted ? 'PROVIDER_DIAGNOSTIC_TIMEOUT' : safeCode(error);
     raw = undefined;
@@ -344,7 +359,8 @@ export async function captureDiagnostic(options: {
     requestBytes: request.body.byteLength,
     httpStatus,
     providerStatus,
-    requestAccepted: httpStatus === 200 && responseSha256 !== null && !(object(raw) && 'error' in raw),
+    requestAccepted:
+      httpStatus === 200 && responseSha256 !== null && failure === null && object(raw) && !('error' in raw),
     captureComplete: responseSha256 !== null,
     responseSha256,
     responseBytes,
