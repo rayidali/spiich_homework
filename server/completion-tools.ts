@@ -23,6 +23,10 @@ const followupNames = new Set([
   'request_details',
 ]);
 const metadataNames = ['answerContract', 'outputBindings'] as const;
+/** Shared by the live planner and the bounded compatibility probe. This explains
+ * existing strict rules; it does not normalize or accept invalid references. */
+export const completionReferenceInstructions =
+  '\nFor sourceQuotes, messageIndex is the ZERO-BASED index in the ENTIRE original conversation, including assistant messages. For [user, assistant, user], the second user message has messageIndex:2, never 1. Quote text must occur exactly once in that indexed original USER message. Do not count only user turns.\nOutput bindings must match the requested output kind: value and selected_identity require source:{kind:"query_row",queryId,rowId}; use rowId:"total:total" for an ungrouped total. A table requires source:{kind:"query_result",queryId}. Arithmetic requires source:{kind:"calculation",calculationId}. A query_result is not a scalar value binding, even if its table has only one row. Keep selectedAccountCode:null unless selecting one account from a grouped result; a simple account-filtered total already identifies its account in scope.accountCodes.';
 const initialEnvelope = z.strictObject({
   answerContract: answerContractSchema,
   outputBindings: outputBindingsSchema,

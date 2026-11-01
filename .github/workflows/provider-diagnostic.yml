@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       slot:
-        description: Each diagnostic slot may be dispatched once; repair and multi initially refuse
+        description: One call per slot; original reproduction, mode repair, then reference-validation instructions
         type: choice
         options: [original, repair, multi]
         required: true

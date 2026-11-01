@@ -5,6 +5,7 @@ import { pathToFileURL } from 'node:url';
 import { Decimal } from '../shared/money';
 import { parseProviderErrorDiagnostics } from '../server/provider-diagnostics';
 import { geminiFunctionCallingConfig } from '../server/provider-schema';
+import { completionReferenceInstructions } from '../server/completion-tools';
 import { jsonFile, verifyArtifacts, writeEvidence } from './completeness-evaluation/artifacts';
 
 /** Separate debugging only. The failed scientific cohort and its allowance stay closed. */
@@ -104,7 +105,10 @@ export function assertUnusedDiagnosticSlot(runs: DiagnosticWorkflowRun[], bindin
 
 export function prepareDiagnosticRequest(slot: string, original: Uint8Array) {
   requireValue(hash(original) === DIAGNOSTIC.originalRequestSha256, 'ORIGINAL_REQUEST_CHANGED');
-  requireValue(slot === 'original' || slot === 'repair', 'SLOT_TRANSFORM_NOT_IMPLEMENTED');
+  requireValue(
+    DIAGNOSTIC.slots.some((name) => name === slot),
+    'SLOT_TRANSFORM_NOT_IMPLEMENTED',
+  );
   if (slot === 'original') return validateDiagnosticBody(original);
   const request = JSON.parse(Buffer.from(original).toString('utf8'));
   const declarations = request.tools[0].functionDeclarations as {
@@ -122,6 +126,10 @@ export function prepareDiagnosticRequest(slot: string, original: Uint8Array) {
   // The only changed field is the tool-calling configuration. Full original
   // schemas, prompts, user message, model and generation limits stay identical.
   request.toolConfig.functionCallingConfig = configuration;
+  // Third and final slot checks the same follow-up against multiple validation
+  // boundaries (message citation, output binding and query schema). It is not a
+  // new accuracy sample. Only the shared generic reference instructions are added.
+  if (slot === 'multi') request.systemInstruction.parts[0].text += completionReferenceInstructions;
   return validateDiagnosticBody(Buffer.from(JSON.stringify(request)));
 }
 export function validateDiagnosticBody(original: Uint8Array) {

@@ -54,6 +54,7 @@ import {
   completionFollowupTools,
   parseCompletionArgs,
   stripCompletionArgs,
+  completionReferenceInstructions,
 } from './completion-tools';
 import { prepareAnswerContract } from './answer-completion';
 import {
@@ -511,7 +512,8 @@ export function buildFinancialPlannerInput(
       tools: completionInitialTools(adaptive.tools),
       instructions:
         adaptive.instructions +
-        '\nThis configuration requires an answerContract before reading financial results. Declare every requested result, table, identity selection and calculation using original-user quotes, including constraints retained from earlier turns. The declaration is frozen after the first valid plan; later steps may bind results but cannot remove or change requested outputs. Original quotes prove where text came from, not that your interpretation is complete. Fill outputBindings for a direct final answer; use an empty array on the first inspection. After inspection, preserve the frozen declaration and copy exact returned row handles. A structurally valid query is insufficient if it omits requested results. Only the supplied typed financial tools and request_details are available in this candidate; express matching report requests with financial_analysis or financial_scenario. Clarify unsupported scope rather than substituting a different report. Do not invent a declaration for an off-topic or ambiguous request; use request_details without financial data.',
+        '\nThis configuration requires an answerContract before reading financial results. Declare every requested result, table, identity selection and calculation using original-user quotes, including constraints retained from earlier turns. The declaration is frozen after the first valid plan; later steps may bind results but cannot remove or change requested outputs. Original quotes prove where text came from, not that your interpretation is complete. Fill outputBindings for a direct final answer; use an empty array on the first inspection. After inspection, preserve the frozen declaration and copy exact returned row handles. A structurally valid query is insufficient if it omits requested results. Only the supplied typed financial tools and request_details are available in this candidate; express matching report requests with financial_analysis or financial_scenario. Clarify unsupported scope rather than substituting a different report. Do not invent a declaration for an off-topic or ambiguous request; use request_details without financial data.' +
+        completionReferenceInstructions,
     };
   }
   if (route === 'authored')
