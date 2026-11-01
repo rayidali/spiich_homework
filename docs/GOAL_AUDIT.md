@@ -1,5 +1,7 @@
 # Delivery and remaining limits
 
+**Repair engineering gate passed:** [CI41361375961](evidence/conversation-repair-ci.json) passed for source181dcfde, including application/database/browser/Docker checks. A new ten-case model validation is prepared but its$0.09 approval is pending. Production remains unchanged; the broad goal is not complete.
+
 **Current gate:** [conversational acceptance v1](evidence/conversation-acceptance-v1/report.md) completed but did not pass full semantic acceptance: 23/31 cases, 27/35 turns. Numerical/source review was 20/20 required facts. These are different measurements. Eight failures and repeated-question UX defects led to local repairs; no new production promotion or goal-complete claim is justified. A ten-case focused validation is being prepared separately and is not authorized yet.
 
 **New goal active, 2026-11-01.** The user restarted broad reliability after a staffing question received a generic refusal. The earlier finite release below does not complete this goal. [Conversational candidate](CONVERSATIONAL_ASSISTANT.md) records natural clarification and mixed explanation/financial-result support. The first candidate passed full CI; later changes need combined CI, real-model semantic acceptance and hosted promotion. Passing scripted tests does not prove arbitrary-question correctness.

@@ -1,5 +1,7 @@
 # Daybook continuation instructions
 
+**Repair CI complete:** exact source `181dcfdeabb8867ff162f0833153c8f5473c6280` passed full CI41361375961: 2,767 normal tests,35 browser workflows, PostgreSQL fixtures, native research and Compose/persistence. Current74-file source hash is `339c2783c19fad53cdfc4e062bb33d9842185a0c6715bbc8fab854742dbb3fb1`. The new $0.09 /ten-conversation approval question is pending; no reply, v2 permit, temporary secrets, dispatch or deployment exists. Do not treat earlier $0.20 approval or leftover money as authorization for this new request. Update a future permit to the actual current main commit after verifying unchanged bound bytes. Original artifacts/results stay closed; broader goal remains active.
+
 Read [CHECKPOINT.md](CHECKPOINT.md) first. It distinguishes the current release from preserved historical states. Then read the documents relevant to the user's next request. Do not rebuild the implemented application or rerun a closed experiment.
 
 ## Latest conversational acceptance and repair

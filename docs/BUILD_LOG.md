@@ -1,5 +1,11 @@
 # Build log
 
+## 2026 11 01 Repair verified and spending gate pending
+
+Source `181dcfdeabb8867ff162f0833153c8f5473c6280` passed [full CI41361375961](evidence/conversation-repair-ci.json): 2,767 normal tests/134 files,35 browser workflows/53.0seconds, PostgreSQL fixture checks, native research and Compose2,766 overlapping tests/133 files with automatic jobs/persistence. Local283 focused tests/nine files, build and formatting also passed. Adaptive continuation now checks echoed questions against original user messages, not appended inspection feedback, with successful/failed bounded-repair tests. V2 strict ordered case selection is prepared with its own26 offline tests. No new live-model accuracy is claimed.
+
+The asynchronous request for up to$0.09 on ten repaired/adjacent conversations remains unanswered. Total closed tracked charges remain$0.8436047; the proposed new maximum would be$0.9336047, above the original$0.90 allowance. No v2 permit, secrets, dispatch, provider call or release occurred. Production remains unchanged. The handoff and submission archive are refreshed without secrets.
+
 ## 2026 11 01 Real conversation acceptance and observed-failure repair
 
 - Exact source `3eed0b10` passed combined CI 41359643834, including 2,731 normal tests, 35 browser workflows, actual PostgreSQL fixture checks and Compose. Counts overlap; [receipt](evidence/conversation-combined-ci.json).

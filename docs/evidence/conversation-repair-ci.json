@@ -1,0 +1,71 @@
+{
+  "version": "conversation-repair-ci-v1",
+  "sourceCommit": "181dcfdeabb8867ff162f0833153c8f5473c6280",
+  "runId": 41361375961,
+  "runAttempt": 1,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41361375961",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "verify",
+      "id": 125012268301,
+      "conclusion": "success"
+    },
+    {
+      "name": "research-native",
+      "id": 125012268549,
+      "conclusion": "success"
+    },
+    {
+      "name": "compose",
+      "id": 125013218376,
+      "conclusion": "success"
+    },
+    {
+      "name": "live-ai",
+      "id": 125014172131,
+      "conclusion": "skipped"
+    }
+  ],
+  "normal": {
+    "passedTests": 2767,
+    "skippedTests": 8,
+    "passedFiles": 134,
+    "skippedFiles": 2
+  },
+  "separateEarlierFixtureTests": 4,
+  "conversationFixtureDatabaseCheck": "passed without provider inference",
+  "browser": {
+    "passed": 35,
+    "durationSeconds": 53.0
+  },
+  "compose": {
+    "passedTests": 2766,
+    "skippedTests": 9,
+    "passedFiles": 133,
+    "skippedFiles": 3,
+    "overlapsNormal": true,
+    "automaticJobs": true,
+    "persistence": true
+  },
+  "sourceBinding": {
+    "files": 74,
+    "hash": "339c2783c19fad53cdfc4e062bb33d9842185a0c6715bbc8fab854742dbb3fb1"
+  },
+  "providerInference": false,
+  "newSemanticScore": null,
+  "deploymentChanged": false,
+  "focusedValidation": {
+    "proposedCeilingUsd": "0.09",
+    "cases": 10,
+    "turns": 10,
+    "maxAttempts": 20,
+    "approval": "pending",
+    "executed": false
+  },
+  "limits": [
+    "All model responses in this CI are scripted.",
+    "Current repair does not inherit v1 semantic scores.",
+    "A targeted future validation is not universal accuracy or a fresh blinded holdout."
+  ]
+}

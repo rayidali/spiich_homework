@@ -1,5 +1,7 @@
 # Conversational assistant work in progress
 
+**Repair verification:** source `181dcfdeabb8867ff162f0833153c8f5473c6280` passed [full CI](evidence/conversation-repair-ci.json), including2,767 normal tests,35 browser workflows, PostgreSQL and Docker. A prepared ten-case focused model check requires a new approval, currently pending. Production and the original v1 scores remain unchanged. No live understanding improvement has yet been measured.
+
 **Latest evidence:** source `3eed0b10` passed combined CI and completed the approved real-model evaluation: 23/31 conversations and 27/35 turns passed semantic review. All 20 required numerical facts were correct in separate source review; original automatic failures remain preserved. [Results, failures and costs](evidence/conversation-acceptance-v1/report.md). Production is unchanged. The current echo/account/next-step/reference repairs are a different, unmeasured version.
 
 The original `question` field lacked a clear semantic description, and some model responses copied the user's question into it. The repair adds descriptions and rejects an exact latest-user echo after whitespace/case normalization. The existing bounded repair loop receives only a finite `repeated_user_question` reason; it does not silently replace the response or introduce another budget. Scripted tests exercise successful repair and exhaustion on both composable/adaptive paths. This mechanical check does not prove relevance or truth.
