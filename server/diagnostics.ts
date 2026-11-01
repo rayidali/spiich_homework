@@ -137,6 +137,7 @@ type DiagnosticFields = {
   fulfilledOutputs?: number;
   missingOutputs?: number;
   invalidOutputs?: number;
+  generatedCalculationCount?: number;
   issues?: { code: string; path: (string | number)[] }[];
 };
 
@@ -284,7 +285,12 @@ export function diagnostic(
   if (fields.issues) output.issues = safeSchemaIssues(fields.issues);
   if (['fulfilled', 'partial', 'unassessed'].includes(fields.completionStatus ?? ''))
     output.completionStatus = fields.completionStatus;
-  for (const key of ['fulfilledOutputs', 'missingOutputs', 'invalidOutputs'] as const)
+  for (const key of [
+    'fulfilledOutputs',
+    'missingOutputs',
+    'invalidOutputs',
+    'generatedCalculationCount',
+  ] as const)
     if (count(fields[key]) && fields[key]! <= 8) output[key] = fields[key];
   if (['http', 'transport', 'timeout', 'provider'].includes(fields.failureClass ?? ''))
     output.failureClass = fields.failureClass;

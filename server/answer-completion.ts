@@ -295,10 +295,7 @@ function calculationDisplay(fact: ScenarioCalculationFact) {
 }
 
 /** A bounded finalizer: only checks existing results and visible server-assigned references. */
-export function finalizeAnswerContract(
-  prepared: PreparedAnswerContract,
-  context: CompletionContext,
-): CompletionAssessment {
+function inspectAnswerContract(prepared: PreparedAnswerContract, context: CompletionContext) {
   if (hash(prepared.contract) !== prepared.hash)
     throw new AppError(422, 'INVALID_ANSWER_CONTRACT', 'The frozen answer contract changed.');
   const parsed = outputBindingsSchema.safeParse(context.bindings);
@@ -758,7 +755,7 @@ export function finalizeAnswerContract(
       );
     }
   });
-  return {
+  const assessment: CompletionAssessment = {
     completionBasis: 'model_declared',
     userIntentVerified: false,
     status: outputs.every((o) => o.status === 'fulfilled')
@@ -768,4 +765,214 @@ export function finalizeAnswerContract(
         : 'partial',
     outputs,
   };
+  return {
+    assessment,
+    validateExistingCalculations: validateCalculations,
+    assumptionIdentity: assumptionSymbol,
+    outputReference(outputId: string): ScenarioReference {
+      const fulfilled = completed.get(outputId);
+      if (!fulfilled?.symbol) missing('The required earlier scalar output is not fulfilled.');
+      if (fulfilled.binding.source.kind === 'query_row') {
+        const { fact, row } = boundRow(fulfilled.binding);
+        const ref: ScenarioReference = {
+          source: 'query',
+          id: fact.queryId,
+          rowId: row.rowId,
+          field: 'value',
+        };
+        actualReference(ref);
+        return ref;
+      }
+      if (fulfilled.binding.source.kind === 'calculation') {
+        validateCalculations();
+        return {
+          source: 'calculation',
+          id: fulfilled.binding.source.calculationId,
+          rowId: null,
+          field: 'value',
+        };
+      }
+      return unsupported('This output does not bind a scalar operand.');
+    },
+    monthCountReference(
+      query: Extract<AnswerOperand, { source: 'month_count' }>['query'],
+    ): ScenarioReference {
+      const expected = expectedOperand({ source: 'month_count', query });
+      const matches: string[] = [];
+      for (const fact of facts) {
+        const { compiled } = checkedFact(fact.queryId);
+        const actual = { kind: 'month_count', scope: scopeKey(compiled, context.chart), grain: fact.grain };
+        if (!same(expected, actual)) continue;
+        try {
+          scenarioCalendarMonthCount(fact);
+          matches.push(fact.queryId);
+        } catch {
+          /* Incomplete or unsupported series cannot supply a divisor. */
+        }
+      }
+      if (matches.length !== 1)
+        missing('A calendar divisor needs one complete, exactly scoped inspected series.');
+      return { source: 'query', id: matches[0], rowId: null, field: 'month_count' };
+    },
+  };
+}
+
+/** Checks existing facts only; this public function never creates an operation. */
+export function finalizeAnswerContract(
+  prepared: PreparedAnswerContract,
+  context: CompletionContext,
+): CompletionAssessment {
+  return inspectAnswerContract(prepared, context).assessment;
+}
+
+export type DeclaredArithmeticResult = Pick<CompletionContext, 'facts' | 'evidence' | 'bindings'> & {
+  generatedCalculations: { outputId: string; calculationId: string }[];
+};
+
+/** Executes only absent bindings for operations already frozen in the contract.
+ * No provider, query, inferred operand, or alteration of an existing binding.
+ * Every candidate node is replayed and checked before its atomic local commit. */
+export function completeDeclaredArithmetic(
+  prepared: PreparedAnswerContract,
+  context: CompletionContext,
+): DeclaredArithmeticResult {
+  const result: DeclaredArithmeticResult = {
+    facts: structuredClone(context.facts),
+    evidence: structuredClone(context.evidence),
+    bindings: structuredClone(context.bindings),
+    generatedCalculations: [],
+  };
+  const currentContext = (): CompletionContext => ({
+    ...context,
+    facts: result.facts,
+    evidence: result.evidence,
+    bindings: result.bindings,
+  });
+  let inspected = inspectAnswerContract(prepared, currentContext());
+  if (inspected.assessment.outputs.some((output) => output.status === 'invalid')) return result;
+  const queries = result.facts.filter((fact): fact is AnalysisFacts => !isCalculation(fact));
+  if (queries.length > 4) return result;
+  const assumptions = new Map<string, Pick<ScenarioAssumption, 'id' | 'value' | 'unit' | 'sourceText'>>();
+  const assumptionIds = new Set<string>();
+  // The calculator emits all assumption rows, including unused ones. Count their
+  // server-owned IDs without recovering quantities from presentation text.
+  for (const table of result.evidence)
+    for (const row of table.rows)
+      if (row.factRef?.kind === 'assumption') assumptionIds.add(row.factRef.assumptionId);
+  for (const fact of result.facts.filter(isCalculation))
+    for (const item of fact.assumptions) {
+      assumptionIds.add(item.id);
+      const input = { id: item.id, value: item.value, unit: item.unit, sourceText: item.sourceText };
+      if (assumptions.has(item.id) && !same(assumptions.get(item.id), input)) return result;
+      assumptions.set(item.id, input);
+    }
+  if (assumptionIds.size > 8 || result.facts.filter(isCalculation).length > 8) return result;
+  try {
+    if (result.facts.some(isCalculation)) inspected.validateExistingCalculations();
+  } catch {
+    return result;
+  }
+  const usedIds = new Set([
+    ...queries.map((fact) => fact.queryId),
+    ...result.facts.filter(isCalculation).map((fact) => fact.id),
+    ...assumptionIds,
+    ...prepared.contract.outputs.map((output) => output.id),
+  ]);
+  function allocate(prefix: string, ids: Set<string>) {
+    // At most36 occupied identifiers can exist under the surrounding limits.
+    for (let index = 1; index <= 64; index++) {
+      const id = `${prefix}_${index}`;
+      if (!ids.has(id)) {
+        ids.add(id);
+        return id;
+      }
+    }
+    return unsupported('The declared calculation identifier budget is exhausted.');
+  }
+  for (const output of prepared.contract.outputs) {
+    if (
+      output.requirement.kind !== 'arithmetic' ||
+      result.bindings.some((binding) => binding.outputId === output.id)
+    )
+      continue;
+    const existingCalculations = result.facts.filter(isCalculation);
+    if (existingCalculations.length >= 8) break;
+    const candidateIds = new Set(usedIds);
+    const candidateAssumptions = new Map(assumptions);
+    const candidateAssumptionIds = new Set(assumptionIds);
+    const addedAssumptionIds = new Set<string>();
+    try {
+      const operands = output.requirement.operands.map((operand): ScenarioReference => {
+        if (operand.source === 'output') return inspected.outputReference(operand.id);
+        if (operand.source === 'month_count') return inspected.monthCountReference(operand.query);
+        const identity = inspected.assumptionIdentity(operand);
+        const equivalent = [...candidateAssumptions.values()].find((item) =>
+          same(inspected.assumptionIdentity(item), identity),
+        );
+        if (equivalent) return { source: 'assumption', id: equivalent.id, rowId: null, field: 'value' };
+        if (candidateAssumptionIds.size >= 8) unsupported('The combined assumption budget is exhausted.');
+        const id = allocate('completion_assumption', candidateIds);
+        candidateAssumptions.set(id, {
+          id,
+          value: operand.value,
+          unit: operand.unit,
+          sourceText: operand.sourceText,
+        });
+        candidateAssumptionIds.add(id);
+        addedAssumptionIds.add(id);
+        return { source: 'assumption', id, rowId: null, field: 'value' };
+      });
+      const calculationId = allocate('completion_calculation', candidateIds);
+      const replay = evaluateFinancialScenario(
+        {
+          queries: queries.map((fact) => fact.scope.plan),
+          assumptions: [...candidateAssumptions.values()],
+          calculations: [
+            ...existingCalculations.map(({ id, operation, operands }) => ({ id, operation, operands })),
+            { id: calculationId, operation: output.requirement.operation, operands },
+          ],
+        },
+        queries,
+        prepared.originalMessages,
+      );
+      const replayedCalculations = replay.facts.filter(isCalculation);
+      if (!same(replayedCalculations.slice(0, -1), existingCalculations))
+        invalid('Declared completion cannot change an existing calculated fact.');
+      const generated = replayedCalculations.at(-1)!;
+      const evidence = replay.evidence.flatMap((table) => {
+        const rows = table.rows.filter((row) =>
+          row.factRef?.kind === 'calculation'
+            ? row.factRef.calculationId === calculationId
+            : row.factRef?.kind === 'assumption' && addedAssumptionIds.has(row.factRef.assumptionId),
+        );
+        return rows.length ? [{ ...table, rows }] : [];
+      });
+      const binding: OutputBinding = { outputId: output.id, source: { kind: 'calculation', calculationId } };
+      const candidateContext: CompletionContext = {
+        ...context,
+        facts: [...result.facts, generated],
+        evidence: [...result.evidence, ...evidence],
+        bindings: [...result.bindings, binding],
+      };
+      const candidate = inspectAnswerContract(prepared, candidateContext);
+      if (candidate.assessment.outputs.find((item) => item.outputId === output.id)?.status !== 'fulfilled')
+        continue;
+      // A valid dependency can expose an invalid supplied downstream formula.
+      // Retain that coherent context so the caller's finalizer withholds it;
+      // rolling back the dependency would mask the now-detectable mismatch.
+      result.facts = candidateContext.facts;
+      result.evidence = candidateContext.evidence;
+      result.bindings = candidateContext.bindings;
+      result.generatedCalculations.push({ outputId: output.id, calculationId });
+      candidateIds.forEach((id) => usedIds.add(id));
+      candidateAssumptions.forEach((item, id) => assumptions.set(id, item));
+      candidateAssumptionIds.forEach((id) => assumptionIds.add(id));
+      inspected = candidate;
+      if (candidate.assessment.outputs.some((item) => item.status === 'invalid')) break;
+    } catch {
+      // Unsupported arithmetic, missing operands and exhausted budgets stay
+      // missing. No half node, new evidence, replacement or allowance commits.
+    }
+  }
+  return result;
 }

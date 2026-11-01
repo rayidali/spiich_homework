@@ -1,6 +1,11 @@
 import { AppError } from './errors';
 import { diagnostic } from './diagnostics';
-import { finalizeAnswerContract, type PreparedAnswerContract, type OutputBinding } from './answer-completion';
+import {
+  completeDeclaredArithmetic,
+  finalizeAnswerContract,
+  type PreparedAnswerContract,
+  type OutputBinding,
+} from './answer-completion';
 import type { AnalysisAccount, AnalysisFacts } from './financial-analysis';
 import type { ScenarioCalculationFact } from './financial-calculation';
 import type { InsightEvidence } from '../shared/financial-evidence';
@@ -25,8 +30,9 @@ export const unassessedCompletion = () => ({
   outputs: [],
 });
 
-/** The financial executor owns the values and source links. This boundary only
- * verifies delivery of the frozen declaration and presents those existing rows. */
+/** Financial executors own the values and source links. This boundary checks the
+ * frozen declaration, finishes supported omitted arithmetic, and presents the
+ * verified existing or deterministically calculated rows. */
 export function completeFinancialAnswer<T extends FinancialAnswer>(
   organizationId: string,
   session: AnswerCompletionSession,
@@ -40,6 +46,7 @@ export function completeFinancialAnswer<T extends FinancialAnswer>(
       fulfilledOutputs: 0,
       missingOutputs: session.prepared.contract.outputs.length,
       invalidOutputs: 0,
+      generatedCalculationCount: 0,
     });
     return {
       ...result,
@@ -61,20 +68,26 @@ export function completeFinancialAnswer<T extends FinancialAnswer>(
       },
     };
   }
-  const completion = finalizeAnswerContract(session.prepared, {
+  const context = {
     organizationId,
     chart: session.executionChart ?? [],
     facts: result.facts ?? [],
     evidence: result.evidence,
     bindings: session.bindings,
-    resolveRowReference: (queryId, rowId) => {
+    resolveRowReference: (queryId: string, rowId: string) => {
       if (!rowId.startsWith('r_')) return rowId;
       const binding = rowReferences.find((item) => item.handle === rowId && item.queryId === queryId);
       if (!binding)
         throw new AppError(422, 'INVALID_ANSWER_BINDING', 'The result reference is not part of this query.');
       return binding.rowId;
     },
-  });
+  };
+  // Only the frozen declaration can authorize an omitted operation. This pure
+  // step reuses existing verified facts and the exact calculator; no read or
+  // provider call is added. Supplied bindings are never silently replaced.
+  const calculated = completeDeclaredArithmetic(session.prepared, context);
+  result = { ...result, facts: calculated.facts, evidence: calculated.evidence };
+  const completion = finalizeAnswerContract(session.prepared, { ...context, ...calculated });
   const invalid = completion.outputs.filter((output) => output.status === 'invalid');
   const fulfilled = completion.outputs.filter((output) => output.status === 'fulfilled');
   const unfinished = completion.outputs.filter((output) => output.status !== 'fulfilled');
@@ -84,11 +97,18 @@ export function completeFinancialAnswer<T extends FinancialAnswer>(
     fulfilledOutputs: invalid.length ? 0 : fulfilled.length,
     missingOutputs: invalid.length ? completion.outputs.length - invalid.length : unfinished.length,
     invalidOutputs: invalid.length,
+    generatedCalculationCount: calculated.generatedCalculations.length,
   });
   const audit = {
     completion,
     answerContract: { hash: session.prepared.hash, contract: session.prepared.contract },
-    outputBindings: structuredClone(session.bindings),
+    outputBindings: structuredClone(calculated.bindings),
+    ...(calculated.generatedCalculations.length
+      ? {
+          modelOutputBindings: structuredClone(session.bindings),
+          generatedCalculations: structuredClone(calculated.generatedCalculations),
+        }
+      : {}),
   };
   if (invalid.length) {
     return {

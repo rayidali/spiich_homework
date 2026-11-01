@@ -1,6 +1,10 @@
 # Verification record
 
-## Declared-answer completion candidate — published and CI verified, not deployed
+**Current local work — completing declared arithmetic; CI pending.** The opt-in `complete` route now finishes supported, missing arithmetic that was already frozen in the answer contract. With verified January $240 and February $90 bindings, it can add the declared −$150 difference and −0.625 relative-change ratio using the existing exact calculator. It makes no new database read or provider call. Missing inputs, ambiguous month sources, unsupported units, zero divisors and exhausted limits remain unresolved; supplied bindings are never replaced. A newly exposed conflicting formula withholds the whole financial answer. [Behavior and limits](ANSWER_COMPLETENESS.md).
+
+The change preserves the combined four-query/eight-calculation/eight-assumption limits, including unused original assumption IDs, source labels, exact original quantities and the existing final deadline check. Generated calculation metadata is separate from the original model bindings. The declaration still does not certify exhaustive user intent. A coherent offline run passed 523 tests across 15 files, followed by the TypeScript/Vite production build. Seven new PostgreSQL cases and one additional browser workflow are authored for CI; the earlier `382f39f` run below does not cover these local changes. No new model call, spending, score, deployment or reopened cohort occurred. Production remains `93a8617` / `composable`.
+
+## Previous declared-answer checker — published and CI verified, not deployed
 
 Exact source `382f39f93719fead3a622aa3cb3b773bef1ed58f` passed [run 41262702669](https://github.com/rayidali/spiich_homework/actions/runs/41262702669), attempt one: verify, native research and Compose succeeded; live-AI was skipped. Normal CI passed **2,097 tests across 105 files**, with four cases/one file skipped. **All 31 browser workflows passed in 48.8 seconds**. Compose passed **2,096 tests across 104 files**, with five cases/two files skipped. These counts overlap; do not add normal, container, named-suite or local counts. [Exact-source receipt](evidence/answer-completion-candidate-ci.json).
 

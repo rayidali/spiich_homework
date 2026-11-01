@@ -248,6 +248,7 @@ function assertWithheld(outcome: Awaited<ReturnType<typeof caught>>) {
 function assertVisibleLocators(value: unknown) {
   const answer = value as {
     evidence: InsightEvidence[];
+    outputBindings: OutputBinding[];
     completion: {
       outputs: { outputId: string; status: string; evidence: { tableIndex: number; rowIndex?: number }[] }[];
     };
@@ -263,7 +264,14 @@ function assertVisibleLocators(value: unknown) {
       expect(row).toBeDefined();
       expect(row.factRef).toEqual(
         output.outputId === 'delta'
-          ? { kind: 'calculation', calculationId: 'difference' }
+          ? {
+              kind: 'calculation',
+              calculationId: (
+                answer.outputBindings.find((binding) => binding.outputId === 'delta')!.source as {
+                  calculationId: string;
+                }
+              ).calculationId,
+            }
           : { kind: 'query_row', queryId: output.outputId, rowId: 'total:total' },
       );
       expect(row.value).toContain(
@@ -460,15 +468,182 @@ describe('Completion-required chat with real execution boundaries and scripted H
     expect(db.analysis).toHaveBeenCalledTimes(1);
     expect(JSON.stringify(value.evidence)).toContain('total:total');
   });
-  it('marks correct monthly values partial when the declared delta was omitted', async () => {
+  it('finishes the declared missing delta with no extra provider call or database read', async () => {
     fetchMock.mockResolvedValueOnce(direct(contract()));
     const value = await invoke();
-    expect(completion(value)?.status).toBe('partial');
-    expect(completion(value)?.outputs.filter((output) => output.status === 'fulfilled')).toHaveLength(2);
+    expect(completion(value)?.status).toBe('fulfilled');
+    expect(completion(value)?.outputs.filter((output) => output.status === 'fulfilled')).toHaveLength(3);
     expect(JSON.stringify(value.evidence)).toContain('240.00');
     expect(JSON.stringify(value.evidence)).toContain('90.00');
+    expect(JSON.stringify(value.evidence)).toContain('-$150.00 USD');
     assertVisibleLocators(value);
+    expect(value).not.toHaveProperty('limitation');
+    expect(value).toMatchObject({
+      modelOutputBindings: bindings(),
+      generatedCalculations: [{ outputId: 'delta', calculationId: expect.any(String) }],
+    });
+    expect(db.analysis).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(value.ai.attempts).toBe(1);
+    const event = vi
+      .mocked(console.log)
+      .mock.calls.map(([line]) => JSON.parse(String(line)))
+      .find((line) => line.event === 'ai_answer_completion');
+    expect(event).toMatchObject({ completionStatus: 'fulfilled', generatedCalculationCount: 1 });
+  });
+  it('finishes a declared difference and relative change in dependency order', async () => {
+    const conversation = [
+      { role: 'user' as const, content: messages[0].content + ' Also show the relative change.' },
+    ];
+    const requested = contract();
+    requested.outputs.push({
+      id: 'relative',
+      sourceQuotes: [{ messageIndex: 0, quote: 'relative change' }],
+      requirement: {
+        kind: 'arithmetic',
+        operation: 'divide',
+        operands: [
+          { source: 'output', id: 'delta' },
+          { source: 'output', id: 'january' },
+        ],
+      },
+    });
+    fetchMock.mockResolvedValueOnce(direct(requested));
+    const value = await invoke(conversation);
+    expect(completion(value)?.status).toBe('fulfilled');
+    expect(value).toMatchObject({
+      modelOutputBindings: bindings(),
+      generatedCalculations: [
+        { outputId: 'delta', calculationId: expect.any(String) },
+        { outputId: 'relative', calculationId: expect.any(String) },
+      ],
+    });
+    const facts = (value as unknown as { facts: Record<string, unknown>[] }).facts;
+    expect(facts.slice(-2)).toMatchObject([
+      { value: '-150.00', exact: { numerator: '-150', denominator: '1' }, source: 'posted' },
+      { value: '-0.625', exact: { numerator: '-5', denominator: '8' }, source: 'posted' },
+    ]);
+    expect(value.evidence.slice(0, 4).map((table) => table.rows[0].value)).toEqual([
+      '$240.00',
+      '$90.00',
+      '-$150.00 USD',
+      '-0.625 ratio',
+    ]);
+    expect(db.analysis).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+  it('completes from inspected handles without another read or model continuation', async () => {
+    fetchMock.mockResolvedValueOnce(initial()).mockImplementationOnce(async () => {
+      const data = feedback(bodies()[1]);
+      const bound = bindings().map((binding) => ({
+        ...binding,
+        source: {
+          ...binding.source,
+          rowId: data.inspection.facts.find(
+            (fact: AnalysisFacts) => fact.queryId === (binding.source as { queryId: string }).queryId,
+          ).rows[0].rowId,
+        },
+      }));
+      expect(bound.every((binding) => binding.source.rowId.startsWith('r_'))).toBe(true);
+      return show(bound as OutputBinding[]);
+    });
+    const value = await invoke();
+    expect(completion(value)?.status).toBe('fulfilled');
+    assertVisibleLocators(value);
+    expect(value).toMatchObject({ generatedCalculations: [{ outputId: 'delta' }] });
+    expect(db.analysis).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(value.ai.attempts).toBe(2);
+  });
+  it('keeps missing input bindings partial instead of guessing a source from available amounts', async () => {
+    fetchMock.mockResolvedValueOnce(
+      response('financial_analysis', {
+        queries: [january(), february()],
+        answerContract: contract(),
+        outputBindings: bindings().slice(0, 1),
+      }),
+    );
+    const value = await invoke();
+    expect(completion(value)?.status).toBe('partial');
+    expect(completion(value)?.outputs.map((output) => output.status)).toEqual([
+      'fulfilled',
+      'missing',
+      'missing',
+    ]);
+    expect(value).not.toHaveProperty('generatedCalculations');
     expect(value).toMatchObject({ limitation: { code: 'ANSWER_INCOMPLETE' } });
+    expect(JSON.stringify(value.evidence)).not.toContain('-$150');
+    expect(db.analysis).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+  it('does not repair a supplied binding to a nonexistent calculation', async () => {
+    fetchMock.mockResolvedValueOnce(
+      response('financial_analysis', {
+        queries: [january(), february()],
+        answerContract: contract(),
+        outputBindings: bindings(true),
+      }),
+    );
+    const outcome = await caught();
+    assertWithheld(outcome);
+    expect(outcome.value).toMatchObject({
+      facts: [],
+      evidence: [],
+      limitation: { code: 'INVALID_ANSWER_BINDING' },
+    });
+    expect(outcome.value).not.toHaveProperty('generatedCalculations');
+    expect(db.analysis).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+  it('withholds a conflicting supplied ratio exposed after completing its missing declared dependency', async () => {
+    const conversation = [
+      { role: 'user' as const, content: messages[0].content + ' Also show the relative change.' },
+    ];
+    const requested = contract();
+    requested.outputs.push({
+      id: 'relative',
+      sourceQuotes: [{ messageIndex: 0, quote: 'relative change' }],
+      requirement: {
+        kind: 'arithmetic',
+        operation: 'divide',
+        operands: [
+          { source: 'output', id: 'delta' },
+          { source: 'output', id: 'january' },
+        ],
+      },
+    });
+    fetchMock.mockResolvedValueOnce(
+      response('financial_scenario', {
+        queries: [january(), february()],
+        assumptions: [],
+        calculations: [
+          ...calculation().calculations,
+          {
+            id: 'wrong_ratio',
+            operation: 'divide',
+            operands: [
+              { source: 'query', id: 'january', rowId: 'total:total', field: 'value' },
+              { source: 'query', id: 'february', rowId: 'total:total', field: 'value' },
+            ],
+          },
+        ],
+        answerContract: requested,
+        outputBindings: [
+          ...bindings(),
+          { outputId: 'relative', source: { kind: 'calculation', calculationId: 'wrong_ratio' } },
+        ],
+      }),
+    );
+    const value = await invoke(conversation);
+    expect(value).toMatchObject({
+      facts: [],
+      evidence: [],
+      limitation: { code: 'INVALID_ANSWER_BINDING' },
+      generatedCalculations: [{ outputId: 'delta' }],
+      completion: { status: 'unassessed' },
+    });
+    expect(completion(value)?.outputs.every((output) => output.status !== 'fulfilled')).toBe(true);
+    expect(db.analysis).toHaveBeenCalledTimes(1);
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
   it('fulfills the frozen delta after inspection with the real cached-fact calculator', async () => {

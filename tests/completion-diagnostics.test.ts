@@ -40,6 +40,7 @@ describe('Completion diagnostics without question or contract contents', () => {
           fulfilledOutputs,
           missingOutputs,
           invalidOutputs,
+          generatedCalculationCount: 2,
         }),
       );
       expect(records()).toEqual([
@@ -56,6 +57,7 @@ describe('Completion diagnostics without question or contract contents', () => {
           fulfilledOutputs,
           missingOutputs,
           invalidOutputs,
+          generatedCalculationCount: 2,
         },
       ]);
       expect(console.error).not.toHaveBeenCalled();
@@ -106,9 +108,10 @@ describe('Completion diagnostics without question or contract contents', () => {
         fulfilledOutputs: value,
         missingOutputs: value,
         invalidOutputs: value,
+        generatedCalculationCount: value,
       } as Parameters<typeof diagnostic>[1]);
       expect(records()[0]).toHaveProperty('completionStatus', 'partial');
-      for (const key of ['fulfilledOutputs', 'missingOutputs', 'invalidOutputs'])
+      for (const key of ['fulfilledOutputs', 'missingOutputs', 'invalidOutputs', 'generatedCalculationCount'])
         expect(records()[0]).not.toHaveProperty(key);
       expect(allLogs()).not.toContain(secret);
     },
