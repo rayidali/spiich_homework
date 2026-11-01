@@ -1,6 +1,6 @@
 # Conversation acceptance specification v1
 
-This is a **new, unexecuted development specification**, authored by a collaborating AI after the user reported the employee-question refusal. It contains 31 conversation cases and 35 user turns. It is not a blinded holdout, an independent human review, a model-accuracy score or a rerun of a closed study. Only the fixture integrity tests have an executable test runner here. No provider calls, credentials, deployment changes or production data are used.
+This development specification was authored by a collaborating AI after the user reported the employee-question refusal. It contains31 conversation cases and35 user turns. Its first real-model run is now completed and closed; [results and limitations](../../docs/evidence/conversation-acceptance-v1/report.md) distinguish original automatic results from separate semantic/source review. The cases, expected facts and labels remain unchanged. Current focused repair validation is a new, unexecuted proposal. This is not a blinded holdout or independent human certification. Fixtures are synthetic and do not use production records.
 
 The specification asks whether the assistant helps with the actual question. A correct number with the wrong category, a generic refusal for an ambiguous business decision, an unnecessary intake form for a complete scenario, and an unsupported confident explanation are all failures. There is no preferred tool name, exact sentence or HTTP status that can establish success by itself.
 

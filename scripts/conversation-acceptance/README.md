@@ -1,6 +1,6 @@
 # Opt-in conversation acceptance runner
 
-This runner exercises the current application's `financialChat` against the new [31-case development specification](../../tests/conversation-acceptance/README.md). It is **prepared, not executed**. It does not reopen a historical study, reuse its allowance or claim a blinded scientific comparison. The current runner supports one declared `composable` candidate, exactly35 planned user turns and at most70 provider attempts including schema repairs.
+This runner exercises the current application's `financialChat` against the new [31-case development specification](../../tests/conversation-acceptance/README.md). The first source-bound run is **completed and closed**: [results](../../docs/evidence/conversation-acceptance-v1/report.md). Current repairs and focused v2 preparation are not yet live-verified. It does not reopen a historical study, reuse its allowance or claim a blinded scientific comparison. The v1 permit supports one declared `composable` candidate, exactly35 planned user turns and at most70 provider attempts including schema repairs. A strict v2 permit can bind an explicit ordered subset of existing cases, with exact turn and attempt limits.
 
 It uses the real application, a new disposable migrated PostgreSQL database and the existing Gemini provider adapter. Model responses are saved privately and become the next turn's actual context. The shared UI helper includes any labeled general explanation in that context. A failed request is retained as an outcome; subsequent context rolls back to the previous conversation, matching the UI. No ideal assistant answer is substituted and no failed request is rerun. Every conversation starts fresh.
 
@@ -40,7 +40,7 @@ The output directory is exclusively created at `.tools/conversation-acceptance-r
 
 ## Manual remote path
 
-[conversation-acceptance.yml](../../.github/workflows/conversation-acceptance.yml) provides the same execution on a fresh PostgreSQL service when local PostgreSQL is unavailable. It has **only** a manual `workflow_dispatch` trigger and is separate from ordinary CI. It is not dispatched by this implementation.
+[conversation-acceptance.yml](../../.github/workflows/conversation-acceptance.yml) provides the same execution on a fresh PostgreSQL service when local PostgreSQL is unavailable. It has **only** a manual `workflow_dispatch` trigger and is separate from ordinary CI. V1 was dispatched once after explicit approval. That cohort is closed. The focused v2 proposal has not been dispatched.
 
 Before any execution, the operator must have explicit approval and privately install three separate temporary secrets: `CONVERSATION_ACCEPTANCE_APPROVAL`, `CONVERSATION_ACCEPTANCE_GEMINI_KEY` and `CONVERSATION_ACCEPTANCE_ARTIFACT_KEY`. The last is a random256-bit key represented by64 lowercase hexadecimal characters; its string SHA256 is included as `artifactKeySha256` in the permit. The key must be retained privately to decrypt results and never appears in artifacts. The provider key is exposed only to the execution step, after all checks, tests and migrations. The private permit must name the service database `daybook_conversation_live`.
 
@@ -72,3 +72,15 @@ npx tsc --noEmit
 ```
 
 Those tests use mocked transport responses and pure fixtures. They are not real-provider understanding or a substitute for the separate actual PostgreSQL check.
+
+## Focused v2 preparation after observed failures
+
+```sh
+node --import tsx scripts/conversation-acceptance/cli.ts prepare-focused
+```
+
+This offline proposal selects C02, C03, C12, C17, C18, C19, C22, C24, C29 and C30: ten single-turn cases, at most20 provider attempts, proposed ceiling$0.09. It prints NOT_APPROVED_NOT_EXECUTED and noSpend:true. The current source differs from the completed run; these known development questions are not a new blinded holdout.
+
+The v2 permit has version conversation-acceptance-approval-v2 and an explicit caseIds array. Unknown, duplicated or empty selections are rejected. maxRequests must equal all selected user turns; maxAttempts must equal twice that count, within the existing35/70 hard limits. The case order is preserved, and closure records the exact selection. V1 remains strict and rejects an added caseIds field. Existing source/key/date/price/expiry/database/replay/encryption controls remain. A fresh cohort and explicit approval are required before any new call.
+
+The earlier run cost$0.1516175; total tracked allowance charges are$0.8436047. A new$0.09 ceiling would raise the possible combined charge to$0.9336047, exceeding the original$0.90 allowance. **That increase is proposed, not authorized.** No saved failed response, original score or old cost ledger is replaced by preparing this run.

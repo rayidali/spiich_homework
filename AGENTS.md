@@ -2,7 +2,14 @@
 
 Read [CHECKPOINT.md](CHECKPOINT.md) first. It distinguishes the current release from preserved historical states. Then read the documents relevant to the user's next request. Do not rebuild the implemented application or rerun a closed experiment.
 
-## Current delivery
+## Latest conversational acceptance and repair
+
+- Read [the completed v1 report](docs/evidence/conversation-acceptance-v1/report.md) before interpreting older status. Source `3eed0b10` passed full CI and a separately approved 35-turn live run. Semantic result: 23/31 cases, 27/35 turns. Separate source/numerical review: 20/20 required facts, 25/25 visible values. Original automatic 18 verified/2 failed remains unchanged; two scorer incompatibilities were separately reviewed.
+- V1 cost $0.1516175; no unknown usage, unchanged books, all three temporary secrets removed and verified absent. Combined original-allowance charges are now $0.8436047; remaining $0.0563953 is not permission for another call. Preserve every original artifact under `.tools/conversation-reliability-20261101/` and the exact Git source. Old cohort stays closed.
+- Eight conversation failures prevent a clean release gate. Local echo/schema repair and prompt/reference improvements are not live-verified. A new ten-case focused v2 preparation proposes at most $0.09, currently unapproved and unexecuted. Do not inherit old scores or reset/replay v1. Original fixtures/scorer/labels stay unchanged; any v2 source/selection/permit is separately bound.
+- Current production remains `6691d76` / `dpl_CVQXU5jjfUKHW4Lt9biZm1RCnZe8`, composable, protected. Do not deploy or mark the broad goal complete based only on scripted tests.
+
+## Earlier delivery chronology
 
 - **New active work:** broad conversational accuracy resumed after the employee-question refusal. `discuss_business` adds natural clarification/explanation; a separate `generalExplanation` annotation allows a concept explanation beside a checked financial result in the same call. See [CONVERSATIONAL_ASSISTANT.md](docs/CONVERSATIONAL_ASSISTANT.md). Current changes are not deployed or live-model verified. The earlier finite delivery does not complete this new goal.
 - A separate development specification has 31 cases/35 turns in `tests/conversation-acceptance/`; fixture tests prove data/oracle consistency, not model success. Initial verification passed 323 focused tests/11 files and the TypeScript/Vite build; the initial two browser additions later passed CI. A third mixed-answer browser workflow needs combined-source CI. No new provider spend; preserve previous closed cohorts.
@@ -14,7 +21,7 @@ Read [CHECKPOINT.md](CHECKPOINT.md) first. It distinguishes the current release 
 - Three hosted questions returned independently verified supplies $1,740 overall, October supplies $340 and October rent $7,200 minus supplies $340 = $6,860. Original automatic acceptance is 2/3; a separate internal semantic review is 3/3 because one checker rejected a redundant USD display suffix. Preserve both. All 75 journals and 22 accounts stayed unchanged; every request matched runtime logs for the exact deployment. [Acceptance](docs/evidence/goal-completion-hosted-acceptance.json).
 - The practical release/comparison/handoff is complete. Arbitrary-question perfection, arbitrary code generation, million-user capacity and hiring acceptance are not established. [Honest scope audit](docs/GOAL_AUDIT.md).
 
-## Closed spending and research
+## Earlier closed spending and research
 
 - No paid request is pending. The final charge against the latest approved $0.90 allowance is **$0.6919872**: $0.3796494 known estimates and $0.3123378 retained unknown reservations. Remaining allowance is $0.2080128; it is not automatic authorization for more calls. These are tracked estimates/reservations, not invoices or a verified provider balance. All temporary comparison/browser secrets were removed. [Costs](docs/evidence/goal-completion-costs.json).
 - Preserve `.tools/goal-completion-20261101/`, every closed cohort, failed attempt, approval, cost ledger, key binding, raw/private response, encrypted artifact and checkpoint. A local DNS6 acceptance failure retains its full reservation; the later separately declared continuation does not erase it. Never reset or replay old cohorts to obtain a better score.

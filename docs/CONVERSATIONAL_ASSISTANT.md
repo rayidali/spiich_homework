@@ -1,5 +1,11 @@
 # Conversational assistant work in progress
 
+**Latest evidence:** source `3eed0b10` passed combined CI and completed the approved real-model evaluation: 23/31 conversations and 27/35 turns passed semantic review. All 20 required numerical facts were correct in separate source review; original automatic failures remain preserved. [Results, failures and costs](evidence/conversation-acceptance-v1/report.md). Production is unchanged. The current echo/account/next-step/reference repairs are a different, unmeasured version.
+
+The original `question` field lacked a clear semantic description, and some model responses copied the user's question into it. The repair adds descriptions and rejects an exact latest-user echo after whitespace/case normalization. The existing bounded repair loop receives only a finite `repeated_user_question` reason; it does not silently replace the response or introduce another budget. Scripted tests exercise successful repair and exhaustion on both composable/adaptive paths. This mechanical check does not prove relevance or truth.
+
+The prompt now distinguishes unknown chart accounts from no matching text records; explains actual correction navigation and useful next steps for missing data; respects explicit no-retrieval requests; and supplies concise accounting reference facts. [SEC's introductory financial-statement guide](https://www.sec.gov/files/investor/pubs/begfinstmtguide.htm) supports the profit/cash distinction. Instructions are not enforcement of arbitrary prose truth, so fresh focused model verification remains necessary.
+
 The user restarted the broader reliability goal after “can I fire an emplyee?” received a generic off-topic refusal. The goal remains active. A deployed accounting engine and a passing test suite do not establish that arbitrary questions are understood accurately.
 
 ## What caused the reported response

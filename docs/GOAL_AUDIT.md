@@ -1,5 +1,7 @@
 # Delivery and remaining limits
 
+**Current gate:** [conversational acceptance v1](evidence/conversation-acceptance-v1/report.md) completed but did not pass full semantic acceptance: 23/31 cases, 27/35 turns. Numerical/source review was 20/20 required facts. These are different measurements. Eight failures and repeated-question UX defects led to local repairs; no new production promotion or goal-complete claim is justified. A ten-case focused validation is being prepared separately and is not authorized yet.
+
 **New goal active, 2026-11-01.** The user restarted broad reliability after a staffing question received a generic refusal. The earlier finite release below does not complete this goal. [Conversational candidate](CONVERSATIONAL_ASSISTANT.md) records natural clarification and mixed explanation/financial-result support. The first candidate passed full CI; later changes need combined CI, real-model semantic acceptance and hosted promotion. Passing scripted tests does not prove arbitrary-question correctness.
 
 The comparison, reviewed release and handoff are complete. Source **6691d76ad24574343b3eec9617546e9c019b8c95** is promoted at [Daybook](https://daybook-ledger-delta.vercel.app), using **composable** chat. The tested alternatives did not earn replacement. [Release evidence](evidence/goal-completion-release.json), [plain two-page explanation](reports/chat-route-comparison-explained.pdf).

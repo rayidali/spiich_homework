@@ -637,6 +637,44 @@ describe('Adaptive financial chat with real provider parsing and stubbed ledger 
     ]);
   });
 
+  it.each([true, false])(
+    'checks an inspected follow-up against the original user, with bounded repair success=%s',
+    async (repaired) => {
+      const echo = {
+        kind: 'clarification',
+        message: 'I need one detail to continue.',
+        question: originalMessages[0].content,
+      };
+      const corrected = { ...echo, question: 'Which additional business context should I consider?' };
+      fetchMock
+        .mockResolvedValueOnce(inspect())
+        .mockResolvedValueOnce(response('discuss_business', echo))
+        .mockResolvedValueOnce(response('discuss_business', repaired ? corrected : echo));
+      if (repaired) {
+        const value = await invoke();
+        expect(value).toMatchObject({
+          answer: `${corrected.message}\n\n${corrected.question}`,
+          evidence: [],
+          ai: { attempts: 3, repairStatus: 'succeeded' },
+        });
+      } else {
+        const error = await invoke().catch((failure) => failure);
+        expect(error).toBeInstanceOf(AppError);
+        expect(error).toHaveProperty('code', 'AI_INVALID_RESPONSE');
+        expect(getFinancialChatFailureMetadata(error)).toMatchObject({
+          attempts: 3,
+          repairStatus: 'failed',
+        });
+      }
+      expect(fetchMock).toHaveBeenCalledTimes(3);
+      expect(db.analysis).toHaveBeenCalledTimes(1);
+      expect(db.snapshot).toHaveBeenCalledTimes(1);
+      const feedback = JSON.parse(bodies()[2].contents.at(-1).parts[0].text);
+      expect(feedback.conversationIssue).toBe('repeated_user_question');
+      expect(JSON.stringify(logs())).not.toContain(originalMessages[0].content);
+    },
+  );
+
   it('rejects forged evidence in a post-inspection conversation and repairs within the shared attempt limit', async () => {
     const reply = {
       kind: 'limitation',

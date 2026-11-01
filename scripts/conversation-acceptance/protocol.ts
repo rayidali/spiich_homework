@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { z } from 'zod';
 import { Decimal } from '../../shared/money';
 import { clock } from '../../tests/conversation-acceptance/book';
+import { cases } from '../../tests/conversation-acceptance/cases';
 
 export const MODEL = 'gemini-3.5-flash-lite';
 export const MAX_REQUESTS = 35;
@@ -46,6 +47,7 @@ export function sourceBinding(root = process.cwd()) {
     'tests/conversation-acceptance-runner.test.ts',
     'tests/conversation-acceptance-scoring.test.ts',
     'tests/conversation-acceptance-workflow.test.ts',
+    'tests/conversation-focused-acceptance.test.ts',
     '.github/workflows/conversation-acceptance.yml',
     'scripts/completion-repair-evaluation/transport.ts',
     'scripts/completion-repair-evaluation/encrypted-artifact.ts',
@@ -80,7 +82,7 @@ export function verifyCommittedSource(
 }
 
 const hash = z.string().regex(/^[a-f0-9]{64}$/);
-export const approvalSchema = z.strictObject({
+const approvalV1Schema = z.strictObject({
   version: z.literal('conversation-acceptance-approval-v1'),
   authorization: z.literal('explicit_user_approval_recorded_by_operator'),
   cohort: z.string().regex(/^conversation-[a-z0-9-]{8,64}$/),
@@ -105,7 +107,50 @@ export const approvalSchema = z.strictObject({
   inputUsdPerMillion: z.literal(RATES.input),
   outputUsdPerMillion: z.literal(RATES.outputIncludingThinking),
 });
+
+const caseIdsSchema = z
+  .array(z.enum(cases.map((item) => item.id)))
+  .min(1)
+  .max(cases.length)
+  .refine((ids) => new Set(ids).size === ids.length, 'Case IDs must be unique.');
+const approvalV2Schema = approvalV1Schema
+  .extend({
+    version: z.literal('conversation-acceptance-approval-v2'),
+    caseIds: caseIdsSchema,
+    maxRequests: z.number().int().min(1).max(MAX_REQUESTS),
+    maxAttempts: z.number().int().min(1).max(MAX_ATTEMPTS),
+  })
+  .superRefine((approval, ctx) => {
+    const turns = approval.caseIds.reduce(
+      (sum, id) => sum + (cases.find((item) => item.id === id)?.turns.length ?? 0),
+      0,
+    );
+    if (approval.maxRequests !== turns)
+      ctx.addIssue({
+        code: 'custom',
+        path: ['maxRequests'],
+        message: 'The request limit must equal the selected cases’ complete user-turn count.',
+      });
+    if (approval.maxAttempts !== turns * 2)
+      ctx.addIssue({
+        code: 'custom',
+        path: ['maxAttempts'],
+        message: 'Allow at most the existing two provider attempts per selected user turn.',
+      });
+  });
+export const approvalSchema = z.discriminatedUnion('version', [approvalV1Schema, approvalV2Schema]);
 export type Approval = z.infer<typeof approvalSchema>;
+
+/** A v2 permit selects existing source-bound cases in its explicit order. No prompts or labels are copied or replaced. */
+export function selectedCasesForApproval(input: Approval) {
+  const approval = approvalSchema.parse(input);
+  if (approval.version === 'conversation-acceptance-approval-v1') return cases;
+  return approval.caseIds.map((id) => {
+    const selected = cases.find((item) => item.id === id);
+    requireCondition(selected, 'UNKNOWN_CASE');
+    return selected;
+  });
+}
 
 export function validateApproval(
   raw: string,
@@ -190,5 +235,37 @@ export function preparation(root = process.cwd()) {
     reservationBasis:
       'Actual UTF-8 request bytes plus2048 framing tokens, output cap4000 including thinking. Conservative accounting estimate, not invoice guarantee.',
     noSpend: true,
+  };
+}
+
+export const FOCUSED_CASE_IDS = [
+  'C02',
+  'C03',
+  'C12',
+  'C17',
+  'C18',
+  'C19',
+  'C22',
+  'C24',
+  'C29',
+  'C30',
+] as const;
+
+/** Offline proposal only. A new source/key-bound approval and a fresh cohort are still required. */
+export function focusedPreparation(root = process.cwd()) {
+  const caseIds = caseIdsSchema.parse([...FOCUSED_CASE_IDS]);
+  const requests = caseIds.reduce((sum, id) => sum + cases.find((item) => item.id === id)!.turns.length, 0);
+  requireCondition(requests <= MAX_REQUESTS && requests * 2 <= MAX_ATTEMPTS, 'REQUEST_CAP');
+  return {
+    ...preparation(root),
+    version: 'conversation-focused-acceptance-preparation-v2',
+    approvalVersion: 'conversation-acceptance-approval-v2',
+    caseIds,
+    cases: caseIds.length,
+    requests,
+    maxAttempts: requests * 2,
+    proposedCeilingUsd: '0.09',
+    purpose:
+      'Fresh development validation of known repaired failures and adjacent cases. Not blinded, not a rerun of the closed cohort, and not an accuracy score until separately reviewed.',
   };
 }

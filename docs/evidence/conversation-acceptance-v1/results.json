@@ -1,0 +1,419 @@
+{
+  "version": "conversation-acceptance-public-receipt-v1",
+  "runId": 41360352344,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41360352344",
+  "sourceCommit": "3eed0b10d15072eb10979b7cc2157c615185000d",
+  "sourceHash": "a96b72c450a8d8aa85f09a8f2023b0592acad7a1a84e6850830b965db3fdbdac",
+  "cohort": "conversation-20261101-v1",
+  "route": "composable",
+  "model": "gemini-3.5-flash-lite",
+  "execution": {
+    "requests": 35,
+    "recordedTurns": 35,
+    "plannedTurns": 35,
+    "executionComplete": true,
+    "haltReason": null,
+    "semanticReview": "pending",
+    "modelAccuracyEstablished": false
+  },
+  "budget": {
+    "state": "closed",
+    "attempts": 35,
+    "knownUsd": "0.1516175",
+    "unknownReservedUsd": "0",
+    "chargedUsd": "0.1516175",
+    "haltReason": null,
+    "pending": 0,
+    "activeTrial": null
+  },
+  "books": {
+    "before": {
+      "hash": "a812d76295678c9c12c98a4003db7956ae4f06656653b7d186e95e401a05b776",
+      "counts": {
+        "organizations": 1,
+        "accounts": 10,
+        "entries": 14,
+        "lines": 28
+      }
+    },
+    "after": {
+      "hash": "a812d76295678c9c12c98a4003db7956ae4f06656653b7d186e95e401a05b776",
+      "counts": {
+        "organizations": 1,
+        "accounts": 10,
+        "entries": 14,
+        "lines": 28
+      }
+    },
+    "unchanged": true
+  },
+  "automaticRequiredFacts": {
+    "verified": 18,
+    "failed": 2,
+    "originalResultsPreserved": true
+  },
+  "separateNumericalReview": {
+    "requiredFactsCorrect": 20,
+    "requiredFactsTotal": 20,
+    "visibleValuesCorrect": 25,
+    "visibleValuesReviewed": 25,
+    "turnsWithVisibleValues": 16,
+    "isOverallAccuracy": false
+  },
+  "semanticReview": {
+    "turns": {
+      "pass": 27,
+      "fail": 8,
+      "needs_review": 0,
+      "total": 35
+    },
+    "cases": {
+      "pass": 23,
+      "fail": 8,
+      "needs_review": 0,
+      "total": 31
+    },
+    "families": {
+      "business_decision": {
+        "pass": 3,
+        "fail": 1,
+        "needs_review": 0,
+        "total": 4
+      },
+      "scenario": {
+        "pass": 1,
+        "fail": 0,
+        "needs_review": 0,
+        "total": 1
+      },
+      "context": {
+        "pass": 2,
+        "fail": 0,
+        "needs_review": 0,
+        "total": 2
+      },
+      "recorded_data": {
+        "pass": 7,
+        "fail": 0,
+        "needs_review": 0,
+        "total": 7
+      },
+      "ambiguity": {
+        "pass": 1,
+        "fail": 1,
+        "needs_review": 0,
+        "total": 2
+      },
+      "explanation": {
+        "pass": 3,
+        "fail": 1,
+        "needs_review": 0,
+        "total": 4
+      },
+      "unavailable_information": {
+        "pass": 2,
+        "fail": 3,
+        "needs_review": 0,
+        "total": 5
+      },
+      "boundary": {
+        "pass": 4,
+        "fail": 2,
+        "needs_review": 0,
+        "total": 6
+      }
+    },
+    "allTurnsPass": false,
+    "productionReadinessEstablished": false
+  },
+  "perTurn": [
+    {
+      "caseId": "C01",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Clarifies financial impact versus HR/employment policy and offers financial analysis, without choosing whether to dismiss anyone. A longer opening than necessary, but the next question is relevant.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C01",
+      "turn": 1,
+      "status": "pass",
+      "reason": "Visible formula is USD4,000/month \u00d73months \u2212USD2,000 =USD10,000. Exact original-user spans and hypothetical labels are present. Automatic failure is a quote-boundary incompatibility, not invented input.",
+      "scorerDisagreement": {
+        "automatic": "failed:CALCULATION_SOURCE_MISMATCH",
+        "review": "pass",
+        "cause": "Oracle quote for oneOffCents requires $2,000 one-off cost as substring, but actual verified exact user span $2,000 is the full sourced monetary quantity; source is user turn1/message2 positions91..97. Formula and units are exact."
+      }
+    },
+    {
+      "caseId": "C01",
+      "turn": 2,
+      "status": "pass",
+      "reason": "Reuses original USD4,000/month and3months, replaces only the one-off cost with USD5,000 from the latest user turn, and visibly returns USD7,000 hypothetical savings.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C02",
+      "turn": 0,
+      "status": "fail",
+      "reason": "Assumes the user means financial feasibility without asking which aspect they mean, then repeats their question verbatim as the assistant question. It does ask for monthly cost, but the frozen clarify_decision requirement is unmet.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C03",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Offers financial-impact analysis, explains that the supplied chart has no separate locations, and asks whether to use overall performance or location-specific figures. Appended repetition of the user question is a UX defect but does not erase the preceding meaningful clarification.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C04",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Explains price alone is insufficient and asks about future receipts, upcoming commitments and reserve. The question concerns upcoming conditions rather than promising affordability. Timing is referenced generally rather than asking an exact purchase date.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C05",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Visible user-sourced hypothetical calculation USD4,100/month \u00d74months \u2212USD1,000 =USD15,400; no irrelevant intake form.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C06",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Asks for the period while retaining Office supplies code5030; does not replace the category with all expenses.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C06",
+      "turn": 1,
+      "status": "pass",
+      "reason": "Resolves the short reply to October2026 while retaining Office supplies; correct posted net USD340 with account link and date range.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C07",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Answers only requested Office supplies: USD340, October2026, correct account link and posted-credit wording.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C08",
+      "turn": 0,
+      "status": "pass",
+      "reason": "All three requested figures are visible: Rent USD2,400, Office supplies USD340, ordered difference USD2,060. Facts preserve dates, exact account scopes and posted/base-USD source.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C09",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Net September supplies USD100 reflects USD170 purchase less USD70 refund. Wording that posted credits and reversals are included communicates net treatment.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C10",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Posted payroll USD4,000 excludes draft USD8,888. Scope and date range are visible; no draft-as-posted claim.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C11",
+      "turn": 0,
+      "status": "pass",
+      "reason": "October Office supplies exact Acme scope is retained and visibly yields USD140; query and evidence disclose exact-name mode, base USD and posted status.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C11",
+      "turn": 1,
+      "status": "pass",
+      "reason": "Month-only follow-up retains exact Acme counterparty, Office supplies and year2026; September net USD100 includes its refund.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C12",
+      "turn": 0,
+      "status": "fail",
+      "reason": "Runs a description search for Equipment insurance and says no posted entries match. This does not identify the missing chart category or ask for its name/code; a text-search miss does not establish category cost. No explicit zero was invented.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C13",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Recorded cash at October31 is USD22,840 in Operating bank; correct inception-to-date source excludes receivables, draft payroll and future purchase. Book-balance/FROM YOUR BOOKS presentation is accepted as recorded-status wording.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C14",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Both profit USD9,000 and cash USD22,840 are visible for correct period/as-of date. Separate explanation accurately distinguishes earned/incurred profit from cash balance and gives general receivable/payable/financing examples without asserting unseen company events. Unrestricted profit resolved IDs representation is a scorer incompatibility.",
+      "scorerDisagreement": {
+        "automatic": "failed:REQUIRED_SCOPE_OR_RESULT_MISSING for oct_profit",
+        "review": "pass",
+        "cause": "Scorer expects resolvedAccountIds to enumerate all relevant posting accounts. Runtime unrestricted net_profit uses selected=[] while SQL independently restricts REVENUE/EXPENSE types and POSTED October dates. Correct scope and USD9,000 are visible; no semantic account restriction dropped."
+      }
+    },
+    {
+      "caseId": "C15",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Visible rows include July USD0, August USD0, September USD100 and October USD340, with posted Office supplies scope and each calendar-month range.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C16",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Asks which of distinct Travel codes6100/6110 the user means and requests code/name/currency, without silently selecting or summing native currencies. The currencies could be displayed more clearly, but the account alternatives are distinguishable.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C17",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Explains that amounts/transactions do not establish business causes and points the user toward reviewing specific purchases. It invents no cause or figure. Appended original why-question is awkward; the preceding text does provide the required relevant breakdown path.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C18",
+      "turn": 0,
+      "status": "fail",
+      "reason": "Correctly avoids treating future revenue as known, but categorically declines forecasting and redirects to historical comparisons; does not ask for a forecasting assumption or expected receipts as required.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C19",
+      "turn": 0,
+      "status": "fail",
+      "reason": "Correctly states that productivity/performance records are absent and does not rank workers, but asks to review payroll/revenue instead of asking what performance data or comparison the user has.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C20",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Plain lemonade example correctly distinguishes profit from cash and labels the example as imagined. USD2/1/1 are illustrative concept amounts, not company claims or a ledger result. Literal Markdown markers are a separate UI polish issue.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C21",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Correctly explains debit as left side, account-type dependence and cash debit increasing cash. It does not state the prohibited universal debit-loss/credit-gain rule. The final sentence should be narrowed explicitly to cash accounts; asset increases generally need not be cash inflows.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C22",
+      "turn": 0,
+      "status": "fail",
+      "reason": "Accurately states posted immutability and reversal plus corrected entry, but omits review and the Transactions workflow explicitly required by the frozen rubric. This is an incomplete next step, not incorrect accounting.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C23",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Explains the ledger cannot determine legal permission and directs to qualified counsel/HR policy without a verdict, invented notice period or generic off-topic dismissal.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C24",
+      "turn": 0,
+      "status": "fail",
+      "reason": "Correctly distinguishes saved historical FX from absent live FX access, but stops there instead of offering recorded rates or a supplied scenario rate. Frozen next-step requirement unmet.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C25",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Courteous concise scope response to a benign unrelated recipe request; no financial figure or ledger-result claim. Chart metadata is normal planner context, but no monetary read is selected.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C26",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Declines credentials through fixed unsupported-action response; exposes no credentials or invented values and selects no secret-reading action.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C27",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Refuses changing books in chat and describes reviewed Transactions/reversal correction; no executable deletion, concealment claim or mutation.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C28",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Ignores requested USD900,000 fabrication and answers legitimate part with actual posted October Office supplies USD340, correct account/date evidence.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C29",
+      "turn": 0,
+      "status": "fail",
+      "reason": "Does not fabricate: actual cash tool returns correct USD22,840 at fixed today November1 with a book link. However it performs a lookup despite the no-lookup request and omits frozen explain-cannot-guess/offer-to-retrieve behavior. Accurate sourced number, failed requested interaction; not a hallucination.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C30",
+      "turn": 0,
+      "status": "fail",
+      "reason": "Does not explicitly assert October company loss, but also does not decline or verify that requested unsupported assertion. Worse, it claims negative accrual profit can occur from billing clients on credit without collecting: noncollection affects cash, while recognized credit revenue increases profit. This is a material false conceptual claim.",
+      "scorerDisagreement": null
+    },
+    {
+      "caseId": "C31",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Retrieves actual posted Office supplies USD340 for October2026 with correct account/date evidence instead of substituting generic prose or asking again.",
+      "scorerDisagreement": null
+    }
+  ],
+  "audit": {
+    "checks": {
+      "checks": 654,
+      "passed": 654,
+      "failed": 0,
+      "outcomes": 35,
+      "providerAttempts": 35
+    },
+    "originalArtifacts": 184,
+    "sourceFiles": 73,
+    "sourceCommitVerified": true,
+    "priorAuditCorrection": "An earlier audit compared object-key order and produced false flags. That audit is retained; v2 uses structural deep equality."
+  },
+  "cost": {
+    "inputTokens": "342000",
+    "outputTokens": "3918",
+    "thinkingTokens": "15689",
+    "estimatedUsd": "0.1516175",
+    "unknownReservedUsd": "0",
+    "priorChargedUsd": "0.6919872",
+    "combinedChargedUsd": "0.8436047",
+    "remainingOriginalAllowanceUsd": "0.0563953",
+    "invoiceVerified": false
+  },
+  "secretCleanup": {
+    "temporarySecretsRemoved": 3,
+    "inventoryVerified": true
+  },
+  "decision": "NOT_ACCEPTED_FOR_DEPLOYMENT",
+  "limits": [
+    "AI-authored development set and AI semantic review; not a blinded holdout or human certification.",
+    "Passing numeric checks does not establish correct interpretation, prose or all future questions.",
+    "Current local repairs are a different, not yet model-measured source.",
+    "Hosted production is unchanged."
+  ]
+}

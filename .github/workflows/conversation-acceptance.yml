@@ -87,7 +87,7 @@ jobs:
       - run: npm run format:check
       - run: npm run typecheck
       - name: Check runner and evidence semantics without inference
-        run: npx vitest run tests/conversation-acceptance-runner.test.ts tests/conversation-acceptance-scoring.test.ts tests/conversation-acceptance-workflow.test.ts tests/conversation-acceptance/specification.test.ts
+        run: npx vitest run tests/conversation-acceptance-runner.test.ts tests/conversation-acceptance-scoring.test.ts tests/conversation-acceptance-workflow.test.ts tests/conversation-focused-acceptance.test.ts tests/conversation-acceptance/specification.test.ts
       - name: Migrate the fresh service database
         run: npm run db:migrate
       - name: Run the separately approved bounded conversation acceptance

@@ -1,5 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { businessConversationAnswer, businessConversationSchema } from '../server/business-conversation';
+import {
+  businessConversationAnswer,
+  businessConversationSchema,
+  businessConversationTool,
+  validateBusinessConversationContext,
+} from '../server/business-conversation';
 
 const db = vi.hoisted(() => ({ chart: vi.fn(), read: vi.fn(), snapshot: vi.fn(), income: vi.fn() }));
 vi.mock('../server/financial-analysis', async (original) => ({
@@ -61,6 +66,16 @@ afterEach(() => {
 });
 
 describe('Conversational response contracts, not model-accuracy measurements', () => {
+  it('exposes field-level instructions distinguishing a new follow-up from the original question', () => {
+    const properties = businessConversationTool.parameters.properties as Record<
+      string,
+      { description: string }
+    >;
+    expect(properties.question.description).toContain('NEW focused question');
+    expect(properties.question.description).toContain('never the original user question');
+    expect(properties.message.description).toContain('Put any follow-up in question');
+    // This checks the actual provider schema contract, not whether the model obeys it.
+  });
   it('renders one focused question without invented evidence or a book-grounding claim', () => {
     expect(businessConversationAnswer(reply)).toEqual({
       answer: `${reply.message}\n\n${reply.question}`,
@@ -105,6 +120,47 @@ describe('Conversational response contracts, not model-accuracy measurements', (
     // The browser renders text inertly; semantic correctness requires separate
     // live acceptance. There is deliberately no fake "hallucination detector".
   });
+  it.each(['Can we take on another person?', '  CAN WE take on\n another person?  '])(
+    'rejects an echoed latest question without substituting content: %s',
+    (question) => {
+      const args = { ...reply, question };
+      const messages = [{ role: 'user', content: 'Can we take on another person?' }];
+      let failure: unknown;
+      try {
+        validateBusinessConversationContext(args, messages);
+      } catch (error) {
+        failure = error;
+      }
+      expect(failure).toMatchObject({
+        issues: [
+          {
+            code: 'custom',
+            path: ['question'],
+            params: { conversationIssue: 'repeated_user_question' },
+          },
+        ],
+      });
+      expect(JSON.stringify(failure)).not.toContain('Can we take on another person?');
+      expect(args.question).toBe(question);
+      expect(messages).toEqual([{ role: 'user', content: 'Can we take on another person?' }]);
+    },
+  );
+  it('checks the latest user turn, retaining distinct questions and not claiming broader semantic validation', () => {
+    const messages = [
+      { role: 'user', content: 'What salary should we use?' },
+      { role: 'assistant', content: 'What cost should the scenario assume?' },
+      { role: 'user', content: 'What does the scenario need?' },
+      { role: 'assistant', content: 'What salary should we use?' },
+    ];
+    const distinct = { ...reply, question: 'What salary should we use?' };
+    expect(validateBusinessConversationContext(distinct, messages)).toEqual(distinct);
+    const noFollowup = { kind: 'explanation', message: 'An unverified model explanation.', question: null };
+    expect(validateBusinessConversationContext(noFollowup, messages)).toEqual(noFollowup);
+    expect(validateBusinessConversationContext(reply, [])).toEqual(reply);
+    // Similar or inaccurate prose is deliberately not classified by this mechanical guard.
+    const similar = { ...reply, question: 'What does this scenario need from your records?' };
+    expect(validateBusinessConversationContext(similar, messages)).toEqual(similar);
+  });
   it('offers conversation on product and adaptive paths without modifying experimental grammars', () => {
     for (const route of ['composable', 'adaptive'] as const) {
       const input = buildFinancialPlannerInput(route, [], '2026-11-01');
@@ -120,6 +176,40 @@ describe('Conversational response contracts, not model-accuracy measurements', (
 });
 
 describe('Actual provider parsing with scripted responses and trapped financial reads', () => {
+  it.each(['composable', 'adaptive'] as const)(
+    'repairs an echoed user question on %s within the existing single repair allowance',
+    async (route) => {
+      const user = 'Can we take on another person?';
+      const corrected = { ...reply, question: 'What monthly cost should the scenario use for the role?' };
+      fetchMock
+        .mockResolvedValueOnce(response('discuss_business', { ...reply, question: user }))
+        .mockResolvedValueOnce(response('discuss_business', corrected));
+      const value = await financialChat(org, [{ role: 'user', content: user }], { route });
+      expect(value.answer).toBe(`${corrected.message}\n\n${corrected.question}`);
+      expect(value.ai).toMatchObject({ attempts: 2, repairStatus: 'succeeded' });
+      expect(value.evidence).toEqual([]);
+      expect(db.read).not.toHaveBeenCalled();
+      expect(db.snapshot).not.toHaveBeenCalled();
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+      const second = JSON.parse(fetchMock.mock.calls[1][1].body);
+      const feedback = JSON.parse(second.contents.at(-1).parts[0].text);
+      expect(feedback).toMatchObject({ conversationIssue: 'repeated_user_question' });
+      expect(JSON.stringify(vi.mocked(console.log).mock.calls)).not.toContain(user);
+    },
+  );
+  it.each(['composable', 'adaptive'] as const)(
+    'withholds a second echo on %s after two attempts instead of accepting repair diagnostics as context',
+    async (route) => {
+      const user = 'Why did this change?';
+      fetchMock.mockImplementation(async () => response('discuss_business', { ...reply, question: user }));
+      await expect(financialChat(org, [{ role: 'user', content: user }], { route })).rejects.toMatchObject({
+        code: 'AI_INVALID_RESPONSE',
+      });
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+      expect(db.read).not.toHaveBeenCalled();
+      expect(db.snapshot).not.toHaveBeenCalled();
+    },
+  );
   it('answers a mixed concept and recorded profit question in one call, keeping explanation out of financial arguments', async () => {
     const explanation = 'Profit is recorded revenue minus expenses; it can differ from cash.';
     const snapshot = { query: vi.fn() };

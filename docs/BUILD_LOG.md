@@ -1,5 +1,15 @@
 # Build log
 
+## 2026 11 01 Real conversation acceptance and observed-failure repair
+
+- Exact source `3eed0b10` passed combined CI 41359643834, including 2,731 normal tests, 35 browser workflows, actual PostgreSQL fixture checks and Compose. Counts overlap; [receipt](evidence/conversation-combined-ci.json).
+- User explicitly approved up to $0.20. Run 41360352344 executed all 35 turns in 31 development cases against fresh synthetic books. Cost $0.1516175; 35 attempts, no unknown usage, unchanged organization/accounts/journals/lines. Encrypted artifacts were retrieved and authenticated, then all three temporary secrets removed and absence verified.
+- Independent AI semantic review passed 23/31 cases and 27/35 turns. An independent evidence audit passed 654 checks, including recomputed cost and 25 visible values. Separate required-fact review is 20/20; the original automatic 18/2 result remains unchanged. Two failures were exact-quote and unrestricted-profit representation incompatibilities. [Detailed report](evidence/conversation-acceptance-v1/report.md).
+- Measured failures include missing-account text-search substitution, repeated follow-ups, incomplete next-step guidance and a false accounting explanation. Added explicit field descriptions, contextual echo rejection through existing bounded repair, account identity routing and concise accounting/product reference guidance. 283 focused scripted tests/nine files and the TypeScript/Vite build passed, including adaptive post-inspection echo repair against original user messages and v2 selection controls. Those checks do not establish improved live understanding.
+- Production remains `6691d76`; no positive release gate was created. The original v1 cohort and outcomes stay closed. A new strict v2 permit with explicit case selection is being prepared for a proposed ten-turn, twenty-attempt, $0.09 focused validation. It is not yet approved or dispatched. Broader goal remains active.
+
+Older entries below are preserved chronology.
+
 > Current save: 2026-10-31 America/New_York. This is a chronological record. The research is complete and frozen; the core repair is deployed and verified. The broader product goal remains active. [CHECKPOINT.md](../CHECKPOINT.md) records current state.
 
 This is the running engineering record for Daybook, built for the Spiich assignment. Completed work and observed checks are recorded separately from plans. No scale or verification claim is implied by a planned item.

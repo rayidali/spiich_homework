@@ -1,0 +1,83 @@
+{
+  "version": "conversation-combined-ci-v1",
+  "sourceCommit": "3eed0b10d15072eb10979b7cc2157c615185000d",
+  "runId": 41359643834,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41359643834",
+  "runAttempt": 1,
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "research-native",
+      "id": 125007090856,
+      "conclusion": "success"
+    },
+    {
+      "name": "verify",
+      "id": 125007091053,
+      "conclusion": "success"
+    },
+    {
+      "name": "compose",
+      "id": 125008122353,
+      "conclusion": "success"
+    },
+    {
+      "name": "live-ai",
+      "id": 125009103808,
+      "conclusion": "skipped"
+    }
+  ],
+  "normal": {
+    "passedTests": 2731,
+    "skippedTests": 8,
+    "passedFiles": 133,
+    "skippedFiles": 2
+  },
+  "separatePreviousFixtureTests": 4,
+  "conversationFixture": {
+    "version": "conversation-fixture-db-check-v1",
+    "storedLineChecks": 28,
+    "oracleChecks": 10,
+    "before": {
+      "hash": "21dfea5cd423e510d94f83928d2d2038d650cc4f6d01fb73e074f160675017f5",
+      "counts": {
+        "organizations": 1,
+        "accounts": 10,
+        "entries": 14,
+        "lines": 28
+      }
+    },
+    "after": {
+      "hash": "21dfea5cd423e510d94f83928d2d2038d650cc4f6d01fb73e074f160675017f5",
+      "counts": {
+        "organizations": 1,
+        "accounts": 10,
+        "entries": 14,
+        "lines": 28
+      }
+    },
+    "providerCalls": 0
+  },
+  "browser": {
+    "passed": 35,
+    "durationSeconds": 53.4
+  },
+  "compose": {
+    "passedTests": 2730,
+    "skippedTests": 9,
+    "passedFiles": 132,
+    "skippedFiles": 3,
+    "overlapsNormal": true,
+    "automaticJobs": true,
+    "containerRecreationPersistence": true
+  },
+  "sourceBinding": {
+    "files": 73,
+    "hash": "a96b72c450a8d8aa85f09a8f2023b0592acad7a1a84e6850830b965db3fdbdac"
+  },
+  "providerInferenceInThisRun": false,
+  "limits": [
+    "Scripted provider/browser checks are not model accuracy.",
+    "Counts overlap; do not add normal and Compose totals."
+  ]
+}

@@ -10,6 +10,8 @@ import { assessTurn } from './scoring';
 import { outcomeWriter, privateJson, runConversations } from './runner';
 import {
   preparation,
+  focusedPreparation,
+  selectedCasesForApproval,
   sourceBinding,
   validateApproval,
   verifyCommittedSource,
@@ -31,6 +33,7 @@ export async function execute(approvalPath: string, approvalHash: string) {
   );
   const raw = readFileSync(approvalFile, 'utf8');
   const approval = validateApproval(raw, approvalHash, source.hash, key);
+  const selectedCases = selectedCasesForApproval(approval);
   verifyCommittedSource(root, approval.sourceCommit, source);
   const ownerUrl = process.env.CONVERSATION_OWNER_DATABASE_URL ?? '';
   const runtimeUrl = process.env.CONVERSATION_DATABASE_URL ?? '';
@@ -99,6 +102,7 @@ export async function execute(approvalPath: string, approvalHash: string) {
     restore = transport.install();
     const fixture = database;
     result = await runConversations({
+      selectedCases,
       transport,
       chat: (messages) => app.financialChat(fixture.org, messages, { route: 'composable', asOfDate: clock }),
       assess: (item, turn, response, messages) =>
@@ -171,7 +175,13 @@ export async function execute(approvalPath: string, approvalHash: string) {
       failure ??= 'CONVERSATION_ACCEPTANCE_BOOKS_CHANGED';
     failure ??= cleanupErrors[0] ?? (result?.haltReason ? result.haltReason : null);
     privateJson(join(directory, 'closure.json'), {
-      version: 'conversation-acceptance-run-v1',
+      version:
+        approval.version === 'conversation-acceptance-approval-v1'
+          ? 'conversation-acceptance-run-v1'
+          : 'conversation-acceptance-run-v2',
+      ...(approval.version === 'conversation-acceptance-approval-v2'
+        ? { caseIds: approval.caseIds, maxRequests: approval.maxRequests, maxAttempts: approval.maxAttempts }
+        : {}),
       status:
         failure || !result?.executionComplete ? 'STOPPED_INCOMPLETE' : 'EXECUTION_COMPLETE_REVIEW_PENDING',
       result,
@@ -193,6 +203,10 @@ export async function execute(approvalPath: string, approvalHash: string) {
 export async function main(args = process.argv.slice(2)) {
   if (args.length === 1 && args[0] === 'prepare') {
     console.log(JSON.stringify(preparation(), null, 2));
+    return;
+  }
+  if (args.length === 1 && args[0] === 'prepare-focused') {
+    console.log(JSON.stringify(focusedPreparation(), null, 2));
     return;
   }
   if ((args.length === 1 || args.length === 2) && args[0] === 'check-db') {
