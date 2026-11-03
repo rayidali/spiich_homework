@@ -254,10 +254,12 @@ export function App() {
               <strong>{active}</strong>
             </div>
             <div className="topbar-actions">
-              <button className="assistant-top" onClick={() => openChat()}>
-                <MessageSquareText size={16} />
-                <span>Ask a question</span>
-              </button>
+              {location.pathname !== '/analyst' && (
+                <button className="assistant-top" onClick={() => openChat()}>
+                  <MessageSquareText size={16} />
+                  <span>Ask a question</span>
+                </button>
+              )}
               <button className="button secondary review-top" onClick={openAlerts} aria-label="Review alerts">
                 <Bell size={18} />
                 <span>Review{meta.data?.alertCount ? ` (${meta.data.alertCount})` : ''}</span>

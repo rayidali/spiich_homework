@@ -182,6 +182,7 @@ test('Querio runs inside Daybook, displays notebook and chart, and resumes witho
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/analyst');
   await expect(page.getByRole('heading', { name: 'Ask your books' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Ask a question', exact: true })).toHaveCount(0);
   await expect(page.getByRole('tab', { name: 'Querio', exact: true })).toHaveAttribute(
     'aria-selected',
     'true',
@@ -326,7 +327,8 @@ test('drawer analyst tabs support keyboard navigation and open the full workspac
   page,
 }) => {
   const calls = await stubWorkspace(page);
-  await page.goto('/analyst?tab=daybook');
+  await page.goto('/settings');
+  await expect(page.getByRole('button', { name: 'Ask a question', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Ask a question', exact: true }).click();
   const dialog = page.getByRole('dialog', { name: 'Financial assistant', exact: true });
   const daybook = dialog.getByRole('tab', { name: 'Daybook', exact: true });
@@ -347,6 +349,7 @@ test('drawer analyst tabs support keyboard navigation and open the full workspac
   await dialog.getByRole('link', { name: 'Open full workspace' }).click();
   await expect(dialog).toHaveCount(0);
   await expect(page).toHaveURL(/\/analyst\?tab=querio$/);
+  await expect(page.getByRole('button', { name: 'Ask a question', exact: true })).toHaveCount(0);
   await expect(page.getByLabel('Ask Querio a financial question')).toBeVisible();
   expect(calls.creates).toBe(0);
   expect(calls.sends).toHaveLength(0);
