@@ -8,7 +8,7 @@ Open the [protected hosted demo](https://daybook-ledger-delta.vercel.app), or st
 
 ## Run with Docker Compose
 
-**Assistant work in progress:** the initial real-model evaluation passed23/31 conversations. A later ten-case focused check passed6/10 strict completeness criteria, with no material factual errors. The remaining omissions are being repaired and verified within the approved budget; this candidate is not promoted. [Focused results](docs/evidence/conversation-acceptance-v2/report.md) · [Behavior and limits](docs/CONVERSATIONAL_ASSISTANT.md).
+**Assistant work in progress:** recent focused checks found incomplete clarification and a currency combination rejected too late for the model to repair it. Those paths are repaired and undergoing fresh exact-source verification. Original failures remain documented; this candidate is not promoted. [Latest measured result](docs/evidence/conversation-acceptance-v3/report.md) · [Behavior and limits](docs/CONVERSATIONAL_ASSISTANT.md).
 
 Requires Docker Engine/Desktop with Compose v2.
 

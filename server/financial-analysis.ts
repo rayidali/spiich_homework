@@ -5,6 +5,7 @@ import { AppError } from './errors';
 import { Decimal, money, formatCurrency } from '../shared/money';
 import { accountSchema, currencyCodes, dateSchema, type Account } from '../shared/schema';
 import type { FinancialTool } from './ai-provider';
+import type { SchemaRepairHint } from './schema-repair-hints';
 import type { InsightEvidence } from '../shared/financial-evidence';
 import { ALL_HISTORY_START, recordedPeriod } from './date-scope';
 import {
@@ -36,7 +37,11 @@ export const publicFinancialQuerySchema = z.strictObject({
   to: dateSchema,
   status: z.enum(['POSTED', 'DRAFT']),
   currencyMode: z.enum(['base', 'native']).default('base'),
-  currency: z.enum(currencyCodes).nullable().default(null),
+  currency: z
+    .enum(currencyCodes)
+    .nullable()
+    .describe('Use null when currencyMode is base; native requires one explicit supported currency.')
+    .default(null),
   groupBy: groupingSchema,
   accountCodes: z.array(accountSchema.shape.code).max(20),
   cooccurringAccountCodes: z.array(accountSchema.shape.code).max(20),
@@ -65,6 +70,56 @@ const counterpartyIdentitySchema = z.strictObject({
 });
 export type CounterpartyIdentity = z.infer<typeof counterpartyIdentitySchema>;
 export type FinancialQuery = z.infer<typeof financialQuerySchema>;
+/** Model planning must reject incompatible field pairs before a money read.
+ * The compiler keeps its independent scope checks for every other caller. */
+export function validateFinancialQueryCurrencyBasis(
+  queries: readonly Pick<FinancialQuery, 'currencyMode' | 'currency'>[],
+) {
+  const issues: z.ZodIssue[] = [];
+  queries.forEach((query, index) => {
+    const issue =
+      query.currencyMode === 'base' && query.currency !== null
+        ? 'base_requires_null'
+        : query.currencyMode === 'native' && query.currency === null
+          ? 'native_requires_currency'
+          : undefined;
+    if (issue)
+      issues.push({
+        code: 'custom',
+        path: ['queries', index, 'currency'],
+        message: 'Currency must match the selected base or native basis.',
+        params: { currencyBasisIssue: issue },
+      });
+  });
+  if (issues.length) throw new z.ZodError(issues);
+}
+
+/** Only finite application-generated issue codes can supply cross-field hints.
+ * No candidate values, account text or error messages enter these hints. */
+export function financialCurrencyRepairHints(error: z.ZodError): SchemaRepairHint[] {
+  return error.issues.flatMap((issue): SchemaRepairHint[] => {
+    if (
+      issue.code !== 'custom' ||
+      issue.path.length !== 3 ||
+      issue.path[0] !== 'queries' ||
+      typeof issue.path[1] !== 'number' ||
+      !Number.isInteger(issue.path[1]) ||
+      issue.path[1] < 0 ||
+      issue.path[1] > 3 ||
+      issue.path[2] !== 'currency'
+    )
+      return [];
+    const code = issue.params?.currencyBasisIssue;
+    if (code !== 'base_requires_null' && code !== 'native_requires_currency') return [];
+    return [
+      {
+        code: 'allowed_values',
+        path: ['queries', issue.path[1], 'currency'],
+        allowedValues: code === 'base_requires_null' ? [null] : [...currencyCodes],
+      },
+    ];
+  });
+}
 export const financialAnalysisSchema = z.strictObject({
   queries: z.array(financialQuerySchema).min(1).max(4),
 });
@@ -76,7 +131,7 @@ const parameters = z.toJSONSchema(
       .array(
         publicFinancialQuerySchema.extend({
           currencyMode: z.enum(['base', 'native']),
-          currency: z.enum(currencyCodes).nullable(),
+          currency: publicFinancialQuerySchema.shape.currency.removeDefault(),
         }),
       )
       .min(1)

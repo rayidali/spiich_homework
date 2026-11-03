@@ -1,0 +1,156 @@
+{
+  "version": "conversation-completeness-ci-v1",
+  "sourceCommit": "e73846838a101b31eb9b1d018e094cb27764859c",
+  "runId": 41674011013,
+  "runAttempt": 1,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41674011013",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "verify",
+      "id": 126049607316,
+      "conclusion": "success"
+    },
+    {
+      "name": "research-native",
+      "id": 126049607571,
+      "conclusion": "success"
+    },
+    {
+      "name": "compose",
+      "id": 126052032295,
+      "conclusion": "success"
+    },
+    {
+      "name": "live-ai",
+      "id": 126054367666,
+      "conclusion": "skipped"
+    }
+  ],
+  "normal": {
+    "passedTests": 2767,
+    "skippedTests": 8,
+    "passedFiles": 134,
+    "skippedFiles": 2
+  },
+  "separateEarlierFixture": {
+    "passedTests": 4,
+    "skippedTests": 0,
+    "passedFiles": 1,
+    "skippedFiles": 0
+  },
+  "conversationFixture": {
+    "version": "conversation-fixture-db-check-v1",
+    "storedLineChecks": 28,
+    "oracleChecks": 10,
+    "before": {
+      "hash": "c040fbdf318e0b09847183fc3abd2de2d05929345915dae7f05ed18ff5d62aac",
+      "counts": {
+        "organizations": 1,
+        "accounts": 10,
+        "entries": 14,
+        "lines": 28
+      }
+    },
+    "after": {
+      "hash": "c040fbdf318e0b09847183fc3abd2de2d05929345915dae7f05ed18ff5d62aac",
+      "counts": {
+        "organizations": 1,
+        "accounts": 10,
+        "entries": 14,
+        "lines": 28
+      }
+    },
+    "providerCalls": 0
+  },
+  "browser": {
+    "passed": 35,
+    "durationSeconds": 54.3
+  },
+  "nativeResearch": {
+    "typescript": {
+      "passedTests": 30,
+      "skippedTests": 0,
+      "passedFiles": 3,
+      "skippedFiles": 0
+    },
+    "python": {
+      "passedTests": 35,
+      "durationSeconds": 0.673
+    }
+  },
+  "compose": {
+    "passedTests": 2766,
+    "skippedTests": 9,
+    "passedFiles": 133,
+    "skippedFiles": 3,
+    "overlapsNormal": true,
+    "automaticJobsAndAnomalyLifecycle": true,
+    "containerRecreationPersistence": true,
+    "runtimeEvidence": {
+      "schemaVersion": 1,
+      "at": "2026-11-03T16:31:15.069Z",
+      "sourceCommit": "e73846838a101b31eb9b1d018e094cb27764859c",
+      "runId": "d91cb51e-7fc8-4838-b5d7-0e8a1eca545a",
+      "environment": "Disposable GitHub Actions Compose workspace; real PostgreSQL and application timers",
+      "passed": true,
+      "durationMs": 52708,
+      "httpRequests": 64,
+      "manualSchedulerOrWorkerCalls": 0,
+      "providerEndpointCalls": 0,
+      "checks": [
+        {
+          "name": "normal scheduler created one due draft without manual generation",
+          "passed": true
+        },
+        {
+          "name": "unposted recurring draft leaves all three report totals unchanged",
+          "passed": true
+        },
+        {
+          "name": "explicit posting changes expenses/assets/equity by exactly USD 12.34",
+          "passed": true
+        },
+        {
+          "name": "normal background worker detected doubled rent from four real posted samples",
+          "passed": true
+        },
+        {
+          "name": "reversal job automatically resolved the same alert with retained evidence",
+          "passed": true
+        },
+        {
+          "name": "worker preserved posted lines and financial report totals",
+          "passed": true
+        },
+        {
+          "name": "automatically resolved signal cannot be manually reopened",
+          "passed": true
+        }
+      ],
+      "limitations": [
+        "Observed normal monthly scheduling and anomaly processing in CI, not hosted Vercel cron firing.",
+        "Weekly/yearly calendar boundaries and crash/lease recovery have separate database tests.",
+        "This is synthetic acceptance evidence, not model accuracy, load testing or real-user usability."
+      ]
+    }
+  },
+  "sourceBinding": {
+    "files": 74,
+    "hash": "3926eae6fc1be997d3694d34dc0f765fe0290b4d13ad96214e7e4cf46872c2f1"
+  },
+  "providerInferenceInThisRun": false,
+  "newSemanticScore": null,
+  "deploymentChanged": false,
+  "limits": [
+    "Model responses in ordinary CI are scripted; passing these tests does not establish live interpretation.",
+    "Normal and Compose suites overlap; do not add their totals.",
+    "Native research checks are separate from product runtime and do not indicate a new model study.",
+    "The separate focused live acceptance must retain its own source, outcomes and semantic review."
+  ],
+  "privateLogDigests": {
+    "verify": "e390af8750129b491ba3840df904033103a7a2e00cddda4f6ef193edbd576dd2",
+    "native": "93a175c9ee120e59d6482b377ee16c0a10d7443e2dac3dda95e9e7bb8443baf9",
+    "compose": "90d4686f2cd5b8ca84981370e51c0b331ed017a0d3d2b637582814e352ddcda4"
+  }
+}

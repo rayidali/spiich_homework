@@ -16,6 +16,9 @@ import { parseProviderErrorDiagnostics } from '../../server/provider-diagnostics
 const MODEL = 'gemini-3.5-flash-lite';
 const RESPONSE_BYTES = 256 * 1024;
 const OUTPUT_TOKENS = 4000;
+const COUNT_RESPONSE_BYTES = 16 * 1024;
+const COUNT_TIMEOUT_MS = 5000;
+export type ReservationBasis = 'utf8_bytes_plus_2048' | 'gemini_count_tokens_plus_2048';
 let installationOwner: symbol | undefined;
 const hash = (value: string | Uint8Array) => createHash('sha256').update(value).digest('hex');
 type Usage = { inputTokens: number; outputTokens: number; thinkingTokens: number; totalTokens: number };
@@ -39,6 +42,7 @@ type RecordEntry = {
   failure: string | null;
   startedAt: string;
   finishedAt: string | null;
+  tokenCountEvidence?: { path: string; sha256: string; inputReservationTokens: number };
 };
 type Ledger = {
   version: 'completion-repair-evaluation-v1';
@@ -58,6 +62,8 @@ export type EvaluationTransportConfig = {
   inputUsdPerMillion: string;
   outputUsdPerMillion: string;
   maxRequestBytes: number;
+  /** Evaluation-only opt-in. Omission preserves the historical byte reservation. */
+  reservationBasis?: ReservationBasis;
 };
 export type EvaluationTransportSummary = {
   state: 'open' | 'closed';
@@ -126,9 +132,9 @@ function bytes(path: string) {
   if (!lstatSync(path).isFile() || lstatSync(path).isSymbolicLink()) fail('STATE_CHANGED');
   return readFileSync(path);
 }
-async function boundedBody(response: Response, signal: AbortSignal) {
+async function boundedBody(response: Response, signal: AbortSignal, maximumBytes = RESPONSE_BYTES) {
   const size = response.headers.get('content-length');
-  if (size && /^\d+$/.test(size) && Number(size) > RESPONSE_BYTES) {
+  if (size && /^\d+$/.test(size) && Number(size) > maximumBytes) {
     void response.body?.cancel().catch(() => {});
     fail('RESPONSE_TOO_LARGE');
   }
@@ -148,7 +154,7 @@ async function boundedBody(response: Response, signal: AbortSignal) {
       const next = await Promise.race([reader.read(), aborted]);
       if (next.done) break;
       total += next.value.byteLength;
-      if (total > RESPONSE_BYTES) fail('RESPONSE_TOO_LARGE');
+      if (total > maximumBytes) fail('RESPONSE_TOO_LARGE');
       chunks.push(next.value);
     }
     return Buffer.concat(chunks, total);
@@ -189,10 +195,13 @@ export function createEvaluationTransport(
     !decimal(config.ceilingUsd).gt(0) ||
     decimal(config.ceilingUsd).gt('0.62') ||
     !decimal(config.inputUsdPerMillion).eq('0.30') ||
-    !decimal(config.outputUsdPerMillion).eq('2.50')
+    !decimal(config.outputUsdPerMillion).eq('2.50') ||
+    (config.reservationBasis !== undefined &&
+      !['utf8_bytes_plus_2048', 'gemini_count_tokens_plus_2048'].includes(config.reservationBasis))
   )
     fail('INVALID_CONFIG');
   const directory = resolve(config.directory);
+  const counted = config.reservationBasis === 'gemini_count_tokens_plus_2048';
   const manifest = {
     version: 'completion-repair-evaluation-v1',
     model,
@@ -204,8 +213,18 @@ export function createEvaluationTransport(
     maxRequestBytes: config.maxRequestBytes,
     maxOutputTokens: OUTPUT_TOKENS,
     maxResponseBytes: RESPONSE_BYTES,
-    reservationBasis:
-      'UTF-8 request bytes plus 2048 framing tokens; conservative estimate, not an invoice guarantee',
+    reservationBasis: counted
+      ? 'Full generateContentRequest countTokens plus 2048 framing tokens; conservative estimate, not an invoice guarantee'
+      : 'UTF-8 request bytes plus 2048 framing tokens; conservative estimate, not an invoice guarantee',
+    ...(counted
+      ? {
+          reservationMode: config.reservationBasis,
+          maxCountResponseBytes: COUNT_RESPONSE_BYTES,
+          countTimeoutMs: COUNT_TIMEOUT_MS,
+          countRequestsAreUnbilled: true,
+          applicationLatencyIncludesPreflight: true,
+        }
+      : {}),
     createdAt: new Date().toISOString(),
   };
   mkdirSync(directory, { mode: 0o700 }); // Exclusive: never reopen an existing cohort.
@@ -213,6 +232,7 @@ export function createEvaluationTransport(
   const manifestSha256 = hash(manifestBytes);
   exclusive(join(directory, 'manifest.json'), manifestBytes);
   mkdirSync(join(directory, 'attempts'), { mode: 0o700 });
+  if (counted) mkdirSync(join(directory, 'token-counts'), { mode: 0o700 });
   const ledger: Ledger = {
     version: 'completion-repair-evaluation-v1',
     manifestSha256,
@@ -291,6 +311,102 @@ export function createEvaluationTransport(
   }
   const cost = (input: number, output: number) =>
     new Decimal(input).times('0.30').plus(new Decimal(output).times('2.50')).div(1e6).toFixed();
+  async function countInput(body: string, parentSignal: AbortSignal) {
+    const id = String(ledger.records.length + 1).padStart(4, '0');
+    const path = join(directory, 'token-counts', id);
+    const request = JSON.stringify({
+      generateContentRequest: { ...JSON.parse(body), model: `models/${model}` },
+    });
+    const signal = AbortSignal.any([parentSignal, AbortSignal.timeout(COUNT_TIMEOUT_MS)]);
+    const evidence = {
+      version: 'gemini-token-count-preflight-v1',
+      operation: 'unbilled_token_count_preflight',
+      generationAttempt: false,
+      model,
+      generationRequestSha256: hash(body),
+      requestSha256: hash(request),
+      responseSha256: null as string | null,
+      httpStatus: null as number | null,
+      totalTokens: null as number | null,
+      inputReservationTokens: null as number | null,
+      outputReservationTokens: OUTPUT_TOKENS,
+      failure: null as string | null,
+      startedAt: new Date().toISOString(),
+      finishedAt: null as string | null,
+    };
+    let responseBytes: Uint8Array | undefined;
+    let responseJson = false;
+    let containsCredential = false;
+    mkdirSync(path, { mode: 0o700 });
+    exclusive(join(path, 'request.json'), request);
+    exclusive(join(path, 'started.json'), JSON.stringify(evidence) + '\n');
+    syncDirectory(path);
+    syncDirectory(join(directory, 'token-counts'));
+    try {
+      allowed();
+      // This is the same guarded nativeFetch supplied by the runner: the current
+      // permit/source/key are checked immediately before both network operations.
+      const response = await nativeFetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${model}:countTokens`,
+        {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', 'x-goog-api-key': apiKey },
+          body: request,
+          signal,
+          redirect: 'error',
+        },
+      );
+      evidence.httpStatus = response.status;
+      responseBytes = await boundedBody(response, signal, COUNT_RESPONSE_BYTES);
+      containsCredential = Buffer.from(responseBytes).includes(Buffer.from(apiKey));
+      if (containsCredential) fail('TOKEN_COUNT_CREDENTIAL_IN_RESPONSE');
+      const text = new TextDecoder('utf-8', { fatal: true }).decode(responseBytes);
+      const raw: unknown = JSON.parse(text);
+      containsCredential = JSON.stringify(raw).includes(apiKey);
+      if (containsCredential) fail('TOKEN_COUNT_CREDENTIAL_IN_RESPONSE');
+      responseJson = true;
+      if (response.status !== 200) fail('TOKEN_COUNT_HTTP_ERROR');
+      if (
+        !object(raw) ||
+        'error' in raw ||
+        !Number.isSafeInteger(raw.totalTokens) ||
+        Number(raw.totalTokens) <= 0 ||
+        Number(raw.totalTokens) > config.maxRequestBytes ||
+        (raw.cachedContentTokenCount !== undefined && raw.cachedContentTokenCount !== 0) ||
+        (raw.promptTokensDetails !== undefined &&
+          (!Array.isArray(raw.promptTokensDetails) ||
+            raw.promptTokensDetails.some((part) => !object(part) || part.modality !== 'TEXT')))
+      )
+        fail('TOKEN_COUNT_INVALID');
+      allowed(); // Detect any state/concurrent-call change while counting.
+      if (signal.aborted) fail('TOKEN_COUNT_ABORTED');
+      if (hash(bytes(join(path, 'request.json'))) !== evidence.requestSha256)
+        fail('TOKEN_COUNT_REQUEST_CHANGED');
+      evidence.totalTokens = Number(raw.totalTokens);
+      evidence.inputReservationTokens = evidence.totalTokens + 2048;
+    } catch (error) {
+      evidence.failure = signal.aborted
+        ? 'TOKEN_COUNT_ABORTED'
+        : error instanceof Error && /^COMPLETENESS_EVALUATION_[A-Z_]+$/.test(error.message)
+          ? error.message.replace('COMPLETENESS_EVALUATION_', '')
+          : 'TOKEN_COUNT_FAILED';
+    }
+    if (responseBytes && !containsCredential) {
+      exclusive(join(path, responseJson ? 'response.json' : 'response.bin'), responseBytes);
+      evidence.responseSha256 = hash(responseBytes);
+    }
+    evidence.finishedAt = new Date().toISOString();
+    const completion = JSON.stringify(evidence, null, 2) + '\n';
+    exclusive(join(path, 'completion.json'), completion);
+    syncDirectory(path);
+    if (evidence.failure || evidence.inputReservationTokens === null)
+      halt(evidence.failure ?? 'TOKEN_COUNT_FAILED');
+    return {
+      path: `token-counts/${id}/completion.json`,
+      sha256: hash(completion),
+      inputReservationTokens: evidence.inputReservationTokens,
+    };
+  }
   const wrappedFetch: typeof fetch = async (input, init) => {
     allowed();
     if (busy) halt('CONCURRENT_REQUEST');
@@ -357,45 +473,52 @@ export function createEvaluationTransport(
     const trial = ledger.trials[activeTrial];
     if (ledger.records.filter((r) => r.trial === activeTrial).length >= trial.maxAttempts)
       halt('TRIAL_ATTEMPTS_EXHAUSTED');
-    const reservedUsd = cost(Buffer.byteLength(body!) + 2048, OUTPUT_TOKENS);
-    if (
-      ledger.records.length >= config.maxAttempts ||
-      new Decimal(summary().chargedUsd).plus(reservedUsd).gt(config.ceilingUsd)
-    )
-      halt('BUDGET_EXHAUSTED');
-    const id = String(ledger.records.length + 1).padStart(4, '0');
-    const attemptPath = join(directory, 'attempts', id);
+    if (ledger.records.length >= config.maxAttempts) halt('BUDGET_EXHAUSTED');
+    const requestSignal = init!.signal!;
     busy = true;
-    const record: RecordEntry = {
-      id,
-      trial: activeTrial,
-      reservedUsd,
-      state: 'pending',
-      costUsd: null,
-      usage: null,
-      requestSha256: hash(body!),
-      responseSha256: null,
-      httpStatus: null,
-      failure: null,
-      startedAt: new Date().toISOString(),
-      finishedAt: null,
-    };
     try {
+      const tokenCountEvidence = counted ? await countInput(body!, requestSignal) : undefined;
+      const reservedUsd = cost(
+        tokenCountEvidence?.inputReservationTokens ?? Buffer.byteLength(body!) + 2048,
+        OUTPUT_TOKENS,
+      );
+      if (
+        ledger.records.length >= config.maxAttempts ||
+        new Decimal(summary().chargedUsd).plus(reservedUsd).gt(config.ceilingUsd)
+      )
+        halt('BUDGET_EXHAUSTED');
+      const id = String(ledger.records.length + 1).padStart(4, '0');
+      const attemptPath = join(directory, 'attempts', id);
+      const record: RecordEntry = {
+        id,
+        trial: activeTrial,
+        reservedUsd,
+        state: 'pending',
+        costUsd: null,
+        usage: null,
+        requestSha256: hash(body!),
+        responseSha256: null,
+        httpStatus: null,
+        failure: null,
+        startedAt: new Date().toISOString(),
+        finishedAt: null,
+        ...(tokenCountEvidence ? { tokenCountEvidence } : {}),
+      };
       mkdirSync(attemptPath, { mode: 0o700 });
       exclusive(join(attemptPath, 'request.json'), body!);
       exclusive(join(attemptPath, 'reservation.json'), JSON.stringify(record) + '\n');
       syncDirectory(attemptPath);
       syncDirectory(join(directory, 'attempts'));
       ledger.records.push(record);
-      persist(); // No network is permitted before this durable reservation.
-      const signal = AbortSignal.any([init!.signal!, AbortSignal.timeout(25000)]);
+      persist(); // No generation is permitted before this durable reservation.
+      const signal = AbortSignal.any([requestSignal, AbortSignal.timeout(25000)]);
       let response: Response | undefined;
       let responseBytes: Uint8Array | undefined;
       let raw: unknown;
       try {
         response = await nativeFetch(url, {
           method: 'POST',
-          headers: init!.headers,
+          headers: counted ? { 'content-type': 'application/json', 'x-goog-api-key': apiKey } : init!.headers,
           body: body!,
           signal,
           redirect: 'error',
@@ -445,7 +568,8 @@ export function createEvaluationTransport(
       if (
         usage &&
         (new Decimal(record.costUsd!).gt(reservedUsd) ||
-          usage.outputTokens + usage.thinkingTokens > OUTPUT_TOKENS)
+          usage.outputTokens + usage.thinkingTokens > OUTPUT_TOKENS ||
+          (tokenCountEvidence && usage.inputTokens > tokenCountEvidence.inputReservationTokens))
       )
         ledger.haltReason ??= 'RESERVATION_EXCEEDED';
       const diagnostic =

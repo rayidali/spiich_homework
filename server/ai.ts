@@ -27,7 +27,10 @@ import {
   financialAnalysisSchema,
   financialAnalysisTool,
   executeFinancialAnalysis,
+  validateFinancialQueryCurrencyBasis,
+  financialCurrencyRepairHints,
   type AnalysisAccount,
+  type FinancialQuery,
 } from './financial-analysis';
 import { chatClarificationSchema, chatClarificationTool, clarificationAnswer } from './chat-clarification';
 import {
@@ -323,7 +326,10 @@ const insightArgs: Record<string, z.ZodType<Record<string, unknown>>> = {
 export function parseInsightArgs(name: string, args: unknown): Record<string, unknown> {
   if (!Object.hasOwn(insightArgs, name))
     throw new AppError(422, 'UNSUPPORTED_TOOL', 'This financial query is not supported');
-  return name === 'financial_scenario' ? parseFinancialScenario(args) : insightArgs[name].parse(args);
+  const parsed = name === 'financial_scenario' ? parseFinancialScenario(args) : insightArgs[name].parse(args);
+  if (['financial_analysis', 'financial_scenario', 'inspect_financial_data'].includes(name))
+    validateFinancialQueryCurrencyBasis(parsed.queries as FinancialQuery[]);
+  return parsed;
 }
 
 const dollars = (v: string) => formatCurrency(v);
@@ -781,13 +787,16 @@ async function validatedFinancialPlan(
             )
               ? { conversationIssue: 'repeated_user_question' }
               : {}),
-            hints: schemaRepairHints(
-              financialExplanationRepairTools(
-                selected.ai.provider === 'gemini' ? completionWireTools(tools) : tools,
+            hints: [
+              ...financialCurrencyRepairHints(error),
+              ...schemaRepairHints(
+                financialExplanationRepairTools(
+                  selected.ai.provider === 'gemini' ? completionWireTools(tools) : tools,
+                ),
+                selected.call.name,
+                selected.call.args,
               ),
-              selected.call.name,
-              selected.call.args,
-            ),
+            ].slice(0, 12),
           });
           if (Buffer.byteLength(feedback, 'utf8') > 16000) {
             feedback = undefined;

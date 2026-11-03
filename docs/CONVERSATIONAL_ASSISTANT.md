@@ -1,5 +1,7 @@
 # Conversational assistant work in progress
 
+**Latest focused check:** sourcee738468 passed full CI but only3/5 selected real-model conversations. Correcting history, current balance lookup and profit/cash explanation passed. Financial-intent assumption and an invalid base/USD query remain failures. [V3 report](evidence/conversation-acceptance-v3/report.md). The next repair validates currency pairs during planning so existing bounded repair can correct them before financial execution; compiler checks remain. No improved live score or deployment is claimed for that change.
+
 **Current evidence, 2026-11-03:** the approved ten-case focused run completed for$0.0450841. Strict review passed6/10, with no material factual errors. Remaining omissions involved offering a calculation, explaining the limits of causal conclusions, preserving history when correcting entries and choosing a balance date. [Focused results](evidence/conversation-acceptance-v2/report.md). Production remains unchanged.
 
 **Repair underway:** general instructions now address those omissions. The optional financial explanation field now accepts a requested evidence limitation, such as why transaction amounts do not establish a business cause. It still cannot contain company figures or an interpretation of unseen results. Existing143 focused tests, TypeScript and formatting passed; full CI and a fresh five-case check remain pending within the remaining approved4.49¢. No fresh-model pass rate is claimed for this change.

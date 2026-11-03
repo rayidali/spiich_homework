@@ -1,5 +1,13 @@
 # Build log
 
+## 2026 11 03 Currency-pair recovery and final scoped verification
+
+Sourcee738468 passed full CI41674011013:2,767 normal tests,35 browser workflows, PostgreSQL, native research and Compose/persistence. The separately bounded five-case run41675473907 cost$0.022835 and passed3/5 strict semantic review. C22 preserved history, C29 offered the current balance without guessing, and C30 kept the accounting explanation accurate. C02 still assumed a financial meaning; C17 supplied an invalid base/USD query. Its raw causal explanation was withheld when execution failed, so the user received an unhelpful scope error. [Original v3 result](evidence/conversation-acceptance-v3/report.md).
+
+The repair moves the general base/native currency-pair constraint into planning validation, where the existing bounded repair loop can correct it before any financial read. The compiler retains its independent check. New regression tests exercise both inconsistent combinations, scenario arithmetic, adaptive inspection, repeated failure and unknown-usage refusal. No argument substitution or larger attempt allowance was added. Ambiguous business decisions now clarify the intended aspect before requesting salary/cash inputs.
+
+The same additional9¢ approval has spent$0.0679191, leaving$0.0220809. The old UTF-8 reservation is larger than that remainder; an optional evaluation-only full-request token-count preflight was implemented and independently reviewed before another generation. Its153 scripted checks, TypeScript and formatting pass. A v2 permit must explicitly select it; historical default behavior remains unchanged. Counter failures stop generation, and unknown generation usage retains the entire reservation. Its intended scope keeps the original model,4,000 output/thinking cap,2,048-token input headroom, frozen cases and original failed outcomes. [Google’s billing FAQ](https://ai.google.dev/gemini-api/docs/billing#is-gettokens-billed) documents token counting as unbilled; neither a token count nor a budget reservation is an invoice guarantee. Production remains unchanged pending exact-source checks and actual answer review.
+
 ## 2026 11 03 Approved focused validation and completeness repair
 
 The user explicitly approved the additional $0.09. Run41672423492 executed ten selected known development cases on source3dc0c6f, whose74 bound files matched CI-tested181dcfd. Cost was $0.0450841 for ten calls, no unknown usage; all14 synthetic journals/28 lines remained unchanged. The independent evidence audit passed405 checks and all three temporary GitHub secrets were removed. [Results](evidence/conversation-acceptance-v2/report.md).

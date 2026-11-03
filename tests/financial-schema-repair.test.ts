@@ -18,6 +18,7 @@ import { AppError } from '../server/errors';
 import { diagnostic, safeSchemaIssues, withRequestContext } from '../server/diagnostics';
 import { apiErrorHandler } from '../server/app';
 import type { Request, Response as ExpressResponse } from 'express';
+import type { AnalysisFacts, FinancialQuery } from '../server/financial-analysis';
 const org = '00000000-0000-4000-8000-000000000001';
 const messages = [{ role: 'user' as const, content: 'What is my current cash balance?' }];
 const saved = { aiProvider: config.aiProvider, aiKey: config.aiKey, aiModel: config.aiModel };
@@ -43,6 +44,81 @@ function logs() {
   return [...vi.mocked(console.log).mock.calls, ...vi.mocked(console.error).mock.calls].map(([line]) =>
     JSON.parse(String(line)),
   );
+}
+function revenueQuery(change: Partial<FinancialQuery> = {}): FinancialQuery {
+  return {
+    id: 'revenue',
+    metric: 'net_revenue',
+    aggregation: 'sum',
+    from: '2026-06-01',
+    to: '2026-06-30',
+    status: 'POSTED',
+    currencyMode: 'base',
+    currency: null,
+    groupBy: 'total',
+    accountCodes: [],
+    cooccurringAccountCodes: [],
+    counterparty: { mode: 'any', value: '' },
+    descriptionSearch: '',
+    minimumAmount: null,
+    maximumAmount: null,
+    order: 'label_asc',
+    limit: 50,
+    ...change,
+  };
+}
+function revenueSnapshot(plan: FinancialQuery) {
+  const currency = plan.currencyMode === 'native' ? plan.currency! : 'USD';
+  const fact: AnalysisFacts = {
+    queryId: plan.id,
+    metric: plan.metric,
+    aggregation: plan.aggregation,
+    grain: plan.groupBy,
+    unit: currency,
+    currency,
+    rows: [
+      {
+        rowId: 'total:total',
+        label: 'Total',
+        value: '120.00',
+        entryCount: '1',
+        from: plan.from,
+        to: plan.to,
+      },
+    ],
+    truncated: false,
+    scope: {
+      organizationId: org,
+      plan,
+      resolvedAccountIds: [],
+      cooccurringAccountIds: [],
+      amountBasis: 'selected_metric_lines',
+      statusMeaning: 'booked',
+    },
+  };
+  return {
+    answer: `Recorded revenue: 120.00 ${currency}.`,
+    evidence: [
+      { title: 'Revenue', period: 'June 2026', rows: [{ label: 'Total', value: `120.00 ${currency}` }] },
+    ],
+    facts: [fact],
+  };
+}
+function doubleRevenue(query: FinancialQuery) {
+  return {
+    queries: [query],
+    assumptions: [],
+    calculations: [
+      {
+        id: 'doubled',
+        operation: 'add',
+        operands: [
+          { source: 'query', id: query.id, rowId: 'total:total', field: 'value' },
+          { source: 'query', id: query.id, rowId: 'total:total', field: 'value' },
+        ],
+      },
+    ],
+  };
 }
 async function failure(operation: () => Promise<unknown>) {
   try {
@@ -71,6 +147,173 @@ afterEach(() => {
   setAiBudget(null);
   vi.unstubAllGlobals();
   vi.restoreAllMocks();
+});
+
+describe('Currency basis defects use the existing bounded model repair', () => {
+  it.each([
+    { basis: 'base' as const, invalidCurrency: 'USD' as const, correctedCurrency: null, allowed: [null] },
+    {
+      basis: 'native' as const,
+      invalidCurrency: null,
+      correctedCurrency: 'EUR' as const,
+      allowed: ['USD', 'EUR', 'GBP', 'CAD', 'JPY'],
+    },
+  ])(
+    'repairs $basis currency before any ledger execution without changing other scope',
+    async ({ basis, invalidCurrency, correctedCurrency, allowed }) => {
+      const invalid = revenueQuery({ currencyMode: basis, currency: invalidCurrency });
+      const corrected = { ...invalid, currency: correctedCurrency };
+      const original = structuredClone(invalid);
+      db.analysis.mockImplementation(async (_org, args) => {
+        expect(fetchMock).toHaveBeenCalledTimes(2);
+        expect(args).toEqual({ queries: [corrected] });
+        return revenueSnapshot(corrected);
+      });
+      fetchMock
+        .mockResolvedValueOnce(response({ queries: [invalid] }, 'financial_analysis'))
+        .mockImplementationOnce(async () => {
+          expect(db.analysis).not.toHaveBeenCalled();
+          expect(db.cash).not.toHaveBeenCalled();
+          return response({ queries: [corrected] }, 'financial_analysis');
+        });
+      const result = await financialChat(
+        org,
+        [
+          {
+            role: 'user',
+            content: `Show June 2026 revenue in ${basis === 'base' ? 'recorded USD base values' : 'native EUR'}.`,
+          },
+        ],
+        { route: 'composable' },
+      );
+      expect(result).toMatchObject({
+        query: { args: { queries: [corrected] } },
+        ai: { attempts: 2, repairStatus: 'succeeded', unreportedAttempts: 0 },
+      });
+      expect(db.analysis).toHaveBeenCalledTimes(1);
+      expect(invalid).toEqual(original);
+      const bodies = fetchMock.mock.calls.map(([, options]) => JSON.parse(String(options.body)));
+      const feedback = JSON.parse(bodies[1].contents.at(-1).parts[0].text);
+      expect(feedback.invalidCandidate.args).toEqual({ queries: [invalid] });
+      expect(feedback.hints).toEqual([
+        { code: 'allowed_values', path: ['queries', 0, 'currency'], allowedValues: allowed },
+      ]);
+      expect(bodies[1].tools).toEqual(bodies[0].tools);
+      expect(bodies[1].contents.slice(0, -1)).toEqual(bodies[0].contents);
+      expect(getAiUsage()).toMatchObject({ attempts: 2, totalTokens: 260, unreportedUsage: 0 });
+    },
+  );
+
+  it.each(
+    ['financial_analysis', 'financial_scenario', 'inspect_financial_data'].flatMap((name) =>
+      ['base', 'native'].map((basis) => ({ name, basis })),
+    ),
+  )('stops repeated $basis defects in $name after one repair and reads no money', async ({ name, basis }) => {
+    const query = revenueQuery({
+      currencyMode: basis as 'base' | 'native',
+      currency: basis === 'base' ? 'GBP' : null,
+      descriptionSearch: secret,
+    });
+    const candidate = name === 'financial_scenario' ? doubleRevenue(query) : { queries: [query] };
+    fetchMock.mockImplementation(async () => response(candidate, name));
+    const error = await failure(() =>
+      financialChat(org, [{ role: 'user', content: 'Show June 2026 revenue.' }], {
+        route: name === 'inspect_financial_data' ? 'adaptive' : 'composable',
+      }),
+    );
+    expect(error).toMatchObject({ code: 'AI_INVALID_RESPONSE' });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(db.analysis).not.toHaveBeenCalled();
+    expect(db.cash).not.toHaveBeenCalled();
+    expect(getFinancialChatFailureMetadata(error)).toMatchObject({
+      attempts: 2,
+      repairStatus: 'failed',
+      unreportedAttempts: 0,
+    });
+    expect(getAiUsage().attempts).toBe(2);
+    expect(JSON.stringify(logs())).not.toContain(secret);
+    expect(
+      logs()
+        .filter((event) => event.event === 'ai_schema_validation')
+        .map((event) => event.issues),
+    ).toEqual([
+      [{ code: 'custom', path: ['queries', 0, 'currency'] }],
+      [{ code: 'custom', path: ['queries', 0, 'currency'] }],
+    ]);
+  });
+
+  it('repairs a scenario query before reading and calculates from the unchanged corrected facts', async () => {
+    const corrected = revenueQuery();
+    db.analysis.mockImplementation(async (_org, args) => {
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+      expect(args).toEqual({ queries: [corrected] });
+      return revenueSnapshot(corrected);
+    });
+    fetchMock
+      .mockResolvedValueOnce(response(doubleRevenue({ ...corrected, currency: 'USD' }), 'financial_scenario'))
+      .mockImplementationOnce(async () => {
+        expect(db.analysis).not.toHaveBeenCalled();
+        return response(doubleRevenue(corrected), 'financial_scenario');
+      });
+    const result = await financialChat(
+      org,
+      [{ role: 'user', content: 'Double recorded June 2026 revenue in base USD.' }],
+      { route: 'composable' },
+    );
+    expect(result).toMatchObject({
+      facts: expect.arrayContaining([
+        expect.objectContaining({ kind: 'scenario_calculation', value: '240.00' }),
+      ]),
+      ai: { attempts: 2, repairStatus: 'succeeded' },
+    });
+    expect(db.analysis).toHaveBeenCalledTimes(1);
+  });
+
+  it('repairs an adaptive native query before inspection and keeps the three-attempt session cap', async () => {
+    const corrected = revenueQuery({ currencyMode: 'native', currency: 'EUR' });
+    db.analysis.mockImplementation(async (_org, args) => {
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+      expect(args).toEqual({ queries: [corrected] });
+      return revenueSnapshot(corrected);
+    });
+    fetchMock
+      .mockResolvedValueOnce(
+        response({ queries: [{ ...corrected, currency: null }] }, 'inspect_financial_data'),
+      )
+      .mockImplementationOnce(async () => {
+        expect(db.analysis).not.toHaveBeenCalled();
+        return response({ queries: [corrected] }, 'inspect_financial_data');
+      })
+      .mockResolvedValueOnce(response({}, 'show_inspected_results'));
+    const result = await financialChat(
+      org,
+      [{ role: 'user', content: 'Show recorded June 2026 revenue in native EUR.' }],
+      { route: 'adaptive' },
+    );
+    expect(result).toMatchObject({
+      ai: { attempts: 3, repairStatus: 'succeeded' },
+      inspection: { readRounds: 1 },
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(3);
+    expect(db.analysis).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not finance a currency repair when first-attempt usage is unknown', async () => {
+    fetchMock.mockResolvedValueOnce(
+      response({ queries: [revenueQuery({ currency: 'USD' })] }, 'financial_analysis', null),
+    );
+    const error = await failure(() =>
+      financialChat(org, [{ role: 'user', content: 'Show June 2026 revenue.' }], { route: 'composable' }),
+    );
+    expect(error).toMatchObject({ code: 'AI_INVALID_RESPONSE' });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(db.analysis).not.toHaveBeenCalled();
+    expect(getFinancialChatFailureMetadata(error)).toMatchObject({
+      attempts: 1,
+      repairStatus: 'not_eligible',
+      unreportedAttempts: 1,
+    });
+  });
 });
 
 describe('One schema repair with real provider parsing and mocked HTTP/ledger', () => {

@@ -119,6 +119,22 @@ describe('Focused v2 approval remains separate from full v1 execution', () => {
     expect(full).not.toHaveProperty('caseIds');
     expect(() => approved({ ...permitV1(), caseIds: ['C02'] })).toThrow();
   });
+  it('requires explicit source-bound v2 opt-in to counted reservations and preserves absent/default byte mode', () => {
+    expect(approved(permitV2())).not.toHaveProperty('reservationBasis');
+    for (const reservationBasis of ['utf8_bytes_plus_2048', 'gemini_count_tokens_plus_2048']) {
+      expect(approved({ ...permitV2(), reservationBasis })).toHaveProperty(
+        'reservationBasis',
+        reservationBasis,
+      );
+      expect(() => approved({ ...permitV1(), reservationBasis })).toThrow();
+    }
+    expect(() => approved({ ...permitV2(), reservationBasis: 'optimistic' })).toThrow();
+    const raw = JSON.stringify(permitV2());
+    const changed = JSON.stringify({ ...permitV2(), reservationBasis: 'gemini_count_tokens_plus_2048' });
+    expect(() => validateApproval(changed, sha256(raw), synthetic.source.hash, key, now)).toThrow(
+      'APPROVAL_HASH',
+    );
+  });
   it.each([[], ['C02', 'C02'], ['C99'], ['C02', 'C03', 'unknown'], ['c02']].map((ids) => ({ ids })))(
     'rejects empty, duplicate or unknown selection %j',
     ({ ids }) => {
@@ -219,10 +235,77 @@ describe('Focused v2 approval remains separate from full v1 execution', () => {
 });
 
 describe('Actual CLI orchestration with fake database/application, no provider inference', () => {
-  it.each(['v1', 'v2'] as const)(
+  it.each(['before-count', 'after-count'] as const)(
+    'checks the live source-bound permit again %s before dispatch',
+    async (changeAt) => {
+      const value = {
+        ...permitV2(['C02']),
+        reservationBasis: 'gemini_count_tokens_plus_2048',
+        approvedAt: new Date(Date.now() - 60000).toISOString(),
+        expiresAt: new Date(Date.now() + 3600000).toISOString(),
+      };
+      const raw = JSON.stringify(value);
+      const approvalDirectory = mkdtempSync(join(tmpdir(), 'daybook-counted-permit-test-'));
+      directories.push(approvalDirectory);
+      const outputDirectory = join(process.cwd(), '.tools/conversation-acceptance-runs', value.cohort);
+      directories.push(outputDirectory);
+      const approvalPath = join(approvalDirectory, 'approval.json');
+      writeFileSync(approvalPath, raw, { flag: 'wx', mode: 0o600 });
+      vi.stubEnv('NODE_ENV', 'test');
+      vi.stubEnv('GEMINI_API_KEY', key);
+      vi.stubEnv(
+        'CONVERSATION_OWNER_DATABASE_URL',
+        `postgres://owner:synthetic@localhost:5432/${value.databaseName}`,
+      );
+      vi.stubEnv(
+        'CONVERSATION_DATABASE_URL',
+        `postgres://spiich_app:synthetic@localhost:5432/${value.databaseName}`,
+      );
+      for (const name of ['DATABASE_URL', 'MIGRATION_DATABASE_URL', 'AI_PROVIDER', 'AI_MODEL'])
+        vi.stubEnv(name, 'synthetic-before-run');
+      const upstream = vi.spyOn(globalThis, 'fetch').mockImplementation(async (url) => {
+        expect(String(url).endsWith(':countTokens')).toBe(true);
+        writeFileSync(approvalPath, '{}');
+        return new Response(JSON.stringify({ totalTokens: 1000 }));
+      });
+      synthetic.chat.mockImplementationOnce(async () => {
+        if (changeAt === 'before-count') writeFileSync(approvalPath, '{}');
+        await globalThis.fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${value.model}:generateContent`,
+          {
+            method: 'POST',
+            headers: { 'content-type': 'application/json', 'x-goog-api-key': key },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: 'Synthetic test' }] }],
+              tools: [],
+              generationConfig: { maxOutputTokens: 4000 },
+            }),
+            signal: new AbortController().signal,
+          },
+        );
+        throw new Error('An invalid permit must never reach this line');
+      });
+      const result = await execute(approvalPath, sha256(raw));
+      expect(result.failure).not.toBeNull();
+      expect(upstream).toHaveBeenCalledTimes(changeAt === 'before-count' ? 0 : 1);
+      const closure = JSON.parse(readFileSync(join(outputDirectory, 'closure.json'), 'utf8'));
+      expect(closure.budget).toMatchObject(
+        changeAt === 'before-count'
+          ? { attempts: 0, chargedUsd: '0', unknownReservedUsd: '0' }
+          : { attempts: 1, chargedUsd: '0.0109144', unknownReservedUsd: '0.0109144' },
+      );
+    },
+  );
+  it.each(['v1', 'v2', 'v2-counted'] as const)(
     'executes exactly the %s permit selection and retains the appropriate closure shape',
     async (version) => {
-      const value = version === 'v1' ? permitV1() : permitV2(['C30', 'C02', 'C01']);
+      const value =
+        version === 'v1'
+          ? permitV1()
+          : {
+              ...permitV2(['C30', 'C02', 'C01']),
+              ...(version === 'v2-counted' ? { reservationBasis: 'gemini_count_tokens_plus_2048' } : {}),
+            };
       value.approvedAt = new Date(Date.now() - 60000).toISOString();
       value.expiresAt = new Date(Date.now() + 3600000).toISOString();
       const raw = JSON.stringify(value);
@@ -261,14 +344,22 @@ describe('Actual CLI orchestration with fake database/application, no provider i
       });
       const closure = JSON.parse(readFileSync(join(outputDirectory, 'closure.json'), 'utf8'));
       expect(closure).toMatchObject({
-        version: `conversation-acceptance-run-${version}`,
+        version: `conversation-acceptance-run-${version === 'v1' ? 'v1' : 'v2'}`,
         status: 'EXECUTION_COMPLETE_REVIEW_PENDING',
         semanticReview: 'pending',
         overallPass: false,
         budget: { state: 'closed', attempts: 0, chargedUsd: '0' },
       });
-      if (version === 'v2') expect(closure.caseIds).toEqual(['C30', 'C02', 'C01']);
+      if (version !== 'v1') expect(closure.caseIds).toEqual(['C30', 'C02', 'C01']);
       else expect(closure).not.toHaveProperty('caseIds');
+      const manifest = JSON.parse(readFileSync(join(outputDirectory, 'transport/manifest.json'), 'utf8'));
+      if (version === 'v2-counted') {
+        expect(manifest.reservationMode).toBe('gemini_count_tokens_plus_2048');
+        expect(closure.reservationBasis).toBe('gemini_count_tokens_plus_2048');
+      } else {
+        expect(manifest).not.toHaveProperty('reservationMode');
+        expect(closure).not.toHaveProperty('reservationBasis');
+      }
       expect(synthetic.close).toHaveBeenCalledOnce();
       expect(synthetic.poolEnd).toHaveBeenCalledOnce();
       expect(network).not.toHaveBeenCalled();

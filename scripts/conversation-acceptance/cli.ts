@@ -86,9 +86,12 @@ export async function execute(approvalPath: string, approvalHash: string) {
         inputUsdPerMillion: approval.inputUsdPerMillion,
         outputUsdPerMillion: approval.outputUsdPerMillion,
         maxRequestBytes: approval.maxRequestBytes,
+        ...(approval.version === 'conversation-acceptance-approval-v2' && approval.reservationBasis
+          ? { reservationBasis: approval.reservationBasis }
+          : {}),
       },
       async (input, init) => {
-        // Also check before an internal schema-repair dispatch. If this fails after
+        // Also check before free counting and an internal schema-repair dispatch. If this fails after
         // the transport reserved, its full unknown reservation remains retained.
         validateApproval(
           readFileSync(approvalFile, 'utf8'),
@@ -180,7 +183,12 @@ export async function execute(approvalPath: string, approvalHash: string) {
           ? 'conversation-acceptance-run-v1'
           : 'conversation-acceptance-run-v2',
       ...(approval.version === 'conversation-acceptance-approval-v2'
-        ? { caseIds: approval.caseIds, maxRequests: approval.maxRequests, maxAttempts: approval.maxAttempts }
+        ? {
+            caseIds: approval.caseIds,
+            maxRequests: approval.maxRequests,
+            maxAttempts: approval.maxAttempts,
+            ...(approval.reservationBasis ? { reservationBasis: approval.reservationBasis } : {}),
+          }
         : {}),
       status:
         failure || !result?.executionComplete ? 'STOPPED_INCOMPLETE' : 'EXECUTION_COMPLETE_REVIEW_PENDING',

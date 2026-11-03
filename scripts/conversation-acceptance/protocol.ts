@@ -48,6 +48,7 @@ export function sourceBinding(root = process.cwd()) {
     'tests/conversation-acceptance-scoring.test.ts',
     'tests/conversation-acceptance-workflow.test.ts',
     'tests/conversation-focused-acceptance.test.ts',
+    'tests/conversation-token-count-reservation.test.ts',
     '.github/workflows/conversation-acceptance.yml',
     'scripts/completion-repair-evaluation/transport.ts',
     'scripts/completion-repair-evaluation/encrypted-artifact.ts',
@@ -119,6 +120,7 @@ const approvalV2Schema = approvalV1Schema
     caseIds: caseIdsSchema,
     maxRequests: z.number().int().min(1).max(MAX_REQUESTS),
     maxAttempts: z.number().int().min(1).max(MAX_ATTEMPTS),
+    reservationBasis: z.enum(['utf8_bytes_plus_2048', 'gemini_count_tokens_plus_2048']).optional(),
   })
   .superRefine((approval, ctx) => {
     const turns = approval.caseIds.reduce(
