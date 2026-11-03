@@ -1,5 +1,11 @@
 # Build log
 
+## 2026 11 03 Generated analysis candidate after monthly-percentage failure
+
+The user exposed a general expressivity gap: monthly rent/expense percentages were replaced by operand tables. Offline reproduction verified the eight-scalar-step limit, ratio formatting and whole-request zero-division rejection. A new `financial_program` tool now accepts a generated JavaScript function over verified query results. QuickJS isolates execution; host-created exact-value handles retain source references, percent formatting and explicit undefined cells. A code-only retry reuses the same snapshot and existing attempt allowance. Ordinary financial tools and posted-ledger protections remain.
+
+The candidate has local execution and scripted chat tests, new PostgreSQL/browser checks awaiting CI, and a separate independently authored 22-conversation development specification. Real-model validation and deployment are pending. No previous score is transferred and no new provider spend is claimed. Querio was researched as an architecture reference; no account or subscription was created. [Design and walkthrough](GENERATED_ANALYSIS.md).
+
 ## 2026 11 03 Conversational repair promoted and checkpoint saved
 
 Source `9f90a500a98ea98e74bed592435fd045c4564b8d` is promoted as `dpl_6DnLS6KcK815D19dKz6mdtvkLy31` at the protected stable Daybook URL. The exact-source full CI passed 2,809 normal tests, 35 browser workflows, PostgreSQL fixtures, native research, Compose 2,808 overlapping tests, normal scheduler/anomaly jobs and container-recreation persistence. [CI](evidence/conversation-currency-repair-ci.json).

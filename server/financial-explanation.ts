@@ -18,6 +18,7 @@ const finalTools = new Set([
   'cash_position',
   'financial_analysis',
   'financial_scenario',
+  'financial_program',
   'show_inspected_results',
   'calculate_from_inspection',
 ]);

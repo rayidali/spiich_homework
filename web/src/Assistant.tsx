@@ -29,12 +29,14 @@ type GeneralExplanation = {
   grounding: 'general_knowledge';
   verifiedFinancialData: false;
 };
+type ProgramAnalysis = { code: string; codeHash: string; operationCount: number };
 type Message = {
   role: 'user' | 'assistant';
   content: string;
   evidence?: InsightEvidence[];
   conversation?: ConversationContext;
   generalExplanation?: GeneralExplanation;
+  program?: ProgramAnalysis;
 };
 const conversationLabels = {
   clarification: 'Follow-up question',
@@ -79,6 +81,7 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
         evidence: InsightEvidence[];
         conversation?: ConversationContext;
         generalExplanation?: GeneralExplanation;
+        program?: ProgramAnalysis;
       }>('/ai/chat', {
         messages: conversation,
       });
@@ -90,6 +93,7 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
           evidence: result.evidence,
           conversation: result.conversation,
           generalExplanation: result.generalExplanation,
+          program: result.program,
         },
       ]);
     } catch (e) {
@@ -152,6 +156,15 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
                 </div>
               )}
               <p>{m.content}</p>
+              {m.program && (
+                <details className="evidence-scope" data-analysis-program>
+                  <summary>Inspect the calculation</summary>
+                  <p>This function calculated the results from the source records below.</p>
+                  <pre style={{ overflowX: 'auto', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>
+                    <code>{m.program.code}</code>
+                  </pre>
+                </details>
+              )}
               {m.evidence?.map((e, index) => (
                 <div className="evidence-card" key={index}>
                   <span className="evidence-label">

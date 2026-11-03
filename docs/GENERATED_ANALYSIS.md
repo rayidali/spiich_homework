@@ -1,0 +1,67 @@
+# Generated financial analysis
+
+Status: **implemented locally; release and real-model acceptance pending**. The current hosted release is still `9f90a500`. This document describes a new candidate, not a live accuracy result.
+
+## The problem the user found
+
+The user asked for monthly rent percentages, clarified the year, and received two lists of dollar amounts. Neither list answered the requested percentage. The existing calculator allowed eight individually named arithmetic steps, so it could not express eleven or twelve monthly divisions in one call. It also rendered ratios as decimals and stopped the whole calculation on a zero denominator. These limits were reproduced against the actual parser/calculator without any model calls. The original 31 conversation cases did not contain this combination.
+
+The conversation transport retains the original messages. No exact original hosted request was correlated, so the investigation does not claim to have observed its provider arguments or lost context. The repeated period question matches the application's existing generic clarification template.
+
+## The new capability
+
+`financial_program` lets the model select existing financial queries and write a JavaScript function body over their results. The function can define helpers, loop, map, filter, join, sort and aggregate. It can calculate a monthly percentage table, cumulative spending, a median, a ranking or a new combination without a separate business-specific tool.
+
+```mermaid
+flowchart TD
+  Q[Question and retained conversation] --> P[Model selects queries and writes analysis function]
+  P --> D[Existing query compiler reads a consistent PostgreSQL snapshot]
+  D --> I[Isolated QuickJS interpreter]
+  I --> E[Exact calculator and source references]
+  E --> V[Validate output shape, units and execution limits]
+  V --> A[Show calculated results, source amounts and inspectable function]
+  I -->|Recoverable function error| R[One bounded code correction using the same saved records]
+  R --> I
+```
+
+The default composable route offers this new tool alongside ordinary reports, scenarios and conversation. Simple questions can still use a single report. The experimental complete route is unchanged and does not receive program-result facts as if they were its older scalar calculation facts. Earlier route scores remain historical.
+
+## A walkthrough
+
+For “What percentage of each month's expenses was rent this year?”, the queries return monthly rent and monthly total expenses. The function matches months by their actual dates and identities, divides each rent value by the corresponding expense value, and requests percentage formatting.
+
+Using the amounts the user pasted, May is `2400 / 7969 × 100 = 30.12%` and October is `7200 / 14567 × 100 = 49.43%`. These are calculations from supplied figures, not a fresh hosted-database observation. A zero denominator produces an unavailable cell, preserving the other months. The explanation must distinguish no transactions from offsetting transactions with zero net value.
+
+“Percentage” needs a denominator. Rent divided by revenue, monthly total expenses and annual expenses answer different questions. The model is instructed to clarify missing meaning and preserve the requested output when a follow-up supplies only the year. This instruction still needs real conversation testing; generated-code execution does not prove that the model chose the intended denominator.
+
+## Exact values and isolation
+
+The interpreter receives materialized query results with opaque value handles. Those handles refer to exact rational values held by the application. Generated JavaScript cannot construct a valid numeric output handle from a literal or object. Financial arithmetic uses the host's `calc` API; JavaScript floating-point arithmetic is not used for displayed money. Percent formatting multiplies an exact ratio by 100 only at presentation.
+
+Each returned number includes its exact fraction and contributing query/row references. The program text and SHA-256 identify the executed function. The interface offers collapsed “Inspect the calculation” details, rendering the code as plain text. Diagnostic logs record only bounded metadata, such as the program hash, result count and error code; they do not log code, financial values or raw conversation.
+
+QuickJS `0.32.0` runs as a separate WebAssembly interpreter, with no exposed database, filesystem, network, credentials or module loader. There are limits on code, guest-heap memory, stack, elapsed execution, calculator operations, input and output sizes. The 16 MiB heap limit is not a cap on the entire Node/WASM process. Interruption is cooperative; it is not a hard real-time deadline. This is not Node `eval` or Node `vm`. The dependency and its transitive packages are pinned with registry integrity hashes.
+
+Queries retain existing workspace, account, date, posting and currency checks. Input tables must be complete, use one posting status and use base USD or counts. The generated program cannot fetch omitted rows. Raw account-balance arithmetic and per-entry averages remain excluded; supported cash balances retain their as-of identity. Programs cannot post, edit or reverse entries.
+
+If a recoverable function error occurs, the existing planning allowance may permit one code-only correction. The model cannot change queries in that correction, and execution reuses the original materialized records. Unknown provider usage, a consumed allowance or a resource limit stops further work. Invalid output never falls back to displaying operand tables as if the calculation succeeded.
+
+## What this does not prove
+
+A mathematically exact program can still answer the wrong question. Dividing rent by revenue when the user meant total expenses is wrong even if every number has source references. Generated labels and descriptions are also not independently verified facts. The application reports `interpretationVerified: false`; provenance is not a certificate of the model's interpretation.
+
+Existing query scope and result limits remain. This is generated analysis over available accounting records, not unlimited SQL access, arbitrary external data, a document-upload system or a promise of universal answers. Resource tests establish observed rejection behaviour, not proof against every possible interpreter vulnerability.
+
+## Evaluation
+
+New execution tests use real QuickJS with scripted programs. Chat integration tests use scripted provider responses and the actual query compiler/interpreter. Separate PostgreSQL tests seed balanced fictional books and independently check percentages, medians, cumulative values, refunds, filters, unchanged journals and truncated-input rejection. Browser tests use scripted responses. These layers must be reported separately from model accuracy.
+
+An independently authored 22-conversation development specification and exact Python rational oracles cover broader combinations, including weighted annual share versus average monthly share, rolling averages, quarter growth and follow-ups that change the numerator or denominator. It is not a blinded holdout. No score exists until the real-model run executes and its original outcomes are reviewed. The full earlier 31-case conversation set also needs a new run on the candidate.
+
+## Querio research and decision
+
+Querio's documented agent writes SQL and Python in a notebook, executes dependent cells and retains inspectable analysis. That is a useful architecture reference. Its MCP interface exposes notebook-authoring tools, whereas the separate Embedded API provides its conversational analyst. A free MCP connection is not the embedded chatbot API. [Analysis](https://docs.querio.ai/understand/analysis), [MCP](https://docs.querio.ai/reference/mcp), [Embedded API](https://docs.querio.ai/embed/api).
+
+Querio currently lists a free workspace with 500 monthly model-call credits; its Core API plan is $2,499 monthly or $25,000 annually, and customer-facing embedding is an additional commercial offering. Plan applicability would need confirmation before adoption. No Querio account, purchase or data connection was made. Daybook uses the generated-analysis pattern within its existing stack. [Pricing](https://querio.ai/pricing).
+
+The earlier Wren experiment used the pinned semantic engine with our research SQL policy. It did not evaluate Wren's entire chat product, and our restrictions on CTEs and joins were integration limitations. Its score is not evidence that Querio or another complete product would perform worse.

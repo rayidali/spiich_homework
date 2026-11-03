@@ -4,6 +4,7 @@
 export type FinancialFactReference =
   | { kind: 'query_row'; queryId: string; rowId: string }
   | { kind: 'calculation'; calculationId: string }
+  | { kind: 'program_result'; programHash: string; tableIndex: number; rowIndex: number }
   | { kind: 'assumption'; assumptionId: string };
 
 export type FinancialFactSource = {

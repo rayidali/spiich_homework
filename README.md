@@ -1,5 +1,7 @@
 # Daybook · Accounting workspace
 
+**Current development:** a generated-analysis candidate addresses monthly percentages and other composed calculations. It is not yet deployed or measured with a live model; [design, checks and limits](docs/GENERATED_ANALYSIS.md).
+
 A React and TypeScript accounting application with a REST API and PostgreSQL. Record transactions, review balanced entries, manage recurring drafts, and inspect financial reports. AI suggests entries and categories for your approval; database constraints protect posted history.
 
 Open the [protected hosted demo](https://daybook-ledger-delta.vercel.app), or start the complete application with Docker below. No API key is needed for manual accounting, reports, recurrence or statistical anomaly alerts.

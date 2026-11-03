@@ -2,6 +2,10 @@
 
 Saved **2026-11-03, America/New_York**. Continue this application; do not rebuild it.
 
+## Work in progress — generated analysis
+
+The user reported missing monthly rent percentages and explicitly requested general generated functions, then asked about Querio. A new local `financial_program` candidate uses isolated QuickJS and exact-value handles over existing query results. Its single code-only correction reuses the same records. See [GENERATED_ANALYSIS.md](docs/GENERATED_ANALYSIS.md). Local code is ahead of the hosted release; real-model acceptance and release are pending. Preserve `.tools/flexible-analytics-20261103/`, the independently authored 22-case specification/oracles, and existing closed spending. No new model run has been authorized or dispatched for this candidate.
+
 ## Current release
 
 Source **`9f90a500a98ea98e74bed592435fd045c4564b8d`** is **READY and promoted** as **`dpl_6DnLS6KcK815D19dKz6mdtvkLy31`** at https://daybook-ledger-delta.vercel.app. The stable alias and project production target match this deployment; protected health/meta requests return200. All-deployment protection remains enabled. Route: **composable**. [Release receipt](docs/evidence/conversation-repair-release.json).

@@ -42,6 +42,7 @@ jobs:
       - name: Verify native hosted API module
         run: |
           npm run hosting:bundle
+          node scripts/check-analysis-runtime.mjs
           node -e "Promise.all([import('./api/index.js'), import('./api/cron.js')]).then(() => process.exit(0))"
       - run: npm run db:migrate
       - run: npm test

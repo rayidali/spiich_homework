@@ -57,7 +57,7 @@ IDEMPOTENCY_KEY_REQUIRED INTERNAL_ERROR INVALID_DATE_RANGE INVALID_INPUT INVALID
 QUERY_TIMEOUT RECORD_IN_USE DUPLICATE_RECORD AMOUNT_TOO_SMALL CONFIRM_EXCHANGE_RATES CURRENCY_PRECISION
 IDEMPOTENCY_CONFLICT IMMUTABLE_ENTRY INVALID_ACCOUNT INVALID_EXPENSE_ACCOUNT INVALID_ANALYSIS_SCOPE INVALID_ANALYSIS_ACCOUNT INVALID_SCENARIO REQUEST_SCOPE_MISMATCH INVALID_INSPECTION INSPECTION_CHANGED INSPECTION_LIMIT INVALID_AMOUNT INVALID_CURSOR INVALID_EXCHANGE_RATE
 INVALID_REVERSAL_DATE NOT_POSTED STALE_DRAFT UNBALANCED_ENTRY INVALID_SCHEDULE SCHEDULE_ANCHOR_FIXED
-INVALID_ANSWER_CONTRACT INVALID_ANSWER_BINDING ANSWER_INCOMPLETE
+INVALID_ANSWER_CONTRACT INVALID_ANSWER_BINDING ANSWER_INCOMPLETE INVALID_ANALYSIS_PROGRAM ANALYSIS_PROGRAM_LIMIT
 SCHEDULE_LIMIT STALE_SCHEDULE GROUP_LEDGER METHOD_NOT_ALLOWED SCHEDULE_UNAVAILABLE UNAUTHORIZED
 INVALID_PROPOSAL PROPOSAL_NOT_FOUND PROPOSAL_BINDING_INVALID PROPOSAL_ALREADY_USED PROPOSAL_EXPIRED
 CORRECTION_REQUIRES_POSTING CORRECTION_REVIEW_CHANGED REVIEWED_POSTING_REQUIRED ALERT_RESOLVED
@@ -99,6 +99,7 @@ type DiagnosticEvent =
   | 'ai_schema_validation'
   | 'ai_financial_plan'
   | 'ai_answer_completion'
+  | 'ai_analysis_program'
   | 'database_pool'
   | 'database_rollback_failed'
   | 'worker_error';
@@ -141,11 +142,13 @@ type DiagnosticFields = Partial<ProviderErrorDiagnostics> & {
   missingOutputs?: number;
   invalidOutputs?: number;
   generatedCalculationCount?: number;
+  programHash?: string;
+  outputRows?: number;
   issues?: { code: string; path: (string | number)[] }[];
 };
 
 const schemaKeys = new Set(
-  `queries assumptions calculations id metric aggregation from to status currencyMode currency groupBy accountCodes cooccurringAccountCodes counterparty mode value descriptionSearch minimumAmount maximumAmount order limit source rowId field operation operands unit sourceText accountCode previousFrom previousTo view search asOf question message generalExplanation reason subject limitation answerContract outputBindings outputs sourceQuotes messageIndex quote requirement kind scope counterpartyFrom query coverage tiePolicy selectedAccountCode outputId queryId calculationId`.split(
+  `queries code assumptions calculations id metric aggregation from to status currencyMode currency groupBy accountCodes cooccurringAccountCodes counterparty mode value descriptionSearch minimumAmount maximumAmount order limit source rowId field operation operands unit sourceText accountCode previousFrom previousTo view search asOf question message generalExplanation reason subject limitation answerContract outputBindings outputs sourceQuotes messageIndex quote requirement kind scope counterpartyFrom query coverage tiePolicy selectedAccountCode outputId queryId calculationId`.split(
     ' ',
   ),
 );
@@ -227,6 +230,8 @@ export function diagnostic(
       'expense_by_account',
       'financial_analysis',
       'financial_scenario',
+      'financial_program',
+      'repair_financial_program',
       'inspect_financial_data',
       'show_inspected_results',
       'calculate_from_inspection',
@@ -241,6 +246,13 @@ export function diagnostic(
     ].includes(fields.tool ?? '')
   )
     output.tool = fields.tool;
+  if (event === 'ai_analysis_program') {
+    if (typeof fields.programHash === 'string' && /^[a-f0-9]{64}$/.test(fields.programHash))
+      output.programHash = fields.programHash;
+    if (count(fields.outputRows)) output.outputRows = fields.outputRows;
+    if (count(fields.generatedCalculationCount))
+      output.generatedCalculationCount = fields.generatedCalculationCount;
+  }
   if (
     fields.tool === 'discuss_business' &&
     ['clarification', 'explanation', 'limitation'].includes(fields.replyKind ?? '')
