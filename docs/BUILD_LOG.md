@@ -1,5 +1,13 @@
 # Build log
 
+## 2026 11 03 Approved focused validation and completeness repair
+
+The user explicitly approved the additional $0.09. Run41672423492 executed ten selected known development cases on source3dc0c6f, whose74 bound files matched CI-tested181dcfd. Cost was $0.0450841 for ten calls, no unknown usage; all14 synthetic journals/28 lines remained unchanged. The independent evidence audit passed405 checks and all three temporary GitHub secrets were removed. [Results](evidence/conversation-acceptance-v2/report.md).
+
+Strict semantic review passed6/10. Correctness improved on the previous false accounting explanation, unknown accounts, productivity questions and no-lookup requests. Four responses still omitted required details: an explicit calculation offer, cause-versus-contributor explanation, preserved correction history, and a balance as-of date. No material factual error was found, including the four volunteered money values. These are known development cases, not a blinded accuracy score.
+
+The next repair changes only the general conversation instructions and optional explanation description. A requested evidence limitation can accompany a financial result; it cannot assert an unseen result or invent a business cause. No special-case keyword classifier, fabricated answer substitution or additional model pass was added. Existing143 focused tests, TypeScript and formatting pass. A five-case verification will use at most the **remaining $0.0449159** after full source CI; it does not create another budget or erase either earlier failure. Production remains unchanged.
+
 ## 2026 11 01 Repair verified and spending gate pending
 
 Source `181dcfdeabb8867ff162f0833153c8f5473c6280` passed [full CI41361375961](evidence/conversation-repair-ci.json): 2,767 normal tests/134 files,35 browser workflows/53.0seconds, PostgreSQL fixture checks, native research and Compose2,766 overlapping tests/133 files with automatic jobs/persistence. Local283 focused tests/nine files, build and formatting also passed. Adaptive continuation now checks echoed questions against original user messages, not appended inspection feedback, with successful/failed bounded-repair tests. V2 strict ordered case selection is prepared with its own26 offline tests. No new live-model accuracy is claimed.

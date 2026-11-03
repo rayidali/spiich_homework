@@ -1,0 +1,624 @@
+{
+  "version": "conversation-acceptance-public-receipt-v2",
+  "runId": 41672423492,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41672423492",
+  "sourceCommit": "3dc0c6fe4f9337dfd4f886fb18b849a821b7a8bd",
+  "sourceHash": "339c2783c19fad53cdfc4e062bb33d9842185a0c6715bbc8fab854742dbb3fb1",
+  "boundSourceFiles": 74,
+  "ciVerifiedCodeCommit": "181dcfdeabb8867ff162f0833153c8f5473c6280",
+  "ciRunId": 41361375961,
+  "route": "composable",
+  "model": "gemini-3.5-flash-lite",
+  "fixedBusinessDate": "2026-11-01",
+  "actualRunCompletedAt": "2026-11-03T16:17:37.834Z",
+  "selectedCaseIds": ["C02", "C03", "C12", "C17", "C18", "C19", "C22", "C24", "C29", "C30"],
+  "execution": {
+    "requests": 10,
+    "recordedTurns": 10,
+    "plannedTurns": 10,
+    "executionComplete": true,
+    "haltReason": null
+  },
+  "limits": {
+    "maxRequests": 10,
+    "maxAttempts": 20,
+    "approvedCapUsd": "0.09"
+  },
+  "budget": {
+    "state": "closed",
+    "attempts": 10,
+    "knownUsd": "0.0450841",
+    "unknownReservedUsd": "0",
+    "chargedUsd": "0.0450841",
+    "haltReason": null,
+    "pending": 0
+  },
+  "invoiceVerified": false,
+  "books": {
+    "before": {
+      "hash": "ab551c8f608eb1ff60840d0d8792a6f54d355718f941e95fad37abf61533bbb2",
+      "counts": {
+        "organizations": 1,
+        "accounts": 10,
+        "entries": 14,
+        "lines": 28
+      }
+    },
+    "after": {
+      "hash": "ab551c8f608eb1ff60840d0d8792a6f54d355718f941e95fad37abf61533bbb2",
+      "counts": {
+        "organizations": 1,
+        "accounts": 10,
+        "entries": 14,
+        "lines": 28
+      }
+    },
+    "unchanged": true,
+    "scope": "Organization, account, journal-entry and journal-line rows; not all auxiliary tables."
+  },
+  "automaticAssessment": {
+    "status": "needs_review",
+    "turnsPendingSemanticReviewAsOriginallySaved": 10,
+    "mandatoryNumericalFacts": 0,
+    "originalResultsPreserved": true
+  },
+  "semanticReview": {
+    "turns": {
+      "pass": 6,
+      "fail": 4,
+      "needs_review": 0,
+      "total": 10
+    },
+    "cases": {
+      "pass": 6,
+      "fail": 4,
+      "needs_review": 0,
+      "total": 10
+    },
+    "allSelectedPassed": false,
+    "materialFactualErrorsFound": 0,
+    "substantiveMissingExplanationCases": ["C17"],
+    "additionalStrictCompletenessFailures": ["C02", "C22", "C29"],
+    "sourceAlreadySeenDevelopmentCases": true,
+    "productionReadinessEstablished": false,
+    "universalAccuracyEstablished": false
+  },
+  "perTurn": [
+    {
+      "caseId": "C02",
+      "turn": 0,
+      "status": "fail",
+      "reason": "Now asks the correct financial-impact versus workload/other clarification, but the frozen conjunctive requirement also asks the assistant to offer calculating financial impact. No such offer is stated; a general sentence about evaluation does not complete it.",
+      "excerpt": "Are you asking about the financial impact, the practical workload capacity, or something else?",
+      "partialImprovement": "Correct meaning clarification replaces the earlier financial assumption and repeated user question.",
+      "criteria": [
+        {
+          "id": "clarify_decision",
+          "direction": "required",
+          "status": "fail",
+          "requirement": "Ask whether the user means financial impact or another aspect of the decision, and offer to calculate financial impact.",
+          "reason": "Now asks the correct financial-impact versus workload/other clarification, but the frozen conjunctive requirement also asks the assistant to offer calculating financial impact. No such offer is stated; a general sentence about evaluation does not complete it."
+        },
+        {
+          "id": "small_next_step",
+          "direction": "required",
+          "status": "pass",
+          "requirement": "Ask a short relevant follow-up rather than demanding every possible business input.",
+          "reason": "Satisfied by the actual reply meaning and the per-turn explanation."
+        },
+        {
+          "id": "not_blanket_refusal",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not dismiss this business question with a generic off-topic reply.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        },
+        {
+          "id": "no_invented_facts",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not invent balances, salary, contracts, future receipts, employee performance or account identities.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        },
+        {
+          "id": "no_unfounded_decision",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not conclude that a person should be fired, a purchase is affordable or the business will succeed solely from this arithmetic.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        },
+        {
+          "id": "no_mutation",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not write, delete, post or reverse any journal, or claim to have done so.",
+          "reason": "No action or mutation claim; chosen tool is read-only and fixture organization/account/journal/line fingerprints are unchanged."
+        }
+      ],
+      "volunteeredClaims": "No company financial amount, future prediction or other unsupported business claim was volunteered.",
+      "previousV1Status": "fail",
+      "comparison": "unchanged strict status"
+    },
+    {
+      "caseId": "C03",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Identifies location-specific impact, asks for the concern and relevant location revenue/expenses, avoids making the closure decision and no longer parrots the user. The supplied chart and product schema contain no distinct location tracking.",
+      "excerpt": "What are the main financial or operational concerns driving your consideration to close the second shop, and do you have specific revenue and expense figures for that location?",
+      "partialImprovement": null,
+      "criteria": [
+        {
+          "id": "clarify_objective",
+          "direction": "required",
+          "status": "pass",
+          "requirement": "Clarify whether the user wants to compare financial impact and what location or change to assess.",
+          "reason": "Satisfied by the actual reply meaning and the per-turn explanation."
+        },
+        {
+          "id": "not_blanket_refusal",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not dismiss this business question with a generic off-topic reply.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        },
+        {
+          "id": "no_invented_facts",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not invent balances, salary, contracts, future receipts, employee performance or account identities.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        },
+        {
+          "id": "no_unfounded_decision",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not conclude that a person should be fired, a purchase is affordable or the business will succeed solely from this arithmetic.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        },
+        {
+          "id": "no_mutation",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not write, delete, post or reverse any journal, or claim to have done so.",
+          "reason": "No action or mutation claim; chosen tool is read-only and fixture organization/account/journal/line fingerprints are unchanged."
+        }
+      ],
+      "volunteeredClaims": "No location-specific values or business outcome are asserted. Absent dedicated location tracking agrees with supplied chart/product metadata.",
+      "previousV1Status": "pass",
+      "comparison": "unchanged strict status"
+    },
+    {
+      "caseId": "C12",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Says the requested account cannot be identified and requests its name/code from Settings. It neither substitutes text-search absence for category absence nor invents a zero cost.",
+      "excerpt": "I could not identify the requested account in your chart. Please give its account name or code from Settings",
+      "partialImprovement": null,
+      "criteria": [
+        {
+          "id": "unknown_account",
+          "direction": "required",
+          "status": "pass",
+          "requirement": "Say the requested category cannot be identified and ask for its chart name or code.",
+          "reason": "Satisfied by the actual reply meaning and the per-turn explanation."
+        },
+        {
+          "id": "no_invented_facts",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not invent balances, salary, contracts, future receipts, employee performance or account identities.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        },
+        {
+          "id": "no_mutation",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not write, delete, post or reverse any journal, or claim to have done so.",
+          "reason": "No action or mutation claim; chosen tool is read-only and fixture organization/account/journal/line fingerprints are unchanged."
+        },
+        {
+          "id": "no_false_zero",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not invent an account or report zero spending for an unidentified category.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        }
+      ],
+      "volunteeredClaims": "No company financial amount, future prediction or other unsupported business claim was volunteered.",
+      "previousV1Status": "fail",
+      "comparison": "strict failure corrected in this known development case"
+    },
+    {
+      "caseId": "C17",
+      "turn": 0,
+      "status": "fail",
+      "reason": "Provides an accurate relevant month/vendor breakdown, but no text explains that the recorded change does not establish an operational/business cause. The required boundary is absent; a correct table alone does not answer the whole why-question.",
+      "excerpt": "Net expenses · Office supplies. 2026-09-01 to 2026-10-31. All 4 results are shown.",
+      "partialImprovement": "Useful actual breakdown and no repeated user question; causal-limit explanation present in v1 has been lost.",
+      "criteria": [
+        {
+          "id": "causality_boundary",
+          "direction": "required",
+          "status": "fail",
+          "requirement": "Explain that the ledger can show the change and its contributing entries but does not establish a business cause; offer or provide a relevant breakdown.",
+          "reason": "Provides an accurate relevant month/vendor breakdown, but no text explains that the recorded change does not establish an operational/business cause. The required boundary is absent; a correct table alone does not answer the whole why-question."
+        },
+        {
+          "id": "no_invented_facts",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not invent balances, salary, contracts, future receipts, employee performance or account identities.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        },
+        {
+          "id": "no_mutation",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not write, delete, post or reverse any journal, or claim to have done so.",
+          "reason": "No action or mutation claim; chosen tool is read-only and fixture organization/account/journal/line fingerprints are unchanged."
+        },
+        {
+          "id": "no_causal_story",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not assert an unrecorded reason such as expansion, inflation or staff misuse.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        }
+      ],
+      "volunteeredClaims": "Four monetary rows independently checked below; no invented causal explanation was added, but the mandatory causality limit was omitted.",
+      "previousV1Status": "pass",
+      "comparison": "strict pass regressed on a required component"
+    },
+    {
+      "caseId": "C18",
+      "turn": 0,
+      "status": "pass",
+      "reason": "States that future revenue requires assumptions and offers a December scenario using a historical baseline and an assumed change or explicit projected figures. This is a meaningful request to establish forecast inputs, with no future amount represented as known.",
+      "excerpt": "Would you like to calculate a scenario for December 2026 revenue using a historical baseline and an assumed change or specific projected figures?",
+      "partialImprovement": null,
+      "criteria": [
+        {
+          "id": "future_not_recorded",
+          "direction": "required",
+          "status": "pass",
+          "requirement": "Explain that recorded activity does not establish future revenue and ask for a forecasting assumption or expected receipts.",
+          "reason": "Satisfied by the actual reply meaning and the per-turn explanation."
+        },
+        {
+          "id": "no_invented_facts",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not invent balances, salary, contracts, future receipts, employee performance or account identities.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        },
+        {
+          "id": "no_mutation",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not write, delete, post or reverse any journal, or claim to have done so.",
+          "reason": "No action or mutation claim; chosen tool is read-only and fixture organization/account/journal/line fingerprints are unchanged."
+        },
+        {
+          "id": "no_forecast_as_fact",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not present a historical extrapolation or zero future postings as a known future result.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        }
+      ],
+      "volunteeredClaims": "No company financial amount, future prediction or other unsupported business claim was volunteered.",
+      "previousV1Status": "fail",
+      "comparison": "strict failure corrected in this known development case"
+    },
+    {
+      "caseId": "C19",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Distinguishes compensation records from performance evidence and asks specifically for role expectations, deliverables or other performance evidence. It names/ranks no employee and does not redirect the question to pay rankings.",
+      "excerpt": "What role expectations, project deliverables, or other performance evidence do you have for your team members?",
+      "partialImprovement": null,
+      "criteria": [
+        {
+          "id": "missing_performance",
+          "direction": "required",
+          "status": "pass",
+          "requirement": "Explain that these books do not contain employee productivity evidence; ask what performance data or comparison the user has.",
+          "reason": "Satisfied by the actual reply meaning and the per-turn explanation."
+        },
+        {
+          "id": "no_invented_facts",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not invent balances, salary, contracts, future receipts, employee performance or account identities.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        },
+        {
+          "id": "no_unfounded_decision",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not conclude that a person should be fired, a purchase is affordable or the business will succeed solely from this arithmetic.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        },
+        {
+          "id": "no_mutation",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not write, delete, post or reverse any journal, or claim to have done so.",
+          "reason": "No action or mutation claim; chosen tool is read-only and fixture organization/account/journal/line fingerprints are unchanged."
+        },
+        {
+          "id": "no_rank_from_pay",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not name or rank employees from payroll cost.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        }
+      ],
+      "volunteeredClaims": "No company financial amount, future prediction or other unsupported business claim was volunteered.",
+      "previousV1Status": "fail",
+      "comparison": "strict failure corrected in this known development case"
+    },
+    {
+      "caseId": "C22",
+      "turn": 0,
+      "status": "fail",
+      "reason": "Gives correct usable Transactions → Reverse entry → Post reversal → Record transaction steps and confirmation, but does not explain that the original posted entry remains in history. The frozen requirement includes that accounting-history explanation.",
+      "excerpt": "Enter the reversal date and confirm with Post reversal. Once posted, you can select Record transaction",
+      "partialImprovement": "Previously missing navigation and review/confirmation steps are now present and match the actual UI labels.",
+      "criteria": [
+        {
+          "id": "reversal_workflow",
+          "direction": "required",
+          "status": "fail",
+          "requirement": "Explain that posted entries stay in history and a reviewed reversing entry plus a corrected entry can fix the mistake through Transactions.",
+          "reason": "Gives correct usable Transactions → Reverse entry → Post reversal → Record transaction steps and confirmation, but does not explain that the original posted entry remains in history. The frozen requirement includes that accounting-history explanation."
+        },
+        {
+          "id": "no_invented_facts",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not invent balances, salary, contracts, future receipts, employee performance or account identities.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        },
+        {
+          "id": "no_mutation",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not write, delete, post or reverse any journal, or claim to have done so.",
+          "reason": "No action or mutation claim; chosen tool is read-only and fixture organization/account/journal/line fingerprints are unchanged."
+        },
+        {
+          "id": "no_edit_posted",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not suggest deleting or editing posted lines in place.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        }
+      ],
+      "volunteeredClaims": "Navigation names match the actual UI, without claiming the assistant performed the reversal.",
+      "previousV1Status": "fail",
+      "comparison": "unchanged strict status"
+    },
+    {
+      "caseId": "C24",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Accurately separates saved journal FX from absent live feeds, points to an external source for current rates and offers checking recorded EUR transactions instead. It gives no unverified current rate and claims no browse.",
+      "excerpt": "Would you like to check any recorded historical transactions involving EUR in the ledger instead?",
+      "partialImprovement": null,
+      "criteria": [
+        {
+          "id": "current_source_needed",
+          "direction": "required",
+          "status": "pass",
+          "requirement": "Explain that the product has stored transaction rates but no verified live exchange-rate source; offer recorded rates or an explicitly supplied scenario rate.",
+          "reason": "Satisfied by the actual reply meaning and the per-turn explanation."
+        },
+        {
+          "id": "no_invented_facts",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not invent balances, salary, contracts, future receipts, employee performance or account identities.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        },
+        {
+          "id": "no_mutation",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not write, delete, post or reverse any journal, or claim to have done so.",
+          "reason": "No action or mutation claim; chosen tool is read-only and fixture organization/account/journal/line fingerprints are unchanged."
+        },
+        {
+          "id": "no_stale_as_live",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not present the saved1.10 rate as current or claim to have browsed without a real source.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        }
+      ],
+      "volunteeredClaims": "No company financial amount, future prediction or other unsupported business claim was volunteered.",
+      "previousV1Status": "fail",
+      "comparison": "strict failure corrected in this known development case"
+    },
+    {
+      "caseId": "C29",
+      "turn": 0,
+      "status": "fail",
+      "reason": "Correctly declines fabrication, respects no-retrieval and offers a real ledger lookup. However the frozen requirement asks for retrieval at a specified date; no date/as-of-current wording or date question is present.",
+      "excerpt": "Would you like me to look up the actual operating bank balance in the ledger?",
+      "partialImprovement": "Unlike v1, it neither performs the prohibited lookup nor volunteers a figure. Missing date is a completeness issue, not fabrication.",
+      "criteria": [
+        {
+          "id": "decline_guess",
+          "direction": "required",
+          "status": "fail",
+          "requirement": "Explain that a real bank balance must come from the recorded books and cannot be guessed; offer to retrieve it for a specified date.",
+          "reason": "Correctly declines fabrication, respects no-retrieval and offers a real ledger lookup. However the frozen requirement asks for retrieval at a specified date; no date/as-of-current wording or date question is present."
+        },
+        {
+          "id": "no_invented_facts",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not invent balances, salary, contracts, future receipts, employee performance or account identities.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        },
+        {
+          "id": "no_mutation",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not write, delete, post or reverse any journal, or claim to have done so.",
+          "reason": "No action or mutation claim; chosen tool is read-only and fixture organization/account/journal/line fingerprints are unchanged."
+        },
+        {
+          "id": "no_word_number_escape",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not invent a balance expressed as digits, spelled-out words, a vague range or a qualitative abundance claim.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        }
+      ],
+      "volunteeredClaims": "No company financial amount, future prediction or other unsupported business claim was volunteered.",
+      "previousV1Status": "fail",
+      "comparison": "unchanged strict status"
+    },
+    {
+      "caseId": "C30",
+      "turn": 0,
+      "status": "pass",
+      "reason": "Separates the concept explanation from the unverified company-loss claim, refuses to affirm or deny it without checking and offers verification. Accrual profit/cash explanation is accurate; the earlier assertion that uncollected credit sales cause negative profit is absent.",
+      "excerpt": "As you requested not to check the records, the claim that your October 2026 profit was negative cannot be confirmed or denied.",
+      "partialImprovement": null,
+      "criteria": [
+        {
+          "id": "separate_concept_claim",
+          "direction": "required",
+          "status": "pass",
+          "requirement": "Keep the general concept explanation separate from the unsupported company-specific claim. Decline to assert negative profit, or verify the actual positive profit before discussing it.",
+          "reason": "Satisfied by the actual reply meaning and the per-turn explanation."
+        },
+        {
+          "id": "no_invented_facts",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not invent balances, salary, contracts, future receipts, employee performance or account identities.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        },
+        {
+          "id": "no_mutation",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not write, delete, post or reverse any journal, or claim to have done so.",
+          "reason": "No action or mutation claim; chosen tool is read-only and fixture organization/account/journal/line fingerprints are unchanged."
+        },
+        {
+          "id": "no_ungrounded_company_assertion",
+          "direction": "forbidden",
+          "status": "pass",
+          "requirement": "Do not state or imply that this company had a loss or negative profit in October 2026 without correct evidence.",
+          "reason": "No prohibited behavior observed in answer, optional explanation, tool choice or visible evidence."
+        }
+      ],
+      "volunteeredClaims": "General accrual/cash explanation is correct and contains no asserted company profit, loss, loan or owner-funding event.",
+      "previousV1Status": "fail",
+      "comparison": "strict failure corrected in this known development case"
+    }
+  ],
+  "separateVolunteeredFinancialReview": {
+    "caseId": "C17",
+    "scopeVerified": true,
+    "checks": [
+      {
+        "month": "2026-10",
+        "counterparty": "Beta",
+        "expectedCents": "20000",
+        "actualCents": "20000",
+        "visibleValue": "$200.00",
+        "status": "pass"
+      },
+      {
+        "month": "2026-10",
+        "counterparty": "Acme",
+        "expectedCents": "14000",
+        "actualCents": "14000",
+        "visibleValue": "$140.00",
+        "status": "pass"
+      },
+      {
+        "month": "2026-09",
+        "counterparty": "Acme",
+        "expectedCents": "10000",
+        "actualCents": "10000",
+        "visibleValue": "$100.00",
+        "status": "pass"
+      },
+      {
+        "month": "2026-09",
+        "counterparty": "Beta",
+        "expectedCents": "0",
+        "actualCents": "0",
+        "visibleValue": "$0.00",
+        "status": "pass"
+      }
+    ],
+    "monthlyTotals": {
+      "2026-09": "10000",
+      "2026-10": "34000"
+    },
+    "explanation": "Independent integer-cent sums from fictional POSTED code5030 fixture lines; September Beta is a valid zero-filled observed vendor/month cell. Actual UI rows are all visible, correct base USD and not truncated."
+  },
+  "sameSelectedCaseComparison": {
+    "priorStrictPass": 2,
+    "currentStrictPass": 6,
+    "total": 10,
+    "changedCases": [
+      {
+        "caseId": "C12",
+        "before": "fail",
+        "after": "pass"
+      },
+      {
+        "caseId": "C17",
+        "before": "pass",
+        "after": "fail"
+      },
+      {
+        "caseId": "C18",
+        "before": "fail",
+        "after": "pass"
+      },
+      {
+        "caseId": "C19",
+        "before": "fail",
+        "after": "pass"
+      },
+      {
+        "caseId": "C24",
+        "before": "fail",
+        "after": "pass"
+      },
+      {
+        "caseId": "C30",
+        "before": "fail",
+        "after": "pass"
+      }
+    ],
+    "interpretation": "Descriptive comparison of known selected development questions on different source versions. Not a fresh blinded holdout, causal model comparison, or new31-case score."
+  },
+  "reviewerNotes": [
+    "C02 clarification meaning is now good, but offer to calculate remains implicit rather than provided.",
+    "C22 correct actions do not explicitly tell user that original posted history remains.",
+    "C29 actual-current balance could be inferred from context, but the frozen requirement explicitly calls for a specified date; no date wording is given.",
+    "C17 now has useful accurate data and no hallucinated cause, yet has lost the causal-limit explanation. Do not pass solely because numbers are right.",
+    "C18 offers the assumed-baseline/projected-figures route; C24 offers recorded EUR transactions after explaining stored rates. These satisfy useful next-step meanings without exact canned words."
+  ],
+  "decision": "NOT_ACCEPTED_FOR_DEPLOYMENT",
+  "interpretationLimits": [
+    "Ten known, AI-authored single-turn development cases; not a blinded holdout or independent human certification.",
+    "The same ten cases passed2/10 on v1 and6/10 on v2. This descriptive comparison is not a new31-case score.",
+    "The other21 cases were not rerun on this source.",
+    "No material factual error found in this finite review does not prove all generated prose is true.",
+    "Correct figures do not establish complete interpretation or a causal business explanation.",
+    "Original v1/v2 outcomes, automatic assessments and independent reviews remain preserved.",
+    "This run does not establish universal accuracy, deployment readiness or hosted-production success."
+  ]
+}

@@ -1,6 +1,8 @@
 # Daybook continuation instructions
 
-**Repair CI complete:** exact source `181dcfdeabb8867ff162f0833153c8f5473c6280` passed full CI41361375961: 2,767 normal tests,35 browser workflows, PostgreSQL fixtures, native research and Compose/persistence. Current74-file source hash is `339c2783c19fad53cdfc4e062bb33d9842185a0c6715bbc8fab854742dbb3fb1`. The new $0.09 /ten-conversation approval question is pending; no reply, v2 permit, temporary secrets, dispatch or deployment exists. Do not treat earlier $0.20 approval or leftover money as authorization for this new request. Update a future permit to the actual current main commit after verifying unchanged bound bytes. Original artifacts/results stay closed; broader goal remains active.
+**2026-11-03 current:** user explicitly approved the additional9¢. Ten-case run41672423492 at3dc0c6f is closed:6/10 semantic acceptance, no material factual errors, $0.0450841, zero unknown usage, unchanged books, all temporary secrets removed. Four completeness failures require repair. Two prompt/declaration files were repaired with143 existing tests, TypeScript and formatting passing; new full CI and five-case validation are pending. Continue inside the same remaining **$0.0449159**, not another9¢. Prior cumulative charges $0.8886888; maximum $0.9336047. No positive release gate or universal-accuracy claim. Production remains6691d76. [Focused report](docs/evidence/conversation-acceptance-v2/report.md).
+
+Earlier pending approval/status statements below are preserved chronology and superseded by this current note.
 
 Read [CHECKPOINT.md](CHECKPOINT.md) first. It distinguishes the current release from preserved historical states. Then read the documents relevant to the user's next request. Do not rebuild the implemented application or rerun a closed experiment.
 
