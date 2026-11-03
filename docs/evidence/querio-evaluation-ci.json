@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "verifiedAt": "2026-11-03T22:01:43.628492+00:00",
+  "sourceCommit": "8009d3397d8267e824075dbabca5eb30a4e85ece",
+  "runId": 41725459138,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41725459138",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "verify",
+      "id": 126228931940,
+      "conclusion": "success",
+      "url": "https://github.com/rayidali/spiich_homework/actions/runs/41725459138/job/126228931940"
+    },
+    {
+      "name": "research-native",
+      "id": 126228932221,
+      "conclusion": "success",
+      "url": "https://github.com/rayidali/spiich_homework/actions/runs/41725459138/job/126228932221"
+    },
+    {
+      "name": "compose",
+      "id": 126231937890,
+      "conclusion": "success",
+      "url": "https://github.com/rayidali/spiich_homework/actions/runs/41725459138/job/126231937890"
+    },
+    {
+      "name": "live-ai",
+      "id": 126233804938,
+      "conclusion": "skipped",
+      "url": "https://github.com/rayidali/spiich_homework/actions/runs/41725459138/job/126233804938"
+    }
+  ],
+  "normalTests": {
+    "passed": 2942,
+    "passedFiles": 141,
+    "skipped": 8,
+    "skippedFiles": 2,
+    "includesQuerioExporterTests": 20
+  },
+  "browser": {
+    "passed": 37,
+    "durationSeconds": 53.6,
+    "target": "CI production build; not hosted Querio UI or physical device"
+  },
+  "compose": {
+    "passed": 2941,
+    "passedFiles": 140,
+    "skipped": 9,
+    "skippedFiles": 3,
+    "runtimeLifecycleChecks": 7,
+    "containerRecreationPersistence": "passed",
+    "countsOverlapNormalSuite": true
+  },
+  "nativeResearch": {
+    "typescriptTestsPassed": 30,
+    "pythonTestsPassed": 35
+  },
+  "sourceLogsSha256": {
+    "verify.log": "69644346ede1059e4b35c4c786245bf4e2eba6b68ca281a0ef49e591610d8408",
+    "compose.log": "65e66ee94af43d77b4ab8fd9f076b69f5de43f4a4d39455dce1772be38e1fce2",
+    "native.log": "fb46e781d5e2628bfe09231ef376790effc0716ff0ba09dd5fc19d3b01470403"
+  },
+  "limits": [
+    "Engineering test counts are not model accuracy measurements.",
+    "Normal CI skipped live-ai; actual Querio calls are in the separate answer receipts.",
+    "The generated-analysis native candidate has no new live Gemini acceptance result or deployment."
+  ]
+}

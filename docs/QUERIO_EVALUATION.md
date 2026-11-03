@@ -64,3 +64,5 @@ The useful discovery is simple: **the calculator can be right while the assistan
 Sonnet is the more promising configuration on the two matched rent cases. I would test the remaining six cases before considering a production change. There is no current paired winner against Daybook’s new generated-analysis candidate: its live-model run has not happened. Different data interfaces also prevent treating a product comparison as a pure architecture experiment.
 
 Open **Daybook accounting test books** in Querio’s datasource list to explore the connection. Use the saved Sonnet analyses for the retained rent tables. These are fictional test books; Daybook’s hosted chat still uses its existing implementation.
+
+The added fixture code also passed [full application CI](evidence/querio-evaluation-ci.json): 2,942 tests, all 37 browser workflows, Docker startup, automatic jobs and persistence. Those engineering checks are separate from the answer scores above. Source, evidence and the refreshed submission archive are saved.
