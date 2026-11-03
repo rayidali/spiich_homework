@@ -1,5 +1,11 @@
 # Build log
 
+## 2026 11 03 Querio given complete live read access
+
+The user explicitly prioritized independent Querio testing over further native-chat changes. Connected the actual hosted database as **Daybook LIVE — all records**, with a dedicated non-owner reader and SELECT on all 16 base tables and two views in `public`/`research`. All 184 columns are catalogued. The original fixture remains intact under **TEST ONLY — synthetic benchmark**. Uploaded and read back accounting context covering raw joins, statuses, exact amounts, reversals, dates, pending records and the separate fictional research archive. Catalogue relationship metadata is empty; the context supplies explicit joins.
+
+A saved **START HERE — Daybook LIVE** notebook queries the full live summary and all Figma entries. Its first execution failed on an unavailable `marimo` import; replacing it with Querio's native Markdown/DataFrame display produced four successful cells, no warnings, and seven Figma records including the November 3 $180 recurring draft. This is actual Querio database execution, not a model-answer test. Both temporary environments are closed; the saved notebook remains available. An independent local permission/catalogue audit and final owner snapshot verified SELECT-only table privileges, complete coverage and unchanged counts/full-row fingerprints on all 16 tables. Final context readback matches exactly. No model prompt, new benchmark, app code change or deployment. [Setup guide](QUERIO_LIVE.md) and [sanitized receipt](evidence/querio-live-connection.json); private artifacts are in `.tools/querio-live-20261103/`.
+
 ## 2026 11 03 Figma visible-entry / chat mismatch diagnosed
 
 A read-only production query confirmed that the November3 “Figma team subscription” is the automatically generated $180 recurring **DRAFT**, with no posted timestamp. The transaction list includes drafts; ordinary financial chat defaults to POSTED, and its literal transaction tool forces POSTED. The configured Querio connection remains the separate evaluation fixture, where a direct read found no Figma rows. These are distinct data-scope causes. The draft is prepared against Company credit card and does not establish a completed bank payment.

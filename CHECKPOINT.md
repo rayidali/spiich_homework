@@ -2,7 +2,13 @@
 
 Saved **2026-11-03, America/New_York**. Continue this application; do not rebuild it.
 
-## Work in progress — generated analysis
+## Latest task — Querio connected to all live records
+
+The user paused native-chat work and requested full Querio access for their own testing. **Daybook LIVE — all records** (`daybook-live`) now connects to the actual hosted PostgreSQL database through a dedicated read-only role. All 16 base tables and two views in `public`/`research` are catalogued; drafts and posted entries are both accessible. Research data remains explicitly fictional. Accounting/schema guidance is uploaded and exact readback verified. The old fixture datasource is now **TEST ONLY — synthetic benchmark**, with its data unchanged. Start a new Querio conversation with the live datasource selected.
+
+Saved notebook **START HERE — Daybook LIVE** successfully ran four cells through Querio, showing the live summary and seven Figma entries, including the November 3 $180 draft. Initial `marimo` import failure was corrected with native Querio displays and preserved privately. Both temporary execution environments were closed. All 16 base-table counts and full-row fingerprints are unchanged before/after setup. No model call, application source change, deployment or new accuracy result. See [QUERIO_LIVE.md](docs/QUERIO_LIVE.md) and [setup receipt](docs/evidence/querio-live-connection.json). Private credentials and raw receipts: `.tools/querio-live-20261103/`; never publish this directory. Native generated-analysis acceptance remains separate and pending; do not resume it while the user tests Querio.
+
+## Earlier work in progress — generated analysis
 
 **Latest diagnosis — visible Figma entry:** the user asked why both chats found nothing for November3 despite a visible Figma record. Direct production reads confirmed a $180 RECURRING DRAFT dated2026-11-03 with no posted timestamp. Daybook's list includes drafts; normal financial queries exclude them. Querio's connected fixture contains no Figma transactions and is not a live-book mirror. No ledger mutation, provider call, code change or deployment was performed. The exact original model plan was not recovered. A useful follow-up improvement is a separately labeled matching-draft explanation on empty posted results; never auto-post a draft or count it as paid. Private evidence: `.tools/figma-incident-20261103/diagnosis.json`.
 

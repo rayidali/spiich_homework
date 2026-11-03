@@ -1,5 +1,7 @@
 # Hosting Daybook
 
+**Live Querio access — November 3:** `Daybook LIVE — all records` now reads the actual hosted database, including drafts, through a dedicated restricted reader. All 16 base tables/two views are catalogued; owner credentials were not supplied. Future tables created by the current owner in `public`/`research` inherit SELECT, with catalogue refresh needed for discovery. The research archive is clearly labeled fictional. Actual Querio SQL execution and unchanged database fingerprints were verified; no Daybook redeployment or model call occurred. The old fixture is renamed `TEST ONLY — synthetic benchmark`. [User guide and evidence](QUERIO_LIVE.md). Private provisioning/credentials/closure receipts: `.tools/querio-live-20261103/`.
+
 **Querio evaluation resources:** a separate `daybook_querio_20261103` database and restricted reader were created in the existing Neon project. Querio has a configured datasource named `Daybook accounting test books` over four reporting views. Credentials and exact resource receipts remain only in `.tools/querio-evaluation-20261103/`; do not publish owner or reader URLs. All test execution environments were closed, but the datasource and saved notebooks remain for inspection. Production accounting fingerprints were unchanged after testing. No Daybook deployment or runtime configuration changed. [Evaluation report](QUERIO_EVALUATION.md).
 
 ## Generated-analysis candidate — not deployed

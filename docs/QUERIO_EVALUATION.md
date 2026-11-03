@@ -1,5 +1,7 @@
 # Querio test results, explained simply
 
+**Later connection update:** for your own testing against Daybook's actual records, use **Daybook LIVE — all records** in a new Querio chat. The fixture below is preserved under **TEST ONLY — synthetic benchmark**. This report's scores remain unchanged and do not measure the new live connection. [Live setup guide](QUERIO_LIVE.md).
+
 **November 3, 2026 · Real API calls against synthetic accounting books**
 
 **Querio is connected and tested. Sonnet produced better rent answers than Haiku in our small matched check, but neither passed every conversation rule. Daybook’s live chat has not been replaced.**

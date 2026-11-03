@@ -1,5 +1,7 @@
 # Daybook · Accounting workspace
 
+**Try Querio on the live books:** start a new Querio chat and choose **Daybook LIVE — all records**. Full read-only access includes drafts and posted entries, with accounting context and a verified starter notebook. The old fixture is labeled **TEST ONLY — synthetic benchmark**. [Connection and testing guide](docs/QUERIO_LIVE.md).
+
 **Current development:** a generated-analysis candidate can write calculations for monthly percentages and other combinations. Its combined checks passed 2,922 tests and 37 browser workflows; it is not yet deployed or measured with a live model. [Design, checks and limits](docs/GENERATED_ANALYSIS.md).
 
 **Querio tested:** a separate read-only fixture is connected to Querio. The eight-case Haiku check passed 3/8 full answers; a two-case Sonnet diagnostic produced 23/23 correct required results but passed 1/2 conversations under the fixed clarification rule. These are separate development checks, not a replacement for hosted chat. [Plain-language report and evidence](docs/QUERIO_EVALUATION.md).

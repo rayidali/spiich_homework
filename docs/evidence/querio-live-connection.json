@@ -1,0 +1,59 @@
+{
+  "verifiedOn": "2026-11-03",
+  "scope": "Live Daybook datasource setup and deterministic Querio notebook execution; user will test the analyst",
+  "datasource": {
+    "slug": "daybook-live",
+    "name": "Daybook LIVE \u2014 all records",
+    "database": "Same database as hosted Daybook",
+    "schemas": [
+      "public",
+      "research"
+    ],
+    "baseTables": 16,
+    "views": 2,
+    "columns": 184,
+    "researchData": "Synthetic historical research fixtures, separately labeled",
+    "oldFixtureDisplayName": "TEST ONLY \u2014 synthetic benchmark"
+  },
+  "permissions": {
+    "dedicatedNonOwnerReader": true,
+    "allBaseTablesSelectable": true,
+    "insertUpdateDeleteTruncateDeniedOnAllBaseTables": true,
+    "schemaCreateDenied": true,
+    "roleAdministrativeCapabilities": false,
+    "defaultTransactionReadOnly": true,
+    "futureTablesGrant": "SELECT on tables created by current owner in public/research"
+  },
+  "context": {
+    "path": "datasources/daybook-live/kb/accounting-context.md",
+    "sha256": "55dcbfe3c1a1fdf464150c07ae4af4d4223021a7b23ee6616f71dc15b24d2ce7",
+    "exactReadback": true,
+    "catalogJoinMetadataPresent": false,
+    "joinInstructionsInContext": true
+  },
+  "verification": {
+    "notebookTitle": "START HERE \u2014 Daybook LIVE",
+    "executedBy": "Querio notebook engine using authored SQL",
+    "successfulCells": 4,
+    "executionWarnings": 0,
+    "figmaRecordsRetrieved": 7,
+    "november3Figma": {
+      "status": "DRAFT",
+      "expenseAmountUsd": "180.00",
+      "confirmedPayment": false
+    },
+    "initialFailedAttempt": "Unavailable marimo import; replaced with Querio native Markdown/DataFrame display before successful rerun",
+    "allBaseTableCountsAndFingerprintsUnchanged": true,
+    "temporaryExecutionEnvironmentsClosed": 2,
+    "savedNotebookRetained": true
+  },
+  "limits": {
+    "modelPromptsDispatched": 0,
+    "newAnswerAccuracyScore": false,
+    "webInterfaceVisuallyInspected": false,
+    "nativeChatChanged": false,
+    "daybookRedeployed": false,
+    "subscriptionPurchased": false,
+    "providerInvoiceVerified": false
+  }
+}
