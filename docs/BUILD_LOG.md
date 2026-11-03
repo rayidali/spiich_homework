@@ -1,5 +1,11 @@
 # Build log
 
+## 2026 11 03 Querio key verified; workspace access unresolved
+
+The user offered and saved a Querio API key locally. The documented identity request returned 200; workspace discovery also returned 200 but with zero accessible workspaces. These were two read-only account-information requests, with no prompt, inference, external datasource or notebook created. Authentication is confirmed; workspace setup or permission needs clarification before a real integration can be tested.
+
+Fresh official research corrected the earlier overly narrow API assessment: normal Resource API v3 documentation includes agent sessions and prompt runs, so MCP's lack of agent-session tools does not mean every regular key is notebook-only. The current request-discovery export is explicitly partial; actual endpoint availability and account entitlement remain unverified. Embedded v2 remains a separately documented conversational contract. No paid subscription is assumed necessary merely from a pricing page. [Updated findings](GENERATED_ANALYSIS.md#querio-research-and-decision).
+
 ## 2026 11 03 Generated analysis candidate after monthly-percentage failure
 
 The user exposed a general expressivity gap: monthly rent/expense percentages were replaced by operand tables. Offline reproduction verified the eight-scalar-step limit, ratio formatting and whole-request zero-division rejection. A new `financial_program` tool now accepts a generated JavaScript function over verified query results. QuickJS isolates execution; host-created exact-value handles retain source references, percent formatting and explicit undefined cells. A code-only retry reuses the same snapshot and existing attempt allowance. Ordinary financial tools and posted-ledger protections remain.
