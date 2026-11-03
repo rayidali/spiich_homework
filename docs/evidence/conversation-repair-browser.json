@@ -1,0 +1,132 @@
+{
+  "version": "daybook-conversation-repair-browser-v1",
+  "sourceCommit": "9f90a500a98ea98e74bed592435fd045c4564b8d",
+  "verifierCommit": "9f90a500a98ea98e74bed592435fd045c4564b8d",
+  "deploymentId": "dpl_6DnLS6KcK815D19dKz6mdtvkLy31",
+  "origin": "https://daybook-ledger-f9lq3ow5e-rayidalis-projects.vercel.app",
+  "stableAliasAfterPromotion": "https://daybook-ledger-delta.vercel.app",
+  "runId": 41680448475,
+  "runAttempt": 1,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41680448475",
+  "workflowConclusion": "success",
+  "startedAt": "2026-11-03T17:04:08.228Z",
+  "finishedAt": "2026-11-03T17:04:11.650Z",
+  "status": "PASSED",
+  "failure": null,
+  "checks": [
+    {
+      "name": "desktop-home",
+      "passed": true
+    },
+    {
+      "name": "desktop-transactions",
+      "passed": true
+    },
+    {
+      "name": "desktop-reports",
+      "passed": true
+    },
+    {
+      "name": "desktop-settings",
+      "passed": true
+    },
+    {
+      "name": "mobile-home",
+      "passed": true
+    },
+    {
+      "name": "mobile-reports",
+      "passed": true
+    }
+  ],
+  "stats": {
+    "attempted": 18,
+    "allowed": 18,
+    "blocked": 0,
+    "failed": 0,
+    "httpErrors": 0,
+    "redirectsBlocked": 0,
+    "nonReadBlocked": 0,
+    "foreignOriginBlocked": 0,
+    "webSocketsBlocked": 0,
+    "pageErrors": 0,
+    "consoleErrors": 0,
+    "browserRequestFailures": 0,
+    "apiResponses": 12,
+    "healthVerified": true,
+    "metaVerified": true
+  },
+  "providerCalls": 0,
+  "applicationMutationsDispatched": 0,
+  "visualReview": {
+    "reviewer": "root AI agent",
+    "reviewedAt": "2026-11-03T17:06:38.051538+00:00",
+    "screenshotsReviewed": 6,
+    "blockingLayoutIssuesFound": 0,
+    "observations": [
+      "All six rendered views were visually inspected; navigation, labels, forms and figures are readable.",
+      "Mobile layouts fit the viewport without obvious overlap or horizontal clipping.",
+      "November reports explicitly show no posted activity for the selected current period; draft entries stay excluded."
+    ]
+  },
+  "screenshots": {
+    "count": 6,
+    "keptPrivate": true,
+    "uploadedAsEncryptedArtifact": true,
+    "algorithm": "AES-256-GCM",
+    "archiveSha256": "320c98284f0c4072cc322b192685655f27cd43f899ce45d96207e97a4a98b775",
+    "hashes": [
+      {
+        "path": "desktop-home.png",
+        "sha256": "fde8906ca281c1d081deab559eb06fdeb963958d369a4284778a0a91bade2d34"
+      },
+      {
+        "path": "desktop-transactions.png",
+        "sha256": "a49e6522097a9552e59a95c8e20dde90ef7811e8cda2566a6ffb542b04fe99f0"
+      },
+      {
+        "path": "desktop-reports.png",
+        "sha256": "a6c264c39a4d83d74dbcc8bf847df733e8bfe8ac6d532d308401c9e680164f78"
+      },
+      {
+        "path": "desktop-settings.png",
+        "sha256": "c735e87328708afa6555419ba946c4d2d38b1731911b0dd41cf2e7eb004526e9"
+      },
+      {
+        "path": "mobile-home.png",
+        "sha256": "817c0a1c1a8cb5ef3932f2c9c73b5654cad727e60bc01b2e543551332f63dfc2"
+      },
+      {
+        "path": "mobile-reports.png",
+        "sha256": "0527d0f832b244be7fd72b762b746154d3c22c68fef9ad5bbaac5de52f220628"
+      }
+    ]
+  },
+  "temporaryBrowserSecrets": {
+    "deleted": 2,
+    "absentFromCompleteInventory": true,
+    "verifiedAt": "2026-11-03T17:06:47.844Z"
+  },
+  "sourceVerification": "Expected source/deployment supplied by operator control-plane audit; GET responses do not independently prove the deployed source.",
+  "links": {
+    "ci": "conversation-currency-repair-ci.json",
+    "acceptance": "conversation-acceptance-v4/results.json",
+    "release": "conversation-repair-release.json"
+  },
+  "evidenceHashes": {
+    "decrypted/report.json": "882f6cb2ed4bf8ed5f94c3e466f6506da8604e3005f720f0af5b495f9519b899",
+    "run-status.json": "942c5686c479d175eb70c67423da21b40613a74956c8769b66e8b6d24f0056e0",
+    "receipt.json": "33148084c54fadb3479c4acef0582d2a2727f8e863263d59fdaea8cdf95e5278",
+    "visual-review.json": "b41b02eedad2f571923c90155286566bfa733b6292f5636922ed84fe5b61a2b0",
+    "cleanup-verified.json": "1bd0db5bf1ce49888df077c6f93e6b281096657fa7d09a27ad2680014115f24f",
+    "secrets-after-verified.json": "40439b57d22e4d409578e37ff59757da8e04091839369b263ae4dc1c6ce52531"
+  },
+  "limitations": [
+    "Six read-only rendered views on the immutable staged deployment; the same deployment was then promoted to the stable alias.",
+    "No hosted model call, posting, reversal or full hosted-ledger before/after comparison was performed.",
+    "Mobile viewport emulation is not a physical-device test.",
+    "Visual inspection was performed by the root AI agent; it is not independent human usability certification.",
+    "Screenshots remain private, encrypted for artifact transfer and decrypted only in local private tooling. No HAR, trace, video, browser storage state or raw console text was captured.",
+    "Earlier collection receipts predate the separate completed visual review and secret cleanup; their original false/pending fields remain preserved."
+  ]
+}

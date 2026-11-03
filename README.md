@@ -4,11 +4,9 @@ A React and TypeScript accounting application with a REST API and PostgreSQL. Re
 
 Open the [protected hosted demo](https://daybook-ledger-delta.vercel.app), or start the complete application with Docker below. No API key is needed for manual accounting, reports, recurrence or statistical anomaly alerts.
 
-**Current status:** source `6691d76ad24574343b3eec9617546e9c019b8c95` is promoted with the `composable` chat route; the hosted demo retains deployment protection. The completed 16-question comparison did not qualify either alternative. Separate hosted responses, runtime correlation and browser checks verified this release while preserving all 75 journals and 22 accounts. [Release evidence](docs/evidence/goal-completion-release.json) · [Comparison paper](docs/reports/chat-route-comparison-explained.pdf) · [Scope and remaining limits](docs/GOAL_AUDIT.md).
+**Current status:** source `9f90a500a98ea98e74bed592435fd045c4564b8d` is promoted with the `composable` assistant and deployment protection. The conversational and currency-repair changes passed full CI, the final two targeted model regressions and six hosted browser views. [Release evidence](docs/evidence/conversation-repair-release.json) · [Latest focused results](docs/evidence/conversation-acceptance-v4/report.md) · [Scope and limits](docs/GOAL_AUDIT.md).
 
 ## Run with Docker Compose
-
-**Assistant work in progress:** recent focused checks found incomplete clarification and a currency combination rejected too late for the model to repair it. Those paths are repaired and undergoing fresh exact-source verification. Original failures remain documented; this candidate is not promoted. [Latest measured result](docs/evidence/conversation-acceptance-v3/report.md) · [Behavior and limits](docs/CONVERSATIONAL_ASSISTANT.md).
 
 Requires Docker Engine/Desktop with Compose v2.
 

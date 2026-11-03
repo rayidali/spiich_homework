@@ -1,0 +1,133 @@
+{
+  "version": "daybook-conversation-repair-release-v1",
+  "sourceCommit": "9f90a500a98ea98e74bed592435fd045c4564b8d",
+  "evaluationSourceHash": "1371f2311a89d15ddbc006a3b4707788894ac1c9d43a660bf461664c683b0cf9",
+  "evaluationSourceFiles": 75,
+  "runtimeSourceFiles": 88,
+  "deploymentId": "dpl_6DnLS6KcK815D19dKz6mdtvkLy31",
+  "status": "READY/PROMOTED",
+  "route": "composable",
+  "stableUrl": "https://daybook-ledger-delta.vercel.app",
+  "immutableUrl": "https://daybook-ledger-f9lq3ow5e-rayidalis-projects.vercel.app",
+  "providerAliasAssignedAt": "2026-11-03T17:07:04.815000+00:00",
+  "ciRunId": 41677801649,
+  "acceptanceRunId": 41679318831,
+  "stableAliasAndProjectTargetMatch": true,
+  "stableHealth": "ok",
+  "stableAiConfiguration": {
+    "available": true,
+    "provider": "gemini",
+    "model": "gemini-3.5-flash-lite"
+  },
+  "stableCategoryConfiguration": {
+    "available": true,
+    "provider": "gemini",
+    "model": "gemini-3.5-flash-lite"
+  },
+  "allDeploymentProtectionRetained": true,
+  "migrations": "001\u2013007 unchanged",
+  "configurationOverlays": 0,
+  "normalBuild": "npm run hosting:prepare && npm run build && npm run hosting:bundle",
+  "releaseDecision": "Promote incremental conversational repair after exact-source CI, focused isolated acceptance and protected hosted browser review.",
+  "currentSourceModelEvidence": {
+    "environment": "Fresh isolated GitHub Actions PostgreSQL fixture; not the hosted production database",
+    "caseIds": ["C02", "C17"],
+    "passedCases": 2,
+    "totalCases": 2,
+    "generationAttempts": 2,
+    "unbilledTokenCountPreflights": 2,
+    "displayedFinancialValuesVerified": 2,
+    "fixtureBooksUnchanged": true,
+    "originalAutomaticAssessmentsPreserved": "2 needs_review; later semantic review stored separately",
+    "liveRepairRetries": 0,
+    "knownDevelopmentCases": true,
+    "full31CaseRetest": false
+  },
+  "historicalSourceScores": [
+    {
+      "version": "v1",
+      "sourceCommit": "3eed0b10d15072eb10979b7cc2157c615185000d",
+      "runId": 41360352344,
+      "cases": {
+        "passed": 23,
+        "total": 31
+      },
+      "turns": {
+        "passed": 27,
+        "total": 35
+      },
+      "preserved": true,
+      "scoreTransferredToCurrentSource": false,
+      "receipt": "conversation-acceptance-v1/results.json"
+    },
+    {
+      "version": "v2",
+      "sourceCommit": "3dc0c6fe4f9337dfd4f886fb18b849a821b7a8bd",
+      "runId": 41672423492,
+      "cases": {
+        "passed": 6,
+        "total": 10
+      },
+      "turns": {
+        "passed": 6,
+        "total": 10
+      },
+      "preserved": true,
+      "scoreTransferredToCurrentSource": false,
+      "receipt": "conversation-acceptance-v2/results.json"
+    },
+    {
+      "version": "v3",
+      "sourceCommit": "e73846838a101b31eb9b1d018e094cb27764859c",
+      "runId": 41675473907,
+      "cases": {
+        "passed": 3,
+        "total": 5
+      },
+      "turns": {
+        "passed": 3,
+        "total": 5
+      },
+      "preserved": true,
+      "scoreTransferredToCurrentSource": false,
+      "receipt": "conversation-acceptance-v3/results.json"
+    }
+  ],
+  "scoresPooled": false,
+  "hostedVerification": {
+    "browserRunId": 41680448475,
+    "readOnlyViewsPassed": 6,
+    "readRequests": 18,
+    "screenshotsReviewedByRootAiAgent": 6,
+    "providerCalls": 0,
+    "applicationMutationsDispatched": 0,
+    "hostedModelAcceptancePerformed": false,
+    "fullHostedLedgerBeforeAfterComparisonPerformed": false
+  },
+  "temporaryAcceptanceAndBrowserSecretsRemoved": true,
+  "links": {
+    "source": "https://github.com/rayidali/spiich_homework/commit/9f90a500a98ea98e74bed592435fd045c4564b8d",
+    "ci": "conversation-currency-repair-ci.json",
+    "acceptance": "conversation-acceptance-v4/results.json",
+    "browser": "conversation-repair-browser.json",
+    "costs": "conversation-repair-costs.json"
+  },
+  "evidenceHashes": {
+    "release-preparation.json": "3302e1f465a5d2978e986b2555488c4eee8d993b99117dd7190243dbfce90a54",
+    "source-proof.json": "555d2d364be95d71ddc00ab6d4f3f3573518082b27add0ef7502c09dd74dbd98",
+    "promoted-project.json": "f7c32024c8afdd396cd814217dddf5bb15d8822f61d3bf9142f38d7364f3fe32",
+    "promoted-deployment.json": "f2488a34d3c509240bc0f8fd19644dc4f4e04b9bd2ae3aed0471316cf2b01e75",
+    "promoted-alias.json": "b78a810edf1c84a6f24edaa3e174a44557b36d942141ea2210b88feff4c34356",
+    "stable-health.json": "a29ee2b15c494311c52521766e44af56a3ad2248e7a8ab465e5206463c13d288",
+    "stable-meta.json": "e232977ef1f9833cc81ce05f55679f186eb639eee7502f0110b2269ae78c602c",
+    "promotion-intent.json": "3e337758cdaa74c5f0ed03c1ac1f3eb3633790b45694d2dd2ca65700c44320cc"
+  },
+  "limitations": [
+    "Two known cases establish only focused incremental acceptance on this source; earlier source scores are retained separately and were not retested in full.",
+    "Fresh model acceptance occurred in isolated CI. Hosted checks were read-only rendering, health and configuration checks with no live model question.",
+    "No full hosted-ledger before/after comparison was performed.",
+    "Control-plane source/deployment binding and captured operator evidence support identity; GET responses alone do not independently prove executable bytes.",
+    "Mobile viewport emulation and AI screenshot review do not establish physical-device coverage, human usability or universal accuracy.",
+    "Arbitrary-question perfection, million-user capacity and hiring acceptance are not established."
+  ]
+}

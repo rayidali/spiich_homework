@@ -1,18 +1,16 @@
-# Conversational assistant work in progress
+# Conversational assistant: deployed repair and evidence
 
-**Latest focused check:** sourcee738468 passed full CI but only3/5 selected real-model conversations. Correcting history, current balance lookup and profit/cash explanation passed. Financial-intent assumption and an invalid base/USD query remain failures. [V3 report](evidence/conversation-acceptance-v3/report.md). The next repair validates currency pairs during planning so existing bounded repair can correct them before financial execution; compiler checks remain. No improved live score or deployment is claimed for that change.
+**Current release:** source `9f90a500a98ea98e74bed592435fd045c4564b8d` is promoted at Daybook. [Release receipt](evidence/conversation-repair-release.json). Full exact-source CI passed 2,809 normal tests, 35 browser workflows, PostgreSQL and Docker; six protected hosted browser views passed and were visually inspected.
 
-**Current evidence, 2026-11-03:** the approved ten-case focused run completed for$0.0450841. Strict review passed6/10, with no material factual errors. Remaining omissions involved offering a calculation, explaining the limits of causal conclusions, preserving history when correcting entries and choosing a balance date. [Focused results](evidence/conversation-acceptance-v2/report.md). Production remains unchanged.
+**Model evidence:** the final two known cases passed unchanged acceptance criteria. The staffing question offered financial help while clarifying the intended meaning. The supplies question showed the correct monthly figures and explained that accounting records do not establish the underlying business cause. Both first plans were valid, so successful live schema repair was not measured. Scripted tests cover repair, exhausted attempts and no money read before validation. [Final targeted report](evidence/conversation-acceptance-v4/report.md).
 
-**Repair underway:** general instructions now address those omissions. The optional financial explanation field now accepts a requested evidence limitation, such as why transaction amounts do not establish a business cause. It still cannot contain company figures or an interpretation of unseen results. Existing143 focused tests, TypeScript and formatting passed; full CI and a fresh five-case check remain pending within the remaining approved4.49¢. No fresh-model pass rate is claimed for this change.
-
-The original broader evaluation remains23/31 conversations and27/35 turns at source3eed0b10; all20 required facts were correct in separate numerical review. [Original results](evidence/conversation-acceptance-v1/report.md). Neither that score nor the selected6/10 is transferred to new source.
+Earlier observed results remain 23/31 cases at 3eed0b10,6/10 at 3dc0c6f and 3/5 at e738468. The final 2/2 is a smaller known regression set on a new source, not a replacement or pooled accuracy score. All original failures remain recorded. No fresh hosted model call, universal accuracy or independent human certification is claimed.
 
 The original `question` field lacked a clear semantic description, and some model responses copied the user's question into it. The repair adds descriptions and rejects an exact latest-user echo after whitespace/case normalization. The existing bounded repair loop receives only a finite `repeated_user_question` reason; it does not silently replace the response or introduce another budget. Scripted tests exercise successful repair and exhaustion on both composable/adaptive paths. This mechanical check does not prove relevance or truth.
 
-The prompt now distinguishes unknown chart accounts from no matching text records; explains actual correction navigation and useful next steps for missing data; respects explicit no-retrieval requests; and supplies concise accounting reference facts. [SEC's introductory financial-statement guide](https://www.sec.gov/files/investor/pubs/begfinstmtguide.htm) supports the profit/cash distinction. Instructions are not enforcement of arbitrary prose truth, so fresh focused model verification remains necessary.
+The prompt now distinguishes unknown chart accounts from no matching text records; explains actual correction navigation and useful next steps for missing data; respects explicit no-retrieval requests; and supplies concise accounting reference facts. [SEC's introductory financial-statement guide](https://www.sec.gov/files/investor/pubs/begfinstmtguide.htm) supports the profit/cash distinction. Instructions are not enforcement of arbitrary prose truth, and the targeted verification above covers only its stated cases.
 
-The user restarted the broader reliability goal after “can I fire an emplyee?” received a generic off-topic refusal. The goal remains active. A deployed accounting engine and a passing test suite do not establish that arbitrary questions are understood accurately.
+The user restarted the broader reliability goal after “can I fire an emplyee?” received a generic off-topic refusal. The resulting finite repair is delivered. A deployed accounting engine and a passing test suite do not establish that arbitrary questions are understood accurately.
 
 ## What caused the reported response
 
@@ -20,7 +18,7 @@ The user restarted the broader reliability goal after “can I fire an emplyee?�
 
 The missing behavior is a conversation about the intended business question. Staffing, pricing, purchases and expansion can involve finances, practical constraints or permission. The assistant should distinguish those meanings, then ask only for the missing information relevant to the chosen question.
 
-## Current candidate
+## Deployed design
 
 `discuss_business` is a small structured tool beside the existing queries and exact calculator. It allows a short explanation, a focused clarification or a specific limitation with a useful next step. Its text is generated for the conversation rather than selected from an employee-specific template. The production composable planner and optional adaptive planner offer it, including adaptive continuation. The experimental authored and complete grammars do not.
 
@@ -31,6 +29,16 @@ The model is instructed to use financial tools for company figures and arithmeti
 Mixed concept-and-figures questions can now use a small `generalExplanation` field on an existing financial tool. For “What is profit and what was ours last month?”, the same call supplies a general definition and selects the profit report. Application code removes the explanation before the unchanged financial parser/executor, and returns it separately from the checked answer and evidence. Invalid financial work cannot become a success by supplying an explanation. No extra provider call or copy of the query grammar is added. The UI preserves both displayed texts in later conversation turns through a shared helper. This enables the composition; live tests must still establish that the model chooses it correctly.
 
 For example, after a natural clarification, a user can supply a $4,000 monthly reduction, three months and a $2,000 one-time cost. The existing calculator produces $10,000 from those explicit assumptions. This is a hypothetical cost comparison, not a recommendation to dismiss someone or a prediction about revenue. The integration test uses a scripted model response and the real calculator; it does not demonstrate live interpretation of that wording.
+
+## Walkthrough: repairing an invalid currency choice
+
+Imagine a form with two boxes: “show everything in the company’s base currency” and “choose one original currency.” In Daybook those are two different views. For the base view, the second box must be empty. For an original-currency view, it must name a supported currency.
+
+In the observed C17 failure, Gemini selected the base view and also supplied USD in the second box. Both values were individually allowed, so the early shape check accepted them. The database-query compiler later rejected their combination. The app protected the books and did not show invented numbers, but the user received a technical error instead of the requested explanation.
+
+The new validator checks the pair before any financial read. It gives the existing model repair loop a precise allowed-value hint: the currency field must be empty for the base view. The model must submit a corrected plan; application code does not secretly change its meaning. If the second attempt is still invalid, the request stops. The compiler keeps checking too. Scripted tests cover both successful repair and stopping without a money read; real-model results must be recorded separately.
+
+The related “why did spending change?” reply can attach a plain explanation to the checked figures: the ledger shows which recorded amounts changed, but it may not contain the business reason. This text has separate general-knowledge provenance and cannot stand in for a financial result.
 
 ## What is and is not enforced
 
@@ -52,6 +60,6 @@ The new [conversation acceptance specification](../tests/conversation-acceptance
 
 Offline contracts cover tool parsing, bounded repair, retained conversation, a real hypothetical calculation, no unintended amount reads, diagnostic privacy and UI source labels. Browser tests use scripted responses and therefore establish presentation/transport, not model understanding. The independent fixture checks verify test data and expected arithmetic, not product accuracy.
 
-The first conversational candidate, `77dabb34722f5dc98adf943553d9a50bd87e01a4`, passed [full CI including browser and Compose](evidence/conversation-candidate-ci.json). That evidence does not cover the later mixed-explanation and acceptance-runner changes. The combined candidate needs its own full CI, a new bounded real-model evaluation, semantic review of unsupported claims and unnecessary clarifications, and actual hosted acceptance before promotion. Existing closed research/acceptance cohorts stay closed. Their scores are not transferred to this changed source, and no additional provider spending is implied by these files.
+The final source passed its own full CI and the targeted model review above, then protected hosted browser review and promotion. Earlier studies stay closed and their scores are not transferred. The final model observations used a fresh synthetic CI database; no additional live hosted model request was made during release. The actual model did not need schema repair in those two calls, so that recovery path’s evidence remains scripted tests and offline replay of the previously malformed plan.
 
-The broader goal also requires better completion of multi-part questions, investigation of every observed failed case and fresh regression coverage. No universal interpretation or zero-error claim follows from adding these tools.
+Broader arbitrary-question reliability remains a limitation. Finite tests can expose and reduce failures, but cannot establish that every possible user request is understood or completely answered. Future evaluation must preserve source versions, original outcomes, clear criteria and honest spending records.

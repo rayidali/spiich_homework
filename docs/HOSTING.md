@@ -1,8 +1,22 @@
 # Hosting Daybook
 
-## Current promoted release — 2026-11-01
+## Current promoted conversational repair — 2026-11-03
 
-Source **`6691d76ad24574343b3eec9617546e9c019b8c95`** is promoted as **`dpl_CVQXU5jjfUKHW4Lt9biZm1RCnZe8`** at [Daybook](https://daybook-ledger-delta.vercel.app). The stable alias retains deployment protection and the active route is **`composable`**. [Exact-source release evidence](evidence/goal-completion-release.json).
+Source **`9f90a500a98ea98e74bed592435fd045c4564b8d`** is promoted as **`dpl_6DnLS6KcK815D19dKz6mdtvkLy31`** at [Daybook](https://daybook-ledger-delta.vercel.app), with the **composable** route and all-deployment protection retained. Health, metadata, stable alias and project production target were verified against this source. The release packages 88 source files, preserves migrations 001–007 and the normal build, and keeps owner database credentials build-only. [Release evidence](evidence/conversation-repair-release.json).
+
+The repair adds natural business clarification, a separately labeled general explanation beside checked financial results, and currency-pair validation inside the existing bounded planning repair. A base-currency query requires `currency:null`; a native query requires one supported currency. Invalid pairs are rejected before money reads and can use the existing single repair attempt. The compiler keeps its independent checks. No model can post entries or bypass accounting constraints.
+
+[Exact-source CI 41677801649](evidence/conversation-currency-repair-ci.json) passed **2,809 normal tests across 135 files**, **35 browser workflows**, PostgreSQL checks and Compose/persistence (**2,808 overlapping tests across 134 files**). Normal and Compose counts are not additive. Ordinary CI uses scripted model responses; its repair tests verify bounded execution and failure handling, not live-model success.
+
+The separate [focused acceptance 41679318831](evidence/conversation-acceptance-v4/report.md) passed **2/2 known cases, C02 and C17**, using a disposable synthetic database. It checked staffing-intent clarification and a supplies comparison with an explicit boundary between recorded contributors and unknown business causes. Both first plans were valid: **no live schema-repair attempt occurred**. Earlier v1 **23/31 cases, 27/35 turns**, v2 **6/10**, and v3 **3/5** remain tied to their original sources. They are not pooled into a new full-suite score.
+
+[Protected hosted browser run 41680448475](evidence/conversation-repair-browser.json) passed **six desktop/mobile viewport views and 18 read requests**; root visually inspected all six captures. These are emulated mobile viewports, not physical-device tests. This release had **no fresh hosted model call or complete hosted-book fingerprint comparison**. The model acceptance records successful behavior on two fixture questions; browser, health and metadata checks establish separate hosted evidence.
+
+The additional **$0.09** allowance is closed at **$0.0771448** across v2/v3/v4, including final v4 **$0.0092257**. Its **$0.0128552** remainder is not authorization for further calls. Costs are tracked estimates, not invoices or a verified provider balance. [Cost reconciliation](evidence/conversation-repair-costs.json). This is an incremental repair release, not universal conversational accuracy or a new 35-turn result.
+
+## Previous promoted release — 2026-11-01
+
+Source **`6691d76ad24574343b3eec9617546e9c019b8c95`** was promoted at this earlier checkpoint as **`dpl_CVQXU5jjfUKHW4Lt9biZm1RCnZe8`** at [Daybook](https://daybook-ledger-delta.vercel.app). The stable alias retains deployment protection and the active route is **`composable`**. [Exact-source release evidence](evidence/goal-completion-release.json).
 
 [Full CI 41282013110](https://github.com/rayidali/spiich_homework/actions/runs/41282013110) passed **2,556 normal tests across 127 files**, with eight cases/two files skipped; four separate fixture checks; **32 browser workflows in 52.2 seconds**; native research (30 TypeScript and 35 Python checks); and Compose (**2,555 overlapping tests across 126 files**, nine cases/three files skipped). Ordinary CI used scripted provider responses. Compose and normal totals overlap and are not additive.
 
@@ -10,7 +24,7 @@ The separate held-out comparison completed **48 executions on 16 paired question
 
 Separate hosted acceptance captured three actual model responses: Supplies **$1,740 all-history**, Supplies **$340 in October**, and Rent **$7,200** with a **$6,860 Rent-minus-Supplies difference**. The automatic result remains **2/3**, preserving a currency-display formatting rejection. A separate **37-check internal semantic audit verified 3/3** without another model call. **32 runtime-correlation checks** bind the responses to this release. **Six hosted browser checks** and visual review of six captured views supplement the CI browser evidence. All **75 journals and 22 accounts stayed unchanged**. These are bounded hosted checks, not general accuracy or physical-device guarantees.
 
-Total recorded charges and conservative reservations are **$0.6919872 within the approved $0.90**, including preserved failures. No closed cohort is reopened. The historical release descriptions below retain their original evidence; the current deployment is the one named above.
+Total recorded charges and conservative reservations are **$0.6919872 within the approved $0.90**, including preserved failures. No closed cohort is reopened. These figures describe the November 1 release; its original evidence is preserved. The current deployment is identified in the November 3 section above.
 
 ## Compound grouping — deployed and CI verified
 
@@ -46,7 +60,7 @@ The preceding cash-source candidate `7b52a9b` was also never promoted. Its cohor
 
 ## Historical scoped-chat release after rollback — 2026-10-31
 
-Executable `e7a514ef7072fbaabc6b63af026a6bab2fbd1478` passed [full CI41231800054](https://github.com/rayidali/spiich_homework/actions/runs/41231800054) and was deployed as `dpl_H7TtjDv11bmPNSiLnHT8QzuvGdX2` at that earlier checkpoint. The 66-file release adds account-scoped expenses, explicit expense top/all/total views, income totals and comparisons, scope-preserving date clarification and safe selected-query diagnostics. A separate closed hosted cohort passed16 exact-answer and7 clarification checks for $0.0298001; all74 current journal records and22 accounts stayed unchanged. Every request matched the selected tool and exact source in runtime logs. [Evidence](evidence/chat-scope-release.json).
+Executable `e7a514ef7072fbaabc6b63af026a6bab2fbd1478` passed [full CI41231800054](https://github.com/rayidali/spiich_homework/actions/runs/41231800054) and was deployed as `dpl_H7TtjDv11bmPNSiLnHT8QzuvGdX2` at that earlier checkpoint. The 66-file release adds account-scoped expenses, explicit expense top/all/total views, income totals and comparisons, scope-preserving date clarification and safe selected-query diagnostics. A separate closed hosted cohort passed16 exact-answer and7 clarification checks for $0.0298001; all74 current journal records and 22 accounts stayed unchanged. Every request matched the selected tool and exact source in runtime logs. [Evidence](evidence/chat-scope-release.json).
 
 The paired comparison remains complete and frozen. Earlier broader releases failed separate hosted source-identity/schema/scope checks; the later promoted repair has its own acceptance evidence above. Migration007 was additive and was not reverted by the routing rollback. [Reliability work](CHAT_RELIABILITY.md), [comparison protocol](research/CHAT_QUERY_EVALUATION.md).
 
@@ -69,7 +83,7 @@ The earlier 3.1 outage, rent-account guessing failure and provider-only deployme
 | Owner               | Local CLI identity `rayidali`, team `rayidalis-projects`                    |
 | Vercel project      | `daybook-ledger`; Hobby plan observed during provisioning                   |
 | Stable URL          | https://daybook-ledger-delta.vercel.app                                     |
-| Verified deployment | `dpl_CVQXU5jjfUKHW4Lt9biZm1RCnZe8`, source6691d76, READY/PROMOTED           |
+| Verified deployment | `dpl_6DnLS6KcK815D19dKz6mdtvkLy31`, source9f90a500, READY/PROMOTED          |
 | Database            | Separate Neon `daybook-db`, free plan through an existing integration       |
 | Region              | `iad1`                                                                      |
 | Protection          | Vercel Authentication for all deployments; anonymous requests reach sign-in |
@@ -159,6 +173,6 @@ Hosted browser visual review was unverified at this earlier checkpoint. The curr
 3. A READY deployment still failed API invocation. Explicit native ESM bundling was introduced, then hosted API checks passed; CI now checks both wrapper imports.
 4. The raw scheduler request lacked Express's `req.get()`. Wrapping it in Express resolved the invocation; live authorization/work checks passed.
 
-The current release has separate hosted response, runtime-correlation and browser/visual checks above; the earlier 11-request acceptance remains historical. Remaining checks include the original 40-case whole-entry live evaluation, automatic hosted cron observation, physical-device inspection, broad capacity/recovery validation and reviewer access. The completed bounded checks do not establish those capabilities.
+The current release has protected browser/visual, health, metadata, alias and project-target checks. Its two model observations used a separate synthetic fixture; no fresh hosted model response or full hosted-book fingerprint was collected. Earlier hosted response and runtime-correlation checks remain evidence for their own releases. Remaining checks include the original 40-case whole-entry live evaluation, automatic hosted cron observation, physical-device inspection, broad capacity/recovery validation and reviewer access. The completed bounded checks do not establish those capabilities.
 
-Private operational files are in ignored `.tools/vercel-session/` and contain credentials. Keep them local, excluded from archives and screenshots. Local Node CLI network failure did not imply invalid login: authorized HTTP using the local session worked. If credentials expire, use local login again; never switch to a different chat-connected account.
+Current private local-auth files are in ignored `.tools/conversation-reliability-20261101/focused-v3/auth/`; release/browser receipts are under `focused-v4/`. Earlier `.tools/vercel-session/` material remains historical. These directories can contain credentials. Keep them local, excluded from archives and screenshots. Local Node CLI network failure did not imply invalid login: authorized HTTP using the local session worked. If credentials expire, use local login again; never switch to a different chat-connected account.

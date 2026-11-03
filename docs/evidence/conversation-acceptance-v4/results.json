@@ -1,0 +1,261 @@
+{
+  "version": "conversation-focused-semantic-evidence-v4",
+  "reviewer": "Separate collaborating AI reviewer",
+  "reviewKind": "Separate collaborating-agent review of actual captured outputs, with access to earlier results and root observations; not blinded or human certification",
+  "createdAt": "2026-11-03T17:00:59.827Z",
+  "runId": "41679318831",
+  "sourceCommit": "9f90a500a98ea98e74bed592435fd045c4564b8d",
+  "sourceHash": "1371f2311a89d15ddbc006a3b4707788894ac1c9d43a660bf461664c683b0cf9",
+  "selectedCaseIds": ["C02", "C17"],
+  "method": [
+    "Applied unchanged original criteria conjunctively; reviewed prose and optional generalExplanation, not only transport/tool success.",
+    "Recomputed every volunteered monetary figure using integer-cent POSTED code5030 fixture lines, separately from the application query result.",
+    "Checked visible dates/currency/account/status scope, complete rows and claimed next steps.",
+    "Preserved original automatic needs_review statuses, original artifacts and all prior source-specific scores."
+  ],
+  "summary": {
+    "turns": {
+      "pass": 2,
+      "fail": 0,
+      "needs_review": 0,
+      "total": 2
+    },
+    "cases": {
+      "pass": 2,
+      "fail": 0,
+      "needs_review": 0,
+      "total": 2
+    },
+    "allSelectedPassed": true,
+    "passedCases": ["C02", "C17"],
+    "failedCases": [],
+    "materialFalseFinancialFactsDisplayed": 0,
+    "financialFiguresDisplayed": 2,
+    "financialFiguresVerified": 2,
+    "productionReadinessEstablished": false,
+    "universalAccuracyEstablished": false
+  },
+  "turns": [
+    {
+      "caseId": "C02",
+      "turn": 0,
+      "status": "pass",
+      "user": "Can we take on another person?",
+      "reason": "Explicitly offers to calculate hiring financial impact, then asks whether the user means financial affordability or practical capacity/workload. This resolves meaning before collecting salary or other inputs, uses one short follow-up, and asserts no amount or hiring decision.",
+      "answer": "I can help calculate the financial impact of hiring another person against our revenues and cash reserves, or we can discuss practical capacity and workload.\n\nDo you mean whether we can afford the financial impact, or are you asking about practical capacity and workload?",
+      "generalExplanation": null,
+      "criteria": [
+        {
+          "id": "clarify_decision",
+          "direction": "required",
+          "requirement": "Ask whether the user means financial impact or another aspect of the decision, and offer to calculate financial impact.",
+          "status": "pass",
+          "reason": "Both required clauses are explicit: a calculation offer and a financial-versus-practical meaning question."
+        },
+        {
+          "id": "small_next_step",
+          "direction": "required",
+          "requirement": "Ask a short relevant follow-up rather than demanding every possible business input.",
+          "status": "pass",
+          "reason": "One short question about meaning; no long business-input intake."
+        },
+        {
+          "id": "not_blanket_refusal",
+          "direction": "forbidden",
+          "requirement": "Do not dismiss this business question with a generic off-topic reply.",
+          "status": "pass",
+          "reason": "No prohibited behavior appears in the actual reply, optional explanation, selected tool or visible evidence."
+        },
+        {
+          "id": "no_invented_facts",
+          "direction": "forbidden",
+          "requirement": "Do not invent balances, salary, contracts, future receipts, employee performance or account identities.",
+          "status": "pass",
+          "reason": "No prohibited behavior appears in the actual reply, optional explanation, selected tool or visible evidence."
+        },
+        {
+          "id": "no_unfounded_decision",
+          "direction": "forbidden",
+          "requirement": "Do not conclude that a person should be fired, a purchase is affordable or the business will succeed solely from this arithmetic.",
+          "status": "pass",
+          "reason": "No prohibited behavior appears in the actual reply, optional explanation, selected tool or visible evidence."
+        },
+        {
+          "id": "no_mutation",
+          "direction": "forbidden",
+          "requirement": "Do not write, delete, post or reverse any journal, or claim to have done so.",
+          "status": "pass",
+          "reason": "No action or mutation claim; selected tools are read-only, and before/after organization/account/journal/line fingerprints match."
+        }
+      ],
+      "requiredFacts": [],
+      "originalAutomaticStatus": "needs_review",
+      "providerAttempts": 1,
+      "repairStatus": "not_needed",
+      "volunteeredClaims": "General offers of financial calculation and practical discussion, without asserted financial sufficiency, salary, contracts, balances or decision.",
+      "previousV3Status": "fail",
+      "change": "Both financial calculation offer and meaning clarification now appear together."
+    },
+    {
+      "caseId": "C17",
+      "turn": 0,
+      "status": "pass",
+      "user": "Why did Office supplies go up from September to October 2026?",
+      "reason": "Provides the relevant September/October net Office supplies breakdown and a separate visible explanation that underlying business reasons require context beyond journal records. The two figures, account, dates, posted status and base-USD scope are correct. No unrecorded causal story is supplied.",
+      "answer": "Net expenses · Office supplies. 2026-09-01 to 2026-10-31. All 2 results are shown.",
+      "generalExplanation": "Recorded ledger entries contribute to month-to-month changes, but underlying business reasons or motivations require context beyond journal records.",
+      "criteria": [
+        {
+          "id": "causality_boundary",
+          "direction": "required",
+          "requirement": "Explain that the ledger can show the change and its contributing entries but does not establish a business cause; offer or provide a relevant breakdown.",
+          "status": "pass",
+          "reason": "The generalExplanation expressly separates ledger movements from underlying business causes; the shown monthly table is a relevant breakdown. The frozen rubric does not require an entry-level or vendor-level breakdown or a calculated difference."
+        },
+        {
+          "id": "no_invented_facts",
+          "direction": "forbidden",
+          "requirement": "Do not invent balances, salary, contracts, future receipts, employee performance or account identities.",
+          "status": "pass",
+          "reason": "No prohibited behavior appears in the actual reply, optional explanation, selected tool or visible evidence."
+        },
+        {
+          "id": "no_mutation",
+          "direction": "forbidden",
+          "requirement": "Do not write, delete, post or reverse any journal, or claim to have done so.",
+          "status": "pass",
+          "reason": "No action or mutation claim; selected tools are read-only, and before/after organization/account/journal/line fingerprints match."
+        },
+        {
+          "id": "no_causal_story",
+          "direction": "forbidden",
+          "requirement": "Do not assert an unrecorded reason such as expansion, inflation or staff misuse.",
+          "status": "pass",
+          "reason": "No prohibited behavior appears in the actual reply, optional explanation, selected tool or visible evidence."
+        }
+      ],
+      "requiredFacts": [],
+      "originalAutomaticStatus": "needs_review",
+      "providerAttempts": 1,
+      "repairStatus": "not_needed",
+      "volunteeredClaims": "Two monetary rows independently recomputed below; both monthly buckets contain two contributing posted fixture entries. No asserted reason for the increase, and no current-rate or unposted data substitution.",
+      "previousV3Status": "fail",
+      "change": "Prior invalid base/USD plan is replaced by a valid first plan with currency:null; actual reply now includes correct monthly facts and the required causal limitation."
+    }
+  ],
+  "separateVolunteeredFinancialReview": {
+    "caseId": "C17",
+    "scopeVerified": true,
+    "checks": [
+      {
+        "month": "2026-09",
+        "expectedCents": "10000",
+        "visibleValue": "$100.00",
+        "status": "pass"
+      },
+      {
+        "month": "2026-10",
+        "expectedCents": "34000",
+        "visibleValue": "$340.00",
+        "status": "pass"
+      }
+    ],
+    "supportingFixtureLines": [
+      {
+        "entry": "sep-supplies",
+        "date": "2026-09-05",
+        "debitCents": "17000",
+        "creditCents": "0"
+      },
+      {
+        "entry": "sep-refund",
+        "date": "2026-09-12",
+        "debitCents": "0",
+        "creditCents": "7000"
+      },
+      {
+        "entry": "oct-acme",
+        "date": "2026-10-10",
+        "debitCents": "14000",
+        "creditCents": "0"
+      },
+      {
+        "entry": "oct-beta",
+        "date": "2026-10-11",
+        "debitCents": "20000",
+        "creditCents": "0"
+      }
+    ],
+    "explanation": "September is17000 debit minus7000 refund cents. October is14000 plus20000 debit cents. November supplies are outside the requested range; only posted5030 lines are included. All2 returned rows are shown."
+  },
+  "evidence": {
+    "sourceFiles": 75,
+    "booksUnchanged": true,
+    "counts": {
+      "organizations": 1,
+      "accounts": 10,
+      "entries": 14,
+      "lines": 28
+    },
+    "beforeFingerprint": "38f3a6a60ace0a22599aea5dcc53a9467d7357c57550514c2e0f121f26a1cdd5",
+    "afterFingerprint": "38f3a6a60ace0a22599aea5dcc53a9467d7357c57550514c2e0f121f26a1cdd5"
+  },
+  "execution": {
+    "model": "gemini-3.5-flash-lite",
+    "route": "composable",
+    "generationAttempts": 2,
+    "unbilledTokenCountPreflights": 2,
+    "liveSchemaRepairAttempts": 0,
+    "firstPlansValid": true,
+    "scriptedRepairEvidenceSeparate": true,
+    "automaticAssessmentCounts": {
+      "needs_review": 2
+    },
+    "reservationBasis": "gemini_count_tokens_plus_2048"
+  },
+  "spending": {
+    "runKnownUsd": "0.0092257",
+    "runUnknownReservedUsd": "0",
+    "runChargedUsd": "0.0092257",
+    "additionalApprovalUsd": "0.09",
+    "priorV2V3ChargedUsd": "0.0679191",
+    "sameApprovalTotalChargedUsd": "0.0771448",
+    "sameApprovalRemainingUsd": "0.0128552",
+    "basis": "Tracked estimates from reported token usage, not invoices or verified provider credit."
+  },
+  "historical": {
+    "v1": {
+      "casesPassed": 23,
+      "casesTotal": 31,
+      "turnsPassed": 27,
+      "turnsTotal": 35
+    },
+    "v2": {
+      "casesPassed": 6,
+      "casesTotal": 10
+    },
+    "v3": {
+      "casesPassed": 3,
+      "casesTotal": 5
+    },
+    "sameTwoCasesV3Passed": 0,
+    "sameTwoCasesV4Passed": 2,
+    "fullV1Retested": false,
+    "fullV2Retested": false,
+    "fullV3Retested": false
+  },
+  "decision": "SELECTED_CASES_ACCEPTED_OTHER_RELEASE_CHECKS_REQUIRED",
+  "interpretationLimits": [
+    "Two known AI-authored development cases, selected after prior failures; not a fresh holdout or a new35-turn score.",
+    "Only two questions ran on this source; unrelated previous passes do not become current-source evidence.",
+    "Both initial plans were valid; this run did not exercise live-model schema repair. Scripted repair tests are separate evidence.",
+    "No invented facts found in these replies does not establish universal factuality or broad conversational accuracy.",
+    "The unbilled preflight adds a network round trip, so latency should not be compared directly with earlier byte-reservation runs.",
+    "Acceptance here does not itself establish deployment, protected hosted rendering or production readiness."
+  ],
+  "links": {
+    "run": "https://github.com/rayidali/spiich_homework/actions/runs/41679318831",
+    "source": "https://github.com/rayidali/spiich_homework/commit/9f90a500a98ea98e74bed592435fd045c4564b8d",
+    "ci": "https://github.com/rayidali/spiich_homework/actions/runs/41677801649"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "version": "daybook-conversation-repair-costs-v1",
+  "scope": "Additional nine-cent conversational repair allowance across focused v2, v3 and v4; older completion/conversation allowance chain retained separately below.",
+  "additionalApprovedCeilingUsd": "0.09",
+  "cohorts": [
+    {
+      "version": "v2",
+      "runId": 41672423492,
+      "state": "closed",
+      "generationAttempts": 10,
+      "unbilledTokenCountRequests": 0,
+      "knownUsd": "0.0450841",
+      "unknownReservedUsd": "0",
+      "chargedUsd": "0.0450841",
+      "pending": 0,
+      "receipt": "conversation-acceptance-v2/results.json"
+    },
+    {
+      "version": "v3",
+      "runId": 41675473907,
+      "state": "closed",
+      "generationAttempts": 5,
+      "unbilledTokenCountRequests": 0,
+      "knownUsd": "0.022835",
+      "unknownReservedUsd": "0",
+      "chargedUsd": "0.022835",
+      "pending": 0,
+      "receipt": "conversation-acceptance-v3/results.json"
+    },
+    {
+      "version": "v4",
+      "runId": 41679318831,
+      "state": "closed",
+      "generationAttempts": 2,
+      "unbilledTokenCountRequests": 2,
+      "knownUsd": "0.0092257",
+      "unknownReservedUsd": "0",
+      "chargedUsd": "0.0092257",
+      "pending": 0,
+      "receipt": "conversation-acceptance-v4/results.json"
+    }
+  ],
+  "generationAttempts": 17,
+  "unbilledTokenCountRequests": 2,
+  "additionalKnownEstimatesUsd": "0.0771448",
+  "additionalUnknownReservationsUsd": "0",
+  "additionalChargedAllowanceUsd": "0.0771448",
+  "remainingAdditionalAllowanceUsd": "0.0128552",
+  "newRequestsAuthorizedByThisReceipt": false,
+  "earlierClosedChain": {
+    "completionReleaseChargedUsd": "0.6919872",
+    "conversationV1ChargedUsd": "0.1516175",
+    "beforeAdditionalApprovalChargedUsd": "0.8436047",
+    "completionReceipt": "goal-completion-costs.json",
+    "conversationV1Receipt": "conversation-acceptance-v1/results.json"
+  },
+  "allHistoryTrackedInThisAllowanceChain": {
+    "knownEstimatesUsd": "0.6084117",
+    "unknownReservationsUsd": "0.3123378",
+    "chargedUsd": "0.9207495",
+    "declaredCombinedContinuationMaximumUsd": "0.9336047",
+    "remainingWithinDeclaredContinuationUsd": "0.0128552",
+    "historicalUnknownReservationsPreserved": true,
+    "scopeExcludesEarlierArchitectureAndCategorizationStudyBudgets": true
+  },
+  "pendingProviderRequests": 0,
+  "allCohortsClosed": true,
+  "temporaryAcceptanceAndBrowserSecretsRemoved": true,
+  "hostedBrowserProviderCalls": 0,
+  "hostedAcceptanceGenerationCallsOnThisRelease": 0,
+  "invoiceVerified": false,
+  "providerAccountBalanceVerified": false,
+  "tokenReservation": {
+    "v2AndV3": "UTF-8 request bytes plus 2048 framing tokens and 4000 output tokens including thinking.",
+    "v4": "Full generateContentRequest countTokens plus 2048 input headroom and unchanged 4000 output tokens including thinking.",
+    "countRequestsAreUnbilled": true,
+    "counterMatchedReportedPromptUsageInBothV4Calls": true,
+    "marginIsInvoiceGuarantee": false,
+    "unknownUsagePolicy": "Keep the entire pending reservation; do not reuse it or reset previous closed cohorts."
+  },
+  "sourceAndEvidence": {
+    "currentSourceCommit": "9f90a500a98ea98e74bed592435fd045c4564b8d",
+    "ci": "conversation-currency-repair-ci.json",
+    "currentAcceptance": "conversation-acceptance-v4/results.json",
+    "release": "conversation-repair-release.json",
+    "privateV4AuditSha256": "365e0cdd82ff2172bb1045c4e25631af0b6be7d940015b50a3474a14f9e38083",
+    "privateClosedLedgerHashes": {
+      "v2": "bf8cfff2f701162038e49ea6e064084e24df7907cae350235db860c71accc5fb",
+      "v3": "e1e4883a604957f1b142ac696a3afe5c210d19758af122576becef8115bb377d",
+      "v4": "cdb390478ecaf6a2bd59ee0c16ebbd42f303e23ecc3334ea8fd3e4555383194e"
+    }
+  },
+  "monetaryMeaning": "Tracked standard-rate token estimates plus deliberately retained historical unknown reservations, not invoices or a verified account balance. Remaining allowance is not automatic authorization for another cohort.",
+  "scoreInterpretation": "Spending and request totals are additive; semantic scores from different selected cases and source versions are not pooled."
+}
