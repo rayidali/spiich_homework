@@ -1275,7 +1275,7 @@ export async function financialChat(
         }
         if (call.name === 'financial_program') {
           const prepared = await duringStage('financial_tool', () =>
-            prepareFinancialProgram(org, args, { ...analysisOptions, deadline: session.deadline }),
+            prepareFinancialProgram(org, args, { ...analysisOptions, deadline: session.deadline, messages }),
           );
           let code = prepared.code;
           let programAi = ai;

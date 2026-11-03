@@ -4,6 +4,7 @@ Read [CHECKPOINT.md](CHECKPOINT.md) first, then relevant project documents. Cont
 
 ## Current state
 
+- Work in progress: a new `financial_program` candidate generates JavaScript calculations over checked query results in isolated QuickJS with exact-value handles. Quoted user parameters are validated before reads; one code-only repair reuses the original snapshot. See [GENERATED_ANALYSIS.md](docs/GENERATED_ANALYSIS.md). It is not deployed or real-model verified. Preserve the 22-case / 26-turn development acceptance and independent oracles in `scripts/flexible-analytics-evaluation/`; no new paid run is approved or dispatched. The earlier 31-case suite remains separate.
 - Product: **Daybook**. Spiich is the assignment recipient. Preserve the independent identity and simple Home / Transactions / Reports / Settings interface.
 - Source `9f90a500a98ea98e74bed592435fd045c4564b8d` is promoted as `dpl_6DnLS6KcK815D19dKz6mdtvkLy31` at https://daybook-ledger-delta.vercel.app. The active route is composable and all-deployment protection is retained. [Release](docs/evidence/conversation-repair-release.json).
 - Exact-source CI 41677801649 passed 2,809 normal tests, 35 browser workflows, real PostgreSQL, native research and Compose/persistence. Compose’s2,808 tests overlap the normal suite. [CI receipt](docs/evidence/conversation-currency-repair-ci.json).

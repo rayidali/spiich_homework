@@ -29,7 +29,12 @@ type GeneralExplanation = {
   grounding: 'general_knowledge';
   verifiedFinancialData: false;
 };
-type ProgramAnalysis = { code: string; codeHash: string; operationCount: number };
+type ProgramAnalysis = {
+  code: string;
+  codeHash: string;
+  operationCount: number;
+  parameters?: { id: string; sourceText: string }[];
+};
 type Message = {
   role: 'user' | 'assistant';
   content: string;
@@ -160,6 +165,13 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
                 <details className="evidence-scope" data-analysis-program>
                   <summary>Inspect the calculation</summary>
                   <p>This function calculated the results from the source records below.</p>
+                  {!!m.program.parameters?.length && (
+                    <ul>
+                      {m.program.parameters.map((parameter) => (
+                        <li key={parameter.id}>Your input: {parameter.sourceText}</li>
+                      ))}
+                    </ul>
+                  )}
                   <pre style={{ overflowX: 'auto', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>
                     <code>{m.program.code}</code>
                   </pre>

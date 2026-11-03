@@ -10,7 +10,7 @@ export const ANALYSIS_PROGRAM_LIMITS = Object.freeze({
   memoryBytes: 16 * 1024 * 1024,
   stackBytes: 256 * 1024,
   operations: 5000,
-  tables: 4,
+  tables: 5,
   inputRowsPerTable: 50,
   outputTables: 2,
   outputRows: 64,
@@ -19,7 +19,7 @@ export const ANALYSIS_PROGRAM_LIMITS = Object.freeze({
 });
 
 const unitSchema = z.enum(['USD', 'count', 'ratio']);
-const sourceSchema = z.enum(['posted', 'draft']);
+const sourceSchema = z.enum(['posted', 'draft', 'scenario']);
 const date = z
   .string()
   .regex(/^\d{4}-\d{2}-\d{2}$/)
@@ -120,7 +120,11 @@ function decimal(value: string): Fraction {
 }
 function provenance(values: Value[]): Pick<Value, 'source' | 'references'> {
   return {
-    source: values.some((value) => value.source === 'draft') ? 'draft' : 'posted',
+    source: values.some((value) => value.source === 'scenario')
+      ? 'scenario'
+      : values.some((value) => value.source === 'draft')
+        ? 'draft'
+        : 'posted',
     references: [
       ...new Map(
         values.flatMap((value) => value.references).map((ref) => [JSON.stringify(ref), ref]),

@@ -40,6 +40,8 @@ The interpreter receives materialized query results with opaque value handles. T
 
 Each returned number includes its exact fraction and contributing query/row references. The program text and SHA-256 identify the executed function. The interface offers collapsed “Inspect the calculation” details, rendering the code as plain text. Diagnostic logs record only bounded metadata, such as the program hash, result count and error code; they do not log code, financial values or raw conversation.
 
+Explicit thresholds or rates, such as “50%”, can enter as quoted user parameters. The existing quantity validator checks their value, unit and exact original-user text before database reads. They appear in a reserved `user_inputs` table and in calculation details. They are never presented as recorded amounts; arithmetic that uses them carries hypothetical provenance. Repairs cannot change these inputs. Counting requires distinct original handles rather than an invented array of repeated values.
+
 QuickJS `0.32.0` runs as a separate WebAssembly interpreter, with no exposed database, filesystem, network, credentials or module loader. There are limits on code, guest-heap memory, stack, elapsed execution, calculator operations, input and output sizes. The 16 MiB heap limit is not a cap on the entire Node/WASM process. Interruption is cooperative; it is not a hard real-time deadline. This is not Node `eval` or Node `vm`. The dependency and its transitive packages are pinned with registry integrity hashes.
 
 Queries retain existing workspace, account, date, posting and currency checks. Input tables must be complete, use one posting status and use base USD or counts. The generated program cannot fetch omitted rows. Raw account-balance arithmetic and per-entry averages remain excluded; supported cash balances retain their as-of identity. Programs cannot post, edit or reverse entries.
@@ -56,7 +58,11 @@ Existing query scope and result limits remain. This is generated analysis over a
 
 New execution tests use real QuickJS with scripted programs. Chat integration tests use scripted provider responses and the actual query compiler/interpreter. Separate PostgreSQL tests seed balanced fictional books and independently check percentages, medians, cumulative values, refunds, filters, unchanged journals and truncated-input rejection. Browser tests use scripted responses. These layers must be reported separately from model accuracy.
 
+The first core candidate, `ae8b5802`, passed [CI 41712606780](https://github.com/rayidali/spiich_homework/actions/runs/41712606780): 2,899 normal tests (including six new real PostgreSQL cases), 37 browser workflows (including two new calculation views), the native bundled QuickJS/WASM smoke check, and Docker Compose with persistence after container recreation. Compose's 2,898 tests overlap the normal suite. Live AI was skipped. This receipt predates the quoted-parameter and acceptance-runner additions; those changes need their own combined CI.
+
 An independently authored 22-conversation development specification and exact Python rational oracles cover broader combinations, including weighted annual share versus average monthly share, rolling averages, quarter growth and follow-ups that change the numerator or denominator. It is not a blinded holdout. No score exists until the real-model run executes and its original outcomes are reviewed. The full earlier 31-case conversation set also needs a new run on the candidate.
+
+The [new runner](../scripts/flexible-analytics-evaluation/README.md) retains all 22 cases and 26 user turns, including actual previous assistant answers. Its 18 provider-free tests include mutations for wrong denominators, omitted months, invented values and operand-only answers. Exact arithmetic checks and semantic review are separate: running a calculation successfully never earns an overall conversation pass. The installed workflow requires a fresh disposable database, exact source binding and a separately approved maximum allowance; no paid run has executed.
 
 ## Querio research and decision
 

@@ -1,0 +1,117 @@
+{
+  "version": "generated-analysis-core-ci-v1",
+  "candidate": "first core implementation; later combined-source checks must be reported separately",
+  "sourceCommit": "ae8b5802e44526160a9cdce9eb4a35e06f80f07c",
+  "runId": 41712606780,
+  "runAttempt": 1,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41712606780",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "verify",
+      "id": 126184261719,
+      "conclusion": "success"
+    },
+    {
+      "name": "research-native",
+      "id": 126184262326,
+      "conclusion": "success"
+    },
+    {
+      "name": "compose",
+      "id": 126186304680,
+      "conclusion": "success"
+    },
+    {
+      "name": "live-ai",
+      "id": 126188614557,
+      "conclusion": "skipped"
+    }
+  ],
+  "normal": {
+    "passedTests": 2899,
+    "skippedTests": 8,
+    "passedFiles": 138,
+    "skippedFiles": 2
+  },
+  "newGeneratedAnalysisCoverage": {
+    "sandboxUnitTests": 64,
+    "programChatTests": 20,
+    "realPostgresTests": 6,
+    "includedInNormalTotal": true,
+    "realPostgresCases": [
+      "All twelve monthly percentages, including quiet months and signed refunds",
+      "Account, counterparty, date, organization and posted-entry scope",
+      "Weighted annual share versus mean of defined monthly shares",
+      "Median and cumulative calendar-month totals",
+      "Generated ranking and comparison between different periods",
+      "Reject a truncated source instead of treating it as complete"
+    ]
+  },
+  "separateCompletenessFixture": {
+    "passedTests": 4,
+    "passedFiles": 1
+  },
+  "browser": {
+    "passed": 37,
+    "durationSeconds": 46.4,
+    "newWorkflows": 2,
+    "newCases": [
+      "Generated monthly percentages precede source amounts and preserve the request through year/category follow-ups",
+      "Calculation inspection begins collapsed and generated code is displayed as inert text"
+    ]
+  },
+  "nativeResearch": {
+    "typescript": {
+      "passedTests": 30,
+      "passedFiles": 3
+    },
+    "python": {
+      "passedTests": 35,
+      "durationSeconds": 0.64
+    }
+  },
+  "compose": {
+    "passedTests": 2898,
+    "skippedTests": 9,
+    "passedFiles": 137,
+    "skippedFiles": 3,
+    "overlapsNormal": true,
+    "automaticJobsAndAnomalyLifecycle": true,
+    "runtimeAcceptanceChecks": 7,
+    "runtimeAcceptanceDurationMs": 52700,
+    "containerRecreationPersistence": true
+  },
+  "nativeAnalysisBundle": {
+    "check": "native_analysis_runtime",
+    "passed": true,
+    "entry": ".vercel-build/analysis-program.js",
+    "bundleSha256": "4aa4a2fce4e3021c43decc708e365bb734eb09f9ad9c7133dd748de37a8462e8",
+    "wasmSha256": "105c3bed22d457e43e3d1c3c1c6959fda62a8fe06f0fc8a985303c3a2be72232",
+    "wasmBytes": 503134,
+    "rowsVerified": 2,
+    "providerCalls": 0,
+    "databaseCalls": 0,
+    "scope": "Local/CI native bundle and configured WASM inclusion; hosted execution requires a separate check"
+  },
+  "recordedChatPlanReplay": {
+    "bundlesReplayed": 0,
+    "providerCalls": 0,
+    "scope": "No matching recorded replay bundles; this step adds no live model or query-execution evidence."
+  },
+  "providerInferenceInThisRun": false,
+  "newSemanticScore": null,
+  "deploymentChanged": false,
+  "limits": [
+    "This receipt is bound only to ae8b5802e44526160a9cdce9eb4a35e06f80f07c; it does not cover later executable changes.",
+    "Model responses in ordinary CI are scripted; these tests do not establish live model interpretation or formula selection.",
+    "Normal and Compose suites overlap; do not add their totals.",
+    "The actual built QuickJS module executed in CI, with the configured WASM present; hosted execution requires separate evidence.",
+    "Native research checks remain separate from the product runtime and do not establish a new model study."
+  ],
+  "privateLogDigests": {
+    "verify": "e55aa3c555fe259c8e64eecfd7587a125f32a6e7c677203c9b1cf646c3ab376e",
+    "native": "dbc27a8391cd862cc7de10cc6f0d7ca6d21761fc2cd92865820c2f13ec4e6f0a",
+    "compose": "16ae986f9590ab760fb940d16e596c77cd9835a98461c91561a31bafd878ccd2"
+  }
+}

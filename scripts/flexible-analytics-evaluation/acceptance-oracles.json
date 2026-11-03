@@ -1,0 +1,502 @@
+{
+  "status": "independently_computed_oracles_not_product_execution",
+  "method": "Python fractions.Fraction and decimal ROUND_HALF_UP; no application imports",
+  "clock": "2026-11-03T12:00:00-05:00",
+  "monthly2025": [
+    {
+      "month": "2025-01",
+      "rent": 0,
+      "software": 0,
+      "marketing": 0,
+      "revenue": 0,
+      "expenses": 0,
+      "profit": 0,
+      "rentSharePercent": null,
+      "cumulativeExpenses": 0
+    },
+    {
+      "month": "2025-02",
+      "rent": 100,
+      "software": 50,
+      "marketing": 50,
+      "revenue": 1000,
+      "expenses": 200,
+      "profit": 800,
+      "rentSharePercent": {
+        "numerator": "50",
+        "denominator": "1",
+        "display": "50.00"
+      },
+      "cumulativeExpenses": 200
+    },
+    {
+      "month": "2025-03",
+      "rent": 100,
+      "software": 100,
+      "marketing": 200,
+      "revenue": 800,
+      "expenses": 400,
+      "profit": 400,
+      "rentSharePercent": {
+        "numerator": "25",
+        "denominator": "1",
+        "display": "25.00"
+      },
+      "cumulativeExpenses": 600
+    },
+    {
+      "month": "2025-04",
+      "rent": 100,
+      "software": 0,
+      "marketing": 0,
+      "revenue": 500,
+      "expenses": 100,
+      "profit": 400,
+      "rentSharePercent": {
+        "numerator": "100",
+        "denominator": "1",
+        "display": "100.00"
+      },
+      "cumulativeExpenses": 700
+    },
+    {
+      "month": "2025-05",
+      "rent": 200,
+      "software": 100,
+      "marketing": 100,
+      "revenue": 1000,
+      "expenses": 400,
+      "profit": 600,
+      "rentSharePercent": {
+        "numerator": "50",
+        "denominator": "1",
+        "display": "50.00"
+      },
+      "cumulativeExpenses": 1100
+    },
+    {
+      "month": "2025-06",
+      "rent": 100,
+      "software": -200,
+      "marketing": 0,
+      "revenue": 0,
+      "expenses": -100,
+      "profit": 100,
+      "rentSharePercent": {
+        "numerator": "-100",
+        "denominator": "1",
+        "display": "-100.00"
+      },
+      "cumulativeExpenses": 1000
+    },
+    {
+      "month": "2025-07",
+      "rent": 0,
+      "software": 0,
+      "marketing": 0,
+      "revenue": 0,
+      "expenses": 0,
+      "profit": 0,
+      "rentSharePercent": null,
+      "cumulativeExpenses": 1000
+    },
+    {
+      "month": "2025-08",
+      "rent": 100,
+      "software": -100,
+      "marketing": 0,
+      "revenue": 200,
+      "expenses": 0,
+      "profit": 200,
+      "rentSharePercent": null,
+      "cumulativeExpenses": 1000
+    },
+    {
+      "month": "2025-09",
+      "rent": 100,
+      "software": 50,
+      "marketing": 150,
+      "revenue": 600,
+      "expenses": 300,
+      "profit": 300,
+      "rentSharePercent": {
+        "numerator": "100",
+        "denominator": "3",
+        "display": "33.33"
+      },
+      "cumulativeExpenses": 1300
+    },
+    {
+      "month": "2025-10",
+      "rent": 200,
+      "software": 100,
+      "marketing": 200,
+      "revenue": 1000,
+      "expenses": 500,
+      "profit": 500,
+      "rentSharePercent": {
+        "numerator": "40",
+        "denominator": "1",
+        "display": "40.00"
+      },
+      "cumulativeExpenses": 1800
+    },
+    {
+      "month": "2025-11",
+      "rent": 100,
+      "software": -50,
+      "marketing": 0,
+      "revenue": 400,
+      "expenses": 50,
+      "profit": 350,
+      "rentSharePercent": {
+        "numerator": "200",
+        "denominator": "1",
+        "display": "200.00"
+      },
+      "cumulativeExpenses": 1850
+    },
+    {
+      "month": "2025-12",
+      "rent": 100,
+      "software": 50,
+      "marketing": 50,
+      "revenue": 500,
+      "expenses": 200,
+      "profit": 300,
+      "rentSharePercent": {
+        "numerator": "50",
+        "denominator": "1",
+        "display": "50.00"
+      },
+      "cumulativeExpenses": 2050
+    }
+  ],
+  "totals2025": {
+    "rent": 1200,
+    "software": 100,
+    "marketing": 750,
+    "revenue": 6000,
+    "expenses": 2050,
+    "profit": 3950
+  },
+  "annualRentSharePercent": {
+    "numerator": "2400",
+    "denominator": "41",
+    "display": "58.54"
+  },
+  "meanDefinedMonthlyRentSharePercent": {
+    "numerator": "1345",
+    "denominator": "27",
+    "display": "49.81"
+  },
+  "definedMonthlyShares": 9,
+  "medianMonthlyExpenses": {
+    "numerator": "150",
+    "denominator": "1",
+    "display": "150.00"
+  },
+  "quarters": [
+    {
+      "quarter": "2025-Q1",
+      "rent": 200,
+      "software": 150,
+      "marketing": 250,
+      "revenue": 1800,
+      "expenses": 600,
+      "marketingShareRevenuePercent": {
+        "numerator": "125",
+        "denominator": "9",
+        "display": "13.89"
+      }
+    },
+    {
+      "quarter": "2025-Q2",
+      "rent": 400,
+      "software": -100,
+      "marketing": 100,
+      "revenue": 1500,
+      "expenses": 400,
+      "marketingShareRevenuePercent": {
+        "numerator": "20",
+        "denominator": "3",
+        "display": "6.67"
+      }
+    },
+    {
+      "quarter": "2025-Q3",
+      "rent": 200,
+      "software": -50,
+      "marketing": 150,
+      "revenue": 800,
+      "expenses": 300,
+      "marketingShareRevenuePercent": {
+        "numerator": "75",
+        "denominator": "4",
+        "display": "18.75"
+      }
+    },
+    {
+      "quarter": "2025-Q4",
+      "rent": 400,
+      "software": 100,
+      "marketing": 250,
+      "revenue": 1900,
+      "expenses": 750,
+      "marketingShareRevenuePercent": {
+        "numerator": "250",
+        "denominator": "19",
+        "display": "13.16"
+      }
+    }
+  ],
+  "trailingThreeMonthExpenses": [
+    {
+      "month": "2025-03",
+      "average": {
+        "numerator": "200",
+        "denominator": "1",
+        "display": "200.00"
+      }
+    },
+    {
+      "month": "2025-04",
+      "average": {
+        "numerator": "700",
+        "denominator": "3",
+        "display": "233.33"
+      }
+    },
+    {
+      "month": "2025-05",
+      "average": {
+        "numerator": "300",
+        "denominator": "1",
+        "display": "300.00"
+      }
+    },
+    {
+      "month": "2025-06",
+      "average": {
+        "numerator": "400",
+        "denominator": "3",
+        "display": "133.33"
+      }
+    },
+    {
+      "month": "2025-07",
+      "average": {
+        "numerator": "100",
+        "denominator": "1",
+        "display": "100.00"
+      }
+    },
+    {
+      "month": "2025-08",
+      "average": {
+        "numerator": "-100",
+        "denominator": "3",
+        "display": "-33.33"
+      }
+    },
+    {
+      "month": "2025-09",
+      "average": {
+        "numerator": "100",
+        "denominator": "1",
+        "display": "100.00"
+      }
+    },
+    {
+      "month": "2025-10",
+      "average": {
+        "numerator": "800",
+        "denominator": "3",
+        "display": "266.67"
+      }
+    },
+    {
+      "month": "2025-11",
+      "average": {
+        "numerator": "850",
+        "denominator": "3",
+        "display": "283.33"
+      }
+    },
+    {
+      "month": "2025-12",
+      "average": {
+        "numerator": "250",
+        "denominator": "1",
+        "display": "250.00"
+      }
+    }
+  ],
+  "topThreeExpenseMonths": [
+    {
+      "month": "2025-10",
+      "expenses": 500
+    },
+    {
+      "month": "2025-03",
+      "expenses": 400
+    },
+    {
+      "month": "2025-05",
+      "expenses": 400
+    }
+  ],
+  "rankedExpenseQuarters": [
+    {
+      "quarter": "2025-Q4",
+      "rent": 400,
+      "software": 100,
+      "marketing": 250,
+      "revenue": 1900,
+      "expenses": 750,
+      "marketingShareRevenuePercent": {
+        "numerator": "250",
+        "denominator": "19",
+        "display": "13.16"
+      }
+    },
+    {
+      "quarter": "2025-Q1",
+      "rent": 200,
+      "software": 150,
+      "marketing": 250,
+      "revenue": 1800,
+      "expenses": 600,
+      "marketingShareRevenuePercent": {
+        "numerator": "125",
+        "denominator": "9",
+        "display": "13.89"
+      }
+    },
+    {
+      "quarter": "2025-Q2",
+      "rent": 400,
+      "software": -100,
+      "marketing": 100,
+      "revenue": 1500,
+      "expenses": 400,
+      "marketingShareRevenuePercent": {
+        "numerator": "20",
+        "denominator": "3",
+        "display": "6.67"
+      }
+    },
+    {
+      "quarter": "2025-Q3",
+      "rent": 200,
+      "software": -50,
+      "marketing": 150,
+      "revenue": 800,
+      "expenses": 300,
+      "marketingShareRevenuePercent": {
+        "numerator": "75",
+        "denominator": "4",
+        "display": "18.75"
+      }
+    }
+  ],
+  "profitMarginPercent": {
+    "numerator": "395",
+    "denominator": "6",
+    "display": "65.83"
+  },
+  "q1ToQ4ExpenseGrowthPercent": {
+    "numerator": "25",
+    "denominator": "1",
+    "display": "25.00"
+  },
+  "octoberAlphaMarketingShareAllExpensesPercent": {
+    "numerator": "24",
+    "denominator": "1",
+    "display": "24.00"
+  },
+  "annualAlphaShareMarketingPercent": {
+    "numerator": "148",
+    "denominator": "3",
+    "display": "49.33"
+  },
+  "annualSoftwareShareExpensesPercent": {
+    "numerator": "200",
+    "denominator": "41",
+    "display": "4.88"
+  },
+  "annualSoftwareShareRevenuePercent": {
+    "numerator": "5",
+    "denominator": "3",
+    "display": "1.67"
+  },
+  "octoberMarketingByCounterparty": [
+    {
+      "counterparty": "Alpha",
+      "amount": 120,
+      "sharePercent": {
+        "numerator": "60",
+        "denominator": "1",
+        "display": "60.00"
+      }
+    },
+    {
+      "counterparty": "Beta",
+      "amount": 80,
+      "sharePercent": {
+        "numerator": "40",
+        "denominator": "1",
+        "display": "40.00"
+      }
+    }
+  ],
+  "yearToDate2026": {
+    "monthly": [
+      {
+        "month": "2026-01",
+        "rent": 100,
+        "software": 100,
+        "expenses": 200,
+        "revenue": 400,
+        "rentSharePercent": {
+          "numerator": "50",
+          "denominator": "1",
+          "display": "50.00"
+        }
+      },
+      {
+        "month": "2026-10",
+        "rent": 200,
+        "software": 100,
+        "expenses": 300,
+        "revenue": 900,
+        "rentSharePercent": {
+          "numerator": "200",
+          "denominator": "3",
+          "display": "66.67"
+        }
+      },
+      {
+        "month": "2026-11",
+        "rent": 50,
+        "software": 50,
+        "expenses": 100,
+        "revenue": 200,
+        "rentSharePercent": {
+          "numerator": "50",
+          "denominator": "1",
+          "display": "50.00"
+        }
+      }
+    ],
+    "otherElapsedMonths": "all zero; rent share undefined",
+    "expenses": 600,
+    "rent": 350,
+    "revenue": 1500,
+    "rentSharePercent": {
+      "numerator": "175",
+      "denominator": "3",
+      "display": "58.33"
+    }
+  }
+}

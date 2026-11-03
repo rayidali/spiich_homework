@@ -6,6 +6,8 @@ Saved **2026-11-03, America/New_York**. Continue this application; do not rebuil
 
 The user reported missing monthly rent percentages and explicitly requested general generated functions, then asked about Querio. A new local `financial_program` candidate uses isolated QuickJS and exact-value handles over existing query results. Its single code-only correction reuses the same records. See [GENERATED_ANALYSIS.md](docs/GENERATED_ANALYSIS.md). Local code is ahead of the hosted release; real-model acceptance and release are pending. Preserve `.tools/flexible-analytics-20261103/`, the independently authored 22-case specification/oracles, and existing closed spending. No new model run has been authorized or dispatched for this candidate.
 
+First core candidate `ae8b5802e44526160a9cdce9eb4a35e06f80f07c` passed CI41712606780: 2,899 normal tests, 37 browser workflows, six included real PostgreSQL additions, bundled QuickJS/WASM execution, native research and Compose/persistence (2,898 overlapping tests). Later quoted-parameter support and the new 22-case / 26-turn runner need final combined CI. The full existing 31-case / 35-turn conversation suite remains a separate acceptance requirement. Runner implementation is under `scripts/flexible-analytics-evaluation/`; no paid run or accuracy result exists for this candidate.
+
 ## Current release
 
 Source **`9f90a500a98ea98e74bed592435fd045c4564b8d`** is **READY and promoted** as **`dpl_6DnLS6KcK815D19dKz6mdtvkLy31`** at https://daybook-ledger-delta.vercel.app. The stable alias and project production target match this deployment; protected health/meta requests return200. All-deployment protection remains enabled. Route: **composable**. [Release receipt](docs/evidence/conversation-repair-release.json).
