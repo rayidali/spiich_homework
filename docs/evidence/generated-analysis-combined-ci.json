@@ -1,0 +1,173 @@
+{
+  "version": "generated-analysis-combined-ci-v1",
+  "candidate": "combined generated-analysis implementation, checked scenario parameters and isolated evaluation runner",
+  "sourceCommit": "ed70e00392229f3933c8aa1b7a0f4c78b62242ff",
+  "runId": 41714572781,
+  "runAttempt": 1,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41714572781",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "research-native",
+      "id": 126191102827,
+      "conclusion": "success"
+    },
+    {
+      "name": "verify",
+      "id": 126191103311,
+      "conclusion": "success"
+    },
+    {
+      "name": "compose",
+      "id": 126193367031,
+      "conclusion": "success"
+    },
+    {
+      "name": "live-ai",
+      "id": 126195722449,
+      "conclusion": "skipped"
+    }
+  ],
+  "normal": {
+    "passedTests": 2922,
+    "skippedTests": 8,
+    "passedFiles": 140,
+    "skippedFiles": 2
+  },
+  "newGeneratedAnalysisCoverage": {
+    "sandboxUnitTests": 64,
+    "programChatTests": 20,
+    "realPostgresTests": 6,
+    "includedInNormalTotal": true,
+    "realPostgresCases": [
+      "All twelve monthly percentages, including quiet months and signed refunds",
+      "Account, counterparty, date, organization and posted-entry scope",
+      "Weighted annual share versus mean of defined monthly shares",
+      "Median and cumulative calendar-month totals",
+      "Generated ranking and comparison between different periods",
+      "Reject a truncated source instead of treating it as complete"
+    ],
+    "checkedParameterTests": 5,
+    "evaluationRunnerTests": 18
+  },
+  "separateCompletenessFixture": {
+    "passedTests": 4,
+    "passedFiles": 1
+  },
+  "browser": {
+    "passed": 37,
+    "durationSeconds": 48.9,
+    "newWorkflows": 2,
+    "newCases": [
+      "Generated monthly percentages precede source amounts and preserve the request through year/category follow-ups",
+      "Calculation inspection begins collapsed and generated code is displayed as inert text"
+    ]
+  },
+  "nativeResearch": {
+    "typescript": {
+      "passedTests": 30,
+      "passedFiles": 3
+    },
+    "python": {
+      "passedTests": 35,
+      "durationSeconds": 0.64
+    }
+  },
+  "compose": {
+    "passedTests": 2921,
+    "skippedTests": 9,
+    "passedFiles": 139,
+    "skippedFiles": 3,
+    "overlapsNormal": true,
+    "automaticJobsAndAnomalyLifecycle": true,
+    "runtimeAcceptanceChecks": 7,
+    "containerRecreationPersistence": true,
+    "runtimeEvidence": {
+      "schemaVersion": 1,
+      "at": "2026-11-03T20:45:59.263Z",
+      "sourceCommit": "ed70e00392229f3933c8aa1b7a0f4c78b62242ff",
+      "runId": "85c8141e-926e-444f-894d-81e5393e5b56",
+      "environment": "Disposable GitHub Actions Compose workspace; real PostgreSQL and application timers",
+      "passed": true,
+      "durationMs": 52918,
+      "httpRequests": 64,
+      "manualSchedulerOrWorkerCalls": 0,
+      "providerEndpointCalls": 0,
+      "checks": [
+        {
+          "name": "normal scheduler created one due draft without manual generation",
+          "passed": true
+        },
+        {
+          "name": "unposted recurring draft leaves all three report totals unchanged",
+          "passed": true
+        },
+        {
+          "name": "explicit posting changes expenses/assets/equity by exactly USD 12.34",
+          "passed": true
+        },
+        {
+          "name": "normal background worker detected doubled rent from four real posted samples",
+          "passed": true
+        },
+        {
+          "name": "reversal job automatically resolved the same alert with retained evidence",
+          "passed": true
+        },
+        {
+          "name": "worker preserved posted lines and financial report totals",
+          "passed": true
+        },
+        {
+          "name": "automatically resolved signal cannot be manually reopened",
+          "passed": true
+        }
+      ],
+      "limitations": [
+        "Observed normal monthly scheduling and anomaly processing in CI, not hosted Vercel cron firing.",
+        "Weekly/yearly calendar boundaries and crash/lease recovery have separate database tests.",
+        "This is synthetic acceptance evidence, not model accuracy, load testing or real-user usability."
+      ]
+    }
+  },
+  "nativeAnalysisBundle": {
+    "check": "native_analysis_runtime",
+    "passed": true,
+    "entry": ".vercel-build/analysis-program.js",
+    "bundleSha256": "b64e3b1099ae2017fe7db52fd7a3e8cb1a1ed3c11df79112bbb080cf75420852",
+    "wasmSha256": "105c3bed22d457e43e3d1c3c1c6959fda62a8fe06f0fc8a985303c3a2be72232",
+    "wasmBytes": 503134,
+    "rowsVerified": 2,
+    "providerCalls": 0,
+    "databaseCalls": 0,
+    "scope": "Local/CI native bundle and configured WASM inclusion; hosted execution requires a separate check"
+  },
+  "recordedChatPlanReplay": {
+    "bundlesReplayed": 0,
+    "providerCalls": 0,
+    "scope": "No matching recorded replay bundles; this step adds no live model or query-execution evidence."
+  },
+  "providerInferenceInThisRun": false,
+  "newSemanticScore": null,
+  "deploymentChanged": false,
+  "limits": [
+    "This receipt is bound only to ed70e00392229f3933c8aa1b7a0f4c78b62242ff; it does not cover later executable changes.",
+    "Model responses in ordinary CI are scripted; these tests do not establish live model interpretation, question coverage or formula selection.",
+    "The isolated generated-analysis fixture passed 96 stored-line and 6 oracle checks with unchanged books; this is preparation for live acceptance, not a paid model score.",
+    "Normal and Compose suites overlap; do not add their totals.",
+    "The actual built QuickJS module executed in CI, with the configured WASM present; hosted execution requires separate evidence.",
+    "Native research checks remain separate from the product runtime and do not establish a new model study."
+  ],
+  "privateLogDigests": {
+    "verify": "824766178262d183bdb75b0602c0b2e718dd21becb7d05437b18b5d70349d5ff",
+    "native": "6c1f26fbbc6d94a5ab82120a1b9ae90b5c56f3bfa3b8942ede871ab612b221a2",
+    "compose": "abc7aedc38aba84b87313f01f90888ff82a2b28d1a0c355c9d431e338fbdf1bf"
+  },
+  "generatedAnalysisFixture": {
+    "artifactId": 13269602923,
+    "storedLineChecks": 96,
+    "oracleChecks": 6,
+    "booksUnchanged": true,
+    "providerCalls": 0
+  }
+}

@@ -1,5 +1,9 @@
 # Hosting Daybook
 
+## Generated-analysis candidate — not deployed
+
+The new candidate bundles an isolated QuickJS interpreter. `hosting:bundle` also writes `.vercel-build/analysis-program.js` and a source/bundle/WASM manifest. `vercel.json` explicitly includes `.vercel-build/**` and the release-sync QuickJS WASM asset. `scripts/check-analysis-runtime.mjs` imports the actual bundle and verifies exact arithmetic, zero-division handling and source references with no provider or database call. CI runs this check; it is not evidence of hosted execution. Keep the manifest/source match and asset inclusion when packaging the eventual release. [Design and pending model acceptance](GENERATED_ANALYSIS.md).
+
 ## Current promoted conversational repair — 2026-11-03
 
 Source **`9f90a500a98ea98e74bed592435fd045c4564b8d`** is promoted as **`dpl_6DnLS6KcK815D19dKz6mdtvkLy31`** at [Daybook](https://daybook-ledger-delta.vercel.app), with the **composable** route and all-deployment protection retained. Health, metadata, stable alias and project production target were verified against this source. The release packages 88 source files, preserves migrations 001–007 and the normal build, and keeps owner database credentials build-only. [Release evidence](evidence/conversation-repair-release.json).

@@ -1,6 +1,6 @@
 # Daybook · Accounting workspace
 
-**Current development:** a generated-analysis candidate addresses monthly percentages and other composed calculations. It is not yet deployed or measured with a live model; [design, checks and limits](docs/GENERATED_ANALYSIS.md).
+**Current development:** a generated-analysis candidate can write calculations for monthly percentages and other combinations. Its combined checks passed 2,922 tests and 37 browser workflows; it is not yet deployed or measured with a live model. [Design, checks and limits](docs/GENERATED_ANALYSIS.md).
 
 A React and TypeScript accounting application with a REST API and PostgreSQL. Record transactions, review balanced entries, manage recurring drafts, and inspect financial reports. AI suggests entries and categories for your approval; database constraints protect posted history.
 

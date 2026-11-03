@@ -1,5 +1,15 @@
 # REST API quick reference
 
+## Generated-analysis candidate — not deployed or real-model verified
+
+The existing chat endpoint now supports the server-selected `financial_program` tool on the composable route and initial adaptive planning. It adds no REST endpoint. Arguments contain up to four existing queries, a JavaScript function body, and optional original-user-quoted `parameters` with `id`, `value`, `unit` and `sourceText`. The application obtains the records; callers cannot supply financial input tables or execute arbitrary host code.
+
+Successful responses add `program: {code, codeHash, tables, operationCount, parameters, interpretationVerified:false}`. Each output row retains its exact fraction or explicit undefined result, unit, posted/draft/scenario provenance and source references. Visible evidence uses additive `factRef: {kind:'program_result', programHash, tableIndex, rowIndex}`. Calculated tables precede original query evidence. Quoted inputs and code are available in collapsed calculation details. Parameter use in a filter remains visible in `program.parameters`; row references describe arithmetic ancestry, not all control-flow influence.
+
+Recoverable function errors may use one `repair_financial_program` call with code only, within the existing attempt allowance. Queries, validated parameters and records are frozen. Invalid or limited execution supplies no substitute financial result. The sandbox's exact arithmetic/source checks do not prove that the formula answers the intended question. [Runtime limits and examples](GENERATED_ANALYSIS.md).
+
+Later sections preserve historical experimental candidates and their source-specific results. Their deployment labels are not the current release; see [CHECKPOINT](../CHECKPOINT.md).
+
 ## Declared-completeness candidate — published and CI verified, not deployed
 
 Server-only `FINANCIAL_CHAT_ROUTE=complete` selects the new [declared-output checker](ANSWER_COMPLETENESS.md). It adds no REST endpoint or client-controlled route selection. The initial typed analysis/scenario/inspection call carries an immutable `answerContract` and `outputBindings`; initial inspection bindings must be empty. Later finish calls supply bindings only. The declaration freezes before financial-amount reads, after the planning account chart is available. It supports at most eight outputs and 16 KiB, with exact original-user quotes, scoped values/tables, ranked identities and ordered arithmetic.
