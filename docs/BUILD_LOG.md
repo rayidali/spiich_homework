@@ -1,5 +1,9 @@
 # Build log
 
+## 2026 11 03 Querio workspace access resolved
+
+The user described Add datasource / MCP setup / CLI setup. Rather than asking them to locate an unknown setting, the existing-key selected-workspace GET resolved the workspace directly. Datasource discovery found configured PostgreSQL `sample-data`, and a live schema-metadata GET succeeded. The earlier empty workspace list was not proof that setup was missing. Five total GETs, no inference or external mutations. Daybook is not connected; actual analyst access and a controlled comparison remain future work. Workspace context is retained privately, and the user need not supply its ID.
+
 ## 2026 11 03 Querio key verified; workspace access unresolved
 
 The user offered and saved a Querio API key locally. The documented identity request returned 200; workspace discovery also returned 200 but with zero accessible workspaces. These were two read-only account-information requests, with no prompt, inference, external datasource or notebook created. Authentication is confirmed; workspace setup or permission needs clarification before a real integration can be tested.
