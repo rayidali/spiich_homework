@@ -1,5 +1,11 @@
 # Build log
 
+## 2026 11 03 User Querio answers traced to the old datasource
+
+The user reported cash $9,850 and no Office supplies category. Reading their supplied Explore recovered two saved cash queries explicitly targeting `daybook-eval-20261103`. An independent Decimal sum of the original fixture reproduced $9,850 and its three expense categories. The Office supplies tool trace itself was not recovered. A fresh live read verified the real account, posted cash and year-to-date spending; no ledger mutation or model request was needed.
+
+The live connection was working, but adding it did not change the datasource of that existing conversation. Querio's official UI instructions require New Explore with the intended source selected. Added workspace-wide memory to prefer the live datasource for Daybook questions, disclose the source and avoid substituting test results. Existing memory was only its heading; revision-checked write and exact readback passed. This is analyst guidance, not an application default setting or guarantee of model behavior. Preserved the user's notebook and earlier scores. [Diagnosis](evidence/querio-datasource-mismatch.json), [updated testing instructions](QUERIO_LIVE.md).
+
 ## 2026 11 03 Querio given complete live read access
 
 The user explicitly prioritized independent Querio testing over further native-chat changes. Connected the actual hosted database as **Daybook LIVE — all records**, with a dedicated non-owner reader and SELECT on all 16 base tables and two views in `public`/`research`. All 184 columns are catalogued. The original fixture remains intact under **TEST ONLY — synthetic benchmark**. Uploaded and read back accounting context covering raw joins, statuses, exact amounts, reversals, dates, pending records and the separate fictional research archive. Catalogue relationship metadata is empty; the context supplies explicit joins.

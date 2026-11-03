@@ -1,0 +1,36 @@
+{
+  "verifiedOn": "2026-11-03",
+  "issue": "User cash and Office supplies answers referenced the synthetic benchmark after live datasource setup",
+  "evidence": {
+    "userNotebookRead": true,
+    "savedCashQueries": 2,
+    "explicitDatasourceInBothQueries": "daybook-eval-20261103",
+    "fixtureCashIndependentlyMatchesQuotedAnswer": true,
+    "fixtureOnlyExpenseAccounts": [
+      "Rent",
+      "Software",
+      "Marketing"
+    ],
+    "liveOfficeSuppliesAccountConfirmed": true,
+    "freshLivePostedCashAndYtdExpensesQueryCompleted": true,
+    "originalOfficeSuppliesToolTraceRecovered": false
+  },
+  "change": {
+    "workspaceMemoryUpdated": true,
+    "path": "memory/MEMORY.md",
+    "exactReadback": true,
+    "sha256": "d1af72c601d6aa9353eab6232e9541cb18a3eec210b126856fb7ec63e44edca5",
+    "guidance": "Use daybook-live for ordinary Daybook questions; explicitly identify datasource; use synthetic benchmark only when explicitly requested",
+    "applicationDefaultSelectionChanged": false,
+    "existingConversationDatasourceChanged": false,
+    "existingNotebookModified": false
+  },
+  "nextUserAction": "New Explore > Select datasource > select only Daybook LIVE \u2014 all records",
+  "limits": {
+    "modelCalls": 0,
+    "newModelAccuracyScore": false,
+    "ledgerWrites": false,
+    "workspaceGuidanceDoesNotGuaranteeModelCompliance": true,
+    "nativeDaybookChatChanged": false
+  }
+}

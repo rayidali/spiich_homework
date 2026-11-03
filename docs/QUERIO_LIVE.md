@@ -2,6 +2,10 @@
 
 **Connected and verified November 3, 2026.** Open [Querio](https://app.querio.ai), start a **new chat**, and select **Daybook LIVE — all records** (`daybook-live`). The old connection is now named **TEST ONLY — synthetic benchmark**. Its earlier conversations still concern fictional test books.
 
+**Use New Explore → Select datasource beneath the prompt → select only Daybook LIVE — all records.** Querio preserves datasource selection in an existing Explore. Adding a connection or renaming the old one does not switch that conversation. [Querio's selection instructions](https://docs.querio.ai/guides/ask-questions).
+
+The user's later cash answer of $9,850 and missing Office supplies category came from the old fixture: both saved cash queries explicitly named `daybook-eval-20261103`. A fresh live SQL read confirmed that Office supplies exists. Workspace `memory/MEMORY.md` now tells the analyst to use `daybook-live` for ordinary Daybook questions, identify the source and avoid substituting fixture figures. Exact readback was verified. This is guidance, not a changed app default, a switch of an existing conversation, or proof of model compliance. The user's notebook was preserved. [Diagnosis receipt](evidence/querio-datasource-mismatch.json).
+
 ## What Querio can see
 
 The connection reads the same PostgreSQL database as the hosted Daybook application. It includes every existing application table: posted entries **and drafts**, their debit/credit lines, accounts, currencies, organizations, recurring templates, alerts, AI proposals, correction history and operational tables. No application records are filtered out by a curated reporting view.
