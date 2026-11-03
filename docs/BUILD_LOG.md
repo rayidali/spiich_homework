@@ -1,5 +1,11 @@
 # Build log
 
+## 2026 11 03 Figma visible-entry / chat mismatch diagnosed
+
+A read-only production query confirmed that the November3 “Figma team subscription” is the automatically generated $180 recurring **DRAFT**, with no posted timestamp. The transaction list includes drafts; ordinary financial chat defaults to POSTED, and its literal transaction tool forces POSTED. The configured Querio connection remains the separate evaluation fixture, where a direct read found no Figma rows. These are distinct data-scope causes. The draft is prepared against Company credit card and does not establish a completed bank payment.
+
+The product gap is the explanation: an empty posted search should surface a matching pending draft separately, without mixing it into confirmed totals. That improvement is not implemented by this diagnosis. No entries were posted, database records changed, datasource switched, provider requests made or deployment performed. The exact original model plan was not recovered; findings rest on the stored record and current code defaults. Private evidence is `.tools/figma-incident-20261103/`.
+
 ## 2026 11 03 Actual Querio connection and evaluation
 
 At the user's explicit request, connected Querio to a dedicated Neon database with a restricted reader and four accounting views. The fixture exporter and twenty offline tests preserve the original 48-entry/96-line synthetic fixture; an independent captured-database audit passed 2,971 assertions. All amounts, balance constraints, row identities and thirty-two expected final outcomes were checked without importing the product calculator. No production ledger records were copied into the service.
