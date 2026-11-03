@@ -1,5 +1,7 @@
 # Architecture and engineering decisions
 
+**External analyst experiment:** Querio was connected through a restricted reader to four reporting views in a separate synthetic Neon database. Its SQL/Python notebook path was actually tested with Haiku and a smaller Sonnet diagnostic; it is not wired into Daybook’s production request path. Correct query results sometimes diverged from generated prose, reinforcing the need to check final claims separately. [Results and limitations](QUERIO_EVALUATION.md).
+
 **Current work, 2026-11-03:** the default composable candidate now offers `financial_program`. The model can write a JavaScript function over up to four existing checked queries rather than naming every scalar arithmetic step. QuickJS runs the function without host I/O; exact host-created values retain units and record references. Quoted user thresholds/rates are validated before reads. One code-only repair reuses the same snapshot. Generated formulas and labels still require interpretation testing. [Design and walkthrough](GENERATED_ANALYSIS.md).
 
 The hosted release is still `9f90a500`; generated analysis is not deployed or real-model verified. Existing query scope/result limits remain, and the experimental complete route is unchanged. The following candidate descriptions are preserved chronology; their “current” and “production” labels apply to their original checkpoints.

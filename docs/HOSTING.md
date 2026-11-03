@@ -1,5 +1,7 @@
 # Hosting Daybook
 
+**Querio evaluation resources:** a separate `daybook_querio_20261103` database and restricted reader were created in the existing Neon project. Querio has a configured datasource named `Daybook accounting test books` over four reporting views. Credentials and exact resource receipts remain only in `.tools/querio-evaluation-20261103/`; do not publish owner or reader URLs. All test execution environments were closed, but the datasource and saved notebooks remain for inspection. Production accounting fingerprints were unchanged after testing. No Daybook deployment or runtime configuration changed. [Evaluation report](QUERIO_EVALUATION.md).
+
 ## Generated-analysis candidate — not deployed
 
 The new candidate bundles an isolated QuickJS interpreter. `hosting:bundle` also writes `.vercel-build/analysis-program.js` and a source/bundle/WASM manifest. `vercel.json` explicitly includes `.vercel-build/**` and the release-sync QuickJS WASM asset. `scripts/check-analysis-runtime.mjs` imports the actual bundle and verifies exact arithmetic, zero-division handling and source references with no provider or database call. CI runs this check; it is not evidence of hosted execution. Keep the manifest/source match and asset inclusion when packaging the eventual release. [Design and pending model acceptance](GENERATED_ANALYSIS.md).

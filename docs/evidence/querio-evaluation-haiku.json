@@ -1,0 +1,737 @@
+{
+  "schemaVersion": 1,
+  "status": "completed_independent_development_review",
+  "createdAt": "2026-11-03T21:47:52.001559+00:00",
+  "study": "Querio development smoke; model claude-haiku-4-5",
+  "reviewMethod": "Independent sibling AI review of saved executed queries, calculations, tool results, notebook outputs and final prose against frozen Python Fraction/Decimal oracles. Not human-accountant certification.",
+  "businessDate": "2026-11-03",
+  "scope": {
+    "cases": 8,
+    "userTurns": 10,
+    "requiredFinalOutcomeRows": 32,
+    "fixtureIsSynthetic": true,
+    "blindedHoldout": false,
+    "nativePairedModelRunPerformed": false,
+    "hostedDaybookChanged": false
+  },
+  "bindings": {
+    "acceptanceVersion": "querio-development-smoke-v1",
+    "acceptanceSha256": "ab79e2dd9d9a8a57937e57546122e6a5cfd20cf5e15c991a353779359f1cd8da",
+    "contextSha256": "265abb90f720970ce7437282f02ba0f58a5269e9bb7e2d5a47ed04fee329e4c7",
+    "agentConfigSha256": "453724c88b071b1388bb7630287185e7d5eda54992881446f532b8e1ed40e18e",
+    "fixtureSourceSha256": {
+      "scripts/flexible-analytics-evaluation/fixture.ts": "7ae31e4366330887a767aaf999d0fa5b6be6f55ee268b59ea9de51027009091f",
+      "scripts/flexible-analytics-evaluation/specification.ts": "9d2ffc6f66d76e3f84d789a0fb83e77658ce7cfdeece811ac5d17b366ae23d61",
+      "scripts/flexible-analytics-evaluation/acceptance-oracles.json": "51b7c5eaef52ea568da4788e5b5d22661031fd5e370882b555e9000f90078a77",
+      "scripts/querio-evaluation/acceptance.ts": "0e30ea52c7c281ad763bc81c54dd1f7e80838e236a85c5c2bcafd1d9757d4528"
+    },
+    "initialFixtureAuditSha256": "47d5a1f1f73e66e06eda3921698123f4aa02aeb8dfed3722686317371f9157a8"
+  },
+  "fixtureVerification": {
+    "organizations": 2,
+    "accounts": 12,
+    "entries": 48,
+    "lines": 96,
+    "balancedEntries": 48,
+    "independentChecks": 2971,
+    "independentlyVerifiedExpectedRows": 32
+  },
+  "primaryFinancialResult": {
+    "passedCases": 3,
+    "totalCases": 8,
+    "passedCaseIds": ["F03", "F14", "F20"],
+    "passedTurns": 3,
+    "totalTurns": 10,
+    "interpretation": "Selected development acceptance under frozen rules with final ledger integrity verified; not universal accuracy."
+  },
+  "requiredOutcomeCounts": {
+    "total": 32,
+    "correct": 22,
+    "wrongZeroDenominatorValues": 8,
+    "contradictoryMean": 1,
+    "precisionMismatch": 1,
+    "missing": 0
+  },
+  "numericalInterpretation": "Required rows are correlated. Correct required figures do not excuse extra wrong claims. F04 has a correct notebook mean but contradictory prose; F09 has a correct median but false explanatory counts.",
+  "precisionInterpretation": "F02 underlying twelve ratios/undefined outcomes are correct. Its September33.3% fails the predeclared33.33% display requirement. This failure stays labeled as precision, not wrong formula.",
+  "retentionInstruction": {
+    "notebooksWithSavedCells": 3,
+    "totalNotebooks": 8,
+    "separateFromFinancialScore": true,
+    "browserVisibilityVerified": false
+  },
+  "cases": [
+    {
+      "id": "F01",
+      "title": "Year and denominator clarification",
+      "userTurns": [
+        "for a year how much % am I spending monthly on rent",
+        "this year",
+        "as a share of total expenses, through today"
+      ],
+      "financialAnswerPass": false,
+      "strictTurnPasses": 0,
+      "turnCount": 3,
+      "requiredOutcomeCounts": {
+        "total": 11,
+        "correct": 3,
+        "wrong": 8,
+        "conflicting": 0,
+        "precisionMismatch": 0,
+        "missing": 0
+      },
+      "expectedRows": [
+        {
+          "label": "2026-01",
+          "value": "50.00",
+          "unit": "ratio",
+          "numerator": "50",
+          "denominator": "100"
+        },
+        {
+          "label": "2026-02",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "label": "2026-03",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "label": "2026-04",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "label": "2026-05",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "label": "2026-06",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "label": "2026-07",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "label": "2026-08",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "label": "2026-09",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "label": "2026-10",
+          "value": "66.67",
+          "unit": "ratio",
+          "numerator": "200",
+          "denominator": "300"
+        },
+        {
+          "label": "2026-11",
+          "value": "50.00",
+          "unit": "ratio",
+          "numerator": "50",
+          "denominator": "100"
+        }
+      ],
+      "observed": {
+        "finalMonthlyPercentages": {
+          "2026-01": "50.00",
+          "2026-02": "0.00",
+          "2026-03": "0.00",
+          "2026-04": "0.00",
+          "2026-05": "0.00",
+          "2026-06": "0.00",
+          "2026-07": "0.00",
+          "2026-08": "0.00",
+          "2026-09": "0.00",
+          "2026-10": "66.67",
+          "2026-11": "50.00"
+        },
+        "unrequestedPeriod": "2026-12",
+        "notebookYearToDatePercent": "58.33",
+        "finalProseYearToDatePercent": "23.81"
+      },
+      "findings": [
+        "Initial ambiguous question received a guessed current-year share-of-annual-rent analysis instead of a clarification.",
+        "Turn1 query included future November4 rent and returned100+200+550=850, yet prose claimed total700 and14.29%/28.57%/78.57%; one summary cell mixed dynamic850 with hardcoded700 and fabricated percentages.",
+        "Turn2 repeated wrong700 total and percentages despite notebook correctly showing850 and11.76%/23.53%/64.71% for its assumed annual-rent denominator.",
+        "Turn3 corrected expense sign, denominator and posting as-of bound. January50%, October66.67%, November50% match expected monthly values.",
+        "Turn3 explicitly coerces zero-denominator results to0; eight elapsed zero-expense months should be undefined. Its scaffold also includes December beyond the requested through-today scope.",
+        "Turn3 notebook summary correctly calculates350/600=58.33%, but final assistant prose invents23.81% and nearly24%.",
+        "Saved notebook has four cells, so this case is not a missing-persistence failure."
+      ],
+      "notebookCellCount": 4,
+      "notebookRetentionInstructionMet": true,
+      "observedModelResponses": 10
+    },
+    {
+      "id": "F02",
+      "title": "Twelve monthly rent percentages",
+      "userTurns": [
+        "For each month from January through December 2025, show rent divided by that month's net total expenses, as a percentage. Include quiet months."
+      ],
+      "financialAnswerPass": false,
+      "strictTurnPasses": 0,
+      "turnCount": 1,
+      "requiredOutcomeCounts": {
+        "total": 12,
+        "correct": 11,
+        "wrong": 0,
+        "conflicting": 0,
+        "precisionMismatch": 1,
+        "missing": 0
+      },
+      "expectedRows": [
+        {
+          "label": "2025-01",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "label": "2025-02",
+          "value": "50.00",
+          "unit": "ratio",
+          "numerator": "50",
+          "denominator": "100"
+        },
+        {
+          "label": "2025-03",
+          "value": "25.00",
+          "unit": "ratio",
+          "numerator": "25",
+          "denominator": "100"
+        },
+        {
+          "label": "2025-04",
+          "value": "100.00",
+          "unit": "ratio",
+          "numerator": "100",
+          "denominator": "100"
+        },
+        {
+          "label": "2025-05",
+          "value": "50.00",
+          "unit": "ratio",
+          "numerator": "50",
+          "denominator": "100"
+        },
+        {
+          "label": "2025-06",
+          "value": "-100.00",
+          "unit": "ratio",
+          "numerator": "-100",
+          "denominator": "100"
+        },
+        {
+          "label": "2025-07",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "label": "2025-08",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "label": "2025-09",
+          "value": "33.33",
+          "unit": "ratio",
+          "numerator": "100",
+          "denominator": "300"
+        },
+        {
+          "label": "2025-10",
+          "value": "40.00",
+          "unit": "ratio",
+          "numerator": "40",
+          "denominator": "100"
+        },
+        {
+          "label": "2025-11",
+          "value": "200.00",
+          "unit": "ratio",
+          "numerator": "200",
+          "denominator": "100"
+        },
+        {
+          "label": "2025-12",
+          "value": "50.00",
+          "unit": "ratio",
+          "numerator": "50",
+          "denominator": "100"
+        }
+      ],
+      "observed": {
+        "scratchPercentages": [
+          null,
+          "50.0",
+          "25.0",
+          "100.0",
+          "50.0",
+          "-100.0",
+          null,
+          null,
+          "33.3",
+          "40.0",
+          "200.0",
+          "50.0"
+        ],
+        "underlyingRatiosCorrect": 12
+      },
+      "findings": [
+        "Executed SQL selects 2025 posted EXPENSE lines and signed base_debit-base_credit, joins a twelve-month calendar, and divides matching monthly totals with zero denominator undefined.",
+        "Rent lookup uses account_name ILIKE %rent%, which selects only account5010 in this exact frozen chart; this does not establish behavior for future ambiguous account names.",
+        "All twelve scratch results have correct operands and division logic. September displays33.3%, not the frozen33.33%; classify as display precision mismatch, not wrong denominator or arithmetic logic.",
+        "Final prose correctly describes the zero, negative and over100% cases; the suggested refund explanation is supported by stored credits.",
+        "The scratch tool result contains a12-row HTML table, but run output exports no cells and saved notebook contains none despite the request to retain calculation/results. A full visible/persistent user table is not verified."
+      ],
+      "notebookCellCount": 0,
+      "notebookRetentionInstructionMet": false,
+      "observedModelResponses": 3
+    },
+    {
+      "id": "F03",
+      "title": "Annual weighted share",
+      "userTurns": ["What percentage of all our 2025 net expenses was rent? One yearly percentage."],
+      "financialAnswerPass": true,
+      "strictTurnPasses": 1,
+      "turnCount": 1,
+      "requiredOutcomeCounts": {
+        "total": 1,
+        "correct": 1,
+        "wrong": 0,
+        "conflicting": 0,
+        "precisionMismatch": 0,
+        "missing": 0
+      },
+      "expectedRows": [
+        {
+          "label": "rent",
+          "value": "58.54",
+          "unit": "ratio",
+          "numerator": "2400",
+          "denominator": "4100"
+        }
+      ],
+      "observed": {
+        "rent": "1200.00",
+        "expenses": "2050.00",
+        "percent": "58.54"
+      },
+      "findings": [
+        "Executed query aggregates posted2025 EXPENSE base_debit-base_credit by account and separately returns all expenses2050 and Rent1200.",
+        "Rent name/code substring predicate selects only account5010 in this frozen chart; no universal ambiguous-account guarantee is inferred.",
+        "Actual tool computation1200/2050*100 prints58.54%, and final answer repeats the correct operands and formula.",
+        "Query/code and result evidence remain in saved history; notebook itself has no cells, violating the retention instruction.",
+        "The predeclared financial acceptance does not specifically require a saved notebook cell; do not introduce that as a post-hoc financial-score gate. Report retention separately."
+      ],
+      "notebookCellCount": 0,
+      "notebookRetentionInstructionMet": false,
+      "observedModelResponses": 2
+    },
+    {
+      "id": "F04",
+      "title": "Mean of defined monthly ratios and count",
+      "userTurns": [
+        "What is the arithmetic mean of the defined monthly rent-to-net-expense percentages for 2025? Include negative ratios, exclude only zero denominators, and tell me how many months."
+      ],
+      "financialAnswerPass": false,
+      "strictTurnPasses": 0,
+      "turnCount": 1,
+      "requiredOutcomeCounts": {
+        "total": 2,
+        "correct": 1,
+        "wrong": 0,
+        "conflicting": 1,
+        "precisionMismatch": 0,
+        "missing": 0
+      },
+      "expectedRows": [
+        {
+          "label": "mean",
+          "value": "49.81",
+          "unit": "ratio",
+          "numerator": "1345",
+          "denominator": "2700"
+        },
+        {
+          "label": "months",
+          "value": "9",
+          "unit": "count"
+        }
+      ],
+      "observed": {
+        "notebookMeanPercent": "49.81",
+        "finalProseMeanPercent": "33.93",
+        "definedMonthCount": 9,
+        "proseRatioRange": ["25", "400"],
+        "actualRatioRange": ["-100", "200"]
+      },
+      "findings": [
+        "An invented RENT account code and reversed expense sign first returned no rent. The agent then inspected the chart and corrected the code to 5010 and sign to debit minus credit.",
+        "After datetime and notebook variable errors, the final calculation recovered. It includes signed June expenses and correctly computes a 49.81% mean across nine defined months.",
+        "The final assistant prose states 33.93%, contradicting its executed 49.81% result. Preserve this conflict rather than crediting only the better surface.",
+        "The prose gives 25\u2013400% as the monthly range. The actual defined ratios span \u2212100% to 200%.",
+        "The notebook materializes ten active months, then reports one excluded month. Across all twelve 2025 months, January, July and August have undefined ratios; only August appears in that active-row table.",
+        "Deleting failed cells repaired the case notebook, not ledger history. The original failed tool messages remain retained."
+      ],
+      "notebookCellCount": 3,
+      "notebookRetentionInstructionMet": true,
+      "observedModelResponses": 9
+    },
+    {
+      "id": "F09",
+      "title": "Median of all monthly totals",
+      "userTurns": [
+        "What is the median of the twelve monthly net-expense totals for 2025, including quiet and refund months?"
+      ],
+      "financialAnswerPass": false,
+      "strictTurnPasses": 0,
+      "turnCount": 1,
+      "requiredOutcomeCounts": {
+        "total": 1,
+        "correct": 1,
+        "wrong": 0,
+        "conflicting": 0,
+        "precisionMismatch": 0,
+        "missing": 0
+      },
+      "expectedRows": [
+        {
+          "label": "median",
+          "value": "150.00",
+          "unit": "USD"
+        }
+      ],
+      "observed": {
+        "medianUSD": "150.00",
+        "proseZeroMonthCount": 4,
+        "actualZeroMonthCount": 3,
+        "prosePositiveMonthCount": 7,
+        "actualPositiveMonthCount": 8
+      },
+      "findings": [
+        "Executed SQL retrieves 2025 posted signed expense totals, joins all twelve calendar months, fills absent months with zero, and computes the median as $150.",
+        "The required final answer, $150.00 USD, is correct.",
+        "The prose claims four quiet zero months but lists January, July and August. The actual zero-net count is three; only January and July have no expense activity.",
+        "The prose claims seven positive months; the actual count is eight. August has $100 rent offset by a $100 software refund, so calling it quiet conflates zero net expense with no activity.",
+        "The explanation refers to six middle values, although an even-sample median uses two middle values. The actual sixth value $100 and seventh $200 yield $150.",
+        "These extra false financial claims fail the frozen whole-answer rule even though the headline median is correct."
+      ],
+      "notebookCellCount": 0,
+      "notebookRetentionInstructionMet": false,
+      "observedModelResponses": 2
+    },
+    {
+      "id": "F14",
+      "title": "Counterparty and account numerator filters",
+      "userTurns": [
+        "What percentage of all October 2025 business expenses was Marketing with counterparty exactly Alpha?"
+      ],
+      "financialAnswerPass": true,
+      "strictTurnPasses": 1,
+      "turnCount": 1,
+      "requiredOutcomeCounts": {
+        "total": 1,
+        "correct": 1,
+        "wrong": 0,
+        "conflicting": 0,
+        "precisionMismatch": 0,
+        "missing": 0
+      },
+      "expectedRows": [
+        {
+          "label": "alpha",
+          "value": "24.00",
+          "unit": "ratio",
+          "numerator": "24",
+          "denominator": "100"
+        }
+      ],
+      "observed": {
+        "marketingExactlyAlpha": "120.00",
+        "allOctoberExpenses": "500.00",
+        "percent": "24.00"
+      },
+      "findings": [
+        "SQL selects all posted expense lines from October 1, 2025 inclusive to November 1 exclusive.",
+        "The Python denominator sums all returned signed expense lines. The numerator intersects Marketing with counterparty == Alpha using equality, not prefix or substring matching.",
+        "The Marketing name substring matches only account 5030 in this exact fixture. No guarantee for future ambiguous account names is inferred.",
+        "The actual printed $120 / $500 produces 24.00%. The final prose repeats the correct numerator, denominator and share.",
+        "Saved history retains the query, code and results. The empty notebook is a separate retention instruction issue, not a new financial-score gate."
+      ],
+      "notebookCellCount": 0,
+      "notebookRetentionInstructionMet": false,
+      "observedModelResponses": 2
+    },
+    {
+      "id": "F19",
+      "title": "Different causes of zero denominator",
+      "userTurns": [
+        "Show January and August 2025 rent shares of net expenses, and explain why each percentage cannot be calculated."
+      ],
+      "financialAnswerPass": false,
+      "strictTurnPasses": 0,
+      "turnCount": 1,
+      "requiredOutcomeCounts": {
+        "total": 2,
+        "correct": 2,
+        "wrong": 0,
+        "conflicting": 0,
+        "precisionMismatch": 0,
+        "missing": 0
+      },
+      "expectedRows": [
+        {
+          "label": "2025-01",
+          "value": null,
+          "unit": "ratio"
+        },
+        {
+          "label": "2025-08",
+          "value": null,
+          "unit": "ratio"
+        }
+      ],
+      "observed": {
+        "januaryPercent": null,
+        "augustPercent": null,
+        "januaryAmountsClaimed": "unavailable",
+        "januaryRecordedAmounts": ["0.00", "0.00"],
+        "augustRent": "100.00",
+        "augustNetExpense": "0.00"
+      },
+      "findings": [
+        "Both January and August percentages are correctly marked unavailable.",
+        "However, January rent and total expense are shown as NaN/unavailable rather than known zero sums. The notebook explicitly says both amounts are unavailable because the month has no rows.",
+        "The frozen requirement and supplied accounting context require January 0/0 with a zero net-expense denominator. An absence of recorded activity is different from unknown financial amounts.",
+        "August is correctly explained as $100 rent plus a $100 software refund, yielding zero net expense. These amounts are supported by executed account-level SQL.",
+        "The final notebook has four cells. Syntax and notebook errors were internally repaired; original errors remain retained."
+      ],
+      "notebookCellCount": 4,
+      "notebookRetentionInstructionMet": true,
+      "observedModelResponses": 9
+    },
+    {
+      "id": "F20",
+      "title": "Signed refunds and over-one ratios",
+      "userTurns": [
+        "Show June and November 2025 rent divided by net total expenses as percentages, keeping refund signs."
+      ],
+      "financialAnswerPass": true,
+      "strictTurnPasses": 1,
+      "turnCount": 1,
+      "requiredOutcomeCounts": {
+        "total": 2,
+        "correct": 2,
+        "wrong": 0,
+        "conflicting": 0,
+        "precisionMismatch": 0,
+        "missing": 0
+      },
+      "expectedRows": [
+        {
+          "label": "2025-06",
+          "value": "-100.00",
+          "unit": "ratio",
+          "numerator": "-100",
+          "denominator": "100"
+        },
+        {
+          "label": "2025-11",
+          "value": "200.00",
+          "unit": "ratio",
+          "numerator": "200",
+          "denominator": "100"
+        }
+      ],
+      "observed": {
+        "junePercent": "-100.00",
+        "novemberPercent": "200.00",
+        "juneRent": "100.00",
+        "juneNetExpense": "-100.00",
+        "novemberRent": "100.00",
+        "novemberNetExpense": "50.00"
+      },
+      "findings": [
+        "The first description-based search missed rent and produced zero numerators. The assistant explicitly recognized the failed lookup, inspected actual account names, and recomputed before its final answer.",
+        "The final SQL selects the Rent account by exact account_name and calculates signed total expenses separately for June and November 2025, filtering posted status.",
+        "The final tool result and answer agree: June $100 / \u2212$100 = \u2212100%; November $100 / $50 = 200%. All explanatory amounts and refund-sign claims are supported.",
+        "The two exact percentages normalize to the required \u2212100.00% and 200.00%; omitted trailing zeros are not a numerical mismatch.",
+        "Notebook remains empty, although queries and actual results are retained in saved history. This is a separate instruction issue, not a post-hoc numerical gate."
+      ],
+      "notebookCellCount": 0,
+      "notebookRetentionInstructionMet": false,
+      "observedModelResponses": 4
+    }
+  ],
+  "usage": {
+    "observedCompletedModelResponses": 41,
+    "modelCounts": {
+      "claude-haiku-4-5": 41
+    },
+    "summedReportedFields": {
+      "input_tokens": 10387,
+      "output_tokens": 19880,
+      "cache_read_input_tokens": 412905,
+      "cache_creation_input_tokens": 30909
+    },
+    "byCase": {
+      "F01": {
+        "observedModelResponses": 10,
+        "input_tokens": 7802,
+        "output_tokens": 4343,
+        "cache_read_input_tokens": 99460,
+        "cache_creation_input_tokens": 5790
+      },
+      "F02": {
+        "observedModelResponses": 3,
+        "input_tokens": 365,
+        "output_tokens": 1200,
+        "cache_read_input_tokens": 25339,
+        "cache_creation_input_tokens": 4276
+      },
+      "F03": {
+        "observedModelResponses": 2,
+        "input_tokens": 347,
+        "output_tokens": 543,
+        "cache_read_input_tokens": 16580,
+        "cache_creation_input_tokens": 856
+      },
+      "F04": {
+        "observedModelResponses": 9,
+        "input_tokens": 412,
+        "output_tokens": 4920,
+        "cache_read_input_tokens": 93906,
+        "cache_creation_input_tokens": 6522
+      },
+      "F09": {
+        "observedModelResponses": 2,
+        "input_tokens": 354,
+        "output_tokens": 892,
+        "cache_read_input_tokens": 16580,
+        "cache_creation_input_tokens": 1448
+      },
+      "F14": {
+        "observedModelResponses": 2,
+        "input_tokens": 349,
+        "output_tokens": 624,
+        "cache_read_input_tokens": 16580,
+        "cache_creation_input_tokens": 943
+      },
+      "F19": {
+        "observedModelResponses": 9,
+        "input_tokens": 394,
+        "output_tokens": 5614,
+        "cache_read_input_tokens": 107422,
+        "cache_creation_input_tokens": 7592
+      },
+      "F20": {
+        "observedModelResponses": 4,
+        "input_tokens": 364,
+        "output_tokens": 1744,
+        "cache_read_input_tokens": 37038,
+        "cache_creation_input_tokens": 3482
+      }
+    },
+    "deduplication": "Completed assistant entries deduplicated by session and entry identity, not streamed token events. Model-change metadata is not a model response. Cumulative token fields are not summed.",
+    "limits": "Hidden service-internal attempts are not independently observable. Reported token metadata is not an invoice, verified account balance or dollar charge."
+  },
+  "priorAttempt": {
+    "label": "v1 operational attempt, preserved separately",
+    "attemptedCases": 6,
+    "completedUserTurns": 8,
+    "financialFailure": ["F01"],
+    "executionUnavailable": ["F02", "F03", "F04", "F09", "F14"],
+    "unrunCases": ["F19", "F20"],
+    "endToEndPassed": 0,
+    "endToEndTotal": 6,
+    "modelAccuracyScore": null,
+    "observedCompletedModelResponses": 23,
+    "summedReportedUsageFields": {
+      "input_tokens": 6993,
+      "output_tokens": 7284,
+      "cache_read_input_tokens": 195328,
+      "cache_creation_input_tokens": 17882
+    },
+    "receiptSha256": "1dcad82f3fe9bab67f76a5f244c0e65d7143c5c3a6a7bac60c47a72ef44a12ce",
+    "interpretation": "Closed-session tool errors prevent a six-case numerical model score; these outcomes are not pooled with v2."
+  },
+  "finalLedgerIntegrity": {
+    "status": "passed",
+    "fixtureRecordsUnchanged": true,
+    "productionFourTableFingerprintsUnchanged": true,
+    "fixtureCounts": {
+      "organizations": 2,
+      "accounts": 12,
+      "entries": 48,
+      "lines": 96
+    },
+    "productionCounts": {
+      "organizations": 1,
+      "accounts": 22,
+      "entries": 76,
+      "lines": 152
+    },
+    "method": "Independent offline byte comparison of captured fixture responses and production count/MD5 row-fingerprint responses; all four capture SHA256 hashes checked against the closure receipt.",
+    "receiptSha256": "0f2a7fd3aaa835dfbc48173e6a2d62f3ffa31fdeb53114d82c273b3a235ad254",
+    "captureSha256": {
+      "owner-records-response.json": "c98cb1e3d1ceb5f3c2dd02fdc8724b87db91526a938d5eb122bd5041952ab62c",
+      "owner-records-final.json": "c98cb1e3d1ceb5f3c2dd02fdc8724b87db91526a938d5eb122bd5041952ab62c",
+      "production-before.json": "bf6640415163b0d50fab5e131cb309bdc41a5f152080f56a156977ec4afa4de1",
+      "production-final.json": "bf6640415163b0d50fab5e131cb309bdc41a5f152080f56a156977ec4afa4de1"
+    },
+    "limits": "Fixture full captured records are byte-equal. Production comparison covers organizations, accounts, journal entries and journal lines using counts and MD5 row fingerprints, not every application table or unobserved intermediate state."
+  },
+  "evidenceSha256": {
+    "v2/F02/runner-014-poll_run.response.json": "073abb105fcde14c82f5e19589669de05eed3ea5d3b772087a69dac5a1fcffc2",
+    "v2/F02/runner-015-save_history.response.json": "c21249102221aea5b239999d4dffad11b43c5844c837dc2a397bfcc7dcc7accb",
+    "v2/F02/runner-016-save_notebook.response.json": "21cfd38a2cf05067cb73503b082bdca5979a26da424f17448f3e2251d2a1cd18",
+    "v2/F02-independent-review.json": "c625391e9869ed30f6e3245e0e0409840aa0eadaa80218e225bfa66b09199369",
+    "v2/F01/runner-051-poll_run.response.json": "e844b2d7d8b30e02ff86bd96210284575aea0ec07712278f064423fb319bb428",
+    "v2/F01/runner-052-save_history.response.json": "340e16fad5aaebf5362c7df510f796a71b69c4980e6084108e051e1da4fadac0",
+    "v2/F01/runner-053-save_notebook.response.json": "49c7bc12d20e2cec1bb86518f0e21668317b9703d3323cce287b9995a4afa13f",
+    "v2/F01-independent-review.json": "aa9cc01ea87b95312d9147e70923887687fd223f7c9a44a88036a725555f3249",
+    "v2/F03/runner-068-poll_run.response.json": "376c716dbac3a77f462ef6545b0e4ce7cd6fe078d9fc8f5308245e9b687c87ed",
+    "v2/F03/runner-069-save_history.response.json": "e5a4f9a4f4ef1cd98ff8c0eccb1bb79ebbc0fe9a0ff199dbeb1570828f18ce35",
+    "v2/F03/runner-070-save_notebook.response.json": "ac5e201464c1cb566454d6b6c0498b1b202d5a8b24e1682829d0d7d56435f233",
+    "v2/F03-independent-review.json": "c350d176f1589cccd606c81be12bfaeef3f87acf4cb59ad6d3066c050d660aa1",
+    "v2/F04/runner-099-poll_run.response.json": "6395cf4c258f3dd1a465a5b6fdb2bc45118807111c5e9f3d47e8644f183d4ad5",
+    "v2/F04/runner-100-save_history.response.json": "480555eb31c4f768ee78ee28f791c95b0b57560afe7626ef482c755dd6b9177b",
+    "v2/F04/runner-101-save_notebook.response.json": "ed2b3c7f08d03c2af399b94cb3a0990cfb7c57ad3597847b5fa87b17bc1915e1",
+    "v2/F04-independent-review.json": "e008e1b25d61b3e91c9e6e41fe1f510dc9d1c2f0cc4551377341e4aaa64e5020",
+    "v2/F09/runner-117-poll_run.response.json": "312cd4cecbafc89db53b696e94489cd9ceb07ee6086950dc05135cfb8f93a4ab",
+    "v2/F09/runner-118-save_history.response.json": "03d0a1118bb45bf644ac58dcf9eb53af88505339e9bab6b913a14e62b9e58236",
+    "v2/F09/runner-119-save_notebook.response.json": "7503584ecb01b4104f929e7d6a2d0d2effc7c24bb0ec8dd10e07bb58a8198367",
+    "v2/F09-independent-review.json": "5ba752a52643557acc86992372d26b9ed416d86e5bd71dfbbc088a9b91daa278",
+    "v2/F14/runner-134-poll_run.response.json": "8c701cd4f09a648d1e1cd9240f9e53629694d1270f45978291d83ce45b1d7612",
+    "v2/F14/runner-135-save_history.response.json": "c976324278181a2276f8431f5f9c4bdfd0988fc6536e4a97385db8db256a99a6",
+    "v2/F14/runner-136-save_notebook.response.json": "e9f8a599f253db4f965f65b39a024ca8395ca8a06eca6288021bfce3be0488eb",
+    "v2/F14-independent-review.json": "469f2dff5d48b277c2936960edce15318bbe88b3874219ca658a9b8728bd91b4",
+    "v2/F19/runner-165-poll_run.response.json": "57e63257e900ad0048be1b36ef78f714a8a1c4a08f16e88388bead4275b453c8",
+    "v2/F19/runner-166-save_history.response.json": "96dd704371cc6b962792166dc8ed6b83459c6d329c255dfb3b41fc49069756a6",
+    "v2/F19/runner-167-save_notebook.response.json": "b84c90fae350721149b66c6c16bf3ab4cddf31346088329880500d810adc24e7",
+    "v2/F19-independent-review.json": "af4aefdfacaba5e52535292ce1980112bdaf1a411b56c7d5b387ff06923900d4",
+    "v2/F20/runner-186-poll_run.response.json": "be52e8fc1ab71258fd1eb22c870fb1cba466ffa6ff7e0160a8e7756a2fbca1d6",
+    "v2/F20/runner-187-save_history.response.json": "5cf65fe2834961592fff8a5610379a281f2badf5447e9e84f4615c85df5b3738",
+    "v2/F20/runner-188-save_notebook.response.json": "390dc4db0dde74222239474b5a4a5fe37780a2c76f5e693f52478d85d7dc5adc",
+    "v2/F20-independent-review.json": "5f83f51ecdbe4ae632cf75d1080c5fc929312c0d967fc9c5a7bdaaec7b0c161a"
+  },
+  "limits": [
+    "No score is established for the full22-case or53-case suites, production data, physical UI devices or million-user capacity.",
+    "No native application model result on this exact selected fixture is provided as a paired baseline.",
+    "The separate two-case default-model diagnostic does not enter this eight-case Haiku score.",
+    "Final query matching is reviewed against this exact chart; substring account selection does not establish future ambiguous-name reliability."
+  ],
+  "finalizedAt": "2026-11-03T21:49:58.238261+00:00"
+}

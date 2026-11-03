@@ -1,0 +1,351 @@
+{
+  "schemaVersion": 1,
+  "status": "completed_targeted_default_model_diagnostic",
+  "createdAt": "2026-11-03T21:49:58.242450+00:00",
+  "model": "claude-sonnet-5-5",
+  "scope": {
+    "caseIds": ["F01", "F02"],
+    "cases": 2,
+    "userTurns": 4,
+    "requiredFinalOutcomeRows": 23,
+    "selectedAfterHaikuFailures": true,
+    "blindedHoldout": false,
+    "notAnEightCaseModelComparison": true
+  },
+  "reviewMethod": "Independent sibling AI review of actual SQL, saved notebook outputs and prose against frozen Python Fraction/Decimal oracles. Not human-accountant certification.",
+  "bindings": {
+    "acceptanceSha256": "ab79e2dd9d9a8a57937e57546122e6a5cfd20cf5e15c991a353779359f1cd8da",
+    "contextSha256": "265abb90f720970ce7437282f02ba0f58a5269e9bb7e2d5a47ed04fee329e4c7",
+    "agentConfigSha256": "26be52c07ba37679708e9c0a34af40d4ab50831a920ea16e2d4bdf5d8c1041a0",
+    "modelOverrideReceiptSha256": "3317c42cfa7e5eedc58732d11eac6b016ca253ce7b06badb784e1d8309182731",
+    "onlyAgentConfigDifferenceFromHaiku": "model",
+    "businessDate": "2026-11-03"
+  },
+  "strictResult": {
+    "passedCases": 1,
+    "totalCases": 2,
+    "passedCaseIds": ["F02"],
+    "passedTurns": 2,
+    "totalTurns": 4
+  },
+  "requiredOutcomeCounts": {
+    "correct": 23,
+    "total": 23,
+    "wrong": 0,
+    "missing": 0
+  },
+  "matchedSelectedComparison": {
+    "caseIds": ["F01", "F02"],
+    "haikuStrictCases": {
+      "passed": 0,
+      "total": 2
+    },
+    "sonnetStrictCases": {
+      "passed": 1,
+      "total": 2
+    },
+    "haikuUncontradictedFrozenPrecisionOutcomes": {
+      "correct": 14,
+      "total": 23
+    },
+    "sonnetUncontradictedFrozenPrecisionOutcomes": {
+      "correct": 23,
+      "total": 23
+    },
+    "interpretation": "A small post-failure diagnostic on two known cases. No eight-case winner, general accuracy improvement or statistical superiority is established."
+  },
+  "cases": [
+    {
+      "id": "F01",
+      "userTurns": [
+        "for a year how much % am I spending monthly on rent",
+        "this year",
+        "as a share of total expenses, through today"
+      ],
+      "strictFinancialConversationPass": false,
+      "strictTurnPasses": 1,
+      "totalTurns": 3,
+      "turnReview": [
+        {
+          "turn": 1,
+          "pass": false,
+          "reason": "Assumed unresolved scope instead of the required clarification."
+        },
+        {
+          "turn": 2,
+          "pass": false,
+          "reason": "Assumed unresolved scope instead of the required clarification."
+        },
+        {
+          "turn": 3,
+          "pass": true,
+          "reason": "Correct confirmation of the now-specified scope and existing verified notebook."
+        }
+      ],
+      "requiredOutcomeCounts": {
+        "total": 11,
+        "correct": 11,
+        "wrong": 0,
+        "missing": 0
+      },
+      "checkedRows": [
+        {
+          "month": "2026-01",
+          "expected": "50.00",
+          "observed": "50.0",
+          "correct": true
+        },
+        {
+          "month": "2026-02",
+          "expected": null,
+          "observed": null,
+          "correct": true
+        },
+        {
+          "month": "2026-03",
+          "expected": null,
+          "observed": null,
+          "correct": true
+        },
+        {
+          "month": "2026-04",
+          "expected": null,
+          "observed": null,
+          "correct": true
+        },
+        {
+          "month": "2026-05",
+          "expected": null,
+          "observed": null,
+          "correct": true
+        },
+        {
+          "month": "2026-06",
+          "expected": null,
+          "observed": null,
+          "correct": true
+        },
+        {
+          "month": "2026-07",
+          "expected": null,
+          "observed": null,
+          "correct": true
+        },
+        {
+          "month": "2026-08",
+          "expected": null,
+          "observed": null,
+          "correct": true
+        },
+        {
+          "month": "2026-09",
+          "expected": null,
+          "observed": null,
+          "correct": true
+        },
+        {
+          "month": "2026-10",
+          "expected": "66.67",
+          "observed": "66.67",
+          "correct": true
+        },
+        {
+          "month": "2026-11",
+          "expected": "50.00",
+          "observed": "50.0",
+          "correct": true
+        }
+      ],
+      "extraFinancialClaims": "verified_no_wrong_extra_figures_observed",
+      "notebookCellCount": 5,
+      "observedModelResponses": 7,
+      "findings": [
+        "All eleven requested final monthly outcomes are correct, including eight unavailable zero-denominator months. Exact account 5010, all-expense denominator, posted status and through-today dates are verified in executed SQL.",
+        "The persisted table, chart and summary agree. Extra figures are supported: rent350, expenses600, weighted share58.33%, and simple mean of the three defined monthly shares55.56%.",
+        "The first answer explicitly assumes current-year and total-expense denominator instead of asking for the required clarification. The second answer retains that assumption rather than resolving the missing denominator.",
+        "The final user clarification matches the existing correct notebook. Its five saved cells are unchanged across all three turns, verified by exact serialization comparison.",
+        "The whole conversation fails only the frozen clarification policy; do not mislabel this as an observed incorrect dollar or percentage answer."
+      ]
+    },
+    {
+      "id": "F02",
+      "userTurns": [
+        "For each month from January through December 2025, show rent divided by that month's net total expenses, as a percentage. Include quiet months."
+      ],
+      "strictFinancialConversationPass": true,
+      "strictTurnPasses": 1,
+      "totalTurns": 1,
+      "turnReview": [
+        {
+          "turn": 1,
+          "pass": true,
+          "reason": "Correct complete answer with supported explanation."
+        }
+      ],
+      "requiredOutcomeCounts": {
+        "total": 12,
+        "correct": 12,
+        "wrong": 0,
+        "missing": 0
+      },
+      "checkedRows": [
+        {
+          "month": "2025-01",
+          "expected": null,
+          "observed": null,
+          "correct": true
+        },
+        {
+          "month": "2025-02",
+          "expected": "50.00",
+          "observed": "50.0",
+          "correct": true
+        },
+        {
+          "month": "2025-03",
+          "expected": "25.00",
+          "observed": "25.0",
+          "correct": true
+        },
+        {
+          "month": "2025-04",
+          "expected": "100.00",
+          "observed": "100.0",
+          "correct": true
+        },
+        {
+          "month": "2025-05",
+          "expected": "50.00",
+          "observed": "50.0",
+          "correct": true
+        },
+        {
+          "month": "2025-06",
+          "expected": "-100.00",
+          "observed": "-100.0",
+          "correct": true
+        },
+        {
+          "month": "2025-07",
+          "expected": null,
+          "observed": null,
+          "correct": true
+        },
+        {
+          "month": "2025-08",
+          "expected": null,
+          "observed": null,
+          "correct": true
+        },
+        {
+          "month": "2025-09",
+          "expected": "33.33",
+          "observed": "33.33",
+          "correct": true
+        },
+        {
+          "month": "2025-10",
+          "expected": "40.00",
+          "observed": "40.0",
+          "correct": true
+        },
+        {
+          "month": "2025-11",
+          "expected": "200.00",
+          "observed": "200.0",
+          "correct": true
+        },
+        {
+          "month": "2025-12",
+          "expected": "50.00",
+          "observed": "50.0",
+          "correct": true
+        }
+      ],
+      "extraFinancialClaims": "verified_no_wrong_extra_figures_observed",
+      "notebookCellCount": 3,
+      "observedModelResponses": 4,
+      "findings": [
+        "All twelve requested monthly percentages and unavailable outcomes match the frozen oracle, including September33.33%, June\u2212100% and November200%.",
+        "Executed SQL uses exact Rent account5010, all posted expense accounts, signed debit-credit values, full2025 bounds, complete calendar scaffold and explicit zero-denominator NULL.",
+        "The three-cell notebook persists the query and explanations. Final prose and extra refund/zero explanations are consistent with the recorded data.",
+        "The model explicitly says it has not checked visual rendering. This review verifies saved data/output artifacts, not a live browser UI."
+      ]
+    }
+  ],
+  "usage": {
+    "observedCompletedModelResponses": 11,
+    "modelCounts": {
+      "claude-sonnet-5-5": 11
+    },
+    "summedReportedFields": {
+      "input_tokens": 11019,
+      "output_tokens": 5377,
+      "cache_read_input_tokens": 131638,
+      "cache_creation_input_tokens": 20768
+    },
+    "byCase": {
+      "F01": {
+        "observedModelResponses": 7,
+        "input_tokens": 10898,
+        "output_tokens": 3620,
+        "cache_read_input_tokens": 79366,
+        "cache_creation_input_tokens": 16934
+      },
+      "F02": {
+        "observedModelResponses": 4,
+        "input_tokens": 121,
+        "output_tokens": 1757,
+        "cache_read_input_tokens": 52272,
+        "cache_creation_input_tokens": 3834
+      }
+    },
+    "deduplication": "Saved completed assistant entries by session and entry identity; no token deltas or model-change metadata. Cumulative token fields are not summed.",
+    "limits": "Hidden service-internal attempts are not independently observable. Reported tokens are not a Querio dollar invoice or account balance."
+  },
+  "finalLedgerIntegrity": {
+    "status": "passed",
+    "fixtureRecordsUnchanged": true,
+    "productionFourTableFingerprintsUnchanged": true,
+    "fixtureCounts": {
+      "organizations": 2,
+      "accounts": 12,
+      "entries": 48,
+      "lines": 96
+    },
+    "productionCounts": {
+      "organizations": 1,
+      "accounts": 22,
+      "entries": 76,
+      "lines": 152
+    },
+    "method": "Independent offline byte comparison of captured fixture responses and production count/MD5 row-fingerprint responses; all four capture SHA256 hashes checked against the closure receipt.",
+    "receiptSha256": "0f2a7fd3aaa835dfbc48173e6a2d62f3ffa31fdeb53114d82c273b3a235ad254",
+    "captureSha256": {
+      "owner-records-response.json": "c98cb1e3d1ceb5f3c2dd02fdc8724b87db91526a938d5eb122bd5041952ab62c",
+      "owner-records-final.json": "c98cb1e3d1ceb5f3c2dd02fdc8724b87db91526a938d5eb122bd5041952ab62c",
+      "production-before.json": "bf6640415163b0d50fab5e131cb309bdc41a5f152080f56a156977ec4afa4de1",
+      "production-final.json": "bf6640415163b0d50fab5e131cb309bdc41a5f152080f56a156977ec4afa4de1"
+    },
+    "limits": "Fixture full captured records are byte-equal. Production comparison covers organizations, accounts, journal entries and journal lines using counts and MD5 row fingerprints, not every application table or unobserved intermediate state."
+  },
+  "evidenceSha256": {
+    "default-model/F01/runner-029-poll_run.response.json": "0813aa6d67ebe7e69bf093a7abc5d9936af07318e386d8f557b82001f6a3be53",
+    "default-model/F01/runner-030-save_history.response.json": "9d70d50558dd1f255866a77cd6fbaf68216a41b5ce8f6f5d9b3e61780b1d3f14",
+    "default-model/F01/runner-031-save_notebook.response.json": "2813f47b69b488897dd3ddd64712f7e0da1f16e279710348509c426bb823f8ab",
+    "default-model/F01/runner-020-poll_run.response.json": "4da38acef4db6bf518af440aaf44cc0f36aab744311646f9ef74d6f48cea6720",
+    "default-model/F01/runner-021-save_history.response.json": "868ad13c5fc8ccafe05e7dc9d406f3e4bc498b5d169f46dfedd8b2beef200b33",
+    "default-model/F01/runner-022-save_notebook.response.json": "8a8f1edd53fb1378adfbd24ddd68abf036f8616319eea5fd8e9f934ff5006007",
+    "default-model/F01/runner-025-poll_run.response.json": "e8962c0ff21d1e2f016497fe8ccb47054c8fca31f97a5161057ae700e1967730",
+    "default-model/F01/runner-026-save_history.response.json": "d5aca250855f14a0b9387f104aa468c0778cc4cd03cf4181fc13c4f2bbe375a4",
+    "default-model/F01/runner-027-save_notebook.response.json": "fc80de06137c90affbf64ddfdc78140504e5affb23f1294b7bead4ddc08d1e39",
+    "default-model/F02/runner-050-poll_run.response.json": "55a88d960596b51a1289b8094cfed34f814c274756d5f11ec5f43aaf475e9331",
+    "default-model/F02/runner-051-save_history.response.json": "4bd7f3104e6fa647aba2ab667b48087eb6a2a5ff24b3d2425771b1bab94f50bd",
+    "default-model/F02/runner-052-save_notebook.response.json": "8130cd8d5c9d15d6afa0c04f1364f9275b27e33e1ad8300707cc4a05977749e9"
+  },
+  "limits": [
+    "No fresh native-Daybook model run is a paired baseline for this fixture.",
+    "F01 strict failure is clarification behavior despite correct numbers and disclosed assumptions.",
+    "No hosted Daybook change, browser rendering verification, production-scale claim or full-suite score follows from these results."
+  ]
+}

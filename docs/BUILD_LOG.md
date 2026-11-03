@@ -1,5 +1,13 @@
 # Build log
 
+## 2026 11 03 Actual Querio connection and evaluation
+
+At the user's explicit request, connected Querio to a dedicated Neon database with a restricted reader and four accounting views. The fixture exporter and twenty offline tests preserve the original 48-entry/96-line synthetic fixture; an independent captured-database audit passed 2,971 assertions. All amounts, balance constraints, row identities and thirty-two expected final outcomes were checked without importing the product calculator. No production ledger records were copied into the service.
+
+The initial run exposed both a genuine answer failure and closed-session tool failures after reusing an execution environment. Those originals remain preserved. A fresh environment per case allowed all eight fixed cases/ten turns to complete; financial answer review passed three cases, with numerical, precision, semantic and narrative errors distinguished. Two original rent cases were also completed with the default Sonnet model as a separately labeled diagnostic: 23/23 required outcomes, 1/2 strict conversations. Its remaining failure was a disclosed assumption instead of required clarification; no wrong final number was found. Matched Haiku results were 14/23 and 0/2. These targeted results do not establish an eight-case Sonnet score or superiority over native Daybook. The model override changes only model selection, retaining questions, schema and accounting instructions.
+
+The tracked-run POST returned HTTP406; the documented message-events POST worked and returned actual durable run IDs. Full responses, tool results, notebook source and session cleanup are retained privately. Final captured fixture records and production accounting fingerprints match their pre-test values. All execution environments are closed. The app's production chat and native candidate remain unchanged; no subscription purchase occurred, and actual Querio invoice cost is unavailable. [Evaluation report](QUERIO_EVALUATION.md).
+
 ## 2026 11 03 Querio workspace access resolved
 
 The user described Add datasource / MCP setup / CLI setup. Rather than asking them to locate an unknown setting, the existing-key selected-workspace GET resolved the workspace directly. Datasource discovery found configured PostgreSQL `sample-data`, and a live schema-metadata GET succeeded. The earlier empty workspace list was not proof that setup was missing. Five total GETs, no inference or external mutations. Daybook is not connected; actual analyst access and a controlled comparison remain future work. Workspace context is retained privately, and the user need not supply its ID.
