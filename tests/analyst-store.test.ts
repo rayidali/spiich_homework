@@ -99,9 +99,16 @@ beforeEach(async (context) => {
     [org, otherOrg],
   );
   await seedChart(org);
-  const ids = Object.fromEntries((await accounts(org)).map((account) => [account.code, account.id]));
+  const chart = await accounts(org);
+  for (const code of ['1010', '3010', '5030']) {
+    const account = chart.find((candidate) => candidate.code === code);
+    expect(account, `Store fixture requires seeded posting account ${code}`).toBeDefined();
+    expect(account?.is_group, `Store fixture account ${code} must permit posting`).toBe(false);
+    expect(account?.archived, `Store fixture account ${code} must be active`).toBe(false);
+  }
+  const ids = Object.fromEntries(chart.map((account) => [account.code, account.id]));
   for (const [debit, credit, amount] of [
-    ['1010', '3000', '1000.00'],
+    ['1010', '3010', '1000.00'],
     ['5030', '1010', '12.35'],
   ]) {
     await createEntry(

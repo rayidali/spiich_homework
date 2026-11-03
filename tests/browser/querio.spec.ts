@@ -233,6 +233,40 @@ test('a lost send response reconciles the accepted turn without submitting it tw
   expect(calls.writesToBooks).toBe(0);
 });
 
+for (const recovery of ['invalid stored UUID', 'rejected saved ID'] as const) {
+  test(`${recovery} recovers without trapping the next conversation`, async ({ page }) => {
+    const calls = await stubWorkspace(page);
+    const staleId =
+      recovery === 'invalid stored UUID'
+        ? '11111111-1111-1111-1111-111111111111'
+        : 'a4653ba0-d0ec-40fa-902d-1fa8758a8941';
+    let rejectedReads = 0;
+    await page.route(`**/api/ai/querio/conversations/${staleId}`, async (route) => {
+      rejectedReads++;
+      await route.fulfill({
+        status: 400,
+        json: { error: { code: 'VALIDATION_ERROR', message: 'Invalid conversation reference.' } },
+      });
+    });
+    const storageKey = `daybook.querio.conversation.v1.${organizationId}`;
+    await page.addInitScript(({ key, id }) => sessionStorage.setItem(key, id), {
+      key: storageKey,
+      id: staleId,
+    });
+    await page.goto('/analyst');
+    await expect(page.getByLabel('Ask Querio a financial question')).toBeVisible();
+    await expect.poll(() => page.evaluate((key) => sessionStorage.getItem(key), storageKey)).toBeNull();
+    expect(rejectedReads).toBe(recovery === 'invalid stored UUID' ? 0 : 1);
+    await page.getByLabel('Ask Querio a financial question').fill('Show monthly expenses.');
+    await page.getByRole('button', { name: 'Send to Querio', exact: true }).click();
+    await expect(page.getByText('Recorded expenses were $100.00.', { exact: true })).toBeVisible();
+    expect(calls.creates).toBe(1);
+    expect(calls.sends).toHaveLength(1);
+    expect(calls.sends[0].conversationId).not.toBe(staleId);
+    expect(calls.writesToBooks).toBe(0);
+  });
+}
+
 test('unavailable integration and failed analysis have clear non-posting states', async ({ page }) => {
   const calls = await stubWorkspace(page, { available: false });
   await page.goto('/analyst');

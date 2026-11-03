@@ -207,6 +207,134 @@ describe('Querio output normalization', () => {
     expect(result.cells[0].outputs[0]).toMatchObject({ type: 'chart', chart: { kind: mark } });
   });
 
+  it.each(['.0%', '.1%', '.2%'])(
+    'converts %s fractional axes into percentage points while preserving negative and null values',
+    (format) => {
+      const presentation = staticChart({
+        data: {
+          values: [
+            { month: 'Jan', share: '0.1' },
+            { month: 'Feb', share: '-0.0125' },
+            { month: 'Mar', share: null },
+            { month: 'Apr', share: '0' },
+          ],
+        },
+        encoding: {
+          x: { field: 'month', type: 'ordinal' },
+          y: { field: 'share', type: 'quantitative', axis: { format }, title: 'Rent share' },
+        },
+      });
+      const original = structuredClone(presentation);
+      const result = normalizeQuerioOutput(completed(presentation), notebook);
+      expect(result.cells[0].outputs[0]).toMatchObject({
+        type: 'chart',
+        chart: {
+          format: 'percent',
+          labels: ['Jan', 'Feb', 'Mar', 'Apr'],
+          series: [{ name: 'Rent share', values: ['10', '-1.25', null, '0'] }],
+        },
+      });
+      expect(result.warnings).toEqual([]);
+      expect(presentation).toEqual(original);
+      expect(result.cells[0].code).toBe(notebook.serialization.cells[0].code);
+    },
+  );
+
+  it('preserves long decimal precision and missing coordinates across percentage series', () => {
+    const fraction = '0.1234567890123456789012345678901234567890123456789';
+    const result = normalizeQuerioOutput(
+      completed(undefined, {
+        cells: [
+          {
+            cellId: 'result',
+            presentation: staticChart({
+              mark: 'line',
+              data: {
+                values: [
+                  { month: 'Jan', share: fraction, category: 'Rent' },
+                  { month: 'Feb', share: '1e-7', category: 'Rent' },
+                  { month: 'Jan', share: '-0.004', category: 'Supplies' },
+                ],
+              },
+              encoding: {
+                x: { field: 'month', type: 'ordinal' },
+                y: { field: 'share', type: 'quantitative', axis: { format: '.2%', formatType: 'number' } },
+                color: { field: 'category', type: 'nominal' },
+              },
+            }),
+          },
+          { cellId: 'raw', presentation: { type: 'table', columns: ['share'], rows: [[fraction]] } },
+        ],
+      }),
+      notebook,
+    );
+    expect(result.cells[0].outputs[0]).toMatchObject({
+      type: 'chart',
+      chart: {
+        format: 'percent',
+        series: [
+          { name: 'Rent', values: ['12.34567890123456789012345678901234567890123456789', '0.00001'] },
+          { name: 'Supplies', values: ['-0.4', null] },
+        ],
+      },
+    });
+    expect(result.cells[1].outputs[0]).toMatchObject({ type: 'table', rows: [[fraction]] });
+  });
+
+  it('converts horizontal percentage measures without scaling the category axis', () => {
+    const result = normalizeQuerioOutput(
+      completed(
+        staticChart({
+          data: { values: [{ category: 'Rent', share: '0.25' }] },
+          encoding: {
+            x: { field: 'share', type: 'quantitative', axis: { format: '.1%' } },
+            y: { field: 'category', type: 'nominal' },
+          },
+        }),
+      ),
+      null,
+    );
+    expect(result.cells[0].outputs[0]).toMatchObject({
+      type: 'chart',
+      chart: { format: 'percent', labels: ['Rent'], series: [{ name: 'share', values: ['25'] }] },
+    });
+  });
+
+  it.each([
+    { format: '.1%', formatType: 'custom-percent' },
+    { format: '.1%', formatType: 'time' },
+    { format: '+.1%' },
+  ])('does not assume the meaning of an unsupported percentage formatter %j', (axis) => {
+    const result = normalizeQuerioOutput(
+      completed(
+        staticChart({
+          encoding: {
+            x: { field: 'month_start', type: 'ordinal' },
+            y: { field: 'amount', type: 'quantitative', axis },
+          },
+        }),
+      ),
+      null,
+    );
+    expect(result.cells[0].outputs[0].type).toBe('notice');
+  });
+
+  it('does not render percentage scaling that overflows chart coordinates', () => {
+    const result = normalizeQuerioOutput(
+      completed(
+        staticChart({
+          data: { values: [{ month: 'Jan', share: '1e308' }] },
+          encoding: {
+            x: { field: 'month', type: 'ordinal' },
+            y: { field: 'share', type: 'quantitative', axis: { format: '.1%' } },
+          },
+        }),
+      ),
+      null,
+    );
+    expect(result.cells[0].outputs[0].type).toBe('notice');
+  });
+
   it('aligns categorical series by label without filling missing values with invented zeroes', () => {
     const result = normalizeQuerioOutput(
       completed(
@@ -356,7 +484,7 @@ describe('Querio output normalization', () => {
     {
       encoding: {
         x: { field: 'month_start', type: 'ordinal' },
-        y: { field: 'amount', type: 'quantitative', axis: { format: '.1%' } },
+        y: { field: 'amount', type: 'quantitative', axis: { format: '.3%' } },
       },
     },
     {

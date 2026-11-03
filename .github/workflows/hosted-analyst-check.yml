@@ -1,0 +1,76 @@
+name: Protected read-only hosted analyst check
+run-name: hosted-analyst/${{ inputs.deployment_id }}
+on:
+  workflow_dispatch:
+    inputs:
+      verifier_commit:
+        description: Exact reviewed commit containing this workflow and verifier
+        type: string
+        required: true
+      source_commit:
+        description: Expected deployed source, bound separately by operator control-plane audit
+        type: string
+        required: true
+      deployment_url:
+        description: Immutable protected daybook-ledger Vercel URL, no alias/path/query
+        type: string
+        required: true
+      deployment_id:
+        description: Exact staged deployment ID from operator audit
+        type: string
+        required: true
+      conversation_id:
+        description: Completed real Querio conversation UUID with a saved answer, table and chart
+        type: string
+        required: true
+permissions:
+  contents: read
+concurrency:
+  group: hosted-analyst-${{ inputs.deployment_id }}
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      DAYBOOK_BROWSER_VERIFIER_COMMIT: ${{ inputs.verifier_commit }}
+      DAYBOOK_BROWSER_SOURCE_COMMIT: ${{ inputs.source_commit }}
+      DAYBOOK_BROWSER_URL: ${{ inputs.deployment_url }}
+      DAYBOOK_BROWSER_DEPLOYMENT_ID: ${{ inputs.deployment_id }}
+      DAYBOOK_ANALYST_CONVERSATION_ID: ${{ inputs.conversation_id }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Require exact reviewed workflow source before installation
+        run: |
+          node --input-type=module - <<'JS'
+          import { execFileSync } from 'node:child_process';
+          const commit = process.env.DAYBOOK_BROWSER_VERIFIER_COMMIT;
+          if (!/^[a-f0-9]{40}$/.test(commit ?? '') || process.env.GITHUB_SHA !== commit ||
+              execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim() !== commit)
+            throw Error('EXACT_VERIFIER_COMMIT_REQUIRED');
+          JS
+      - run: npm ci --no-audit --no-fund
+      - name: Check read-only, conversation and encryption safeguards without network
+        run: node --test tests/hosted-analyst-script.test.mjs tests/hosted-browser-script.test.mjs
+      - name: Install browser without application credentials
+        run: npx playwright install --with-deps chromium
+      - name: Inspect saved real answer without generation, polling or ledger writes
+        env:
+          DAYBOOK_BROWSER_BYPASS: ${{ secrets.DAYBOOK_BROWSER_BYPASS }}
+          DAYBOOK_BROWSER_ARTIFACT_KEY: ${{ secrets.DAYBOOK_BROWSER_ARTIFACT_KEY }}
+        run: node scripts/verify-hosted-analyst.mjs
+      - name: Retain ciphertext and sanitized receipt only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hosted-analyst-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .tools/hosted-analyst-encrypted/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 7

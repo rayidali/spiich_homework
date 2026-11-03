@@ -1,4 +1,5 @@
 import type { AnalystCell, AnalystChart, AnalystOutput } from '../shared/analyst';
+import Decimal from 'decimal.js';
 
 type ObjectValue = Record<string, unknown>;
 const MAX_CELLS = 60;
@@ -9,6 +10,8 @@ const MAX_VALUE = 2_000;
 const MAX_CODE = 60_000;
 const MAX_CHART_POINTS = 200;
 const MAX_SERIES = 12;
+// Scaling a bounded source decimal by 100 must not round its significant digits.
+const ChartDecimal = Decimal.clone({ precision: MAX_VALUE + 2 });
 
 const object = (value: unknown): ObjectValue | null =>
   value !== null && typeof value === 'object' && !Array.isArray(value) ? (value as ObjectValue) : null;
@@ -158,8 +161,16 @@ function chart(presentation: ObjectValue): AnalystChart | null {
     const scale = object(channel.scale);
     if (scale && (own(scale, 'domain') || (scale.type !== undefined && scale.type !== 'linear'))) return null;
   }
-  // Percent formatting multiplies source values by 100 in Vega; do not silently change units.
-  if (string(object(measure.axis)?.format).includes('%')) return null;
+  // Vega formats ratios as percentages; our inert chart contract stores percentage
+  // points. Convert exactly once while leaving the source table/code untouched.
+  const axis = object(measure.axis);
+  const axisFormat = string(axis?.format);
+  const percent = axisFormat.includes('%');
+  if (
+    percent &&
+    (!/^\.[012]%$/.test(axisFormat) || (axis?.formatType !== undefined && axis.formatType !== 'number'))
+  )
+    return null;
   if (kind !== 'pie' && color && (color.type === 'quantitative' || !string(color.field))) return null;
   const unit = dimension.timeUnit;
   if (unit !== undefined && !['yearmonth', 'yearmonthdate', 'year'].includes(String(unit))) return null;
@@ -180,7 +191,9 @@ function chart(presentation: ObjectValue): AnalystChart | null {
     if (value === null) return null;
     if (typeof value !== 'number' && typeof value !== 'string') return false;
     const raw = String(value);
-    return /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?$/i.test(raw) && Number.isFinite(Number(raw))
+    return raw.length <= MAX_VALUE &&
+      /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?$/i.test(raw) &&
+      Number.isFinite(Number(raw))
       ? raw
       : false;
   };
@@ -197,8 +210,12 @@ function chart(presentation: ObjectValue): AnalystChart | null {
     }
     if ((kind === 'scatter' || xScale === 'number') && numeric(rawLabel) === false) return null;
     if (xScale === 'date' && !Number.isFinite(Date.parse(label))) return null;
-    const amount = numeric(row[String(measure.field)]);
+    let amount = numeric(row[String(measure.field)]);
     if (amount === false || (kind === 'pie' && amount !== null && Number(amount) < 0)) return null;
+    if (percent && amount !== null) {
+      amount = new ChartDecimal(amount).times(100).toString();
+      if (!Number.isFinite(Number(amount))) return null;
+    }
     const rawSeries = kind !== 'pie' && color ? row[String(color.field)] : (measure.title ?? measure.field);
     if (typeof rawSeries !== 'string' && typeof rawSeries !== 'number') return null;
     const seriesName = String(rawSeries);
@@ -231,6 +248,7 @@ function chart(presentation: ObjectValue): AnalystChart | null {
     xLabel: plainHtml(string(dimension.title) || String(dimension.field)).slice(0, MAX_VALUE),
     xScale,
     yLabel: plainHtml(string(measure.title) || String(measure.field)).slice(0, MAX_VALUE),
+    ...(percent ? { format: 'percent' as const } : {}),
     labels,
     series: [...series].map(([name, values]) => ({
       name,

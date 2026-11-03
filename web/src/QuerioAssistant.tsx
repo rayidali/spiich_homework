@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
+import { z } from 'zod';
 import {
   ArrowUp,
   ArrowUpRight,
@@ -22,13 +23,15 @@ const exampleQuestions = [
   'Show monthly rent alongside total expenses in a chart.',
   'Which transactions currently need my review?',
 ];
-const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const conversationIdSchema = z.uuid();
 const isRunning = (conversation: AnalystConversation | null) =>
   conversation?.status === 'starting' || conversation?.status === 'running';
 function rememberedConversation(key: string) {
   try {
     const value = sessionStorage.getItem(key);
-    return value && uuid.test(value) ? value : null;
+    if (value && conversationIdSchema.safeParse(value).success) return value;
+    if (value) sessionStorage.removeItem(key);
+    return null;
   } catch {
     return null;
   }
@@ -115,7 +118,7 @@ export function QuerioAssistant({ active }: { active: boolean }) {
       } catch (failure) {
         if (stopped) return;
         setLoading(false);
-        if (failure instanceof ApiError && failure.status === 404) {
+        if (failure instanceof ApiError && (failure.status === 404 || (!advance && failure.status === 400))) {
           rememberConversation(storageKey, null);
           activeId.current = null;
           setConversationId(null);
