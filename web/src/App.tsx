@@ -23,7 +23,7 @@ import { Accounts } from './Accounts';
 import { Reports } from './Reports';
 import { Recurring } from './Recurring';
 import { Composer } from './Composer';
-import { Assistant } from './Assistant';
+import { AnalystPage, Assistant } from './Assistant';
 import { Alerts } from './Alerts';
 import { Settings } from './Settings';
 import { ErrorState, Loading, Modal } from './ui';
@@ -32,6 +32,7 @@ const navigation = [
   { to: '/', label: 'Home', icon: LayoutDashboard },
   { to: '/transactions', label: 'Transactions', icon: Wallet },
   { to: '/reports', label: 'Reports', icon: ChartNoAxesCombined },
+  { to: '/analyst', label: 'Ask', icon: MessageSquareText },
   { to: '/settings', label: 'Settings', icon: Settings2 },
 ];
 
@@ -276,6 +277,7 @@ export function App() {
                 <Route path="/transactions" element={<Transactions />} />
                 <Route path="/accounts" element={<Accounts />} />
                 <Route path="/reports" element={<Reports />} />
+                <Route path="/analyst" element={<AnalystPage />} />
                 <Route path="/recurring" element={<Recurring />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route

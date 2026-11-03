@@ -1,5 +1,11 @@
 # Build log
 
+## 2026 11 03 Two analyst tabs — Querio integration candidate
+
+The user authorized an in-product Querio tab first, followed by a substantially more flexible native analyst. The first candidate adds `/analyst`, tab switching in the existing drawer, real server-side Querio sessions, durable PostgreSQL conversation state, independent message IDs, run polling, interrupted-submit reconciliation, Stop/cancellation, follow-ups and compute cleanup. Both notebook and agent select the configured live datasource; the key stays server-side. Notebook output becomes safe Markdown, exact-string tables, source disclosures and supported data-only SVG charts. The Querio UI is deferred until its tab opens; the main bundle remains under 500KB. No live release yet.
+
+Local checks passed117 tests and TypeScript/build. Eleven PostgreSQL cases require CI; six new browser workflows are authored but local browser startup is denied by the environment. Provider-boundary tests use injected responses; an offline replay of saved real Querio output includes its 11-month bar chart. The independent new acceptance fixture covers18 conversations/25 turns, with four chart requests and38 reference facts. It produces no model score. The user approved a new $5 total allowance; actual Querio account credits/cap remain a pending factual question, so no new inference has run. [Architecture, checks and remaining work](ANALYST_WORKSPACE.md).
+
 ## 2026 11 03 User Querio answers traced to the old datasource
 
 The user reported cash $9,850 and no Office supplies category. Reading their supplied Explore recovered two saved cash queries explicitly targeting `daybook-eval-20261103`. An independent Decimal sum of the original fixture reproduced $9,850 and its three expense categories. The Office supplies tool trace itself was not recovered. A fresh live read verified the real account, posted cash and year-to-date spending; no ledger mutation or model request was needed.

@@ -100,6 +100,7 @@ type DiagnosticEvent =
   | 'ai_financial_plan'
   | 'ai_answer_completion'
   | 'ai_analysis_program'
+  | 'ai_analyst_operation'
   | 'database_pool'
   | 'database_rollback_failed'
   | 'worker_error';
@@ -119,8 +120,11 @@ type DiagnosticFields = Partial<ProviderErrorDiagnostics> & {
     | 'anomaly_analysis'
     | 'anomaly_heartbeat'
     | 'recurring_generation';
+  conversationId?: string;
+  runId?: string;
+  analystStage?: string;
   jobId?: string | number;
-  provider?: 'gemini' | 'openai' | 'jev' | 'reference';
+  provider?: 'gemini' | 'openai' | 'jev' | 'reference' | 'querio';
   model?: string;
   modelVersion?: string;
   decision?: 'SELECT' | 'CLARIFY' | 'UNSUPPORTED';
@@ -224,6 +228,34 @@ export function diagnostic(
     if (providerDetails) Object.assign(output, providerDetails);
   }
   if (count(fields.durationMs)) output.durationMs = fields.durationMs;
+  if (event === 'ai_analyst_operation') {
+    for (const key of ['conversationId', 'runId'] as const)
+      if (
+        typeof fields[key] === 'string' &&
+        /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/.test(fields[key]!)
+      )
+        output[key] = fields[key];
+    if (
+      [
+        'environment',
+        'notebook',
+        'session',
+        'session-ready',
+        'agent',
+        'agent-ready',
+        'submit',
+        'run',
+        'results',
+        'cancel',
+        'close-agent',
+        'close-session',
+        'close-environment',
+        'done',
+      ].includes(fields.analystStage ?? '')
+    )
+      output.analystStage = fields.analystStage;
+    if (fields.provider === 'querio') output.provider = 'querio';
+  }
   if (
     [
       'expense_summary',

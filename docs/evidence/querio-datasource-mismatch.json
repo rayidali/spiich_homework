@@ -6,11 +6,7 @@
     "savedCashQueries": 2,
     "explicitDatasourceInBothQueries": "daybook-eval-20261103",
     "fixtureCashIndependentlyMatchesQuotedAnswer": true,
-    "fixtureOnlyExpenseAccounts": [
-      "Rent",
-      "Software",
-      "Marketing"
-    ],
+    "fixtureOnlyExpenseAccounts": ["Rent", "Software", "Marketing"],
     "liveOfficeSuppliesAccountConfirmed": true,
     "freshLivePostedCashAndYtdExpensesQueryCompleted": true,
     "originalOfficeSuppliesToolTraceRecovered": false

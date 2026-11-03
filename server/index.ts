@@ -5,6 +5,7 @@ import { generateRecurring } from './recurring';
 import { pool } from './db';
 import { databaseCode, failureStage } from './errors';
 import { diagnostic } from './diagnostics';
+import { processAnalystWork } from './analyst-worker';
 
 export async function startServer() {
   await pool.query('SELECT 1');
@@ -23,6 +24,7 @@ export async function startServer() {
         lastSchedule = Date.now();
       }
       await processJobs();
+      await processAnalystWork(config.organizationId);
     } catch (error) {
       diagnostic('worker_error', {
         code: 'WORKER_ERROR',

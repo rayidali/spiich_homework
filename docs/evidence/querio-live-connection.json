@@ -5,10 +5,7 @@
     "slug": "daybook-live",
     "name": "Daybook LIVE \u2014 all records",
     "database": "Same database as hosted Daybook",
-    "schemas": [
-      "public",
-      "research"
-    ],
+    "schemas": ["public", "research"],
     "baseTables": 16,
     "views": 2,
     "columns": 184,

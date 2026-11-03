@@ -1,278 +1,151 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import {
-  ArrowUp,
-  ArrowUpRight,
-  Database,
-  MessageSquareText,
-  Wallet,
-  Receipt,
-  TrendingUp,
-  Search,
-} from 'lucide-react';
-import type { InsightEvidence } from '../../server/ai';
-import {
-  assistantReplyContent,
-  conversationBudgetError,
-  MAX_MESSAGE_CHARACTERS,
-} from '../../shared/conversation';
-import { asUiError, type UiError, write } from './api';
-import { useWorkspace } from './context';
-import { ErrorState, Modal, Spinner } from './ui';
-type ConversationContext = {
-  kind: 'clarification' | 'explanation' | 'limitation';
-  grounding: 'general_knowledge' | 'user_context';
-  verifiedFinancialData: false;
-};
-type GeneralExplanation = {
-  text: string;
-  grounding: 'general_knowledge';
-  verifiedFinancialData: false;
-};
-type ProgramAnalysis = {
-  code: string;
-  codeHash: string;
-  operationCount: number;
-  parameters?: { id: string; sourceText: string }[];
-};
-type Message = {
-  role: 'user' | 'assistant';
-  content: string;
-  evidence?: InsightEvidence[];
-  conversation?: ConversationContext;
-  generalExplanation?: GeneralExplanation;
-  program?: ProgramAnalysis;
-};
-const conversationLabels = {
-  clarification: 'Follow-up question',
-  explanation: 'General explanation',
-  limitation: 'Information needed',
-} satisfies Record<ConversationContext['kind'], string>;
-const prompts = [
-  { icon: Receipt, text: 'What were my top 5 expenses last month?' },
-  { icon: TrendingUp, text: 'How does this quarter’s revenue compare to last quarter?' },
-  { icon: Search, text: 'Show me all transactions with Acme Corp' },
-  { icon: Wallet, text: 'What’s my current cash position?' },
+import { lazy, Suspense, useId, useRef, useState, type KeyboardEvent } from 'react';
+import { ArrowUpRight, MessageSquareText } from 'lucide-react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { NativeAssistant } from './NativeAssistant';
+import { ErrorBoundary } from './ErrorBoundary';
+import { Modal, PageHeader, Spinner } from './ui';
+
+const QuerioAssistant = lazy(() =>
+  import('./QuerioAssistant').then((module) => ({ default: module.QuerioAssistant })),
+);
+
+type Analyst = 'daybook' | 'querio';
+const analystOptions: { id: Analyst; label: string }[] = [
+  { id: 'daybook', label: 'Daybook' },
+  { id: 'querio', label: 'Querio' },
 ];
-export function Assistant({ initialText, onClose }: { initialText?: string; onClose: () => void }) {
-  const { meta } = useWorkspace(),
-    [messages, setMessages] = useState<Message[]>([]),
-    [text, setText] = useState(initialText ?? ''),
-    [busy, setBusy] = useState(false),
-    [error, setError] = useState<UiError>(''),
-    bottom = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    bottom.current?.scrollIntoView({ behavior: 'instant', block: 'end' });
-  }, [messages, busy, error]);
-  async function send() {
-    if (!text.trim() || busy || !meta?.ai.available) return;
-    const next: Message[] = [...messages, { role: 'user', content: text.trim() }];
-    const conversation = next.map(({ role, content, generalExplanation }) => ({
-      role,
-      content: assistantReplyContent(content, generalExplanation),
-    }));
-    const budgetError = conversationBudgetError(conversation);
-    if (budgetError) {
-      setError(budgetError);
-      return;
-    }
-    setError('');
-    setMessages(next);
-    setText('');
-    setBusy(true);
-    try {
-      const result = await write<{
-        answer: string;
-        evidence: InsightEvidence[];
-        conversation?: ConversationContext;
-        generalExplanation?: GeneralExplanation;
-        program?: ProgramAnalysis;
-      }>('/ai/chat', {
-        messages: conversation,
-      });
-      setMessages([
-        ...next,
-        {
-          role: 'assistant',
-          content: result.answer,
-          evidence: result.evidence,
-          conversation: result.conversation,
-          generalExplanation: result.generalExplanation,
-          program: result.program,
-        },
-      ]);
-    } catch (e) {
-      setError(asUiError(e));
-      setText(next.at(-1)!.content);
-      setMessages(messages);
-    } finally {
-      setBusy(false);
-    }
+
+function AnalystTabs({
+  selected,
+  onSelect,
+  initialText,
+  onNavigate,
+  fullPage = false,
+}: {
+  selected: Analyst;
+  onSelect: (analyst: Analyst) => void;
+  initialText?: string;
+  onNavigate: () => void;
+  fullPage?: boolean;
+}) {
+  const id = useId();
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const [querioOpened, setQuerioOpened] = useState(selected === 'querio');
+  function select(analyst: Analyst) {
+    if (analyst === 'querio') setQuerioOpened(true);
+    onSelect(analyst);
+  }
+  function keyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
+    let next = index;
+    if (event.key === 'ArrowRight') next = (index + 1) % analystOptions.length;
+    else if (event.key === 'ArrowLeft') next = (index + analystOptions.length - 1) % analystOptions.length;
+    else if (event.key === 'Home') next = 0;
+    else if (event.key === 'End') next = analystOptions.length - 1;
+    else return;
+    event.preventDefault();
+    select(analystOptions[next].id);
+    tabRefs.current[next]?.focus();
   }
   return (
-    <Modal title="Financial assistant" onClose={onClose} drawer>
-      <div className="assistant-status">
-        <span className={`online-dot ${meta?.ai.available ? '' : 'inactive'}`} />
-        <span>{meta?.ai.available ? 'Ready to help with your finances' : 'Assistant not connected'}</span>
-        <span>Base currency: {meta?.organization.base_currency ?? 'USD'}</span>
-      </div>
-      <div className="chat-scroll">
-        {!messages.length && (
-          <div className="chat-welcome">
-            <span className="assistant-icon">
-              <MessageSquareText size={27} />
-            </span>
-            <h2>Ask about your business finances</h2>
-            <p>Explore your records, understand accounting, or work through a financial decision.</p>
-            <div className="chat-prompts">
-              {prompts.map((p) => (
-                <button key={p.text} onClick={() => setText(p.text)}>
-                  <p.icon size={17} />
-                  <span>{p.text}</span>
-                  <ArrowUpRight size={15} />
-                </button>
-              ))}
-            </div>
-            {!meta?.ai.available && (
-              <div className="info-note">
-                The assistant needs an AI connection before it can answer questions. Your saved entries and
-                reports are available in the workspace.
-              </div>
-            )}
-          </div>
-        )}
-        {messages.map((m, i) => (
-          <div className={`chat-message ${m.role}`} key={i}>
-            {m.role === 'assistant' && (
-              <span className="chat-avatar">
-                <MessageSquareText size={15} />
-              </span>
-            )}
-            <div className="chat-message-content">
-              {m.role === 'assistant' && m.generalExplanation?.verifiedFinancialData === false && (
-                <div data-general-explanation>
-                  <div className="muted">General explanation</div>
-                  <p>{m.generalExplanation.text}</p>
-                </div>
-              )}
-              {m.role === 'assistant' && m.conversation?.verifiedFinancialData === false && (
-                <div className="muted" data-conversation-kind={m.conversation.kind}>
-                  {conversationLabels[m.conversation.kind]}
-                </div>
-              )}
-              <p>{m.content}</p>
-              {m.program && (
-                <details className="evidence-scope" data-analysis-program>
-                  <summary>Inspect the calculation</summary>
-                  <p>This function calculated the results from the source records below.</p>
-                  {!!m.program.parameters?.length && (
-                    <ul>
-                      {m.program.parameters.map((parameter) => (
-                        <li key={parameter.id}>Your input: {parameter.sourceText}</li>
-                      ))}
-                    </ul>
-                  )}
-                  <pre style={{ overflowX: 'auto', whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>
-                    <code>{m.program.code}</code>
-                  </pre>
-                </details>
-              )}
-              {m.evidence?.map((e, index) => (
-                <div className="evidence-card" key={index}>
-                  <span className="evidence-label">
-                    <Database size={12} />
-                    {e.source === 'draft'
-                      ? 'DRAFTS · NOT POSTED'
-                      : e.source === 'scenario'
-                        ? 'HYPOTHETICAL CALCULATION'
-                        : 'FROM YOUR BOOKS'}
-                  </span>
-                  <h4>{e.title}</h4>
-                  <span className="muted">{e.period}</span>
-                  {e.scope && (
-                    <details className="evidence-scope">
-                      <summary>What this includes</summary>
-                      <p>{e.scope}</p>
-                    </details>
-                  )}
-                  <div className="evidence-rows">
-                    {e.rows.map((r, j) => (
-                      <div key={j}>
-                        {r.href ? (
-                          <Link to={r.href} onClick={onClose}>
-                            {r.label}
-                          </Link>
-                        ) : (
-                          <span>{r.label}</span>
-                        )}
-                        <strong>{r.value}</strong>
-                      </div>
-                    ))}
-                  </div>
-                  <Link className="text-button" to={e.href} onClick={onClose}>
-                    {e.href === '/reports' || e.href.startsWith('/reports?')
-                      ? 'Open reports'
-                      : e.href === '/transactions'
-                        ? 'Open transactions'
-                        : 'View supporting records'}
-                    <ArrowUpRight size={14} />
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-        {busy && (
-          <div className="chat-thinking">
-            <Spinner />
-            Working on your question…
-          </div>
-        )}
-        {error && <ErrorState message={error} />}
-        <div ref={bottom} />
-      </div>
-      <div className="chat-input-area">
-        <button
-          type="button"
-          className="text-button"
-          disabled={busy || !messages.length}
-          onClick={() => {
-            setMessages([]);
-            setError('');
-          }}
-        >
-          New conversation
-        </button>
-        <div className="chat-input">
-          <textarea
-            aria-label="Ask a financial question"
-            placeholder="Ask about your finances…"
-            value={text}
-            disabled={busy}
-            maxLength={MAX_MESSAGE_CHARACTERS}
-            onChange={(e) => setText(e.target.value)}
-            rows={2}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                void send();
-              }
-            }}
-          />
-          <button
-            aria-label="Send question"
-            className="button primary icon-only"
-            onClick={send}
-            disabled={busy || !text.trim() || !meta?.ai.available}
-          >
-            {busy ? <Spinner /> : <ArrowUp size={18} />}
-          </button>
+    <div className={`analyst-workspace ${fullPage ? 'is-full-page' : ''}`}>
+      <div className="analyst-toolbar">
+        <div className="analyst-tabs" role="tablist" aria-label="Choose an analyst">
+          {analystOptions.map((analyst, index) => (
+            <button
+              key={analyst.id}
+              ref={(element) => {
+                tabRefs.current[index] = element;
+              }}
+              id={`${id}-${analyst.id}-tab`}
+              type="button"
+              role="tab"
+              aria-selected={selected === analyst.id}
+              aria-controls={`${id}-${analyst.id}-panel`}
+              tabIndex={selected === analyst.id ? 0 : -1}
+              onClick={() => select(analyst.id)}
+              onKeyDown={(event) => keyDown(event, index)}
+            >
+              {analyst.label}
+            </button>
+          ))}
         </div>
-        <p>
-          <Database size={12} />
-          Financial figures include their records or assumptions.
-        </p>
+        {!fullPage && (
+          <Link className="text-button analyst-expand" to={`/analyst?tab=${selected}`} onClick={onNavigate}>
+            Open full workspace <ArrowUpRight size={14} />
+          </Link>
+        )}
       </div>
+      <section
+        className="analyst-panel native-analyst-panel"
+        id={`${id}-daybook-panel`}
+        role="tabpanel"
+        aria-labelledby={`${id}-daybook-tab`}
+        hidden={selected !== 'daybook'}
+      >
+        <NativeAssistant initialText={initialText} onClose={onNavigate} />
+      </section>
+      <section
+        className="analyst-panel querio-analyst-panel"
+        id={`${id}-querio-panel`}
+        role="tabpanel"
+        aria-labelledby={`${id}-querio-tab`}
+        hidden={selected !== 'querio'}
+      >
+        {(querioOpened || selected === 'querio') && (
+          <ErrorBoundary>
+            <Suspense
+              fallback={
+                <div className="chat-thinking" role="status">
+                  <Spinner /> Opening Querio…
+                </div>
+              }
+            >
+              <QuerioAssistant active={selected === 'querio'} />
+            </Suspense>
+          </ErrorBoundary>
+        )}
+      </section>
+    </div>
+  );
+}
+
+export function Assistant({ initialText, onClose }: { initialText?: string; onClose: () => void }) {
+  const [selected, setSelected] = useState<Analyst>('daybook');
+  return (
+    <Modal title="Financial assistant" onClose={onClose} drawer wide={selected === 'querio'}>
+      <AnalystTabs
+        selected={selected}
+        onSelect={setSelected}
+        initialText={initialText}
+        onNavigate={onClose}
+      />
     </Modal>
+  );
+}
+
+export function AnalystPage() {
+  const [search, setSearch] = useSearchParams();
+  const selected: Analyst = search.get('tab') === 'daybook' ? 'daybook' : 'querio';
+  return (
+    <div className="analyst-page">
+      <PageHeader
+        eyebrow="Your financial workspace"
+        title="Ask your books"
+        description="Ask a question, explore the answer, and see the supporting work."
+        actions={
+          <span className="analyst-page-caption">
+            <MessageSquareText size={16} /> Two analysts, your Daybook records
+          </span>
+        }
+      />
+      <div className="analyst-page-body">
+        <AnalystTabs
+          selected={selected}
+          onSelect={(tab) => setSearch({ tab }, { replace: true })}
+          onNavigate={() => undefined}
+          fullPage
+        />
+      </div>
+    </div>
   );
 }

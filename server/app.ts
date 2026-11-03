@@ -26,6 +26,7 @@ import { withAiAdmission } from './ai-admission';
 import { learningForEntry, revokeCorrection } from './categorization-memory';
 import { categoryAvailability, categoryRequestSchema, suggestCategory } from './category-service';
 import { getCategoryFailureMetadata } from './category-selector';
+import { querioService } from './querio-service';
 
 export function createApp(org = config.organizationId) {
   const app = express();
@@ -295,6 +296,36 @@ export function createApp(org = config.organizationId) {
   app.delete('/api/ai/corrections/:id', async (req, res) => {
     await revokeCorrection(org, id(req));
     res.status(204).end();
+  });
+  app.use('/api/ai/querio', (_req, res, next) => {
+    res.setHeader('Cache-Control', 'no-store');
+    next();
+  });
+  app.get('/api/ai/querio/status', (_req, res) => res.json(querioService.availability()));
+  app.post('/api/ai/querio/conversations', async (req, res) => {
+    const p = z.strictObject({ clientConversationId: z.uuid() }).parse(req.body);
+    res.status(201).json(await querioService.create(org, p.clientConversationId));
+  });
+  app.get('/api/ai/querio/conversations/:id', async (req, res) => {
+    res.json(await querioService.get(org, id(req)));
+  });
+  app.post('/api/ai/querio/conversations/:id/messages', async (req, res) => {
+    const p = z
+      .strictObject({ text: z.string().trim().min(1).max(12000), clientMessageId: z.uuid() })
+      .parse(req.body);
+    res
+      .status(202)
+      .json(
+        await withAiAdmission(org, () =>
+          querioService.send(org, id(req), p.clientMessageId, p.text, res.locals.requestId),
+        ),
+      );
+  });
+  app.post('/api/ai/querio/conversations/:id/refresh', async (req, res) => {
+    res.json(await querioService.refresh(org, id(req), res.locals.requestId));
+  });
+  app.delete('/api/ai/querio/conversations/:id', async (req, res) => {
+    res.status(202).json(await querioService.close(org, id(req), res.locals.requestId));
   });
   app.use('/api', (_req, _res, next) => next(new AppError(404, 'NOT_FOUND', 'API route not found')));
   if (existsSync(resolve('dist/index.html'))) {

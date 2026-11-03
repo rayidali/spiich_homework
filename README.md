@@ -1,5 +1,7 @@
 # Daybook · Accounting workspace
 
+**New analyst workspace in development:** Daybook and Querio tabs, resumable conversations and an inspectable notebook with tables/charts are implemented locally. Combined CI, live integration acceptance and release remain pending. The broader native redesign comes next. [Implementation and checks](docs/ANALYST_WORKSPACE.md).
+
 **Try Querio on the live books:** start a new Querio chat and choose **Daybook LIVE — all records**. Full read-only access includes drafts and posted entries, with accounting context and a verified starter notebook. The old fixture is labeled **TEST ONLY — synthetic benchmark**. [Connection and testing guide](docs/QUERIO_LIVE.md).
 
 **Current development:** a generated-analysis candidate can write calculations for monthly percentages and other combinations. Its combined checks passed 2,922 tests and 37 browser workflows; it is not yet deployed or measured with a live model. [Design, checks and limits](docs/GENERATED_ANALYSIS.md).
