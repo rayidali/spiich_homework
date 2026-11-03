@@ -33,7 +33,9 @@ Tables retain decimal strings and display explicit truncation. Notebook source c
 
 The initial local run passed **117 checks**: 25 lifecycle, 38 HTTP/configuration, 44 output-normalization, six presentation and four acceptance-fixture checks. These include lost submissions, cancellation races, source binding, follow-ups and safe chart output. The final independent fixture also runs seven Python reference checks. Eleven actual PostgreSQL cases are authored but skipped locally because isolated PostgreSQL is unavailable; CI is required. Six new browser workflows are scripted but have not yet run here. TypeScript and the production build pass. These are engineering checks, not live model accuracy.
 
-The user approved **$5 total** for new API testing. Querio's published credits count internal model calls, so a question can consume multiple credits. Its account allowance/cap is still unverified; provider token metadata cannot be treated as a Querio invoice. No new inference has been dispatched at this checkpoint. The earlier evaluations remain frozen and separate.
+A subsequent local run passed 126 focused checks after exact percentage-chart support. CI `41738672028` passed 3,079 backend tests including all eleven PostgreSQL cases, plus 44 of 45 browser workflows. The remaining read-count assertion and CI production-build environment are corrected for a fresh run; full CI and hosted provider/browser checks remain pending. Earlier failures are retained in the build log.
+
+The user approved **$5 total** for new API testing. Querio's published credits count internal model calls, so a question can consume multiple credits. The user reports 104 of 500 included credits used, leaving 396 at that check; provider token metadata still cannot be treated as a Querio invoice. No new inference has been dispatched at this checkpoint. The earlier evaluations remain frozen and separate.
 
 ## Native analyst and comparison
 

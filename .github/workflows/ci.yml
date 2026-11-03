@@ -39,6 +39,8 @@ jobs:
       - run: npm ci --no-audit --no-fund
       - run: npm run format:check
       - run: npm run build
+        env:
+          NODE_ENV: production
       - name: Verify native hosted API module
         run: |
           npm run hosting:bundle

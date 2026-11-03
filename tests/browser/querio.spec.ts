@@ -240,9 +240,9 @@ for (const recovery of ['invalid stored UUID', 'rejected saved ID'] as const) {
       recovery === 'invalid stored UUID'
         ? '11111111-1111-1111-1111-111111111111'
         : 'a4653ba0-d0ec-40fa-902d-1fa8758a8941';
-    let rejectedReads = 0;
+    const staleRequests: string[] = [];
     await page.route(`**/api/ai/querio/conversations/${staleId}`, async (route) => {
-      rejectedReads++;
+      staleRequests.push(route.request().method());
       await route.fulfill({
         status: 400,
         json: { error: { code: 'VALIDATION_ERROR', message: 'Invalid conversation reference.' } },
@@ -256,13 +256,24 @@ for (const recovery of ['invalid stored UUID', 'rejected saved ID'] as const) {
     await page.goto('/analyst');
     await expect(page.getByLabel('Ask Querio a financial question')).toBeVisible();
     await expect.poll(() => page.evaluate((key) => sessionStorage.getItem(key), storageKey)).toBeNull();
-    expect(rejectedReads).toBe(recovery === 'invalid stored UUID' ? 0 : 1);
+    // React StrictMode replays the mount effect in the development browser build.
+    // Its aborted GET can reach this route before the replacement GET; neither
+    // may create, submit, close or refresh a conversation.
+    if (recovery === 'invalid stored UUID') expect(staleRequests).toEqual([]);
+    else {
+      expect(staleRequests.length).toBeGreaterThanOrEqual(1);
+      expect(staleRequests.length).toBeLessThanOrEqual(2);
+      expect(staleRequests.every((method) => method === 'GET')).toBe(true);
+    }
+    const restoredRequestCount = staleRequests.length;
     await page.getByLabel('Ask Querio a financial question').fill('Show monthly expenses.');
     await page.getByRole('button', { name: 'Send to Querio', exact: true }).click();
     await expect(page.getByText('Recorded expenses were $100.00.', { exact: true })).toBeVisible();
     expect(calls.creates).toBe(1);
     expect(calls.sends).toHaveLength(1);
     expect(calls.sends[0].conversationId).not.toBe(staleId);
+    expect(staleRequests).toHaveLength(restoredRequestCount);
+    expect(calls.closes).toBe(0);
     expect(calls.writesToBooks).toBe(0);
   });
 }

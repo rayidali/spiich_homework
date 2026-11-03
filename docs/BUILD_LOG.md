@@ -1,5 +1,11 @@
 # Build log
 
+## November 3 — Querio verification corrections
+
+CI `41738672028` passed 3,079 backend checks, including all eleven new PostgreSQL conversation cases, and 44 of 45 browser workflows. The remaining browser failure was an assertion about a repeated restore GET before any message submission. CI had inherited `NODE_ENV=test` into Vite, so its built bundle retained React development StrictMode behavior. The build step now explicitly uses production mode; database tests retain their test environment. The recovery test also checks development remount safety while still requiring exactly one conversation creation and one question submission. The earlier run `41737678157` caught a test fixture using an account group instead of the seeded posting account; corrected to Owner capital `3010` without weakening the ledger validation. Neither failed candidate was deployed.
+
+The local Querio-focused checks now total 126 passing tests, including exact percentage-chart scaling. A protected hosted browser verifier is prepared to inspect a completed real answer, table and chart without submitting another model request. Actual provider acceptance and publication remain pending. The user reports 104 of 500 included Querio credits used; the fresh $5 incremental API ceiling remains in force.
+
 ## 2026 11 03 Two analyst tabs — Querio integration candidate
 
 The user authorized an in-product Querio tab first, followed by a substantially more flexible native analyst. The first candidate adds `/analyst`, tab switching in the existing drawer, real server-side Querio sessions, durable PostgreSQL conversation state, independent message IDs, run polling, interrupted-submit reconciliation, Stop/cancellation, follow-ups and compute cleanup. Both notebook and agent select the configured live datasource; the key stays server-side. Notebook output becomes safe Markdown, exact-string tables, source disclosures and supported data-only SVG charts. The Querio UI is deferred until its tab opens; the main bundle remains under 500KB. No live release yet.
