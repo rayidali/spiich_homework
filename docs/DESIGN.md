@@ -1,10 +1,24 @@
 # Daybook design record
 
+## Current analyst workspace
+
+The four accounting destinations remain Home, Transactions, Reports and Settings. The user’s later request added **Ask**, a full workspace with **Daybook / Querio** provider tabs. The existing drawer can open the workspace; the redundant top-bar Ask button is hidden while already there. Manual entry and reviewed posting remain separate flows.
+
+The notebook renders safe Markdown, exact tables, charts and collapsible query/source details. Native and Querio use the same presentation while keeping conversations separate. On narrow screens, Conversation and Notebook views reduce competing content. Wide financial tables scroll within their container; they are not cropped or changed to fit a screenshot.
+
+The actual saved native rent answer at source `60435f2` passed protected desktop/mobile browser review, including the provider switch and reload without generation. Four screenshots and 23 read-only requests were reviewed; no provider call occurred during that browser check. [Hosted acceptance](evidence/native-analyst-hosted-acceptance.json). Mobile emulation is not physical-device testing.
+
+The final UI-only update humanizes visible labels, puts provenance under Source details and improves mobile chart readability. CI `41771396221` and protected browser run `41772563650` passed at `10778bae`; all four hosted screenshots were visually reviewed. Chart text measured at least 11.74 pixels, source disclosures and horizontal scrolling worked, and the exact saved table values were preserved. Model answers remain source `60435f2`, supported by an exact 85-file backend/configuration comparison. This UI change does not improve or replace earlier financial scores. The measured 94–321-second answers and unrequested detail remain product limitations that cosmetic changes do not fix.
+
+## Historical design baseline — October 29, 2026
+
+The screenshots, counts and next-pass notes below describe the earlier four-destination design. They preserve before/after evidence and are not the current native-workspace verification status. The project-local Emil guidance provenance remains applicable.
+
 > Saved 2026-10-29. All 10 production browser workflows passed in the [then-current CI](https://github.com/rayidali/spiich_homework/actions/runs/40999183176), including mobile emulation and keyboard behavior. The protected hosted SPA document/API respond, but fresh hosted visual inspection, CI screenshot review and physical devices remain pending. Images below document the earlier design. See [checkpoint](../CHECKPOINT.md).
 
 Daybook is the product name. Spiich is the company receiving the engineering assignment. The interface, page title, favicon, exported filenames, package, and Compose project use Daybook.
 
-## Latest user feedback: simplification requested
+## Earlier user feedback: simplification requested
 
 On 2026-10-29 the user reported that the interface was confusing and exposed too much at once. After the architecture report they authorized implementation. The new flow is implemented and browser workflows passed in CI; the screenshots below remain the earlier baseline until fresh CI captures are reviewed and substituted.
 
@@ -68,7 +82,7 @@ The chart uses JavaScript numbers only to calculate drawing coordinates. Labels,
 
 Existing PostgreSQL database and role identifiers retain their original internal names. Applied migrations have checksums and must not be rewritten for a product rename. Compose is named `daybook` and explicitly reuses the original `spiich_postgres_data` volume name to preserve any existing container data.
 
-## Verification and evidence
+## Historical verification and evidence
 
 The current production build and ten Playwright workflows passed in CI Chromium. Coverage includes posting/reversal, account CRUD, reports, recurrence, anomaly review, chart data, keyboard focus, reduced motion, the simple-entry/AI review flows and a touch-enabled 390px browser context. Current backend coverage totals 101 tests; the earlier eight-workflow/37-test results are historical iterations. These counts establish tested behavior rather than aesthetic or real-device quality.
 
@@ -80,7 +94,7 @@ Desktop screenshots: [overview](evidence/dashboard.png), [transactions](evidence
 
 “I designed Daybook around the daily review loop: see balances, inspect the journal, review drafts and unusual activity, then post or investigate. AI remains available at the point of work. I used restrained surfaces and aligned numeric columns so the financial information has the strongest hierarchy. The motion rules depend on how often someone performs an action, and the mobile layout preserves useful amounts rather than shrinking the desktop screen.”
 
-## Hosted handoff and next visual pass
+## Historical hosted handoff and planned visual pass
 
 [The live demo](https://daybook-ledger-delta.vercel.app) serves the same Vite interface behind Vercel login. HTTP checking established the SPA document loads; it did not inspect rendered spacing, fonts, charts or phone keyboard behavior. The new protected hosted URL should not be presented as additional browser-layout evidence.
 

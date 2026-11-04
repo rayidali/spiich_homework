@@ -1,0 +1,41 @@
+{
+  "pages": 2,
+  "manifestSha256": "36aa93830ac998c7f74664c59fe36ea2428ec092e7b49706b24df87364818c1e",
+  "draftSha256": "17020d4b22a161549e824eacc2ed8ff6aa9997bcee174de86158d6d28f6b2e96",
+  "pdfSha256": "73366b578aa121f74eed0d09eef980b8c825f59d7a70a064fe3f250b3d1d6791",
+  "cohortSources": [
+    {
+      "label": "Native A",
+      "sourceCommit": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+      "reviewSha256": "beab4a58b71980491b107adb6fe09a6a73d923f423fdad550a0629634da66cfa"
+    },
+    {
+      "label": "Native B",
+      "sourceCommit": "f032d70a0c60e1472c8d9e8e5d774c9ed20f0405",
+      "reviewSha256": "9e41ab26f40062c493f70b893c1f47129302e1fd59861c845c8d7abb356a1247"
+    },
+    {
+      "label": "Native C",
+      "sourceCommit": "4fd301509893c2ba4ca6e57145bd909cabb7658e",
+      "reviewSha256": "49261fd66453449e88f253f46eaaf287c6b3418fe283626c64b8d192d1a84cee"
+    },
+    {
+      "label": "Native D",
+      "sourceCommit": "a35a9f9464b2c075be6f056c473420c5c3451aba",
+      "reviewSha256": "bd76deb2a3e62cb701cd334f80d93c1dcb2111bbad70b491ecb2565c08777e30"
+    },
+    {
+      "label": "Native E",
+      "sourceCommit": "9583dd8339448fa4d6ac00d0953fc9b515a4b1f5",
+      "reviewSha256": "eb85214c6086543e6cde3ba76e8c225af764118a3dc87a8f17dffb74544c5db1"
+    },
+    {
+      "label": "Querio",
+      "sourceCommit": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+      "reviewSha256": "1a9143a5aa4757d9391c3a16da7c04eeaacda76d9b21927fcc417e02d302e5f6"
+    }
+  ],
+  "chartKind": "horizontal bars, native ReportLab vector drawing",
+  "missingResults": "Pending; not plotted as zero",
+  "draft": false
+}

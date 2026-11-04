@@ -1,0 +1,142 @@
+{
+  "version": 1,
+  "reviewedAt": "2026-11-04T04:23:19.443185+00:00",
+  "status": "PASSED",
+  "purpose": "UI-only polish of the same real completed rent answer; zero fresh generation.",
+  "runtimeSourceCommit": "10778bae77251ee797c2aaa31149f189ca20318f",
+  "verifierCommit": "5a85d9f6991c10e7e03f85f32e5d55c45d6d0664",
+  "modelAcceptanceSourceCommit": "60435f2c315363bf8110526066f3d6ce61771eb8",
+  "deploymentId": "dpl_F3am1c39jixhAhChaj9P3MZZC1ja",
+  "origin": "https://daybook-ledger-om28vw8at-rayidalis-projects.vercel.app",
+  "provider": "daybook",
+  "conversationSha256": "c110c66adf84ac6ebb446aa77185a0c4d2def1efcfe35a36ff5a4a2595235c2c",
+  "sameSavedSnapshotAsPriorBrowser": true,
+  "snapshotSha256": "1c7912de27d1ca834a7f99e8106703d712c75d9b8a147e0cdfad53faf19b36e2",
+  "priorBrowserReceiptSha256": "e618d06522c73a4754f54a73aec893992fa957b50a1bd8fb98a299a5fdc07184",
+  "backendEquivalenceReceiptSha256": "15f734e9e2f3954409719f11f3929173c7239ae1f3eea2c9344a16e552407775",
+  "releaseReceiptSha256": "71d37bb05cffc40b0ed225fe8d9e05152dc37e0324dc0fe877dc2091909250da",
+  "workflowRunId": 41772563650,
+  "workflowAttempt": 1,
+  "workflowConclusion": "success",
+  "artifact": {
+    "id": 13295328074,
+    "sha256": "bca32e5286b9e644649d62cfab4a95c3dcb8235a0a6f6c7c099e0050eae128d8",
+    "authenticatedAndDecrypted": true,
+    "reportSha256": "17c6166fcfcbee75a3f9b75c1763e9459f8805fef56fc865782b4c16015a2808"
+  },
+  "checks": [
+    {
+      "name": "desktop-daybook",
+      "passed": true
+    },
+    {
+      "name": "desktop-querio-tab",
+      "passed": true
+    },
+    {
+      "name": "completed-conversation-reloads-without-generation",
+      "passed": true
+    },
+    {
+      "name": "mobile-daybook-conversation",
+      "passed": true
+    },
+    {
+      "name": "mobile-daybook-notebook",
+      "passed": true
+    }
+  ],
+  "presentationChecks": [
+    {
+      "viewportWidth": 1440,
+      "exactSavedTableValues": true,
+      "humanizedHeaders": true,
+      "sourceDisclosuresChecked": 3,
+      "sourceClosedOpenedReadAndReclosed": true,
+      "minimumChartTextPixels": 11.741935483870968,
+      "chartScrollWidth": 560,
+      "chartViewportWidth": 536,
+      "horizontalScrollReachedEndAndReset": true,
+      "pageHorizontalOverflow": false
+    },
+    {
+      "viewportWidth": 390,
+      "exactSavedTableValues": true,
+      "humanizedHeaders": true,
+      "sourceDisclosuresChecked": 3,
+      "sourceClosedOpenedReadAndReclosed": true,
+      "minimumChartTextPixels": 11.741935483870968,
+      "chartScrollWidth": 560,
+      "chartViewportWidth": 292,
+      "horizontalScrollReachedEndAndReset": true,
+      "pageHorizontalOverflow": false
+    }
+  ],
+  "requestStatistics": {
+    "attempted": 23,
+    "allowed": 23,
+    "blocked": 0,
+    "failed": 0,
+    "httpErrors": 0,
+    "redirectsBlocked": 0,
+    "nonReadBlocked": 0,
+    "foreignOriginBlocked": 0,
+    "webSocketsBlocked": 0,
+    "pageErrors": 0,
+    "consoleErrors": 0,
+    "browserRequestFailures": 0,
+    "apiResponses": 14,
+    "healthVerified": true,
+    "metaVerified": true,
+    "querioVerified": true,
+    "daybookVerified": true,
+    "conversationReads": 5
+  },
+  "observedNativeModel": "gemini-3.8-flash",
+  "nativeFeatureEnabled": true,
+  "bothProvidersAvailable": true,
+  "screenshots": [
+    {
+      "path": "desktop-daybook.png",
+      "sha256": "7758423a47ec091d4912f12fc69a1abd04300d7680db77fe8afb1faf91f8fbc7",
+      "visualReview": "PASS: clearer percentage/column labels, larger chart ticks, supporting summary and collapsed Source details visible. Chart is horizontally scrollable by24px in this pane; full data remains available."
+    },
+    {
+      "path": "desktop-querio-tab.png",
+      "sha256": "304e1add60476c5795a43f89048590d50183ae402558c04bde9b8da5c8bdbb99",
+      "visualReview": "PASS: distinct Querio tab, keyboard focus, configured model label and empty-question view render cleanly. Switching generated no answer."
+    },
+    {
+      "path": "mobile-daybook-conversation.png",
+      "sha256": "985dfd3c56d369986b0ca1ee8baaeedbd01431c072b30324db57583c1853b887",
+      "visualReview": "PASS: unchanged saved answer is readable, both provider tabs and Conversation/Notebook view controls fit, composer remains reachable. Identical image hash to prior browser-g."
+    },
+    {
+      "path": "mobile-daybook-notebook.png",
+      "sha256": "006180607c29ffadbe60adc0cf61c0b3412617e7e4a404b953b1ece7cbccba80",
+      "visualReview": "PASS: visibly larger chart text, humanized legend, visible horizontal-scroll guidance and query/data disclosures. Later months require scrolling inside chart; tested end and reset work. No page overflow."
+    }
+  ],
+  "secretCleanup": {
+    "temporarySecretNames": [
+      "DAYBOOK_BROWSER_BYPASS",
+      "DAYBOOK_BROWSER_ARTIFACT_KEY"
+    ],
+    "deleteStatus": [
+      204,
+      204
+    ],
+    "absenceVerified": true,
+    "receiptSha256": "44c06fb6d096d391846e48b50e80974c3bee9768c25717746940ecf89f9003fa"
+  },
+  "providerCalls": 0,
+  "applicationMutationsDispatched": 0,
+  "ledgerWrites": 0,
+  "limitations": [
+    "This read-only browser run tests one completed real rent answer, not arbitrary financial correctness or submission behavior.",
+    "Mobile viewport emulation is not physical-device testing.",
+    "Screenshots show only the currently visible horizontal slice; scrolling to the end and back is separately asserted.",
+    "The answer remains verbose; this UI change does not alter model semantics.",
+    "Source identity comes from exact operator control-plane and file-equivalence evidence, not a GET response attestation."
+  ]
+}

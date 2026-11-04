@@ -1,0 +1,72 @@
+{
+  "kind": "authentic targeted F chart rendering review",
+  "reviewedAt": "2026-11-04T03:47:00.984853+00:00",
+  "CIrunId": 41768363849,
+  "renderedUiCommit": "60435f2c315363bf8110526066f3d6ce61771eb8",
+  "FGenerationRunId": 41767004758,
+  "FGenerationSource": "85a136ea19418c30774ae115a27f3417224bcadf",
+  "artifactId": 13294360781,
+  "artifactSha256": "01407ade5763209213dfb2a39c801c5e0c28dc305dcf65a17133543a00644e8f",
+  "artifactDigestVerified": true,
+  "recordedBrowserChecksPassed": 10,
+  "mixedReplayComposition": {
+    "F": [
+      "A08 desktop",
+      "A08 mobile"
+    ],
+    "E": [
+      "A06 desktop",
+      "A06 mobile",
+      "A18 desktop",
+      "A18 mobile"
+    ],
+    "Querio": [
+      "A06 desktop",
+      "A06 mobile",
+      "A18 desktop",
+      "A18 mobile"
+    ]
+  },
+  "FRequestedCharts": {
+    "planned": 2,
+    "delivered": 1,
+    "correctlyRendered": 1,
+    "missing": "A06 failed after two model deadlines; no chart or answer. E A06 replay earns no F credit."
+  },
+  "FChartA08": {
+    "desktop": "passed visual review",
+    "mobile": "passed visual review",
+    "zeroAugustPreserved": true,
+    "monthlyTotals": [
+      "0.00",
+      "2890.00",
+      "5705.35"
+    ],
+    "mean": "2865.12",
+    "median": "2890.00",
+    "statisticsSeparatelyLabeled": true,
+    "originalCapturedProseCodeTablesChartsUnchanged": true
+  },
+  "financialReviewSnapshot": {
+    "path": ".tools/analyst-product-20261103/ci-41768363849-review/f-financial-review-before-render.json",
+    "sha256": "ca6b659a77336ca1deeb1b02d046724fc8eaf6845c9a2629438d6856951d05de"
+  },
+  "FStrictTargetedResult": {
+    "passed": 1,
+    "total": 2,
+    "notAnExtendedOrMatchedSuiteScore": true
+  },
+  "preservedHistoricalScores": {
+    "E": "7/8 matched all-claims and6/6 additional; A06 false45 remains in its original capture/replay.",
+    "Querio": "6/8 matched strict; prior cumulative/mean rounding errors remain."
+  },
+  "indexSha256": "9ee7fbe394d57f15d78a21c5f29a4cf4405abf4c589356b82fdcc050db9e70ef",
+  "limitations": [
+    "Recorded saved-answer replay, not live hosted integration",
+    "Mobile emulation, not physical-device coverage",
+    "Technical legend names and small mobile axis labels remain",
+    "F A06 had no delivered answer/chart; preserved E A06 does not substitute for it"
+  ],
+  "providerCallsByReviewer": 0,
+  "newHostedModelAcceptanceAssessed": false
+}

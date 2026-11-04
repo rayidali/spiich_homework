@@ -1,0 +1,7 @@
+{
+  "kind": "immutable financial review snapshot reference clarification",
+  "originalRenderReceiptSha256": "48461e41e8a6a372fb4a6c482dad57967b83bf2290f79f1b59ffd632ae7691a8",
+  "financialReviewSha256InOriginalReceipt": "f4624e5671b4a3eede151c651495d15bd2adc49141438b999b9bb3776c5a4460",
+  "matchingPreservedSnapshot": ".tools/analyst-product-20261103/evaluation-review/e-final-review/native-e-before-render-f4624e5671b4.json",
+  "reason": "Final financial review was updated to include rendering evidence; original pre-render review remains preserved under this snapshot name. Original receipt and scores unchanged."
+}

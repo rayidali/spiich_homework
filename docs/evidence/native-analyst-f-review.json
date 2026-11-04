@@ -1,0 +1,176 @@
+{
+  "status": "final targeted financial and captured-browser review; A06 failure preserved",
+  "sourceCommit": "85a136ea19418c30774ae115a27f3417224bcadf",
+  "modelId": "gemini-3.8-flash",
+  "actualRunId": "41767004758",
+  "configurationSha256": "8fc103b5817b49438dd91b0c8261a6fcfb5d0b548a91f86bbc31a3cd4a45fa4c",
+  "referenceHashes": {
+    "fixture.json": "8cae13abd47a2fd4d87b44900830de5a629efbf2011f5b58c79cf1ad41dbe044",
+    "expected.json": "690b70d1100795916809f3adfd4c162a9c57ed033244e53333fd5711d7022f13",
+    "cases.json": "5360063b7dd0c745636112aa1d08e014ac982447c6ae13bbc7bb3d198ef82400",
+    "shared-context.md": "08fd4cf05899e79cfdc4f301d32dc4b36967e3bbd482d932df5c76941634b8b3",
+    "oracle.py": "c4fa4e69e98664188ca4b7bb1113cca3157b6f41f837c72c1ee9fb7444c05ac2"
+  },
+  "contextSha256": "72d1bdfc5a867696ebca898db481eef2602d97e7eb4eedcc612cbb800a98aa76",
+  "captureHashes": {
+    "a06-turn-1.json": "dd1ac2f956c45cba0c16d92feb65e1e62a52333bb983962137d2da40087e8e5b",
+    "a08-turn-1.json": "633b4acfe0ea682b316cccf5a5f207d762c1cc08b8ebe67d700907a210c95669",
+    "a06-closure.json": "566a64a5cf562d8665b7b81f6a7bbec4aebcff53d28ec0bff432fe7ee15b7342",
+    "a08-closure.json": "0f4e94bbd4f5994bf5284866b31a81586842c84743bdf3d26fa08ef87542e4b1",
+    "capture-summary.json": "15358717aa42f5adfbb95707144f4610ec93b4ce1de61120670b0f94f2c8f2a1"
+  },
+  "method": "Independent Python Decimal calculation from frozen entries, manual all-claims review, published row/column/chart checks and tool-error history inspection. No provider or network calls.",
+  "turns": [
+    {
+      "caseId": "A06",
+      "turn": 1,
+      "delivered": false,
+      "strictPass": false,
+      "requestedChartDelivered": false,
+      "reason": "Two caught model timeouts at40686ms/41123ms; exactly one recovery then terminal failure. No answer or notebook published.",
+      "safeFailureRecords": [
+        {
+          "code": "ANALYST_MODEL_TIMEOUT",
+          "attempts": [
+            {
+              "attemptId": "76eb0b20-f0a3-4403-8cee-809ec934f59e",
+              "receiptKind": "transport-error",
+              "transportStarted": true
+            }
+          ],
+          "elapsedMs": 40686,
+          "messageId": "aadf3ef3-5511-4f65-ac46-259df512ae89",
+          "attemptIds": [
+            "76eb0b20-f0a3-4403-8cee-809ec934f59e"
+          ],
+          "occurredAt": "2026-11-04T03:27:01.480Z",
+          "generationId": "275e2488-f341-49e4-8df2-ccc28a23fc44",
+          "recoveryScheduled": true
+        },
+        {
+          "code": "ANALYST_MODEL_TIMEOUT",
+          "attempts": [
+            {
+              "attemptId": "889653df-df59-43de-a3fc-3c3d3bcab023",
+              "receiptKind": "transport-error",
+              "transportStarted": true
+            }
+          ],
+          "elapsedMs": 41123,
+          "messageId": "aadf3ef3-5511-4f65-ac46-259df512ae89",
+          "attemptIds": [
+            "889653df-df59-43de-a3fc-3c3d3bcab023"
+          ],
+          "occurredAt": "2026-11-04T03:28:07.492Z",
+          "generationId": "992c9aa7-f8be-455f-980b-28a08ad1d994",
+          "recoveryScheduled": false
+        }
+      ]
+    },
+    {
+      "caseId": "A08",
+      "turn": 1,
+      "delivered": true,
+      "requestedFactsAndMeaning": "pass",
+      "allClaims": "pass",
+      "strictPass": true,
+      "requestedChartDataCorrect": true,
+      "requestedChartRenderVerified": true,
+      "answerSha256": "e7f54fce8955b2fa79c1422a82c95426b0ce3d8118e4964b01327ff52c154fc6",
+      "details": "Correct Aug1-Oct31 scope; monthly0/2890/5705.35; zeroAugust retained; total8595.35; mean2865.12; median2890. No invented obligations, payment claims or extra advice in final answer. All2publishedqueries/4rows/2tables/1chart checked independently."
+    }
+  ],
+  "targeted": {
+    "plannedConversations": 2,
+    "plannedTurns": 2,
+    "deliveredTurns": 1,
+    "financiallyEligibleTurns": 1,
+    "requiredCharts": 2,
+    "savedCorrectRequiredCharts": 1,
+    "requestedChartsRenderedVerified": 1,
+    "strictScore": {
+      "conversations": 1,
+      "turns": 1,
+      "charts": 1
+    }
+  },
+  "guardFlow": {
+    "actuallyExercised": true,
+    "rejectedPublicationCount": 1,
+    "rejectedLiteral": "$1,200.00",
+    "literalWasFinanciallyWrong": false,
+    "whyRejected": "Correct October contractor draft existed in an investigative result, but was not included in the selected fresh publication results q1/q4.",
+    "modelRecovery": "Removed optional unsupported draft aside; preserved complete required monthly values/mean/median and original supporting q1/q4 tables. Second publication succeeded.",
+    "didNotDemonstrate": "No live45hallucination was generated and corrected in F. The preserved E45rejection was an offline guard replay. A06 did not deliver."
+  },
+  "cost": {
+    "httpAttempts": 17,
+    "knownAttempts": 15,
+    "unknownAttempts": 2,
+    "knownEstimateNanoUsd": 138120000,
+    "retainedUnknownReservationNanoUsd": 121118250,
+    "trackedIncrementNanoUsd": 259238250,
+    "taskTrackedNanoUsd": 4092528750,
+    "knownPlusUnknownNotInvoice": true
+  },
+  "boundaries": {
+    "fingerprintBefore": "1d8f3425713aae72c4c0665f552b88dc728fef069d773a43826098b9f5b2d67f",
+    "fingerprintAfter": "1d8f3425713aae72c4c0665f552b88dc728fef069d773a43826098b9f5b2d67f",
+    "bothConversationsClosed": true
+  },
+  "limits": [
+    "Two selected known questions are targeted repair evidence, not a new full matched comparison or blind holdout.",
+    "A08 passed actual captured-state desktop and emulated-mobile rendering; A06 had no answer or chart and still fails.",
+    "A06 remains a failed delivery; no credit from hidden calculations or another source.",
+    "A later longer-runtime hosted test is a separate source and cannot replace this failed F attempt."
+  ],
+  "renderEvidence": {
+    "receiptSha256": "07df9465e195c21e90617614a00517fcd0c26d05b0b258ed7e18166ce7584188",
+    "ciRunId": 41768363849,
+    "renderedUiSource": "60435f2c315363bf8110526066f3d6ce61771eb8",
+    "generationSource": "85a136ea19418c30774ae115a27f3417224bcadf",
+    "financialReviewBeforeRenderSha256": "ca6b659a77336ca1deeb1b02d046724fc8eaf6845c9a2629438d6856951d05de",
+    "indexSha256": "9ee7fbe394d57f15d78a21c5f29a4cf4405abf4c589356b82fdcc050db9e70ef",
+    "requestedChartsRendered": 1,
+    "plannedCharts": 2,
+    "kind": "authentic saved F A08 state through application UI; read-only HTTP replay",
+    "liveHostedBackendVerified": false,
+    "providerCalls": 0,
+    "screenshots": [
+      {
+        "provider": "daybook",
+        "caseId": "A08",
+        "viewport": "desktop",
+        "screenshot": "test-results/recorded-analyst-recorded--e6eac-otebook-daybook-A08-desktop/daybook-a08-desktop-recorded-replay.png",
+        "screenshotSha256": "00e3de31d0796b5130449b42432ae388052ce0bc2e19d95791a9f392ad50fb96",
+        "sameAsPreviouslyReviewedScreenshot": false,
+        "provenanceFile": "test-results/recorded-analyst-recorded--e6eac-otebook-daybook-A08-desktop/recorded-replay-provenance.json",
+        "provenanceSha256": "11ff558a1015a5b766343d9ad04886a7bdf608821c373c17dc7dcbcfd78da6f7",
+        "generationSource": "85a136ea19418c30774ae115a27f3417224bcadf",
+        "fixtureSha256": "ec0a01de2051ba6ebf1d4017a0ab1418e532476d107ff15e8e4ae9b143814089",
+        "chartsAsserted": 1,
+        "financialFindings": []
+      },
+      {
+        "provider": "daybook",
+        "caseId": "A08",
+        "viewport": "mobile",
+        "screenshot": "test-results/recorded-analyst-recorded-actual-notebook-daybook-A08-mobile/daybook-a08-mobile-recorded-replay.png",
+        "screenshotSha256": "500a549cb8aa879739e1c9fdb2689053411dcbeaa52c84bacde80e47cb1b07f9",
+        "sameAsPreviouslyReviewedScreenshot": false,
+        "provenanceFile": "test-results/recorded-analyst-recorded-actual-notebook-daybook-A08-mobile/recorded-replay-provenance.json",
+        "provenanceSha256": "aeca445f1b3cdc98dc3302cbcf9e169918cc6dfef84b2579b897b46146463065",
+        "generationSource": "85a136ea19418c30774ae115a27f3417224bcadf",
+        "fixtureSha256": "ec0a01de2051ba6ebf1d4017a0ab1418e532476d107ff15e8e4ae9b143814089",
+        "chartsAsserted": 1,
+        "financialFindings": []
+      }
+    ],
+    "limitations": [
+      "Recorded saved-answer replay, not live hosted integration",
+      "Mobile emulation, not physical-device coverage",
+      "Technical legend names and small mobile axis labels remain",
+      "F A06 had no delivered answer/chart; preserved E A06 does not substitute for it"
+    ]
+  }
+}

@@ -2,7 +2,7 @@
 
 A React and TypeScript accounting application with an Express REST API and PostgreSQL. Record transactions, review balanced entries, manage recurring drafts and inspect financial reports. AI suggests entries and categories for review; database constraints protect posted history.
 
-**Analyst workspace:** Ask has separate Daybook and Querio tabs with answers and inspectable notebooks. Querio is released on the protected website. The replacement native analyst writes checked read-only SQL and is under source-bound acceptance before promotion. [Architecture and measured limits](docs/NATIVE_ANALYST.md) · [Current checkpoint](CHECKPOINT.md) · [Querio release](docs/evidence/querio-workspace-release.json).
+**Analyst workspace:** Ask lets you switch between Daybook’s Gemini analyst and Querio. Both show answers with inspectable tables, charts and queries. The native model can write a new checked read-only SQL calculation; accounting writes still require the existing review/posting flow. Both tabs are live on the protected site. [Two-page explanation](docs/reports/analyst-workspace-comparison.pdf) · [Comparison and limitations](docs/ANALYST_COMPARISON.md) · [Verified release](docs/evidence/native-analyst-release.json).
 
 Open the [protected hosted demo](https://daybook-ledger-delta.vercel.app), or run the complete application with Docker below. No API key is needed for manual accounting, reports, recurrence or statistical anomaly alerts.
 
@@ -31,20 +31,20 @@ The [beginner accounting walkthrough](docs/ACCOUNTING_WALKTHROUGH.md) explains t
 
 ## What is included
 
-| Requirement                 | Implementation                                                                                              |
-| --------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| Double entry                | Exact decimals, 2–100 lines, balanced USD base amounts, deferred PostgreSQL constraints                     |
-| Chart of accounts           | Tree, unique codes, five account types, create/edit/archive/restore/delete unused accounts                  |
-| Journal                     | Simple USD form, full manual/FX entries, AI clarification and review, drafts, revisions and reversals       |
-| Currency                    | USD base; USD, EUR, GBP, CAD, JPY accounts; stored rates and native/base balances                           |
-| Recurrence                  | Weekly/monthly/yearly, calendar anchors, automatic drafts, edit future content, pause/resume, recovery      |
-| Reporting                   | Trial balance, P&L, balance sheet, account ledger with opening/running balances, filters and CSV            |
-| Transactions                | Search, account/date/status/currency filters, cursor pagination, entry drill-down                           |
-| AI entry and categorization | Structured proposals, clarification, account validation, relevant history and correction retrieval          |
-| Anomaly detection           | Duplicate/amount/category rules, review/dismissal, resolved alerts and reversal-aware rechecks              |
-| Insights                    | Querio notebook workspace; native generated read-only SQL analyst under acceptance; legacy chat fallback    |
-| UX                          | Four accounting destinations plus Ask, reviewed account effects, accessible controls and progressive detail |
-| Operations                  | Migrations, Docker Compose, health checks, request IDs, outbox jobs, passing CI, protected Vercel/Neon demo |
+| Requirement                 | Implementation                                                                                                         |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Double entry                | Exact decimals, 2–100 lines, balanced USD base amounts, deferred PostgreSQL constraints                                |
+| Chart of accounts           | Tree, unique codes, five account types, create/edit/archive/restore/delete unused accounts                             |
+| Journal                     | Simple USD form, full manual/FX entries, AI clarification and review, drafts, revisions and reversals                  |
+| Currency                    | USD base; USD, EUR, GBP, CAD, JPY accounts; stored rates and native/base balances                                      |
+| Recurrence                  | Weekly/monthly/yearly, calendar anchors, automatic drafts, edit future content, pause/resume, recovery                 |
+| Reporting                   | Trial balance, P&L, balance sheet, account ledger with opening/running balances, filters and CSV                       |
+| Transactions                | Search, account/date/status/currency filters, cursor pagination, entry drill-down                                      |
+| AI entry and categorization | Structured proposals, clarification, account validation, relevant history and correction retrieval                     |
+| Anomaly detection           | Duplicate/amount/category rules, review/dismissal, resolved alerts and reversal-aware rechecks                         |
+| Insights                    | Querio notebook workspace; native generated read-only SQL analyst with bounded hosted acceptance; legacy chat fallback |
+| UX                          | Four accounting destinations plus Ask, reviewed account effects, accessible controls and progressive detail            |
+| Operations                  | Migrations, Docker Compose, health checks, request IDs, outbox jobs, passing CI, protected Vercel/Neon demo            |
 
 The short-form **Suggest category** action chooses an expense/revenue category while code preserves the fixed amount and payment account. Loans, transfers, invoice settlements and more complex entries use the full-entry workflow. Suggestions require review and cannot post themselves. [Category selector](docs/CATEGORY_SELECTOR.md) · [Assignment checklist](docs/ASSIGNMENT_REVIEW.md).
 
@@ -70,9 +70,10 @@ Gemini and OpenAI are supported. Copy `.env.example` to `.env` only if you do no
 ```dotenv
 AI_PROVIDER=gemini
 GEMINI_API_KEY=your_key_here
+NATIVE_ANALYST_ENABLED=true
 ```
 
-These settings control whole-entry and legacy chat requests. The separate native analyst requires `NATIVE_ANALYST_ENABLED=true` and `GEMINI_API_KEY`; its pinned model is `gemini-3.8-flash`. Keep it disabled until the documented acceptance gate is met. Querio uses server-only `QUERIO_*` settings in `.env.example`; never place provider keys in browser variables.
+These settings control whole-entry and legacy chat requests. The separate native analyst requires `NATIVE_ANALYST_ENABLED=true` and `GEMINI_API_KEY`; its pinned model is `gemini-3.8-flash`. The sample environment enables this separately tested analyst when its Gemini key is configured. Querio uses server-only `QUERIO_*` settings in `.env.example`; never place provider keys in browser variables.
 
 Leave `AI_MODEL` empty to use the configured provider default: `gemini-3.5-flash-lite` or `gpt-6-luna`. For OpenAI, set `AI_PROVIDER=openai` and `OPENAI_API_KEY`; remove any stale model override when switching. Use a model your project can access. Keys stay on the server and are excluded from source, Docker images and the submission.
 
@@ -84,7 +85,7 @@ docker compose up -d --force-recreate app
 
 `CATEGORY_PROVIDER=gemini|jev|reference` is server-controlled; Gemini remains the measured category default. Jev uses `TYPESAFE_API_KEY`. The offline reference provides a simpler comparison. Neither setting changes the whole-entry provider. Changing local `.env` does not update a deployed Vercel configuration.
 
-Entry/category requests are not automatically retried. Financial chat has bounded planning and schema-repair attempts; transport, semantic and database failures do not trigger a schema retry. Errors include a copyable request reference. Without a key, the manual workflows still work. [API](docs/API.md) · [Provider repair and its limits](docs/evidence/provider-compatibility-20261101/report.md).
+Entry/category requests are not automatically retried. The native analyst may make one separately metered fresh inference after a caught, accounted transport failure; crashed or already-returned requests are not replayed. The legacy chat retains its separate bounded planning/schema-repair behavior. Errors include a copyable request reference. Without a key, the manual workflows still work. [API](docs/API.md) · [Provider repair and its limits](docs/evidence/provider-compatibility-20261101/report.md).
 
 ## Verification
 
@@ -183,6 +184,6 @@ The [hosted demo](https://daybook-ledger-delta.vercel.app) uses Vercel protectio
 
 [Hosting](docs/HOSTING.md) explains build-only migration credentials, the restricted runtime role, daily scheduler and deployment variables. A fresh CLI deployment needs explicit private configuration; a repository push is not a configured Vercel auto-deploy.
 
-The [current release receipt](docs/evidence/goal-completion-release.json) binds source `6691d76` to deployment `dpl_CVQXU5jjfUKHW4Lt9biZm1RCnZe8`. Three actual hosted responses returned Supplies $1,740 for all history, Supplies $340 for October, and Rent $7,200 with a $6,860 Rent-minus-Supplies difference. The original automatic check remains **2/3** because of a currency-display formatting rejection; a separate 37-check internal semantic audit verified **3/3**. There were 32 runtime-correlation checks and six hosted browser checks with visual review of six captured views. All 75 journals and 22 accounts stayed unchanged. These are bounded checks, not arbitrary-question or physical-device guarantees.
+The [historical composable release receipt](docs/evidence/goal-completion-release.json) binds source `6691d76` to deployment `dpl_CVQXU5jjfUKHW4Lt9biZm1RCnZe8`. Three actual hosted responses returned Supplies $1,740 for all history, Supplies $340 for October, and Rent $7,200 with a $6,860 Rent-minus-Supplies difference. The original automatic check remains **2/3** because of a currency-display formatting rejection; a separate 37-check internal semantic audit verified **3/3**. There were 32 runtime-correlation checks and six hosted browser checks with visual review of six captured views. All 75 journals and 22 accounts stayed unchanged. These are bounded checks, not arbitrary-question or physical-device guarantees.
 
-Overall recorded charges and conservative reservations are **$0.6919872 within the approved $0.90**, including preserved failures. The [checkpoint](CHECKPOINT.md) records source/archive verification. Earlier [date-scope](docs/evidence/chat-history-acceptance.json) and [category/entry](docs/evidence/category-hosted-acceptance-audit.json) checks remain historical; no closed cohort or unused allowance is reopened.
+That historical release recorded **$0.6919872 within its separate $0.90 allowance**, including preserved failures. The new two-analyst task closed at **$4.407171750 of $5**: $4.170306000 known estimates plus $0.236865750 retained unknown reservations. These are not invoices, and the earlier allowance is not reopened. [Hosted checks and cost receipt](docs/evidence/native-analyst-hosted-acceptance.json). The [checkpoint](CHECKPOINT.md) records source/archive verification. Earlier [date-scope](docs/evidence/chat-history-acceptance.json) and [category/entry](docs/evidence/category-hosted-acceptance-audit.json) checks remain historical; no closed cohort or unused allowance is reopened.

@@ -1,6 +1,34 @@
 # Explain and demonstrate Daybook
 
-## Start with this explanation
+## Explain the current system first
+
+> “Daybook keeps the accounting rules in PostgreSQL. Posted entries must balance and cannot be rewritten. The Ask workspace has Querio and our own analyst. Our model can write a new read-only SQL query, then the server checks its access, runs it, saves the result and rechecks the selected evidence before publishing a notebook. The model interprets the question; database arithmetic and our code protect the records. A helpful explanation can still be wrong, so I preserved and reviewed the failures.”
+
+Querio is integrated in Ask, and the replacement Daybook analyst writes new checked read-only SQL over the actual books. Source `60435f2` passed full CI, three independently reviewed hosted answers and a protected desktop/mobile read of the saved rent notebook. All 22 accounts, 76 entries and 152 lines remained unchanged; nine migration hashes matched. Final UI source `10778bae` passed CI `41771396221`, protected browser run `41772563650` and promotion. Its 85 non-web backend/configuration files match the model-tested source byte for byte. The actual model evidence remains bound to `60435f2`; use [CHECKPOINT](../CHECKPOINT.md) for the final release identity.
+
+## Rehearse the current demo
+
+1. Start with **Home → Transactions → Reports**. Inspect an existing posted entry and a draft; explain why posting changes financial reports while a draft does not. Use a disposable local workspace for any posting/reversal demonstration.
+2. Open **Ask** and show the **Daybook / Querio** tabs. Their histories are separate. Switching tabs does not itself generate an answer or spend model credit.
+3. Show an available completed notebook before submitting a live question. Point to its answer, table, chart and inspectable SQL. A new question is a new provider request; the measured hosted responses took 94–321 seconds, so budget demo time accordingly.
+4. Explain the measured rent question: each month’s rent divided by that month’s total posted expenses. Months with no expenses have an undefined percentage, not a fabricated zero-percent result. Date boundaries and the denominator matter as much as arithmetic.
+5. Explain the measured hiring follow-up: $4,500 salary plus the user’s 20% overhead means $5,400 monthly cost. Changing salary to $5,000 means $6,000, replacing the old scenario. On the November 3 live books, labeled no-income runway changed from 7.65 to 7.38 months. Recorded expenses were a rough spending proxy, not a bank-reconciled forecast.
+6. Distinguish records from outside events. The fictional comparison has a $60 Figma draft. That means unposted in these books, not necessarily unpaid in the real world. Do not use the test fixture’s amount as a live-book fact.
+7. Show category learning separately: posting a reviewed account change makes an example available to later suggestions. A draft alone does not teach, and the model never posts automatically.
+
+## Explain results without combining experiments
+
+The full E comparison passed 7/8 strict turns versus Querio’s 6/8 on the same eight turns. E invented an optional $45 draft instead of $60; that failure remains. The later F repair test passed 1/2, with one answer lost to two timeouts. Source `60435f2`’s three hosted answers passed separately; they do not create a new full-comparison score. Responses took 94–321 seconds, so speed remains a material weakness. [Hosted evidence](evidence/native-analyst-hosted-acceptance.json) · [Analyst design and measured limits](NATIVE_ANALYST.md).
+
+Six additional native E turns passed separately; they do not enlarge the matched comparison. The new numeric-support guard can reject an unsupported formatted amount, but matching a result cannot prove its account, dates or meaning. The latest runtime is not a new 8/8 result. Native and Querio use different models as well as different software, so this is a comparison of complete configurations, not proof of an architecture-only winner.
+
+The Jev/Gemini category experiment is separate: Gemini passed 33/33 category-plus-taught-preference inputs versus Jev 31/33. Both chose acceptable semantic categories. This measures using supplied examples, not retraining model weights or universal transaction accuracy.
+
+## Historical demonstration and comparison notes
+
+The previous demos and source-specific results below remain useful history. Their dates, amounts, “current source” labels and fixed/composable-route descriptions are not the current analyst architecture. The maintained accounting Q&A and code paths later in this guide still explain the core application.
+
+## Earlier explanation — composable route
 
 > “Daybook is an accounting workspace. Every posted transaction has balanced account effects, and corrections preserve the original record. The AI reads a question and chooses an allowed plan; database queries and exact calculation code compute the money. I compare the result with its accounts, dates and source records. I tested more complex chat approaches, but they did not qualify to replace the simpler composable route.”
 
@@ -24,7 +52,7 @@ The chat comparison used the same **16 synthetic questions** across three approa
 
 Jev versus Gemini was a **separate category-selection comparison**, not this chat experiment. Both chose acceptable categories on all 33 held-out category inputs. Gemini followed the taught business preference in **33/33**, Jev in **31/33**, so Gemini remained the category default. A correction becomes a saved example only when the user posts the reviewed entry; a draft alone does not teach. Later suggestions can use those examples as context; model weights are not retrained. [Category paper](reports/category-learning-explained.pdf).
 
-**Current hosted source:** `6691d76ad24574343b3eec9617546e9c019b8c95`, route `composable`, deployment `dpl_CVQXU5jjfUKHW4Lt9biZm1RCnZe8`. The guide below retains earlier walkthroughs and source-specific verification history. Historical counts and candidate labels do not replace this current release or prove arbitrary-question correctness.
+**Historical hosted source:** `6691d76ad24574343b3eec9617546e9c019b8c95`, route `composable`, deployment `dpl_CVQXU5jjfUKHW4Lt9biZm1RCnZe8`. The guide below retains earlier walkthroughs and source-specific verification history. Historical counts and candidate labels do not replace this current release or prove arbitrary-question correctness.
 
 ## Earlier capabilities and verification history
 
@@ -258,11 +286,11 @@ The October 31 hosted model update passed the complete supplies/card proposal an
 
 **Did we build Docker Compose?** Yes. Application startup, health/container checks and posted-entry persistence have passed CI. Research has a separate pgvector Compose setup that exercises the actual Wren engine and database restrictions. Local Docker availability on the author's machine is a separate question from the checked-in runnable setup and cloud CI evidence.
 
-**What would you do next?** Finish the final handoff for the CI-tested, measured Gemini category path, preserving its 11 selected hosted API checks. The original 40-case live whole-entry evaluation is still separate and incomplete. Automatic Compose scheduling is observed; hosted cron firing and real-device usability are not. The broader study supports a later limited document-access experiment, not another prerequisite for the assignment. Document upload is absent and not required by the brief.
+**What would you do next?** First measure and reduce the observed 94–321-second answer time and unnecessary detail. Extend authored tests to different date distributions and ambiguous questions without erasing current failures. Complete real-device review before claiming phone usability. Identity, load/restore testing and a continuously serviced worker belong to production hardening; document retrieval should wait for an actual document workflow. The original whole-entry study and observed automatic hosted cron coverage remain separate gaps.
 
 ## Explain hosting and the interface accurately
 
-Daybook is the product name; Spiich is the assignment recipient. The simpler interface uses Home / Transactions / Reports / Settings. A beginner chooses money in, money out or transfer and reviews the account effects. Advanced journals remain available for more complex cases. The [design record](DESIGN.md) explains the decisions and verification limits. Browser workflow tests do not establish real-phone ergonomics or a fresh human visual review.
+Daybook is the product name; Spiich is the assignment recipient. The accounting interface uses Home / Transactions / Reports / Settings; Ask is the additional full analyst workspace requested later. A beginner chooses money in, money out or transfer and reviews the account effects. Advanced journals remain available for more complex cases. The [design record](DESIGN.md) explains the decisions and verification limits. Browser workflow tests do not establish real-phone ergonomics or a fresh human visual review.
 
 > “Docker and the hosted demo share accounting services. Vercel serves the React build and runs the Express API through a native ESM adapter. Neon stores the demo data. The runtime has a restricted database role; migration/setup uses separately held owner access. The same financial constraints apply.”
 
@@ -274,7 +302,7 @@ A green build alone does not prove the hosted API can run. Earlier invocation an
 
 ## Evidence worth showing
 
-Start with the [current release receipt](evidence/goal-completion-release.json), [current full CI](https://github.com/rayidali/spiich_homework/actions/runs/41282013110) and [completed chat comparison paper](reports/chat-route-comparison-explained.pdf). The table retains earlier evidence for its named sources.
+Start with [the current checkpoint](../CHECKPOINT.md), [native analyst design and measured limits](NATIVE_ANALYST.md), and [the three hosted answers plus unchanged-books audit](evidence/native-analyst-hosted-acceptance.json). The table below retains earlier evidence for its named sources; the old chat-route paper does not grade the new native analyst.
 
 | Evidence                                                                                                                                                                                    | What you can claim                                                                                                                                                                         | What you cannot infer                                                                             |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
@@ -298,6 +326,8 @@ The [main final audit](evidence/research-holdout-final-check.json) and [reviewer
 | [Composer](../web/src/Composer.tsx) → [API](../server/app.ts) → [ledger](../server/ledger.ts) → [ledger migration](../db/migrations/001_ledger.sql) | Review, validation, posting, database invariants and immutability                                           |
 | [Reports](../server/reports.ts)                                                                                                                     | Posted-only balances, signs, opening history and profit in equity                                           |
 | [Application AI](../server/ai.ts)                                                                                                                   | Custom financial tools, structured proposals, correction retrieval and provider failures                    |
+| [Native analyst](../server/native-analyst-service.ts) → [SQL boundary](../server/analyst-sql.ts) → [notebook](../server/analyst-notebook.ts)        | Durable model/tool steps, restricted queries, rechecked results and charts                                  |
+| [Financial literal check](../server/analyst-claims.ts) / [Querio adapter](../server/querio-service.ts)                                              | Numeric support is not meaning proof; the external analyst has separate provider/session state              |
 | [Recurring](../server/recurring.ts) / [anomalies](../server/anomalies.ts)                                                                           | Occurrence keys, scheduling anchors, durable jobs and explainable review alerts                             |
 | [Accounting tests](../tests/accounting.test.ts)                                                                                                     | Direct-SQL invalid writes, concurrency/revision races and exact-money behavior                              |
 | [Research routes](../research/routes.ts) / [answer checks](../research/answer.ts) / [scope checks](../research/scope.ts)                            | Controlled substitutions; calculation citations; dates, identities and grouping grain                       |

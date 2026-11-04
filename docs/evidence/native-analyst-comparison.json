@@ -1,0 +1,163 @@
+{
+  "kind": "preserved source-bound analyst comparison and later repair evidence",
+  "comparisonStatus": "financial and authentic recorded-chart review complete",
+  "releaseStatus": "both analyst tabs promoted and verified; UI10778 retains model-tested604 backend",
+  "questionScope": {
+    "matchedCases": [
+      "A01",
+      "A05",
+      "A06",
+      "A07",
+      "A11",
+      "A18"
+    ],
+    "conversations": 6,
+    "turns": 8,
+    "requestedCharts": 2,
+    "fixtureFacts": 38,
+    "frozenCasesSha256": "5360063b7dd0c745636112aa1d08e014ac982447c6ae13bbc7bb3d198ef82400",
+    "fixtureSha256": "8cae13abd47a2fd4d87b44900830de5a629efbf2011f5b58c79cf1ad41dbe044"
+  },
+  "matched": [
+    {
+      "label": "Native E",
+      "sourceCommit": "9583dd8339448fa4d6ac00d0953fc9b515a4b1f5",
+      "modelId": "gemini-3.8-flash",
+      "actualRunId": "41762774353",
+      "delivered": 8,
+      "requestedNumbersAndScopeCorrect": 8,
+      "strictTurns": 7,
+      "strictConversations": 5,
+      "requestedChartsRendered": 2,
+      "review": "docs/evidence/native-analyst-e-review.json",
+      "reviewSha256": "eb85214c6086543e6cde3ba76e8c225af764118a3dc87a8f17dffb74544c5db1",
+      "renderReceipt": "docs/evidence/native-analyst-e-render.json",
+      "preservedFailure": "Optional November 3 software draft was stated as $45 instead of $60. Correct requested rent calculations do not repair that extra claim."
+    },
+    {
+      "label": "Querio",
+      "sourceCommit": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+      "modelId": "claude-sonnet-5-5",
+      "delivered": 8,
+      "strictTurns": 6,
+      "strictConversations": 4,
+      "requestedChartsRendered": 2,
+      "review": "docs/evidence/querio-matched-analyst-review.json",
+      "reviewSha256": "ec4461962ba2cd9bba90b3ef585d0f1c53961a384f6be3f4f57f66c1625b22f4",
+      "renderReceipt": "docs/evidence/native-analyst-recorded-render-ci.json",
+      "preservedFailures": "Two responses have 0.01-percentage-point rounding-order errors; one follow-up also changes requested dates. Monetary amounts were correct."
+    }
+  ],
+  "additionalNativeOnly": {
+    "sourceCommit": "9583dd8339448fa4d6ac00d0953fc9b515a4b1f5",
+    "cases": [
+      "A08",
+      "A12",
+      "A14",
+      "A16"
+    ],
+    "plannedTurns": 6,
+    "strictTurns": 6,
+    "plannedConversations": 4,
+    "strictConversations": 4,
+    "requestedChartsRendered": 1,
+    "plannedCharts": 1,
+    "includedInMatchedBars": false
+  },
+  "targetedRepairF": {
+    "sourceCommit": "85a136ea19418c30774ae115a27f3417224bcadf",
+    "actualRunId": "41767004758",
+    "cases": [
+      "A06",
+      "A08"
+    ],
+    "plannedTurns": 2,
+    "delivered": 1,
+    "strictTurns": 1,
+    "strictConversations": 1,
+    "requestedChartsRendered": 1,
+    "plannedCharts": 2,
+    "review": "docs/evidence/native-analyst-f-review.json",
+    "reviewSha256": "a8158360e3f5a20361c181c56f455e8f69b1690b36d15b59c98ed97bc50b9afd",
+    "renderReceipt": "docs/evidence/native-analyst-f-render.json",
+    "includedInMatchedBars": false,
+    "failure": "A06 failed after two 40-second model deadlines; no answer/chart and no borrowed E credit.",
+    "observedGuardBehavior": "A08 removed a correct but unsupported-by-selected-results optional $1,200 draft aside; it did not generate and then repair E\u2019s false $45."
+  },
+  "currentRuntime": {
+    "sourceCommit": "10778bae77251ee797c2aaa31149f189ca20318f",
+    "ciRunId": 41771396221,
+    "fullCiPassed": true,
+    "ciReceipt": "docs/evidence/native-analyst-ui-ci.json",
+    "modelSeconds": 120,
+    "functionSeconds": 180,
+    "nativeLeaseSeconds": 210,
+    "fullMatchedSuiteRepeated": false,
+    "hostedChecks": {
+      "plannedTurns": 3,
+      "financialPassed": 3,
+      "status": "3/3 financial review and unchanged-books audit passed; one completed rent notebook rendered on desktop/mobile",
+      "scores": {
+        "financialPassed": 3,
+        "financialPlanned": 3
+      },
+      "publicReceipt": "docs/evidence/native-analyst-hosted-acceptance.json",
+      "observedTurnSeconds": [
+        321,
+        169,
+        94
+      ],
+      "pairedLatencyBenchmark": false,
+      "hiringRunwayMonths": [
+        "7.65",
+        "7.38"
+      ],
+      "addedMonthlyCostUsd": [
+        "5400.00",
+        "6000.00"
+      ],
+      "publicReceiptSha256": "ca7fedee405b6854ee9485fae820400a781c53b3e9e802a9176d499a2d6f4404",
+      "browserReceipt": "docs/evidence/native-analyst-hosted-browser.json",
+      "finalUIBrowserReceipt": "docs/evidence/native-analyst-release-browser.json",
+      "finalUIBrowserRunId": 41772563650
+    },
+    "promotionVerified": true,
+    "promotionReceipt": "docs/evidence/native-analyst-release.json",
+    "modelAcceptanceSourceCommit": "60435f2c315363bf8110526066f3d6ce61771eb8",
+    "uiCiRunId": 41771396221,
+    "uiCiReceipt": "docs/evidence/native-analyst-ui-ci.json",
+    "backendEquivalenceReceipt": "docs/evidence/native-analyst-backend-equivalence.json",
+    "promotionReceiptSha256": "110dda89d0dfd66d19e015ff66fceaad8cb57d6aea8b5835017964d6102fb4f0",
+    "deploymentId": "dpl_F3am1c39jixhAhChaj9P3MZZC1ja",
+    "stableUrl": "https://daybook-ledger-delta.vercel.app",
+    "modelAcceptanceCiRunId": 41768363849,
+    "modelAcceptanceCiReceipt": "docs/evidence/native-analyst-duration-ci.json"
+  },
+  "querioMatchedObservedModelResponses": 39,
+  "querioInvoiceVerified": false,
+  "limits": [
+    "Small authored development subset improved with feedback, not a blind holdout or universal accuracy result.",
+    "Gemini 3.8 Flash and Querio Sonnet 5.5 are different complete configurations, not an architecture-only comparison.",
+    "Actual captured-state desktop/mobile replay is separate from fresh hosted backend verification; mobile views are emulated.",
+    "All-claims strict score includes incorrect optional financial claims; numeric matches alone cannot prove query or prose meaning.",
+    "Earlier A/B/C/D/E/F attempts retain separate source bindings; no pooled best-case score.",
+    "No matched latency or per-provider dollar-cost claim.",
+    "The three hosted responses took 321, 169 and 94 seconds and included unrequested detail. Observed success applies to those audited records; missing-month and other-year query coverage is not established by those three answers."
+  ],
+  "historicalPublicEvidence": [
+    "docs/evidence/native-analyst-baseline.json",
+    "docs/evidence/native-analyst-b-review.json",
+    "docs/evidence/native-analyst-recorded-render-ci.json"
+  ],
+  "wholeTaskBudget": {
+    "limitNanoUsd": 5000000000,
+    "knownEstimateNanoUsd": 4170306000,
+    "retainedUnknownReservationNanoUsd": 236865750,
+    "trackedNanoUsd": 4407171750,
+    "remainingNanoUsd": 592828250,
+    "laterCallsPending": false,
+    "finalReconciliationPending": false,
+    "invoice": false,
+    "ledgerSha256": "8d61ea794527c31589aa6d560aff9990b1c4c3c9c81306eb941b15a38549f68d"
+  }
+}

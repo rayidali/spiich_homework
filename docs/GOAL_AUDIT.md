@@ -1,6 +1,28 @@
 # Delivery and remaining limits
 
-**Current incremental release — 2026-11-03.** Source **`9f90a500a98ea98e74bed592435fd045c4564b8d`** is promoted as **`dpl_6DnLS6KcK815D19dKz6mdtvkLy31`** at [Daybook](https://daybook-ledger-delta.vercel.app), with composable chat and all-deployment protection. Health, metadata, alias and project target match the source. [Release evidence](evidence/conversation-repair-release.json).
+## Current two-analyst goal
+
+Querio is integrated in Ask, and the replacement Daybook analyst writes new checked read-only SQL over the actual books. Source `60435f2` passed full CI, three independently reviewed hosted answers and a protected desktop/mobile read of the saved rent notebook. All 22 accounts, 76 entries and 152 lines remained unchanged; nine migration hashes matched. Final UI source `10778bae` passed CI `41771396221`, protected browser run `41772563650` and promotion. Its 85 non-web backend/configuration files match the model-tested source byte for byte. The actual model evidence remains bound to `60435f2`; use [CHECKPOINT](../CHECKPOINT.md) for the final release identity.
+
+The full E comparison passed 7/8 strict turns versus Querio’s 6/8 on the same eight turns. E invented an optional $45 draft instead of $60; that failure remains. The later F repair test passed 1/2, with one answer lost to two timeouts. Source `60435f2`’s three hosted answers passed separately; they do not create a new full-comparison score. Responses took 94–321 seconds, so speed remains a material weakness. [Hosted evidence](evidence/native-analyst-hosted-acceptance.json) · [Analyst design and measured limits](NATIVE_ANALYST.md).
+
+| Goal                              | Evidence now available                                                                                               | Remaining limitation                                                                   |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Switch between Querio and Daybook | Real server-side integration, separate conversations, shared tables/charts and safe source display                   | Responses still take minutes; small authored tests do not establish universal accuracy |
+| Answer new database calculations  | Native model writes checked SQL; selected queries are rechecked together before notebook publication                 | A correct number can still refer to the wrong dates, account or assumption             |
+| Compare configurations honestly   | E versus Querio uses six conversations/eight turns, frozen fictional data and 38 independent Decimal reference facts | Small development sample with feedback; different models; no universal winner          |
+| Verify current hosted behavior    | Three financial passes, unchanged full core ledger, one saved notebook rendered on desktop/mobile                    | Only these questions/data; mobile emulation and slow responses                         |
+| Protect accounting                | Read-only analyst role; existing posting validation, balanced immutable history and linked reversals remain          | No bank feed, production authentication or million-user load proof                     |
+
+The latest model-tested runtime has not repeated the full matched suite. Later UI-only changes cannot improve its financial score. The new task is closed to paid calls at $4.170306000 known estimates plus $0.236865750 retained unknown reservations, $4.407171750 tracked out of $5. Those figures are estimates, not an invoice. [Reconciliation and unchanged-books evidence](evidence/native-analyst-hosted-acceptance.json).
+
+The two inspectable analyst options are delivered and the stable promotion is verified. Answering every possible business question perfectly remains unsupported. Promotion does not erase observed errors or establish that native is broadly better than Querio.
+
+## Historical goal audit — earlier composable release
+
+All source IDs, “current” labels, test counts, budgets and completion statements below belong to the preceding release. They preserve its evidence and cannot override the current state above.
+
+**Historical incremental release — 2026-11-03.** Source **`9f90a500a98ea98e74bed592435fd045c4564b8d`** is promoted as **`dpl_6DnLS6KcK815D19dKz6mdtvkLy31`** at [Daybook](https://daybook-ledger-delta.vercel.app), with composable chat and all-deployment protection. Health, metadata, alias and project target match the source. [Release evidence](evidence/conversation-repair-release.json).
 
 The staffing-question follow-up led to natural clarification, general explanations beside checked figures, repeated-question validation and currency-pair validation in the existing bounded repair loop. [Full CI 41677801649](evidence/conversation-currency-repair-ci.json) passed 2,809 normal tests, 35 browser workflows and Compose/persistence with 2,808 overlapping tests. The [final two-case model run](evidence/conversation-acceptance-v4/report.md) passed both known C02/C17 cases. Both first plans were valid; live schema repair was not observed. Scripted tests establish the repair mechanics.
 

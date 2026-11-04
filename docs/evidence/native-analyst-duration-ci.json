@@ -1,0 +1,82 @@
+{
+  "kind": "exact-source full CI receipt",
+  "reviewedAt": "2026-11-04T03:48:28.709028+00:00",
+  "runId": 41768363849,
+  "sourceCommit": "60435f2c315363bf8110526066f3d6ce61771eb8",
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "verify",
+      "id": 126371983515,
+      "conclusion": "success"
+    },
+    {
+      "name": "research-native",
+      "id": 126371983710,
+      "conclusion": "success"
+    },
+    {
+      "name": "compose",
+      "id": 126373525582,
+      "conclusion": "success"
+    },
+    {
+      "name": "live-ai",
+      "id": 126374750122,
+      "conclusion": "skipped"
+    }
+  ],
+  "normalTests": {
+    "passed": 3365,
+    "skipped": 19,
+    "actualPostgresAnalystStoreCases": 14,
+    "new90SecondOwnershipAndStaleFenceCasePassed": true,
+    "nativeDurationContractPassed": true,
+    "meteredSDK80SecondResponsePassedUnderFakeClock": true
+  },
+  "separatelyEnabledFixtureTests": {
+    "analystFixture": 11,
+    "completenessFixture": 4,
+    "overlapWithNormalPassedCount": false
+  },
+  "browser": {
+    "passed": 60,
+    "includesRecordedReplays": 10,
+    "renderReceiptSha256": "07df9465e195c21e90617614a00517fcd0c26d05b0b258ed7e18166ce7584188",
+    "artifactId": 13294360781,
+    "artifactSha256": "01407ade5763209213dfb2a39c801c5e0c28dc305dcf65a17133543a00644e8f",
+    "generationCohorts": "F A08; E A06/A18; original Querio A06/A18; never a pooled accuracy score"
+  },
+  "compose": {
+    "passed": 3364,
+    "skipped": 20,
+    "overlapsNormalSuite": true,
+    "runtimeLifecycleChecks": 7,
+    "workspaceAndCompletePostedEntrySurvivedContainerRecreation": true,
+    "actualPostgresAnalystStoreCases": 14
+  },
+  "research": {
+    "typeScriptTests": 30,
+    "typeScriptOverlapsNormalSuite": true,
+    "pythonTests": 35,
+    "componentBoundaries": {
+      "PASS": 57,
+      "FAIL": 0,
+      "UNASSESSED": 3
+    },
+    "livePromptBehaviorAssessed": false
+  },
+  "evidenceHashes": {
+    "run-002.json": "3aa285c977644b28a12c38d3d00836933dc13b5de87cb08f594f24884388d7e7",
+    "jobs-006.json": "b410d3a4d1b7ee0999c2f2470abf21ecb2be29aeddf922247a853c83b9679b30",
+    "verify.log": "3e22bb27f9dffad17c6a1b1b6e0d3cc47576b595a467a57c2760d1ff8cdac7de",
+    "research-native.log": "bf86ad212dbb699e0093e97e37e2f74e0923d618e59019a6832b717d5f7163ae",
+    "compose.log": "afc533b5bf6f1a229441d25712c37de84f6d7e847d4350e9eb91d8148edb6248",
+    "recorded-replay-index.json": "9ee7fbe394d57f15d78a21c5f29a4cf4405abf4c589356b82fdcc050db9e70ef",
+    "sanitized-f-render-receipt.json": "07df9465e195c21e90617614a00517fcd0c26d05b0b258ed7e18166ce7584188"
+  },
+  "providerCallsByThisCI": 0,
+  "liveAiJob": "skipped",
+  "modelAccuracyAssessedByCI": false
+}

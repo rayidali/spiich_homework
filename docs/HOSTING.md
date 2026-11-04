@@ -1,20 +1,34 @@
 # Hosting Daybook
 
-## Latest analyst hosting state — November 3, 2026
+## Current analyst hosting state
 
-Querio deployment `dpl_HNS1v2XznQrY1cTgmSjZpPwaHCeK` is promoted at the protected stable URL; [receipt](evidence/querio-workspace-release.json). The native candidate is not promoted. Its parser needs the package-relative `node_modules/libpg-query/wasm/**` assets; `hosting:bundle` and `check-analyst-sql-runtime.mjs` execute the real packaged parser locally/CI. Actual hosted execution remains a separate verification step. Native HTTP handlers queue/read; post-response work runs one model or tool phase so it does not run two model steps within one60-second function request. Long storage waits can still exceed target time; interrupted dispatch stays marked uncertain.
+The protected stable [Daybook site](https://daybook-ledger-delta.vercel.app) is promoted as `dpl_F3am1c39jixhAhChaj9P3MZZC1ja`, UI source `10778bae`. Both Daybook and Querio are available. Its 85 non-web backend/configuration files match the model-tested `60435f2` source exactly. Full CI, the repeated protected saved-rent browser review, unchanged-books audits and promotion were independently verified. [Release receipt](evidence/native-analyst-release.json). Earlier E/F model scores remain separate and unchanged.
+
+Production and the isolated acceptance database have immutable migrations 001–009. A read-only audit verified migration hashes, eight analytics views and unchanged accounting fingerprints. Native SQL parsing requires package-relative `node_modules/libpg-query/wasm/**` assets, tested with the actual packaged parser in CI. HTTP handlers save/read durable work; the post-response worker advances one model or tool phase at a time within the hosted function budget. A caught transport failure may schedule one bounded, separately reserved fresh inference. A crashed pending dispatch or failure after a result arrived is never replayed. Unknown prior costs remain reserved.
+
+Source `60435f2` keeps the existing generation and cost caps but allows 120 seconds per model request, a 180-second hosted function and a 210-second native lease. The lease outlasts the function so another worker cannot take over while the first is still running. Querio keeps its separate 75-second lease.
+
+Authentic captured chart replay is recorded UI evidence, not a fresh hosted model test. The protected rent/hiring/follow-up calls passed financial review; the rent notebook also passed separate desktop/mobile browser verification. All-deployment protection stays enabled; no credential belongs in browser code or public receipts.
 
 **Live Querio access — November 3:** `Daybook LIVE — all records` now reads the actual hosted database, including drafts, through a dedicated restricted reader. All 16 base tables/two views are catalogued; owner credentials were not supplied. Future tables created by the current owner in `public`/`research` inherit SELECT, with catalogue refresh needed for discovery. The research archive is clearly labeled fictional. Actual Querio SQL execution and unchanged database fingerprints were verified; no Daybook redeployment or model call occurred. The old fixture is renamed `TEST ONLY — synthetic benchmark`. [User guide and evidence](QUERIO_LIVE.md). Private provisioning/credentials/closure receipts: `.tools/querio-live-20261103/`.
 
 **Querio evaluation resources:** a separate `daybook_querio_20261103` database and restricted reader were created in the existing Neon project. Querio has a configured datasource named `Daybook accounting test books` over four reporting views. Credentials and exact resource receipts remain only in `.tools/querio-evaluation-20261103/`; do not publish owner or reader URLs. All test execution environments were closed, but the datasource and saved notebooks remain for inspection. Production accounting fingerprints were unchanged after testing. No Daybook deployment or runtime configuration changed. [Evaluation report](QUERIO_EVALUATION.md).
 
-## Generated-analysis candidate — not deployed
+All three hosted answers at `60435f2` passed independent financial review: the 11-month rent percentage, a $4,500 salary plus 20% overhead, and a same-conversation change to $5,000 salary. Added monthly cost changed from $5,400 to $6,000; the labeled no-income scenario changed from 7.65 to 7.38 months. The observed response times were 321, 169 and 94 seconds. These are three observations on the live dataset, not a paired latency benchmark. Slow responses and unrequested detail remain usability limitations. Protected browser verification and the unchanged-books audit passed. Final UI source `10778bae` passed full CI and protected saved-answer browser verification and is promoted at the stable Daybook URL. Its 85 non-web backend/configuration files are byte-identical to model-tested `60435f2`; no model score was changed and no extra generation occurred.
+
+The rent summary query lacked an explicit lower-year bound; all audited live rows were in 2026. Hiring queries grouped months with records, and all three baseline months existed here. These passes therefore do not prove behavior after other-year data or missing months are introduced. The hiring scenario labels recorded expenses as a proxy for future cash spending, not a bank-reconciled cash forecast.
+
+Protected browser run `41770291065` passed against source `60435f2` and deployment `dpl_765NRHeNpRBz9EB25U9bAcEaXocs`: four visually reviewed desktop/mobile screenshots show the real saved rent answer, notebook chart and Querio tab; reloading caused no generation. The 23 permitted requests were read-only, with no errors or provider calls. This rendered one completed live conversation, not all three hosted answers, and used emulated mobile viewports. Long answers and technical chart labels remain visible usability limits.
+
+The final UI-only update humanizes visible labels, puts provenance under Source details and improves mobile chart readability. CI `41771396221` and protected browser run `41772563650` passed at `10778bae`; all four hosted screenshots were visually reviewed. Chart text measured at least 11.74 pixels, source disclosures and horizontal scrolling worked, and the exact saved table values were preserved. Model answers remain source `60435f2`, supported by an exact 85-file backend/configuration comparison. This UI change does not improve or replace earlier financial scores.
+
+## Historical generated-analysis candidate — not deployed
 
 The new candidate bundles an isolated QuickJS interpreter. `hosting:bundle` also writes `.vercel-build/analysis-program.js` and a source/bundle/WASM manifest. `vercel.json` explicitly includes `.vercel-build/**` and the release-sync QuickJS WASM asset. `scripts/check-analysis-runtime.mjs` imports the actual bundle and verifies exact arithmetic, zero-division handling and source references with no provider or database call. CI runs this check; it is not evidence of hosted execution. Keep the manifest/source match and asset inclusion when packaging the eventual release. [Design and pending model acceptance](GENERATED_ANALYSIS.md).
 
-## Current promoted conversational repair — 2026-11-03
+## Historical promoted conversational repair — 2026-11-03
 
-Source **`9f90a500a98ea98e74bed592435fd045c4564b8d`** is promoted as **`dpl_6DnLS6KcK815D19dKz6mdtvkLy31`** at [Daybook](https://daybook-ledger-delta.vercel.app), with the **composable** route and all-deployment protection retained. Health, metadata, stable alias and project production target were verified against this source. The release packages 88 source files, preserves migrations 001–007 and the normal build, and keeps owner database credentials build-only. [Release evidence](evidence/conversation-repair-release.json).
+Source **`9f90a500a98ea98e74bed592435fd045c4564b8d`** was promoted at that earlier checkpoint as **`dpl_6DnLS6KcK815D19dKz6mdtvkLy31`** at [Daybook](https://daybook-ledger-delta.vercel.app), with the **composable** route and all-deployment protection retained. Health, metadata, stable alias and project production target were verified against this source. The release packages 88 source files, preserves migrations 001–007 and the normal build, and keeps owner database credentials build-only. [Release evidence](evidence/conversation-repair-release.json).
 
 The repair adds natural business clarification, a separately labeled general explanation beside checked financial results, and currency-pair validation inside the existing bounded planning repair. A base-currency query requires `currency:null`; a native query requires one supported currency. Invalid pairs are rejected before money reads and can use the existing single repair attempt. The compiler keeps its independent checks. No model can post entries or bypass accounting constraints.
 
@@ -90,16 +104,16 @@ The earlier 3.1 outage, rent-account guessing failure and provider-only deployme
 
 ## Resources and access
 
-| Resource            | Current state                                                               |
-| ------------------- | --------------------------------------------------------------------------- |
-| Owner               | Local CLI identity `rayidali`, team `rayidalis-projects`                    |
-| Vercel project      | `daybook-ledger`; Hobby plan observed during provisioning                   |
-| Stable URL          | https://daybook-ledger-delta.vercel.app                                     |
-| Verified deployment | `dpl_6DnLS6KcK815D19dKz6mdtvkLy31`, source9f90a500, READY/PROMOTED          |
-| Database            | Separate Neon `daybook-db`, free plan through an existing integration       |
-| Region              | `iad1`                                                                      |
-| Protection          | Vercel Authentication for all deployments; anonymous requests reach sign-in |
-| Portable submission | Existing Docker Compose stack, independent of hosted resources              |
+| Resource            | Current state                                                                     |
+| ------------------- | --------------------------------------------------------------------------------- |
+| Owner               | Local CLI identity `rayidali`, team `rayidalis-projects`                          |
+| Vercel project      | `daybook-ledger`; Hobby plan observed during provisioning                         |
+| Stable URL          | https://daybook-ledger-delta.vercel.app                                           |
+| Stable deployment   | `dpl_F3am1c39jixhAhChaj9P3MZZC1ja`, UI `10778bae`, model-tested backend `60435f2` |
+| Database            | Separate Neon `daybook-db`, free plan through an existing integration             |
+| Region              | `iad1`                                                                            |
+| Protection          | Vercel Authentication for all deployments; anonymous requests reach sign-in       |
+| Portable submission | Existing Docker Compose stack, independent of hosted resources                    |
 
 The user's existing local Vercel session was used; no chat connector was connected. The earlier unrelated database was not reused or changed. No paid subscription or plan upgrade was made. The hosted database contains its own synthetic demo history, separate from development data and the Compose volume.
 
@@ -121,7 +135,7 @@ flowchart LR
   Jobs --> PG
 ```
 
-`api/index.js` and `api/cron.js` are tiny exports; their application code is TypeScript in `server/hosting/`. `scripts/bundle-hosting.mjs` compiles the internal extensionless imports into native Node ESM in ignored `.vercel-build/`, with npm packages external for dependency tracing. `vercel.json` includes these generated bundles, serves `dist`, routes API requests before the SPA fallback, sets the region and allows 60 seconds per function. CI imports both native modules before running database/browser tests.
+`api/index.js` and `api/cron.js` are tiny exports; their application code is TypeScript in `server/hosting/`. `scripts/bundle-hosting.mjs` compiles the internal extensionless imports into native Node ESM in ignored `.vercel-build/`, with npm packages external for dependency tracing. `vercel.json` includes these generated bundles, serves `dist`, routes API requests before the SPA fallback, sets the region, enables Fluid execution and allows 180 seconds per function. CI imports both native modules before running database/browser tests.
 
 The repository default for a full provisioning build is:
 
@@ -185,6 +199,6 @@ Hosted browser visual review was unverified at this earlier checkpoint. The curr
 3. A READY deployment still failed API invocation. Explicit native ESM bundling was introduced, then hosted API checks passed; CI now checks both wrapper imports.
 4. The raw scheduler request lacked Express's `req.get()`. Wrapping it in Express resolved the invocation; live authorization/work checks passed.
 
-The current release has protected browser/visual, health, metadata, alias and project-target checks. Its two model observations used a separate synthetic fixture; no fresh hosted model response or full hosted-book fingerprint was collected. Earlier hosted response and runtime-correlation checks remain evidence for their own releases. Remaining checks include the original 40-case whole-entry live evaluation, automatic hosted cron observation, physical-device inspection, broad capacity/recovery validation and reviewer access. The completed bounded checks do not establish those capabilities.
+The current native work has three real hosted financial passes, a full unchanged-core-ledger audit and protected browser evidence for its saved rent notebook. Its final frontend-only release has separate CI and browser gates; see the current section at the top. Earlier synthetic runs and release checks retain their original sources. Remaining gaps include the original whole-entry live suite, observed automatic hosted cron firing, physical-device inspection, broad capacity/recovery validation and reviewer access. Bounded analyst checks do not establish those capabilities.
 
-Current private local-auth files are in ignored `.tools/conversation-reliability-20261101/focused-v3/auth/`; release/browser receipts are under `focused-v4/`. Earlier `.tools/vercel-session/` material remains historical. These directories can contain credentials. Keep them local, excluded from archives and screenshots. Local Node CLI network failure did not imply invalid login: authorized HTTP using the local session worked. If credentials expire, use local login again; never switch to a different chat-connected account.
+Current private local-auth files are in ignored `.tools/conversation-reliability-20261101/focused-v3/auth/`; historical release/browser receipts are under `focused-v4/`, and the new analyst receipts are under `.tools/analyst-product-20261103/`. Earlier `.tools/vercel-session/` material remains historical. These directories can contain credentials. Keep them local, excluded from archives and screenshots. Local Node CLI network failure did not imply invalid login: authorized HTTP using the local session worked. If credentials expire, use local login again; never switch to a different chat-connected account.

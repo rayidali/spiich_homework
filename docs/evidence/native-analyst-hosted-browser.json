@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "checkedAt": "2026-11-04T04:01:26.750772+00:00",
+  "status": "PASSED",
+  "purpose": "Actual protected hosted saved-answer rendering; separate from model accuracy and synthetic recorded replay.",
+  "sourceCommit": "60435f2c315363bf8110526066f3d6ce61771eb8",
+  "verifierCommit": "60435f2c315363bf8110526066f3d6ce61771eb8",
+  "deploymentId": "dpl_765NRHeNpRBz9EB25U9bAcEaXocs",
+  "origin": "https://daybook-ledger-omeidd15x-rayidalis-projects.vercel.app",
+  "provider": "daybook",
+  "conversationSha256": "c110c66adf84ac6ebb446aa77185a0c4d2def1efcfe35a36ff5a4a2595235c2c",
+  "workflowRunId": 41770291065,
+  "workflowAttempt": 1,
+  "workflowConclusion": "success",
+  "artifact": {
+    "id": 13294801119,
+    "sha256": "a736918c3779b7345e0a5ba3d44417bd5810fddcdf4013420d2bef05862951cd",
+    "authenticatedAndDecrypted": true,
+    "reportSha256": "d1171ab37f79d09fdf4722df5c2a35548abbad081009c8804e5184ccdf0e4ac9"
+  },
+  "browserChecks": [
+    {
+      "name": "desktop-daybook",
+      "passed": true
+    },
+    {
+      "name": "desktop-querio-tab",
+      "passed": true
+    },
+    {
+      "name": "completed-conversation-reloads-without-generation",
+      "passed": true
+    },
+    {
+      "name": "mobile-daybook-conversation",
+      "passed": true
+    },
+    {
+      "name": "mobile-daybook-notebook",
+      "passed": true
+    }
+  ],
+  "requestStatistics": {
+    "attempted": 23,
+    "allowed": 23,
+    "blocked": 0,
+    "failed": 0,
+    "httpErrors": 0,
+    "redirectsBlocked": 0,
+    "nonReadBlocked": 0,
+    "foreignOriginBlocked": 0,
+    "webSocketsBlocked": 0,
+    "pageErrors": 0,
+    "consoleErrors": 0,
+    "browserRequestFailures": 0,
+    "apiResponses": 14,
+    "healthVerified": true,
+    "metaVerified": true,
+    "querioVerified": true,
+    "daybookVerified": true,
+    "conversationReads": 5
+  },
+  "observedModelLabel": "gemini-3.8-flash",
+  "nativeFeatureEnabled": true,
+  "bothProvidersAvailable": true,
+  "screenshots": [
+    {
+      "path": "desktop-daybook.png",
+      "sha256": "3426d66d4073c554df940a8ccfed63420195429baf2564062cc0b190e8bd3902",
+      "visualReview": "PASS: Daybook selected, native model label visible, readable rent prose and supporting summary, six bars with empty zero-denominator months and high October bar. Wide table stays within notebook scroll region. Screenshot is scrolled: chart title and earlier monthly table are outside this viewport."
+    },
+    {
+      "path": "desktop-querio-tab.png",
+      "sha256": "c67ff3ad110ce5ec1ad68b33723c855972e9d17db19cbbfdf8aa2ec0b7813d17",
+      "visualReview": "PASS: keyboard-focused Querio tab selected, separate empty conversation and configured Sonnet label, clean prompt suggestions. No conversation or generation was created by switching."
+    },
+    {
+      "path": "mobile-daybook-conversation.png",
+      "sha256": "985dfd3c56d369986b0ca1ee8baaeedbd01431c072b30324db57583c1853b887",
+      "visualReview": "PASS: Daybook/Querio provider tabs plus Conversation/Notebook view switch fit the emulated viewport. Saved answer wraps legibly and composer remains reachable. Long answer scrolls within the conversation pane."
+    },
+    {
+      "path": "mobile-daybook-notebook.png",
+      "sha256": "677ffd021cfcfc1abefd8b38c70bec7d4193a16627fcbed9029dcd8c779ede2c",
+      "visualReview": "PASS: real saved chart renders six bars and zero-denominator gaps, with supporting summary below. Chart labels are small but visible; wide summary is horizontally scrollable. Technical field labels and long workspace reference remain a UX limitation."
+    }
+  ],
+  "providerCalls": 0,
+  "applicationMutationsDispatched": 0,
+  "ledgerWrites": 0,
+  "secretCleanup": {
+    "temporarySecretNames": [
+      "DAYBOOK_BROWSER_BYPASS",
+      "DAYBOOK_BROWSER_ARTIFACT_KEY"
+    ],
+    "deleteStatus": [
+      204,
+      204
+    ],
+    "absenceVerified": true,
+    "receiptSha256": "a1a6187ade5afc65c728319ec32c42cc13136670aab14b6461d1f036c31d96f9"
+  },
+  "gateRevision": "Root approved independent immutable completed rent read while hiring conversation continued; promotion still requires all three hosted answers and unchanged books.",
+  "limitations": [
+    "Only one completed live rent conversation was rendered; model and financial accuracy require separate review.",
+    "Mobile viewport emulation is not physical-device testing.",
+    "Source/deployment identity is bound to prior operator control-plane evidence; GET responses do not independently attest source.",
+    "Long answer and low-level SQL column/workspace labels remain visible UX limitations.",
+    "No new question, submission, Stop behavior or provider call was tested by this read-only browser run."
+  ]
+}

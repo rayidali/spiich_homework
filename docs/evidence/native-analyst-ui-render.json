@@ -1,0 +1,207 @@
+{
+  "kind": "UI-only notebook polish recorded-capture replay review",
+  "status": "PASSED",
+  "reviewedAt": "2026-11-04T04:16:42.229753+00:00",
+  "runId": 41771396221,
+  "renderedUiCommit": "10778bae77251ee797c2aaa31149f189ca20318f",
+  "artifactId": 13295571000,
+  "artifactSha256": "0aae94ebd76b03bc4aa81557ff63a149fda9cce1f9f25db958bf97353660d631",
+  "screenshots": [
+    {
+      "provider": "daybook",
+      "caseId": "A18",
+      "viewport": "desktop",
+      "generationSource": "9583dd8339448fa4d6ac00d0953fc9b515a4b1f5",
+      "captureSha256": "101dabf0f24518b608d6231e57345fcdb9bb33f80b80701b520875efd5ed8ecf",
+      "fixtureSha256": "22e12832ce9abbc073e0f1ae4ab08f8d00fee52b854cbab8ddc7ac7a84d117cc",
+      "screenshotSha256": "431ab3576cafcc0705d10a1db1cb1b400726320bb041d1ca8e58cd0d72616a22",
+      "provenanceSha256": "6d348b9469e9791f17f35f419249b866fa4a73dbebae745e02cf1a57da3b242b",
+      "visuallyReviewed": true,
+      "rendering": "PASS",
+      "screenshotShowsEntireChart": true,
+      "chartsCheckedInDOM": 2,
+      "preservedFinancialFindings": []
+    },
+    {
+      "provider": "daybook",
+      "caseId": "A06",
+      "viewport": "desktop",
+      "generationSource": "9583dd8339448fa4d6ac00d0953fc9b515a4b1f5",
+      "captureSha256": "63d4351f936230eeb42a828af21f92d2aadb2e87c40e8672c38575aa13ede180",
+      "fixtureSha256": "132c5a5e5deca1d0b06038519116f21664877ada4857b1ad5a82b907138f7298",
+      "screenshotSha256": "c208b4c4c75f1b0ac7c3649cd0162c0b278a6c796228a745fcacfa7d8c6711c6",
+      "provenanceSha256": "53a5abe9614a56429874a157c395774a42202190daf94f2363965e174b44c205",
+      "visuallyReviewed": true,
+      "rendering": "PASS",
+      "screenshotShowsEntireChart": true,
+      "chartsCheckedInDOM": 1,
+      "preservedFinancialFindings": []
+    },
+    {
+      "provider": "daybook",
+      "caseId": "A08",
+      "viewport": "desktop",
+      "generationSource": "85a136ea19418c30774ae115a27f3417224bcadf",
+      "captureSha256": "633b4acfe0ea682b316cccf5a5f207d762c1cc08b8ebe67d700907a210c95669",
+      "fixtureSha256": "ec0a01de2051ba6ebf1d4017a0ab1418e532476d107ff15e8e4ae9b143814089",
+      "screenshotSha256": "2eb804f54bdf41e0dd59afe8e44fba205c17cffcb844bf50ab3e33ce2f74783b",
+      "provenanceSha256": "2451277f6f4850294a42209c83ec5b774eeb2fa7624bceeb3e85feecdbe6defc",
+      "visuallyReviewed": true,
+      "rendering": "PASS",
+      "screenshotShowsEntireChart": true,
+      "chartsCheckedInDOM": 1,
+      "preservedFinancialFindings": []
+    },
+    {
+      "provider": "daybook",
+      "caseId": "A06",
+      "viewport": "mobile",
+      "generationSource": "9583dd8339448fa4d6ac00d0953fc9b515a4b1f5",
+      "captureSha256": "63d4351f936230eeb42a828af21f92d2aadb2e87c40e8672c38575aa13ede180",
+      "fixtureSha256": "132c5a5e5deca1d0b06038519116f21664877ada4857b1ad5a82b907138f7298",
+      "screenshotSha256": "45f342536a567426f7b4480e66094060ab8c5bb4446fb45b28b2a096d2d58a8e",
+      "provenanceSha256": "594fce132d48eb113b0f5c88eff10a64d722cbfdf5c82c93f34ba496103a91b6",
+      "visuallyReviewed": true,
+      "rendering": "PASS",
+      "screenshotShowsEntireChart": false,
+      "chartsCheckedInDOM": 1,
+      "preservedFinancialFindings": []
+    },
+    {
+      "provider": "daybook",
+      "caseId": "A08",
+      "viewport": "mobile",
+      "generationSource": "85a136ea19418c30774ae115a27f3417224bcadf",
+      "captureSha256": "633b4acfe0ea682b316cccf5a5f207d762c1cc08b8ebe67d700907a210c95669",
+      "fixtureSha256": "ec0a01de2051ba6ebf1d4017a0ab1418e532476d107ff15e8e4ae9b143814089",
+      "screenshotSha256": "03da87cfd475492fb204a4bf3ab6d5f9cfb1f8eb3c561b17b2c63c853c86cf79",
+      "provenanceSha256": "f61ee6865bca32b523348a35e3fa9c412fc9a7acb7f81e681c71fd334fcc84fe",
+      "visuallyReviewed": true,
+      "rendering": "PASS",
+      "screenshotShowsEntireChart": false,
+      "chartsCheckedInDOM": 1,
+      "preservedFinancialFindings": []
+    },
+    {
+      "provider": "daybook",
+      "caseId": "A18",
+      "viewport": "mobile",
+      "generationSource": "9583dd8339448fa4d6ac00d0953fc9b515a4b1f5",
+      "captureSha256": "101dabf0f24518b608d6231e57345fcdb9bb33f80b80701b520875efd5ed8ecf",
+      "fixtureSha256": "22e12832ce9abbc073e0f1ae4ab08f8d00fee52b854cbab8ddc7ac7a84d117cc",
+      "screenshotSha256": "de3563be94350e318617289c21a3950d3dd03f04633ceff5e8c072222645efe4",
+      "provenanceSha256": "627c960fada3d0410a1f0e92411e33841454f1434a53d841ecd6af8b0a6db3a3",
+      "visuallyReviewed": true,
+      "rendering": "PASS",
+      "screenshotShowsEntireChart": false,
+      "chartsCheckedInDOM": 2,
+      "preservedFinancialFindings": []
+    },
+    {
+      "provider": "querio",
+      "caseId": "A06",
+      "viewport": "desktop",
+      "generationSource": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+      "captureSha256": "fdd5c76813bc91b47b74e2b9c4ae4af3e010a8f5672151f528a967f5233bfb70",
+      "fixtureSha256": "019dd47e4d2c6eca2bc29152f57ccc8bb22568dfec21fac3ed4a8fcd9a4ca21b",
+      "screenshotSha256": "113c21434fd2f52dbed217902e01e99b7f7788af797ffaf8c75e69a18f4a5eb6",
+      "provenanceSha256": "e8c76d54d08216f96bae1f61cba34349712bb8c91cf36312d1eac77244993c1d",
+      "visuallyReviewed": true,
+      "rendering": "PASS",
+      "screenshotShowsEntireChart": true,
+      "chartsCheckedInDOM": 1,
+      "preservedFinancialFindings": []
+    },
+    {
+      "provider": "querio",
+      "caseId": "A06",
+      "viewport": "mobile",
+      "generationSource": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+      "captureSha256": "fdd5c76813bc91b47b74e2b9c4ae4af3e010a8f5672151f528a967f5233bfb70",
+      "fixtureSha256": "019dd47e4d2c6eca2bc29152f57ccc8bb22568dfec21fac3ed4a8fcd9a4ca21b",
+      "screenshotSha256": "1ac221efe53ed6a019a1bcaea503de18dd2ae90f3e920ac93348a5799b469cef",
+      "provenanceSha256": "0b86a1d12164ef941f0452627578542c2088661ddb7b2ed33555e561771b29d3",
+      "visuallyReviewed": true,
+      "rendering": "PASS",
+      "screenshotShowsEntireChart": false,
+      "chartsCheckedInDOM": 1,
+      "preservedFinancialFindings": []
+    },
+    {
+      "provider": "querio",
+      "caseId": "A18",
+      "viewport": "desktop",
+      "generationSource": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+      "captureSha256": "39bd1caef136d21e16dbff93e11310609058c1dd02d6a566e428e26c7b52e16b",
+      "fixtureSha256": "3b5fa1c8ef50a423e82404be04e40fca3ac81d6dc5dfedd7f74dfec3d8b77c12",
+      "screenshotSha256": "44dd3449f73bc5d43fa021665b8fa169aecb0b105109a00c834d769c4bcd6f4c",
+      "provenanceSha256": "66525c0d7b26cbb879276068d12a1f398ab8fa458af76e175b77aa35e4e9978c",
+      "visuallyReviewed": true,
+      "rendering": "PASS",
+      "screenshotShowsEntireChart": true,
+      "chartsCheckedInDOM": 1,
+      "preservedFinancialFindings": [
+        {
+          "field": "Alloy Partners.cumulative_share_pct",
+          "captured": "82.96",
+          "expected": "82.97",
+          "note": "The UI faithfully renders this captured financial error; rendering success does not correct its independent accuracy score."
+        },
+        {
+          "field": "Stationers.cumulative_share_pct",
+          "captured": "88.42",
+          "expected": "88.43",
+          "note": "The UI faithfully renders this captured financial error; rendering success does not correct its independent accuracy score."
+        }
+      ]
+    },
+    {
+      "provider": "querio",
+      "caseId": "A18",
+      "viewport": "mobile",
+      "generationSource": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+      "captureSha256": "39bd1caef136d21e16dbff93e11310609058c1dd02d6a566e428e26c7b52e16b",
+      "fixtureSha256": "3b5fa1c8ef50a423e82404be04e40fca3ac81d6dc5dfedd7f74dfec3d8b77c12",
+      "screenshotSha256": "8d71673cdaad529a7666f4ab944c386876e98f0e9832fdef4f7d23b0addc6e3c",
+      "provenanceSha256": "b7a04634213a3db0f188029e6d7595808bbdf116780208cd13b5beb926fd9afc",
+      "visuallyReviewed": true,
+      "rendering": "PASS",
+      "screenshotShowsEntireChart": false,
+      "chartsCheckedInDOM": 1,
+      "preservedFinancialFindings": [
+        {
+          "field": "Alloy Partners.cumulative_share_pct",
+          "captured": "82.96",
+          "expected": "82.97",
+          "note": "The UI faithfully renders this captured financial error; rendering success does not correct its independent accuracy score."
+        },
+        {
+          "field": "Stationers.cumulative_share_pct",
+          "captured": "88.42",
+          "expected": "88.43",
+          "note": "The UI faithfully renders this captured financial error; rendering success does not correct its independent accuracy score."
+        }
+      ]
+    }
+  ],
+  "browserAssertions": [
+    "Exact underlying table cells and chart values unchanged",
+    "Undefined/null gaps retained and no NaN/Infinity graphics",
+    "Actual transformed chart-axis text >=11px on all Cartesian charts",
+    "No horizontal document overflow"
+  ],
+  "visualFindings": [
+    "All10 screenshots viewed individually. Desktop charts, humanized headers/legends and supporting values are clear.",
+    "Mobile chart text is visibly larger. Later months/vendors require horizontal scroll within the chart; the scroll hint is visible. Screenshots show only the current horizontal viewport.",
+    "Native source metadata is collapsed into Source details, with query disclosure still available.",
+    "F A08 retains the explicit zero August and correct mean/median in its captured answer; E A06/A18 and Querio original answers remain unchanged."
+  ],
+  "financialCaveats": [
+    "Mixed sources are separate: F A08, E A06/A18, original Querio A06/A18. This is not a new model cohort or pooled accuracy score.",
+    "E A06 still contains its incorrect optional $45 claim elsewhere in the preserved answer; its correct chart does not erase that failure.",
+    "Querio A18 original 0.01-percentage-point cumulative errors remain visible and scored as before.",
+    "F A06 has no delivered chart and receives no credit from the E replay."
+  ],
+  "modelCalls": 0,
+  "liveHostedVerification": false
+}

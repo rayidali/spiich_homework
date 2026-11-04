@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "verifiedAt": "2026-11-04T04:25:57.594347+00:00",
+  "status": "READY_PROMOTED",
+  "stableUrl": "https://daybook-ledger-delta.vercel.app",
+  "deploymentId": "dpl_F3am1c39jixhAhChaj9P3MZZC1ja",
+  "runtimeSourceCommit": "10778bae77251ee797c2aaa31149f189ca20318f",
+  "modelAcceptanceSourceCommit": "60435f2c315363bf8110526066f3d6ce61771eb8",
+  "verifierCommit": "5a85d9f6991c10e7e03f85f32e5d55c45d6d0664",
+  "stableAliasAndProductionTargetMatch": true,
+  "deploymentProtection": "all",
+  "bothAnalystsAvailable": true,
+  "health": "ok",
+  "nativeModel": "gemini-3.8-flash",
+  "querioModel": "claude-sonnet-5-5",
+  "applicationFilesVerified": 109,
+  "unchangedBackendAndConfigurationFiles": 85,
+  "changedFrontendFiles": [
+    "web/src/AnalystNotebook.tsx",
+    "web/src/styles.css"
+  ],
+  "allNineMigrationsUnchanged": true,
+  "productionBookRowsUnchangedAtPostBuildAudit": true,
+  "accountingRowCounts": {
+    "lines": 152,
+    "entries": 76,
+    "accounts": 22
+  },
+  "fullCiRunId": 41771396221,
+  "hostedBrowserRunId": 41772563650,
+  "hostedFinancialAcceptance": "3/3 separately reviewed original turns; source604 backend retained exactly",
+  "newModelCallsForUiRelease": 0,
+  "promotionPostCount": 1,
+  "promotionHttpStatus": 201,
+  "automaticRetry": false,
+  "localReceiptAggregationIncident": {
+    "failure": "Additional aggregation check expected sourceCommit instead of runtimeSourceCommit in the new browser receipt. Orchestration failed to inspect that command exit before the already-authorized promotion call.",
+    "preexistingIndividualGatesPassed": true,
+    "intentCreatedBeforePost": false,
+    "mitigation": "No repeat POST. Independently revalidated every actual CI, browser, financial, source, accounting and budget gate after promotion, and verified the actual alias, target, source and health.",
+    "privateIncidentReceiptSha256": "3623a33d0832e1fa68d664b21bf1804f81c417aa26e03e2502e72720907838bb"
+  },
+  "evidence": {
+    "ci": {
+      "path": "native-analyst-ui-ci.json",
+      "sha256": "95eb19a4c3ceb431ea17fb53a5c58a2bbb12244ec5e1407c709ebe6ef8e0a71f"
+    },
+    "browser": {
+      "path": "native-analyst-release-browser.json",
+      "sha256": "4a699b657e50eea504e456893b7746a36ea4f25b9111ac4f08815c14ebc6b917"
+    },
+    "backendEquivalence": {
+      "path": "native-analyst-backend-equivalence.json",
+      "sha256": "15f734e9e2f3954409719f11f3929173c7239ae1f3eea2c9344a16e552407775"
+    },
+    "hostedAcceptance": {
+      "path": "native-analyst-hosted-acceptance.json",
+      "sha256": "ca7fedee405b6854ee9485fae820400a781c53b3e9e802a9176d499a2d6f4404"
+    },
+    "postBuildBooks": {
+      "sha256": "5c2053450c852956f4435bd6dba49cb5d58790bdb42ea3d5f9c63350a3bf731b"
+    }
+  },
+  "controlPlaneAndStableReadHashes": {
+    "project-after.json": "c3f71ac08bfa09c9d854d74d009c2ee866849503c8e56f5c75cda0e5781af595",
+    "deployment-after.json": "8add04e6c949d06983119321918a0891ec2e80e7418d2584c14b77d1e1a9e5db",
+    "alias-after.json": "e5adf1684a8c775f3aa81fd13783a1d76a42a01d65909ee5452f5205d1731fbf",
+    "promotion-response.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stable-health.json": "a29ee2b15c494311c52521766e44af56a3ad2248e7a8ab465e5206463c13d288",
+    "stable-meta.json": "c560744fe5c0d568a03213fb400116edafb5b66fb08882024897c0c27a9092b7",
+    "stable-daybook.json": "9f109fc6f6a143d755ab654ab29fc99329dd64604dfa1d067c514f969c26ea2a",
+    "stable-querio.json": "2e0b4002f57d7ab5ca42a7f603a88fb97f6f782498b9017b773bf0e75cc0011f"
+  },
+  "taskBudget": {
+    "limitUsd": "5.00",
+    "knownEstimatedUsd": "4.170306000",
+    "unknownReservedUsd": "0.236865750",
+    "trackedUsd": "4.407171750",
+    "remainingUsd": "0.592828250",
+    "invoiceVerified": false,
+    "ledgerSha256": "8d61ea794527c31589aa6d560aff9990b1c4c3c9c81306eb941b15a38549f68d",
+    "noPendingPaidWork": true
+  },
+  "limitations": [
+    "Small authored development comparison does not establish universal superiority.",
+    "Observed native answer completion took94\u2013321seconds.",
+    "Mobile charts scroll horizontally; no physical-device test.",
+    "Final UI was tested with the same completed rent notebook; no new generation was needed or claimed."
+  ]
+}

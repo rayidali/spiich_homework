@@ -1,0 +1,90 @@
+{
+  "kind": "exact-source full CI receipt",
+  "reviewedAt": "2026-11-04T04:21:29.444960+00:00",
+  "runId": 41771396221,
+  "sourceCommit": "10778bae77251ee797c2aaa31149f189ca20318f",
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "research-native",
+      "id": 126381660364,
+      "conclusion": "success"
+    },
+    {
+      "name": "verify",
+      "id": 126381660572,
+      "conclusion": "success"
+    },
+    {
+      "name": "compose",
+      "id": 126383437163,
+      "conclusion": "success"
+    },
+    {
+      "name": "live-ai",
+      "id": 126384988856,
+      "conclusion": "skipped"
+    }
+  ],
+  "normalTests": {
+    "passed": 3366,
+    "skipped": 19,
+    "actualPostgresAnalystStoreCases": 14,
+    "newPresentationPreservationCasePassed": true
+  },
+  "separatelyEnabledFixtureTests": {
+    "analystFixture": 11,
+    "completenessFixture": 4,
+    "overlapWithNormalPassedCount": false
+  },
+  "browser": {
+    "passed": 60,
+    "includesRecordedReplays": 10,
+    "actualChartTextAtLeast11Pixels": true,
+    "all10ScreenshotsVisuallyReviewed": true,
+    "artifactId": 13295571000,
+    "artifactSha256": "0aae94ebd76b03bc4aa81557ff63a149fda9cce1f9f25db958bf97353660d631",
+    "renderReceiptSha256": "c799497eca600ef274377b4a71ae08baf0e32278a4665c0c28116cab89fdc453",
+    "generationCohorts": "F A08; E A06/A18; original Querio A06/A18; never a pooled accuracy score"
+  },
+  "compose": {
+    "passed": 3365,
+    "skipped": 20,
+    "overlapsNormalSuite": true,
+    "runtimeLifecycleChecks": 7,
+    "workspaceAndCompletePostedEntrySurvivedContainerRecreation": true,
+    "actualPostgresAnalystStoreCases": 14
+  },
+  "research": {
+    "typeScriptTests": 30,
+    "typeScriptOverlapsNormalSuite": true,
+    "pythonTests": 35,
+    "componentBoundaries": {
+      "PASS": 57,
+      "FAIL": 0,
+      "UNASSESSED": 3
+    },
+    "livePromptBehaviorAssessed": false
+  },
+  "evidenceHashes": {
+    "run-3.json": "a164f2f207dbf4e11fa4df21e6cfe34e18cde790f55a48781c56ce431c946378",
+    "jobs-3.json": "8cdab95cadd0ce04419da459f00f6f15aa749a93ca15389a25850060d6fb4a82",
+    "verify.log": "c4995fff9649d54450f932cf6c1b342cc2774f5ae5515d45c36efcb45ad16101",
+    "research-native.log": "d7912473d8e4751105d7b86247b175f274d65bfcfa874d9d7725cddf9c283cc9",
+    "compose.log": "946d79369a50f51b599d3c288dab3bdb097627ee07fbe84ca72cd9a48b15826c",
+    "recorded-replay-index.json": "620d15aa3c5d865b7b9c6cc21d00ff94869c152ec0aee2c45f8f2f69b9d83af1",
+    "sanitized-render-receipt.json": "c799497eca600ef274377b4a71ae08baf0e32278a4665c0c28116cab89fdc453"
+  },
+  "providerCallsByThisCI": 0,
+  "liveAiJob": "skipped",
+  "modelAccuracyAssessedByCI": false,
+  "subsequentVerifierOnlyCommit": {
+    "source": "5a85d9f6991c10e7e03f85f32e5d55c45d6d0664",
+    "fullApplicationCiRerun": false,
+    "all109RuntimeFilesByteIdentical": true,
+    "localGuardTests": 18,
+    "syntaxTypecheckFormatting": "passed",
+    "actualHostedRunPending": 41772563650
+  }
+}

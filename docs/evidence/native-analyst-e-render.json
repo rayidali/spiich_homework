@@ -1,0 +1,69 @@
+{
+  "kind": "authentic recorded notebook rendering review",
+  "reviewedAt": "2026-11-04T03:22:19.235651+00:00",
+  "CIrunId": 41765912697,
+  "renderedUiCommit": "85a136ea19418c30774ae115a27f3417224bcadf",
+  "nativeGenerationRunId": 41762774353,
+  "nativeGenerationSource": "9583dd8339448fa4d6ac00d0953fc9b515a4b1f5",
+  "artifactId": 13292473114,
+  "artifactSha256": "baed6403d36791ad6c49e3ec9c946df6065ccdf203e72ac19250762527a6bec2",
+  "artifactDigestVerified": true,
+  "recordedReplayTestsPassed": 10,
+  "newNativeScreenshotsVisuallyReviewed": 6,
+  "unchangedQuerioScreenshotsWithPriorVisualReview": 4,
+  "requiredCharts": {
+    "nativeE": {
+      "matched": {
+        "passed": 2,
+        "total": 2
+      },
+      "additional": {
+        "passed": 1,
+        "total": 1
+      }
+    },
+    "querio": {
+      "passed": 2,
+      "total": 2
+    }
+  },
+  "observations": {
+    "A06": "Eleven month buckets, seven percentage bars, four explicit null gaps; rendered chart-data values agree with the independent reference. Month labels and title visible.",
+    "A08": "August zero is retained as a zero-height bar and $0.00 supporting row; September $2,890.00 and October $5,705.35, with mean $2,865.12 and median $2,890.00 correctly labeled in rendered answer. No unrequested summary-table requirement.",
+    "A18": "Three vendor amount bars show $8,500, $4,800 and $875; requested shares and cumulative82.97/88.43 shown correctly. Additional percentage-series chart is DOM/value checked, while screenshots frame the amount chart."
+  },
+  "financialReview": {
+    "path": ".tools/analyst-product-20261103/evaluation-review/e-final-review/native-e-final-review.json",
+    "sha256": "f4624e5671b4a3eede151c651495d15bd2adc49141438b999b9bb3776c5a4460",
+    "matchedAllClaims": {
+      "passed": 7,
+      "total": 8
+    },
+    "matchedConversations": {
+      "passed": 5,
+      "total": 6
+    },
+    "additionalAllClaims": {
+      "passed": 6,
+      "total": 6
+    },
+    "additionalConversations": {
+      "passed": 4,
+      "total": 4
+    },
+    "preservedFailure": "A06 extra unasked draft-software claim $45; actual frozen draft is $60. Requested rent values/chart remain correct.",
+    "renderingCannotRepairOrCertifyProseTruth": true,
+    "querioKnownErrors": "Prior A07 follow-up mean and A18 cumulative shares each differ by0.01percentage-point; renderer preserves these, not a scoring repair."
+  },
+  "indexSha256": "9c72fb36d213ab20e5388f03b0423c366c101dffedfe0b91530b4aa89030a210",
+  "limitations": [
+    "Recorded saved-answer replay with mocked read-only HTTP, not live hosted model/database integration",
+    "Mobile emulation, not physical device testing",
+    "Small mobile axis labels and technical SQL-derived legend names remain usability limitations",
+    "A18 second percentage chart is fully DOM/value checked; screenshot frames the first amount chart",
+    "E A06 extra prose incorrectly says draft software $45 instead of $60; this is preserved and remains an all-claims failure"
+  ],
+  "providerCalls": 0,
+  "liveHostedVerification": false,
+  "FModelAcceptanceAssessed": false
+}

@@ -1,6 +1,22 @@
 # Daybook: return to the assignment
 
-**Current incremental release — 2026-11-03:** source **`9f90a500a98ea98e74bed592435fd045c4564b8d`** is promoted as **`dpl_6DnLS6KcK815D19dKz6mdtvkLy31`** at the [protected Daybook demo](https://daybook-ledger-delta.vercel.app). The composable route and all-deployment protection remain. Health, metadata, stable alias and project target were verified. [Release evidence](evidence/conversation-repair-release.json).
+## Current assignment coverage
+
+Querio is integrated in Ask, and the replacement Daybook analyst writes new checked read-only SQL over the actual books. Source `60435f2` passed full CI, three independently reviewed hosted answers and a protected desktop/mobile read of the saved rent notebook. All 22 accounts, 76 entries and 152 lines remained unchanged; nine migration hashes matched. Final UI source `10778bae` passed CI `41771396221`, protected browser run `41772563650` and promotion. Its 85 non-web backend/configuration files match the model-tested source byte for byte. The actual model evidence remains bound to `60435f2`; use [CHECKPOINT](../CHECKPOINT.md) for the final release identity.
+
+The full E comparison passed 7/8 strict turns versus Querio’s 6/8 on the same eight turns. E invented an optional $45 draft instead of $60; that failure remains. The later F repair test passed 1/2, with one answer lost to two timeouts. Source `60435f2`’s three hosted answers passed separately; they do not create a new full-comparison score. Responses took 94–321 seconds, so speed remains a material weakness. [Hosted evidence](evidence/native-analyst-hosted-acceptance.json) · [Analyst design and measured limits](NATIVE_ANALYST.md).
+
+The accounting assignment remains the core: balanced immutable postings, account management, stored exchange rates, recurring drafts, four reports, review-only AI entry, correction-assisted categorization and explainable anomaly alerts. React/TypeScript, Express REST, PostgreSQL migrations and Docker Compose are implemented. The new analyst reads; it does not replace or bypass those writing paths.
+
+The general analyst uses three tools we wrote: inspect the schema, execute a restricted read-only query, and publish a notebook from saved results. The model can formulate a new calculation rather than select only a prepared metric. Before publication, selected queries are rerun together, and recognized money/percentage literals need support in those results or explicit user inputs. This protects evidence without proving every interpretation or sentence.
+
+Jev/Gemini categorization is a separate measured feature. Posting a reviewed account correction makes it eligible for later examples; saving a draft alone does not. The old architecture studies do not certify categorization, whole-entry generation or arbitrary chat accuracy. Document upload and a bank feed are absent; neither was required by the assignment. Authentication and million-user capacity remain outside the demonstrated scope.
+
+## Historical source-specific audits and repairs
+
+The entries below retain the earlier review, including problems that were later fixed. Their “current,” “pending,” “not fixed” and deployment descriptions apply to their recorded source, not to the implementation summarized above. Preserve their original measurements and failures.
+
+**Historical incremental release — 2026-11-03:** source **`9f90a500a98ea98e74bed592435fd045c4564b8d`** is promoted as **`dpl_6DnLS6KcK815D19dKz6mdtvkLy31`** at the [protected Daybook demo](https://daybook-ledger-delta.vercel.app). The composable route and all-deployment protection remain. Health, metadata, stable alias and project target were verified. [Release evidence](evidence/conversation-repair-release.json).
 
 The repair addresses the distinction between a valid financial query and a helpful answer. In the measured staffing case, the assistant clarified the intended decision and offered financial help. The measured supplies question received checked monthly figures beside an explicit explanation that the ledger does not establish the underlying business cause. Currency-mode/value consistency is checked before money reads and can use the existing single bounded repair; accounting and compiler defenses remain intact.
 
