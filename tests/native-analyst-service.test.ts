@@ -721,6 +721,62 @@ describe('durable native analyst service', () => {
     expect(f.sql.query).toHaveBeenCalledTimes(1);
   });
 
+  it('replaces an SDK-generated invalid-call error with one durable safe result and can repair an all-invalid generation', async () => {
+    const f = await atPublicationBoundary();
+    const priorMessages = (f.peek().runtime.nativeHistory as unknown[]).length;
+    const invalid = calls({ name: 'query_sql', input: { sql: 'SELECT 123' } });
+    invalid.toolCalls[0].invalid = true;
+    invalid.responseMessages.push({
+      role: 'tool',
+      content: [
+        {
+          type: 'tool-result',
+          toolCallId: 't0',
+          toolName: 'query_sql',
+          output: { type: 'error-text', value: 'SDK validation detail' },
+        },
+      ],
+    });
+    invalid.toolResults = [{ toolCallId: 't0', toolName: 'query_sql', kind: 'error' }];
+    f.outputs.push(invalid, calls({ name: 'publish_notebook', input: publication }));
+    await f.service.advance('org-a', 'chat');
+    await f.service.advance('org-a', 'chat');
+    const added = (f.peek().runtime.nativeHistory as { role: string; content: unknown }[]).slice(
+      priorMessages,
+    );
+    expect(added.filter((message) => message.role === 'tool')).toHaveLength(1);
+    expect(JSON.stringify(added)).toContain('opaque-signature');
+    expect(JSON.stringify(added)).toContain('ANALYST_PUBLICATION_ONLY');
+    expect(JSON.stringify(added)).not.toContain('SDK validation detail');
+    expect(f.sql.query).toHaveBeenCalledTimes(1);
+    await f.service.advance('org-a', 'chat');
+    expect((await f.service.advance('org-a', 'chat')).status).toBe('completed');
+  });
+
+  it('rejects an unexpected SDK result for a valid call before executing or trusting that call', async () => {
+    const f = fixture();
+    await f.start();
+    const unexpected = calls({ name: 'query_sql', input: { sql: 'SELECT 123' } });
+    unexpected.responseMessages.push({
+      role: 'tool',
+      content: [
+        {
+          type: 'tool-result',
+          toolCallId: 't0',
+          toolName: 'query_sql',
+          output: { type: 'json', value: { amount: '123' } },
+        },
+      ],
+    });
+    unexpected.toolResults = [{ toolCallId: 't0', toolName: 'query_sql', kind: 'result' }];
+    f.outputs.push(unexpected);
+    const state = await f.service.advance('org-a', 'chat');
+    expect(state.error?.code).toBe('ANALYST_INVALID_RESPONSE');
+    expect(state.messages).toHaveLength(1);
+    expect(f.sql.query).not.toHaveBeenCalled();
+    expect((f.peek().runtime.nativeTurn as NativeAnalystTurn).pendingCalls).toHaveLength(0);
+  });
+
   it('stops after two unsuccessful publication generations without a thirteenth generation or an invented answer', async () => {
     const f = await atPublicationBoundary();
     f.outputs.push(

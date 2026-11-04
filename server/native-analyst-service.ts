@@ -155,6 +155,40 @@ function consumed(meter: NativeAnalystMeter) {
     0,
   );
 }
+
+function durableResponseMessages(result: AnalystStepResult): ModelMessage[] | null {
+  const calls = new Map(result.toolCalls.map((call) => [call.toolCallId, call]));
+  const sdkErrors = new Set<string>();
+  const messages: ModelMessage[] = [];
+  for (const message of result.responseMessages) {
+    if (message.role !== 'tool') {
+      // In particular, preserve signed assistant tool calls exactly as received.
+      messages.push(message);
+      continue;
+    }
+    let unexpected = false;
+    const content = message.content.filter((part) => {
+      if (part.type !== 'tool-result') return true;
+      const call = calls.get(part.toolCallId);
+      if (
+        !call?.invalid ||
+        call.toolName !== part.toolName ||
+        !['error-text', 'error-json'].includes(part.output.type) ||
+        sdkErrors.has(part.toolCallId)
+      ) {
+        unexpected = true;
+        return false;
+      }
+      sdkErrors.add(part.toolCallId);
+      // SDK schema errors are not executions. The durable executor supplies one
+      // safe result for this queued invalid call, including publication-only denial.
+      return false;
+    });
+    if (unexpected) return null;
+    if (content.length) messages.push({ ...message, content });
+  }
+  return messages;
+}
 function safeToolError(error: unknown) {
   if (error instanceof AnalystSqlError || error instanceof AnalystNotebookError)
     return { ok: false, code: error.code, message: error.message };
@@ -554,7 +588,16 @@ export function createNativeAnalystService(options: NativeAnalystOptions) {
           );
           return record.state;
         }
-        history.push(...result.responseMessages);
+        const responseMessages = durableResponseMessages(result);
+        if (!responseMessages) {
+          delete turn.pendingGeneration;
+          await fail(
+            'ANALYST_INVALID_RESPONSE',
+            'The model returned an unexpected tool result. No requested tools were run.',
+          );
+          return record.state;
+        }
+        history.push(...responseMessages);
         turn.stepIndex++;
         delete turn.pendingGeneration;
         turn.pendingCalls = result.toolCalls;

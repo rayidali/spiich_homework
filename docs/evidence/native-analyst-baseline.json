@@ -1,0 +1,266 @@
+{
+  "version": 1,
+  "status": "reviewed-first-native-baseline-retain-all-failures",
+  "sourceCommit": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+  "modelId": "gemini-3.8-flash",
+  "configurationSha256": "ffff529112585ccc4f7cc312e3dfef2606d7498c8687c88f1832b80b4c094a12",
+  "contextSha256": "72d1bdfc5a867696ebca898db481eef2602d97e7eb4eedcc612cbb800a98aa76",
+  "referenceHashes": {
+    "fixture.json": "8cae13abd47a2fd4d87b44900830de5a629efbf2011f5b58c79cf1ad41dbe044",
+    "expected.json": "690b70d1100795916809f3adfd4c162a9c57ed033244e53333fd5711d7022f13",
+    "cases.json": "5360063b7dd0c745636112aa1d08e014ac982447c6ae13bbc7bb3d198ef82400",
+    "shared-context.md": "08fd4cf05899e79cfdc4f301d32dc4b36967e3bbd482d932df5c76941634b8b3",
+    "oracle.py": "c4fa4e69e98664188ca4b7bb1113cca3157b6f41f837c72c1ee9fb7444c05ac2"
+  },
+  "scores": {
+    "plannedConversations": 6,
+    "strictConversationPasses": 2,
+    "plannedTurns": 8,
+    "submittedTurns": 7,
+    "strictTurnPasses": 3,
+    "deliveredAnswers": 3,
+    "submittedTurnsWithoutAnswers": 4,
+    "followUpsSkippedAfterFailure": 1,
+    "requestedCharts": 2,
+    "requestedChartsDelivered": 0,
+    "confirmedWrongFinancialAnswersAmongDelivered": 0,
+    "deliveredAnswersFinanciallyReviewed": 3,
+    "boundaryViolationsObserved": 0,
+    "boundariesCheckedSubmittedTurns": 7,
+    "description": "2/6 conversations and3/8 planned turns pass. Five planned turns are nonpasses, including one unsent follow-up. Correct hidden query results do not receive answer credit."
+  },
+  "turnScores": [
+    {
+      "caseId": "A01",
+      "turn": 1,
+      "submitted": true,
+      "requiredFacts": ["cash.total", "cash.accounts"],
+      "strictPass": true,
+      "sourceAndArithmetic": "pass",
+      "meaning": "pass",
+      "delivery": "pass-saved-answer",
+      "boundaries": "pass-read-only-and-final-fingerprint-unchanged",
+      "requestedChart": false,
+      "requestedChartDelivered": null,
+      "failureCode": null,
+      "elapsedMs": 56655
+    },
+    {
+      "caseId": "A01",
+      "turn": 2,
+      "submitted": true,
+      "requiredFacts": ["cash.after_rent_draft"],
+      "strictPass": true,
+      "sourceAndArithmetic": "pass",
+      "meaning": "pass",
+      "delivery": "pass-saved-answer",
+      "boundaries": "pass-read-only-and-final-fingerprint-unchanged",
+      "requestedChart": false,
+      "requestedChartDelivered": null,
+      "failureCode": null,
+      "elapsedMs": 37140
+    },
+    {
+      "caseId": "A05",
+      "turn": 1,
+      "submitted": true,
+      "requiredFacts": ["figma.nov3"],
+      "strictPass": true,
+      "sourceAndArithmetic": "pass",
+      "meaning": "pass",
+      "delivery": "pass-saved-answer",
+      "boundaries": "pass-read-only-and-final-fingerprint-unchanged",
+      "requestedChart": false,
+      "requestedChartDelivered": null,
+      "failureCode": null,
+      "elapsedMs": 46707
+    },
+    {
+      "caseId": "A06",
+      "turn": 1,
+      "submitted": true,
+      "requiredFacts": ["rent.monthly_shares"],
+      "strictPass": false,
+      "sourceAndArithmetic": "not-delivered",
+      "meaning": "fail-no-answer",
+      "delivery": "fail-no-answer",
+      "boundaries": "pass-read-only-and-final-fingerprint-unchanged",
+      "requestedChart": true,
+      "requestedChartDelivered": false,
+      "failureCode": "ANALYST_STEP_LIMIT",
+      "elapsedMs": 70711
+    },
+    {
+      "caseId": "A07",
+      "turn": 1,
+      "submitted": true,
+      "requiredFacts": ["rent.annual_share", "spend.total"],
+      "strictPass": false,
+      "sourceAndArithmetic": "not-delivered",
+      "meaning": "fail-no-answer",
+      "delivery": "fail-no-answer",
+      "boundaries": "pass-read-only-and-final-fingerprint-unchanged",
+      "requestedChart": false,
+      "requestedChartDelivered": null,
+      "failureCode": "ANALYST_STEP_LIMIT",
+      "elapsedMs": 73318
+    },
+    {
+      "caseId": "A07",
+      "turn": 2,
+      "submitted": false,
+      "requiredFacts": ["rent.mean_monthly_share"],
+      "strictPass": false,
+      "sourceAndArithmetic": "not-run",
+      "meaning": "not-run-after-failure",
+      "delivery": "not-run-after-failure",
+      "boundaries": "not-run",
+      "requestedChart": false,
+      "requestedChartDelivered": null,
+      "failureCode": "SKIPPED_AFTER_PREVIOUS_TURN_FAILURE",
+      "elapsedMs": 0
+    },
+    {
+      "caseId": "A11",
+      "turn": 1,
+      "submitted": true,
+      "requiredFacts": ["travel.native", "travel.base"],
+      "strictPass": false,
+      "sourceAndArithmetic": "not-delivered",
+      "meaning": "fail-no-answer",
+      "delivery": "fail-no-answer",
+      "boundaries": "pass-read-only-and-final-fingerprint-unchanged",
+      "requestedChart": false,
+      "requestedChartDelivered": null,
+      "failureCode": "ANALYST_STEP_LIMIT",
+      "elapsedMs": 95246
+    },
+    {
+      "caseId": "A18",
+      "turn": 1,
+      "submitted": true,
+      "requiredFacts": ["vendors.top_three", "spend.total"],
+      "strictPass": false,
+      "sourceAndArithmetic": "not-delivered",
+      "meaning": "fail-no-answer",
+      "delivery": "fail-no-answer",
+      "boundaries": "pass-read-only-and-final-fingerprint-unchanged",
+      "requestedChart": true,
+      "requestedChartDelivered": false,
+      "failureCode": "ANALYST_STEP_LIMIT",
+      "elapsedMs": 69560
+    }
+  ],
+  "conversationScores": [
+    {
+      "caseId": "A01",
+      "strictPass": true
+    },
+    {
+      "caseId": "A05",
+      "strictPass": true
+    },
+    {
+      "caseId": "A06",
+      "strictPass": false
+    },
+    {
+      "caseId": "A07",
+      "strictPass": false
+    },
+    {
+      "caseId": "A11",
+      "strictPass": false
+    },
+    {
+      "caseId": "A18",
+      "strictPass": false
+    }
+  ],
+  "narrativeCautions": [
+    {
+      "caseId": "A01",
+      "turn": 1,
+      "excerpt": "For full visibility into cash obligations",
+      "assessment": "Overbroad wording: the listed records cover cash-affecting drafts and future postings, not unrecorded obligations, payables due dates or bank reconciliation. Required current-balance question is answered correctly; do not describe this phrase as independently verified completeness."
+    },
+    {
+      "caseId": "A05",
+      "turn": 1,
+      "excerpt": "Across2026, posted monthly Figma team subscriptions were consistently$60.00 USD per month.",
+      "assessment": "Supported for all six observed posted subscription entries. Wording must not be read as twelve monthly payments; no claim of twelve entries is actually made."
+    }
+  ],
+  "narrativeAdjudication": "The two wording cautions are retained as nonblocking: the cash answer explicitly labels posted scope and separates drafts/future entries, without claiming bank clearance; Figma statement describes the observed posted subscriptions, not an asserted12-month count. A reviewer preferring a stricter interpretation should preserve this original judgment and record a separate adjudication rather than silently replacing it.",
+  "hiddenResultsNotAnswerCredit": [
+    {
+      "caseId": "A06",
+      "queryIds": ["q9"],
+      "finding": "All11 monthly rent/expense rows and rounded shares are correct, including four NULL zero-denominator months; no answer/table/chart was published."
+    },
+    {
+      "caseId": "A07",
+      "queryIds": ["q2", "q8"],
+      "finding": "Correct weighted YTD rent8500/expenses16030.35 gives53.02%; no delivered answer. Follow-up mean request was not submitted, so its result is not inferred."
+    },
+    {
+      "caseId": "A11",
+      "queryIds": ["q8", "q9"],
+      "finding": "Both Travel accounts correctly group expense currency: EUR300 carriesUSD350; USD80 carriesUSD80, totalUSD430. The June EUR100 expense remains EUR despite USD bank payment. No user-facing answer was published."
+    },
+    {
+      "caseId": "A18",
+      "queryIds": ["q5", "q8", "q9"],
+      "finding": "Net vendor ranking/shares/cumulative shares are correct, with refunds/reversals and all expenses as denominator. No answer/table/chart was published."
+    }
+  ],
+  "cost": {
+    "providerHttpAttempts": 61,
+    "knownEstimatedNanoUsd": 451608750,
+    "knownEstimatedUsd": "0.45160875",
+    "unknownReservedNanoUsd": 0,
+    "scopeLimitNanoUsd": 5000000000,
+    "invoiceVerified": false
+  },
+  "dataAudit": {
+    "fingerprintBefore": "1d8f3425713aae72c4c0665f552b88dc728fef069d773a43826098b9f5b2d67f",
+    "fingerprintAfter": "1d8f3425713aae72c4c0665f552b88dc728fef069d773a43826098b9f5b2d67f",
+    "unchanged": true,
+    "allSixConversationsClosed": true
+  },
+  "limits": [
+    "This is the first native51 development baseline, not a winning route or a score for all18 cases.",
+    "The model saw the shared context, not reviewer expectations; a collaborating AI authored the fixture and performs this review, not an independent human accountant.",
+    "Saved completed answers and actual notebook tables are verified; no browser was opened by this review. Neither requested chart was published, so chart delivery is unambiguously0/2.",
+    "Correct intermediate calculations on failed cases are diagnostic only and cannot replace missing user answers.",
+    "Price estimates derive from returned usage, not an invoice.",
+    "This review imports no product accounting compiler/calculator. All numeric recomputation uses Decimal."
+  ],
+  "publicationStatus": "DRAFT: parent review required before publication; no product/docs edited by reviewer",
+  "captureArtifactSha256": {
+    "a01-closure.json": "34c646e9e103f0dd494a824bf2f21736251d01275ada9d31325b17b995513d00",
+    "a01-turn-1.json": "c439f04dda9e2807f050fa032ba9bfc814ae249ad0e9575686dea109118f57c5",
+    "a01-turn-2.json": "858542aa8383b693bc6912e2baa66e70840070348f8e3337a8e7bc73e5a9bc29",
+    "a05-closure.json": "ad809051616e210aa8865d4d3084167cc9aab36ed3c919363c84c98de3f911d3",
+    "a05-turn-1.json": "71162b25f0351832486f795e6c07c7ba3690390719e88fc22cda1f50d5640466",
+    "a06-closure.json": "3bdc899732de00b55f6601d19aac66aff0d0cf64449eadb6d34ca07c8dce7808",
+    "a06-turn-1.json": "441c05ccb2089343ac025529098eeb54f4f582e579185eb21aa3040f41294f71",
+    "a07-closure.json": "987176aaa6e82a8aaea6bb1e9ccc0a54e8e3168a762f7e52960059babd3f5cd4",
+    "a07-turn-1.json": "1aaa984fd76af44ee82334f86a4916b61c8c246fa5df6b5387f2dab5af564b56",
+    "a11-closure.json": "677913b0e381c6577a152d2d8d464ca618e46967d1d33129ff36a86b9a451f88",
+    "a11-turn-1.json": "c71514d3fecf7310e9ec99bf0069178fa69ff658bea0332a990973127e7e58a3",
+    "a18-closure.json": "82ee8cd445cfdcf51661702fe767ac72c3a1d1e461012228a5dceb11454e6cbc",
+    "a18-turn-1.json": "9529f4ff90680dea220a515e5afbb9b3eeafac3ff39af4878830d382c322770b",
+    "binding.json": "408cca15acd47e87fcba6d76165f48865bf631f5e4399dbe86f5003ee03a0e69",
+    "capture-summary.json": "9ed9c6c0ffdf212604fae9bafd74f553ada8c61643cece1b2163361eff55fa82"
+  },
+  "financialReviewEvidence": {
+    "queryResultsChecked": 24,
+    "rowsChecked": 84,
+    "numericCellsCheckedWithDecimal": 240,
+    "deliveredTurnQueryResultsChecked": 16,
+    "additionalHiddenDiagnosticQueryResultsChecked": 8,
+    "allDisplayedMonetaryClaimsChecked": true,
+    "safeguard": "Thought signatures, provider message internals, credentials, DSNs and raw request bodies omitted."
+  }
+}

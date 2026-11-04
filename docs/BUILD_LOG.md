@@ -1,5 +1,11 @@
 # Build log
 
+## SDK continuation repair and complete budget-history transport
+
+An actual SDK reproduction showed that a rejected tool call already arrives with an SDK error response. Appending our durable executor's response produced two responses for one call. The service now removes only that matching automatic error before persisting history, preserving the signed assistant message; its executor supplies exactly one safe response. Unexpected results fail before tool execution. A real SDK/mock HTTP test verifies the final publication phase and a subsequent follow-up. The combined focused suite passes70 tests across service, model, SDK and budget; TypeScript passes.
+
+The next model cohort was not dispatched: its complete85KB prior usage ledger exceeded GitHub's48KiB secret limit. Both installed preparation secrets were removed and absence verified. The workflow now accepts bounded gzip transport, restores the complete ledger byte-for-byte and verifies its original hash. It does not discard attempts or reset spending. Two transport tests cover retained history, corruption and decompression limits. The unused48867d0 preparation remains preserved privately; a new source-bound preparation is required.
+
 ## Native analyst completion repair — November 3, 2026
 
 The original actual-model cohort at source51edf9a (run41748017431) delivered3of8 expected turns. A01's two turns and A05 completed; A06/A07/A11/A18 exhausted the ten-generation limit, and A07's follow-up was not submitted after its failure. A06 had already calculated the correct eleven-month ratio table. A07 attempted publication with duplicate chart coordinates and had no remaining generation to repair them. All original captures remain preserved.61 model requests cost an estimated$0.451608750; no unknown usage remains. The shared$5 ledger was reconciled and all six temporary CI secrets were removed and absence verified. Fixture audit fingerprints remained unchanged; semantic review is separate.

@@ -2,13 +2,46 @@ import { randomUUID } from 'node:crypto';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
+import { gzipSync } from 'node:zlib';
 import { afterEach, describe, expect, it } from 'vitest';
-import { createFileBudget, nanoUsd } from '../scripts/analyst-workspace-evaluation/budget';
+import { createFileBudget, decodeBudgetSeed, nanoUsd } from '../scripts/analyst-workspace-evaluation/budget';
 import { hash } from '../scripts/analyst-workspace-evaluation/references';
 import { assertNativeRuntimeUrl } from '../scripts/analyst-workspace-evaluation/workflow';
 import type { AnalystModelAttempt, AnalystModelReceipt } from '../server/analyst-model';
 
 const dirs: string[] = [];
+describe('complete prior budget ledger transport', () => {
+  it('restores every prior attempt byte-for-byte rather than resetting or rolling up spending', () => {
+    const seed = JSON.stringify(
+      {
+        limitUsd: '5.00',
+        knownEstimatedUsd: '0.451608750',
+        unknownReservedUsd: '0',
+        attempts: Array.from({ length: 150 }, (_, index) => ({
+          attemptId: `previous-${index}`,
+          receipt: { detail: 'preserved evidence '.repeat(50) },
+        })),
+      },
+      null,
+      2,
+    );
+    expect(Buffer.byteLength(seed)).toBeGreaterThan(48 * 1024);
+    const transport = `gzip-base64:${gzipSync(seed).toString('base64')}`;
+    expect(Buffer.byteLength(transport)).toBeLessThan(48 * 1024);
+    expect(decodeBudgetSeed(transport)).toBe(seed);
+    expect(hash(decodeBudgetSeed(transport))).toBe(hash(seed));
+    expect(decodeBudgetSeed(seed)).toBe(seed);
+  });
+  it('rejects corrupt compressed data and bounded-decompression overflow', () => {
+    for (const encoded of [
+      'gzip-base64:!',
+      'gzip-base64:YWJj',
+      `gzip-base64:${gzipSync('x'.repeat(2 * 1024 * 1024 + 1)).toString('base64')}`,
+    ]) {
+      expect(() => decodeBudgetSeed(encoded)).toThrow();
+    }
+  });
+});
 afterEach(() => {
   for (const dir of dirs.splice(0)) rmSync(dir, { recursive: true, force: true });
 });

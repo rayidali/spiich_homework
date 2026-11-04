@@ -48,7 +48,13 @@ function memory() {
       return persisted(saved);
     },
   };
-  return { store, peek: () => persisted(saved) };
+  return {
+    store,
+    peek: () => persisted(saved),
+    enterPublication: () => {
+      (saved.runtime.nativeTurn as NativeAnalystTurn).stepIndex = 10;
+    },
+  };
 }
 const queryResult = (id: string): AnalystSqlResult => ({
   id,
@@ -166,5 +172,102 @@ describe('independent actual-SDK / durable-service contract', () => {
     expect(third).toContain('Recorded amount is $42.01.');
     expect(third).toContain('What does that mean?');
     expect(requests).toHaveLength(3);
+  });
+
+  it('narrows tools for publication, gives an SDK-rejected tool exactly one result, and preserves signed history through repair and follow-up', async () => {
+    const db = memory(),
+      sql = fakeSql(),
+      requests: Record<string, unknown>[] = [];
+    const replies = [
+      reply([
+        {
+          functionCall: { name: 'query_sql', args: { sql: 'SELECT 42.01::numeric AS amount' } },
+          thoughtSignature: 'signed-query',
+        },
+      ]),
+      reply([
+        {
+          functionCall: { name: 'query_sql', args: { sql: 'SELECT 900000 AS amount' } },
+          thoughtSignature: 'signed-unavailable-query',
+        },
+      ]),
+      reply([
+        {
+          functionCall: {
+            name: 'publish_notebook',
+            args: {
+              title: 'Recorded amount',
+              notes: 'Recorded amount is $42.01.',
+              tables: [{ queryId: 'q1' }],
+              charts: [],
+            },
+          },
+          thoughtSignature: 'signed-publication',
+        },
+      ]),
+      reply([{ text: 'This is a recorded amount, not proof of bank settlement.' }]),
+    ];
+    const service = createNativeAnalystService({
+      store: db.store,
+      sql: sql.sql,
+      settings: () => ({ apiKey: 'fake-never-transmitted', turnBudgetNanoUsd: 500_000_000 }),
+      now: () => new Date(stamp),
+      modelFactory: (options) =>
+        createNativeModel({
+          ...options,
+          fetch: async (_url, init) => {
+            requests.push(JSON.parse(String(init?.body)));
+            const response = replies.shift();
+            if (!response) throw new Error('Unexpected extra HTTP');
+            return response;
+          },
+        }),
+    });
+    const declarations = (request: Record<string, unknown>) =>
+      (request.tools as { functionDeclarations: { name: string }[] }[]).flatMap((tool) =>
+        tool.functionDeclarations.map((fn) => fn.name),
+      );
+    await service.create('org', 'chat');
+    await service.send('org', 'chat', 'm1', 'Show my posted amount.');
+    await service.advance('org', 'chat');
+    await service.advance('org', 'chat');
+    db.enterPublication();
+    await service.advance('org', 'chat');
+    expect(declarations(requests[1])).toEqual(['publish_notebook']);
+    expect(JSON.stringify(requests[1].systemInstruction)).toContain('Current phase: publication only.');
+    const rejected = await service.advance('org', 'chat');
+    expect(rejected.status).toBe('running');
+    expect(sql.reads).toEqual(['q1']);
+    const history = db.peek().runtime.nativeHistory as { role: string; content: unknown }[];
+    const results = history
+      .filter((message) => message.role === 'tool')
+      .flatMap((message) => message.content as { toolCallId: string }[]);
+    const resultCounts = results.reduce(
+      (counts, result) => {
+        counts[result.toolCallId] = (counts[result.toolCallId] ?? 0) + 1;
+        return counts;
+      },
+      {} as Record<string, number>,
+    );
+    expect(Object.values(resultCounts)).toEqual([1, 1]);
+    await service.advance('org', 'chat');
+    const outgoing = JSON.stringify(requests[2]);
+    expect(outgoing).toContain('signed-query');
+    expect(outgoing).toContain('signed-unavailable-query');
+    expect(outgoing).toContain('ANALYST_PUBLICATION_ONLY');
+    expect(outgoing.match(/"functionResponse"/g)).toHaveLength(2);
+    expect(outgoing).toContain('42.01');
+    expect(declarations(requests[2])).toEqual(['publish_notebook']);
+    const final = await service.advance('org', 'chat');
+    expect(final.status).toBe('completed');
+    expect(final.messages.at(-1)?.content).toBe('Recorded amount is $42.01.');
+    expect((db.peek().runtime.nativeTurn as NativeAnalystTurn).stepIndex).toBe(12);
+    await service.send('org', 'chat', 'm2', 'Does that mean the bank confirmed it?');
+    expect((await service.advance('org', 'chat')).status).toBe('completed');
+    expect(declarations(requests[3]).sort()).toEqual(['inspect_schema', 'publish_notebook', 'query_sql']);
+    expect(JSON.stringify(requests[3].systemInstruction)).toContain('Current phase: investigation.');
+    expect(JSON.stringify(requests[3])).toContain('signed-publication');
+    expect(requests).toHaveLength(4);
+    expect(sql.reads).toEqual(['q1']);
   });
 });

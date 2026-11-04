@@ -8,7 +8,7 @@ import {
   encryptionPreflight,
   assertEarliestRun,
 } from '../conversation-acceptance/workflow';
-import { createFileBudget } from './budget';
+import { createFileBudget, decodeBudgetSeed } from './budget';
 import { runInitialNativeCases } from './native-runner';
 import { hash, requireFixture } from './references';
 
@@ -159,7 +159,7 @@ export async function nativeWorkflowCommand(command: string) {
     console.log(JSON.stringify({ encrypted: true, archiveSha256: receipt.archiveSha256 }));
     return;
   }
-  const seed = process.env.ANALYST_BUDGET_LEDGER ?? '';
+  const seed = decodeBudgetSeed(process.env.ANALYST_BUDGET_LEDGER ?? '');
   requireFixture(hash(seed) === permit.seedLedgerSha256, 'BUDGET_SEED_HASH');
   if (command === 'preflight') {
     console.log(JSON.stringify({ preflight: true, providerCalls: 0 }));
