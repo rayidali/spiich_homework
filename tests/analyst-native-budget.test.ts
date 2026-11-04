@@ -28,10 +28,13 @@ describe('predeclared native workflow case sets', () => {
     approvedAt: '2026-11-04T00:00:00.000Z',
     expiresAt: '2026-11-05T00:00:00.000Z',
   };
-  it('keeps existing permits matched and accepts only an explicitly selected extension', () => {
+  it('keeps existing permits matched and accepts only explicitly selected alternatives', () => {
     expect(nativeWorkflowPermitSchema.parse(permit).caseSet).toBe('matched');
     expect(nativeWorkflowPermitSchema.parse({ ...permit, caseSet: 'matched' }).caseSet).toBe('matched');
     expect(nativeWorkflowPermitSchema.parse({ ...permit, caseSet: 'extended' }).caseSet).toBe('extended');
+    expect(nativeWorkflowPermitSchema.parse({ ...permit, caseSet: 'publication-regression' }).caseSet).toBe(
+      'publication-regression',
+    );
   });
   it('rejects unknown sets and arbitrary caller-supplied case lists', () => {
     for (const caseSet of ['all', 'Matched', '', null, [], {}])
@@ -68,10 +71,42 @@ describe.each([
     for (const encoded of [
       `${prefix}!`,
       `${prefix}YWJj`,
+      `${prefix}${Buffer.alloc(72_003).toString('base64')}`,
       `${prefix}${compress('x'.repeat(2 * 1024 * 1024 + 1)).toString('base64')}`,
     ]) {
       expect(() => decodeBudgetSeed(encoded)).toThrow();
     }
+  });
+  it('reassembles a ledger larger than one secret byte-for-byte and rejects a corrupted boundary', () => {
+    const seed =
+      JSON.stringify(
+        {
+          limitUsd: '5.00',
+          knownEstimatedUsd: '3.717543000',
+          unknownReservedUsd: '0.115747500',
+          attempts: Array.from({ length: 750 }, (_, index) => ({
+            attemptId: hash(`historical-attempt-${index}`),
+            receipt: { requestSha256: hash(`historical-request-${index}`) },
+          })),
+        },
+        null,
+        2,
+      ) + '\n';
+    const transport = `${prefix}${compress(seed).toString('base64')}`;
+    expect(Buffer.byteLength(transport)).toBeGreaterThan(48_000);
+    expect(Buffer.byteLength(transport)).toBeLessThan(90_000);
+    const first = transport.slice(0, 45_000),
+      continuation = transport.slice(45_000);
+    expect(Buffer.byteLength(first)).toBeLessThan(48 * 1024);
+    expect(Buffer.byteLength(continuation)).toBeLessThan(48 * 1024);
+    const decoded = decodeBudgetSeed(first + continuation);
+    expect(decoded).toBe(seed);
+    expect(hash(decoded)).toBe(hash(seed));
+    expect(JSON.parse(decoded).attempts).toHaveLength(750);
+    expect(JSON.parse(decoded).unknownReservedUsd).toBe('0.115747500');
+    expect(() => decodeBudgetSeed(first)).toThrow();
+    expect(() => decodeBudgetSeed(first + '\n' + continuation)).toThrow();
+    expect(() => decodeBudgetSeed(first + '!' + continuation)).toThrow();
   });
 });
 afterEach(() => {

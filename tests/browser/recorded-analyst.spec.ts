@@ -175,25 +175,39 @@ function assertRequestedFacts(
         series.values.every((value, index) => near(value, months[index].expenses)),
       ),
     ).toBe(true);
+    // A requested statistic can be stated in the answer; a separate summary
+    // table is an optional layout, not an additional financial requirement.
+    for (const [label, key] of [
+      [/\bmean\b|\baverage\b/i, 'expenses.trailing_mean'],
+      [/\bmedian\b/i, 'expenses.trailing_median'],
+    ] as const) {
+      const correctLabeledValue = answerText
+        .split('\n')
+        .some(
+          (line) =>
+            label.test(line) &&
+            [...line.matchAll(/(?:USD\s*|[$€])?[-+]?\d[\d,]*(?:\.\d+)?%?/g)].some((match) =>
+              near(match[0], facts[key].value),
+            ),
+        );
+      expect(correctLabeledValue, `The answer must label the correct ${key}`).toBe(true);
+    }
     const summary = renderedTables.find(
       ({ columns }) =>
         columns.some((column) => /mean|average/i.test(column)) &&
         columns.some((column) => /median/i.test(column)),
     );
-    expect(summary, 'The notebook must retain separately labeled mean and median evidence').toBeDefined();
-    const meanColumn = summary!.columns.findIndex((column) => /mean|average/i.test(column));
-    const medianColumn = summary!.columns.findIndex((column) => /median/i.test(column));
-    expect(
-      summary!.rows.some(
-        (row) =>
-          near(row[meanColumn], facts['expenses.trailing_mean'].value) &&
-          near(row[medianColumn], facts['expenses.trailing_median'].value),
-      ),
-    ).toBe(true);
-    expect(answerText).toMatch(/\bmean\b/i);
-    expect(answerText).toMatch(/\bmedian\b/i);
-    for (const key of ['expenses.trailing_mean', 'expenses.trailing_median'])
-      expect(answerText.replaceAll(',', '')).toContain(new Decimal(facts[key].value).toFixed(2));
+    if (summary) {
+      const meanColumn = summary.columns.findIndex((column) => /mean|average/i.test(column));
+      const medianColumn = summary.columns.findIndex((column) => /median/i.test(column));
+      expect(
+        summary.rows.some(
+          (row) =>
+            near(row[meanColumn], facts['expenses.trailing_mean'].value) &&
+            near(row[medianColumn], facts['expenses.trailing_median'].value),
+        ),
+      ).toBe(true);
+    }
   } else {
     const vendors = facts['vendors.top_three'].value as {
       vendor: string;

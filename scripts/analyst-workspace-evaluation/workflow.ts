@@ -22,7 +22,7 @@ export const nativeWorkflowPermitSchema = z.strictObject({
   version: z.literal(1),
   scopeId: z.literal('daybook-analyst-product-20261103'),
   cohort: z.string().regex(/^native-initial-[a-z0-9-]{4,48}$/),
-  caseSet: z.enum(['matched', 'extended']).default('matched'),
+  caseSet: z.enum(['matched', 'extended', 'publication-regression']).default('matched'),
   sourceCommit: z.string().regex(/^[a-f0-9]{40}$/),
   modelId: z.literal('gemini-3.8-flash'),
   databaseName: z.literal(database),
@@ -152,10 +152,11 @@ export async function nativeWorkflowCommand(command: string) {
   if (command === 'encrypt') {
     if (!existsSync(output)) return;
     const receipt = encryptedArchive(output, encrypted, key, permit.artifactKeySha256, binding, {
-      purpose:
-        permit.caseSet === 'matched'
-          ? 'native-analyst-initial-six-case-capture'
-          : 'native-analyst-extended-ten-case-capture',
+      purpose: {
+        matched: 'native-analyst-initial-six-case-capture',
+        extended: 'native-analyst-extended-ten-case-capture',
+        'publication-regression': 'native-analyst-publication-regression-capture',
+      }[permit.caseSet],
       caseSet: permit.caseSet,
       caseIds: [...selected.caseIds],
       expectedTurns: selected.turns,

@@ -15,7 +15,7 @@ import type { GlobalAnalystBudget } from './native-runner';
 import { hash, requireFixture } from './references';
 
 const LIMIT = 5_000_000_000;
-/** Preserve the complete prior ledger while fitting the CI secret transport limit. */
+/** Preserve the full prior ledger, optionally concatenated from two bounded CI secrets. */
 export function decodeBudgetSeed(value: string): string {
   const maximum = 2 * 1024 * 1024;
   requireFixture(Buffer.byteLength(value) <= maximum, 'BUDGET_SEED_SIZE');
@@ -28,7 +28,7 @@ export function decodeBudgetSeed(value: string): string {
   const encoded = value.slice(prefix.length);
   requireFixture(
     encoded.length > 0 &&
-      encoded.length <= 48_000 &&
+      encoded.length <= 96_000 &&
       /^[A-Za-z0-9+/]+={0,2}$/.test(encoded) &&
       Buffer.from(encoded, 'base64').toString('base64') === encoded,
     'BUDGET_SEED_ENCODING',

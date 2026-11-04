@@ -56,14 +56,14 @@ jobs:
         env:
           ANALYST_PRIVATE_PERMIT: ${{ secrets.ANALYST_NATIVE_PERMIT }}
           ANALYST_ARTIFACT_KEY: ${{ secrets.ANALYST_NATIVE_ARTIFACT_KEY }}
-          ANALYST_BUDGET_LEDGER: ${{ secrets.ANALYST_NATIVE_BUDGET_LEDGER }}
+          ANALYST_BUDGET_LEDGER: ${{ secrets.ANALYST_NATIVE_BUDGET_LEDGER }}${{ secrets.ANALYST_NATIVE_BUDGET_LEDGER_CONTINUATION }}
         run: node --import tsx scripts/analyst-workspace-evaluation/workflow.ts preflight
       - name: Capture fixed conversations against the already verified disposable books
         env:
           GH_TOKEN: ${{ github.token }}
           ANALYST_PRIVATE_PERMIT: ${{ secrets.ANALYST_NATIVE_PERMIT }}
           ANALYST_ARTIFACT_KEY: ${{ secrets.ANALYST_NATIVE_ARTIFACT_KEY }}
-          ANALYST_BUDGET_LEDGER: ${{ secrets.ANALYST_NATIVE_BUDGET_LEDGER }}
+          ANALYST_BUDGET_LEDGER: ${{ secrets.ANALYST_NATIVE_BUDGET_LEDGER }}${{ secrets.ANALYST_NATIVE_BUDGET_LEDGER_CONTINUATION }}
           ANALYST_RUNTIME_URL: ${{ secrets.ANALYST_NATIVE_RUNTIME_URL }}
           ANALYST_FIXTURE_AUDIT_URL: ${{ secrets.ANALYST_NATIVE_AUDIT_URL }}
           ANALYST_GEMINI_KEY: ${{ secrets.ANALYST_NATIVE_GEMINI_KEY }}

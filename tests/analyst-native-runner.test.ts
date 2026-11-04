@@ -6,6 +6,7 @@ import {
   runInitialNativeCases,
   INITIAL_NATIVE_CASES,
   EXTENDED_NATIVE_CASES,
+  PUBLICATION_REGRESSION_CASES,
   type GlobalAnalystBudget,
   type NativeCaseSet,
   type NativeRunOptions,
@@ -294,7 +295,51 @@ describe('bounded native capture runner — no inference', () => {
     },
   );
 
-  it.each(['matched', 'extended'] as const)(
+  it('runs only the original A06 and A08 questions for a separately labeled publication regression', async () => {
+    const test = setup({ consumed: 3_833_290_500 });
+    test.config.caseSet = 'publication-regression';
+    const receipt = await runInitialNativeCases(test.config);
+    const ids = ['A06', 'A08'];
+    const prompts = ids.map((id) => specification.cases.find((entry) => entry.id === id)!.turns[0].prompt);
+    expect(PUBLICATION_REGRESSION_CASES).toEqual(ids);
+    expect(test.requests.map((request) => request.prompt)).toEqual(prompts);
+    expect(new Set(test.requests.map((request) => request.id)).size).toBe(2);
+    expect(test.dispatches()).toBe(2);
+    expect(test.closures).toHaveLength(2);
+    expect(test.audits()).toBe(2);
+    expect(receipt).toMatchObject({
+      caseSet: 'publication-regression',
+      conversations: 2,
+      turns: 2,
+      completedTurns: 2,
+      dispatchedModelRequests: 2,
+      accuracyScore: null,
+    });
+    const summary = JSON.parse(
+      readFileSync(resolve(test.config.outputDirectory, 'capture-summary.json'), 'utf8'),
+    );
+    expect(summary).toMatchObject({
+      caseIds: ids,
+      expectedConversations: 2,
+      expectedTurns: 2,
+      requestedCharts: 2,
+      budgetBefore: { consumedNanoUsd: 3_833_290_500 },
+      budgetAfter: { consumedNanoUsd: 3_893_290_500 },
+      outcomes: ids.map((caseId) => ({ caseId, turn: 1, chartRequired: true })),
+    });
+    expect(summary.outcomes).toHaveLength(2);
+    for (const [index, id] of ids.entries()) {
+      const artifact = JSON.parse(
+        readFileSync(resolve(test.config.outputDirectory, `${id.toLowerCase()}-turn-1.json`), 'utf8'),
+      );
+      expect(artifact.prompt).toBe(prompts[index]);
+      expect(artifact.referenceHashes).toEqual(refs.hashes);
+    }
+    expect(test.context()).not.toContain('rent.monthly_shares');
+    expect(test.context()).not.toContain('requiredFacts');
+  });
+
+  it.each(['matched', 'extended', 'publication-regression'] as const)(
     'keeps the already-used global allowance for caseSet %s',
     async (caseSet) => {
       const test = setup({ consumed: 4_990_000_000 });
@@ -307,7 +352,9 @@ describe('bounded native capture runner — no inference', () => {
       const summary = JSON.parse(
         readFileSync(resolve(test.config.outputDirectory, 'capture-summary.json'), 'utf8'),
       );
-      expect(summary.outcomes).toHaveLength(caseSet === 'extended' ? 14 : 8);
+      expect(summary.outcomes).toHaveLength(
+        { matched: 8, extended: 14, 'publication-regression': 2 }[caseSet],
+      );
       expect(
         summary.outcomes.some(
           (outcome: { errorCode: string }) => outcome.errorCode === 'GLOBAL_ANALYST_BUDGET_EXHAUSTED',

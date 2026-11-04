@@ -279,6 +279,39 @@ async function atPublicationBoundary() {
   return f;
 }
 describe('durable native analyst service', () => {
+  it('withholds an unsupported monetary aside and lets a later generation repair publication', async () => {
+    const f = fixture();
+    await f.start();
+    f.outputs.push(
+      calls({ name: 'query_sql', input: { sql: 'SELECT amount FROM analytics.ledger' } }),
+      calls({
+        name: 'publish_notebook',
+        input: { ...publication, notes: 'Recorded $42.01; another draft $45.' },
+      }),
+      calls({ name: 'publish_notebook', input: publication }),
+    );
+    for (let step = 0; step < 4; step++) await f.service.advance('org-a', 'chat');
+    expect(f.peek().state.notebook.cells).toHaveLength(0);
+    expect(f.peek().state.messages).toHaveLength(1);
+    expect(JSON.stringify(f.peek().runtime.nativeHistory)).toContain('ANALYST_UNSUPPORTED_FINANCIAL_LITERAL');
+    await f.service.advance('org-a', 'chat');
+    const final = await f.service.advance('org-a', 'chat');
+    expect(final.status).toBe('completed');
+    expect(final.messages.at(-1)?.content).toBe(publication.notes);
+    expect(f.sql.query).toHaveBeenCalledTimes(1);
+    expect(f.sql.reexecute).toHaveBeenCalledTimes(2);
+  });
+  it('also withholds unqueried financial figures from a plain-text completion', async () => {
+    const f = fixture();
+    await f.start();
+    f.outputs.push(answer('Your cash balance is $45.'), answer('Which business account should I inspect?'));
+    await f.service.advance('org-a', 'chat');
+    expect(f.peek().state.messages).toHaveLength(1);
+    expect(JSON.stringify(f.peek().runtime.nativeHistory)).toContain('numeric support check');
+    const final = await f.service.advance('org-a', 'chat');
+    expect(final.status).toBe('completed');
+    expect(final.messages.at(-1)?.content).toBe('Which business account should I inspect?');
+  });
   it('queues/read-refresh without a paid model call and preserves client idempotency', async () => {
     const f = fixture();
     await f.start();

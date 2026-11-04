@@ -9,7 +9,9 @@ import { readReferences, requireFixture, hash } from './references';
 export const INITIAL_NATIVE_CASES = Object.freeze(['A01', 'A05', 'A06', 'A07', 'A11', 'A18']);
 /** Separate predeclared extension: 10 conversations, 14 turns, 3 requested charts. */
 export const EXTENDED_NATIVE_CASES = Object.freeze([...INITIAL_NATIVE_CASES, 'A08', 'A12', 'A14', 'A16']);
-export type NativeCaseSet = 'matched' | 'extended';
+/** Targeted regression only; never pooled into a new matched/extended accuracy score. */
+export const PUBLICATION_REGRESSION_CASES = Object.freeze(['A06', 'A08']);
+export type NativeCaseSet = 'matched' | 'extended' | 'publication-regression';
 export const NATIVE_CASE_SETS = Object.freeze({
   matched: Object.freeze({ caseIds: INITIAL_NATIVE_CASES, conversations: 6, turns: 8, requestedCharts: 2 }),
   extended: Object.freeze({
@@ -17,6 +19,12 @@ export const NATIVE_CASE_SETS = Object.freeze({
     conversations: 10,
     turns: 14,
     requestedCharts: 3,
+  }),
+  'publication-regression': Object.freeze({
+    caseIds: PUBLICATION_REGRESSION_CASES,
+    conversations: 2,
+    turns: 2,
+    requestedCharts: 2,
   }),
 });
 type Service = {
@@ -88,7 +96,10 @@ export async function runInitialNativeCases(options: NativeRunOptions) {
   const root = resolve(options.root ?? process.cwd());
   const output = resolve(options.outputDirectory);
   const caseSet = options.caseSet === undefined ? 'matched' : options.caseSet;
-  requireFixture(caseSet === 'matched' || caseSet === 'extended', 'NATIVE_CASE_SET_REQUIRED');
+  requireFixture(
+    caseSet === 'matched' || caseSet === 'extended' || caseSet === 'publication-regression',
+    'NATIVE_CASE_SET_REQUIRED',
+  );
   const selected = NATIVE_CASE_SETS[caseSet];
   requireFixture(output.startsWith(resolve(root, '.tools') + sep), 'PRIVATE_OUTPUT_DIRECTORY_REQUIRED');
   requireFixture(

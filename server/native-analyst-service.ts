@@ -6,6 +6,7 @@ import type { AnalystStore } from './analyst-store';
 import { AppError } from './errors';
 import { AnalystSqlError, type AnalystSqlResult, type createAnalystSql } from './analyst-sql';
 import { analystPublicationSchema, buildAnalystNotebook, AnalystNotebookError } from './analyst-notebook';
+import { assertFinancialLiteralSupport } from './analyst-claims';
 import {
   createNativeModel,
   executeAnalystStep,
@@ -126,6 +127,8 @@ Work toward the requested answer, not an exhaustive audit. Reuse known schema an
 Presentation: default to a short direct answer in one to three brief paragraphs, with the requested supporting table/chart in the notebook. Give more detail when the user asks for it. Do not duplicate a notebook table as a second table in the chat. Do not add alternate scenarios, sensitivity analyses, depletion projections, extra averages or prescriptive advice unless requested. Additional work is not a substitute for answering the actual question. Use plain readable Markdown, not LaTeX or dollar-delimited equations; write formulas in ordinary words or simple text.
 
 For ordinary explanations or clarifying questions, you may answer naturally without querying. Be useful and concise; give a reasonable stated assumption rather than repeatedly asking about dates or familiar terms. Ask when a materially different interpretation would change the answer. State dates and currency for financial results. Distinguish absence of records from proof an event did not occur. Separate confirmed values, assumptions and missing information. A saved category named Consulting revenue does not establish zero spending on contractors or consulting services: inspect relevant descriptions/categories and explain ambiguity.
+
+Numeric support: every money amount and percentage in the final explanation or notebook titles must appear as a numeric cell in the selected current-turn SQL results (display rounding is allowed), or repeat an explicit financial input from the user. Calculate requested totals, averages, medians, ratios and scenario outputs in SQL and select those scalar results for publication; do not calculate new figures mentally from displayed rows or carry unselected numbers from an earlier answer. The publication check rejects unsupported literals. Fix the supporting SQL while investigation remains, or remove optional unsupported details. During publication-only steps, do not invent missing support; clearly label an incomplete answer if a required calculation is unavailable. Numeric matching is only one check: still verify dates, currency, attribution and meaning.
 
 Decision scenarios: a routine reporting-date assumption is different from a decision-critical input. If an affordability or staffing decision is missing compensation, employer costs, expected income, planning horizon or other necessary assumptions, give a useful factual baseline and ask for the missing inputs before deciding affordability. Do not invent salary tiers, employment hours, payroll tax/benefit rates, future revenue, reserve targets or revenue benchmarks. You may give a formula while inputs are missing. Use illustrative numerical assumptions only if the user explicitly requests an illustration, and label each invented input as hypothetical, not a market fact or recorded commitment. Once inputs are supplied, calculate the requested scenario in SQL and preserve them through follow-ups; a changed input replaces its previous value. Every financial scenario amount and ratio, including optional comparisons, must be calculated from the stated inputs in saved SQL results; do not add uncomputed numerical advice. Answer the requested scenario first without unrelated prescriptions. A draft total or liability balance alone does not establish an unpaid future cash outflow. Keep recorded cash separate from hypothetical available cash; subtract pending items only under explicit posting/settlement assumptions and use their actual cash-account impacts. Accrual expense averages are scenario assumptions, not observed or guaranteed future cash burn.
 
@@ -485,6 +488,18 @@ export function createNativeAnalystService(options: NativeAnalystOptions) {
                   results: checked.results.map(preview),
                 };
               else {
+                assertFinancialLiteralSupport(
+                  [
+                    input.title,
+                    input.notes ?? '',
+                    ...input.tables.map((table) => table.title ?? ''),
+                    ...input.charts.map((chart) => chart.title),
+                  ],
+                  checked.results,
+                  record.state.messages
+                    .filter((message) => message.role === 'user')
+                    .map((message) => message.content),
+                );
                 const cells = buildAnalystNotebook(
                   new Map(checked.results.map((result) => [result.id, result])),
                   input,
@@ -654,7 +669,23 @@ export function createNativeAnalystService(options: NativeAnalystOptions) {
           });
           record.state.phase = 'Preparing the answer and evidence';
           await save();
-        } else await complete(result.text);
+        } else {
+          try {
+            assertFinancialLiteralSupport(
+              [result.text],
+              [],
+              record.state.messages
+                .filter((message) => message.role === 'user')
+                .map((message) => message.content),
+            );
+            await complete(result.text);
+          } catch (error) {
+            if (!(error instanceof AnalystNotebookError)) throw error;
+            history.push({ role: 'user', content: `[Daybook numeric support check] ${error.message}` });
+            record.state.phase = 'Checking the figures in the answer';
+            await save();
+          }
+        }
       } catch (error) {
         if (await stopped()) return record.state;
         if (reservationDenied && !admittedThisStep) delete turn.pendingGeneration;
