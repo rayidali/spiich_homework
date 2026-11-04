@@ -484,7 +484,7 @@ describe('durable native analyst service', () => {
     expect(recovering.status).toBe('running');
     expect(f.leases.size).toBe(0);
     expect(f.modelCalls).toHaveLength(2); // Initial query generation plus the failed request; no inline retry.
-    expect(f.modelCalls[1].timeoutMs).toBe(40_000);
+    expect(f.modelCalls[1].timeoutMs).toBe(120_000);
     expect(f.peek().runtime.nativeHistory).toEqual(before);
     expect(f.sql.query).toHaveBeenCalledTimes(1);
     const turn = f.peek().runtime.nativeTurn as NativeAnalystTurn;

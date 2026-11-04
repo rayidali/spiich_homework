@@ -200,6 +200,45 @@ describe('one-step native SDK execution', () => {
     expect(model.doGenerateCalls).toHaveLength(1);
   });
 
+  it('allows a metered SDK response after the former deadline while retaining the new hard bound', async () => {
+    vi.useFakeTimers();
+    const timeout = vi.spyOn(AbortSignal, 'timeout').mockImplementation((milliseconds) => {
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(new DOMException('Timed out', 'TimeoutError')), milliseconds);
+      return controller.signal;
+    });
+    try {
+      let started!: () => void;
+      const dispatched = new Promise<void>((resolve) => (started = resolve));
+      const f = modelFixture(async () => {
+        started();
+        await new Promise<void>((resolve) => setTimeout(resolve, 80_000));
+        return googleReply();
+      });
+      const pending = run(f.model);
+      await dispatched;
+      await vi.advanceTimersByTimeAsync(80_000);
+      await expect(pending).resolves.toMatchObject({ text: 'Checked answer.' });
+      expect(f.fetch).toHaveBeenCalledTimes(1);
+      expect(f.order).toEqual(['reserve', 'transport', 'receipt']);
+      expect(f.receipts[0]).toMatchObject({ kind: 'known' });
+      await expect(
+        executeAnalystStep({
+          model: f.model,
+          tools: {},
+          messages,
+          instructions,
+          timeoutMs: 120_001,
+        }),
+      ).rejects.toMatchObject({ code: 'ANALYST_MODEL_INPUT' });
+      expect(f.fetch).toHaveBeenCalledTimes(1);
+    } finally {
+      timeout.mockRestore();
+      vi.clearAllTimers();
+      vi.useRealTimers();
+    }
+  });
+
   it('rejects externally expanded media before model conversion or provider dispatch', async () => {
     const f = modelFixture();
     await expect(

@@ -13,7 +13,7 @@ export const ANALYST_MODEL_LIMITS = Object.freeze({
   modelId: 'gemini-3.8-flash',
   requestBytes: 200_000,
   outputTokens: 4096,
-  timeoutMs: 40_000,
+  timeoutMs: 120_000,
   accountingMs: 2000,
   inputNanoUsdPerToken: 750,
   outputNanoUsdPerToken: 3750,
@@ -375,7 +375,7 @@ export async function executeAnalystStep(input: {
   messages: ModelMessage[];
   instructions: string;
   signal?: AbortSignal;
-  /** May shorten the deadline, never extend the40-second maximum. */
+  /** May shorten the deadline, never extend the 120-second maximum. */
   timeoutMs?: number;
 }): Promise<AnalystStepResult> {
   const timeoutMs = input.timeoutMs ?? ANALYST_MODEL_LIMITS.timeoutMs;

@@ -1,13 +1,14 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
+  "fluid": true,
   "installCommand": "npm ci --include=dev --no-audit --no-fund",
   "buildCommand": "npm run hosting:prepare && npm run build && npm run hosting:bundle",
   "outputDirectory": "dist",
   "regions": ["iad1"],
   "functions": {
     "api/*.js": {
-      "maxDuration": 60,
+      "maxDuration": 180,
       "includeFiles": "{.vercel-build/**,node_modules/@jitl/quickjs-wasmfile-release-sync/dist/emscripten-module.wasm,node_modules/libpg-query/wasm/**}"
     }
   },

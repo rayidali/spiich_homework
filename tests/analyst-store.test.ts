@@ -326,6 +326,44 @@ describe('Analyst conversation PostgreSQL lifecycle and isolation', () => {
     expect((await store.read(org, initial.id, 'querio')).state.title).not.toBe('Stale overwrite');
   });
 
+  it('keeps native ownership beyond the old lease window and fences a stale worker after actual expiry', async () => {
+    const native = conversation(randomUUID(), 'daybook');
+    const remote = conversation();
+    await store.create(org, native);
+    await store.create(org, remote);
+    const owned = await store.claim(org, native.id, 'daybook');
+    const remoteOwned = await store.claim(org, remote.id, 'querio');
+    if (!owned || !remoteOwned) throw Error('Isolated provider leases required');
+    owned.record.runtime = { nativeTurn: { pendingGeneration: 'inference-still-running' } };
+    await store.save(org, native.id, owned.token, owned.record);
+    // Simulate90s elapsed without waiting. A native120s inference can still be
+    // alive here, while Querio's existing75s polling lease has expired.
+    await admin.query(
+      "UPDATE analyst_conversations SET lease_until=lease_until-interval '90 seconds' WHERE organization_id=$1 AND id=ANY($2::uuid[])",
+      [org, [native.id, remote.id]],
+    );
+    const rivals = await Promise.all(Array.from({ length: 5 }, () => store.claim(org, native.id, 'daybook')));
+    expect(rivals).toEqual([null, null, null, null, null]);
+    await expect(store.save(org, native.id, owned.token, owned.record)).resolves.toBeUndefined();
+    const remoteReplacement = await store.claim(org, remote.id, 'querio');
+    expect(remoteReplacement).not.toBeNull();
+    expect(remoteReplacement?.token).not.toBe(remoteOwned.token);
+    await admin.query(
+      "UPDATE analyst_conversations SET lease_until=now()-interval '1 second' WHERE organization_id=$1 AND id=$2",
+      [org, native.id],
+    );
+    const replacement = await store.claim(org, native.id, 'daybook');
+    if (!replacement) throw Error('Expired native lease must become reclaimable');
+    expect(replacement.record.runtime).toEqual(owned.record.runtime);
+    await expect(store.save(org, native.id, owned.token, owned.record)).rejects.toMatchObject({
+      code: 'CONCURRENT_CHANGE',
+    });
+    await store.release(org, native.id, owned.token);
+    expect(await store.claim(org, native.id, 'daybook')).toBeNull();
+    await store.release(org, native.id, replacement.token);
+    await store.release(org, remote.id, remoteReplacement!.token);
+  });
+
   it('does not overwrite an uncertain or still-closing remote runtime with a fresh message', async () => {
     for (const runtime of [
       { stage: 'submit', pendingMutation: 'submit', notebookId: 'saved-notebook' },

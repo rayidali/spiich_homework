@@ -25,7 +25,7 @@ export const NATIVE_ANALYST_LIMITS = Object.freeze({
   resultBytes: 1_000_000,
   historyBytes: 180_000,
   previewBytes: 24_000,
-  modelMs: 40_000,
+  modelMs: 120_000,
   sqlMs: 12_000,
   inferenceRecoveries: 1,
 });

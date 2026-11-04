@@ -3,6 +3,10 @@ import type { AnalystConversation, AnalystProvider } from '../shared/analyst';
 import { query, transaction } from './db';
 import { AppError, required } from './errors';
 
+// Native inference may run for120s. Keep ownership through the180s hosted
+// invocation plus30s of margin; Querio retains its existing short polling lease.
+export const ANALYST_LEASE_MS = Object.freeze({ daybook: 210_000, querio: 75_000 });
+
 export type AnalystRecord = {
   state: AnalystConversation;
   runtime: Record<string, unknown>;
@@ -180,10 +184,10 @@ export const postgresAnalystStore: AnalystStore = {
   async claim(org, id, provider) {
     const token = randomUUID();
     const [row] = await query<Row>(
-      `UPDATE analyst_conversations SET lease_token=$4,lease_until=now()+interval '75 seconds'
+      `UPDATE analyst_conversations SET lease_token=$4,lease_until=now()+($5::integer * interval '1 millisecond')
        WHERE organization_id=$1 AND id=$2 AND provider=$3 AND (lease_until IS NULL OR lease_until<now())
        RETURNING state,runtime,last_message_id,last_message_text,close_requested`,
-      [org, id, provider, token],
+      [org, id, provider, token, ANALYST_LEASE_MS[provider]],
     );
     return row ? { token, record: record(row) } : null;
   },
