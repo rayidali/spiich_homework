@@ -164,8 +164,18 @@ describe('Analyst conversation PostgreSQL lifecycle and isolation', () => {
       },
     ];
     owned.record.state.status = 'completed';
+    const failures = [
+      {
+        cause: 'ANALYST_MODEL_TIMEOUT',
+        messageId: first,
+        generationId: randomUUID(),
+        elapsedMs: 40000,
+        at: new Date().toISOString(),
+      },
+    ];
     owned.record.runtime = {
       nativeHistory: history,
+      nativeFailures: failures,
       nativeTurn: {
         messageId: first,
         results: { old: { rows: [['100']] } },
@@ -176,6 +186,7 @@ describe('Analyst conversation PostgreSQL lifecycle and isolation', () => {
     await store.release(org, initial.id, owned.token);
     const next = await store.queue(org, initial.id, 'daybook', randomUUID(), 'And last month?');
     expect(next.runtime.nativeHistory).toEqual(history);
+    expect(next.runtime.nativeFailures).toEqual(failures);
     expect(next.runtime.nativeTurn).toBeUndefined();
     expect(next.runtime.nativeUsageHistory).toEqual([
       { messageId: first, meter: { reservedNanoUsd: 10000 } },

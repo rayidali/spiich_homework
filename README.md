@@ -1,20 +1,10 @@
 # Daybook · Accounting workspace
 
-**Querio is live:** open Ask → Querio for live-book answers, tables and charts. [Verified release and limits](docs/evidence/querio-workspace-release.json). A more flexible native analyst is being prepared separately.
+A React and TypeScript accounting application with an Express REST API and PostgreSQL. Record transactions, review balanced entries, manage recurring drafts and inspect financial reports. AI suggests entries and categories for review; database constraints protect posted history.
 
-**New analyst workspace in development:** Daybook and Querio tabs, resumable conversations and an inspectable notebook with tables/charts are implemented locally. Combined CI, live integration acceptance and release remain pending. The broader native redesign comes next. [Implementation and checks](docs/ANALYST_WORKSPACE.md).
+**Analyst workspace:** Ask has separate Daybook and Querio tabs with answers and inspectable notebooks. Querio is released on the protected website. The replacement native analyst writes checked read-only SQL and is under source-bound acceptance before promotion. [Architecture and measured limits](docs/NATIVE_ANALYST.md) · [Current checkpoint](CHECKPOINT.md) · [Querio release](docs/evidence/querio-workspace-release.json).
 
-**Try Querio on the live books:** start a new Querio chat and choose **Daybook LIVE — all records**. Full read-only access includes drafts and posted entries, with accounting context and a verified starter notebook. The old fixture is labeled **TEST ONLY — synthetic benchmark**. [Connection and testing guide](docs/QUERIO_LIVE.md).
-
-**Current development:** a generated-analysis candidate can write calculations for monthly percentages and other combinations. Its combined checks passed 2,922 tests and 37 browser workflows; it is not yet deployed or measured with a live model. [Design, checks and limits](docs/GENERATED_ANALYSIS.md).
-
-**Querio tested:** a separate read-only fixture is connected to Querio. The eight-case Haiku check passed 3/8 full answers; a two-case Sonnet diagnostic produced 23/23 correct required results but passed 1/2 conversations under the fixed clarification rule. These are separate development checks, not a replacement for hosted chat. [Plain-language report and evidence](docs/QUERIO_EVALUATION.md).
-
-A React and TypeScript accounting application with a REST API and PostgreSQL. Record transactions, review balanced entries, manage recurring drafts, and inspect financial reports. AI suggests entries and categories for your approval; database constraints protect posted history.
-
-Open the [protected hosted demo](https://daybook-ledger-delta.vercel.app), or start the complete application with Docker below. No API key is needed for manual accounting, reports, recurrence or statistical anomaly alerts.
-
-**Current status:** source `9f90a500a98ea98e74bed592435fd045c4564b8d` is promoted with the `composable` assistant and deployment protection. The conversational and currency-repair changes passed full CI, the final two targeted model regressions and six hosted browser views. [Release evidence](docs/evidence/conversation-repair-release.json) · [Latest focused results](docs/evidence/conversation-acceptance-v4/report.md) · [Scope and limits](docs/GOAL_AUDIT.md).
+Open the [protected hosted demo](https://daybook-ledger-delta.vercel.app), or run the complete application with Docker below. No API key is needed for manual accounting, reports, recurrence or statistical anomaly alerts.
 
 ## Run with Docker Compose
 
@@ -52,8 +42,8 @@ The [beginner accounting walkthrough](docs/ACCOUNTING_WALKTHROUGH.md) explains t
 | Transactions                | Search, account/date/status/currency filters, cursor pagination, entry drill-down                           |
 | AI entry and categorization | Structured proposals, clarification, account validation, relevant history and correction retrieval          |
 | Anomaly detection           | Duplicate/amount/category rules, review/dismissal, resolved alerts and reversal-aware rechecks              |
-| Insights                    | Checked composable queries, exact sourced calculations, clarification, scope and source evidence            |
-| UX                          | Four primary destinations, explicit account-effects review, accessible controls and progressive detail      |
+| Insights                    | Querio notebook workspace; native generated read-only SQL analyst under acceptance; legacy chat fallback    |
+| UX                          | Four accounting destinations plus Ask, reviewed account effects, accessible controls and progressive detail |
 | Operations                  | Migrations, Docker Compose, health checks, request IDs, outbox jobs, passing CI, protected Vercel/Neon demo |
 
 The short-form **Suggest category** action chooses an expense/revenue category while code preserves the fixed amount and payment account. Loans, transfers, invoice settlements and more complex entries use the full-entry workflow. Suggestions require review and cannot post themselves. [Category selector](docs/CATEGORY_SELECTOR.md) · [Assignment checklist](docs/ASSIGNMENT_REVIEW.md).
@@ -81,6 +71,8 @@ Gemini and OpenAI are supported. Copy `.env.example` to `.env` only if you do no
 AI_PROVIDER=gemini
 GEMINI_API_KEY=your_key_here
 ```
+
+These settings control whole-entry and legacy chat requests. The separate native analyst requires `NATIVE_ANALYST_ENABLED=true` and `GEMINI_API_KEY`; its pinned model is `gemini-3.8-flash`. Keep it disabled until the documented acceptance gate is met. Querio uses server-only `QUERIO_*` settings in `.env.example`; never place provider keys in browser variables.
 
 Leave `AI_MODEL` empty to use the configured provider default: `gemini-3.5-flash-lite` or `gpt-6-luna`. For OpenAI, set `AI_PROVIDER=openai` and `OPENAI_API_KEY`; remove any stale model override when switching. Use a model your project can access. Keys stay on the server and are excluded from source, Docker images and the submission.
 
@@ -132,11 +124,13 @@ Provider evaluations are separate, optional runs that need an explicit allowance
 
 ## AI decisions and measured results
 
-The model interprets requests and chooses permitted operations. SQL and exact arithmetic calculate the money. The deployed chat supports account/vendor/date filters, compound groupings, cash movement, balances and supported calculations, alongside existing report tools. It cannot execute arbitrary SQL or post entries. [Query architecture](docs/ARCHITECTURE.md) · [Grouped spending](docs/COMPOUND_GROUPING.md) · [Cash movement](docs/CASH_MOVEMENT.md).
+The native analyst uses three general tools: inspect schema, query SQL and publish a notebook from executed results. PostgreSQL calculates the money; code enforces read-only business scope. The model can still misunderstand a date or make an unsupported claim. Current paired development results and release gates are in [Native analyst](docs/NATIVE_ANALYST.md). Querio uses its own server-side Resource API path. Neither analyst can post entries.
+
+The results below are historical, separate studies; they do not describe the new analyst's current score or default provider.
 
 **Categorization is measured and complete.** Gemini and Jev received identical fixed facts and prior examples. Both chose semantically acceptable accounts on 33 held-out category inputs; Gemini also followed the taught business preference in **33/33**, Jev in **31/33**. Jev was cheaper but failed the predefined reliability condition for replacement. Gemini remains the narrow selector default. These 33 inputs come from eleven scenario sequences, not 33 independent businesses. The experiment measures use of supplied context; database retrieval quality and general production accuracy remain separate. [Results](docs/evidence/category-runs/completed-v3/holdout/report.md) · [Audit](docs/evidence/category-runs/completed-v3/independent-audit.json) · [Decision](docs/evidence/category-runs/completed-v3/release-decision.json) · [Two-page PDF](docs/reports/category-learning-explained.pdf) ([HTML](docs/reports/category-learning-explained.html)).
 
-**Broader chat comparison is complete and closed.** The same sixteen synthetic held-out questions ran on three routes, giving 48 executions. Frozen scores were **9/16 composable, 10/16 adaptive and 5/16 complete**. A separate replay of the same saved answers after two grader compatibility corrections gives **11/16, 11/16 and 5/16**; it is descriptive sensitivity analysis, not a new model run or replacement score. Neither alternative qualified, so the hosted route remains `composable`. The known smoke remains 0/3, and all earlier failures and unknown reservations stay recorded. [Results and costs](docs/evidence/compact-completion-runs/report.md) · [Two-page explanation](docs/reports/chat-route-comparison-explained.pdf).
+**Broader chat comparison is complete and closed.** The same sixteen synthetic held-out questions ran on three routes, giving 48 executions. Frozen scores were **9/16 composable, 10/16 adaptive and 5/16 complete**. A separate replay of the same saved answers after two grader compatibility corrections gives **11/16, 11/16 and 5/16**; it is descriptive sensitivity analysis, not a new model run or replacement score. Neither alternative qualified at that historical checkpoint, when the hosted route remained `composable`. The known smoke remains 0/3, and all earlier failures and unknown reservations stay recorded. [Results and costs](docs/evidence/compact-completion-runs/report.md) · [Two-page explanation](docs/reports/chat-route-comparison-explained.pdf).
 
 The optional `adaptive` route can inspect results before choosing another operation. The optional `complete` route checks declared requested outputs and can finish supported missing arithmetic from verified retained results without another database or model call. The model can still omit a requirement from its initial declaration. These features do not establish perfect interpretation or become the default because they exist. [Completion behavior and limits](docs/ANSWER_COMPLETENESS.md).
 
@@ -150,7 +144,10 @@ The older nine-route research study tested lexical documents, Gemini File Search
 db/migrations/    PostgreSQL constraints, permissions, revisions, provenance
 server/ledger.ts  One entry creation/posting/reversal path
 server/reports.ts Posted-journal financial queries
-server/ai.ts      Shared proposal validation, financial plans and bounded schema repair
+server/native-analyst-service.ts  Durable SQL analyst, model/tool history and publication
+server/analyst-sql.ts / analyst-notebook.ts  Read-only boundary and source-backed notebook
+server/querio-service.ts  Server-side Querio sessions, lifecycle and evidence
+server/ai.ts      Legacy chat, proposal validation and bounded schema repair
 server/financial-analysis.ts / financial-calculation.ts  Checked ledger queries and exact arithmetic
 server/date-scope.ts  Conservative original-user all-history scope proof
 server/ai-admission.ts  Shared PostgreSQL request limits
@@ -176,7 +173,7 @@ The [architecture](docs/ARCHITECTURE.md), [API reference](docs/API.md), [product
 
 This is a single configured workspace application, as authentication was excluded from the assignment. Organization-scoped tables and composite foreign keys do not replace production authentication or authorization. Compose binds the UI/API to localhost.
 
-Reports use recorded exchange rates. Automated revaluation, tax, inventory, invoice lifecycle management, bank reconciliation and formal period closing are outside this implementation. Noncash balance operands in scenarios, unrestricted forecasting and general result-set joins remain unsupported. Missing facts require clarification; a correct calculation alone does not prove the chosen records answer the question. CSV import, bank feeds and document uploads are optional extensions, not required assignment workflows.
+Reports use recorded exchange rates. Automated revaluation, tax, inventory, invoice lifecycle management, bank reconciliation and formal period closing are outside this implementation. The native analyst can join exposed records and calculate labeled scenarios; no future forecast, external event or user decision becomes known merely because a query can be written. Missing facts require clarification; a correct calculation alone does not prove the chosen records answer the question. CSV import, bank feeds and document uploads are optional extensions, not required assignment workflows.
 
 Request admission and bounded work protect the prototype, but million-user capacity and perfect interpretation have not been established. Current-source model quality, hosted visual/physical-device usability and automatic hosted cron firing must not be inferred from CI counts.
 

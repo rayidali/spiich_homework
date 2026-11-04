@@ -1,5 +1,25 @@
 # Daybook session checkpoint
 
+## Current handoff — two analyst tabs
+
+Querio is delivered in **Ask → Querio**. The replacement **Daybook** analyst is implemented and under release verification. Keep the existing application and accounting engine; do not restart the project or reopen earlier experiments.
+
+- **Hosted release:** the protected stable website remains the Querio release, runtime source `e464efe6ce35644131235521ddb5e78eecdc4f08`, deployment `dpl_HNS1v2XznQrY1cTgmSjZpPwaHCeK`. Native previews are separate; their existence does not establish promotion.
+- **Database:** production and the acceptance fixture have migrations 001–009. All nine checksums were verified; production accounts, entries and lines were unchanged in the migration audit. Never edit these applied migrations. Migration 009 SHA256 is `33888d598e03fffa500db1ead1fc4e931408bed751ce06b480997defc670d919`.
+- **Closed cohort c:** source `4fd301509893c2ba4ca6e57145bd909cabb7658e` passed full CI `41753292211`. Actual run `41754286233` delivered 12/14 turns: 6/8 matched and 6/6 additional. A01's follow-up and A06 stopped after transport failures. Financial/semantic review is pending; completion is not correctness. All 92 requests and original failures are preserved, usage is reconciled, and six temporary secrets were removed with absence verified. This candidate is not promoted.
+- **Recovery candidate d, not yet committed or released:** model requests have a 40-second deadline. One fresh inference can be scheduled on the next lease after a caught timeout/network failure only when accounting callbacks have settled; the original unknown cost remains reserved. Crash-pending requests are never replayed. Safe failure records persist across follow-ups, capped at 20. Seventy-five focused tests (49 service, 24 adapter, two actual-SDK tests) and TypeScript passed; the PostgreSQL persistence test and full CI remain pending. Migration checksums are unchanged. A separate general scenario instruction now requires missing decision-critical inputs rather than invented pay/tax benchmarks; c's initial hiring answer exposed that semantic problem. Final d must rerun the full 14-turn set.
+- **Preserved results:** native a delivered 3/8 planned turns. Native b delivered 8/8; requested numbers were correct in 8/8, requested scope in 7/8 and all claims in 6/8. Querio also passed 6/8 strict turns, with two small rounding errors. Both passed 4/6 complete conversations and their two requested charts passed actual-capture desktop/mobile replay. This replay is separate from hosted backend verification. Do not combine the best answers across versions or call a delivered answer correct automatically.
+- **Evaluation scope:** compare each native source with Querio only on A01/A05/A06/A07/A11/A18: six conversations, eight turns, two charts. Additional native A08/A12/A14/A16 acceptance is four conversations, six turns, one chart; report it separately. The fixture, 38 Decimal reference facts and exact questions remain frozen and reviewer-only expectations never enter model prompts.
+- **Costs:** the shared $5 ledger now contains $1.824684000 in known estimates plus $0.115747500 retained for two unknown requests ($1.940431500 tracked in total). Cohort c added $0.902770500 known and $0.115747500 unknown, preserving all a/b history. Never erase an uncertain charge after recovery succeeds. Querio has 52 observed responses in this task, including 39 in the comparison; invoice charges are unverified. Older allowances remain closed.
+
+Use only local GitHub/Vercel CLI authentication. Keep keys, DSNs, raw responses and browser state private. Current private evidence is under `.tools/analyst-product-20261103/`; [NATIVE_ANALYST.md](docs/NATIVE_ANALYST.md) explains the implementation. Product name remains **Daybook**, with Home / Transactions / Reports / Settings plus the requested Ask workspace.
+
+## Historical chronology — earlier snapshots and closed cohorts
+
+The snapshots below preserve what was known then. Their current/pending/deployed language is historical and cannot override the current handoff above. Original failures, source bindings and spending remain preserved.
+
+### Superseded handoff and repair notes
+
 **Current revision c preparing CI:** b finished8/8 delivery; all requested numbers correct, but scope7/8 and all-claims eligibility6/8 due A07 date-window drift and A05 unsupported settlement claim. It was not promoted. Authenticated artifacts at`native-run-b/decrypted/capture`; all six native secrets removed. Root usage now$0.921913500known/0unknown and52Querio responses; included headroom estimate344. Revision c adds general scope/settlement/precision/zero-period instructions, with no SQL-boundary changes. Runner permit now supports `caseSet: extended` for original6matchedcases/8turns plusA08/A12/A14/A16:10cases/14turns/3charts. Original fixtures unchanged. Prepare a NEW source-bound cohort c after current CI passes; old b permits are closed. Eight recorded browser replays from native b/Querio and the public Querio runner are included in current uncommitted source. The existing native-hosted plan is bound to f032 but has not submitted anything; rebind to the next verified deployment before actual hosted tests.
 
 **Current active run — repaired native b:** source`f032d70a0c60e1472c8d9e8e5d774c9ed20f0405` passed fullCI`41750058274`:3304normal tests,50browser workflows,3303overlappingCompose tests plus lifecycle/persistence, research passed. Actual-model cohort`native-initial-20261104-b` was dispatched exactly once as`41751239992`; six temporary `ANALYST_NATIVE_*` GitHub secrets are installed until its encrypted artifacts and usage are recovered. Private permit/key/dispatch/decrypt helper: `.tools/analyst-product-20261103/native-run-b/`. Root shared usage seed is still$0.451608750known/0unknown from cohort a; do not overwrite it while b runs.
@@ -14,7 +34,7 @@
 
 **Staged build migration audit:** production now has migrations001–009, all matching repository hashes. Its accounts, entries, lines, cash and monthly references remain unchanged. The stable website is still the promoted Querio release; native candidate51 is only a protected preview. The first real-model native run has already exposed two completion-limit failures; no release or accuracy gate is claimed. Preserve those original outcomes while repairing the general completion policy.
 
-## Current handoff — native analyst verification, November 3, 2026
+### Earlier handoff — native analyst verification, November 3, 2026
 
 **Querio is delivered; the replacement Daybook analyst is integrated and being verified.** Continue the application and existing ledger. The user's request for two analyst tabs supersedes the earlier native-work pause. Do not restart the project or rerun closed experiments.
 
@@ -28,8 +48,6 @@
 - **Next gate:** collect the dispatched native cohort, run the matching Querio subset, and review the declared cases A01/A05/A06/A07/A11/A18 (six conversations / eight turns / two requested charts) under the existing allowance. Independently review outputs, then decide whether to enable/release the native analyst. A completed conversation is not automatically a correct answer. No superiority or universal-accuracy claim is established.
 
 Implementation details and a plain walkthrough are in [NATIVE_ANALYST.md](docs/NATIVE_ANALYST.md). Raw credentials, SQL responses and provider receipts remain private under `.tools/analyst-product-20261103/`; publish only redacted evidence.
-
-## Historical chronology — earlier snapshots and closed cohorts
 
 The entries below retain what was true at each recorded stage. Their “current,” “pending,” “unapplied,” or “paused” language does not override the handoff above. Preserve their failures, source bindings and budgets; they do not authorize replay.
 

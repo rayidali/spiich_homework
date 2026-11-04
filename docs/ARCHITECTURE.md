@@ -1,8 +1,16 @@
 # Architecture and engineering decisions
 
-## Analyst architecture update — November 3, 2026
+## Current analyst architecture
 
-Querio is now integrated and promoted in Ask → Querio, with durable conversations and real notebook tables/charts. [Release evidence](evidence/querio-workspace-release.json). The new native analyst candidate uses general read-only SQL over scoped views, a durable SDK/tool loop and checked notebook publication; [design and limits](NATIVE_ANALYST.md). This removes the fixed financial-operation menu for the new tab. Its actual-model comparison is pending. Entries, posting invariants and categorization keep their existing architecture. Statements below about earlier deployed routes and unintegrated Querio are historical.
+The accounting engine remains the source of truth: exact decimals, deferred balance constraints, immutable posted history, stored FX, linked reversals and durable background jobs. AI proposals require review before the existing posting path accepts them.
+
+Querio is integrated through a server-only Resource API adapter and is released in Ask. The new native Daybook analyst uses the same durable conversation/notebook UI with its own Gemini provider history. Its general `inspect_schema`, `query_sql` and `publish_notebook` tools support new read-only calculations over eight organization-scoped views. Migration 009 is applied and immutable in production and the acceptance fixture. SQL parsing, a restricted database role, read-only snapshots, deadlines and row limits enforce execution boundaries; selected result columns create charts and are rechecked before publication. [Full design and limits](NATIVE_ANALYST.md).
+
+Actual model testing is separate from unit, database and UI tests. Native a, native b and the matched Querio run retain separate results. Cohort c is running with observed transport failures. A separate candidate d adds one bounded fresh inference recovery after caught, accounted transport failures; original unknown reservations remain. Full d CI and hosted/replay checks are pending at this snapshot. Use [CHECKPOINT](../CHECKPOINT.md) for the current source and promotion receipt. The two additional concerns from b—changed date scope and inferred external settlement—are semantic failures despite correct money. No parser or model reviewer is described as a proof of universal correctness.
+
+## Historical chat designs and release snapshots
+
+The following older designs, source IDs and results remain evidence of their own dates. Their descriptions of current work, production or an unintegrated Querio do not override the current architecture above. Core accounting design follows under “The central invariant.”
 
 **External analyst experiment:** Querio was connected through a restricted reader to four reporting views in a separate synthetic Neon database. Its SQL/Python notebook path was actually tested with Haiku and a smaller Sonnet diagnostic; it is not wired into Daybook’s production request path. Correct query results sometimes diverged from generated prose, reinforcing the need to check final claims separately. [Results and limitations](QUERIO_EVALUATION.md).
 

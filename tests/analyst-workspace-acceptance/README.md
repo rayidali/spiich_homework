@@ -1,6 +1,8 @@
 # Analyst workspace acceptance, version 1
 
-**18 fictional conversations, 25 user turns, four requested charts. Not executed against a model.** This is a new development evaluation for a Querio tab and a rebuilt native analyst. It does not change any earlier dataset, score, budget or release gate. A collaborating AI authored the specification; it is not a blinded holdout or an independent accountant's certification.
+**18 fictional conversations, 25 user turns and four requested charts define the complete suite. Selected subsets have now been executed; the full suite has not.** The native a and b development runs and the matched Querio run used A01/A05/A06/A07/A11/A18: six conversations, eight turns and two charts. Native c adds A08/A12/A14/A16 as a separate acceptance group of four conversations, six turns and one chart; its final result is pending at this snapshot. Only the original matched subset belongs in the Querio comparison denominator.
+
+See [the current comparison and limitations](../../docs/NATIVE_ANALYST.md#what-we-measured) and [verification record](../../docs/VERIFICATION.md). Captures, source versions, failures and reviews remain separate; a rerun does not replace an earlier result. The fixture, exact prompts and expected values below remain unchanged. A collaborating AI authored the specification; it is not a blinded holdout or an independent accountant's certification.
 
 The question is whether an analyst can investigate and finish unfamiliar financial work, then show the calculation in a useful answer and notebook. It is not whether its output matches a preferred sentence, tool name or number of calls.
 

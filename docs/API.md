@@ -13,9 +13,13 @@ Both `/api/ai/querio` and the separately enabled `/api/ai/daybook` namespace exp
 | POST `/conversations/:id/refresh`  | Progress previously authorized work; native HTTP returns state and worker performs one phase |
 | DELETE `/conversations/:id`        | Request Stop; retain saved history and evidence                                              |
 
-A UUID reused for different text conflicts. Workspace/provider identity scopes all reads and leases. Native unknown-dispatch failures are not automatically resubmitted. Stop may not prevent billing for a request already sent. Public state contains messages, notebook, progress and a safe error/correlation ID; private SQL/model history remains server-side. Querio is promoted; flexible native is still a candidate under verification. See [architecture](NATIVE_ANALYST.md) and [Querio release](evidence/querio-workspace-release.json). Earlier release descriptions below remain historical.
+A UUID reused for different text conflicts. Workspace/provider identity scopes all reads and leases. Crash-pending native dispatches are not replayed. Candidate d permits one separately reserved fresh inference after a caught transport failure once accounting callbacks settle; uncertain prior cost remains reserved. Stop may not prevent billing for a request already sent. Public state contains messages, notebook, progress and a safe error/correlation ID. Notebook source SQL is intentionally inspectable; private provider messages, signatures and execution state stay server-side. Querio is promoted; flexible native is still a candidate under verification. See [architecture](NATIVE_ANALYST.md) and [Querio release](evidence/querio-workspace-release.json). The browser polls refresh sequentially while starting/running. A queued native request is advanced by the worker; GET only restores saved state. DELETE may return202 while cleanup finishes, so continue reading/refreshing until terminal rather than assuming immediate deletion. `/api/meta` advertises native analyst availability; provider status and configuration are server-controlled. Drafts, ledger posting and legacy `/api/ai/chat` keep their existing endpoints. Earlier release descriptions below remain historical.
 
-## Generated-analysis candidate — not deployed or real-model verified
+## Historical legacy-chat extensions
+
+The sections through the earlier category-release snapshot describe previous `/api/ai/chat` candidates and releases. Their source/status labels are historical; the durable analyst contract above is separate. The maintained category, draft/posting, query-filter and error references below remain applicable.
+
+### Generated-analysis candidate — historical snapshot
 
 The existing chat endpoint now supports the server-selected `financial_program` tool on the composable route and initial adaptive planning. It adds no REST endpoint. Arguments contain up to four existing queries, a JavaScript function body, and optional original-user-quoted `parameters` with `id`, `value`, `unit` and `sourceText`. The application obtains the records; callers cannot supply financial input tables or execute arbitrary host code.
 
@@ -71,7 +75,7 @@ Both `/ai/chat` and `/ai/entry` now share a non-mutating conversation schema: 1�
 
 The UI checks the same budget before sending, retains an unsent draft on refusal and offers explicit New conversation. A reset does not post or delete a journal; on the next draft save it clears a discarded saved proposal binding, while a replacement proposal takes precedence. This shared contract is deployed in the exact-source release below. [Verification status](VERIFICATION.md#conversation-and-admission-checks--ci-verified).
 
-## Current promoted compound-grouping release — 2026-10-31
+## Historical promoted compound-grouping release — 2026-10-31
 
 Source **`93a8617932daff772c5b5d9c836be15692a64979` is promoted** at [Daybook](https://daybook-ledger-delta.vercel.app), deployment `dpl_2Rh1j9ryaPzor5vsREcDvYJHgFSQ`. [Full CI 41251437109](https://github.com/rayidali/spiich_homework/actions/runs/41251437109) passed verification, native research and Compose; live-AI was skipped. The actual stable alias and project production target match this READY/PROMOTED deployment, with all-deployment protection retained. [Release evidence](evidence/compound-grouping-release.json).
 

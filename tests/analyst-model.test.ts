@@ -339,7 +339,11 @@ describe('Google HTTP reservations and usage', () => {
       throw new Error('secret-network-credential');
     });
     await expect(run(transport.model)).rejects.toMatchObject({ code: 'ANALYST_MODEL_PROVIDER' });
-    expect(transport.receipts[0]).toMatchObject({ kind: 'unknown', reason: 'transport-error' });
+    expect(transport.receipts[0]).toMatchObject({
+      kind: 'unknown',
+      reason: 'transport-error',
+      transportStarted: true,
+    });
     const malformed = modelFixture(async () => new Response('secret-provider-html', { status: 500 }));
     await expect(run(malformed.model)).rejects.toMatchObject({ code: 'ANALYST_MODEL_PROVIDER' });
     expect(malformed.receipts[0]).toMatchObject({ kind: 'unknown', reason: 'missing-usage' });
@@ -355,6 +359,51 @@ describe('Google HTTP reservations and usage', () => {
     await expect(run(f.model)).rejects.toMatchObject({ code: 'ANALYST_MODEL_ACCOUNTING' });
     expect(f.fetch).toHaveBeenCalledTimes(1);
     expect(f.beforeDispatch).toHaveBeenCalledTimes(1);
+  });
+
+  it('preserves an accounting failure when its callback finishes after the inference deadline', async () => {
+    const f = modelFixture(undefined, {
+      afterResponse: async () => {
+        await new Promise((resolve) => setTimeout(resolve, 25));
+        throw new Error('private-storage-error');
+      },
+    });
+    await expect(
+      executeAnalystStep({
+        model: f.model,
+        tools: {},
+        messages,
+        instructions,
+        timeoutMs: 10,
+      }),
+    ).rejects.toMatchObject({ code: 'ANALYST_MODEL_ACCOUNTING' });
+    expect(f.fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('records a real SDK transport deadline only after the HTTP attempt and its receipt callback settle', async () => {
+    let receivedSignal: AbortSignal | null | undefined;
+    const f = modelFixture(async (_url, init) => {
+      receivedSignal = init?.signal;
+      return new Promise((_resolve, reject) => {
+        init?.signal?.addEventListener('abort', () => reject(init.signal?.reason), { once: true });
+      });
+    });
+    await expect(
+      executeAnalystStep({
+        model: f.model,
+        tools: {},
+        messages,
+        instructions,
+        timeoutMs: 20,
+      }),
+    ).rejects.toMatchObject({ code: 'ANALYST_MODEL_TIMEOUT' });
+    expect(receivedSignal?.aborted).toBe(true);
+    expect(f.fetch).toHaveBeenCalledTimes(1);
+    expect(f.order).toEqual(['reserve', 'transport', 'receipt']);
+    expect(f.receipts).toEqual([
+      expect.objectContaining({ kind: 'unknown', reason: 'transport-error', transportStarted: true }),
+    ]);
+    expect(f.receipts[0]).not.toHaveProperty('costNanoUsd');
   });
 
   it('meters hidden continuation separately and reserves prior output as implicit input', async () => {
@@ -420,6 +469,11 @@ describe('Google HTTP reservations and usage', () => {
     finish();
     await expect(pending).rejects.toMatchObject({ code: 'ANALYST_MODEL_TIMEOUT' });
     expect(f.fetch).not.toHaveBeenCalled();
+    expect(f.receipts[0]).toMatchObject({
+      kind: 'unknown',
+      reason: 'transport-error',
+      transportStarted: false,
+    });
   });
 
   it('records a late known receipt after Stop without dispatching another continuation', async () => {

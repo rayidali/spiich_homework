@@ -11,6 +11,7 @@ import type { AnalystSqlResult, createAnalystSql } from '../server/analyst-sql';
 import type { AnalystProvider } from '../shared/analyst';
 import { AppError } from '../server/errors';
 import { AnalystSqlError } from '../server/analyst-sql';
+import { AnalystModelError } from '../server/analyst-model';
 
 const stamp = '2026-11-03T12:00:00.000Z';
 const copy = <T>(x: T): T => structuredClone(x);
@@ -52,6 +53,7 @@ function memoryStore() {
       r.lastMessageText = text;
       r.runtime = {
         nativeHistory: r.runtime.nativeHistory,
+        nativeFailures: r.runtime.nativeFailures,
         nativeUsageHistory: [
           ...((r.runtime.nativeUsageHistory as unknown[]) ?? []),
           (r.runtime.nativeTurn as NativeAnalystTurn | undefined)?.meter,
@@ -166,6 +168,10 @@ function fixture() {
   let hooks: NativeModelOptions | undefined;
   let attemptN = 0;
   const outputs: AnalystStepResult[] = [];
+  const failures: {
+    code: ConstructorParameters<typeof AnalystModelError>[0];
+    receipt: 'transport' | 'not-dispatched' | 'malformed' | 'http-error' | 'known';
+  }[] = [];
   const modelCalls: Parameters<NonNullable<Parameters<typeof createNativeAnalystService>[0]['step']>>[0][] =
     [];
   const modelToolNames: string[][] = [];
@@ -180,6 +186,7 @@ function fixture() {
   } as unknown as ReturnType<typeof createAnalystSql>;
   const externalBefore = vi.fn(async (_a: AnalystModelAttempt) => {}),
     externalAfter = vi.fn(async (_r: AnalystModelReceipt) => {});
+  const diagnostic = vi.fn();
   const service = createNativeAnalystService({
     store: memory.store,
     sql,
@@ -205,6 +212,20 @@ function fixture() {
       };
       await hooks!.beforeDispatch(attempt);
       await beforeModel?.();
+      const failure = failures.shift();
+      if (failure && failure.receipt !== 'known') {
+        await hooks!.afterResponse({
+          ...attempt,
+          kind: 'unknown',
+          reason: ['transport', 'not-dispatched'].includes(failure.receipt)
+            ? 'transport-error'
+            : 'missing-usage',
+          ...(['transport', 'not-dispatched'].includes(failure.receipt)
+            ? { transportStarted: failure.receipt === 'transport' }
+            : { httpStatus: failure.receipt === 'http-error' ? 429 : 200 }),
+        });
+        throw new AnalystModelError(failure.code);
+      }
       await hooks!.afterResponse({
         ...attempt,
         kind: 'known',
@@ -216,11 +237,13 @@ function fixture() {
         costNanoUsd: 400,
         costUsd: '0.000000400',
       });
+      if (failure) throw new AnalystModelError(failure.code);
       if (!outputs.length) throw new Error('Injected provider failure');
       return outputs.shift()!;
     },
     beforeDispatch: externalBefore,
     afterResponse: externalAfter,
+    diagnostic,
   });
   return {
     ...memory,
@@ -231,6 +254,8 @@ function fixture() {
     modelToolNames,
     externalBefore,
     externalAfter,
+    diagnostic,
+    failures,
     setBeforeModel: (fn: () => Promise<void>) => {
       beforeModel = fn;
     },
@@ -417,6 +442,163 @@ describe('durable native analyst service', () => {
     expect(f.modelCalls).toHaveLength(1);
     expect((f.peek().runtime.nativeTurn as NativeAnalystTurn).meter.attempts[0].receipt).toBeUndefined();
     expect((f.peek().runtime.nativeTurn as NativeAnalystTurn).pendingGeneration).toBeTruthy();
+  });
+  it('recovers a directly observed timeout on the next lease without replaying SQL or changing saved history', async () => {
+    const f = await atPublicationBoundary();
+    const before = f.peek().runtime.nativeHistory;
+    f.failures.push({ code: 'ANALYST_MODEL_TIMEOUT', receipt: 'transport' });
+    const recovering = await f.service.advance('org-a', 'chat', 'request-recovery');
+    expect(recovering.status).toBe('running');
+    expect(f.leases.size).toBe(0);
+    expect(f.modelCalls).toHaveLength(2); // Initial query generation plus the failed request; no inline retry.
+    expect(f.modelCalls[1].timeoutMs).toBe(40_000);
+    expect(f.peek().runtime.nativeHistory).toEqual(before);
+    expect(f.sql.query).toHaveBeenCalledTimes(1);
+    const turn = f.peek().runtime.nativeTurn as NativeAnalystTurn;
+    expect(turn).toMatchObject({ stepIndex: 10, recoveryCount: 1, pendingCalls: [] });
+    expect(turn.pendingGeneration).toBeUndefined();
+    expect(turn.meter.attempts[1]).toMatchObject({
+      reservationNanoUsd: 1000,
+      receipt: { kind: 'unknown', reason: 'transport-error', transportStarted: true },
+    });
+    expect(turn.generationFailures).toEqual([
+      expect.objectContaining({ code: 'ANALYST_MODEL_TIMEOUT', attemptIds: ['a2'], recoveryScheduled: true }),
+    ]);
+    expect(f.diagnostic).toHaveBeenCalledWith(
+      expect.objectContaining({
+        code: 'ANALYST_MODEL_TIMEOUT',
+        generationId: expect.any(String),
+        elapsedMs: expect.any(Number),
+        requestId: 'request-recovery',
+      }),
+    );
+    f.outputs.push(calls({ name: 'publish_notebook', input: publication }));
+    await f.service.advance('org-a', 'chat');
+    expect(f.modelCalls[2].messages).toEqual(f.modelCalls[1].messages);
+    expect((await f.service.advance('org-a', 'chat')).status).toBe('completed');
+    expect(f.sql.query).toHaveBeenCalledTimes(1);
+    expect(f.sql.reexecute).toHaveBeenCalledTimes(1);
+    expect((f.peek().runtime.nativeTurn as NativeAnalystTurn).stepIndex).toBe(11);
+    expect((f.peek().runtime.nativeTurn as NativeAnalystTurn).meter.attempts).toHaveLength(3);
+    const savedFailures = f.peek().runtime.nativeFailures;
+    await f.service.send('org-a', 'chat', 'm2', 'What is a draft?');
+    expect(f.peek().runtime.nativeFailures).toEqual(savedFailures);
+    expect(f.peek().runtime.nativeFailures).toEqual([
+      expect.objectContaining({
+        messageId: 'm1',
+        code: 'ANALYST_MODEL_TIMEOUT',
+        requestId: 'request-recovery',
+      }),
+    ]);
+  });
+  it('allows only one fresh inference after observed network failure and retains both unknown charges', async () => {
+    const f = fixture();
+    await f.start();
+    f.failures.push(
+      { code: 'ANALYST_MODEL_PROVIDER', receipt: 'transport' },
+      { code: 'ANALYST_MODEL_PROVIDER', receipt: 'transport' },
+    );
+    expect((await f.service.advance('org-a', 'chat')).status).toBe('running');
+    expect((await f.service.advance('org-a', 'chat')).error?.code).toBe('ANALYST_MODEL_PROVIDER');
+    await f.service.advance('org-a', 'chat');
+    const turn = f.peek().runtime.nativeTurn as NativeAnalystTurn;
+    expect(turn.stepIndex).toBe(0);
+    expect(turn.recoveryCount).toBe(1);
+    expect(turn.generationFailures?.map((failure) => failure.recoveryScheduled)).toEqual([true, false]);
+    expect(new Set(turn.generationFailures?.map((failure) => failure.generationId)).size).toBe(2);
+    expect(turn.meter.attempts.map((attempt) => attempt.reservationNanoUsd)).toEqual([1000, 1000]);
+    expect(f.modelCalls).toHaveLength(2);
+    expect(f.sql.query).not.toHaveBeenCalled();
+    expect(f.peek().state.messages).toHaveLength(1);
+  });
+  it('admits recovery through the original budget and retains the failed reservation when headroom is insufficient', async () => {
+    const f = fixture();
+    await f.start();
+    f.failures.push({ code: 'ANALYST_MODEL_TIMEOUT', receipt: 'transport' });
+    await f.service.advance('org-a', 'chat');
+    f.edit((record) => {
+      (record.runtime.nativeTurn as NativeAnalystTurn).meter.attempts[0].reservationNanoUsd = 9500;
+    });
+    const state = await f.service.advance('org-a', 'chat');
+    expect(state.error?.code).toBe('ANALYST_BUDGET_LIMIT');
+    expect(f.externalBefore).toHaveBeenCalledTimes(1);
+    expect(f.externalAfter).toHaveBeenCalledTimes(1);
+    expect((f.peek().runtime.nativeTurn as NativeAnalystTurn).meter.attempts).toHaveLength(1);
+    expect((f.peek().runtime.nativeTurn as NativeAnalystTurn).meter.attempts[0].reservationNanoUsd).toBe(
+      9500,
+    );
+  });
+  it.each([
+    ['ANALYST_MODEL_PROVIDER', 'http-error'],
+    ['ANALYST_MODEL_PROVIDER', 'malformed'],
+    ['ANALYST_MODEL_ACCOUNTING', 'transport'],
+    ['ANALYST_MODEL_CANCELLED', 'transport'],
+    ['ANALYST_MODEL_INPUT', 'known'],
+    ['ANALYST_MODEL_BUDGET', 'known'],
+    ['ANALYST_MODEL_TIMEOUT', 'not-dispatched'],
+  ] as const)('does not recover %s with %s evidence', async (code, receipt) => {
+    const f = fixture();
+    await f.start();
+    f.failures.push({ code, receipt });
+    expect((await f.service.advance('org-a', 'chat')).error?.code).toBe(code);
+    await f.service.advance('org-a', 'chat');
+    expect(f.modelCalls).toHaveLength(1);
+    expect((f.peek().runtime.nativeTurn as NativeAnalystTurn).recoveryCount).toBeUndefined();
+  });
+  it('does not recover when the usage callback failed even though a local receipt was saved', async () => {
+    const f = fixture();
+    await f.start();
+    f.failures.push({ code: 'ANALYST_MODEL_TIMEOUT', receipt: 'transport' });
+    f.externalAfter.mockRejectedValueOnce(new AnalystModelError('ANALYST_MODEL_TIMEOUT'));
+    const state = await f.service.advance('org-a', 'chat');
+    expect(state.status).toBe('failed');
+    expect((f.peek().runtime.nativeTurn as NativeAnalystTurn).recoveryCount).toBeUndefined();
+    expect((f.peek().runtime.nativeTurn as NativeAnalystTurn).meter.attempts[0].receipt?.kind).toBe(
+      'unknown',
+    );
+  });
+  it('never repeats generation after a response arrived, even if saving that response reports a typed timeout', async () => {
+    const f = fixture();
+    await f.start();
+    f.outputs.push(calls({ name: 'query_sql', input: { sql: 'SELECT 1' } }));
+    const save = f.store.save;
+    let failed = false;
+    f.store.save = async (org, id, token, record) => {
+      if (!failed && (record.runtime.nativeTurn as NativeAnalystTurn | undefined)?.pendingCalls.length) {
+        failed = true;
+        throw new AnalystModelError('ANALYST_MODEL_TIMEOUT');
+      }
+      await save(org, id, token, record);
+    };
+    expect((await f.service.advance('org-a', 'chat')).status).toBe('failed');
+    await f.service.advance('org-a', 'chat');
+    expect(f.modelCalls).toHaveLength(1);
+    expect(f.sql.query).not.toHaveBeenCalled();
+    expect((f.peek().runtime.nativeTurn as NativeAnalystTurn).recoveryCount).toBeUndefined();
+  });
+  it('honors Stop during an inference failure and a Stop racing the saved recovery state', async () => {
+    for (const raceDuringSave of [false, true]) {
+      const f = fixture();
+      await f.start();
+      f.failures.push({ code: 'ANALYST_MODEL_TIMEOUT', receipt: 'transport' });
+      if (raceDuringSave) {
+        const save = f.store.save;
+        f.store.save = async (org, id, token, record) => {
+          if (record.state.phase === 'Recovering an interrupted model request')
+            await f.service.close(org, id);
+          await save(org, id, token, record);
+        };
+      } else
+        f.setBeforeModel(async () => {
+          await f.service.close('org-a', 'chat');
+        });
+      const state = await f.service.advance('org-a', 'chat');
+      expect(state.status).toBe('closed');
+      await f.service.advance('org-a', 'chat');
+      expect(f.modelCalls).toHaveLength(1);
+      expect(state.messages).toHaveLength(1);
+      expect(f.sql.query).not.toHaveBeenCalled();
+    }
   });
   it('stops a new HTTP attempt when its per-turn reservation would exceed the remaining allowance', async () => {
     const f = fixture();

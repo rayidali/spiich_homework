@@ -154,6 +154,9 @@ export const postgresAnalystStore: AnalystStore = {
         provider === 'daybook'
           ? {
               nativeHistory: current.runtime.nativeHistory ?? [],
+              nativeFailures: Array.isArray(current.runtime.nativeFailures)
+                ? current.runtime.nativeFailures.slice(-20)
+                : [],
               nativeUsageHistory: [
                 ...(Array.isArray(current.runtime.nativeUsageHistory)
                   ? current.runtime.nativeUsageHistory

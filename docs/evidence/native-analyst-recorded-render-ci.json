@@ -1,0 +1,205 @@
+{
+  "version": 1,
+  "kind": "completed-ci-and-recorded-notebook-render-review",
+  "ci": {
+    "runId": 41753292211,
+    "url": "https://github.com/rayidali/spiich_homework/actions/runs/41753292211",
+    "sourceCommit": "4fd301509893c2ba4ca6e57145bd909cabb7658e",
+    "conclusion": "success",
+    "completedBy": "2026-11-04T01:27:51Z",
+    "normalTests": {
+      "passed": 3329,
+      "skipped": 19,
+      "filesPassed": 157
+    },
+    "separateFixtureTests": {
+      "analyst": 11,
+      "completeness": 4,
+      "note": "These 15 tests were skipped in the normal run and then enabled separately. Four adaptive fixture tests remain skipped."
+    },
+    "browser": {
+      "passed": 58,
+      "recordedReplayTestsIncluded": 8,
+      "notAdditionalTo58": true
+    },
+    "compose": {
+      "passed": 3328,
+      "skipped": 20,
+      "overlapsNormalSuite": true,
+      "runtimeLifecycleChecks": 7,
+      "persistence": "Workspace and complete posted entry survived app/database container recreation."
+    },
+    "research": {
+      "typescriptPassed": 30,
+      "typescriptAlreadyIncludedInNormal": true,
+      "pythonPassed": 35,
+      "componentSecurity": {
+        "pass": 57,
+        "fail": 0,
+        "unassessed": 3,
+        "livePromptBehaviorAssessed": false
+      }
+    },
+    "providerCallsInThisCI": 0
+  },
+  "artifact": {
+    "name": "browser-evidence",
+    "id": 13286298213,
+    "sha256": "3d4731740f0387a27eff824142ed6fac38f5ad36cf4f45ca0e3a2a52b53d107c",
+    "digestVerifiedAgainstGitHubMetadata": true
+  },
+  "recordedReplay": {
+    "actualSavedStates": 4,
+    "desktopAndEmulatedMobileScreenshots": 8,
+    "visualReviewCompleted": true,
+    "uiSourceCommit": "4fd301509893c2ba4ca6e57145bd909cabb7658e",
+    "nativeGenerationCohort": "B",
+    "nativeGenerationSource": "f032d70a0c60e1472c8d9e8e5d774c9ed20f0405",
+    "querioGenerationSource": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+    "providerCalls": 0,
+    "liveBackendExercised": false,
+    "physicalDeviceTesting": false,
+    "assertions": "Real application UI renders the actual captured answer/table/chart payloads with local API reads mocked. Browser assertions check charts, exact supporting values, null gaps and no write/network escape."
+  },
+  "screenshots": [
+    {
+      "provider": "daybook",
+      "caseId": "A18",
+      "viewport": "desktop",
+      "artifactPath": "test-results/recorded-analyst-recorded--3971b-otebook-daybook-A18-desktop/daybook-a18-desktop-recorded-replay.png",
+      "sha256": "35f75c0d1d0b321851e68a543bac84992709ea65e967d58b95e8b4a6cc44e133",
+      "visualReview": "PASS_WITH_RECORDED_LIMITATIONS",
+      "observations": [
+        "Individual and cumulative share bars and the full three-row chart-data table are visible. The saved scroll position clips the primary chart title/top margin; its title is asserted in the browser DOM and visible in the mobile capture. The second optional USD amount chart is only partly visible in this screenshot."
+      ],
+      "fixturePath": "tests/browser/fixtures/recorded-analyst/daybook-a18.json",
+      "fixtureSha256": "7928d815d4f5cde15a4ef5f614e4a5fa0e9810bf003a88a830513e6ab521f73e",
+      "generationSource": "f032d70a0c60e1472c8d9e8e5d774c9ed20f0405",
+      "model": "gemini-3.8-flash",
+      "originalCaptureSha256": "7971bfabde81a8302a6e620c23cd579d751a10f298c0fb9e66262abe41a624e0"
+    },
+    {
+      "provider": "daybook",
+      "caseId": "A06",
+      "viewport": "desktop",
+      "artifactPath": "test-results/recorded-analyst-recorded--8cb00-otebook-daybook-A06-desktop/daybook-a06-desktop-recorded-replay.png",
+      "sha256": "c4858e80d26e1ab30306831f3ce59779a8d6582b6c037171656e44542def3eee",
+      "visualReview": "PASS_WITH_RECORDED_LIMITATIONS",
+      "observations": [
+        "Seven bars and four zero-denominator gaps are visible. Percentage ticks and supporting rent/expense totals are legible. Wide source tables remain horizontally scrollable."
+      ],
+      "fixturePath": "tests/browser/fixtures/recorded-analyst/daybook-a06.json",
+      "fixtureSha256": "0598f214f36cf474f34995bc07b41f775d1678f9fd81cbfa810a674453d09b37",
+      "generationSource": "f032d70a0c60e1472c8d9e8e5d774c9ed20f0405",
+      "model": "gemini-3.8-flash",
+      "originalCaptureSha256": "98fc83e954e65eb9a5e1e8f2d20d5d5065bcfaf1d658783663debb0e6156478a"
+    },
+    {
+      "provider": "daybook",
+      "caseId": "A06",
+      "viewport": "mobile",
+      "artifactPath": "test-results/recorded-analyst-recorded-actual-notebook-daybook-A06-mobile/daybook-a06-mobile-recorded-replay.png",
+      "sha256": "0d5f48aa3d0c395fdadbe4669f4c0f21e96ca1921f923e28f3fa24914ac1448b",
+      "visualReview": "PASS_WITH_RECORDED_LIMITATIONS",
+      "observations": [
+        "The notebook tab and all eleven month positions fit the phone viewport; seven bars and four gaps render. Axis text is small at this width; the expandable data table provides exact values."
+      ],
+      "fixturePath": "tests/browser/fixtures/recorded-analyst/daybook-a06.json",
+      "fixtureSha256": "0598f214f36cf474f34995bc07b41f775d1678f9fd81cbfa810a674453d09b37",
+      "generationSource": "f032d70a0c60e1472c8d9e8e5d774c9ed20f0405",
+      "model": "gemini-3.8-flash",
+      "originalCaptureSha256": "98fc83e954e65eb9a5e1e8f2d20d5d5065bcfaf1d658783663debb0e6156478a"
+    },
+    {
+      "provider": "daybook",
+      "caseId": "A18",
+      "viewport": "mobile",
+      "artifactPath": "test-results/recorded-analyst-recorded-actual-notebook-daybook-A18-mobile/daybook-a18-mobile-recorded-replay.png",
+      "sha256": "2dc0c2bbccfb4a61d8fa6746f2503eabb606c1e091aad479833aa605e101e5c3",
+      "visualReview": "PASS_WITH_RECORDED_LIMITATIONS",
+      "observations": [
+        "Individual and cumulative bars, title and legend fit. The wide underlying table scrolls horizontally and vertically; this viewport shows only its first row."
+      ],
+      "fixturePath": "tests/browser/fixtures/recorded-analyst/daybook-a18.json",
+      "fixtureSha256": "7928d815d4f5cde15a4ef5f614e4a5fa0e9810bf003a88a830513e6ab521f73e",
+      "generationSource": "f032d70a0c60e1472c8d9e8e5d774c9ed20f0405",
+      "model": "gemini-3.8-flash",
+      "originalCaptureSha256": "7971bfabde81a8302a6e620c23cd579d751a10f298c0fb9e66262abe41a624e0"
+    },
+    {
+      "provider": "querio",
+      "caseId": "A06",
+      "viewport": "desktop",
+      "artifactPath": "test-results/recorded-analyst-recorded-actual-notebook-querio-A06-desktop/querio-a06-desktop-recorded-replay.png",
+      "sha256": "bb4350bb3178a2db1c4455859d6f97b9f82b9fa28bb89360dbc053105b76cd22",
+      "visualReview": "PASS_WITH_RECORDED_LIMITATIONS",
+      "observations": [
+        "Seven bars and four gaps render correctly. Title and axis label explain percentages, although numeric ticks omit the percent suffix. The captured supporting table literally displays nan for an undefined ratio; its chart value is null and the prose explains undefined months."
+      ],
+      "fixturePath": "tests/browser/fixtures/recorded-analyst/querio-a06.json",
+      "fixtureSha256": "019dd47e4d2c6eca2bc29152f57ccc8bb22568dfec21fac3ed4a8fcd9a4ca21b",
+      "generationSource": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+      "model": "claude-sonnet-5-5",
+      "originalCaptureSha256": "fdd5c76813bc91b47b74e2b9c4ae4af3e010a8f5672151f528a967f5233bfb70"
+    },
+    {
+      "provider": "querio",
+      "caseId": "A06",
+      "viewport": "mobile",
+      "artifactPath": "test-results/recorded-analyst-recorded-actual-notebook-querio-A06-mobile/querio-a06-mobile-recorded-replay.png",
+      "sha256": "c8aff479527389fc96cafcbed83be4f494a184a21858bd20436ef5d3447b423d",
+      "visualReview": "PASS_WITH_RECORDED_LIMITATIONS",
+      "observations": [
+        "The monthly chart fits the notebook panel with the four gaps preserved; supporting rows remain scrollable. Small axis text has an expandable exact-data table."
+      ],
+      "fixturePath": "tests/browser/fixtures/recorded-analyst/querio-a06.json",
+      "fixtureSha256": "019dd47e4d2c6eca2bc29152f57ccc8bb22568dfec21fac3ed4a8fcd9a4ca21b",
+      "generationSource": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+      "model": "claude-sonnet-5-5",
+      "originalCaptureSha256": "fdd5c76813bc91b47b74e2b9c4ae4af3e010a8f5672151f528a967f5233bfb70"
+    },
+    {
+      "provider": "querio",
+      "caseId": "A18",
+      "viewport": "desktop",
+      "artifactPath": "test-results/recorded-analyst-recorded-actual-notebook-querio-A18-desktop/querio-a18-desktop-recorded-replay.png",
+      "sha256": "3b5dc17ff6a186667146f490e4caca8546347168ff94a550950a3bdca80ce28e",
+      "visualReview": "PASS_WITH_RECORDED_LIMITATIONS",
+      "observations": [
+        "The three individual-share bars and exact-data table render. The captured prose/table still show the known incorrect 82.96% and 88.42% cumulative totals; rendering success does not correct these financial errors."
+      ],
+      "fixturePath": "tests/browser/fixtures/recorded-analyst/querio-a18.json",
+      "fixtureSha256": "3b5fa1c8ef50a423e82404be04e40fca3ac81d6dc5dfedd7f74dfec3d8b77c12",
+      "generationSource": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+      "model": "claude-sonnet-5-5",
+      "originalCaptureSha256": "39bd1caef136d21e16dbff93e11310609058c1dd02d6a566e428e26c7b52e16b"
+    },
+    {
+      "provider": "querio",
+      "caseId": "A18",
+      "viewport": "mobile",
+      "artifactPath": "test-results/recorded-analyst-recorded-actual-notebook-querio-A18-mobile/querio-a18-mobile-recorded-replay.png",
+      "sha256": "9bc5e1411b76b7a86457bf86d631e3aadfb3366746dbfc275321078cd2572aed",
+      "visualReview": "PASS_WITH_RECORDED_LIMITATIONS",
+      "observations": [
+        "The individual-share chart, wrapped title and legend fit the phone panel. The known 88.42 cumulative table value remains visibly unchanged."
+      ],
+      "fixturePath": "tests/browser/fixtures/recorded-analyst/querio-a18.json",
+      "fixtureSha256": "3b5fa1c8ef50a423e82404be04e40fca3ac81d6dc5dfedd7f74dfec3d8b77c12",
+      "generationSource": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+      "model": "claude-sonnet-5-5",
+      "originalCaptureSha256": "39bd1caef136d21e16dbff93e11310609058c1dd02d6a566e428e26c7b52e16b"
+    }
+  ],
+  "financialLimitations": [
+    "Native B requested amounts/ratios were correct, but its separate financial review found an A07 follow-up date-window drift and an A05 unsupported settlement assertion. These render tests do not repair those claims.",
+    "Querio A18 individual-share chart is correct, while cumulative values 82.96/88.42 should be 82.97/88.43; Querio A07 follow-up also rounded a monthly-average ratio incorrectly.",
+    "Native and Querio use different models; this evidence does not isolate model versus architecture effects or establish universal superiority.",
+    "Native C generation at source 4fd3015 is a separate pending cohort; these B screenshots must not be relabeled as C."
+  ],
+  "evidenceLimitations": [
+    "The list/GitHub Playwright reporter did not persist the JSON body attachments in this artifact. Provenance is instead bound through the reviewed source commit, committed fixtures and hashes in this receipt.",
+    "All saved chart DOMs were checked, but the eight screenshots target the primary chart. The optional second native A18 amount chart has no separate full screenshot.",
+    "Small mobile chart labels and wide scrollable tables remain usability limitations; no screenshot shows the complete notebook at once."
+  ]
+}

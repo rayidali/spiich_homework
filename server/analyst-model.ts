@@ -99,6 +99,8 @@ export type AnalystModelReceipt = AnalystModelAttempt &
         kind: 'unknown';
         reason: 'transport-error' | 'missing-usage' | 'invalid-usage';
         httpStatus?: number;
+        /** True only after invoking the HTTP transport, not merely reserving its cost. */
+        transportStarted?: boolean;
       }
   );
 type ProviderFetch = NonNullable<NonNullable<Parameters<typeof createGoogleGenerativeAI>[0]>['fetch']>;
@@ -301,13 +303,15 @@ export function createNativeModel(options: NativeModelOptions): LanguageModel {
       }
     };
     let response: Response;
+    let transportStarted = false;
     try {
       init?.signal?.throwIfAborted();
       // The real fetch obeys init.signal. If a transport returns a received
       // response during cancellation, finish its accounting before returning.
+      transportStarted = true;
       response = await transport(input, init);
     } catch {
-      await record({ ...attempt, kind: 'unknown', reason: 'transport-error' });
+      await record({ ...attempt, kind: 'unknown', reason: 'transport-error', transportStarted });
       if (init?.signal?.aborted) throw init.signal.reason;
       return fail('ANALYST_MODEL_PROVIDER');
     }
@@ -451,6 +455,9 @@ export async function executeAnalystStep(input: {
     };
   } catch (error) {
     if (input.signal?.aborted) return fail('ANALYST_MODEL_CANCELLED');
+    // A slow accounting/admission callback is not a retryable transport timeout.
+    // Preserve that known safe cause even if the inference deadline also elapsed.
+    if (error instanceof AnalystModelError && error.code !== 'ANALYST_MODEL_PROVIDER') throw error;
     if (deadline.aborted) return fail('ANALYST_MODEL_TIMEOUT');
     if (error instanceof AnalystModelError) throw error;
     return fail('ANALYST_MODEL_PROVIDER');

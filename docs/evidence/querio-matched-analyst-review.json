@@ -1,0 +1,409 @@
+{
+  "version": 1,
+  "status": "reviewed-with-recorded-browser-rendering-hosted-check-separate",
+  "modelId": "claude-sonnet-5-5",
+  "datasource": "daybook-acceptance-20261104",
+  "referenceHashes": {
+    "fixture.json": "8cae13abd47a2fd4d87b44900830de5a629efbf2011f5b58c79cf1ad41dbe044",
+    "expected.json": "690b70d1100795916809f3adfd4c162a9c57ed033244e53333fd5711d7022f13",
+    "cases.json": "5360063b7dd0c745636112aa1d08e014ac982447c6ae13bbc7bb3d198ef82400",
+    "shared-context.md": "08fd4cf05899e79cfdc4f301d32dc4b36967e3bbd482d932df5c76941634b8b3",
+    "oracle.py": "c4fa4e69e98664188ca4b7bb1113cca3157b6f41f837c72c1ee9fb7444c05ac2"
+  },
+  "turns": [
+    {
+      "caseId": "A01",
+      "turn": 1,
+      "artifact": "a01-turn-1.json",
+      "artifactSha256": "3e3d6c70eff8a3fd6d97373d7bf6e46ce8a935801eb42d4c884466df76741398",
+      "sourceAndArithmetic": "pass",
+      "meaning": "pass",
+      "delivery": "saved answer and supporting table outputs present; no chart requested",
+      "boundaries": "fixed-scope read-only datasource; captured before/after six-table fingerprint unchanged; no write or cross-business evidence in saved notebook",
+      "answerSha256": "e4360aa168359e35fbe3aef8e919f7476039b932be3c49308049fbf2b2fa2a1b",
+      "reviewedRequiredFacts": ["cash.total", "cash.accounts"],
+      "provisionalPass": true
+    },
+    {
+      "caseId": "A01",
+      "turn": 2,
+      "artifact": "a01-turn-2.json",
+      "artifactSha256": "aed2406ad38dfe008048de5e05e58356abb7d6292b469f082edeafadd0eae878",
+      "sourceAndArithmetic": "pass",
+      "meaning": "pass",
+      "delivery": "saved answer and supporting table outputs present; no chart requested",
+      "boundaries": "fixed-scope read-only datasource; captured before/after six-table fingerprint unchanged; no write or cross-business evidence in saved notebook",
+      "answerSha256": "367867d2ea18faabe6511a11aeac66e1f16c39e8b0a59347a3e3b22211a53c35",
+      "reviewedRequiredFacts": ["cash.after_rent_draft"],
+      "provisionalPass": true
+    },
+    {
+      "caseId": "A05",
+      "turn": 1,
+      "artifact": "a05-turn-1.json",
+      "artifactSha256": "6cb8a9719f211a1df333f8e9d1837ea93dc0a0e8fba813298f9db120fa0fdf04",
+      "sourceAndArithmetic": "pass",
+      "meaning": "pass",
+      "delivery": "saved answer and supporting table outputs present; no chart requested",
+      "boundaries": "fixed-scope read-only datasource; captured before/after six-table fingerprint unchanged; no write or cross-business evidence in saved notebook",
+      "answerSha256": "3d7dcb76c7349dc4d3b8fa353976795115a4955f2dbec9bf816c688e883b064a",
+      "reviewedRequiredFacts": ["figma.nov3"],
+      "provisionalPass": true
+    },
+    {
+      "caseId": "A06",
+      "turn": 1,
+      "artifact": "a06-turn-1.json",
+      "artifactSha256": "fdd5c76813bc91b47b74e2b9c4ae4af3e010a8f5672151f528a967f5233bfb70",
+      "sourceAndArithmetic": "pass",
+      "meaning": "pass",
+      "delivery": "answer, table and requested chart rendered from actual captured state in application desktop/mobile replay",
+      "boundaries": "fixed-scope read-only datasource; captured before/after six-table fingerprint unchanged; no write or cross-business evidence in saved notebook",
+      "reviewedRequiredFacts": ["rent.monthly_shares"],
+      "provisionalPass": true,
+      "requestedChartDataCorrect": true,
+      "requestedChartRenderedVerified": true
+    },
+    {
+      "caseId": "A07",
+      "turn": 1,
+      "artifact": "a07-turn-1.json",
+      "artifactSha256": "97df88c2e7ac46e8b9ec52e8e2456f3d5c60f1baad5a65ea4ea21b38507971ad",
+      "sourceAndArithmetic": "pass",
+      "meaning": "pass",
+      "delivery": "saved answer plus eight-account supporting table present; no chart requested",
+      "boundaries": "fixed-scope read-only datasource; captured before/after six-table fingerprint unchanged; no write or cross-business evidence in saved notebook",
+      "reviewedRequiredFacts": ["rent.annual_share", "spend.total"],
+      "provisionalPass": true
+    },
+    {
+      "caseId": "A07",
+      "turn": 2,
+      "artifact": "a07-turn-2.json",
+      "artifactSha256": "1f5674d153ccce1dc4d1fe59542a30e55ca8d6c455f8bb9fcabc2c2222e26438",
+      "sourceAndArithmetic": "fail: averages rounded monthly ratios, giving61.40 instead of correctly rounded61.39",
+      "meaning": "fail: silently changes YTD to completed Jan-Oct, omitting November zero-denominator evidence; seven defined-month count remains correct",
+      "delivery": "saved answer and ten-month table present; no chart requested",
+      "boundaries": "fixed-scope read-only datasource; captured before/after six-table fingerprint unchanged; no write or cross-business evidence in saved notebook",
+      "reviewedRequiredFacts": ["rent.mean_monthly_share"],
+      "provisionalPass": false,
+      "failureMagnitudePercentagePoints": "0.01",
+      "unroundedIndependentMeanPercent": "61.39334879773201992832366983",
+      "roundedMonthlyInputMeanPercent": "61.39571428571428571428571429"
+    },
+    {
+      "caseId": "A11",
+      "turn": 1,
+      "artifact": "a11-turn-1.json",
+      "artifactSha256": "9dc163db14fb236d01561e6e9b1d54dc631397e8e0834e3d2d6522b7292eabe8",
+      "sourceAndArithmetic": "pass",
+      "meaning": "pass",
+      "delivery": "saved answer and line-level/currency tables present; no chart requested",
+      "boundaries": "fixed-scope read-only datasource; captured before/after six-table fingerprint unchanged; no write or cross-business evidence in saved notebook",
+      "reviewedRequiredFacts": ["travel.native", "travel.base"],
+      "provisionalPass": true
+    },
+    {
+      "caseId": "A18",
+      "turn": 1,
+      "artifact": "a18-turn-1.json",
+      "artifactSha256": "39bd1caef136d21e16dbff93e11310609058c1dd02d6a566e428e26c7b52e16b",
+      "sourceAndArithmetic": "fail: sums rounded shares for cumulative82.96/88.42 instead of raw cumulative82.97/88.43",
+      "meaning": "pass: correct posted net vendor expense population, ordering, refunds, denominator and period",
+      "delivery": "answer, table and requested chart rendered from actual captured state in application desktop/mobile replay",
+      "boundaries": "fixed-scope read-only datasource; captured before/after six-table fingerprint unchanged; no write or cross-business evidence in saved notebook",
+      "reviewedRequiredFacts": ["vendors.top_three", "spend.total"],
+      "provisionalPass": false,
+      "requestedChartDataCorrect": true,
+      "requestedChartRenderedVerified": true,
+      "failureMagnitudePercentagePoints": "0.01",
+      "expectedCumulativePercent": ["53.02", "82.97", "88.43"],
+      "actualCumulativePercent": ["53.02", "82.96", "88.42"]
+    }
+  ],
+  "tableChecks": [
+    {
+      "artifact": "a01-turn-1.json",
+      "cellId": "RL5f96Vi",
+      "rowsChecked": 2,
+      "allColumnsChecked": true
+    },
+    {
+      "artifact": "a01-turn-1.json",
+      "cellId": "QgOAKF7Q",
+      "rowsChecked": 1,
+      "allColumnsChecked": true
+    },
+    {
+      "artifact": "a01-turn-1.json",
+      "cellId": "sLSKK8Hj",
+      "rowsChecked": 2,
+      "allColumnsChecked": true
+    },
+    {
+      "artifact": "a01-turn-2.json",
+      "cellId": "rm8DDva5",
+      "rowsChecked": 1,
+      "allColumnsChecked": true
+    },
+    {
+      "artifact": "a05-turn-1.json",
+      "cellId": "a2GABZwz",
+      "rowsChecked": 2,
+      "allColumnsChecked": true
+    },
+    {
+      "artifact": "a05-turn-1.json",
+      "cellId": "3fHITtWt",
+      "rowsChecked": 1,
+      "allColumnsChecked": true
+    },
+    {
+      "artifact": "a06-turn-1.json",
+      "cellId": "P_30PdU_",
+      "rowsChecked": 11,
+      "allColumnsChecked": true
+    },
+    {
+      "artifact": "a07-turn-1.json",
+      "cellId": "vrTCjXMO",
+      "rowsChecked": 8,
+      "allColumnsChecked": true
+    },
+    {
+      "artifact": "a07-turn-2.json",
+      "cellId": "c_duiJmi",
+      "rowsChecked": 10,
+      "allColumnsChecked": true
+    },
+    {
+      "artifact": "a11-turn-1.json",
+      "cellId": "7OoWiDy0",
+      "rowsChecked": 3,
+      "allColumnsChecked": true
+    },
+    {
+      "artifact": "a11-turn-1.json",
+      "cellId": "8CoHyoqc",
+      "rowsChecked": 3,
+      "allColumnsChecked": true
+    },
+    {
+      "artifact": "a18-turn-1.json",
+      "cellId": "vv93RDXW",
+      "rowsChecked": 10,
+      "allColumnsChecked": true
+    },
+    {
+      "artifact": "a18-turn-1.json",
+      "cellId": "75wlG5ej",
+      "rowsChecked": 3,
+      "allColumnsChecked": true
+    }
+  ],
+  "claimReview": [
+    {
+      "caseId": "A01",
+      "turn": 1,
+      "required": "Posted cash23427.65USD through2026-11-03; Operating bank21747.65USD and Euro bank1400EUR carried1680USD, including opening history.",
+      "additional": "One excluded draft reduces cash1000USD; two future entries net-150USD. Volunteered all-in scenario23427.65-1000-150=22277.65USD is correct and labeled as excluded/hypothetical.",
+      "meaning": "Explicitly says book balance, no bank statement/reconciliation available, saved exchange rates rather than current rates.",
+      "scope": "SQL uses ASSET cash designation, POSTED, inclusive business date and no lower date bound; all queries pin the dedicated fixture."
+    },
+    {
+      "caseId": "A01",
+      "turn": 2,
+      "required": "Rent-only scenario23427.65-1000=22427.65USD; stated hypothetical and nothing posted.",
+      "additional": "Operating bank21747.65-1000=20747.65USD; Euro savedUSD1680 unchanged. Draft52 metadata matches. Figma/card and Alloy/payable drafts have no cash account; leaving them unposted has zero cash effect. Notebook adds November rent expense rises1000, matching the expense debit.",
+      "meaning": "The phrase rent is paid from Operating bank appears inside a scenario explanation; it is not a claim the draft was actually posted. Euro1680 is the USD carrying value established in the same notebook, not a claim of1680EUR."
+    },
+    {
+      "caseId": "A05",
+      "turn": 1,
+      "required": "No posted Figma entry Nov3; draft53 is60USD, pending, recurring, Software debit and card-liability credit.",
+      "additional": "Even posting this draft would not prove a bank payment; supported by the liability credit and missing bank-feed evidence.",
+      "meaning": "No unexplained zero and no invented paid/posted action. Search table intentionally shows nearby dates but returned only the exact matching Nov3draft; separate posted-total query uses Nov3 exactly.",
+      "presentationCaution": "Querio renders missing posted_at as NaT in the table. This is ugly technical text, not an asserted posted timestamp; draft status and prose remain clear."
+    },
+    {
+      "caseId": "A06",
+      "turn": 1,
+      "required": "All11January-November buckets have correct rent, total, other expenses and monthly percentages. Four zero-denominator months are undefined; November endsNov3.",
+      "additional": "All volunteered annual/mean figures correct: rent8500, expenses16030.35, weighted53.02%, mean61.39% across7definedmonths. October2500=regular1000+extra1500datedOct24. Excluded drafts1000/60/1200 and future rent400 match exact records.",
+      "scope": "The answer leads with an unrequested annual ratio, but supplies the requested monthly table and chart configuration without changing denominators or hiding quiet months. This is a presentation preference, not a question-scope failure.",
+      "presentationCaution": "Table encodes undefined as nan; prose explicitly explains it and chart values are null. The final answer acknowledges correcting its earlier notebook summary; final saved values are correct. Preserve any earlier provider attempts, but grade this final turn separately from hidden intermediate work."
+    },
+    {
+      "caseId": "A07",
+      "turn": 1,
+      "required": "WeightedYTD rent8500/expenses16030.35 rounds53.02%; all account totals, line counts and shares checked independently.",
+      "additional": "EURTravel savedUSD350 is included, not a current conversion; Utilities0 and zero matching lines; all3drafts excluded.",
+      "meaning": "Clearly fixed Jan1-Nov3, posted net expenses and USD carrying values. No averaging of monthly ratios used for this annual question."
+    },
+    {
+      "caseId": "A07",
+      "turn": 2,
+      "required": "Seven defined months correctly counted; unrounded monthly ratios mean61.393349%, which rounds61.39%. Answer61.40% instead averages the already-rounded table values. This is small but wrong at its claimed precision.",
+      "additional": "All ten displayed month amounts and individual ratios are correct; total rent8500 and expenses16030.35 correct. September34.60%,October43.82% correct.",
+      "scope": "Question retains this-year-to-date context; answer silently uses completed Jan-Oct and says November omitted because partial. November actually has zero expenses, so the frozen requirement is four undefined months, not just April/July/August. The changed scope happens not to change seven defined ratios for this fixture.",
+      "interpretation": "Do not claim this is a large monetary error or fabricated money. It is a rounding-order error and missing requested scope evidence; keep strict pass separate from useful partial answer."
+    },
+    {
+      "caseId": "A11",
+      "turn": 1,
+      "required": "Both Travel accounts included: EUR300 over2charges savedUSD350 plus USD80 over1charge =USD430. Original expense currency is preserved although the EUR100 charge was paid from USD bank.",
+      "additional": "All3line dates/numbers/descriptions/counterparties/accountcodes/currencies/amounts/rates match fixture. EUR100*1.1=110 andEUR200*1.2=240; no current or common FXrate. No draftTravel orTravelcredits in requested scope, matching claim.",
+      "meaning": "Posted net expenses throughNov3 explicitly stated. Native amounts not directly added. SavedUSDbase total is precise."
+    },
+    {
+      "caseId": "A18",
+      "turn": 1,
+      "required": "Correct vendors/amounts/shares: Hudson8500/53.02%,Alloy4800/29.94%,Stationers875/5.46%, denominator16030.35. Cumulative2/3 wrongly82.96/88.42; raw cumulativeamount/denominator correctly rounds82.97/88.43.",
+      "additional": "Stationers credits75 and100, NorthMedia800/4.99%, all3draftsexcluded, about83% for top2, and charttitlecumulative53.0/83.0/88.4 all correct at stated precision.",
+      "scope": "All10vendoramounts checked, refunds/reversals included, postedYTD, originalcounterparty used, no revenue or secondbusiness.",
+      "interpretation": "Chart bars show correct individual shares. Failure is cumulative rounding in requested answer/table/notes, not an incorrect chart or a large money error."
+    }
+  ],
+  "expectedScenarioValues": {
+    "currentCashUsd": "23427.65",
+    "rentOnlyCashUsd": "22427.65",
+    "includingRentAndFutureCashUsd": "22277.65"
+  },
+  "limits": [
+    "All eight saved turns reviewed, with no reviewer provider/network calls. This is independent code/Decimal checking, not independent human-accountant certification.",
+    "Six turns meet financial facts/meaning; A07followup and A18 have0.01percentage-point rounding-order errors. A07also changes YTD scope. Small errors remain strict failures.",
+    "A06/A18 financially correct chart data/config passed recorded desktop/mobile rendering and visual review. QuerioA18 cumulative-table/prose errors remain failures despite correct individual-share bars.",
+    "Captured before/after database fingerprint unchanged; all six closure receipts bind closed compute resources. Model cost in dollars is not verified from39observed responses.",
+    "All displayed table values inspected; provider null-as-NaT/nan remains presentation noise. No expected answer/rubric was supplied to the model by this reviewer."
+  ],
+  "cohortScore": {
+    "conversations": "4/6",
+    "turns": "6/8",
+    "requestedCharts": "2/2",
+    "deliveryEvidence": "source-bound recorded application replay; separate live hosted verification is not claimed"
+  },
+  "modelCalls": 0,
+  "networkCalls": 0,
+  "requestedChartsDataAvailable": 2,
+  "requestedChartsRenderVerified": 2,
+  "captureSummarySha256": "44fc0486b51e4262a49fdb63927a68fac934f9a266b5013a928d842f22c06d61",
+  "sourceCommit": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+  "fingerprintBefore": "1d8f3425713aae72c4c0665f552b88dc728fef069d773a43826098b9f5b2d67f",
+  "fingerprintAfter": "1d8f3425713aae72c4c0665f552b88dc728fef069d773a43826098b9f5b2d67f",
+  "observedAssistantResponses": 39,
+  "closureReceiptHashes": {
+    "a01-closure.json": "4a96a4d6b409a8a56b0d535d9d716ac530959abe2630899b2beebbaf26156381",
+    "a05-closure.json": "218868f4424d44ee842034c364d529105a9fb4c1a8223fb23e71db425d5f1903",
+    "a06-closure.json": "68e7cd39799b4ad756f82d1a26863fe2e609844d1d7147e5c562412c0e5721b3",
+    "a07-closure.json": "1bd3a93b23ae3a982aee6dfa757efe5712464f71e58789679d38e24704ac386b",
+    "a11-closure.json": "759feec86e83bc0d6c07928c4433eb22f014437ad8360c1050212575f11b2e4f",
+    "a18-closure.json": "cac666ac63d0eb41a6e2556ad941eb26af8e44b712ba3ac27b6f0f67ac0d776b"
+  },
+  "financialResults": {
+    "completeConversations": 6,
+    "plannedConversations": 6,
+    "completedTurns": 8,
+    "plannedTurns": 8,
+    "financiallyCorrectTurns": 6,
+    "financiallyCorrectConversations": 4,
+    "strictPassesAlreadyFullyReviewedWithoutRequestedChart": 5,
+    "strictFailures": 2,
+    "strictTurnPendingChartRender": 0,
+    "correctRequestedChartData": 2,
+    "requestedCharts": 2,
+    "actualChartRenderVerified": 2
+  },
+  "renderEvidence": {
+    "receiptSha256": "c987e9f1d23f871d76f4e8a1632062c80d28af2e4dbca51dc291980a884b6402",
+    "ciRunId": 41753292211,
+    "uiSourceCommit": "4fd301509893c2ba4ca6e57145bd909cabb7658e",
+    "generationSourceCommit": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+    "kind": "actual-captured-notebook-replay-in-real-application-UI",
+    "requestedChartsRendered": 2,
+    "viewports": ["desktop", "emulated-mobile"],
+    "actualLiveBackendChecked": false,
+    "providerCalls": 0,
+    "physicalDeviceTesting": false,
+    "screenshots": [
+      {
+        "provider": "querio",
+        "caseId": "A06",
+        "viewport": "desktop",
+        "artifactPath": "test-results/recorded-analyst-recorded-actual-notebook-querio-A06-desktop/querio-a06-desktop-recorded-replay.png",
+        "sha256": "bb4350bb3178a2db1c4455859d6f97b9f82b9fa28bb89360dbc053105b76cd22",
+        "visualReview": "PASS_WITH_RECORDED_LIMITATIONS",
+        "observations": [
+          "Seven bars and four gaps render correctly. Title and axis label explain percentages, although numeric ticks omit the percent suffix. The captured supporting table literally displays nan for an undefined ratio; its chart value is null and the prose explains undefined months."
+        ],
+        "fixturePath": "tests/browser/fixtures/recorded-analyst/querio-a06.json",
+        "fixtureSha256": "019dd47e4d2c6eca2bc29152f57ccc8bb22568dfec21fac3ed4a8fcd9a4ca21b",
+        "generationSource": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+        "model": "claude-sonnet-5-5",
+        "originalCaptureSha256": "fdd5c76813bc91b47b74e2b9c4ae4af3e010a8f5672151f528a967f5233bfb70"
+      },
+      {
+        "provider": "querio",
+        "caseId": "A06",
+        "viewport": "mobile",
+        "artifactPath": "test-results/recorded-analyst-recorded-actual-notebook-querio-A06-mobile/querio-a06-mobile-recorded-replay.png",
+        "sha256": "c8aff479527389fc96cafcbed83be4f494a184a21858bd20436ef5d3447b423d",
+        "visualReview": "PASS_WITH_RECORDED_LIMITATIONS",
+        "observations": [
+          "The monthly chart fits the notebook panel with the four gaps preserved; supporting rows remain scrollable. Small axis text has an expandable exact-data table."
+        ],
+        "fixturePath": "tests/browser/fixtures/recorded-analyst/querio-a06.json",
+        "fixtureSha256": "019dd47e4d2c6eca2bc29152f57ccc8bb22568dfec21fac3ed4a8fcd9a4ca21b",
+        "generationSource": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+        "model": "claude-sonnet-5-5",
+        "originalCaptureSha256": "fdd5c76813bc91b47b74e2b9c4ae4af3e010a8f5672151f528a967f5233bfb70"
+      },
+      {
+        "provider": "querio",
+        "caseId": "A18",
+        "viewport": "desktop",
+        "artifactPath": "test-results/recorded-analyst-recorded-actual-notebook-querio-A18-desktop/querio-a18-desktop-recorded-replay.png",
+        "sha256": "3b5dc17ff6a186667146f490e4caca8546347168ff94a550950a3bdca80ce28e",
+        "visualReview": "PASS_WITH_RECORDED_LIMITATIONS",
+        "observations": [
+          "The three individual-share bars and exact-data table render. The captured prose/table still show the known incorrect 82.96% and 88.42% cumulative totals; rendering success does not correct these financial errors."
+        ],
+        "fixturePath": "tests/browser/fixtures/recorded-analyst/querio-a18.json",
+        "fixtureSha256": "3b5fa1c8ef50a423e82404be04e40fca3ac81d6dc5dfedd7f74dfec3d8b77c12",
+        "generationSource": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+        "model": "claude-sonnet-5-5",
+        "originalCaptureSha256": "39bd1caef136d21e16dbff93e11310609058c1dd02d6a566e428e26c7b52e16b"
+      },
+      {
+        "provider": "querio",
+        "caseId": "A18",
+        "viewport": "mobile",
+        "artifactPath": "test-results/recorded-analyst-recorded-actual-notebook-querio-A18-mobile/querio-a18-mobile-recorded-replay.png",
+        "sha256": "9bc5e1411b76b7a86457bf86d631e3aadfb3366746dbfc275321078cd2572aed",
+        "visualReview": "PASS_WITH_RECORDED_LIMITATIONS",
+        "observations": [
+          "The individual-share chart, wrapped title and legend fit the phone panel. The known 88.42 cumulative table value remains visibly unchanged."
+        ],
+        "fixturePath": "tests/browser/fixtures/recorded-analyst/querio-a18.json",
+        "fixtureSha256": "3b5fa1c8ef50a423e82404be04e40fca3ac81d6dc5dfedd7f74dfec3d8b77c12",
+        "generationSource": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+        "model": "claude-sonnet-5-5",
+        "originalCaptureSha256": "39bd1caef136d21e16dbff93e11310609058c1dd02d6a566e428e26c7b52e16b"
+      }
+    ],
+    "limitations": [
+      "The list/GitHub Playwright reporter did not persist the JSON body attachments in this artifact. Provenance is instead bound through the reviewed source commit, committed fixtures and hashes in this receipt.",
+      "All saved chart DOMs were checked, but the eight screenshots target the primary chart. The optional second native A18 amount chart has no separate full screenshot.",
+      "Small mobile chart labels and wide scrollable tables remain usability limitations; no screenshot shows the complete notebook at once."
+    ]
+  },
+  "scores": {
+    "plannedConversations": 6,
+    "strictConversationPasses": 4,
+    "plannedTurns": 8,
+    "strictTurnPasses": 6,
+    "deliveredAnswers": 8,
+    "requestedCharts": 2,
+    "requestedChartsDelivered": 2,
+    "financiallyCorrectTurns": 6
+  }
+}

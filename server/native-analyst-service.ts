@@ -9,6 +9,7 @@ import { analystPublicationSchema, buildAnalystNotebook, AnalystNotebookError } 
 import {
   createNativeModel,
   executeAnalystStep,
+  AnalystModelError,
   type AnalystModelAttempt,
   type AnalystModelReceipt,
   type AnalystStepResult,
@@ -23,11 +24,23 @@ export const NATIVE_ANALYST_LIMITS = Object.freeze({
   resultBytes: 1_000_000,
   historyBytes: 180_000,
   previewBytes: 24_000,
-  modelMs: 30_000,
+  modelMs: 40_000,
   sqlMs: 12_000,
+  inferenceRecoveries: 1,
 });
 export type NativeAnalystSettings = { apiKey: string; modelId?: string; turnBudgetNanoUsd: number };
 export type NativeAnalystMeter = { attempts: (AnalystModelAttempt & { receipt?: AnalystModelReceipt })[] };
+export type NativeAnalystFailure = {
+  generationId: string;
+  messageId: string;
+  occurredAt: string;
+  code: string;
+  elapsedMs: number;
+  attemptIds: string[];
+  attempts: { attemptId: string; receiptKind: string; httpStatus?: number; transportStarted?: boolean }[];
+  recoveryScheduled: boolean;
+  requestId?: string;
+};
 type ToolCall = AnalystStepResult['toolCalls'][number];
 export type NativeAnalystTurn = {
   messageId: string;
@@ -38,10 +51,13 @@ export type NativeAnalystTurn = {
   pendingGeneration?: string;
   meter: NativeAnalystMeter;
   published?: boolean;
+  recoveryCount?: number;
+  generationFailures?: NativeAnalystFailure[];
 };
 type Runtime = Record<string, unknown> & {
   nativeHistory?: ModelMessage[];
   nativeTurn?: NativeAnalystTurn;
+  nativeFailures?: NativeAnalystFailure[];
   closeRequested?: boolean;
 };
 export type NativeAnalystOptions = {
@@ -55,7 +71,15 @@ export type NativeAnalystOptions = {
   context?: string;
   beforeDispatch?: (attempt: AnalystModelAttempt) => Promise<void>;
   afterResponse?: (receipt: AnalystModelReceipt) => Promise<void>;
-  diagnostic?: (event: { conversationId: string; stage: string; code?: string; requestId?: string }) => void;
+  diagnostic?: (event: {
+    conversationId: string;
+    stage: string;
+    code?: string;
+    requestId?: string;
+    generationId?: string;
+    elapsedMs?: number;
+    failure?: NativeAnalystFailure;
+  }) => void;
 };
 
 const sourceLabel = 'Daybook live books';
@@ -100,6 +124,8 @@ Inspect_schema explains the actual analytics views and business date/timezone. C
 Work toward the requested answer, not an exhaustive audit. Reuse known schema and account identities instead of checking them repeatedly. Plan the final result columns and use focused aggregate queries, CTEs or windows to calculate the requested figures together. You may request up to four independent tools in one generation; they execute sequentially. Investigate a discrepancy or ambiguity when it could materially change the answer, including a missing merchant's draft records, but do not expand a simple question into unrelated future transactions, templates or optional breakdowns. Once the evidence answers the question, publish it. Lead with a short direct answer; add only the useful supporting table/chart, assumptions and limitations. The server supplies your remaining investigation and publication generations. Reserve the final investigation opportunity for any calculation still required; publication-only generations cannot perform new investigation. If the available evidence supports only part of the request, label the answer as partial and explain precisely what remains unknown; never claim a complete result from insufficient evidence.
 
 For ordinary explanations or clarifying questions, you may answer naturally without querying. Be useful and concise; give a reasonable stated assumption rather than repeatedly asking about dates or familiar terms. Ask when a materially different interpretation would change the answer. State dates and currency for financial results. Distinguish absence of records from proof an event did not occur. Separate confirmed values, assumptions and missing information. A saved category named Consulting revenue does not establish zero spending on contractors or consulting services: inspect relevant descriptions/categories and explain ambiguity.
+
+Decision scenarios: a routine reporting-date assumption is different from a decision-critical input. If an affordability or staffing decision is missing compensation, employer costs, expected income, planning horizon or other necessary assumptions, give a useful factual baseline and ask for the missing inputs before deciding affordability. Do not invent salary tiers, employment hours, payroll tax/benefit rates, future revenue, reserve targets or revenue benchmarks. You may give a formula while inputs are missing. Use illustrative numerical assumptions only if the user explicitly requests an illustration, and label each invented input as hypothetical, not a market fact or recorded commitment. Once inputs are supplied, calculate the requested scenario in SQL and preserve them through follow-ups; a changed input replaces its previous value. Every financial scenario amount and ratio, including optional comparisons, must be calculated from the stated inputs in saved SQL results; do not add uncomputed numerical advice. Answer the requested scenario first without unrelated prescriptions. A draft total or liability balance alone does not establish an unpaid future cash outflow. Keep recorded cash separate from hypothetical available cash; subtract pending items only under explicit posting/settlement assumptions and use their actual cash-account impacts. Accrual expense averages are scenario assumptions, not observed or guaranteed future cash burn.
 
 Accounting semantics: all statuses are visible. Posted reports use status='POSTED'. DRAFT means unposted in these books; POSTED means recorded in the ledger. Neither bookkeeping status proves whether a bank or card payment happened or settled externally. A draft may describe an expense that was already paid. If a payment has no posted match, say there is no posted payment record; do not infer that no payment occurred or that it remains unsettled. If asked about a named record, merchant or payment that appears missing, inspect both posted and draft records, clearly separate them, and don't silently suppress an unposted match. A posted credit-card expense records a charge and liability, not a bank cash payment. Each entry has multiple lines; summing all debit lines is not business spending. Assets/expenses normally increase by debit-credit; liabilities/equity/revenue by credit-debit. ledger.base_net_debit=base_debit-base_credit; base_normal_balance_change uses the account type's normal side. Expenses and revenue must net reversals/refunds; reverses_entry_id links corrections. Keep posted reversal pairs in net reports, and show their relationship in transaction explanations. Assets=Liabilities+Equity includes accumulated revenue minus expenses when the ledger has not closed earnings into equity. Group accounts are hierarchy nodes; use recursive parent_id joins when needed. Join entries to lines and accounts using IDs plus organization_id; ledger already makes these joins. Never join descriptions or account names as identifiers.
 
@@ -527,8 +553,13 @@ export function createNativeAnalystService(options: NativeAnalystOptions) {
         : 'Thinking through your question';
       turn.pendingGeneration = randomUUID();
       await save();
+      const generationId = turn.pendingGeneration;
+      const generationStarted = performance.now();
+      const attemptOffset = turn.meter.attempts.length;
+      const settledAttempts = new Set<string>();
       let reservationDenied = false;
       let admittedThisStep = false;
+      let resultReceived = false;
       const model = modelFactory({
         apiKey: config.apiKey,
         modelId: config.modelId,
@@ -555,6 +586,7 @@ export function createNativeAnalystService(options: NativeAnalystOptions) {
           attempt.receipt = receipt;
           await save();
           await options.afterResponse?.(receipt);
+          settledAttempts.add(receipt.attemptId);
         },
       });
       try {
@@ -567,6 +599,7 @@ export function createNativeAnalystService(options: NativeAnalystOptions) {
           instructions: `${NATIVE_ANALYST_INSTRUCTIONS}\nServer time: ${now().toISOString()}. ${options.context ?? ''}\n${progress}`,
           timeoutMs: NATIVE_ANALYST_LIMITS.modelMs,
         });
+        resultReceived = true;
         // Preserve exact SDK response messages, including providerOptions/thought signatures.
         if (!['stop', 'tool-calls'].includes(result.finishReason)) {
           delete turn.pendingGeneration;
@@ -623,12 +656,88 @@ export function createNativeAnalystService(options: NativeAnalystOptions) {
       } catch (error) {
         if (await stopped()) return record.state;
         if (reservationDenied && !admittedThisStep) delete turn.pendingGeneration;
-        const code = reservationDenied ? 'ANALYST_BUDGET_LIMIT' : 'ANALYST_GENERATION_FAILED';
+        const code = reservationDenied
+          ? 'ANALYST_BUDGET_LIMIT'
+          : error instanceof AnalystModelError
+            ? error.code
+            : 'ANALYST_GENERATION_FAILED';
+        const attempts = turn.meter.attempts.slice(attemptOffset);
+        const lastReceipt = attempts.at(-1)?.receipt;
+        // A caught generation failure has run no tools: response messages are only
+        // persisted on success, and tools execute under a later lease. Never use
+        // this path for a worker-crash pendingGeneration or unfinished accounting.
+        const settledTransport =
+          admittedThisStep &&
+          attempts.length > 0 &&
+          attempts.every((attempt) => {
+            const receipt = attempt.receipt;
+            return (
+              settledAttempts.has(attempt.attemptId) &&
+              receipt &&
+              (receipt.kind === 'known'
+                ? receipt.httpStatus >= 200 && receipt.httpStatus < 300
+                : receipt.reason === 'transport-error' && receipt.transportStarted === true)
+            );
+          });
+        const transientFailure =
+          code === 'ANALYST_MODEL_TIMEOUT' ||
+          (code === 'ANALYST_MODEL_PROVIDER' &&
+            lastReceipt?.kind === 'unknown' &&
+            lastReceipt.reason === 'transport-error' &&
+            lastReceipt.transportStarted === true);
+        const recoveryScheduled =
+          !reservationDenied &&
+          !resultReceived &&
+          settledTransport &&
+          transientFailure &&
+          (turn.recoveryCount ?? 0) < NATIVE_ANALYST_LIMITS.inferenceRecoveries;
+        const failure: NativeAnalystFailure = {
+          generationId,
+          messageId: turn.messageId,
+          occurredAt: new Date().toISOString(),
+          code,
+          elapsedMs: Math.max(0, Math.round(performance.now() - generationStarted)),
+          attemptIds: attempts.map((attempt) => attempt.attemptId),
+          attempts: attempts.map(({ attemptId, receipt }) => ({
+            attemptId,
+            receiptKind: receipt?.kind === 'unknown' ? receipt.reason : (receipt?.kind ?? 'unsettled'),
+            ...(receipt?.httpStatus === undefined ? {} : { httpStatus: receipt.httpStatus }),
+            ...(receipt?.kind === 'unknown' && receipt.transportStarted !== undefined
+              ? { transportStarted: receipt.transportStarted }
+              : {}),
+          })),
+          recoveryScheduled,
+          ...(requestId ? { requestId } : {}),
+        };
+        (turn.generationFailures ??= []).push(failure);
+        runtime.nativeFailures = [...(runtime.nativeFailures ?? []), failure].slice(-20);
+        options.diagnostic?.({
+          conversationId: id,
+          stage: 'Model generation failed',
+          requestId,
+          generationId,
+          code,
+          elapsedMs: failure.elapsedMs,
+          failure,
+        });
+        if (recoveryScheduled) {
+          turn.recoveryCount = (turn.recoveryCount ?? 0) + 1;
+          delete turn.pendingGeneration;
+          // Keep every prior reservation/receipt and the exact pre-generation
+          // history. A fresh attempt is admitted under both budgets next advance,
+          // never inside this invocation's 60-second hosting window.
+          record.state.phase = 'Recovering an interrupted model request';
+          await save();
+          await stopped();
+          return record.state;
+        }
         await fail(
           code,
           reservationDenied
             ? 'This analysis reached its spending allowance. No additional model request was sent.'
-            : 'The model step could not be completed safely. It will not be retried automatically; your books have not changed.',
+            : code === 'ANALYST_MODEL_TIMEOUT'
+              ? 'The model request exceeded its time limit. No further automatic attempt will be made; your books have not changed.'
+              : 'The model step could not be completed safely. No further automatic attempt will be made; your books have not changed.',
         );
       }
       return record.state;

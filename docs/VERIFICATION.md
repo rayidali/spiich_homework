@@ -1,10 +1,18 @@
 # Verification record
 
-## Current two-tab verification state — November 3, 2026
+## Current two-tab verification
 
-The [Querio integration release](evidence/querio-workspace-release.json) passed full CI3079tests,45 browser workflows, Compose3078 overlapping tests with persistence, and real hosted desktop/mobile rendering. Three actual-model integration turns checked cash, rent percentages/chart and a visible Figma draft against independent reads;13 model responses were observed. This is not a broad model score. Accounting table fingerprints remained unchanged and temporary browser secrets were removed.
+Querio's released integration has source-bound full CI, protected hosted desktop/mobile inspection and three real-model integration turns. Their accounting fingerprints were unchanged. [Release evidence](evidence/querio-workspace-release.json). These integration checks are separate from the paired comparison.
 
-The new native SQL analyst is separately under verification at source `bf38745e4e279a59ac0916bc6ba6c00cf449327f`, full CI `41745103603` in progress. Local typecheck/build, real WASM loading, SQL capability tests, durable-service tests and real-SDK mocked-HTTP continuity passed. Paired actual-model results do not yet exist. Earlier scores remain bound to their original source and must not be pooled with this candidate.
+Native a delivered 3/8 planned turns; native b delivered 8/8. Independent b review checked 17 published results / 77 rows, 14 tables / 66 rows and 8 chart specifications. Requested numerical facts passed 8/8, requested scope 7/8, all-claims strict success 6/8. Querio delivered 8/8 and passed 6/8 strict reviews; its two errors were rounding order, with scope drift on one follow-up. The eight recorded browser replay tests for native b and Querio passed in CI 41753292211 and were visually reviewed on desktop and emulated mobile. Both requested charts per provider rendered correctly; financial failures remain. Cohort c closed with 12/14 delivered turns, including two transport failures. Its financial/semantic review is pending. It added $0.902770500 known estimated usage and $0.115747500 retained unknown reservations; all six temporary secrets were removed. Candidate d has 75 focused service/adapter/actual-SDK tests and TypeScript passing; PostgreSQL persistence and full CI are pending. This recovery patch is not committed or released at this snapshot. None of these pending outcomes is a pass or a zero-cost result.
+
+Engineering tests use scripted provider responses; actual model captures measure interpretation and delivery. Saved chart specifications are not browser proof. Replaying exact captured notebooks checks the renderer without making another model request; protected hosted checks additionally verify the deployed path. Do not add overlapping normal/Compose test counts or combine scores across source versions.
+
+Current c source/CI/run receipts are tracked in [CHECKPOINT](../CHECKPOINT.md). The matched comparison has six conversations / eight turns / two charts. The extra native acceptance has four conversations / six turns / one chart and is reported separately. Applied migrations 001–009 and unchanged production accounting fingerprints were verified in a read-only migration audit.
+
+## Historical verification snapshots
+
+The following source IDs, pending states, promoted deployments and budgets describe their recorded dates. They do not override the current handoff. Preserve failures and original scores; a later repair is a separate result.
 
 **Latest provider repair:** the exact failed request returned HTTP 400/INVALID_ARGUMENT. A mode-only change to AUTO returned HTTP 200; explicit conversation-index/value-binding instructions and lossless outer-wrapper normalization repaired the captured final response while retaining strict semantic checks. [Diagnosis and verification](evidence/provider-compatibility-20261101/report.md). The investigation is closed at $0.1717792 including original development and conservative reservations; no new comparative accuracy score or hosted promotion is claimed. Earlier evidence below remains source-specific. Final candidate source is `49a0d81`; see the linked CI receipt for actual database, browser and Compose results.
 
