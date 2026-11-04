@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "status": "Portable adaptation; not the bytes that generated the historical results. No model calls were made by this preparation.",
+  "historicalApplicationSource": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+  "historicalSharedContextSha256": "72d1bdfc5a867696ebca898db481eef2602d97e7eb4eedcc612cbb800a98aa76",
+  "changes": [
+    "Relative imports and source hashes reference public modules. Personal curl/HTTP/spool transport helpers are excluded; normal createQuerioClient fetch remains the default.",
+    "Single-use permit claims are stored under generic private .tools/querio-comparison/permit-claims.",
+    "Historical credit headroom383 is a fresh explicit number, required to be a safe integer of at least120. Reservation120/15 and cancellation threshold12 remain unchanged.",
+    "Offline tests retain the ten original contracts and add four invalid-headroom cases; the successful lifecycle uses a different valid headroom.",
+    "Public single-use claims hash the unique cohort scopeId rather than historical JSON.stringify(permit), preventing key-order or approval-metadata changes from replaying the same cohort. Offline tests cover reordered keys and changed metadata; historical code/evidence remain unchanged."
+  ],
+  "unchanged": [
+    "Exact six cases/eight user turns/two requested charts, frozen date2026-11-03, paired datasource slug, context/instructions construction",
+    "Real product Querio service/client/output handling, unknown-submit policy, history baseline/deduplication, usage uncertainty halt, resource closure, before/after fixture verification",
+    "Observed usage remains an estimate, not verified billed credits or dollars; no automatic rerun or resume"
+  ],
+  "files": [
+    {
+      "historicalFile": ".tools/analyst-product-20261103/querio-comparison/controller.ts",
+      "historicalSha256": "e8a62f5f66d16e2e298bb1e4a5935bea07ba9935df7e17f1cfd018429c204545",
+      "hashRecordedInCompletedRun": "e8a62f5f66d16e2e298bb1e4a5935bea07ba9935df7e17f1cfd018429c204545",
+      "publicFile": "scripts/analyst-workspace-evaluation/querio-runner.ts",
+      "publicSha256": "d9e799111d5da360f685957ca02c40689627b85878aa6dce0f4363e5922376a6",
+      "byteIdentical": false
+    },
+    {
+      "historicalFile": ".tools/analyst-product-20261103/querio-comparison/file-store.ts",
+      "historicalSha256": "6854dbc8313a59c627818a4ae1d30d892d9660ab69fde781179a57658aa424ed",
+      "hashRecordedInCompletedRun": "6854dbc8313a59c627818a4ae1d30d892d9660ab69fde781179a57658aa424ed",
+      "publicFile": "scripts/analyst-workspace-evaluation/querio-file-store.ts",
+      "publicSha256": "cea9de4032db185487967a4c1391ceac37af8e76199bec55ff4ca88bb890cd31",
+      "byteIdentical": false
+    },
+    {
+      "historicalFile": ".tools/analyst-product-20261103/querio-comparison/observations.ts",
+      "historicalSha256": "bf87dd1724529a6b7488abb710429050932d3f770e83a6a7eab8444fac683f43",
+      "hashRecordedInCompletedRun": "bf87dd1724529a6b7488abb710429050932d3f770e83a6a7eab8444fac683f43",
+      "publicFile": "scripts/analyst-workspace-evaluation/querio-observations.ts",
+      "publicSha256": "bf87dd1724529a6b7488abb710429050932d3f770e83a6a7eab8444fac683f43",
+      "byteIdentical": true
+    },
+    {
+      "historicalFile": ".tools/analyst-product-20261103/querio-comparison/tests/controller.test.ts",
+      "historicalSha256": "16d10f429bbfa1377fb5b85411c15009b53a77218777327c1d50c32ad0ff8be6",
+      "hashRecordedInCompletedRun": null,
+      "publicFile": "tests/querio-comparison-runner.test.ts",
+      "publicSha256": "3e8fa41f5f9139c9de58dcbbfd0616160b2754345e384580a24e35d1e681f9c6",
+      "byteIdentical": false
+    }
+  ]
+}

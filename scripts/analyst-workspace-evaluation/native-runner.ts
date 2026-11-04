@@ -7,6 +7,18 @@ import { readReferences, requireFixture, hash } from './references';
 
 /** Frozen before execution: 6 conversations, 8 turns, 2 requested charts. Not the full 18-case suite. */
 export const INITIAL_NATIVE_CASES = Object.freeze(['A01', 'A05', 'A06', 'A07', 'A11', 'A18']);
+/** Separate predeclared extension: 10 conversations, 14 turns, 3 requested charts. */
+export const EXTENDED_NATIVE_CASES = Object.freeze([...INITIAL_NATIVE_CASES, 'A08', 'A12', 'A14', 'A16']);
+export type NativeCaseSet = 'matched' | 'extended';
+export const NATIVE_CASE_SETS = Object.freeze({
+  matched: Object.freeze({ caseIds: INITIAL_NATIVE_CASES, conversations: 6, turns: 8, requestedCharts: 2 }),
+  extended: Object.freeze({
+    caseIds: EXTENDED_NATIVE_CASES,
+    conversations: 10,
+    turns: 14,
+    requestedCharts: 3,
+  }),
+});
 type Service = {
   create(org: string, id: string): Promise<AnalystConversation>;
   send(org: string, id: string, messageId: string, text: string): Promise<AnalystConversation>;
@@ -33,6 +45,8 @@ type Binding = {
 };
 export type NativeRunOptions = {
   root?: string;
+  /** Omitted preserves the original six-conversation matched subset. */
+  caseSet?: NativeCaseSet;
   outputDirectory: string;
   binding: Binding;
   budget: GlobalAnalystBudget;
@@ -73,6 +87,9 @@ async function checkBudget(budget: GlobalAnalystBudget) {
 export async function runInitialNativeCases(options: NativeRunOptions) {
   const root = resolve(options.root ?? process.cwd());
   const output = resolve(options.outputDirectory);
+  const caseSet = options.caseSet === undefined ? 'matched' : options.caseSet;
+  requireFixture(caseSet === 'matched' || caseSet === 'extended', 'NATIVE_CASE_SET_REQUIRED');
+  const selected = NATIVE_CASE_SETS[caseSet];
   requireFixture(output.startsWith(resolve(root, '.tools') + sep), 'PRIVATE_OUTPUT_DIRECTORY_REQUIRED');
   requireFixture(
     /^[a-f0-9]{40}$/.test(options.binding.sourceCommit) &&
@@ -85,7 +102,7 @@ export async function runInitialNativeCases(options: NativeRunOptions) {
     cases: { id: string; turns: { prompt: string; chartRequired: boolean }[] }[];
   };
   // Extract only actual user words. Requirements, forbidden answers and expected facts never enter the service.
-  const cases = INITIAL_NATIVE_CASES.map((id) => {
+  const cases = selected.caseIds.map((id) => {
     const entry = specification.cases.find((candidate) => candidate.id === id);
     requireFixture(entry, 'FROZEN_CASE_MISSING');
     return {
@@ -94,8 +111,10 @@ export async function runInitialNativeCases(options: NativeRunOptions) {
     };
   });
   requireFixture(
-    cases.flatMap((entry) => entry.turns).length === 8 &&
-      cases.flatMap((entry) => entry.turns).filter((turn) => turn.chartRequired).length === 2,
+    cases.length === selected.conversations &&
+      cases.flatMap((entry) => entry.turns).length === selected.turns &&
+      cases.flatMap((entry) => entry.turns).filter((turn) => turn.chartRequired).length ===
+        selected.requestedCharts,
     'FROZEN_SUBSET_CHANGED',
   );
   const before = await options.verifyFixture();
@@ -144,7 +163,11 @@ export async function runInitialNativeCases(options: NativeRunOptions) {
     referenceHashes: refs.hashes,
     organizationId: refs.fixture.organization_id,
     businessDate: refs.fixture.business_date,
-    caseIds: [...INITIAL_NATIVE_CASES],
+    caseSet,
+    caseIds: [...selected.caseIds],
+    expectedConversations: selected.conversations,
+    expectedTurns: selected.turns,
+    requestedCharts: selected.requestedCharts,
     contextSha256: hash(context),
     budgetScopeId: budgetBefore.scopeId,
   };
@@ -280,6 +303,7 @@ export async function runInitialNativeCases(options: NativeRunOptions) {
   requireFixture(after?.fingerprintAfter === before.fingerprintBefore, 'EVALUATION_CHANGED_BOOKS');
   return {
     outputDirectory: output,
+    caseSet,
     conversations: cases.length,
     turns: outcomes.length,
     completedTurns: outcomes.filter((outcome) => outcome.status === 'completed').length,

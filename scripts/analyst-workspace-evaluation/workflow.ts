@@ -9,7 +9,7 @@ import {
   assertEarliestRun,
 } from '../conversation-acceptance/workflow';
 import { createFileBudget, decodeBudgetSeed } from './budget';
-import { runInitialNativeCases } from './native-runner';
+import { NATIVE_CASE_SETS, runInitialNativeCases } from './native-runner';
 import { hash, requireFixture } from './references';
 
 const repository = 'rayidali/spiich_homework';
@@ -18,10 +18,11 @@ const output = '.tools/native-analyst-evaluation-output';
 const encrypted = '.tools/native-analyst-evaluation-encrypted';
 const database = 'daybook_analyst_acceptance_20261104';
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
-const permitSchema = z.strictObject({
+export const nativeWorkflowPermitSchema = z.strictObject({
   version: z.literal(1),
   scopeId: z.literal('daybook-analyst-product-20261103'),
   cohort: z.string().regex(/^native-initial-[a-z0-9-]{4,48}$/),
+  caseSet: z.enum(['matched', 'extended']).default('matched'),
   sourceCommit: z.string().regex(/^[a-f0-9]{40}$/),
   modelId: z.literal('gemini-3.8-flash'),
   databaseName: z.literal(database),
@@ -41,7 +42,7 @@ const safeCode = (error: unknown) => {
 function configuration(command: string, env = process.env) {
   const raw = env.ANALYST_PRIVATE_PERMIT ?? '';
   requireFixture(Buffer.byteLength(raw) <= 8192 && hash(raw) === env.ANALYST_PERMIT_SHA256, 'PERMIT_HASH');
-  const permit = permitSchema.parse(JSON.parse(raw));
+  const permit = nativeWorkflowPermitSchema.parse(JSON.parse(raw));
   requireFixture(
     env.GITHUB_ACTIONS === 'true' &&
       env.GITHUB_REPOSITORY === repository &&
@@ -95,7 +96,7 @@ export function assertNativeRuntimeUrl(raw: string, hostname: string) {
   );
 }
 
-async function authorizeUnusedCohort(permit: z.infer<typeof permitSchema>, runId: string) {
+async function authorizeUnusedCohort(permit: z.infer<typeof nativeWorkflowPermitSchema>, runId: string) {
   const token = process.env.GH_TOKEN ?? '';
   requireFixture(token.length > 0 && !/[\r\n\0]/.test(token), 'GITHUB_TOKEN_REQUIRED');
   const runs: unknown[] = [];
@@ -145,12 +146,20 @@ async function authorizeUnusedCohort(permit: z.infer<typeof permitSchema>, runId
 export async function nativeWorkflowCommand(command: string) {
   requireFixture(['preflight', 'run', 'encrypt'].includes(command), 'UNKNOWN_COMMAND');
   const { permit, binding } = configuration(command);
+  const selected = NATIVE_CASE_SETS[permit.caseSet];
   const key = process.env.ANALYST_ARTIFACT_KEY ?? '';
   encryptionPreflight(key, permit.artifactKeySha256, binding);
   if (command === 'encrypt') {
     if (!existsSync(output)) return;
     const receipt = encryptedArchive(output, encrypted, key, permit.artifactKeySha256, binding, {
-      purpose: 'native-analyst-initial-six-case-capture',
+      purpose:
+        permit.caseSet === 'matched'
+          ? 'native-analyst-initial-six-case-capture'
+          : 'native-analyst-extended-ten-case-capture',
+      caseSet: permit.caseSet,
+      caseIds: [...selected.caseIds],
+      expectedTurns: selected.turns,
+      requestedCharts: selected.requestedCharts,
       scopeId: permit.scopeId,
       cohort: permit.cohort,
       seedLedgerSha256: permit.seedLedgerSha256,
@@ -162,7 +171,16 @@ export async function nativeWorkflowCommand(command: string) {
   const seed = decodeBudgetSeed(process.env.ANALYST_BUDGET_LEDGER ?? '');
   requireFixture(hash(seed) === permit.seedLedgerSha256, 'BUDGET_SEED_HASH');
   if (command === 'preflight') {
-    console.log(JSON.stringify({ preflight: true, providerCalls: 0 }));
+    console.log(
+      JSON.stringify({
+        preflight: true,
+        caseSet: permit.caseSet,
+        conversations: selected.conversations,
+        turns: selected.turns,
+        requestedCharts: selected.requestedCharts,
+        providerCalls: 0,
+      }),
+    );
     return;
   }
   await authorizeUnusedCohort(permit, binding.runId);
@@ -219,6 +237,7 @@ export async function nativeWorkflowCommand(command: string) {
       return receipt;
     };
     const result = await runInitialNativeCases({
+      caseSet: permit.caseSet,
       outputDirectory: join(output, 'capture'),
       budget,
       binding: {
@@ -244,6 +263,7 @@ export async function nativeWorkflowCommand(command: string) {
     console.log(
       JSON.stringify({
         captured: true,
+        caseSet: result.caseSet,
         conversations: result.conversations,
         turns: result.turns,
         completedTurns: result.completedTurns,

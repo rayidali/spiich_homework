@@ -1,0 +1,157 @@
+{
+  "version": 1,
+  "kind": "recorded-actual-response-replay",
+  "caseId": "A06",
+  "provider": "daybook",
+  "businessDate": "2026-11-03",
+  "organizationId": "6eb2b567-f19c-56bf-bb3c-cdf0592ae97a",
+  "provenance": {
+    "sourceCommit": "f032d70a0c60e1472c8d9e8e5d774c9ed20f0405",
+    "modelId": "gemini-3.8-flash",
+    "captureBasename": "a06-turn-1.json",
+    "captureSha256": "98fc83e954e65eb9a5e1e8f2d20d5d5065bcfaf1d658783663debb0e6156478a",
+    "bindingSha256": "0d425ec75034b2610d4b67113b9bf17e6bdad25c4eb5608daa52e096d0f2de6c",
+    "referenceHashes": {
+      "fixture.json": "8cae13abd47a2fd4d87b44900830de5a629efbf2011f5b58c79cf1ad41dbe044",
+      "expected.json": "690b70d1100795916809f3adfd4c162a9c57ed033244e53333fd5711d7022f13",
+      "cases.json": "5360063b7dd0c745636112aa1d08e014ac982447c6ae13bbc7bb3d198ef82400",
+      "shared-context.md": "08fd4cf05899e79cfdc4f301d32dc4b36967e3bbd482d932df5c76941634b8b3",
+      "oracle.py": "c4fa4e69e98664188ca4b7bb1113cca3157b6f41f837c72c1ee9fb7444c05ac2"
+    },
+    "originalPublicStateSha256": "5acbc3ff67f76cbd50c66191a6680a018fa0c791e9262cf16f53259b5c8819cc",
+    "sanitizedStateSha256": "da84215a4190a1534188365c9ee36fb8853cab7a71a29ad2240cb3a1e2229ccb",
+    "sanitization": [
+      "Allowlisted public contract fields only",
+      "Replaced opaque conversation/message/cell IDs",
+      "Removed external notebook link",
+      "Retained actual prose, code, table values and chart values without repair"
+    ]
+  },
+  "state": {
+    "provider": "daybook",
+    "title": "For every month this year through today, graph rent as a percentage of all expenses and give me the ",
+    "sourceLabel": "Daybook live books",
+    "status": "completed",
+    "phase": null,
+    "createdAt": "2026-11-03T17:00:00.000Z",
+    "updatedAt": "2026-11-03T17:00:00.000Z",
+    "id": "cd65a9ae-10ad-556b-a62d-9577cd926be4",
+    "error": null,
+    "messages": [
+      {
+        "role": "user",
+        "content": "For every month this year through today, graph rent as a percentage of all expenses and give me the supporting numbers.",
+        "createdAt": "2026-11-04T01:04:31.431Z",
+        "id": "message-1"
+      },
+      {
+        "role": "assistant",
+        "content": "### Summary of Rent as a Percentage of Expenses (2026 YTD Through Nov 3, 2026)\n\nAcross the active operating months this year through November 3, 2026, **Rent** (Account 5010) as a percentage of total posted operating expenses ranged from **34.60%** to **81.97%**, averaging **53.02%** of total posted expenses year-to-date ($8,500.00 of rent out of $16,030.35 total posted expenses).\n\n---\n\n### Monthly Supporting Figures (USD)\n\n| Month | Posted Rent | Total Posted Expenses | Rent % of Posted Expenses | Draft Rent | Draft Expenses | Rent % (Incl. Drafts) | Notes |\n|:---|---:|---:|---:|---:|---:|---:|:---|\n| **2026-01** | $1,000.00 | $1,260.00 | **79.37%** | $0.00 | $0.00 | 79.37% | Base monthly rent |\n| **2026-02** | $1,000.00 | $1,535.00 | **65.15%** | $0.00 | $0.00 | 65.15% | Base monthly rent |\n| **2026-03** | $1,000.00 | $2,140.00 | **46.73%** | $0.00 | $0.00 | 46.73% | Base monthly rent |\n| **2026-04** | $0.00 | $0.00 | *Undefined* | $0.00 | $0.00 | *Undefined* | No expense activity posted (AR settlement only) |\n| **2026-05** | $1,000.00 | $1,280.00 | **78.13%** | $0.00 | $0.00 | 78.13% | Base monthly rent |\n| **2026-06** | $1,000.00 | $1,220.00 | **81.97%** | $0.00 | $0.00 | 81.97% | Base monthly rent |\n| **2026-07** | $0.00 | $0.00 | *Undefined* | $0.00 | $0.00 | *Undefined* | No journal entries recorded |\n| **2026-08** | $0.00 | $0.00 | *Undefined* | $0.00 | $0.00 | *Undefined* | No journal entries recorded |\n| **2026-09** | $1,000.00 | $2,890.00 | **34.60%** | $0.00 | $0.00 | 34.60% | Base monthly rent |\n| **2026-10** | $2,500.00 | $5,705.35 | **43.82%** | $0.00 | $1,200.00 | 36.20% | Includes $1,000 base rent + $1,500 additional rent charge; $1,200 draft unposted bill pending |\n| **2026-11 (Mtd)** | $0.00 | $0.00 | *Undefined* | $1,000.00 | $1,060.00 | 94.34% | No posted expenses yet; recurring drafts pending ($1,000 rent + $60 software) |\n| **Total YTD** | **$8,500.00** | **$16,030.35** | **53.02%** | **$1,000.00** | **$2,260.00** | **51.94%** | |\n\n---\n\n### Accounting Observations & Notes\n1. **Zero-Expense Months (April, July, August, November)**: In April, July, August, and November (through Nov 3), posted expenses were $0.00. Because dividing by zero is mathematically undefined, the percentage is reported as undefined rather than 0%.\n2. **October 2026 Activity**: Rent totaled $2,500.00 due to the recurring studio rent ($1,000.00) plus an additional studio rent charge ($1,500.00 on Oct 24).\n3. **Pending Draft Entries**:\n   - In October, an unposted draft bill for professional services of $1,200.00 is awaiting review; if posted, October's rent share would be 36.20%.\n   - In November (through today, Nov 3), recurring draft entries for monthly studio rent ($1,000.00) and Figma team subscription ($60.00) have been generated but remain in draft status. Once posted, November MTD rent share would be 94.34%.",
+        "createdAt": "2026-11-03T17:00:00.000Z",
+        "id": "message-2"
+      }
+    ],
+    "notebook": {
+      "cells": [
+        {
+          "title": "Rent as a Percentage of Expenses (2026 YTD Through Today)",
+          "code": "",
+          "id": "cell-1",
+          "outputs": [
+            {
+              "type": "notice",
+              "text": "Analyst-written explanation and assumptions follow. They are not an independent verification of the queries or results."
+            },
+            {
+              "type": "markdown",
+              "text": "### Summary of Rent as a Percentage of Expenses (2026 YTD Through Nov 3, 2026)\n\nAcross the active operating months this year through November 3, 2026, **Rent** (Account 5010) as a percentage of total posted operating expenses ranged from **34.60%** to **81.97%**, averaging **53.02%** of total posted expenses year-to-date ($8,500.00 of rent out of $16,030.35 total posted expenses).\n\n---\n\n### Monthly Supporting Figures (USD)\n\n| Month | Posted Rent | Total Posted Expenses | Rent % of Posted Expenses | Draft Rent | Draft Expenses | Rent % (Incl. Drafts) | Notes |\n|:---|---:|---:|---:|---:|---:|---:|:---|\n| **2026-01** | $1,000.00 | $1,260.00 | **79.37%** | $0.00 | $0.00 | 79.37% | Base monthly rent |\n| **2026-02** | $1,000.00 | $1,535.00 | **65.15%** | $0.00 | $0.00 | 65.15% | Base monthly rent |\n| **2026-03** | $1,000.00 | $2,140.00 | **46.73%** | $0.00 | $0.00 | 46.73% | Base monthly rent |\n| **2026-04** | $0.00 | $0.00 | *Undefined* | $0.00 | $0.00 | *Undefined* | No expense activity posted (AR settlement only) |\n| **2026-05** | $1,000.00 | $1,280.00 | **78.13%** | $0.00 | $0.00 | 78.13% | Base monthly rent |\n| **2026-06** | $1,000.00 | $1,220.00 | **81.97%** | $0.00 | $0.00 | 81.97% | Base monthly rent |\n| **2026-07** | $0.00 | $0.00 | *Undefined* | $0.00 | $0.00 | *Undefined* | No journal entries recorded |\n| **2026-08** | $0.00 | $0.00 | *Undefined* | $0.00 | $0.00 | *Undefined* | No journal entries recorded |\n| **2026-09** | $1,000.00 | $2,890.00 | **34.60%** | $0.00 | $0.00 | 34.60% | Base monthly rent |\n| **2026-10** | $2,500.00 | $5,705.35 | **43.82%** | $0.00 | $1,200.00 | 36.20% | Includes $1,000 base rent + $1,500 additional rent charge; $1,200 draft unposted bill pending |\n| **2026-11 (Mtd)** | $0.00 | $0.00 | *Undefined* | $1,000.00 | $1,060.00 | 94.34% | No posted expenses yet; recurring drafts pending ($1,000 rent + $60 software) |\n| **Total YTD** | **$8,500.00** | **$16,030.35** | **53.02%** | **$1,000.00** | **$2,260.00** | **51.94%** | |\n\n---\n\n### Accounting Observations & Notes\n1. **Zero-Expense Months (April, July, August, November)**: In April, July, August, and November (through Nov 3), posted expenses were $0.00. Because dividing by zero is mathematically undefined, the percentage is reported as undefined rather than 0%.\n2. **October 2026 Activity**: Rent totaled $2,500.00 due to the recurring studio rent ($1,000.00) plus an additional studio rent charge ($1,500.00 on Oct 24).\n3. **Pending Draft Entries**:\n   - In October, an unposted draft bill for professional services of $1,200.00 is awaiting review; if posted, October's rent share would be 36.20%.\n   - In November (through today, Nov 3), recurring draft entries for monthly studio rent ($1,000.00) and Figma team subscription ($60.00) have been generated but remain in draft status. Once posted, November MTD rent share would be 94.34%."
+            }
+          ]
+        },
+        {
+          "title": "Monthly Rent and Expenses Breakdown (2026 YTD)",
+          "code": "WITH \n  monthly_series AS (SELECT (generate_series('2026-01-01'::date, '2026-11-01'::date, '1 month'::interval))::date AS month_date),\nmonthly_ledger AS (SELECT\n  (date_trunc('month', date))::date AS month_date,\nsum(CASE \nWHEN account_code = '5010'\n  AND status = 'POSTED' THEN base_net_debit \n  ELSE 0 \nEND) AS posted_rent,\nsum(CASE \nWHEN account_type = 'EXPENSE'\n  AND status = 'POSTED' THEN base_net_debit \n  ELSE 0 \nEND) AS posted_expenses,\nsum(CASE \nWHEN account_code = '5010'\n  AND status = 'DRAFT' THEN base_net_debit \n  ELSE 0 \nEND) AS draft_rent,\nsum(CASE \nWHEN account_type = 'EXPENSE'\n  AND status = 'DRAFT' THEN base_net_debit \n  ELSE 0 \nEND) AS draft_expenses\nFROM ledger\nWHERE\n  organization_id = '6eb2b567-f19c-56bf-bb3c-cdf0592ae97a'\n  AND date >= '2026-01-01'\n  AND date <= '2026-11-03'\nGROUP BY\n  (date_trunc('month', date))::date)\nSELECT\n  to_char(s.month_date, 'YYYY-MM') AS month,\n  CAST(COALESCE(l.posted_rent, 0) AS numeric(12, 2)) AS posted_rent,\n  CAST(COALESCE(l.posted_expenses, 0) AS numeric(12, 2)) AS posted_expenses,\n  round((100.0 * l.posted_rent) / (NULLIF (l.posted_expenses, 0)), 2) AS rent_percentage,\n  CAST(COALESCE(l.draft_rent, 0) AS numeric(12, 2)) AS draft_rent,\n  CAST(COALESCE(l.draft_expenses, 0) AS numeric(12, 2)) AS draft_expenses,\n  CAST((COALESCE(l.posted_expenses, 0)) + (COALESCE(l.draft_expenses, 0)) AS numeric(12, 2)) AS total_expenses_with_drafts,\n  round((100.0 * ((COALESCE(l.posted_rent, 0)) + (COALESCE(l.draft_rent, 0)))) / (NULLIF ((COALESCE(l.posted_expenses, 0)) + (COALESCE(l.draft_expenses, 0)), 0)), 2) AS rent_percentage_with_drafts\nFROM monthly_series AS s\nLEFT JOIN monthly_ledger AS l ON s.month_date = l.month_date\nORDER BY\n  s.month_date",
+          "id": "cell-2",
+          "outputs": [
+            {
+              "type": "notice",
+              "text": "Captured 2026-11-03T17:00:00.000Z. Workspace reference: 6eb2b567-f19c-56bf-bb3c-cdf0592ae97a. Query reference: q6. Parameters in SQL placeholder order: []."
+            },
+            {
+              "type": "table",
+              "columns": [
+                "month",
+                "posted_rent",
+                "posted_expenses",
+                "rent_percentage",
+                "draft_rent",
+                "draft_expenses",
+                "total_expenses_with_drafts",
+                "rent_percentage_with_drafts"
+              ],
+              "rows": [
+                ["2026-01", "1000.00", "1260.00", "79.37", "0.00", "0.00", "1260.00", "79.37"],
+                ["2026-02", "1000.00", "1535.00", "65.15", "0.00", "0.00", "1535.00", "65.15"],
+                ["2026-03", "1000.00", "2140.00", "46.73", "0.00", "0.00", "2140.00", "46.73"],
+                ["2026-04", "0.00", "0.00", null, "0.00", "0.00", "0.00", null],
+                ["2026-05", "1000.00", "1280.00", "78.13", "0.00", "0.00", "1280.00", "78.13"],
+                ["2026-06", "1000.00", "1220.00", "81.97", "0.00", "0.00", "1220.00", "81.97"],
+                ["2026-07", "0.00", "0.00", null, "0.00", "0.00", "0.00", null],
+                ["2026-08", "0.00", "0.00", null, "0.00", "0.00", "0.00", null],
+                ["2026-09", "1000.00", "2890.00", "34.60", "0.00", "0.00", "2890.00", "34.60"],
+                ["2026-10", "2500.00", "5705.35", "43.82", "0.00", "1200.00", "6905.35", "36.20"],
+                ["2026-11", "0.00", "0.00", null, "1000.00", "1060.00", "1060.00", "94.34"]
+              ],
+              "totalRows": 11,
+              "totalRowsKnown": true,
+              "truncated": false
+            },
+            {
+              "type": "chart",
+              "chart": {
+                "kind": "bar",
+                "title": "Rent as % of Total Posted Expenses by Month (2026 YTD)",
+                "xLabel": "month",
+                "xScale": "category",
+                "yLabel": "rent_percentage",
+                "labels": [
+                  "2026-01",
+                  "2026-02",
+                  "2026-03",
+                  "2026-04",
+                  "2026-05",
+                  "2026-06",
+                  "2026-07",
+                  "2026-08",
+                  "2026-09",
+                  "2026-10",
+                  "2026-11"
+                ],
+                "format": "percent",
+                "series": [
+                  {
+                    "name": "rent_percentage",
+                    "values": [
+                      "79.37",
+                      "65.15",
+                      "46.73",
+                      null,
+                      "78.13",
+                      "81.97",
+                      null,
+                      null,
+                      "34.60",
+                      "43.82",
+                      null
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "updatedAt": "2026-11-03T17:00:00.000Z"
+    }
+  }
+}

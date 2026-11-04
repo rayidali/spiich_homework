@@ -6,10 +6,39 @@ import { gzipSync } from 'node:zlib';
 import { afterEach, describe, expect, it } from 'vitest';
 import { createFileBudget, decodeBudgetSeed, nanoUsd } from '../scripts/analyst-workspace-evaluation/budget';
 import { hash } from '../scripts/analyst-workspace-evaluation/references';
-import { assertNativeRuntimeUrl } from '../scripts/analyst-workspace-evaluation/workflow';
+import {
+  assertNativeRuntimeUrl,
+  nativeWorkflowPermitSchema,
+} from '../scripts/analyst-workspace-evaluation/workflow';
 import type { AnalystModelAttempt, AnalystModelReceipt } from '../server/analyst-model';
 
 const dirs: string[] = [];
+describe('predeclared native workflow case sets', () => {
+  const permit = {
+    version: 1,
+    scopeId: 'daybook-analyst-product-20261103',
+    cohort: 'native-initial-test',
+    sourceCommit: 'a'.repeat(40),
+    modelId: 'gemini-3.8-flash',
+    databaseName: 'daybook_analyst_acceptance_20261104',
+    hostname: 'ep-fictional-123.us-east-2.aws.neon.tech',
+    seedLedgerSha256: 'b'.repeat(64),
+    artifactKeySha256: 'c'.repeat(64),
+    fixtureFingerprint: 'd'.repeat(64),
+    approvedAt: '2026-11-04T00:00:00.000Z',
+    expiresAt: '2026-11-05T00:00:00.000Z',
+  };
+  it('keeps existing permits matched and accepts only an explicitly selected extension', () => {
+    expect(nativeWorkflowPermitSchema.parse(permit).caseSet).toBe('matched');
+    expect(nativeWorkflowPermitSchema.parse({ ...permit, caseSet: 'matched' }).caseSet).toBe('matched');
+    expect(nativeWorkflowPermitSchema.parse({ ...permit, caseSet: 'extended' }).caseSet).toBe('extended');
+  });
+  it('rejects unknown sets and arbitrary caller-supplied case lists', () => {
+    for (const caseSet of ['all', 'Matched', '', null, [], {}])
+      expect(() => nativeWorkflowPermitSchema.parse({ ...permit, caseSet })).toThrow();
+    expect(() => nativeWorkflowPermitSchema.parse({ ...permit, caseIds: ['A02'] })).toThrow();
+  });
+});
 describe('complete prior budget ledger transport', () => {
   it('restores every prior attempt byte-for-byte rather than resetting or rolling up spending', () => {
     const seed = JSON.stringify(

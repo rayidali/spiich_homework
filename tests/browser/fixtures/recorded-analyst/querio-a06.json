@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "kind": "recorded-actual-response-replay",
+  "caseId": "A06",
+  "provider": "querio",
+  "businessDate": "2026-11-03",
+  "organizationId": "6eb2b567-f19c-56bf-bb3c-cdf0592ae97a",
+  "provenance": {
+    "sourceCommit": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+    "modelId": "claude-sonnet-5-5",
+    "captureBasename": "a06-turn-1.json",
+    "captureSha256": "fdd5c76813bc91b47b74e2b9c4ae4af3e010a8f5672151f528a967f5233bfb70",
+    "bindingSha256": "fefc6445b0966d5f731ee3e352c01c8c0a9c820d70ca4799badcb3b5523315cb",
+    "referenceHashes": {
+      "fixture.json": "8cae13abd47a2fd4d87b44900830de5a629efbf2011f5b58c79cf1ad41dbe044",
+      "expected.json": "690b70d1100795916809f3adfd4c162a9c57ed033244e53333fd5711d7022f13",
+      "cases.json": "5360063b7dd0c745636112aa1d08e014ac982447c6ae13bbc7bb3d198ef82400",
+      "shared-context.md": "08fd4cf05899e79cfdc4f301d32dc4b36967e3bbd482d932df5c76941634b8b3",
+      "oracle.py": "c4fa4e69e98664188ca4b7bb1113cca3157b6f41f837c72c1ee9fb7444c05ac2"
+    },
+    "originalPublicStateSha256": "e2e007fb1b5e4be9a2faa89c4146f081485e14e17f48a778b05adbdf9f31e815",
+    "sanitizedStateSha256": "fbb04d027b4e6ed40ccea1152070916a75095656db032cdc5aa433d3a9bd94d2",
+    "sanitization": [
+      "Allowlisted public contract fields only",
+      "Replaced opaque conversation/message/cell IDs",
+      "Removed external notebook link",
+      "Retained actual prose, code, table values and chart values without repair"
+    ]
+  },
+  "state": {
+    "provider": "querio",
+    "title": "For every month this year through today, graph rent as a percentage of all expenses and give me the ",
+    "sourceLabel": "Acorn Studio acceptance workspace",
+    "status": "completed",
+    "phase": null,
+    "createdAt": "2026-11-04T00:53:10.536Z",
+    "updatedAt": "2026-11-04T00:54:41.757Z",
+    "id": "5152594a-0e92-5a25-8081-df1305917f1c",
+    "error": null,
+    "messages": [
+      {
+        "role": "user",
+        "content": "For every month this year through today, graph rent as a percentage of all expenses and give me the supporting numbers.",
+        "createdAt": "2026-11-04T00:53:10.536Z",
+        "id": "message-1"
+      },
+      {
+        "role": "assistant",
+        "content": "Rent was 53.02% of total expenses year to date (Jan 1 to Nov 3, 2026). That is $8,500.00 of rent against $16,030.35 of total expenses. The notebook has the monthly bar chart and a supporting table of rent, total expenses, other expenses and rent percentage for each month.\n\n- **Basis:** the figures use posted entries only, in USD, with expenses as net debits on expense accounts. I did not include drafts or the $400 rent entry dated Nov 4.\n- **Undefined months:** April, July, August and November have no posted expenses, so the ratio is undefined and they show as gaps in the chart. November covers only Nov 1–3.\n- **October rent:** it is $2,500 because of a $1,500 additional charge on Oct 24, on top of the regular $1,000. That charge is worth reviewing.\n- **Different measure:** the 53.02% is total rent over total expenses. The simple average of the seven monthly ratios is 61.39%, which answers a different question.\n\nI corrected the year-to-date figures in the notebook summary after a recheck. Please read the summary cell in the notebook rather than the first version.",
+        "createdAt": "2026-11-04T00:54:26.826Z",
+        "id": "message-2"
+      }
+    ],
+    "notebook": {
+      "cells": [
+        {
+          "title": "_",
+          "code": "import code_execution_environment as cee\ncee.md(\"\"\"# Rent as a share of total expenses, 2026 (Jan 1 - Nov 3)\n\nBasis: posted entries only (drafts excluded), dated 2026-01-01 through 2026-11-03, USD saved base amounts. Expenses = debits minus credits on EXPENSE accounts. Rent = account 5010. November is a partial month (Nov 1-3). Months with zero expenses have an undefined ratio.\"\"\")",
+          "id": "cell-1",
+          "outputs": [
+            {
+              "type": "markdown",
+              "text": "Rent as a share of total expenses, 2026 (Jan 1 - Nov 3)\n\nBasis: posted entries only (drafts excluded), dated 2026-01-01 through 2026-11-03, USD saved base amounts. Expenses = debits minus credits on EXPENSE accounts. Rent = account 5010. November is a partial month (Nov 1-3). Months with zero expenses have an undefined ratio."
+            }
+          ]
+        },
+        {
+          "title": "_",
+          "code": "import code_execution_environment as cee\n\nrent_share_df = cee.sql(\"\"\"\nWITH months AS (\n  SELECT generate_series(date '2026-01-01', date '2026-11-01', interval '1 month')::date AS month_start\n),\nagg AS (\n  SELECT date_trunc('month', date)::date AS month_start,\n         SUM(base_net_debit) AS total_expenses,\n         SUM(CASE WHEN account_code = '5010' THEN base_net_debit ELSE 0 END) AS rent\n  FROM querio_fixture.ledger\n  WHERE account_type = 'EXPENSE' AND status = 'POSTED'\n    AND date >= '2026-01-01' AND date <= '2026-11-03'\n  GROUP BY 1\n)\nSELECT to_char(m.month_start, 'YYYY-MM') AS month,\n       COALESCE(a.rent, 0) AS rent,\n       COALESCE(a.total_expenses, 0) AS total_expenses,\n       COALESCE(a.total_expenses, 0) - COALESCE(a.rent, 0) AS other_expenses,\n       ROUND(100 * a.rent / NULLIF(a.total_expenses, 0), 2) AS rent_pct_of_expenses\nFROM months m LEFT JOIN agg a USING (month_start)\nORDER BY m.month_start\n\"\"\", datasource=\"daybook-acceptance-20261104\")\n",
+          "id": "cell-2",
+          "outputs": [
+            {
+              "type": "table",
+              "columns": ["month", "rent", "total_expenses", "other_expenses", "rent_pct_of_expenses"],
+              "rows": [
+                ["2026-01", "1000.0", "1260.0", "260.0", "79.37"],
+                ["2026-02", "1000.0", "1535.0", "535.0", "65.15"],
+                ["2026-03", "1000.0", "2140.0", "1140.0", "46.73"],
+                ["2026-04", "0.0", "0.0", "0.0", "nan"],
+                ["2026-05", "1000.0", "1280.0", "280.0", "78.13"],
+                ["2026-06", "1000.0", "1220.0", "220.0", "81.97"],
+                ["2026-07", "0.0", "0.0", "0.0", "nan"],
+                ["2026-08", "0.0", "0.0", "0.0", "nan"],
+                ["2026-09", "1000.0", "2890.0", "1890.0", "34.6"],
+                ["2026-10", "2500.0", "5705.35", "3205.35", "43.82"],
+                ["2026-11", "0.0", "0.0", "0.0", "nan"]
+              ],
+              "totalRows": 11,
+              "truncated": false
+            }
+          ]
+        },
+        {
+          "title": "_",
+          "code": "import altair as alt\n\nrent_share_chart = (\n    alt.Chart(rent_share_df)\n    .mark_bar()\n    .encode(\n        x=alt.X(\"month:O\", title=\"Month (2026; Nov = Nov 1-3 only)\"),\n        y=alt.Y(\"rent_pct_of_expenses:Q\", title=\"Rent as % of total expenses\"),\n        tooltip=[\"month\", \"rent\", \"total_expenses\", \"rent_pct_of_expenses\"],\n    )\n    .properties(title=\"Rent as % of total expenses by month, 2026\")\n)\nrent_share_chart\n",
+          "id": "cell-3",
+          "outputs": [
+            {
+              "type": "chart",
+              "chart": {
+                "kind": "bar",
+                "title": "Rent as % of total expenses by month, 2026",
+                "xLabel": "Month (2026; Nov = Nov 1-3 only)",
+                "xScale": "category",
+                "yLabel": "Rent as % of total expenses",
+                "labels": [
+                  "2026-01",
+                  "2026-02",
+                  "2026-03",
+                  "2026-04",
+                  "2026-05",
+                  "2026-06",
+                  "2026-07",
+                  "2026-08",
+                  "2026-09",
+                  "2026-10",
+                  "2026-11"
+                ],
+                "series": [
+                  {
+                    "name": "Rent as % of total expenses",
+                    "values": [
+                      "79.37",
+                      "65.15",
+                      "46.73",
+                      null,
+                      "78.13",
+                      "81.97",
+                      null,
+                      null,
+                      "34.6",
+                      "43.82",
+                      null
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "title": "_",
+          "code": "import code_execution_environment as cee\n\ncee.md(\"\"\"## Summary\n\n- Rent share of total expenses by month (posted, USD): Jan 79.37%, Feb 65.15%, Mar 46.73%, May 78.13%, Jun 81.97%, Sep 34.60%, Oct 43.82%.\n- Apr, Jul, Aug and Nov have **no posted expenses**, so the ratio is undefined (not 0%). They show as gaps in the chart. Nov covers only Nov 1-3.\n- Year to date: rent of $8,500.00 against $16,030.35 of total expenses is **53.02%** (total-period ratio; the simple average of the seven defined monthly ratios is 61.39%, a different measure).\n- October rent is $2,500: the regular $1,000 plus an additional $1,500 charge on Oct 24 (\"extra-rent\"), which is worth reviewing.\n\nExcluded from the figures: a $1,000 draft November rent (Nov 1), a $60 draft Figma subscription (Nov 3), a $1,200 draft professional services bill (Oct 31), and a $400 rent entry dated Nov 4, after today (posted but future-dated). Including them would change the October and November percentages.\n\"\"\")",
+          "id": "cell-4",
+          "outputs": [
+            {
+              "type": "markdown",
+              "text": "Summary\n\nRent share of total expenses by month (posted, USD): Jan 79.37%, Feb 65.15%, Mar 46.73%, May 78.13%, Jun 81.97%, Sep 34.60%, Oct 43.82%.\n\nApr, Jul, Aug and Nov have no posted expenses, so the ratio is undefined (not 0%). They show as gaps in the chart. Nov covers only Nov 1-3.\n\nYear to date: rent of $8,500.00 against $16,030.35 of total expenses is 53.02% (total-period ratio; the simple average of the seven defined monthly ratios is 61.39%, a different measure).\n\nOctober rent is $2,500: the regular $1,000 plus an additional $1,500 charge on Oct 24 (\"extra-rent\"), which is worth reviewing.\n\nExcluded from the figures: a $1,000 draft November rent (Nov 1), a $60 draft Figma subscription (Nov 3), a $1,200 draft professional services bill (Oct 31), and a $400 rent entry dated Nov 4, after today (posted but future-dated). Including them would change the October and November percentages."
+            }
+          ]
+        }
+      ],
+      "updatedAt": "2026-11-04T00:54:26.826Z"
+    }
+  }
+}

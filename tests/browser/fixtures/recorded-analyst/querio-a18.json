@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "kind": "recorded-actual-response-replay",
+  "caseId": "A18",
+  "provider": "querio",
+  "businessDate": "2026-11-03",
+  "organizationId": "6eb2b567-f19c-56bf-bb3c-cdf0592ae97a",
+  "provenance": {
+    "sourceCommit": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+    "modelId": "claude-sonnet-5-5",
+    "captureBasename": "a18-turn-1.json",
+    "captureSha256": "39bd1caef136d21e16dbff93e11310609058c1dd02d6a566e428e26c7b52e16b",
+    "bindingSha256": "fefc6445b0966d5f731ee3e352c01c8c0a9c820d70ca4799badcb3b5523315cb",
+    "referenceHashes": {
+      "fixture.json": "8cae13abd47a2fd4d87b44900830de5a629efbf2011f5b58c79cf1ad41dbe044",
+      "expected.json": "690b70d1100795916809f3adfd4c162a9c57ed033244e53333fd5711d7022f13",
+      "cases.json": "5360063b7dd0c745636112aa1d08e014ac982447c6ae13bbc7bb3d198ef82400",
+      "shared-context.md": "08fd4cf05899e79cfdc4f301d32dc4b36967e3bbd482d932df5c76941634b8b3",
+      "oracle.py": "c4fa4e69e98664188ca4b7bb1113cca3157b6f41f837c72c1ee9fb7444c05ac2"
+    },
+    "originalPublicStateSha256": "efdf7013c55cbc5cb49cc4383807b2a3c2d5d33f47db42593a30a1560aa06d00",
+    "sanitizedStateSha256": "b7951775ad4374d3ee176eec9247e8af7982bcbabdaaa08668372845e839fb72",
+    "sanitization": [
+      "Allowlisted public contract fields only",
+      "Replaced opaque conversation/message/cell IDs",
+      "Removed external notebook link",
+      "Retained actual prose, code, table values and chart values without repair"
+    ]
+  },
+  "state": {
+    "provider": "querio",
+    "title": "Which three vendors account for the largest shares of this year's expenses? Show each amount, each s",
+    "sourceLabel": "Acorn Studio acceptance workspace",
+    "status": "completed",
+    "phase": null,
+    "createdAt": "2026-11-04T00:58:19.836Z",
+    "updatedAt": "2026-11-04T00:59:47.247Z",
+    "id": "de3c20df-6895-59a4-8037-d93e6efb301c",
+    "error": null,
+    "messages": [
+      {
+        "role": "user",
+        "content": "Which three vendors account for the largest shares of this year's expenses? Show each amount, each share, the cumulative share as we add them, and a chart.",
+        "createdAt": "2026-11-04T00:58:19.836Z",
+        "id": "message-1"
+      },
+      {
+        "role": "assistant",
+        "content": "The top three vendors by posted net expenses, 1 Jan to 3 Nov 2026 in USD, are Hudson Properties, Alloy Partners and Stationers. Together they make up 88.42% of total expenses of $16,030.35.\n\n| Rank | Vendor | Amount (USD) | Share | Cumulative share |\n|---|---|---|---|---|\n| 1 | Hudson Properties | 8,500.00 | 53.02% | 53.02% |\n| 2 | Alloy Partners | 4,800.00 | 29.94% | 82.96% |\n| 3 | Stationers | 875.00 | 5.46% | 88.42% |\n\n- **Amounts:** These are net of refunds and credits. Stationers includes two credits of $75 and $100.\n- **Shares:** Each share is the vendor's amount divided by total net expenses across all vendors.\n- **Exclusions:** The three draft entries are left out.\n- **Vendor:** I used the entry's counterparty as the vendor.\n\nThe notebook has the supporting tables, a bar chart of each vendor's share, and a summary.",
+        "createdAt": "2026-11-04T00:59:31.759Z",
+        "id": "message-2"
+      }
+    ],
+    "notebook": {
+      "cells": [
+        {
+          "title": "_",
+          "code": "import code_execution_environment as cee\ncee.md(\"# Top three vendors by share of 2026 expenses\\nPeriod: 2026-01-01 to 2026-11-03. Currency: USD (saved base amounts). Posted entries only (drafts excluded). Expense = debits minus credits on EXPENSE accounts, so refunds and reversals reduce vendor totals. Vendor = entry counterparty. Share = vendor net expense / total net expenses of all vendors.\")",
+          "id": "cell-1",
+          "outputs": [
+            {
+              "type": "markdown",
+              "text": "Top three vendors by share of 2026 expenses\n\nPeriod: 2026-01-01 to 2026-11-03. Currency: USD (saved base amounts). Posted entries only (drafts excluded). Expense = debits minus credits on EXPENSE accounts, so refunds and reversals reduce vendor totals. Vendor = entry counterparty. Share = vendor net expense / total net expenses of all vendors."
+            }
+          ]
+        },
+        {
+          "title": "_",
+          "code": "import code_execution_environment as cee\nvendor_expense_df = cee.sql(\"\"\"\nSELECT counterparty AS vendor, SUM(base_net_debit) AS amount_usd\nFROM querio_fixture.ledger\nWHERE account_type = 'EXPENSE' AND status = 'POSTED'\n  AND date BETWEEN DATE '2026-01-01' AND DATE '2026-11-03'\nGROUP BY counterparty\nORDER BY amount_usd DESC\n\"\"\", datasource=\"daybook-acceptance-20261104\", output=False)\nvendor_expense_df",
+          "id": "cell-2",
+          "outputs": [
+            {
+              "type": "table",
+              "columns": ["vendor", "amount_usd"],
+              "rows": [
+                ["Hudson Properties", "8500.0"],
+                ["Alloy Partners", "4800.0"],
+                ["Stationers", "875.0"],
+                ["North Media", "800.0"],
+                ["Figma", "360.0"],
+                ["Rail Co", "350.0"],
+                ["Adobe Stock", "178.0"],
+                ["Toolbox", "80.0"],
+                ["City Transit", "80.0"],
+                ["NoteWorks", "7.35"]
+              ],
+              "totalRows": 10,
+              "truncated": false
+            }
+          ]
+        },
+        {
+          "title": "_",
+          "code": "top3_df = vendor_expense_df.head(3).copy()\n_total = vendor_expense_df[\"amount_usd\"].sum()\ntop3_df[\"share_pct\"] = (top3_df[\"amount_usd\"] / _total * 100).round(2)\ntop3_df[\"cumulative_share_pct\"] = top3_df[\"share_pct\"].cumsum().round(2)\ntop3_df[\"rank\"] = range(1, 4)\ntop3_df[\"total_expenses_usd\"] = _total\ntop3_df",
+          "id": "cell-3",
+          "outputs": [
+            {
+              "type": "table",
+              "columns": [
+                "vendor",
+                "amount_usd",
+                "share_pct",
+                "cumulative_share_pct",
+                "rank",
+                "total_expenses_usd"
+              ],
+              "rows": [
+                ["Hudson Properties", "8500.0", "53.02", "53.02", "1", "16030.35"],
+                ["Alloy Partners", "4800.0", "29.94", "82.96", "2", "16030.35"],
+                ["Stationers", "875.0", "5.46", "88.42", "3", "16030.35"]
+              ],
+              "totalRows": 3,
+              "truncated": false
+            }
+          ]
+        },
+        {
+          "title": "_",
+          "code": "import altair as alt\ntop3_chart = (alt.Chart(top3_df).mark_bar().encode(\n    x=alt.X(\"vendor:N\", sort=None, title=\"Vendor\"),\n    y=alt.Y(\"share_pct:Q\", title=\"Share of total expenses (%)\"),\n    tooltip=[\"vendor\",\"amount_usd\",\"share_pct\",\"cumulative_share_pct\"])\n    .properties(title=\"Top 3 vendors: share of 2026 YTD expenses (cumulative: 53.0%, 83.0%, 88.4%)\"))\ntop3_chart",
+          "id": "cell-4",
+          "outputs": [
+            {
+              "type": "chart",
+              "chart": {
+                "kind": "bar",
+                "title": "Top 3 vendors: share of 2026 YTD expenses (cumulative: 53.0%, 83.0%, 88.4%)",
+                "xLabel": "Vendor",
+                "xScale": "category",
+                "yLabel": "Share of total expenses (%)",
+                "labels": ["Hudson Properties", "Alloy Partners", "Stationers"],
+                "series": [
+                  {
+                    "name": "Share of total expenses (%)",
+                    "values": ["53.02", "29.94", "5.46"]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "title": "_",
+          "code": "import code_execution_environment as cee\ncee.md(\"\"\"## Summary\nTotal posted net expenses, 2026-01-01 to 2026-11-03: **$16,030.35 USD**.\n\n| Rank | Vendor | Amount (USD) | Share | Cumulative share |\n|---|---|---|---|---|\n| 1 | Hudson Properties | 8,500.00 | 53.02% | 53.02% |\n| 2 | Alloy Partners | 4,800.00 | 29.94% | 82.96% |\n| 3 | Stationers | 875.00 | 5.46% | 88.42% |\n\n- Spending is highly concentrated: two vendors make up about 83% of expenses.\n- Stationers is net of two credits (-$75 and -$100); North Media ($800) is close behind at 4.99%.\n- Drafts (3 entries) are excluded. Vendor is taken from the entry counterparty.\n\"\"\")",
+          "id": "cell-5",
+          "outputs": [
+            {
+              "type": "markdown",
+              "text": "Summary\n\nTotal posted net expenses, 2026-01-01 to 2026-11-03: $16,030.35 USD.\n\nRank\nVendor\nAmount (USD)\nShare\nCumulative share\n\n1\nHudson Properties\n8,500.00\n53.02%\n53.02%\n\n2\nAlloy Partners\n4,800.00\n29.94%\n82.96%\n\n3\nStationers\n875.00\n5.46%\n88.42%\n\nSpending is highly concentrated: two vendors make up about 83% of expenses.\n\nStationers is net of two credits (-$75 and -$100); North Media ($800) is close behind at 4.99%.\n\nDrafts (3 entries) are excluded. Vendor is taken from the entry counterparty."
+            }
+          ]
+        }
+      ],
+      "updatedAt": "2026-11-04T00:59:31.759Z"
+    }
+  }
+}
