@@ -1,193 +1,264 @@
-# Daybook · Accounting workspace
+# Daybook
 
-A React and TypeScript accounting application with an Express REST API and PostgreSQL. Record transactions, review balanced entries, manage recurring drafts and inspect financial reports. AI suggests entries and categories for review; database constraints protect posted history.
+**Double-entry accounting with a Gemini analyst that answers from your books.**
 
-**Spiich reviewer handoff:** start with the [setup and reading guide](docs/SUBMISSION_GUIDE.md). Docker Compose plus your own Gemini key is sufficient; Querio and TypeSafe/Jev are optional and require no setup. The [original assignment](docs/ORIGINAL_ASSIGNMENT.md) is preserved. [Current architecture PDF](docs/reports/submission-architecture.pdf) · [Analyst comparison PDF](docs/reports/analyst-workspace-comparison.pdf) · [Category-learning PDF](docs/reports/category-learning-explained.pdf).
+React · TypeScript · Express REST · PostgreSQL · Docker Compose
 
-**Analyst workspace:** Ask lets you switch between Daybook’s Gemini analyst and Querio. Both show answers with inspectable tables, charts and queries. The native model can write a new checked read-only SQL calculation; accounting writes still require the existing review/posting flow. Both tabs are live on the public demo; the submitted source opens Daybook by default. [Two-page explanation](docs/reports/analyst-workspace-comparison.pdf) · [Comparison and limitations](docs/ANALYST_COMPARISON.md) · [Verified release](docs/evidence/native-analyst-release.json).
+[Open public demo](https://daybook-ledger-delta.vercel.app/analyst?tab=daybook) · [Run locally](#run-locally) · [Review the features](#a-10-minute-review) · [Architecture PDF](docs/reports/submission-architecture.pdf) · [Original assignment](docs/ORIGINAL_ASSIGNMENT.md)
 
-Open the [public hosted demo](https://daybook-ledger-delta.vercel.app/analyst?tab=daybook), or run the complete application with Docker below. The hosted books are a shared fictional workspace; use local Docker for isolated review with your own key. No API key is needed for manual accounting, reports, recurrence or statistical anomaly alerts.
+| For the reviewer                           | What you need                                             |
+| ------------------------------------------ | --------------------------------------------------------- |
+| Run the full application                   | Docker Engine/Desktop with **Compose v2**                 |
+| Use AI entry, categorization and Ask       | **Your own Gemini API key**, with model access and quota  |
+| Use accounting without AI                  | No API key needed                                         |
+| External accounts required for local setup | **None beyond Gemini for AI** — PostgreSQL runs in Docker |
+| Optional integrations                      | Querio and TypeSafe/Jev are **not required**              |
 
-## Run with Docker Compose
+## Run locally
 
-Requires Docker Engine/Desktop with Compose v2.
+### 1. Clone and configure
+
+```sh
+git clone https://github.com/Spiich/spiich-accounting-assignment-rayid-ali.git
+cd spiich-accounting-assignment-rayid-ali
+cp .env.example .env
+```
+
+Open `.env` in your editor. Set your key and keep these defaults:
+
+```dotenv
+AI_PROVIDER=gemini
+GEMINI_API_KEY=your_key_here
+CATEGORY_PROVIDER=gemini
+NATIVE_ANALYST_ENABLED=true
+AI_MODEL=
+ANALYST_MODEL=gemini-3.8-flash
+```
+
+Leave Querio, TypeSafe and OpenAI credentials blank. `.env` is ignored by Git and excluded from Docker's build context; keys stay on the backend.
+
+**Model access:** transaction entry and categorization default to `gemini-3.5-flash-lite`; the native analyst is pinned to `gemini-3.8-flash`. Your Google project must support those models and have available quota. An arbitrary `ANALYST_MODEL` substitution is not supported by the current native transport. Manual accounting still works when AI is unavailable.
+
+### 2. Start the stack
 
 ```sh
 docker compose up --build
 ```
 
-Open **http://localhost:3001**. Startup waits for PostgreSQL, applies checksummed migrations, seeds the workspace, then starts the application. Data persists in a named volume; subsequent starts keep existing records.
+### 3. Open Daybook
 
-The Northstar Studio demo includes 22 accounts, six months of activity, an unpaid invoice, a EUR receipt, a draft, recurring schedules and unusual/duplicate expenses to inspect. Dates are anchored to the first seed run; restarting never shifts posted history.
+**http://localhost:3001** · **[Ask → Daybook](http://localhost:3001/analyst?tab=daybook)**
 
-## Try the everyday workflow
+The first build can take several minutes. Startup automatically performs:
 
-1. Start on **Home** to see cash, income, expenses and alerts.
-2. Create a transaction manually, or describe it to the AI after connecting a provider. Review the accounts, amount, currency and date. An unclear request should ask for details.
-3. Save a **draft** while reviewing; **post** when ready. Posted entries cannot be edited. Use a linked reversal to correct them.
-4. Open **Transactions** to search and inspect entries, **Reports** for the trial balance, profit/loss, balance sheet and account ledger, and **Settings** for accounts and recurring schedules.
+```mermaid
+flowchart LR
+    A[PostgreSQL becomes healthy] --> B[Apply checksummed migrations]
+    B --> C[Seed fictional demo books]
+    C --> D[Start API, UI and background jobs]
+```
 
-For example, a $340 office-supplies purchase on the company card debits Supplies and credits the card liability. If you change an AI-suggested category and post the reviewed entry, the server remembers that correction atomically. Saving a draft alone does not teach it; forgetting or reversing the example removes its teaching effect. This supplies examples to later suggestions, rather than retraining model weights.
+There is no separate SQL import or hosted database to configure. The Northstar Studio demo contains 22 accounts, six months of activity, multi-currency entries, recurring schedules, drafts and deliberately unusual transactions. Dates are anchored to the **first seed**; later restarts keep your existing records.
 
-The [beginner accounting walkthrough](docs/ACCOUNTING_WALKTHROUGH.md) explains the numbers. The [demo and interview guide](docs/INTERVIEW_GUIDE.md) provides a short presentation and worked examples.
+<details>
+<summary><strong>Stop, restart, change a key, or start without demo entries</strong></summary>
 
-For a self-contained file to import into a meeting-notes tool, use the [complete project knowledge base](docs/MEETING_NOTES_KNOWLEDGE_BASE.md). It includes the original assignment, requirement mapping, database inventory, code walkthroughs, architecture diagrams, worked examples, measured results, limits and interview answers for the released version.
+```sh
+# Inspect containers and startup output.
+docker compose ps
+docker compose logs --tail=100 app migrate
 
-## What is included
+# Reload .env settings after changing a key.
+docker compose up -d --force-recreate app
 
-| Requirement                 | Implementation                                                                                                         |
-| --------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| Double entry                | Exact decimals, 2–100 lines, balanced USD base amounts, deferred PostgreSQL constraints                                |
-| Chart of accounts           | Tree, unique codes, five account types, create/edit/archive/restore/delete unused accounts                             |
-| Journal                     | Simple USD form, full manual/FX entries, AI clarification and review, drafts, revisions and reversals                  |
-| Currency                    | USD base; USD, EUR, GBP, CAD, JPY accounts; stored rates and native/base balances                                      |
-| Recurrence                  | Weekly/monthly/yearly, calendar anchors, automatic drafts, edit future content, pause/resume, recovery                 |
-| Reporting                   | Trial balance, P&L, balance sheet, account ledger with opening/running balances, filters and CSV                       |
-| Transactions                | Search, account/date/status/currency filters, cursor pagination, entry drill-down                                      |
-| AI entry and categorization | Structured proposals, clarification, account validation, relevant history and correction retrieval                     |
-| Anomaly detection           | Duplicate/amount/category rules, review/dismissal, resolved alerts and reversal-aware rechecks                         |
-| Insights                    | Querio notebook workspace; native generated read-only SQL analyst with bounded hosted acceptance; legacy chat fallback |
-| UX                          | Four accounting destinations plus Ask, reviewed account effects, accessible controls and progressive detail            |
-| Operations                  | Migrations, Docker Compose, health checks, request IDs, outbox jobs, passing CI, public Vercel/Neon demo               |
+# Stop while keeping your database.
+docker compose down
+```
 
-The short-form **Suggest category** action chooses an expense/revenue category while code preserves the fixed amount and payment account. Loans, transfers, invoice settlements and more complex entries use the full-entry workflow. Suggestions require review and cannot post themselves. [Category selector](docs/CATEGORY_SELECTOR.md) · [Assignment checklist](docs/ASSIGNMENT_REVIEW.md).
+Data persists in the named PostgreSQL volume `spiich_postgres_data`. **Do not use `down -v` if you want to keep it.** Local books do not synchronize with the hosted demo. The application binds to localhost; PostgreSQL is not exposed to the host by default.
 
-## Local development without Docker
+For a default chart of accounts with no demo journal, set `SEED_DEMO=false` before the first startup. Changing it afterward does not delete existing entries.
 
-Requires Node 22.12+ and npm. The convenience launcher uses an isolated, real PostgreSQL server through `embedded-postgres`; local data stays in `.tools/postgres`.
+</details>
+
+## See the analyst
+
+![Daybook's Gemini analyst beside its notebook, showing monthly rent percentages, a bar chart and the supporting table](docs/images/analyst-notebook.png)
+
+_Actual released application displaying a saved answer against fictional demo books. Notebook tables, charts and source queries are inspectable. These November 2026 values are illustrative; your fresh local seed may have different dates and balances._
+
+## A 10-minute review
+
+| Open                     | Try this                                                                                | What to inspect                                                                       |
+| ------------------------ | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| **Home**                 | Review cash, revenue, expenses and recent activity.                                     | Recorded posted balances; drafts are excluded.                                        |
+| **Transactions**         | Enter a $500 office-supplies purchase using the company card. Save, review, then post.  | Supplies debit and card-liability credit are equal. Posted history cannot be edited.  |
+| **Reports**              | Open trial balance, P&L, balance sheet and an account ledger.                           | Matching date filters, debit/credit totals, opening and running balances, CSV export. |
+| **Settings → Accounts**  | Add an account; inspect its type, code and parent.                                      | Unique codes, account tree and protection of accounts with history.                   |
+| **Settings → Recurring** | Inspect or create a repeating transaction.                                              | Scheduled occurrences become **drafts**, awaiting review and posting.                 |
+| **Review / alerts**      | Inspect seeded unusual rent and possible duplicate expenses.                            | Explainable rule-based alerts; a flag is not proof of an error.                       |
+| **AI entry**             | “Bought office supplies for $340 with the company credit card.”                         | Proposed accounts, clarification when needed, and explicit review before posting.     |
+| **Ask → Daybook**        | “For every month this year, show rent as a percentage of total expenses, with a chart.” | Answer, period, denominator, table, chart and underlying SQL.                         |
+
+More useful questions:
+
+- “What is my current recorded cash balance?”
+- “Show all Adobe transactions, with drafts listed separately.”
+- “What percentage of total expenses was office supplies this year?”
+- “Model adding a $4,500 monthly salary with 20% employer overhead. Show your assumptions.”
+
+The native analyst can take several minutes for a multi-step question. Progress and Stop controls are available. A hiring scenario is an assumption-based calculation, not knowledge of a future salary or external bank balance.
+
+## Architecture
+
+```mermaid
+flowchart TB
+    UI["React + TypeScript<br/>Forms · Reports · Ask · Notebook"] --> API["Express REST API<br/>Zod validation · Request references"]
+    API --> Ledger["Accounting services<br/>Draft · Post · Reverse · Reports"]
+    Ledger --> DB[("PostgreSQL<br/>Exact money · Constraints · Durable jobs")]
+    API --> Analyst["Native analyst orchestrator<br/>Saved conversations · Bounded work"]
+    Analyst <--> Gemini["Gemini<br/>Interpret question · Propose SQL"]
+    Analyst --> Boundary["SQL boundary<br/>Parse · Restrict · Read-only role"]
+    Boundary --> Views["Organization-scoped analytics views"]
+    Views --> DB
+    Analyst --> Notebook["Recheck results · Publish notebook<br/>Tables/charts from saved query data"]
+    Notebook --> UI
+```
+
+| Decision                               | Why it matters                                                                                      |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| **One journal is the source of truth** | Reports and AI analysis read the same recorded accounting facts.                                    |
+| **Exact decimals**                     | PostgreSQL `NUMERIC` and `decimal.js` avoid binary floating-point money errors.                     |
+| **Database-enforced posting rules**    | Deferred constraints enforce balanced posted entries; validation is not confined to the frontend.   |
+| **Read-only AI analysis**              | Generated SQL is parsed and restricted to scoped views under a limited reader role.                 |
+| **Structured notebook output**         | React renders saved tables/charts; the app does not execute model-generated HTML.                   |
+| **Explicit SQL, no ORM**               | Joins, reporting rules, transactions and locking are directly inspectable.                          |
+| **REST, not GraphQL**                  | Resource endpoints cover accounts, entries, reports, recurring templates and analyst conversations. |
+
+The three analyst tools are application code: **`inspect_schema`**, **`query_sql`**, and **`publish_notebook`**. Gemini can propose a new query for a new question; the backend controls execution. Before publication, selected queries are rechecked together and recognized money/percentage claims require numeric support. These checks constrain errors; they do not prove every interpretation is correct.
+
+### How a transaction becomes accounting history
+
+```mermaid
+flowchart LR
+    A[Manual form or AI proposal] --> B[Editable draft]
+    B --> C[User reviews accounts and amounts]
+    C --> D[Validated atomic posting]
+    D --> E[Immutable journal history]
+    E --> F[Reports and read-only analysis]
+    E --> G[Linked reversal for corrections]
+```
+
+For the **$500 supplies purchase on a card**:
+
+| Account                   |       Debit |      Credit |
+| ------------------------- | ----------: | ----------: |
+| Office supplies — expense |     $500.00 |           — |
+| Company card — liability  |           — |     $500.00 |
+| **Total**                 | **$500.00** | **$500.00** |
+
+Posting checks the reviewed revision, account ownership, currency/rates and equal base debits/credits. Idempotency keys and row locks address repeated/concurrent requests. A reversal retains the original entry and records its exact opposite.
+
+## Assignment coverage
+
+| Area                      | Delivered behavior                                                                                                                                                      |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Double entry and accounts | Balanced postings, immutable history, linked reversals; account tree with unique codes and five types.                                                                  |
+| Multi-currency            | USD base; USD/EUR/GBP/CAD/JPY accounts, saved exchange rates and native/base balances.                                                                                  |
+| Recurring transactions    | Weekly/monthly/yearly templates, automatic pending drafts, calendar anchors and duplicate prevention.                                                                   |
+| Reporting                 | Trial balance, income statement, balance sheet and account ledger with date filters.                                                                                    |
+| Natural-language entry    | Structured proposals, ambiguity handling, account validation and confirmation before posting.                                                                           |
+| Categorization learning   | Reviewed **posted corrections** become relevant examples for later suggestions; reversing/forgetting invalidates them. This is example retrieval, not model retraining. |
+| Anomaly detection         | Duplicate, amount and category rules; durable jobs, alerts and review/dismissal. Amount checks need four comparable positive samples.                                   |
+| Financial insights        | Read-only generated SQL, conversational follow-ups, inspectable tables and charts.                                                                                      |
+| Frontend and operations   | React UI, search/filter/pagination, TypeScript throughout, PostgreSQL migrations, Compose, tests and request-correlated errors.                                         |
+
+## Inspect the code
+
+| Start here                                                                                                    | Responsibility                                                                             |
+| ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| [`db/migrations/`](db/migrations/)                                                                            | Database schema, deferred balance constraints, immutability, permissions and scoped views. |
+| [`server/ledger.ts`](server/ledger.ts)                                                                        | Create, revise, post and reverse entries.                                                  |
+| [`server/reports.ts`](server/reports.ts)                                                                      | Posted-journal queries, date scope, signs and saved FX.                                    |
+| [`server/recurring.ts`](server/recurring.ts) / [`server/anomalies.ts`](server/anomalies.ts)                   | Scheduled drafts, background work and alert rules.                                         |
+| [`server/categorization-memory.ts`](server/categorization-memory.ts)                                          | Posted-correction examples and their lifecycle.                                            |
+| [`server/native-analyst-service.ts`](server/native-analyst-service.ts)                                        | Model/tool orchestration, conversation continuity and failure handling.                    |
+| [`server/analyst-sql.ts`](server/analyst-sql.ts) / [`server/analyst-notebook.ts`](server/analyst-notebook.ts) | Restricted SQL execution, result storage and notebook publication.                         |
+| [`server/app.ts`](server/app.ts) / [`docs/API.md`](docs/API.md)                                               | REST endpoints and API contracts.                                                          |
+| [`shared/`](shared/) / [`web/src/`](web/src/)                                                                 | TypeScript/Zod contracts, exact money utilities and React UI.                              |
+| [`tests/`](tests/)                                                                                            | PostgreSQL integration, provider contracts, failure handling and browser workflows.        |
+
+Modules are grouped by capability; this is not a uniformly separated controller/service/repository implementation. `api/` contains Vercel entry points into the backend, not a separate accounting system. `research/` holds optional experiments and is not required for normal startup.
+
+## Verification
+
+| Check                                | What it establishes                                                                              |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| **3,366 application tests passed**   | Contracts, exact arithmetic, real PostgreSQL behavior, provider boundaries and failure handling. |
+| **60 browser workflows passed**      | Accounting UI, both analyst tabs, notebooks, recovery and mobile viewport behavior.              |
+| **Docker lifecycle and persistence** | Startup, scheduling, anomaly processing and preservation through container recreation.           |
+| **Separate model evaluations**       | Bounded real-model evidence, with original failures and limits retained in the linked reports.   |
+
+These counts refer to the handoff source. [Exact CI and handoff evidence](docs/evidence/submission-handoff.json) records commits, skips and the separate Docker checks; overlapping test totals are not added together. Ordinary CI uses scripted provider responses and makes no paid model calls. Passing engineering tests is not a universal AI-accuracy score.
+
+With the Docker stack running:
+
+```sh
+docker compose --profile test run --build --rm tests
+```
+
+<details>
+<summary><strong>Node development and browser verification</strong></summary>
+
+Requires **Node 22.12+**. Copy/configure `.env` as above, then:
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Open **http://localhost:5173**. The API runs on port 3001 and PostgreSQL on 55432. Ctrl-C stops the servers and preserves data. Restart the command after adding a key to `.env`.
-
-To use your own PostgreSQL, set both database URLs shown in `.env.example`. `MIGRATION_DATABASE_URL` must permit migrations and role creation; `DATABASE_URL` uses the restricted `spiich_app` role. The launcher skips embedded PostgreSQL when `DATABASE_URL` is set. The portable launcher was exercised on macOS arm64; Compose is the cross-platform submission path.
-
-Set `SEED_DEMO=false` **before the first start** for an empty journal with the default chart. It does not erase an already seeded workspace.
-
-## Connect AI when ready
-
-Gemini and OpenAI are supported. Copy `.env.example` to `.env` only if you do not already have one, then configure your provider locally:
-
-```dotenv
-AI_PROVIDER=gemini
-GEMINI_API_KEY=your_key_here
-NATIVE_ANALYST_ENABLED=true
-```
-
-These settings control whole-entry and legacy chat requests. The separate native analyst requires `NATIVE_ANALYST_ENABLED=true` and `GEMINI_API_KEY`; its pinned model is `gemini-3.8-flash`. The sample environment enables this separately tested analyst when its Gemini key is configured. Querio uses server-only `QUERIO_*` settings in `.env.example`; never place provider keys in browser variables.
-
-Leave `AI_MODEL` empty to use the configured provider default: `gemini-3.5-flash-lite` or `gpt-6-luna`. For OpenAI, set `AI_PROVIDER=openai` and `OPENAI_API_KEY`; remove any stale model override when switching. Use a model your project can access. Keys stay on the server and are excluded from source, Docker images and the submission.
-
-Restart the local server after changing `.env`, or recreate the Compose app:
+Open **http://localhost:5173**. With database URLs unset, the launcher starts a real local PostgreSQL server and retains data in `.tools/postgres`. The API uses port 3001 and PostgreSQL uses 55432. Do not run Compose and this launcher on the same host ports. Compose is the primary cross-platform setup; the convenience launcher was exercised on macOS arm64.
 
 ```sh
-docker compose up -d --force-recreate app
-```
-
-`CATEGORY_PROVIDER=gemini|jev|reference` is server-controlled; Gemini remains the measured category default. Jev uses `TYPESAFE_API_KEY`. The offline reference provides a simpler comparison. Neither setting changes the whole-entry provider. Changing local `.env` does not update a deployed Vercel configuration.
-
-Entry/category requests are not automatically retried. The native analyst may make one separately metered fresh inference after a caught, accounted transport failure; crashed or already-returned requests are not replayed. The legacy chat retains its separate bounded planning/schema-repair behavior. Errors include a copyable request reference. Without a key, the manual workflows still work. [API](docs/API.md) · [Provider repair and its limits](docs/evidence/provider-compatibility-20261101/report.md).
-
-## Verification
-
-With `npm run dev` already running, use another terminal:
-
-```sh
-npm test
 npm run build
-npm run dev -- --test-browser --reuse-db --production
 npm run format:check
-```
+npx playwright install chromium
 
-For a standalone run that owns and stops its local PostgreSQL:
-
-```sh
+# Standalone checks; the launcher owns its test database lifecycle.
 npm run dev -- --test
-npm run build
 npm run dev -- --test-browser --production
 ```
 
-Playwright uses installed Chromium or the local Brave browser when available. On another machine, install its browser with `npx playwright install chromium`. Browser checks create a separate workspace, use port 3002, and exercise the built application. They do not modify the demo workspace, and the launcher disables the provider key for these workflows.
+Browser checks use a separate workspace and disable the provider key. More options and evidence are in [Verification](docs/VERIFICATION.md).
 
-The Docker integration-test service is available with:
+</details>
 
-```sh
-docker compose --profile test run --build --rm tests
-node scripts/check-compose-persistence.mjs --execute
-```
+## Troubleshooting
 
-The persistence command recreates app/database containers and checks that an existing posted entry survives. It preserves the volume and makes no journal writes; run it after Compose startup.
+| Symptom                                   | Check / next step                                                                                                                                              |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| App does not open                         | Wait for the first build; inspect `docker compose ps` and `docker compose logs --tail=100 app migrate`.                                                        |
+| Port 3001 is occupied                     | Stop the conflicting process or change the app's Compose port mapping and browser URL.                                                                         |
+| AI unavailable or provider error          | Check the saved key, model access and quota, then recreate `app` to reload `.env`. Copy the error's request reference when diagnosing; do not publish the key. |
+| Query takes a while                       | Native analysis can use several model/tool steps. Watch progress; use Stop if needed.                                                                          |
+| Report and transaction-list totals differ | Match date/account filters and check draft versus posted status. Drafts are not confirmed expenses.                                                            |
+| Dates differ from the screenshot          | Demo dates are fixed when that database is first seeded; local and hosted books are independent.                                                               |
+| Querio is not connected                   | Use **Daybook**. Querio is an optional comparison integration and has separate credentials.                                                                    |
 
-[Verification](docs/VERIFICATION.md) records exact-source CI results, skipped tests and deployment history. Tests cover real PostgreSQL constraints, independent report arithmetic, correction memory, browser workflows, native hosted imports and Docker persistence. Provider responses in ordinary CI are scripted; passing those tests is not a live-model accuracy score. Browser checks use the CI build, not a fresh hosted or physical-device inspection.
+## Scope and reading material
 
-The promoted source passed [full CI 41282013110](https://github.com/rayidali/spiich_homework/actions/runs/41282013110): **2,556 normal tests across 127 files**, four separate fixture checks, **32 browser workflows in 52.2 seconds**, native research and Compose. Compose's 2,555 tests overlap the normal suite; do not add them together. The release receipt records skipped cases and the separate hosted checks.
+- **Shared demo:** the production link is public and writable, without application-user authentication. Use local Docker for isolated review; do not enter confidential data into the demo.
+- **Accounting scope:** saved FX rather than automatic revaluation; no bank feed/reconciliation, full invoice/payment allocation, tax engine or document-upload workflow. Base currency is USD and current business-date helpers use America/New_York.
+- **AI scope:** read-only execution and numeric support do not guarantee correct dates, categories, denominators or interpretations. Three hosted checks took 94–321 seconds. Million-user capacity and universal accuracy are not claimed.
 
-Provider evaluations are separate, optional runs that need an explicit allowance and disposable fixtures. Read [Product AI evaluation](docs/PRODUCT_AI_EVALUATION.md) before using `npm run ai:evaluate`; its original 40-case whole-entry evaluation remains incomplete. Do not reopen a completed comparison or reuse a closed budget.
+| Document                                                                 | Use it for                                                    |
+| ------------------------------------------------------------------------ | ------------------------------------------------------------- |
+| **[Current architecture PDF](docs/reports/submission-architecture.pdf)** | Three-page visual explanation of the current system.          |
+| [Reviewer setup and reading guide](docs/SUBMISSION_GUIDE.md)             | Additional setup, review and operational detail.              |
+| [Original assignment](docs/ORIGINAL_ASSIGNMENT.md)                       | The provided specification, preserved verbatim.               |
+| [Complete project knowledge base](docs/MEETING_NOTES_KNOWLEDGE_BASE.md)  | Detailed explanations, table inventory and code walkthroughs. |
+| [Native analyst design](docs/NATIVE_ANALYST.md)                          | SQL boundary, durable execution, notebook checks and limits.  |
+| [Analyst comparison PDF](docs/reports/analyst-workspace-comparison.pdf)  | Native/Querio experiment, scores and observed failures.       |
+| [Category-learning PDF](docs/reports/category-learning-explained.pdf)    | Correction learning and separate Gemini/Jev measurements.     |
 
-## AI decisions and measured results
-
-The native analyst uses three general tools: inspect schema, query SQL and publish a notebook from executed results. PostgreSQL calculates the money; code enforces read-only business scope. The model can still misunderstand a date or make an unsupported claim. Current paired development results and release gates are in [Native analyst](docs/NATIVE_ANALYST.md). Querio uses its own server-side Resource API path. Neither analyst can post entries.
-
-The results below are historical, separate studies; they do not describe the new analyst's current score or default provider.
-
-**Categorization is measured and complete.** Gemini and Jev received identical fixed facts and prior examples. Both chose semantically acceptable accounts on 33 held-out category inputs; Gemini also followed the taught business preference in **33/33**, Jev in **31/33**. Jev was cheaper but failed the predefined reliability condition for replacement. Gemini remains the narrow selector default. These 33 inputs come from eleven scenario sequences, not 33 independent businesses. The experiment measures use of supplied context; database retrieval quality and general production accuracy remain separate. [Results](docs/evidence/category-runs/completed-v3/holdout/report.md) · [Audit](docs/evidence/category-runs/completed-v3/independent-audit.json) · [Decision](docs/evidence/category-runs/completed-v3/release-decision.json) · [Two-page PDF](docs/reports/category-learning-explained.pdf) ([HTML](docs/reports/category-learning-explained.html)).
-
-**Broader chat comparison is complete and closed.** The same sixteen synthetic held-out questions ran on three routes, giving 48 executions. Frozen scores were **9/16 composable, 10/16 adaptive and 5/16 complete**. A separate replay of the same saved answers after two grader compatibility corrections gives **11/16, 11/16 and 5/16**; it is descriptive sensitivity analysis, not a new model run or replacement score. Neither alternative qualified at that historical checkpoint, when the hosted route remained `composable`. The known smoke remains 0/3, and all earlier failures and unknown reservations stay recorded. [Results and costs](docs/evidence/compact-completion-runs/report.md) · [Two-page explanation](docs/reports/chat-route-comparison-explained.pdf).
-
-The optional `adaptive` route can inspect results before choosing another operation. The optional `complete` route checks declared requested outputs and can finish supported missing arithmetic from verified retained results without another database or model call. The model can still omit a requirement from its initial declaration. These features do not establish perfect interpretation or become the default because they exist. [Completion behavior and limits](docs/ANSWER_COMPLETENESS.md).
-
-Earlier comparisons remain tied to their original source: the [composable-query PDF](docs/reports/chat-query-comparison.pdf) and [adaptive comparison PDF](docs/reports/adaptive-comparison-explained.pdf) explain their findings and limitations. Their scores cannot be assigned to the repaired candidate. [Adaptive design and evidence](docs/ADAPTIVE_CHAT.md) · [Reliability chronology](docs/CHAT_RELIABILITY.md).
-
-The older nine-route research study tested lexical documents, Gemini File Search, embeddings/pgvector, Jev, Wren and reviewers in an isolated harness. Those retrieval/reviewer routes are not enabled in product chat. The documents were fictional fixtures; there is no product upload workflow, and Mastra was not added. Its approximately $6.05 tracked allowance is closed. [Two-page explanation](docs/reports/daybook-ai-explained.pdf) · [Narrative](docs/reports/research-study.md) · [Graphs](docs/evidence/research-runs/holdout-v1/report.html) · [Worked failures](docs/reports/research-worked-examples.md) · [Costs](docs/evidence/research-final-costs/cost-reconciliation.md) · [Reproduction](docs/research/REPRODUCE.md).
-
-## Reading the code
-
-```text
-db/migrations/    PostgreSQL constraints, permissions, revisions, provenance
-server/ledger.ts  One entry creation/posting/reversal path
-server/reports.ts Posted-journal financial queries
-server/native-analyst-service.ts  Durable SQL analyst, model/tool history and publication
-server/analyst-sql.ts / analyst-notebook.ts  Read-only boundary and source-backed notebook
-server/querio-service.ts  Server-side Querio sessions, lifecycle and evidence
-server/ai.ts      Legacy chat, proposal validation and bounded schema repair
-server/financial-analysis.ts / financial-calculation.ts  Checked ledger queries and exact arithmetic
-server/date-scope.ts  Conservative original-user all-history scope proof
-server/ai-admission.ts  Shared PostgreSQL request limits
-server/ai-provider.ts  Whole-entry Gemini/OpenAI adapters and safe failures
-server/category-selector.ts / category-service.ts  Fixed-fact category choice and review proposals
-server/categorization-memory.ts  Atomic reviewed-posting examples and forgetting
-server/diagnostics.ts  Safe request-correlated events
-server/recurring.ts / anomalies.ts  Bounded durable background work
-server/app.ts    Validated REST API and error responses
-server/hosting/  TypeScript Vercel API/scheduler adapters
-api/             Tiny exports of generated native ESM hosted bundles
-shared/          Money arithmetic and TypeScript/Zod contracts
-web/src/         React pages, forms and reusable UI
-tests/           Real PostgreSQL tests, provider contracts, browser workflows
-scripts/         Migration, resumable seeding, dev launcher, live AI evaluation
-research/        Isolated routes, retrieval, Wren bridge, validators and reference/scoring code
-scripts/research/  Fixture setup, indexing, controlled runs and report generation
-```
-
-The [architecture](docs/ARCHITECTURE.md), [API reference](docs/API.md), [product completion plan](docs/PRODUCT_PLAN.md) and [build log](docs/BUILD_LOG.md) explain implementation and decisions. The [design record](docs/DESIGN.md) covers the interface and its evidence. The older [visual architecture report](docs/reports/architecture-review.pdf) and [interactive HTML](docs/reports/architecture-review.html) preserve a planning snapshot; consult the [checkpoint](CHECKPOINT.md) for current status.
-
-## Deliberate boundaries
-
-This is a single configured workspace application, as authentication was excluded from the assignment. Organization-scoped tables and composite foreign keys do not replace production authentication or authorization. Compose binds the UI/API to localhost.
-
-Reports use recorded exchange rates. Automated revaluation, tax, inventory, invoice lifecycle management, bank reconciliation and formal period closing are outside this implementation. The native analyst can join exposed records and calculate labeled scenarios; no future forecast, external event or user decision becomes known merely because a query can be written. Missing facts require clarification; a correct calculation alone does not prove the chosen records answer the question. CSV import, bank feeds and document uploads are optional extensions, not required assignment workflows.
-
-Request admission and bounded work protect the prototype, but million-user capacity and perfect interpretation have not been established. Current-source model quality, hosted visual/physical-device usability and automatic hosted cron firing must not be inferred from CI counts.
-
-## Hosted demo and handoff
-
-The [hosted demo](https://daybook-ledger-delta.vercel.app) uses Vercel protection around a shared writable workspace. Reviewer access still needs an owner-approved sharing arrangement. Hosting combines the Vite frontend, Express Functions and Neon PostgreSQL; Docker remains the portable submission path.
-
-[Hosting](docs/HOSTING.md) explains build-only migration credentials, the restricted runtime role, daily scheduler and deployment variables. A fresh CLI deployment needs explicit private configuration; a repository push is not a configured Vercel auto-deploy.
-
-The [historical composable release receipt](docs/evidence/goal-completion-release.json) binds source `6691d76` to deployment `dpl_CVQXU5jjfUKHW4Lt9biZm1RCnZe8`. Three actual hosted responses returned Supplies $1,740 for all history, Supplies $340 for October, and Rent $7,200 with a $6,860 Rent-minus-Supplies difference. The original automatic check remains **2/3** because of a currency-display formatting rejection; a separate 37-check internal semantic audit verified **3/3**. There were 32 runtime-correlation checks and six hosted browser checks with visual review of six captured views. All 75 journals and 22 accounts stayed unchanged. These are bounded checks, not arbitrary-question or physical-device guarantees.
-
-That historical release recorded **$0.6919872 within its separate $0.90 allowance**, including preserved failures. The new two-analyst task closed at **$4.407171750 of $5**: $4.170306000 known estimates plus $0.236865750 retained unknown reservations. These are not invoices, and the earlier allowance is not reopened. [Hosted checks and cost receipt](docs/evidence/native-analyst-hosted-acceptance.json). The [checkpoint](CHECKPOINT.md) records source/archive verification. Earlier [date-scope](docs/evidence/chat-history-acceptance.json) and [category/entry](docs/evidence/category-hosted-acceptance-audit.json) checks remain historical; no closed cohort or unused allowance is reopened.
+Querio/Jev and older RAG/vector/Wren comparisons are optional research context, not dependencies for running the submitted Gemini application. The hosted deployment and local submission can differ in UI defaults; the demo link above explicitly selects Daybook.

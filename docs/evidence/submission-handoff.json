@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "recordedAt": "2026-11-04T17:22:14.885041+00:00",
+  "status": "passed",
+  "repository": "https://github.com/Spiich/spiich-accounting-assignment-rayid-ali",
+  "initialDestinationCommit": "65da7267bece32b414bafaf6029c6f9539f2436c",
+  "sourceCommit": "314417cd83601482d5e68755db6bbeac3544853b",
+  "testedDestinationMergeCommit": "b616378aad47605dc36e6595cf9ae55385a53c8f",
+  "history": {
+    "originalCommitPreserved": true,
+    "originalReadme": "docs/ORIGINAL_ASSIGNMENT.md",
+    "originalReadmeSha256": "c192b7ebc37b268966343f66be78d9588743b519e255d614985d5115204cce24",
+    "originalIgnoreRulesRetained": true,
+    "forcePushUsed": false,
+    "sourceAndDestinationTestedTreesIdentical": true
+  },
+  "changes": {
+    "product": "Default full-page Ask tab is Daybook; explicit Querio remains available.",
+    "backendChanged": false,
+    "migrationsChanged": false,
+    "hostingRuntimeRedeployed": false,
+    "reviewerSetup": "Docker Compose and the reviewer's own Gemini key; optional Querio/Jev not required.",
+    "documentation": "Reviewer-focused README, diagrams, actual notebook screenshot, setup guide, original assignment and current architecture PDF. Final documentation follows these tested code commits."
+  },
+  "verification": {
+    "local": {
+      "typescriptAndProductionBuild": "passed",
+      "formatCheck": "passed before final documentation; final check recorded privately",
+      "pdfPages": 3,
+      "pdfVisualReview": "all three pages",
+      "browserStartup": "not run: local listen EPERM",
+      "docker": "not installed locally; actual container checks ran in CI"
+    },
+    "destinationCI": {
+      "runId": 41874694136,
+      "url": "https://github.com/Spiich/spiich-accounting-assignment-rayid-ali/actions/runs/41874694136",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "research-native",
+          "conclusion": "success"
+        },
+        {
+          "name": "verify",
+          "conclusion": "success"
+        },
+        {
+          "name": "compose",
+          "conclusion": "success"
+        },
+        {
+          "name": "live-ai",
+          "conclusion": "skipped"
+        }
+      ],
+      "applicationTests": {
+        "passed": 3366,
+        "skipped": 19,
+        "passedFiles": 159,
+        "skippedFiles": 3
+      },
+      "separateAnalystFixtureTests": 11,
+      "separateCompletenessFixtureTests": 4,
+      "browserWorkflowsPassed": 60,
+      "compose": {
+        "passed": 3365,
+        "skipped": 20,
+        "overlapsApplicationTests": true,
+        "automaticLifecycleChecks": 7,
+        "containerRecreationPersistence": "passed"
+      },
+      "liveAI": "skipped"
+    },
+    "sourceCI": {
+      "runId": 41874472403,
+      "url": "https://github.com/rayidali/spiich_homework/actions/runs/41874472403",
+      "conclusion": "success"
+    },
+    "noNewModelInference": true
+  },
+  "visuals": {
+    "notebookScreenshot": "docs/images/analyst-notebook.png",
+    "sha256": "7758423a47ec091d4912f12fc69a1abd04300d7680db77fe8afb1faf91f8fbc7",
+    "sourceCommit": "10778bae77251ee797c2aaa31149f189ca20318f",
+    "sourceBrowserRun": "41772563650",
+    "originalCaptureUnedited": true,
+    "review": "Visually inspected: fictional demo records and application UI only; no credentials, browser address bar or private deployment controls. Screenshot contains dated values, not current-balance evidence.",
+    "readmeMermaidDiagrams": ["Docker startup", "Application architecture", "Journal lifecycle"]
+  },
+  "publicDemo": {
+    "url": "https://daybook-ledger-delta.vercel.app/analyst?tab=daybook",
+    "access": "public production alias; previews/generated deployment URLs protected",
+    "evidence": "docs/evidence/public-demo-access-20261104.json",
+    "sharedWritableWorkspace": true
+  },
+  "limits": [
+    "Ordinary CI uses scripted model responses; this handoff establishes no new AI accuracy score.",
+    "Later README/evidence/image updates are documentation only; no new hosted runtime release is claimed.",
+    "Fresh demo dates depend on first seed.",
+    "Public access is not application-user authentication."
+  ]
+}

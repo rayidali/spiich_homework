@@ -136,7 +136,7 @@ npm run build
 npm run format:check
 ```
 
-The repository's standard GitHub workflow also exercises real PostgreSQL, browser workflows and Compose persistence without model inference. Live-AI jobs are separately opt-in and require credentials; do not enable them merely to run ordinary checks. Historical release evidence records 3,366 normal tests and 60 browser workflows; Compose's 3,365 overlapping tests are not additive. New handoff verification is recorded separately in `docs/evidence/submission-handoff.json` when complete.
+The repository's standard GitHub workflow also exercises real PostgreSQL, browser workflows and Compose persistence without model inference. Live-AI jobs are separately opt-in and require credentials; do not enable them merely to run ordinary checks. Historical release evidence records 3,366 normal tests and 60 browser workflows; Compose's 3,365 overlapping tests are not additive. The submitted code passed [handoff CI](https://github.com/Spiich/spiich-accounting-assignment-rayid-ali/actions/runs/41874694136): 3,366 application tests, 60 browser workflows, actual PostgreSQL, seven lifecycle checks and container-recreation persistence. Compose passed 3,365 overlapping tests. [Handoff evidence](evidence/submission-handoff.json) records source IDs and skips; later README/visual additions change documentation only.
 
 Important limits:
 
