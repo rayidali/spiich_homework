@@ -30,7 +30,9 @@ BEGIN
       SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace
       WHERE n.nspname NOT IN ('pg_catalog','information_schema','analytics')
         AND n.nspname NOT LIKE 'pg_toast%' AND n.nspname NOT LIKE 'pg_temp_%'
-        AND c.relkind='S' AND has_sequence_privilege(reader,c.oid,'SELECT,USAGE,UPDATE'))
+        -- The planner may reorder AND predicates. Guard the type-sensitive
+        -- function itself so non-sequence catalog rows cannot make setup fail.
+        AND CASE WHEN c.relkind='S' THEN has_sequence_privilege(reader,c.oid,'SELECT,USAGE,UPDATE') ELSE false END)
   THEN RAISE EXCEPTION 'Existing daybook_analyst_reader role has incompatible privileges';
   END IF;
 END $$;

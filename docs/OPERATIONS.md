@@ -1,5 +1,11 @@
 # Finding and explaining a failed request
 
+## Analyst operations update — November 3, 2026
+
+Ask → Querio is promoted; [verified source and checks](evidence/querio-workspace-release.json). The native SQL analyst is a local candidate, disabled until explicitly enabled with `NATIVE_ANALYST_ENABLED=true` and a server-side `GEMINI_API_KEY`. `ANALYST_MODEL=gemini-3.8-flash` is separately configured from entry/categorization models. Migration009, full CI, model acceptance and hosted verification are release gates; do not imply they have all passed from local tests.
+
+Saved `analyst_conversations` state permits read-only recovery. Inspect a reported conversation's messages, runtime and safe error/correlation ID to diagnose the actual question; never put provider keys or full raw HTTP headers in logs. A pending unknown generation is not retryable automatically. Native steps resume through the Node worker or hosted post-response work/browser polling; a daily cron is a backstop, not a continuously running queue. Serverless execution and database leases prevent duplicate workers but do not guarantee uninterrupted processing after a browser closes. [Design](NATIVE_ANALYST.md).
+
 An error reference is a tracking number. When a request fails, Daybook shows a short explanation and **Copy error reference**. The same server-generated reference appears in the response header, error body and safe runtime diagnostics. If a transaction request fails, its text remains in the form so the user can correct it or retry.
 
 For example, a Google HTTP 503 should produce `AI_SERVICE_UNAVAILABLE` at `provider_http`, with the provider/model, upstream status and deployed source revision. A malformed JSON answer is a different failure (`model_json`); a database problem is not relabeled as an AI formatting problem. These distinctions let an engineer find the broken step before asking the user to reproduce it.

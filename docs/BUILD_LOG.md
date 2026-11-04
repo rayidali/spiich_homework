@@ -1,5 +1,9 @@
 # Build log
 
+## Native migration gate correction
+
+CI41745103603 at bf38745 stopped during migration009: PostgreSQL reordered AND predicates and called `has_sequence_privilege` on a TOAST table. The new migration rolled back; no hosted database was changed. A CASE now guards the type-sensitive function itself. Existing001–008 remain untouched. Full CI must rerun before live setup/model tests; this failed run remains a failure.
+
 ## Native analyst candidate integrated locally — November 3, 2026
 
 The new Daybook tab now has a flexible read-only SQL analyst, full provider-message continuity, deferred tool execution, source-backed notebook publication and per-HTTP metering. Migration009 adds tenant-scoped analytics views and a restricted NOLOGIN reader; it is not yet applied to any hosted database. Existing001–008 checksums remain unchanged. The direct SDK uses pinned ai7.0.162/google4.0.111 and separately configured Gemini3.8Flash; entry/category model selection is unchanged. Enable only after acceptance with `NATIVE_ANALYST_ENABLED=true`.

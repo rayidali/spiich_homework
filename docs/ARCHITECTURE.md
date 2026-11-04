@@ -1,5 +1,9 @@
 # Architecture and engineering decisions
 
+## Analyst architecture update — November 3, 2026
+
+Querio is now integrated and promoted in Ask → Querio, with durable conversations and real notebook tables/charts. [Release evidence](evidence/querio-workspace-release.json). The new native analyst candidate uses general read-only SQL over scoped views, a durable SDK/tool loop and checked notebook publication; [design and limits](NATIVE_ANALYST.md). This removes the fixed financial-operation menu for the new tab. Its actual-model comparison is pending. Entries, posting invariants and categorization keep their existing architecture. Statements below about earlier deployed routes and unintegrated Querio are historical.
+
 **External analyst experiment:** Querio was connected through a restricted reader to four reporting views in a separate synthetic Neon database. Its SQL/Python notebook path was actually tested with Haiku and a smaller Sonnet diagnostic; it is not wired into Daybook’s production request path. Correct query results sometimes diverged from generated prose, reinforcing the need to check final claims separately. [Results and limitations](QUERIO_EVALUATION.md).
 
 **Current work, 2026-11-03:** the default composable candidate now offers `financial_program`. The model can write a JavaScript function over up to four existing checked queries rather than naming every scalar arithmetic step. QuickJS runs the function without host I/O; exact host-created values retain units and record references. Quoted user thresholds/rates are validated before reads. One code-only repair reuses the same snapshot. Generated formulas and labels still require interpretation testing. [Design and walkthrough](GENERATED_ANALYSIS.md).

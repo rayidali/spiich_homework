@@ -1,5 +1,20 @@
 # REST API quick reference
 
+## Durable analyst routes — current integration
+
+Both `/api/ai/querio` and the separately enabled `/api/ai/daybook` namespace expose the same REST contract. The original `/api/ai/chat` remains the legacy endpoint. API keys and structured provider history never go to the browser.
+
+| Method and suffix                  | Purpose                                                                                      |
+| ---------------------------------- | -------------------------------------------------------------------------------------------- |
+| GET `/status`                      | Availability, actual provider/model and source label                                         |
+| POST `/conversations`              | Create with `clientConversationId` UUID; no generation                                       |
+| GET `/conversations/:id`           | Read saved public state; no generation                                                       |
+| POST `/conversations/:id/messages` | Queue text with stable `clientMessageId` UUID; retry same ID to reconcile                    |
+| POST `/conversations/:id/refresh`  | Progress previously authorized work; native HTTP returns state and worker performs one phase |
+| DELETE `/conversations/:id`        | Request Stop; retain saved history and evidence                                              |
+
+A UUID reused for different text conflicts. Workspace/provider identity scopes all reads and leases. Native unknown-dispatch failures are not automatically resubmitted. Stop may not prevent billing for a request already sent. Public state contains messages, notebook, progress and a safe error/correlation ID; private SQL/model history remains server-side. Querio is promoted; flexible native is still a candidate under verification. See [architecture](NATIVE_ANALYST.md) and [Querio release](evidence/querio-workspace-release.json). Earlier release descriptions below remain historical.
+
 ## Generated-analysis candidate — not deployed or real-model verified
 
 The existing chat endpoint now supports the server-selected `financial_program` tool on the composable route and initial adaptive planning. It adds no REST endpoint. Arguments contain up to four existing queries, a JavaScript function body, and optional original-user-quoted `parameters` with `id`, `value`, `unit` and `sourceText`. The application obtains the records; callers cannot supply financial input tables or execute arbitrary host code.
