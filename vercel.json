@@ -8,7 +8,7 @@
   "functions": {
     "api/*.js": {
       "maxDuration": 60,
-      "includeFiles": "{.vercel-build/**,node_modules/@jitl/quickjs-wasmfile-release-sync/dist/emscripten-module.wasm}"
+      "includeFiles": "{.vercel-build/**,node_modules/@jitl/quickjs-wasmfile-release-sync/dist/emscripten-module.wasm,node_modules/libpg-query/wasm/**}"
     }
   },
   "crons": [

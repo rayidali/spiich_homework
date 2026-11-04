@@ -114,7 +114,8 @@ export const postgresAnalystStore: AnalystStore = {
         throw new AppError(409, 'AI_BUSY', 'Wait for this answer before sending another question.');
       if (current.state.status === 'closed' || row.close_requested)
         throw new AppError(409, 'AI_REQUEST_REJECTED', 'Start a new conversation to ask another question.');
-      if (current.runtime.pendingMutation)
+      const nativeTurn = current.runtime.nativeTurn as Record<string, unknown> | undefined;
+      if (current.runtime.pendingMutation || nativeTurn?.pendingGeneration)
         throw new AppError(
           409,
           'AI_REQUEST_REJECTED',
@@ -147,12 +148,21 @@ export const postgresAnalystStore: AnalystStore = {
       current.state.phase = 'Opening your analysis';
       current.state.error = null;
       current.state.updatedAt = now;
-      // Completed turns close their compute. Follow-ups reopen the saved notebook/history.
-      current.runtime = {
-        notebookId: current.runtime.notebookId,
-        stage: 'environment',
-        startedAt: now,
-      };
+      // Keep complete provider messages (including signed tool calls) across native
+      // turns. A new turn must obtain fresh query results rather than reuse IDs.
+      current.runtime =
+        provider === 'daybook'
+          ? {
+              nativeHistory: current.runtime.nativeHistory ?? [],
+              nativeUsageHistory: [
+                ...(Array.isArray(current.runtime.nativeUsageHistory)
+                  ? current.runtime.nativeUsageHistory
+                  : []),
+                ...(nativeTurn?.meter ? [{ messageId: nativeTurn.messageId, meter: nativeTurn.meter }] : []),
+              ],
+              startedAt: now,
+            }
+          : { notebookId: current.runtime.notebookId, stage: 'environment', startedAt: now };
       current.lastMessageId = messageId;
       current.lastMessageText = text;
       await query(

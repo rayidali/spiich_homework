@@ -13,7 +13,14 @@ export type AnalystChart = {
 };
 export type AnalystOutput =
   | { type: 'markdown'; text: string }
-  | { type: 'table'; columns: string[]; rows: string[][]; totalRows: number; truncated: boolean }
+  | {
+      type: 'table';
+      columns: string[];
+      rows: (string | null)[][];
+      totalRows: number;
+      totalRowsKnown?: boolean;
+      truncated: boolean;
+    }
   | { type: 'chart'; chart: AnalystChart }
   | { type: 'notice'; text: string };
 export type AnalystCell = { id: string; title: string; code: string; outputs: AnalystOutput[] };

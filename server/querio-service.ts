@@ -24,11 +24,15 @@ export function createQuerioService(
     settings?: () => QuerioSettings | null;
     request?: QuerioRequest;
     now?: () => Date;
+    /** Trusted test/operator configuration, never accepted from an HTTP request. */
+    instructions?: string;
+    sourceLabel?: string;
   } = {},
 ) {
   const store = options.store ?? postgresAnalystStore;
   const settings = options.settings ?? querioSettings;
   const now = options.now ?? (() => new Date());
+  const selectedSourceLabel = options.sourceLabel ?? sourceLabel;
   function configured() {
     const current = settings();
     if (!current)
@@ -44,7 +48,7 @@ export function createQuerioService(
     return {
       available: Boolean(current),
       provider: 'querio',
-      sourceLabel,
+      sourceLabel: selectedSourceLabel,
       modelLabel: current?.model ?? (current ? 'Querio default model' : null),
     };
   }
@@ -56,7 +60,7 @@ export function createQuerioService(
         id,
         provider: 'querio',
         title: 'New analysis',
-        sourceLabel,
+        sourceLabel: selectedSourceLabel,
         status: 'idle',
         phase: null,
         messages: [],
@@ -230,7 +234,7 @@ export function createQuerioService(
             notebookSessionId: remoteId(runtime.sessionId),
             config: {
               ...(current.model ? { model: current.model } : {}),
-              instructions,
+              instructions: options.instructions ?? instructions,
               datasourceSlugs: [current.datasource],
               extensions: [],
             },

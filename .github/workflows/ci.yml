@@ -45,9 +45,37 @@ jobs:
         run: |
           npm run hosting:bundle
           node scripts/check-analysis-runtime.mjs
+          node scripts/check-analyst-sql-runtime.mjs
           node -e "Promise.all([import('./api/index.js'), import('./api/cron.js')]).then(() => process.exit(0))"
       - run: npm run db:migrate
       - run: npm test
+      - name: Verify frozen analyst books through the actual native SQL boundary
+        env:
+          ANALYST_WORKSPACE_DB_TEST: '1'
+          ANALYST_FIXTURE_DATABASE: daybook_analyst_acceptance_ci
+          ANALYST_FIXTURE_OWNER_URL: postgres://spiich:spiich@127.0.0.1:5432/daybook_analyst_acceptance_ci
+          ANALYST_FIXTURE_RUNTIME_URL: postgres://spiich_app:spiich_app_local@127.0.0.1:5432/daybook_analyst_acceptance_ci
+          DATABASE_URL: postgres://spiich_app:spiich_app_local@127.0.0.1:5432/daybook_analyst_acceptance_ci
+          MIGRATION_DATABASE_URL: postgres://spiich:spiich@127.0.0.1:5432/daybook_analyst_acceptance_ci
+          GEMINI_API_KEY: ''
+          OPENAI_API_KEY: ''
+          TYPESAFE_API_KEY: ''
+          QUERIO_API_KEY: ''
+        run: |
+          node --input-type=module <<'JS'
+          import pg from 'pg';
+          const target = new URL(process.env.ANALYST_FIXTURE_OWNER_URL);
+          const name = process.env.ANALYST_FIXTURE_DATABASE;
+          if (name !== 'daybook_analyst_acceptance_ci' || target.hostname !== '127.0.0.1' || target.pathname !== `/${name}`)
+            throw Error('ISOLATED_FIXTURE_REQUIRED');
+          target.pathname = '/postgres';
+          const client = new pg.Client({ connectionString: target.href });
+          await client.connect();
+          try { await client.query('CREATE DATABASE daybook_analyst_acceptance_ci'); }
+          finally { await client.end(); }
+          JS
+          npm run db:migrate
+          node node_modules/vitest/vitest.mjs run tests/analyst-workspace-db.test.ts
       - name: Verify fresh completeness fixture in disposable PostgreSQL
         env:
           COMPLETENESS_EVALUATION_DB_TEST: '1'

@@ -44,6 +44,8 @@ services:
       QUERIO_WORKSPACE_ID: ${QUERIO_WORKSPACE_ID:-}
       QUERIO_DATASOURCE_SLUG: ${QUERIO_DATASOURCE_SLUG:-daybook-live}
       QUERIO_MODEL: ${QUERIO_MODEL:-}
+      NATIVE_ANALYST_ENABLED: ${NATIVE_ANALYST_ENABLED:-false}
+      ANALYST_MODEL: ${ANALYST_MODEL:-gemini-3.8-flash}
       SEED_DEMO: ${SEED_DEMO:-true}
     depends_on:
       migrate:

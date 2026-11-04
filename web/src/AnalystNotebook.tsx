@@ -338,11 +338,54 @@ function CellOutput({ output }: { output: AnalystOutput }) {
       </div>
       <p className="analyst-table-count">
         {output.truncated
-          ? `Showing ${output.rows.length} of ${output.totalRows} rows. Ask for a narrower result to inspect more detail.`
+          ? output.totalRowsKnown === false
+            ? `Showing the first ${output.rows.length} rows. More rows exist; the total count is not known. Narrow or aggregate the query to see the complete result.`
+            : `Showing ${output.rows.length} of ${output.totalRows} rows. Ask for a narrower result to inspect more detail.`
           : `${output.totalRows} ${output.totalRows === 1 ? 'row' : 'rows'}`}
       </p>
     </>
   );
+}
+
+function meaningfulCellTitle(title: string) {
+  const text = title.trim();
+  return text && !/^(?:_+|_?cell(?:[_\s-]*\d+)?)$/i.test(text) ? text : null;
+}
+
+function notebookCellTitle(cell: AnalystCell, index: number) {
+  const supplied = meaningfulCellTitle(cell.title);
+  if (supplied) return supplied;
+  for (const output of cell.outputs) {
+    if (output.type === 'chart') {
+      const chartTitle = meaningfulCellTitle(output.chart.title);
+      if (chartTitle) return chartTitle;
+    }
+  }
+  for (const output of cell.outputs) {
+    if (output.type !== 'markdown') continue;
+    let fence: string | null = null;
+    for (const line of output.text.split('\n')) {
+      const marker = line.match(/^ {0,3}(`{3,}|~{3,})/);
+      if (marker) {
+        if (!fence) fence = marker[1][0];
+        else if (fence === marker[1][0]) fence = null;
+        continue;
+      }
+      if (fence) continue;
+      const heading = line.match(/^ {0,3}#{1,6}\s+(.+?)(?:\s+#+)?\s*$/)?.[1];
+      if (!heading) continue;
+      const title = meaningfulCellTitle(
+        heading.replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/(\*\*|__|~~|`)(.*?)\1/g, '$2'),
+      );
+      if (title) return title.slice(0, 240);
+    }
+  }
+  const category = cell.outputs.some((output) => output.type === 'table')
+    ? 'Query results'
+    : cell.outputs.some((output) => output.type === 'markdown') || !cell.code
+      ? 'Notes'
+      : 'Calculation';
+  return `${category} ${index + 1}`;
 }
 
 export function AnalystNotebook({
@@ -378,14 +421,10 @@ export function AnalystNotebook({
         <p className="analyst-output-note">Supporting work will appear here after Querio runs an analysis.</p>
       )}
       {cells.map((cell, index) => (
-        <section
-          className="analyst-notebook-cell"
-          key={cell.id}
-          aria-label={cell.title || `Analysis step ${index + 1}`}
-        >
+        <section className="analyst-notebook-cell" key={cell.id} aria-label={notebookCellTitle(cell, index)}>
           <div className="analyst-cell-heading">
             <span>{String(index + 1).padStart(2, '0')}</span>
-            <h4>{cell.title || `Analysis step ${index + 1}`}</h4>
+            <h4>{notebookCellTitle(cell, index)}</h4>
           </div>
           {cell.outputs.map((output, outputIndex) => (
             <CellOutput key={outputIndex} output={output} />

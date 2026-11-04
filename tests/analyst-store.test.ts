@@ -141,6 +141,62 @@ afterAll(async () => {
 });
 
 describe('Analyst conversation PostgreSQL lifecycle and isolation', () => {
+  it('preserves signed native history and past usage, but resets query sources on a follow-up', async () => {
+    const initial = conversation(randomUUID(), 'daybook');
+    await store.create(org, initial);
+    const first = randomUUID();
+    await store.queue(org, initial.id, 'daybook', first, 'What is cash?');
+    const owned = await store.claim(org, initial.id, 'daybook');
+    expect(owned).not.toBeNull();
+    if (!owned) throw Error('Native lease required');
+    const history = [
+      {
+        role: 'assistant',
+        content: [
+          {
+            type: 'tool-call',
+            toolCallId: 'call1',
+            toolName: 'query_sql',
+            input: { sql: 'SELECT 1' },
+            providerOptions: { google: { thoughtSignature: 'synthetic-signature' } },
+          },
+        ],
+      },
+    ];
+    owned.record.state.status = 'completed';
+    owned.record.runtime = {
+      nativeHistory: history,
+      nativeTurn: {
+        messageId: first,
+        results: { old: { rows: [['100']] } },
+        meter: { reservedNanoUsd: 10000 },
+      },
+    };
+    await store.save(org, initial.id, owned.token, owned.record);
+    await store.release(org, initial.id, owned.token);
+    const next = await store.queue(org, initial.id, 'daybook', randomUUID(), 'And last month?');
+    expect(next.runtime.nativeHistory).toEqual(history);
+    expect(next.runtime.nativeTurn).toBeUndefined();
+    expect(next.runtime.nativeUsageHistory).toEqual([
+      { messageId: first, meter: { reservedNanoUsd: 10000 } },
+    ]);
+    expect(next.runtime.notebookId).toBeUndefined();
+  });
+
+  it('does not restart a native generation whose dispatch outcome is unknown', async () => {
+    const initial = conversation(randomUUID(), 'daybook');
+    await store.create(org, initial);
+    const owned = await store.claim(org, initial.id, 'daybook');
+    if (!owned) throw Error('Native lease required');
+    owned.record.state.status = 'failed';
+    owned.record.runtime = { nativeTurn: { pendingGeneration: { attemptId: randomUUID() } } };
+    await store.save(org, initial.id, owned.token, owned.record);
+    await store.release(org, initial.id, owned.token);
+    await expect(store.queue(org, initial.id, 'daybook', randomUUID(), 'Try again')).rejects.toMatchObject({
+      code: 'AI_REQUEST_REJECTED',
+    });
+  });
+
   it('persists an idempotent create and isolates reads, messages and leases by organization/provider', async () => {
     const initial = conversation();
     const created = await store.create(org, initial);

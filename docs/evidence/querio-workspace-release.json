@@ -1,0 +1,95 @@
+{
+  "version": "daybook-querio-workspace-release-v1",
+  "observedAt": "2026-11-03T23:59:00.441285+00:00",
+  "deploymentId": "dpl_HNS1v2XznQrY1cTgmSjZpPwaHCeK",
+  "url": "https://daybook-ledger-delta.vercel.app",
+  "runtimeCommit": "e464efe6ce35644131235521ddb5e78eecdc4f08",
+  "ciCommit": "61e0ccb1d493efc7a12aafe19cf5b75a1590f6ee",
+  "deployableSourceFilesEqual": 101,
+  "ci": {
+    "runId": 41741412666,
+    "tests": 3079,
+    "browserWorkflows": 45,
+    "composeTests": 3078,
+    "containerRecreationPersistence": true,
+    "nativeResearch": "passed",
+    "overlappingCounts": true
+  },
+  "hostedBrowser": {
+    "runId": 41742126787,
+    "checks": [
+      {
+        "name": "desktop-querio",
+        "passed": true
+      },
+      {
+        "name": "desktop-daybook-tab",
+        "passed": true
+      },
+      {
+        "name": "completed-conversation-reloads-without-generation",
+        "passed": true
+      },
+      {
+        "name": "mobile-conversation",
+        "passed": true
+      },
+      {
+        "name": "mobile-notebook",
+        "passed": true
+      }
+    ],
+    "stats": {
+      "attempted": 21,
+      "allowed": 21,
+      "blocked": 0,
+      "failed": 0,
+      "httpErrors": 0,
+      "redirectsBlocked": 0,
+      "nonReadBlocked": 0,
+      "foreignOriginBlocked": 0,
+      "webSocketsBlocked": 0,
+      "pageErrors": 0,
+      "consoleErrors": 0,
+      "browserRequestFailures": 0,
+      "apiResponses": 13,
+      "healthVerified": true,
+      "metaVerified": true,
+      "querioVerified": true,
+      "conversationReads": 5
+    },
+    "visuallyReviewedScreenshots": 4,
+    "temporarySecretsRemoved": true
+  },
+  "liveQuerio": {
+    "turns": 3,
+    "conversations": 2,
+    "observedModelResponses": 13,
+    "checks": [
+      "cash USD124820 and native EUR1800/saved USD1944",
+      "monthly rent percentages, October49.43%, chart and extra4800 charge",
+      "Figma Nov3 USD180 draft; credit-card charge versus bank payment"
+    ],
+    "accountsEntriesLinesUnchanged": true,
+    "computeClosed": true,
+    "cost": "Expected within reported included credits; not invoice reconciliation."
+  },
+  "protection": "all deployments",
+  "limitations": [
+    "Three integration turns are not a general accuracy score or native comparison.",
+    "The rent answer explicitly covers full calendar2026 as of Nov3, with zero future months.",
+    "Mobile viewport emulation, not physical device.",
+    "New flexible native analyst not yet integrated or model-tested."
+  ],
+  "privateEvidenceSha256": {
+    "runtime-source-equivalence.json": "1583e9ad32f835a6e6204e3027e0bda11181399d39277cc42262818f9f7f0160",
+    "live-reference-before.json": "0c9aee55d4d1f73a2bf67c0ebc5936a608c01afc6d2f24f6bfe360f2353c8bc2",
+    "live-reference-after.json": "0c9aee55d4d1f73a2bf67c0ebc5936a608c01afc6d2f24f6bfe360f2353c8bc2",
+    "live/details-response.json": "ec66ac53d2a25664090117b49457b472b73d9085c19ed841677170b0dc1f24fd",
+    "browser/decrypted/report.json": "fe19b682fa376eb62c1b4d18758275a06c2abd7560d0653212049b4778e1ecab",
+    "ci-v5-jobs-final.json": "02a3381b830584026e8ca6b6b28b9edfb72011fbb5adc49607c33a5934c5d744",
+    "deployment-promoted.json": "0ba1d66bd0880bc49f5dc24f5d5db5641cf36adb69edc1d2a14dbcf8b3f023b2",
+    "project-promoted.json": "91b5f92b22249c86ffffab6f101ab49fee930b54658875bd7c61e53338c2dc9f",
+    "alias-promoted.json": "06f2a2bc75b1f5da98df8045ee49ddad40b5d3aa333538c999a53d7696d2e994"
+  }
+}

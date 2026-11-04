@@ -1,5 +1,11 @@
 # The analyst workspace
 
+## Querio workspace delivered — November 3, 2026
+
+**Ask → Querio is promoted** at the existing protected Daybook URL, deployment `dpl_HNS1v2XznQrY1cTgmSjZpPwaHCeK`, runtime source `e464efe6ce35644131235521ddb5e78eecdc4f08`. Three real turns across two conversations correctly answered cash, monthly rent percentages/chart, and the November3 $180 Figma draft. All accounts/entries/lines fingerprints stayed unchanged; created remote compute closed. These are integration checks, not a general accuracy score. Thirteen model responses were observed, expected within the user-reported396 included credits; invoice cost is unverified. New-task Gemini spend remains zero.
+
+Full CI `41741412666` on `61e0ccb1d493efc7a12aafe19cf5b75a1590f6ee` passed3079 tests,45 browser workflows, native research and Compose3078 overlapping tests plus container-recreation persistence. All101 deployed source files match that CI commit byte-for-byte; only Docker/Compose/build-log differ from runtime commit. Hosted browser `41742126787` passed actual saved-answer desktop/mobile rendering, reload and tab switching with zero model calls; four screenshots visually reviewed. Temporary browser secrets removed and absence verified. See `docs/evidence/querio-workspace-release.json`.
+
 Status: **first Querio integration implemented locally; combined CI, live acceptance and release pending.** The separate native redesign follows this integration. Neither route has a new comparative accuracy score.
 
 Open **Ask** in Daybook or `/analyst`. The full workspace initially selects **Querio**; the existing assistant drawer keeps **Daybook** selected for continuity. Both offer tabs and a full-workspace link. The first-phase Daybook tab uses the existing local assistant implementation, including its earlier unpromoted generated-analysis candidate; it is not the requested new analyst yet.

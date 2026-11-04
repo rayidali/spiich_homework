@@ -3,7 +3,7 @@ import type { Account, Entry, RecurringTemplate } from '../../shared/schema';
 export type Meta = {
   organization: { id: string; name: string; base_currency: string; timezone: string };
   today: string;
-  ai: { available: boolean; model: string | null };
+  ai: { available: boolean; model: string | null; analystAvailable?: boolean };
   category?: { available: boolean; provider: 'gemini' | 'jev' | 'reference'; model: string };
   demo: boolean;
   alertCount: number;

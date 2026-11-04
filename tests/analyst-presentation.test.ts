@@ -112,4 +112,56 @@ describe('analyst presentation of financial evidence', () => {
     expect(html).not.toContain('<img');
     expect(html).not.toContain('href="javascript:');
   });
+  it('gives internal notebook cell names useful headings without changing source code', () => {
+    const cells = [
+      {
+        id: 'chart',
+        title: '_',
+        code: 'plot_exact_values()',
+        outputs: [{ type: 'chart' as const, chart: { ...chart, title: 'Monthly rent share' } }],
+      },
+      {
+        id: 'heading',
+        title: 'cell_2',
+        code: '',
+        outputs: [
+          {
+            type: 'markdown' as const,
+            text: '```python\n# Internal implementation\n```\n\n## **What changed**\nThe result is unchanged.',
+          },
+        ],
+      },
+      {
+        id: 'table',
+        title: '__',
+        code: 'SELECT amount FROM ledger;',
+        outputs: [
+          { type: 'table' as const, columns: ['Amount'], rows: [['12.34']], totalRows: 1, truncated: false },
+        ],
+      },
+      {
+        id: 'notes',
+        title: '_cell',
+        code: '',
+        outputs: [{ type: 'markdown' as const, text: 'Assumptions used in this calculation.' }],
+      },
+      { id: 'code', title: '', code: 'difference = current - previous', outputs: [] },
+      { id: 'named', title: 'Rent reconciliation', code: 'compare_saved_rows()', outputs: [] },
+    ];
+    const before = structuredClone(cells);
+    const html = renderToStaticMarkup(createElement(AnalystNotebook, { cells, updatedAt: null }));
+    expect([...html.matchAll(/<h4>(.*?)<\/h4>/g)].map((match) => match[1])).toEqual([
+      'Monthly rent share',
+      'What changed',
+      'Query results 3',
+      'Notes 4',
+      'Calculation 5',
+      'Rent reconciliation',
+    ]);
+    expect(html).toContain('aria-label="Monthly rent share"');
+    expect(html).toContain('plot_exact_values()');
+    expect(html).toContain('SELECT amount FROM ledger;');
+    expect(html).toContain('difference = current - previous');
+    expect(cells).toEqual(before);
+  });
 });

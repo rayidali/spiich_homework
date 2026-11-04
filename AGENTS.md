@@ -1,5 +1,13 @@
 # Daybook continuation instructions
 
+## Querio workspace delivered — November 3, 2026
+
+**Ask → Querio is promoted** at the existing protected Daybook URL, deployment `dpl_HNS1v2XznQrY1cTgmSjZpPwaHCeK`, runtime source `e464efe6ce35644131235521ddb5e78eecdc4f08`. Three real turns across two conversations correctly answered cash, monthly rent percentages/chart, and the November3 $180 Figma draft. All accounts/entries/lines fingerprints stayed unchanged; created remote compute closed. These are integration checks, not a general accuracy score. Thirteen model responses were observed, expected within the user-reported396 included credits; invoice cost is unverified. New-task Gemini spend remains zero.
+
+Full CI `41741412666` on `61e0ccb1d493efc7a12aafe19cf5b75a1590f6ee` passed3079 tests,45 browser workflows, native research and Compose3078 overlapping tests plus container-recreation persistence. All101 deployed source files match that CI commit byte-for-byte; only Docker/Compose/build-log differ from runtime commit. Hosted browser `41742126787` passed actual saved-answer desktop/mobile rendering, reload and tab switching with zero model calls; four screenshots visually reviewed. Temporary browser secrets removed and absence verified. See `docs/evidence/querio-workspace-release.json`.
+
+**Continue phase2:** integrate the privately prepared flexible native analyst (SQL boundary009, genericUI/notebook, meteredSDK, orchestration/evaluation) from `.tools/analyst-product-20261103/native-design/`. Migration008 is now applied: never edit001–008. Native009 remains private/unapplied. Shared new-task API allowance remains$5; usage ledger is `.tools/analyst-product-20261103/usage.json`, preserve entries. No native comparative score exists. Preserve original failures and independently specified acceptance cases.
+
 Read [CHECKPOINT.md](CHECKPOINT.md) first, then relevant project documents. Continue the implemented application; do not rebuild it or rerun closed experiments.
 
 ## Current state

@@ -105,7 +105,7 @@ function memoryStore() {
 }
 
 type Call = { method: 'GET' | 'POST' | 'DELETE'; path: string; body?: unknown };
-function fixture() {
+function fixture(context: { instructions?: string; sourceLabel?: string } = {}) {
   const memory = memoryStore();
   const calls: Call[] = [];
   let timestamp = Date.parse(initialTime);
@@ -184,6 +184,7 @@ function fixture() {
     throw new Error(`Unexpected fixture request: ${method} ${path}`);
   };
   const service = createQuerioService({
+    ...context,
     store: memory.store,
     settings: () => settings,
     request,
@@ -227,6 +228,23 @@ function fixture() {
 }
 
 describe('Querio conversation lifecycle (no provider or database)', () => {
+  it('allows an explicit server-owned evaluation context without changing the production default', async () => {
+    const f = fixture({
+      instructions: 'Use only the isolated acceptance datasource and its frozen business date.',
+      sourceLabel: 'Acceptance books',
+    });
+    await f.begin();
+    await f.finish();
+    expect(f.service.availability().sourceLabel).toBe('Acceptance books');
+    expect((await f.service.get('org-a', 'conversation')).sourceLabel).toBe('Acceptance books');
+    expect(
+      f.calls.find((call) => call.method === 'POST' && call.path === '/agent-sessions')?.body,
+    ).toMatchObject({
+      config: { instructions: 'Use only the isolated acceptance datasource and its frozen business date.' },
+    });
+    expect(fixture().service.availability().sourceLabel).toBe('Daybook live books');
+  });
+
   it('creates an empty saved conversation without spending on a provider turn', async () => {
     const f = fixture();
     const state = await f.service.create('org-a', 'conversation');

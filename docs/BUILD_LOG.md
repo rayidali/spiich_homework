@@ -1,5 +1,21 @@
 # Build log
 
+## Native analyst candidate integrated locally — November 3, 2026
+
+The new Daybook tab now has a flexible read-only SQL analyst, full provider-message continuity, deferred tool execution, source-backed notebook publication and per-HTTP metering. Migration009 adds tenant-scoped analytics views and a restricted NOLOGIN reader; it is not yet applied to any hosted database. Existing001–008 checksums remain unchanged. The direct SDK uses pinned ai7.0.162/google4.0.111 and separately configured Gemini3.8Flash; entry/category model selection is unchanged. Enable only after acceptance with `NATIVE_ANALYST_ENABLED=true`.
+
+Local focused checks include85 SQL-boundary tests,26 durable-service tests,22 model-adapter tests, one independent real-SDK/mock-HTTP persistence cycle,42 notebook/presentation tests and fixture/runner contracts. TypeScript/build and actual packaged WASM smoke pass. These overlap broader runs and do not prove live-model accuracy. Full PostgreSQL/browser/Compose CI and paired actual-model acceptance remain pending. Independent review fixed scoped business-timezone lookup and a Stop/failure race; repeated dispatch after an uncertain response stays blocked. Background progress now logs a correlation UUID and conversation ID without question text or credentials.
+
+The shared $5 new-task allowance is unchanged, with zero new Gemini spend so far;13 Querio model responses were observed in the released integration checks. Initial paired subset is A01/A05/A06/A07/A11/A18:6conversations/8turns/2charts against the same fresh synthetic books. Native implementation is described in `docs/NATIVE_ANALYST.md`. Root publication checkout remains `/private/tmp/daybook-publish.kbVq33`; staged/private evaluation tooling is under `.tools/analyst-product-20261103/`. Do not claim better accuracy until results are reviewed.
+
+## Querio workspace delivered — November 3, 2026
+
+**Ask → Querio is promoted** at the existing protected Daybook URL, deployment `dpl_HNS1v2XznQrY1cTgmSjZpPwaHCeK`, runtime source `e464efe6ce35644131235521ddb5e78eecdc4f08`. Three real turns across two conversations correctly answered cash, monthly rent percentages/chart, and the November3 $180 Figma draft. All accounts/entries/lines fingerprints stayed unchanged; created remote compute closed. These are integration checks, not a general accuracy score. Thirteen model responses were observed, expected within the user-reported396 included credits; invoice cost is unverified. New-task Gemini spend remains zero.
+
+Full CI `41741412666` on `61e0ccb1d493efc7a12aafe19cf5b75a1590f6ee` passed3079 tests,45 browser workflows, native research and Compose3078 overlapping tests plus container-recreation persistence. All101 deployed source files match that CI commit byte-for-byte; only Docker/Compose/build-log differ from runtime commit. Hosted browser `41742126787` passed actual saved-answer desktop/mobile rendering, reload and tab switching with zero model calls; four screenshots visually reviewed. Temporary browser secrets removed and absence verified. See `docs/evidence/querio-workspace-release.json`.
+
+**Continue phase2:** integrate the privately prepared flexible native analyst (SQL boundary009, genericUI/notebook, meteredSDK, orchestration/evaluation) from `.tools/analyst-product-20261103/native-design/`. Migration008 is now applied: never edit001–008. Native009 remains private/unapplied. Shared new-task API allowance remains$5; usage ledger is `.tools/analyst-product-20261103/usage.json`, preserve entries. No native comparative score exists. Preserve original failures and independently specified acceptance cases.
+
 ## November 3 — Querio verification corrections
 
 The subsequent `41740025680` run passed verification and all 45 browser workflows; Compose reached its tests and failed two independent Python-oracle checks because the build image lacked Python. Added Python only to the build/test stage, preserving the runtime image and the checks themselves. Compose also now forwards the four optional server-only Querio settings. These are environment corrections, not new model results.

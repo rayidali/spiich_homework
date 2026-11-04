@@ -9,6 +9,7 @@ const built = await build({
     index: 'server/hosting/index.ts',
     cron: 'server/hosting/cron.ts',
     'analysis-program': 'server/analysis-program.ts',
+    'analyst-sql': 'server/analyst-sql.ts',
   },
   outdir: '.vercel-build',
   bundle: true,
@@ -28,6 +29,31 @@ const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
 const inputs = Object.keys(built.metafile.outputs[entry].inputs).sort();
 const sourceHashes = Object.fromEntries(
   await Promise.all(inputs.map(async (path) => [path, sha256(await readFile(path))])),
+);
+
+const sqlEntry = '.vercel-build/analyst-sql.js';
+const sqlWasm = 'node_modules/libpg-query/wasm/libpg-query.wasm';
+await writeFile(
+  '.vercel-build/analyst-sql-manifest.json',
+  JSON.stringify(
+    {
+      entry: sqlEntry,
+      sourceHashes: Object.fromEntries(
+        await Promise.all(
+          Object.keys(built.metafile.outputs[sqlEntry].inputs)
+            .sort()
+            .map(async (path) => [path, sha256(await readFile(path))]),
+        ),
+      ),
+      bundleSha256: sha256(await readFile(sqlEntry)),
+      wasm: sqlWasm,
+      wasmSha256: sha256(await readFile(sqlWasm)),
+      parserVersion: JSON.parse(await readFile('node_modules/pgsql-parser/package.json', 'utf8')).version,
+      engineVersion: JSON.parse(await readFile('node_modules/libpg-query/package.json', 'utf8')).version,
+    },
+    null,
+    2,
+  ) + '\n',
 );
 await writeFile(
   '.vercel-build/analysis-runtime-manifest.json',

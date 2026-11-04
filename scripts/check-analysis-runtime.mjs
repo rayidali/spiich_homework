@@ -26,7 +26,7 @@ for (const imported of manifest.externalImports) {
 const config = JSON.parse(await readFile('vercel.json', 'utf8'));
 assert.equal(
   config.functions['api/*.js'].includeFiles,
-  `{.vercel-build/**,${expectedWasm}}`,
+  `{.vercel-build/**,${expectedWasm},node_modules/libpg-query/wasm/**}`,
   'The native API bundle and package-relative WASM asset must both be included',
 );
 const wasm = await readFile(expectedWasm);

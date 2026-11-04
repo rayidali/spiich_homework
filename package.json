@@ -30,7 +30,9 @@
     "research:fixture-check": "node --import tsx scripts/research/fixture-check.ts"
   },
   "dependencies": {
+    "@ai-sdk/google": "4.0.111",
     "@vercel/functions": "2.2.0",
+    "ai": "7.0.162",
     "cors": "^2.8.5",
     "decimal.js": "^10.6.0",
     "dotenv": "^17.2.0",
@@ -39,14 +41,15 @@
     "lucide-react": "^0.468.0",
     "openai": "^6.0.0",
     "pg": "^8.16.0",
+    "pgsql-parser": "18.3.2",
+    "quickjs-emscripten": "0.32.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.9.0",
     "react-markdown": "10.1.0",
+    "react-router-dom": "^7.9.0",
     "remark-gfm": "4.0.1",
     "tsx": "^4.20.0",
-    "zod": "^4.1.0",
-    "quickjs-emscripten": "0.32.0"
+    "zod": "^4.1.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.0",
@@ -59,11 +62,11 @@
     "@types/supertest": "^6.0.3",
     "@vitejs/plugin-react": "^4.7.0",
     "embedded-postgres": "18.4.0-beta.17",
+    "esbuild": "0.28.2",
     "prettier": "3.6.2",
     "supertest": "^7.1.0",
     "typescript": "^5.9.0",
     "vite": "^6.4.0",
-    "vitest": "^3.2.0",
-    "esbuild": "0.28.2"
+    "vitest": "^3.2.0"
   }
 }
