@@ -1,5 +1,13 @@
 # Daybook session checkpoint
 
+**Fresh comparison fixture verified:** the new Neon database passed one36-statement RepeatableRead READ ONLY audit: all118lines, six complete table projections,38 independent facts, nine migration hashes and actual restricted-reader tenant isolation. Fingerprints were unchanged. [Receipt](docs/evidence/native-analyst-fixture.json). Zero model calls; native/Querio accuracy results remain pending. The full TCP audit also runs before native paid dispatch.
+
+## Reference SQL repair and fresh comparison books
+
+CI41745430294 passed3281 normal tests, including all13 actual-PostgreSQL analyst boundary cases, then stopped in the separate fixture verifier: its CTE name `trailing` is reserved by PostgreSQL. Renamed that internal CTE to `trailing_totals`, with no fixture/expected-value changes, and added a real PostgreSQL-parser check of the oracle before any network work. Browser/Compose did not run in that failed pipeline.
+
+A new isolated Neon database `daybook_analyst_acceptance_20261104` has now been created, migrated001–009 and seeded atomically for the paired comparison. **Migration009 is applied and must no longer be edited.** Its SHA256 is `33888d598e03fffa500db1ead1fc4e931408bed751ce06b480997defc670d919`. Production remains on008/the promoted Querio release. New Querio views use a fixed tenant predicate; no mutable tenant setting can widen their scope. The existing app password was not changed. Full row/fact audit and model acceptance remain pending. No model call was made in setup. Private receipts/credentials are under `.tools/analyst-product-20261103/fresh-fixture/` and must never be published.
+
 ## Native analyst candidate integrated locally — November 3, 2026
 
 The new Daybook tab now has a flexible read-only SQL analyst, full provider-message continuity, deferred tool execution, source-backed notebook publication and per-HTTP metering. Migration009 adds tenant-scoped analytics views and a restricted NOLOGIN reader; it is not yet applied to any hosted database. Existing001–008 checksums remain unchanged. The direct SDK uses pinned ai7.0.162/google4.0.111 and separately configured Gemini3.8Flash; entry/category model selection is unchanged. Enable only after acceptance with `NATIVE_ANALYST_ENABLED=true`.

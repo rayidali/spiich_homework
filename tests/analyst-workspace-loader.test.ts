@@ -1,7 +1,10 @@
 import { describe, expect, it } from 'vitest';
+import { parse } from 'pgsql-parser';
+import { oracleQuery } from '../scripts/analyst-workspace-evaluation/oracle-query';
 import { expectedRows } from '../scripts/analyst-workspace-evaluation/database';
 import {
   assertTarget,
+  assertPinnedRemoteTarget,
   lineId,
   readReferences,
   sameValue,
@@ -11,6 +14,26 @@ const database = 'daybook_analyst_acceptance_guard';
 const local = `postgresql://test:fixture-password@127.0.0.1:5432/${database}`;
 
 describe('Disposable analyst fixture safety', () => {
+  it('parses the actual independent SQL oracle before any database or model request', async () => {
+    expect((await parse(oracleQuery)).stmts).toHaveLength(1);
+  });
+  it('pins the separately authorized remote auditor without weakening local loader restrictions', () => {
+    const host = 'ep-test-only.us-east-2.aws.neon.tech';
+    const remote = `postgresql://daybook_analyst_audit_20261104:synthetic-password@${host}/daybook_analyst_acceptance_20261104?sslmode=require`;
+    const target = assertPinnedRemoteTarget(remote, host);
+    expect(target.database).toBe('daybook_analyst_acceptance_20261104');
+    expect(new URL(target.connectionString).search).toBe('');
+    expect(() => assertTarget(remote, target.database, {})).toThrow('DATABASE_URL_OPTIONS_NOT_ALLOWED');
+    for (const value of [
+      remote.replace('20261104?', '20261103?'),
+      remote.replace('daybook_analyst_audit_', 'owner_'),
+      remote.replace(host, 'evil.example'),
+      `${remote}&options=-csearch_path=public`,
+      `${remote}&sslmode=require`,
+      `${remote}#secret`,
+    ])
+      expect(() => assertPinnedRemoteTarget(value, host)).toThrow();
+  });
   it.each([
     [
       'remote database',

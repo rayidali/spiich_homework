@@ -1,0 +1,85 @@
+name: Manual native analyst matched capture
+run-name: native-analyst/${{ inputs.cohort }}
+on:
+  workflow_dispatch:
+    inputs:
+      cohort:
+        description: Fresh native-initial cohort; never rerun or reuse
+        required: true
+        type: string
+      source_commit:
+        description: Exact reviewed source commit containing this workflow
+        required: true
+        type: string
+      permit_sha256:
+        description: SHA256 of the private permit binding the existing shared allowance
+        required: true
+        type: string
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: analyst-product-shared-budget
+  cancel-in-progress: false
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      NODE_ENV: test
+      ANALYST_COHORT: ${{ inputs.cohort }}
+      ANALYST_SOURCE_COMMIT: ${{ inputs.source_commit }}
+      ANALYST_PERMIT_SHA256: ${{ inputs.permit_sha256 }}
+      GEMINI_API_KEY: ''
+      OPENAI_API_KEY: ''
+      TYPESAFE_API_KEY: ''
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Require exact manual source before installing dependencies
+        run: |
+          node --input-type=module - <<'JS'
+          import {execFileSync} from 'node:child_process';
+          const source=process.env.ANALYST_SOURCE_COMMIT;
+          if(!/^[a-f0-9]{40}$/.test(source??'')||process.env.GITHUB_SHA!==source||
+             process.env.GITHUB_RUN_ATTEMPT!=='1'||process.env.GITHUB_EVENT_NAME!=='workflow_dispatch'||
+             execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim()!==source)
+            throw Error('EXACT_MANUAL_SOURCE_REQUIRED');
+          JS
+      - run: npm ci --no-audit --no-fund
+      - name: Check encryption and binding without model or database access
+        env:
+          ANALYST_PRIVATE_PERMIT: ${{ secrets.ANALYST_NATIVE_PERMIT }}
+          ANALYST_ARTIFACT_KEY: ${{ secrets.ANALYST_NATIVE_ARTIFACT_KEY }}
+          ANALYST_BUDGET_LEDGER: ${{ secrets.ANALYST_NATIVE_BUDGET_LEDGER }}
+        run: node --import tsx scripts/analyst-workspace-evaluation/workflow.ts preflight
+      - name: Capture fixed conversations against the already verified disposable books
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ANALYST_PRIVATE_PERMIT: ${{ secrets.ANALYST_NATIVE_PERMIT }}
+          ANALYST_ARTIFACT_KEY: ${{ secrets.ANALYST_NATIVE_ARTIFACT_KEY }}
+          ANALYST_BUDGET_LEDGER: ${{ secrets.ANALYST_NATIVE_BUDGET_LEDGER }}
+          ANALYST_RUNTIME_URL: ${{ secrets.ANALYST_NATIVE_RUNTIME_URL }}
+          ANALYST_FIXTURE_AUDIT_URL: ${{ secrets.ANALYST_NATIVE_AUDIT_URL }}
+          ANALYST_GEMINI_KEY: ${{ secrets.ANALYST_NATIVE_GEMINI_KEY }}
+        run: node --import tsx scripts/analyst-workspace-evaluation/workflow.ts run
+      - name: Encrypt all preserved outcomes, failures and reservations
+        if: always()
+        env:
+          ANALYST_PRIVATE_PERMIT: ${{ secrets.ANALYST_NATIVE_PERMIT }}
+          ANALYST_ARTIFACT_KEY: ${{ secrets.ANALYST_NATIVE_ARTIFACT_KEY }}
+        run: node --import tsx scripts/analyst-workspace-evaluation/workflow.ts encrypt
+      - name: Retain ciphertext and sanitized receipt only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-analyst-${{ github.run_id }}
+          path: .tools/native-analyst-evaluation-encrypted/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 14

@@ -192,3 +192,43 @@ export function assertTarget(
     readerRole: `analyst_fixture_reader_${hash(expectedDatabase).slice(0, 12)}`,
   };
 }
+
+/** Separately authorized fixture target; never widens the default local loader guard. */
+export function assertPinnedRemoteTarget(auditUrl: string, expectedHostname: string) {
+  const database = 'daybook_analyst_acceptance_20261104';
+  const auditRole = 'daybook_analyst_audit_20261104';
+  let url: URL;
+  try {
+    url = new URL(auditUrl);
+  } catch {
+    throw new FixtureError('INVALID_DATABASE_URL');
+  }
+  requireFixture(['postgres:', 'postgresql:'].includes(url.protocol), 'INVALID_DATABASE_PROTOCOL');
+  requireFixture(
+    /^[a-z0-9.-]+\.neon\.tech$/.test(expectedHostname) && url.hostname === expectedHostname,
+    'REMOTE_FIXTURE_HOST_MISMATCH',
+  );
+  requireFixture(
+    url.pathname === `/${database}` &&
+      url.username === auditRole &&
+      Boolean(url.password) &&
+      (!url.port || url.port === '5432'),
+    'REMOTE_FIXTURE_IDENTITY_MISMATCH',
+  );
+  requireFixture(
+    !url.hash &&
+      [...url.searchParams].every(
+        ([key, value]) => ['sslmode', 'channel_binding'].includes(key) && value === 'require',
+      ) &&
+      new Set(url.searchParams.keys()).size === [...url.searchParams].length,
+    'REMOTE_FIXTURE_OPTIONS_REFUSED',
+  );
+  // Enforce certificate verification in pg.Client rather than allowing URI options to override TLS.
+  url.search = '';
+  return {
+    database,
+    auditRole,
+    connectionString: url.href,
+    readerRole: `analyst_fixture_reader_${hash(database).slice(0, 12)}`,
+  };
+}

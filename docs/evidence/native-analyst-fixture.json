@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "mode": "verify",
+  "transport": "Neon HTTP batched RepeatableRead READ ONLY",
+  "database": "daybook_analyst_acceptance_20261104",
+  "businessDate": "2026-11-03",
+  "organizationId": "6eb2b567-f19c-56bf-bb3c-cdf0592ae97a",
+  "referenceHashes": {
+    "fixture.json": "8cae13abd47a2fd4d87b44900830de5a629efbf2011f5b58c79cf1ad41dbe044",
+    "expected.json": "690b70d1100795916809f3adfd4c162a9c57ed033244e53333fd5711d7022f13",
+    "cases.json": "5360063b7dd0c745636112aa1d08e014ac982447c6ae13bbc7bb3d198ef82400",
+    "shared-context.md": "08fd4cf05899e79cfdc4f301d32dc4b36967e3bbd482d932df5c76941634b8b3",
+    "oracle.py": "c4fa4e69e98664188ca4b7bb1113cca3157b6f41f837c72c1ee9fb7444c05ac2"
+  },
+  "migrations": [
+    {
+      "name": "001_ledger.sql",
+      "checksum": "49fdc1a8d004b68a27f4833ef39ff6ec8fb0f6d81583cfd32bf8eaca34eaaba0"
+    },
+    {
+      "name": "002_draft_revisions.sql",
+      "checksum": "703c35c331b2f402cd840fc29ba1263e13dfdc1b89390a868b0b321aac3984b2"
+    },
+    {
+      "name": "003_recurring_recovery.sql",
+      "checksum": "18b1082803ad5b7a4aef28acbeae1d3974be067ceb344ae1689dd2269693881a"
+    },
+    {
+      "name": "004_provenance.sql",
+      "checksum": "46260df5fd3ec70e964f2d480c0c3b9c3cdc28db56c83750aafbb04991f1f645"
+    },
+    {
+      "name": "005_categorization_memory.sql",
+      "checksum": "8b2abce839eda72bfe04a0b7eb4e7e8222531fdc5a9a1316ef0bb7ca1e13a6fa"
+    },
+    {
+      "name": "006_anomaly_lifecycle.sql",
+      "checksum": "450dcd01abdfd30a126c0a0119d0ec3c97ab6c98e784888c69fd8cc05cb673d5"
+    },
+    {
+      "name": "007_ai_admission.sql",
+      "checksum": "338402dece607d7be091d3cededa01783714390eb6c8c99ab04aa8e8b3612a16"
+    },
+    {
+      "name": "008_analyst_conversations.sql",
+      "checksum": "d076ae31b4e841cb8e701e7507887776c42c1d14ecba63095398cc65068daa86"
+    },
+    {
+      "name": "009_analyst_readonly.sql",
+      "checksum": "33888d598e03fffa500db1ead1fc4e931408bed751ce06b480997defc670d919"
+    }
+  ],
+  "counts": {
+    "organizations": 2,
+    "accounts": 34,
+    "recurring_templates": 2,
+    "journal_entries": 59,
+    "journal_lines": 118,
+    "alerts": 6
+  },
+  "lineChecks": 118,
+  "factChecks": 38,
+  "readerRole": "analyst_fixture_reader_806b2d6ee814",
+  "readerIsolation": true,
+  "readerWritesPermitted": false,
+  "fingerprintBefore": "1d8f3425713aae72c4c0665f552b88dc728fef069d773a43826098b9f5b2d67f",
+  "fingerprintAfter": "1d8f3425713aae72c4c0665f552b88dc728fef069d773a43826098b9f5b2d67f",
+  "queryCount": 36,
+  "queryManifestSha256": "d30bfce4b2c9ffa1db3e92016544d3d8c33936d4f4af38522b156c757549638a",
+  "responseSha256": "11b9527f2cefca092b7c0095df73f112ee47b1d5dea75f8d2e39ee9240355554",
+  "sqlOracleSha256": "09500c6abc09195d78e0a7c29a1d0049e73ad821862946afa90b763fe537a60f",
+  "modelCalls": 0,
+  "caveat": "Actual fixture verification only; no assistant accuracy score. Full independent TCP verifier still runs before model dispatch."
+}

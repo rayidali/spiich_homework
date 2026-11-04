@@ -33,13 +33,13 @@ WITH context AS (
   FROM calendar c LEFT JOIN ytd y ON date_trunc('month',y.date)::date=c.month GROUP BY c.month
 ), shares AS (
   SELECT *,rent*100/NULLIF(expenses,0) AS pct FROM monthly
-), trailing AS (
+), trailing_totals AS (
   SELECT m.* FROM monthly m CROSS JOIN context c
   WHERE m.month>=date_trunc('month',c.today)-interval '3 months'
     AND m.month<date_trunc('month',c.today)
 ), trailing_stats AS (
   SELECT AVG(expenses) AS mean,
-    (SELECT expenses FROM trailing ORDER BY expenses OFFSET 1 LIMIT 1) AS median FROM trailing
+    (SELECT expenses FROM trailing_totals ORDER BY expenses OFFSET 1 LIMIT 1) AS median FROM trailing_totals
 ), october AS (
   SELECT COALESCE(SUM(-net) FILTER(WHERE type='REVENUE'),0) AS revenue,
     COALESCE(SUM(net) FILTER(WHERE type='EXPENSE'),0) AS expenses,
@@ -111,7 +111,7 @@ SELECT jsonb_build_object(
  'rent.mean_monthly_share',(SELECT jsonb_build_object('percent',ROUND(AVG(pct),6)::text,
      'defined_months',COUNT(pct),'undefined_months',COUNT(*)-COUNT(pct)) FROM shares),
  'expenses.trailing_three',(SELECT jsonb_agg(jsonb_build_object('month',to_char(month,'YYYY-MM'),
-     'expenses',ROUND(expenses,2)::text) ORDER BY month) FROM trailing),
+     'expenses',ROUND(expenses,2)::text) ORDER BY month) FROM trailing_totals),
  'expenses.trailing_mean',(SELECT ROUND(mean,6)::text FROM trailing_stats),
  'expenses.trailing_median',(SELECT ROUND(median,2)::text FROM trailing_stats),
  'october.profit_cash_bridge',(SELECT jsonb_build_object('revenue',ROUND(revenue,2)::text,

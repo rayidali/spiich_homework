@@ -4,6 +4,7 @@ import pg from 'pg';
 import { oracleQuery } from './oracle-query';
 import {
   assertTarget,
+  assertPinnedRemoteTarget,
   comparable,
   FixtureError,
   hash,
@@ -362,6 +363,99 @@ export async function verifyDatabase(
         ? code
         : 'UNKNOWN';
     throw new FixtureError(`DATABASE_${phase}_FAILED:${safeCode}`);
+  } finally {
+    if (transaction) await client.query('ROLLBACK').catch(() => undefined);
+    if (connected) await client.end();
+  }
+}
+
+/** Read-only audit of the one newly provisioned remote acceptance fixture. Never seeds or migrates. */
+export async function verifyPinnedRemoteDatabase(
+  auditUrl: string,
+  expectedHostname: string,
+  root = process.cwd(),
+) {
+  const target = assertPinnedRemoteTarget(auditUrl, expectedHostname);
+  const refs = readReferences(root);
+  const client = new pg.Client({
+    connectionString: target.connectionString,
+    ssl: { rejectUnauthorized: true },
+    connectionTimeoutMillis: 5000,
+    statement_timeout: 15_000,
+  });
+  let connected = false,
+    transaction = false;
+  try {
+    await client.connect();
+    connected = true;
+    await client.query('BEGIN ISOLATION LEVEL REPEATABLE READ READ ONLY');
+    transaction = true;
+    const identity = (
+      await client.query(`SELECT current_database() AS database,current_user AS role,
+      r.rolsuper,r.rolcreatedb,r.rolcreaterole,r.rolreplication,r.rolbypassrls,r.rolinherit
+      FROM pg_roles r WHERE r.rolname=current_user`)
+    ).rows[0];
+    requireFixture(
+      identity?.database === target.database &&
+        identity.role === target.auditRole &&
+        !identity.rolsuper &&
+        !identity.rolcreatedb &&
+        !identity.rolcreaterole &&
+        !identity.rolreplication &&
+        !identity.rolbypassrls &&
+        !identity.rolinherit,
+      'REMOTE_AUDITOR_IDENTITY_OR_PRIVILEGES',
+    );
+    const privileges = (
+      await client.query(`SELECT
+      has_schema_privilege(current_user,'public','CREATE') AS create_schema,
+      has_database_privilege(current_user,current_database(),'TEMP') AS temporary,
+      EXISTS(SELECT 1 FROM information_schema.tables t WHERE t.table_schema IN('public','analytics','querio_fixture') AND
+        (has_table_privilege(current_user,quote_ident(t.table_schema)||'.'||quote_ident(t.table_name),'INSERT') OR
+         has_table_privilege(current_user,quote_ident(t.table_schema)||'.'||quote_ident(t.table_name),'UPDATE') OR
+         has_table_privilege(current_user,quote_ident(t.table_schema)||'.'||quote_ident(t.table_name),'DELETE') OR
+         has_table_privilege(current_user,quote_ident(t.table_schema)||'.'||quote_ident(t.table_name),'TRUNCATE'))) AS writable`)
+    ).rows[0];
+    requireFixture(
+      !privileges.create_schema && !privileges.temporary && !privileges.writable,
+      'REMOTE_AUDITOR_WRITE_PERMISSION',
+    );
+    const migrations = await assertMigrations(client, root);
+    const before = await snapshot(client);
+    await verifyRows(client, refs);
+    const factChecks = await verifyReader(client, refs, target.readerRole, target.database);
+    const after = await snapshot(client);
+    requireFixture(before.hash === after.hash, 'VERIFICATION_CHANGED_BOOKS');
+    await client.query('COMMIT');
+    transaction = false;
+    return {
+      version: 1,
+      mode: 'verify' as const,
+      targetScope: 'dedicated-remote-acceptance-fixture',
+      businessDate: refs.fixture.business_date,
+      organizationId: refs.fixture.organization_id,
+      referenceHashes: refs.hashes,
+      migrations,
+      counts: before.counts,
+      lineChecks: before.counts.journal_lines,
+      factChecks,
+      readerRole: target.readerRole,
+      readerIsolation: true,
+      readerWritesPermitted: false,
+      fingerprintBefore: before.hash,
+      fingerprintAfter: after.hash,
+      modelCalls: 0,
+      caveat:
+        'Read-only fixture verification, not model accuracy. This credential cannot seed, migrate or change books.',
+    };
+  } catch (error) {
+    if (error instanceof FixtureError) throw error;
+    const code = (error as { code?: unknown })?.code;
+    throw new FixtureError(
+      typeof code === 'string' && /^[0-9A-Z]{5}$/.test(code)
+        ? `REMOTE_FIXTURE_FAILED:${code}`
+        : 'REMOTE_FIXTURE_VERIFICATION_FAILED',
+    );
   } finally {
     if (transaction) await client.query('ROLLBACK').catch(() => undefined);
     if (connected) await client.end();
