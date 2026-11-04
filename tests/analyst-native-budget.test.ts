@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { gzipSync } from 'node:zlib';
+import { brotliCompressSync, gzipSync } from 'node:zlib';
 import { afterEach, describe, expect, it } from 'vitest';
 import { createFileBudget, decodeBudgetSeed, nanoUsd } from '../scripts/analyst-workspace-evaluation/budget';
 import { hash } from '../scripts/analyst-workspace-evaluation/references';
@@ -39,7 +39,10 @@ describe('predeclared native workflow case sets', () => {
     expect(() => nativeWorkflowPermitSchema.parse({ ...permit, caseIds: ['A02'] })).toThrow();
   });
 });
-describe('complete prior budget ledger transport', () => {
+describe.each([
+  ['gzip-base64:', gzipSync],
+  ['brotli-base64:', brotliCompressSync],
+] as const)('complete prior budget ledger transport: %s', (prefix, compress) => {
   it('restores every prior attempt byte-for-byte rather than resetting or rolling up spending', () => {
     const seed = JSON.stringify(
       {
@@ -55,7 +58,7 @@ describe('complete prior budget ledger transport', () => {
       2,
     );
     expect(Buffer.byteLength(seed)).toBeGreaterThan(48 * 1024);
-    const transport = `gzip-base64:${gzipSync(seed).toString('base64')}`;
+    const transport = `${prefix}${compress(seed).toString('base64')}`;
     expect(Buffer.byteLength(transport)).toBeLessThan(48 * 1024);
     expect(decodeBudgetSeed(transport)).toBe(seed);
     expect(hash(decodeBudgetSeed(transport))).toBe(hash(seed));
@@ -63,9 +66,9 @@ describe('complete prior budget ledger transport', () => {
   });
   it('rejects corrupt compressed data and bounded-decompression overflow', () => {
     for (const encoded of [
-      'gzip-base64:!',
-      'gzip-base64:YWJj',
-      `gzip-base64:${gzipSync('x'.repeat(2 * 1024 * 1024 + 1)).toString('base64')}`,
+      `${prefix}!`,
+      `${prefix}YWJj`,
+      `${prefix}${compress('x'.repeat(2 * 1024 * 1024 + 1)).toString('base64')}`,
     ]) {
       expect(() => decodeBudgetSeed(encoded)).toThrow();
     }

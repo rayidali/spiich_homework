@@ -9,7 +9,7 @@ import {
   writeFileSync,
 } from 'node:fs';
 import { randomUUID } from 'node:crypto';
-import { gunzipSync } from 'node:zlib';
+import { brotliDecompressSync, gunzipSync } from 'node:zlib';
 import type { AnalystModelAttempt, AnalystModelReceipt } from '../../server/analyst-model';
 import type { GlobalAnalystBudget } from './native-runner';
 import { hash, requireFixture } from './references';
@@ -19,8 +19,13 @@ const LIMIT = 5_000_000_000;
 export function decodeBudgetSeed(value: string): string {
   const maximum = 2 * 1024 * 1024;
   requireFixture(Buffer.byteLength(value) <= maximum, 'BUDGET_SEED_SIZE');
-  if (!value.startsWith('gzip-base64:')) return value;
-  const encoded = value.slice('gzip-base64:'.length);
+  const prefix = value.startsWith('gzip-base64:')
+    ? 'gzip-base64:'
+    : value.startsWith('brotli-base64:')
+      ? 'brotli-base64:'
+      : null;
+  if (!prefix) return value;
+  const encoded = value.slice(prefix.length);
   requireFixture(
     encoded.length > 0 &&
       encoded.length <= 48_000 &&
@@ -29,7 +34,8 @@ export function decodeBudgetSeed(value: string): string {
     'BUDGET_SEED_ENCODING',
   );
   try {
-    return gunzipSync(Buffer.from(encoded, 'base64'), { maxOutputLength: maximum }).toString('utf8');
+    const decompress = prefix === 'gzip-base64:' ? gunzipSync : brotliDecompressSync;
+    return decompress(Buffer.from(encoded, 'base64'), { maxOutputLength: maximum }).toString('utf8');
   } catch {
     requireFixture(false, 'BUDGET_SEED_ENCODING');
     throw new Error('Unreachable');

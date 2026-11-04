@@ -2,6 +2,10 @@
 
 Entries are chronological evidence. Their pending/current/deployed language refers to the time of that entry; the latest release and active verification gate are in [CHECKPOINT](../CHECKPOINT.md). Earlier failures and spending are preserved.
 
+## Full spending history retained through bounded compressed transport
+
+The complete task usage ledger grew beyond GitHub's secret size limit under gzip. The unused e preparation stopped before installing secrets or making requests. Evaluation transport now also accepts bounded Brotli compression, preserving all original ledger bytes and its source hash. The actual 402,541-byte ledger round-trips exactly into a 43,602-byte secret; 14 focused checks cover both codecs, corruption and decompression limits. This changes evaluation transport only, with no application runtime or accounting migration change. The original d chart replay has also passed all ten desktop/mobile checks; its extra hiring explanation remains a semantic failure.
+
 ## D completes every turn; focused accounting wording and presentation revision
 
 Actual run 41757673131 at source `a35a9f9` delivered all 14 planned turns. Its 92 requests had known usage of $0.983808750 and no new unknown reservations. The shared task now totals $2.808492750 known plus $0.115747500 retained from c. All six temporary native secrets were removed and absence verified. Independent review finds all eight matched requested answers correct, and all six additional requested answers/clarifications correct. The broader all-claims review flags the initial hiring answer's voluntary use of “net burn” for an accrual loss and “Fixed Commitments” for recurring templates. Optional depletion amounts are consistent with their explicitly displayed rounded spending rate but differ slightly from full-precision-rate projections; they are preserved as an advisory, not silently rewritten.
