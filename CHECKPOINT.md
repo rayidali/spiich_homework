@@ -1,5 +1,11 @@
 # Daybook session checkpoint
 
+## Latest documentation handoff — November 4, 2026
+
+The user requested a long, standalone Markdown knowledge base for a meeting-notes tool. [docs/MEETING_NOTES_KNOWLEDGE_BASE.md](docs/MEETING_NOTES_KNOWLEDGE_BASE.md) is the import-ready briefing: original assignment verbatim, current requirement coverage, accounting/code walkthroughs, diagrams, all tables, native/Querio architecture, guarantees and limits, tests/studies, decisions, glossary and interview Q&A. README and the interview guide link to it. It describes released runtime10778 and model-tested backend604; it does not promote old experiments into the current chat or combine E/F/hosted results.
+
+The November4 read-only hosted catalog confirms **17 non-system base tables** (15 application +2 historical research) and **10 views** (8 analytics +2 research). The database is Neon `neondb`; accounting rows remain22 accounts/76 entries/152 lines. Local `.tools/postgres`, the Compose volume and hosted/evaluation databases are separate and do not auto-sync. No runtime, schema, accounting or model-budget change belongs to this documentation task; preserve the release and closed spending state below. Refresh and verify `submission.zip` after the documentation changes.
+
 ## Current handoff — two analyst tabs released
 
 **The requested Querio integration and native analyst rebuild are released.** Open [Daybook → Ask](https://daybook-ledger-delta.vercel.app/analyst) and switch between **Daybook** and **Querio**. Keep the existing accounting engine and product identity; do not restart the application or reopen earlier experiments. The native analyst writes checked read-only SQL for new questions and publishes inspectable tables/charts. It cannot post or alter the books. This delivery does not establish universal accuracy or that native is better than Querio overall.

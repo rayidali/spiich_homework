@@ -29,6 +29,8 @@ For example, a $340 office-supplies purchase on the company card debits Supplies
 
 The [beginner accounting walkthrough](docs/ACCOUNTING_WALKTHROUGH.md) explains the numbers. The [demo and interview guide](docs/INTERVIEW_GUIDE.md) provides a short presentation and worked examples.
 
+For a self-contained file to import into a meeting-notes tool, use the [complete project knowledge base](docs/MEETING_NOTES_KNOWLEDGE_BASE.md). It includes the original assignment, requirement mapping, database inventory, code walkthroughs, architecture diagrams, worked examples, measured results, limits and interview answers for the released version.
+
 ## What is included
 
 | Requirement                 | Implementation                                                                                                         |

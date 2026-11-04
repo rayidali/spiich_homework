@@ -2,6 +2,8 @@
 
 ## Explain the current system first
 
+For a detailed, self-contained import into a meeting-notes tool, read [the complete project knowledge base](MEETING_NOTES_KNOWLEDGE_BASE.md). It explains the current source without requiring the tool to reconcile the historical snapshots below, and includes the original assignment, code walkthroughs, glossary and evidence boundaries.
+
 > “Daybook keeps the accounting rules in PostgreSQL. Posted entries must balance and cannot be rewritten. The Ask workspace has Querio and our own analyst. Our model can write a new read-only SQL query, then the server checks its access, runs it, saves the result and rechecks the selected evidence before publishing a notebook. The model interprets the question; database arithmetic and our code protect the records. A helpful explanation can still be wrong, so I preserved and reviewed the failures.”
 
 Querio is integrated in Ask, and the replacement Daybook analyst writes new checked read-only SQL over the actual books. Source `60435f2` passed full CI, three independently reviewed hosted answers and a protected desktop/mobile read of the saved rent notebook. All 22 accounts, 76 entries and 152 lines remained unchanged; nine migration hashes matched. Final UI source `10778bae` passed CI `41771396221`, protected browser run `41772563650` and promotion. Its 85 non-web backend/configuration files match the model-tested source byte for byte. The actual model evidence remains bound to `60435f2`; use [CHECKPOINT](../CHECKPOINT.md) for the final release identity.

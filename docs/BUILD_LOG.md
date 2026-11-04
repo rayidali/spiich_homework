@@ -2,6 +2,14 @@
 
 Entries are chronological evidence. Their pending/current/deployed language refers to the time of that entry; the latest release and active verification gate are in [CHECKPOINT](../CHECKPOINT.md). Earlier failures and spending are preserved.
 
+## November 4 — self-contained meeting and interview knowledge base
+
+Added [MEETING_NOTES_KNOWLEDGE_BASE.md](MEETING_NOTES_KNOWLEDGE_BASE.md) at the user's request for a long Markdown file importable into a meeting-notes tool. The 27-section briefing preserves the original assignment and explains requirement coverage, accounting examples, every application table, code/function responsibilities, posting/reversal/concurrency, reports/FX, recurrence/outbox work, anomaly rules, reviewed correction learning, native SQL/notebook orchestration, Querio integration, errors, hosting, evaluation and interview answers. It distinguishes actual source excerpts from teaching pseudocode, live books from synthetic fixtures, and released features from historical experiments or future proposals.
+
+The current data inventory uses the November 4 read-only catalog inspection: 15 application tables plus two historical research tables, eight analytics views plus two research views, and 22 accounts/76 entries/152 lines. Historical provisioning counts are not used as current counts. Native SQL limits distinguish the 3.5-second statement deadline from the 12-second batch deadline. Model scores remain source-specific; the E, F and hosted cohorts are not combined into a new score. The file explicitly limits the numeric-support checker and avoids claims of universal accuracy, physical-device validation or million-user capacity.
+
+This is documentation work only. The released runtime, nine applied migrations, financial data, model configuration and closed provider budgets are unchanged. README and the interview guide link to the new import file; the checkpoint records its location. Documentation validation covers formatting, source references, links, inventory/evidence consistency and preserved assignment text; application tests and paid model experiments are not rerun for prose changes. The publication helper refreshes the source archive with its normal secret and exact-byte checks.
+
 ## Two analyst tabs released with independent financial and display evidence
 
 Promoted `10778bae77251ee797c2aaa31149f189ca20318f` as `dpl_F3am1c39jixhAhChaj9P3MZZC1ja` to the protected [Daybook website](https://daybook-ledger-delta.vercel.app). The stable alias and project production target match; both Daybook and Querio are available and health checks pass. All 109 application files match the release inventory. The 85 non-web/configuration files, dependencies and runtime settings match the financially tested source604; only the notebook component and stylesheet differ. No new model generation was needed for that presentation change. [Release receipt](evidence/native-analyst-release.json).
