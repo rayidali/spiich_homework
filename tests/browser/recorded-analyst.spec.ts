@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { Decimal } from 'decimal.js';
 import { expect, test, type Page } from '@playwright/test';
@@ -9,7 +9,7 @@ import type { AnalystChart, AnalystConversation } from '../../shared/analyst';
 // new model run nor evidence of a fresh hosted database/provider integration.
 type Replay = {
   kind: string;
-  caseId: 'A06' | 'A18';
+  caseId: 'A06' | 'A08' | 'A18';
   provider: 'daybook' | 'querio';
   businessDate: string;
   organizationId: string;
@@ -36,6 +36,7 @@ const expectedBytes = readFileSync(resolve('tests/analyst-workspace-acceptance/e
 const facts = JSON.parse(expectedBytes.toString()).facts;
 const cases = [
   ['daybook', 'A06'],
+  ['daybook', 'A08'],
   ['daybook', 'A18'],
   ['querio', 'A06'],
   ['querio', 'A18'],
@@ -114,6 +115,7 @@ function assertRequestedFacts(
   caseId: Replay['caseId'],
   renderedTables: { columns: string[]; rows: string[][] }[],
   charts: AnalystChart[],
+  answerText: string,
 ) {
   const financialFindings: { field: string; captured: string | null; expected: string; note: string }[] = [];
   if (caseId === 'A06') {
@@ -150,6 +152,48 @@ function assertRequestedFacts(
     expect(
       `${chart!.title} ${chart!.yLabel} ${chart!.series.map((series) => series.name).join(' ')}`,
     ).toMatch(/%|percent|share/i);
+  } else if (caseId === 'A08') {
+    const months = facts['expenses.trailing_three'].value as { month: string; expenses: string }[];
+    const table = renderedTables.find(({ rows }) =>
+      months.every((expected) =>
+        rows.some(
+          (row) => month(row[0]) === expected.month && row.some((value) => near(value, expected.expenses)),
+        ),
+      ),
+    );
+    expect(table, 'The monthly totals must include the requested zero-activity month').toBeDefined();
+    const chart = charts.find(
+      (candidate) =>
+        candidate.labels.length === months.length &&
+        candidate.labels.every((label, index) => month(label) === months[index].month),
+    );
+    expect(chart, 'The actual chart must retain every completed calendar month').toBeDefined();
+    expect(chart!.format).toBe('currency');
+    expect(chart!.currency).toBe('USD');
+    expect(
+      chart!.series.some((series) =>
+        series.values.every((value, index) => near(value, months[index].expenses)),
+      ),
+    ).toBe(true);
+    const summary = renderedTables.find(
+      ({ columns }) =>
+        columns.some((column) => /mean|average/i.test(column)) &&
+        columns.some((column) => /median/i.test(column)),
+    );
+    expect(summary, 'The notebook must retain separately labeled mean and median evidence').toBeDefined();
+    const meanColumn = summary!.columns.findIndex((column) => /mean|average/i.test(column));
+    const medianColumn = summary!.columns.findIndex((column) => /median/i.test(column));
+    expect(
+      summary!.rows.some(
+        (row) =>
+          near(row[meanColumn], facts['expenses.trailing_mean'].value) &&
+          near(row[medianColumn], facts['expenses.trailing_median'].value),
+      ),
+    ).toBe(true);
+    expect(answerText).toMatch(/\bmean\b/i);
+    expect(answerText).toMatch(/\bmedian\b/i);
+    for (const key of ['expenses.trailing_mean', 'expenses.trailing_median'])
+      expect(answerText.replaceAll(',', '')).toContain(new Decimal(facts[key].value).toFixed(2));
   } else {
     const vendors = facts['vendors.top_three'].value as {
       vendor: string;
@@ -159,7 +203,7 @@ function assertRequestedFacts(
     }[];
     const table = renderedTables.find(
       ({ columns, rows }) =>
-        columns.some((column) => /cumul/i.test(column)) &&
+        columns.some((column) => /cumul/i.test(column) && /pct|percent|share/i.test(column)) &&
         vendors.every((expected) => rows.some((row) => row.includes(expected.vendor))),
     );
     expect(table, 'Actual supporting table must contain all three requested vendors').toBeDefined();
@@ -167,7 +211,9 @@ function assertRequestedFacts(
       const row = table!.rows.find((row) => row.includes(expected.vendor))!;
       expect(row.some((value) => near(value, expected.expense))).toBe(true);
       expect(row.some((value) => near(value, expected.share_pct))).toBe(true);
-      const cumulativeIndex = table!.columns.findIndex((column) => /cumul/i.test(column));
+      const cumulativeIndex = table!.columns.findIndex(
+        (column) => /cumul/i.test(column) && /pct|percent|share/i.test(column),
+      );
       const actual = row[cumulativeIndex] ?? null;
       if (!near(actual, expected.cumulative_pct))
         financialFindings.push({
@@ -232,6 +278,7 @@ for (const [provider, caseId] of cases)
         'true',
       );
       await expect(page.getByLabel(`${label} answer`).last()).toBeVisible();
+      const answerText = await page.getByLabel(`${label} answer`).last().innerText();
       if (viewport.name === 'mobile')
         await page.getByRole('button', { name: 'Notebook', exact: true }).click();
       const notebook = page.getByRole('complementary', { name: `${label} notebook`, exact: true });
@@ -318,8 +365,10 @@ for (const [provider, caseId] of cases)
           }
         }
       }
-      const financialFindings = assertRequestedFacts(caseId, renderedTables, actualCharts);
-      await figures.first().getByRole('img').scrollIntoViewIfNeeded();
+      const financialFindings = assertRequestedFacts(caseId, renderedTables, actualCharts, answerText);
+      await figures
+        .first()
+        .evaluate((figure) => figure.scrollIntoView({ block: 'start', inline: 'nearest' }));
       await expect(figures.first().getByRole('img')).toBeVisible();
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
       expect(activity.forbidden).toEqual([]);
@@ -329,8 +378,10 @@ for (const [provider, caseId] of cases)
       );
       await page.screenshot({ path: screenshot, fullPage: true });
       await testInfo.attach('recorded notebook screenshot', { path: screenshot, contentType: 'image/png' });
-      await testInfo.attach('recorded replay provenance', {
-        body: JSON.stringify(
+      const provenance = testInfo.outputPath('recorded-replay-provenance.json');
+      writeFileSync(
+        provenance,
+        JSON.stringify(
           {
             kind: fixture.kind,
             provider,
@@ -350,6 +401,9 @@ for (const [provider, caseId] of cases)
           null,
           2,
         ),
+      );
+      await testInfo.attach('recorded replay provenance', {
+        path: provenance,
         contentType: 'application/json',
       });
     });

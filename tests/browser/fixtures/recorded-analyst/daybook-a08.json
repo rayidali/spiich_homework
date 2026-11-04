@@ -1,0 +1,141 @@
+{
+  "version": 1,
+  "kind": "recorded-actual-response-replay",
+  "caseId": "A08",
+  "provider": "daybook",
+  "businessDate": "2026-11-03",
+  "organizationId": "6eb2b567-f19c-56bf-bb3c-cdf0592ae97a",
+  "provenance": {
+    "sourceCommit": "a35a9f9464b2c075be6f056c473420c5c3451aba",
+    "modelId": "gemini-3.8-flash",
+    "captureBasename": "a08-turn-1.json",
+    "captureSha256": "f7adf220fab5a49276c8e7f6667f2a132b4e5e7ddb7cf28cbde8bdd821fa4756",
+    "bindingSha256": "a8ed76a2cc3d5f589e810cb982b8075fadb2ff62e5218aa172abfe991d874927",
+    "referenceHashes": {
+      "fixture.json": "8cae13abd47a2fd4d87b44900830de5a629efbf2011f5b58c79cf1ad41dbe044",
+      "expected.json": "690b70d1100795916809f3adfd4c162a9c57ed033244e53333fd5711d7022f13",
+      "cases.json": "5360063b7dd0c745636112aa1d08e014ac982447c6ae13bbc7bb3d198ef82400",
+      "shared-context.md": "08fd4cf05899e79cfdc4f301d32dc4b36967e3bbd482d932df5c76941634b8b3",
+      "oracle.py": "c4fa4e69e98664188ca4b7bb1113cca3157b6f41f837c72c1ee9fb7444c05ac2"
+    },
+    "originalPublicStateSha256": "a6e6e075a66e7776c3ccf3c2d0bfdd43a4c299d76491cdb30de02876fe540594",
+    "sanitizedStateSha256": "85e71b228af950628ad5627a429d34e0c3da26deb70bef791524bf751155de5e",
+    "sanitization": [
+      "Allowlisted public contract fields only",
+      "Replaced opaque conversation/message/cell IDs",
+      "Removed external notebook link",
+      "Retained actual prose, code, table values and chart values without repair"
+    ]
+  },
+  "state": {
+    "provider": "daybook",
+    "title": "Show a chart of total net expenses in the last three completed calendar months, and tell me both the",
+    "sourceLabel": "Daybook live books",
+    "status": "completed",
+    "phase": null,
+    "createdAt": "2026-11-03T17:00:00.000Z",
+    "updatedAt": "2026-11-03T17:00:00.000Z",
+    "id": "7217e268-70fd-5810-a1c5-3f1b7ce69ecb",
+    "error": null,
+    "messages": [
+      {
+        "role": "user",
+        "content": "Show a chart of total net expenses in the last three completed calendar months, and tell me both the median and the mean of those monthly totals.",
+        "createdAt": "2026-11-04T02:07:16.744Z",
+        "id": "message-1"
+      },
+      {
+        "role": "assistant",
+        "content": "### Summary of Findings\n\nFor the last three completed calendar months (**August 2026**, **September 2026**, and **October 2026**), based on the organization's business date of **November 3, 2026**:\n\n- **August 2026**: **$0.00** (no posted expense activity recorded)\n- **September 2026**: **$2,890.00**\n- **October 2026**: **$5,705.35**\n\n---\n\n### Median and Mean of Monthly Totals\n\nAcross all three completed calendar months (including August at $0.00):\n- **Median**: **$2,890.00** (the middle value, September 2026)\n- **Mean**: **$2,865.12** ($8,595.35 ÷ 3)\n\n*(Note: If calculated solely across the two months with activity—September and October—the mean would be **$4,297.68**).*\n\n---\n\n### Additional Accounting Context\n- **Draft Entries**: There is one unposted DRAFT expense in October (Entry #54 dated 2026-10-31 for **$1,200.00** to Contractors). Following standard accrual accounting, unposted drafts are excluded from posted ledger totals. If posted, October expenses would be **$6,905.35**, the 3-month mean would be **$3,265.12**, and the median would remain **$2,890.00**.\n- **Currency**: All figures are reported in the organization's base currency (**USD**). A foreign currency transaction (EUR 200 on 2026-10-20) is recorded at its carrying base value of $240.00.",
+        "createdAt": "2026-11-03T17:00:00.000Z",
+        "id": "message-2"
+      }
+    ],
+    "notebook": {
+      "cells": [
+        {
+          "title": "Net Expenses for the Last Three Completed Months (Aug–Oct 2026)",
+          "code": "",
+          "id": "cell-1",
+          "outputs": [
+            {
+              "type": "notice",
+              "text": "Analyst-written explanation and assumptions follow. They are not an independent verification of the queries or results."
+            },
+            {
+              "type": "markdown",
+              "text": "### Summary of Findings\n\nFor the last three completed calendar months (**August 2026**, **September 2026**, and **October 2026**), based on the organization's business date of **November 3, 2026**:\n\n- **August 2026**: **$0.00** (no posted expense activity recorded)\n- **September 2026**: **$2,890.00**\n- **October 2026**: **$5,705.35**\n\n---\n\n### Median and Mean of Monthly Totals\n\nAcross all three completed calendar months (including August at $0.00):\n- **Median**: **$2,890.00** (the middle value, September 2026)\n- **Mean**: **$2,865.12** ($8,595.35 ÷ 3)\n\n*(Note: If calculated solely across the two months with activity—September and October—the mean would be **$4,297.68**).*\n\n---\n\n### Additional Accounting Context\n- **Draft Entries**: There is one unposted DRAFT expense in October (Entry #54 dated 2026-10-31 for **$1,200.00** to Contractors). Following standard accrual accounting, unposted drafts are excluded from posted ledger totals. If posted, October expenses would be **$6,905.35**, the 3-month mean would be **$3,265.12**, and the median would remain **$2,890.00**.\n- **Currency**: All figures are reported in the organization's base currency (**USD**). A foreign currency transaction (EUR 200 on 2026-10-20) is recorded at its carrying base value of $240.00."
+            }
+          ]
+        },
+        {
+          "title": "Monthly Net Expenses Breakdown",
+          "code": "WITH \n  months AS (SELECT (generate_series('2026-08-01'::date, '2026-10-01'::date, '1 month'::interval))::date AS month_start),\nmonthly_expenses AS (SELECT\n  m.month_start,\n  to_char(m.month_start, 'YYYY-MM') AS month_label,\n  to_char(m.month_start, 'FMMonth YYYY') AS month_name,\n  CAST(COALESCE(sum(l.base_debit - l.base_credit), 0) AS numeric(12, 2)) AS net_expenses\nFROM months AS m\nLEFT JOIN ledger AS l ON l.date >= m.month_start\n  AND l.date < CAST(m.month_start + '1 month'::interval AS date)\n  AND l.account_type = 'EXPENSE'\n  AND l.status = 'POSTED'\nGROUP BY\n  m.month_start\nORDER BY\n  m.month_start)\nSELECT\n  month_start,\n  month_label,\n  month_name,\n  net_expenses\nFROM monthly_expenses",
+          "id": "cell-2",
+          "outputs": [
+            {
+              "type": "notice",
+              "text": "Captured 2026-11-03T17:00:00.000Z. Workspace reference: 6eb2b567-f19c-56bf-bb3c-cdf0592ae97a. Query reference: q5. Parameters in SQL placeholder order: []."
+            },
+            {
+              "type": "table",
+              "columns": ["month_start", "month_label", "month_name", "net_expenses"],
+              "rows": [
+                ["2026-08-01", "2026-08", "August 2026", "0.00"],
+                ["2026-09-01", "2026-09", "September 2026", "2890.00"],
+                ["2026-10-01", "2026-10", "October 2026", "5705.35"]
+              ],
+              "totalRows": 3,
+              "totalRowsKnown": true,
+              "truncated": false
+            },
+            {
+              "type": "chart",
+              "chart": {
+                "kind": "bar",
+                "title": "Monthly Net Expenses (Aug 2026 – Oct 2026)",
+                "xLabel": "month_name",
+                "xScale": "category",
+                "yLabel": "net_expenses",
+                "labels": ["August 2026", "September 2026", "October 2026"],
+                "format": "currency",
+                "currency": "USD",
+                "series": [
+                  {
+                    "name": "net_expenses",
+                    "values": ["0.00", "2890.00", "5705.35"]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "title": "3-Month Expense Statistics",
+          "code": "WITH \n  months AS (SELECT (generate_series('2026-08-01'::date, '2026-10-01'::date, '1 month'::interval))::date AS month_start),\nmonthly_expenses AS (SELECT\n  m.month_start,\n  COALESCE(sum(l.base_debit - l.base_credit), 0) AS net_expenses\nFROM months AS m\nLEFT JOIN ledger AS l ON l.date >= m.month_start\n  AND l.date < CAST(m.month_start + '1 month'::interval AS date)\n  AND l.account_type = 'EXPENSE'\n  AND l.status = 'POSTED'\nGROUP BY\n  m.month_start)\nSELECT\n  count(*) AS month_count,\n  CAST(sum(net_expenses) AS numeric(12, 2)) AS total_expenses,\n  CAST(avg(net_expenses) AS numeric(12, 2)) AS mean_monthly_expenses,\n  CAST(percentile_cont(0.5) WITHIN GROUP (ORDER BY net_expenses) AS numeric(12, 2)) AS median_monthly_expenses\nFROM monthly_expenses",
+          "id": "cell-3",
+          "outputs": [
+            {
+              "type": "notice",
+              "text": "Captured 2026-11-03T17:00:00.000Z. Workspace reference: 6eb2b567-f19c-56bf-bb3c-cdf0592ae97a. Query reference: q6. Parameters in SQL placeholder order: []."
+            },
+            {
+              "type": "table",
+              "columns": [
+                "month_count",
+                "total_expenses",
+                "mean_monthly_expenses",
+                "median_monthly_expenses"
+              ],
+              "rows": [["3", "8595.35", "2865.12", "2890.00"]],
+              "totalRows": 1,
+              "totalRowsKnown": true,
+              "truncated": false
+            }
+          ]
+        }
+      ],
+      "updatedAt": "2026-11-03T17:00:00.000Z"
+    }
+  }
+}

@@ -6,11 +6,11 @@
   "businessDate": "2026-11-03",
   "organizationId": "6eb2b567-f19c-56bf-bb3c-cdf0592ae97a",
   "provenance": {
-    "sourceCommit": "f032d70a0c60e1472c8d9e8e5d774c9ed20f0405",
+    "sourceCommit": "a35a9f9464b2c075be6f056c473420c5c3451aba",
     "modelId": "gemini-3.8-flash",
     "captureBasename": "a18-turn-1.json",
-    "captureSha256": "7971bfabde81a8302a6e620c23cd579d751a10f298c0fb9e66262abe41a624e0",
-    "bindingSha256": "0d425ec75034b2610d4b67113b9bf17e6bdad25c4eb5608daa52e096d0f2de6c",
+    "captureSha256": "5230ee90b255d713ce1e60572718566c6249c42391feecdc6ca46f611b5d5083",
+    "bindingSha256": "a8ed76a2cc3d5f589e810cb982b8075fadb2ff62e5218aa172abfe991d874927",
     "referenceHashes": {
       "fixture.json": "8cae13abd47a2fd4d87b44900830de5a629efbf2011f5b58c79cf1ad41dbe044",
       "expected.json": "690b70d1100795916809f3adfd4c162a9c57ed033244e53333fd5711d7022f13",
@@ -18,8 +18,8 @@
       "shared-context.md": "08fd4cf05899e79cfdc4f301d32dc4b36967e3bbd482d932df5c76941634b8b3",
       "oracle.py": "c4fa4e69e98664188ca4b7bb1113cca3157b6f41f837c72c1ee9fb7444c05ac2"
     },
-    "originalPublicStateSha256": "2724895cbd032f0363a9b153e92d1fe5e95dd00d50fc2e47ef0224d197ad4372",
-    "sanitizedStateSha256": "8047d226a1d4475b57b7c00635ab8b59bcffbfe9ab983f65affd5eb7ed7955f4",
+    "originalPublicStateSha256": "a582e118353eecc682b540a9a4021df90900cd19afaae048a16b511dfa3cf7bb",
+    "sanitizedStateSha256": "9cd4f90cb018689b5ea946629822be8a589058c4c98132cbede44b6535347b87",
     "sanitization": [
       "Allowlisted public contract fields only",
       "Replaced opaque conversation/message/cell IDs",
@@ -35,18 +35,18 @@
     "phase": null,
     "createdAt": "2026-11-03T17:00:00.000Z",
     "updatedAt": "2026-11-03T17:00:00.000Z",
-    "id": "d7cb691f-8ac4-5c4d-84a5-2b727155076c",
+    "id": "af46d0e2-694f-54f6-8263-5cc8f372a21b",
     "error": null,
     "messages": [
       {
         "role": "user",
         "content": "Which three vendors account for the largest shares of this year's expenses? Show each amount, each share, the cumulative share as we add them, and a chart.",
-        "createdAt": "2026-11-04T01:09:10.509Z",
+        "createdAt": "2026-11-04T02:06:14.938Z",
         "id": "message-1"
       },
       {
         "role": "assistant",
-        "content": "### Top Three Expense Vendors (2026 YTD)\n\nThe three vendors accounting for the largest shares of Acorn Studio's posted expenses this year (January 1, 2026 – November 3, 2026) are:\n\n1. **Hudson Properties**: **$8,500.00** — **53.02%** share (Cumulative: **53.02%**)\n2. **Alloy Partners**: **$4,800.00** — **29.94%** share (Cumulative: **82.97%**)\n3. **Stationers**: **$875.00** — **5.46%** share (Cumulative: **88.43%**)\n\nTogether, these top three vendors total **$14,175.00**, representing **88.43%** of total posted operating expenses ($16,030.35 USD). All remaining seven vendors account for the remaining 11.57% ($1,855.35).\n\n---\n\n### Accounting Scope & Notes\n- **Period & Status**: Reflects posted journal entries (`status = 'POSTED'`) dated between January 1, 2026, and the business date of November 3, 2026.\n- **Metric**: Net expenses on `EXPENSE` accounts calculated from converted carrying values (`base_net_debit = base_debit - base_credit`). All values are in USD.\n- **Pending Drafts**: In accordance with accounting standards, unposted draft entries are excluded from posted totals. For full transparency, there are pending draft expenses for Alloy Partners ($1,200.00), Hudson Properties ($1,000.00), and Figma ($60.00); including these drafts would not change the top three vendor ranking.",
+        "content": "### Summary of Top 3 Vendors by Expense Share (2026 YTD)\n\nThrough the current business date of **November 3, 2026**, Acorn Studio has recorded a total of **$16,030.35 USD** in posted net expenses across 10 vendors.\n\nThe three vendors accounting for the largest shares of this year's expenses are:\n\n1. **Hudson Properties**\n   - **Expense Amount:** $8,500.00 USD\n   - **Share of Total Expenses:** **53.02%**\n   - **Cumulative Share:** **53.02%** ($8,500.00 cumulative)\n\n2. **Alloy Partners**\n   - **Expense Amount:** $4,800.00 USD\n   - **Share of Total Expenses:** **29.94%**\n   - **Cumulative Share:** **82.97%** ($13,300.00 cumulative)\n\n3. **Stationers**\n   - **Expense Amount:** $875.00 USD\n   - **Share of Total Expenses:** **5.46%**\n   - **Cumulative Share:** **88.43%** ($14,175.00 cumulative)\n\nTogether, these three vendors account for **$14,175.00 USD**, or **88.43%** of Acorn Studio's total posted expenses year-to-date. The remaining 7 vendors represent the remaining $1,855.35 USD (11.57%).\n\n---\n\n### Accounting Notes & Observations\n- **Reporting Period:** January 1, 2026 through November 3, 2026.\n- **Ledger Scope:** Figures reflect posted journal entries (`status = 'POSTED'`) impacting expense accounts (`account_type = 'EXPENSE'`), calculated as net debits (`base_net_debit = base_debit - base_credit`) in the base currency (USD).\n- **Unposted Drafts:** There are 3 unposted draft entries in the system totaling $2,260.00 (Hudson Properties: $1,000.00; Alloy Partners: $1,200.00; Figma: $60.00). In accordance with standard accounting policy, these drafts are excluded from posted figures. Including them would not alter the ranking of the top three vendors.",
         "createdAt": "2026-11-03T17:00:00.000Z",
         "id": "message-2"
       }
@@ -64,26 +64,32 @@
             },
             {
               "type": "markdown",
-              "text": "### Top Three Expense Vendors (2026 YTD)\n\nThe three vendors accounting for the largest shares of Acorn Studio's posted expenses this year (January 1, 2026 – November 3, 2026) are:\n\n1. **Hudson Properties**: **$8,500.00** — **53.02%** share (Cumulative: **53.02%**)\n2. **Alloy Partners**: **$4,800.00** — **29.94%** share (Cumulative: **82.97%**)\n3. **Stationers**: **$875.00** — **5.46%** share (Cumulative: **88.43%**)\n\nTogether, these top three vendors total **$14,175.00**, representing **88.43%** of total posted operating expenses ($16,030.35 USD). All remaining seven vendors account for the remaining 11.57% ($1,855.35).\n\n---\n\n### Accounting Scope & Notes\n- **Period & Status**: Reflects posted journal entries (`status = 'POSTED'`) dated between January 1, 2026, and the business date of November 3, 2026.\n- **Metric**: Net expenses on `EXPENSE` accounts calculated from converted carrying values (`base_net_debit = base_debit - base_credit`). All values are in USD.\n- **Pending Drafts**: In accordance with accounting standards, unposted draft entries are excluded from posted totals. For full transparency, there are pending draft expenses for Alloy Partners ($1,200.00), Hudson Properties ($1,000.00), and Figma ($60.00); including these drafts would not change the top three vendor ranking."
+              "text": "### Summary of Top 3 Vendors by Expense Share (2026 YTD)\n\nThrough the current business date of **November 3, 2026**, Acorn Studio has recorded a total of **$16,030.35 USD** in posted net expenses across 10 vendors.\n\nThe three vendors accounting for the largest shares of this year's expenses are:\n\n1. **Hudson Properties**\n   - **Expense Amount:** $8,500.00 USD\n   - **Share of Total Expenses:** **53.02%**\n   - **Cumulative Share:** **53.02%** ($8,500.00 cumulative)\n\n2. **Alloy Partners**\n   - **Expense Amount:** $4,800.00 USD\n   - **Share of Total Expenses:** **29.94%**\n   - **Cumulative Share:** **82.97%** ($13,300.00 cumulative)\n\n3. **Stationers**\n   - **Expense Amount:** $875.00 USD\n   - **Share of Total Expenses:** **5.46%**\n   - **Cumulative Share:** **88.43%** ($14,175.00 cumulative)\n\nTogether, these three vendors account for **$14,175.00 USD**, or **88.43%** of Acorn Studio's total posted expenses year-to-date. The remaining 7 vendors represent the remaining $1,855.35 USD (11.57%).\n\n---\n\n### Accounting Notes & Observations\n- **Reporting Period:** January 1, 2026 through November 3, 2026.\n- **Ledger Scope:** Figures reflect posted journal entries (`status = 'POSTED'`) impacting expense accounts (`account_type = 'EXPENSE'`), calculated as net debits (`base_net_debit = base_debit - base_credit`) in the base currency (USD).\n- **Unposted Drafts:** There are 3 unposted draft entries in the system totaling $2,260.00 (Hudson Properties: $1,000.00; Alloy Partners: $1,200.00; Figma: $60.00). In accordance with standard accounting policy, these drafts are excluded from posted figures. Including them would not alter the ranking of the top three vendors."
             }
           ]
         },
         {
           "title": "Top 3 Vendors by Expense Share (2026 YTD)",
-          "code": "WITH \nvendor_expenses AS (SELECT\n  counterparty AS vendor,\n  sum(base_net_debit) AS amount\nFROM ledger\nWHERE\n  account_type = 'EXPENSE'\n  AND status = 'POSTED'\n  AND date >= '2026-01-01'\n  AND date <= '2026-11-03'\nGROUP BY\n  counterparty),\n  total AS (SELECT sum(amount) AS total_amount\n  FROM vendor_expenses),\n  ranked AS (SELECT\n    v.vendor,\n    v.amount,\n    round((v.amount / t.total_amount) * 100, 2) AS share_pct,\n    round((sum(v.amount) OVER (\n      ORDER BY v.amount DESC\n      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n    ) / t.total_amount) * 100, 2) AS cumulative_share_pct,\n    row_number() OVER (ORDER BY v.amount DESC) AS rank\n  FROM vendor_expenses AS v\n  CROSS JOIN total AS t)\nSELECT\n  rank,\n  vendor,\n  amount,\n  share_pct,\n  cumulative_share_pct\nFROM ranked\nWHERE\n  rank <= 3\nORDER BY\n  rank",
+          "code": "WITH \nvendor_expenses AS (SELECT\n  counterparty AS vendor,\n  sum(base_net_debit) AS expense_amount\nFROM ledger\nWHERE\n  organization_id = '6eb2b567-f19c-56bf-bb3c-cdf0592ae97a'\n  AND status = 'POSTED'\n  AND account_type = 'EXPENSE'\n  AND date >= '2026-01-01'\n  AND date <= '2026-11-03'\nGROUP BY\n  counterparty),\n  total_exp AS (SELECT sum(expense_amount) AS total_expense\n  FROM vendor_expenses),\n  ranked_vendors AS (SELECT\n    v.vendor,\n    v.expense_amount,\n    sum(v.expense_amount) OVER (\n      ORDER BY v.expense_amount DESC\n      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n    ) AS cumulative_amount,\n    round((v.expense_amount / t.total_expense) * 100, 2) AS expense_share_pct,\n    round((sum(v.expense_amount) OVER (\n      ORDER BY v.expense_amount DESC\n      ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n    ) / t.total_expense) * 100, 2) AS cumulative_share_pct,\n    row_number() OVER (ORDER BY v.expense_amount DESC) AS rank\n  FROM vendor_expenses AS v\n  CROSS JOIN total_exp AS t)\nSELECT\n  vendor,\n  expense_amount,\n  expense_share_pct,\n  cumulative_amount,\n  cumulative_share_pct\nFROM ranked_vendors\nWHERE\n  rank <= 3\nORDER BY\n  rank",
           "id": "cell-2",
           "outputs": [
             {
               "type": "notice",
-              "text": "Captured 2026-11-03T17:00:00.000Z. Workspace reference: 6eb2b567-f19c-56bf-bb3c-cdf0592ae97a. Query reference: q4. Parameters in SQL placeholder order: []."
+              "text": "Captured 2026-11-03T17:00:00.000Z. Workspace reference: 6eb2b567-f19c-56bf-bb3c-cdf0592ae97a. Query reference: q5. Parameters in SQL placeholder order: []."
             },
             {
               "type": "table",
-              "columns": ["rank", "vendor", "amount", "share_pct", "cumulative_share_pct"],
+              "columns": [
+                "vendor",
+                "expense_amount",
+                "expense_share_pct",
+                "cumulative_amount",
+                "cumulative_share_pct"
+              ],
               "rows": [
-                ["1", "Hudson Properties", "8500.00", "53.02", "53.02"],
-                ["2", "Alloy Partners", "4800.00", "29.94", "82.97"],
-                ["3", "Stationers", "875.00", "5.46", "88.43"]
+                ["Hudson Properties", "8500.00", "53.02", "8500.00", "53.02"],
+                ["Alloy Partners", "4800.00", "29.94", "13300.00", "82.97"],
+                ["Stationers", "875.00", "5.46", "14175.00", "88.43"]
               ],
               "totalRows": 3,
               "totalRowsKnown": true,
@@ -93,39 +99,20 @@
               "type": "chart",
               "chart": {
                 "kind": "bar",
-                "title": "Top 3 Vendors: Individual & Cumulative Expense Share (%)",
+                "title": "Top 3 Vendors - Individual vs. Cumulative Expense Share (2026 YTD)",
                 "xLabel": "vendor",
                 "xScale": "category",
-                "yLabel": "share_pct, cumulative_share_pct",
+                "yLabel": "expense_share_pct, cumulative_share_pct",
                 "labels": ["Hudson Properties", "Alloy Partners", "Stationers"],
                 "format": "percent",
                 "series": [
                   {
-                    "name": "share_pct",
+                    "name": "expense_share_pct",
                     "values": ["53.02", "29.94", "5.46"]
                   },
                   {
                     "name": "cumulative_share_pct",
                     "values": ["53.02", "82.97", "88.43"]
-                  }
-                ]
-              }
-            },
-            {
-              "type": "chart",
-              "chart": {
-                "kind": "bar",
-                "title": "Top 3 Vendors: Expense Amount (USD)",
-                "xLabel": "vendor",
-                "xScale": "category",
-                "yLabel": "amount",
-                "labels": ["Hudson Properties", "Alloy Partners", "Stationers"],
-                "format": "currency",
-                "currency": "USD",
-                "series": [
-                  {
-                    "name": "amount",
-                    "values": ["8500.00", "4800.00", "875.00"]
                   }
                 ]
               }

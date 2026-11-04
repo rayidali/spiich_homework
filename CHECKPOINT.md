@@ -1,6 +1,19 @@
 # Daybook session checkpoint
 
-## Current handoff — two analyst tabs
+## Current handoff — final native candidate verification
+
+Continue the two-tab Daybook product; Querio is delivered and the flexible native analyst is under final verification. Do not rebuild the accounting system or reopen older studies.
+
+- **Latest source work:** candidate e adds concise plain Markdown, keeps detailed evidence in notebooks, distinguishes accrual profit/loss from cash movement, and treats recurring templates as plans rather than confirmed obligations. It is being published with authentic d chart replays. No e model run has happened yet; the expected answer files and applied migrations remain unchanged.
+- **Closed d:** source `a35a9f9464b2c075be6f056c473420c5c3451aba` passed full CI `41756506465`; actual run `41757673131` delivered 14/14. Independent review found all eight matched answers and all six additional requested responses correct. Strict additional all-claims eligibility is 5/6 because the initial hiring explanation mislabeled an accrual loss as cash burn. Requested chart rendering remains pending. Preserve this source and its results.
+- **Accounting:** production and the fixture retain immutable migrations 001–009. A fresh production READ ONLY/RepeatableRead audit verified all nine hashes, eight analytics views and unchanged accounts/entries/lines fingerprints. No posting or financial correction was made by the analyst work.
+- **Budget:** the existing $5 task ledger is reconciled at $2.808492750 known plus $0.115747500 reserved for two historical unknown requests, or $2.924240250 total tracked. D added $0.983808750 with 92 known receipts. All six temporary d secrets were removed and absence verified. Never erase earlier costs or uncertain reservations. Querio's 52 observed responses include 39 in the comparison; invoice totals remain unverified.
+- **Website:** production remains the protected Querio release `dpl_HNS1v2XznQrY1cTgmSjZpPwaHCeK`. The d candidate is only READY/STAGED as `dpl_9WYonE3UG6pAETajAeQZFdYM7Z2W`. Its unused `native-hosted-d/` and `native-browser-d/` plans are source/deployment-bound and must be rebound for e; neither has made a model request. Use `native-hosted-driver/controller.py`, not the older c helper.
+- **Remaining work:** full e CI and fresh 14-turn capture; independent answers/chart review; real hosted rent/hiring/follow-up checks within the same allowance; actual protected desktop/mobile rendering; promotion only after review; final two-page report, accurate documentation and refreshed submission ZIP. The six-cohort report drafts and every original failure remain private under `.tools/analyst-product-20261103/`.
+
+Use local GitHub/Vercel authentication only. Publishing checkout is `/private/tmp/daybook-publish.kbVq33`. Keep main at the reviewed verifier commit until the eventual hosted-browser dispatch; later test/document commits must retain exact runtime-source equivalence.
+
+## Historical handoff before candidate e
 
 Querio is delivered in **Ask → Querio**. The replacement **Daybook** analyst is implemented and under release verification. Keep the existing application and accounting engine; do not restart the project or reopen earlier experiments.
 

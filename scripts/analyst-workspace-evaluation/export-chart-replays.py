@@ -57,7 +57,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cohort", type=Path, required=True)
     parser.add_argument("--provider", choices=["daybook", "querio"], required=True)
-    parser.add_argument("--cases", nargs="+", choices=["A06", "A18"], default=["A06", "A18"])
+    parser.add_argument("--cases", nargs="+", choices=["A06", "A08", "A18"], default=["A06", "A18"])
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--root", type=Path, default=Path.cwd())
     args = parser.parse_args()
