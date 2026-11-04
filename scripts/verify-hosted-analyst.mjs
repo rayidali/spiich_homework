@@ -24,6 +24,14 @@ const requireValue = (value, code) => {
   if (!value) throw Error(code);
 };
 
+export function displayedColumnLabel(value) {
+  const label = value
+    .replace(/_/g, ' ')
+    .replace(/\bpct\b/gi, '(%)')
+    .trim();
+  return label ? label[0].toUpperCase() + label.slice(1) : label;
+}
+
 export function validateAnalystTarget(input) {
   const base = validateTarget(input);
   requireValue(z.uuid().safeParse(input.conversationId).success, 'CONVERSATION_ID_REQUIRED');
@@ -242,7 +250,8 @@ export async function runHostedAnalyst(env = process.env) {
   const stats = { ...requestStats(), querioVerified: false, daybookVerified: false, conversationReads: 0 };
   const observed = {},
     files = [],
-    checks = [];
+    checks = [],
+    presentationChecks = [];
   let browser,
     failure = null,
     timer;
@@ -347,7 +356,7 @@ export async function runHostedAnalyst(env = process.env) {
           .slice(0, firstTable.outputIndex)
           .filter((o) => o.type === 'table' || o.type === 'chart').length;
         const table = cell.locator('table').nth(tablesBefore);
-        await expect(table.locator('thead th')).toHaveText(firstTable.o.columns);
+        await expect(table.locator('thead th')).toHaveText(firstTable.o.columns.map(displayedColumnLabel));
         await expect(table.locator('tbody td')).toHaveText(
           firstTable.o.rows.flatMap((row) => firstTable.o.columns.map((_, i) => row[i] ?? '—')),
         );
@@ -357,6 +366,72 @@ export async function runHostedAnalyst(env = process.env) {
         await source.locator('summary').click();
         await expect(source.locator('code')).toBeVisible();
         await source.locator('summary').click();
+        const notices = observed.conversation.notebook.cells.flatMap((item) =>
+          item.outputs.filter((output) => output.type === 'notice').map((output) => output.text),
+        );
+        const provenance = notebook.locator('details.analyst-source-details');
+        const provenanceCount = await provenance.count();
+        if (provider === 'daybook') requireValue(provenanceCount > 0, 'SOURCE_DETAILS_MISSING');
+        for (let index = 0; index < provenanceCount; index++) {
+          const details = provenance.nth(index);
+          await expect(details).not.toHaveAttribute('open', '');
+          await expect(details.locator('p')).not.toBeVisible();
+          await details.getByText('Source details', { exact: true }).click();
+          await expect(details.locator('p')).toBeVisible();
+          requireValue(notices.includes(await details.locator('p').textContent()), 'SOURCE_DETAILS_CHANGED');
+          await details.getByText('Source details', { exact: true }).click();
+          await expect(details.locator('p')).not.toBeVisible();
+        }
+        const graphic = notebook.locator('svg.analyst-chart').first();
+        const fontSizes = await graphic.locator('.analyst-chart-axis').evaluateAll((texts) =>
+          texts.map((text) => {
+            const matrix = text.getScreenCTM();
+            return parseFloat(getComputedStyle(text).fontSize) * Math.hypot(matrix?.a ?? 0, matrix?.b ?? 0);
+          }),
+        );
+        if (fontSizes.length)
+          requireValue(
+            fontSizes.every((size) => size >= 11),
+            'CHART_TEXT_TOO_SMALL',
+          );
+        const scroll = graphic.locator('..');
+        await expect(scroll).toHaveClass(/analyst-chart-scroll/);
+        const dimensions = await scroll.evaluate((element) => ({
+          clientWidth: element.clientWidth,
+          scrollWidth: element.scrollWidth,
+          pageWidth: document.documentElement.scrollWidth,
+          viewportWidth: innerWidth,
+        }));
+        requireValue(
+          dimensions.clientWidth > 0 && dimensions.pageWidth <= dimensions.viewportWidth + 1,
+          'CHART_SCROLL_NOT_BOUNDED',
+        );
+        const scrollDistance = dimensions.scrollWidth - dimensions.clientWidth;
+        if (scrollDistance > 1) {
+          await scroll.focus();
+          await scroll.evaluate((element) => {
+            element.scrollLeft = element.scrollWidth;
+          });
+          await expect
+            .poll(() => scroll.evaluate((element) => element.scrollLeft))
+            .toBeGreaterThanOrEqual(scrollDistance - 1);
+          await scroll.evaluate((element) => {
+            element.scrollLeft = 0;
+          });
+          await expect.poll(() => scroll.evaluate((element) => element.scrollLeft)).toBe(0);
+        }
+        presentationChecks.push({
+          viewportWidth: dimensions.viewportWidth,
+          exactSavedTableValues: true,
+          humanizedHeaders: true,
+          sourceDisclosuresChecked: provenanceCount,
+          sourceClosedOpenedReadAndReclosed: true,
+          minimumChartTextPixels: fontSizes.length ? Math.min(...fontSizes) : null,
+          chartScrollWidth: dimensions.scrollWidth,
+          chartViewportWidth: dimensions.clientWidth,
+          horizontalScrollReachedEndAndReset: scrollDistance > 1,
+          pageHorizontalOverflow: false,
+        });
         await notebook.locator('svg.analyst-chart').first().scrollIntoViewIfNeeded();
       };
       await page.goto(`${binding.origin}/analyst?tab=${provider}`, { waitUntil: 'networkidle' });
@@ -433,6 +508,7 @@ export async function runHostedAnalyst(env = process.env) {
     status: failure ? 'FAILED' : 'PASSED',
     failure,
     checks,
+    presentationChecks,
     stats,
     snapshotSha256: observed.evidence?.snapshotSha256 ?? null,
     selectedProvider: provider,

@@ -5,6 +5,7 @@ import {
   analystRequestPolicy,
   completedConversation,
   guardedAnalystRequest,
+  displayedColumnLabel,
 } from '../scripts/verify-hosted-analyst.mjs';
 import {
   requestStats,
@@ -25,6 +26,18 @@ const input = {
   conversationId,
 };
 const binding = validateAnalystTarget(input);
+
+test('display labels do not change the saved numeric cells, source keys or evidence binding', () => {
+  const value = saved();
+  value.notebook.cells[0].outputs[0].columns = ['month_label', 'posted_rent_pct'];
+  value.notebook.cells[0].outputs[0].rows = [['original_label', '30.1200']];
+  const original = structuredClone(value);
+  const before = completedConversation(value, conversationId);
+  assert.deepEqual(before.tables[0].o.columns.map(displayedColumnLabel), ['Month label', 'Posted rent (%)']);
+  assert.deepEqual(value, original);
+  assert.deepEqual(before.tables[0].o.rows, [['original_label', '30.1200']]);
+  assert.equal(completedConversation(value, conversationId).snapshotSha256, before.snapshotSha256);
+});
 const bypass = 'synthetic-bypass-not-a-credential';
 function saved() {
   return {
