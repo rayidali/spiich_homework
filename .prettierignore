@@ -19,3 +19,5 @@ docs/evidence/research-*.json
 docs/evidence/route-preflight-*.json
 docs/evidence/chat-scope-cases.json
 docs/evidence/chat-query-runs/**
+# Analyst receipts retain the exact reviewed bytes and their recorded digests.
+docs/evidence/native-analyst-*.json

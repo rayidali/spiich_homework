@@ -6,6 +6,29 @@ import { AnalystMarkdown } from './AnalystMarkdown';
 
 const chartColors = ['#36584a', '#a65c3f', '#597690', '#b29756', '#80748e', '#739385'];
 
+// Presentation only: retain the provider's column keys, values and SQL verbatim.
+function displayLabel(value: string) {
+  const label = value
+    .replace(/_/g, ' ')
+    .replace(/\bpct\b/gi, '(%)')
+    .trim();
+  return label ? label[0].toUpperCase() + label.slice(1) : label;
+}
+
+function sourceNotice(text: string) {
+  // Only the complete native provenance envelope is collapsible. Warnings and
+  // analyst-written notices, including text appended to this envelope, stay visible.
+  const match = text.match(
+    /^Captured \d{4}-\d{2}-\d{2}T[\d:.]+Z\. Workspace reference: [\da-f-]{36}\. Query reference: [\w-]+\. Parameters in SQL placeholder order: (\[.*\])\.$/i,
+  );
+  if (!match) return false;
+  try {
+    return Array.isArray(JSON.parse(match[1]));
+  } catch {
+    return false;
+  }
+}
+
 function chartValue(value: string | null, chart: AnalystChart) {
   if (value === null) return 'Not available';
   try {
@@ -28,10 +51,10 @@ function ChartTable({ chart }: { chart: AnalystChart }) {
       <table>
         <thead>
           <tr>
-            <th scope="col">{chart.xLabel || 'Category'}</th>
+            <th scope="col">{displayLabel(chart.xLabel || 'Category')}</th>
             {chart.series.map((series, index) => (
               <th key={index} scope="col">
-                {series.name || chart.yLabel || 'Value'}
+                {displayLabel(series.name || chart.yLabel || 'Value')}
               </th>
             ))}
           </tr>
@@ -180,7 +203,7 @@ function ChartGraphic({ chart }: { chart: AnalystChart }) {
     <>
       <svg className="analyst-chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-labelledby={titleId}>
         <title id={titleId}>
-          {`${chart.title || 'Financial chart'}. ${chart.xLabel} by ${chart.yLabel}. Exact values are in the chart table.`}
+          {`${chart.title || 'Financial chart'}. ${displayLabel(chart.xLabel)} by ${displayLabel(chart.yLabel)}. Exact values are in the chart table.`}
         </title>
         {[0, 1, 2, 3, 4].map((tick) => {
           const value = minimum + (span * tick) / 4;
@@ -280,14 +303,14 @@ function ChartGraphic({ chart }: { chart: AnalystChart }) {
           </text>
         ))}
         <text x={left + plotWidth / 2} y={height - 12} textAnchor="middle" className="analyst-chart-axis">
-          {chart.xLabel}
+          {displayLabel(chart.xLabel)}
         </text>
       </svg>
       <ul className="analyst-chart-legend">
         {chart.series.map((series, index) => (
           <li key={index}>
             <span style={{ background: chartColors[index % chartColors.length] }} />
-            {series.name || chart.yLabel}
+            {displayLabel(series.name || chart.yLabel)}
           </li>
         ))}
       </ul>
@@ -299,7 +322,17 @@ export function AnalystChartView({ chart }: { chart: AnalystChart }) {
   return (
     <figure className="analyst-chart-figure">
       <figcaption>{chart.title || 'Chart'}</figcaption>
-      <ChartGraphic chart={chart} />
+      <div
+        className={`analyst-chart-scroll${chart.kind === 'pie' ? ' analyst-chart-fit' : ''}`}
+        tabIndex={0}
+        role="region"
+        aria-label={`${chart.title || 'Chart'} graphic; scroll horizontally if needed`}
+      >
+        <ChartGraphic chart={chart} />
+      </div>
+      {chart.kind !== 'pie' && (
+        <p className="analyst-chart-scroll-hint">Scroll across the chart to see every month or category.</p>
+      )}
       <details className="analyst-chart-data">
         <summary>View chart data</summary>
         <ChartTable chart={chart} />
@@ -310,7 +343,15 @@ export function AnalystChartView({ chart }: { chart: AnalystChart }) {
 
 function CellOutput({ output }: { output: AnalystOutput }) {
   if (output.type === 'markdown') return <AnalystMarkdown text={output.text} />;
-  if (output.type === 'notice') return <p className="analyst-output-note">{output.text}</p>;
+  if (output.type === 'notice')
+    return sourceNotice(output.text) ? (
+      <details className="analyst-source-details">
+        <summary>Source details</summary>
+        <p className="analyst-output-note">{output.text}</p>
+      </details>
+    ) : (
+      <p className="analyst-output-note">{output.text}</p>
+    );
   if (output.type === 'chart') return <AnalystChartView chart={output.chart} />;
   return (
     <>
@@ -320,7 +361,7 @@ function CellOutput({ output }: { output: AnalystOutput }) {
             <tr>
               {output.columns.map((column, index) => (
                 <th scope="col" key={index}>
-                  {column}
+                  {displayLabel(column)}
                 </th>
               ))}
             </tr>

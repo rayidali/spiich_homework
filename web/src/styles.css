@@ -4141,6 +4141,22 @@ html[data-input='keyboard'] .assistant-top:active {
 .analyst-cell-source[open] > summary::before {
   content: '−';
 }
+.analyst-source-details {
+  margin: 8px 0 12px;
+  overflow-wrap: anywhere;
+}
+.analyst-source-details > summary {
+  width: fit-content;
+  padding: 5px 0;
+  color: var(--muted);
+  font-size: 11px;
+  cursor: pointer;
+}
+.analyst-source-details > summary:focus-visible,
+.analyst-chart-scroll:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+}
 .analyst-chart-figure {
   margin: 14px 0;
   padding: 13px;
@@ -4153,6 +4169,19 @@ html[data-input='keyboard'] .assistant-top:active {
   font-weight: 550;
   margin-bottom: 12px;
 }
+.analyst-chart-scroll {
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+.analyst-chart-scroll-hint {
+  display: none;
+  margin: 6px 0 12px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
 .analyst-chart {
   width: 100%;
   height: auto;
@@ -4160,8 +4189,11 @@ html[data-input='keyboard'] .assistant-top:active {
   overflow: visible;
   font-family: inherit;
 }
+.analyst-chart-scroll:not(.analyst-chart-fit) .analyst-chart {
+  min-width: 560px;
+}
 .analyst-chart-axis {
-  font-size: 11px;
+  font-size: 13px;
   fill: #6a6f63;
 }
 .analyst-chart-legend {
@@ -4197,6 +4229,7 @@ html[data-input='keyboard'] .assistant-top:active {
     color: var(--text);
   }
   .analyst-cell-source > summary:hover,
+  .analyst-source-details > summary:hover,
   .analyst-chart-data > summary:hover {
     color: var(--text);
   }
@@ -4294,5 +4327,8 @@ html[data-input='keyboard'] .assistant-top:active {
   }
   .analyst-notebook {
     padding: 19px 16px 30px;
+  }
+  .analyst-chart-scroll-hint {
+    display: block;
   }
 }

@@ -16,6 +16,54 @@ const chart: AnalystChart = {
   currency: 'USD',
 };
 describe('analyst presentation of financial evidence', () => {
+  it('simplifies labels and tucks only source metadata away while keeping evidence and warnings intact', () => {
+    const provenance =
+      'Captured 2026-11-03T18:00:00.000Z. Workspace reference: 00000000-0000-4000-8000-000000000001. Query reference: q7. Parameters in SQL placeholder order: ["5010"].';
+    const cells = [
+      {
+        id: 'rent',
+        title: 'Rent share',
+        code: 'SELECT month_label, posted_rent_pct FROM monthly_expenses;',
+        outputs: [
+          { type: 'notice' as const, text: provenance },
+          { type: 'notice' as const, text: 'Draft entries are excluded.' },
+          { type: 'notice' as const, text: `${provenance} Warning: this result is incomplete.` },
+          {
+            type: 'table' as const,
+            columns: ['month_label', 'posted_rent_pct'],
+            rows: [['original_label', '30.1200']],
+            totalRows: 1,
+            truncated: false,
+          },
+          {
+            type: 'chart' as const,
+            chart: {
+              ...chart,
+              xLabel: 'month_label',
+              yLabel: 'posted_rent_pct',
+              series: [{ name: 'posted_rent_pct', values: ['30.1200', null, '0'] }],
+              format: 'percent' as const,
+            },
+          },
+        ],
+      },
+    ];
+    const original = structuredClone(cells);
+    const html = renderToStaticMarkup(createElement(AnalystNotebook, { cells, updatedAt: null }));
+    expect(html).toContain('<th scope="col">Month label</th>');
+    expect(html).toContain('<th scope="col">Posted rent (%)</th>');
+    expect(html).toContain('>original_label</td>');
+    expect(html).toContain('>30.1200</td>');
+    expect(html).toContain('SELECT month_label, posted_rent_pct FROM monthly_expenses;');
+    const disclosure = html.match(/<details class="analyst-source-details">[\s\S]*?<\/details>/g) ?? [];
+    expect(disclosure).toHaveLength(1);
+    expect(disclosure[0]).toContain('<summary>Source details</summary>');
+    expect(disclosure[0]).not.toContain(' open');
+    const outside = html.replace(disclosure[0]!, '');
+    expect(outside).toContain('Draft entries are excluded.');
+    expect(outside).toContain('Warning: this result is incomplete.');
+    expect(cells).toEqual(original);
+  });
   it('keeps an unavailable value separate from zero and breaks the line instead of bridging the gap', () => {
     const html = renderToStaticMarkup(createElement(AnalystChartView, { chart }));
     expect(html).toContain('Not available');

@@ -2,6 +2,14 @@
 
 Entries are chronological evidence. Their pending/current/deployed language refers to the time of that entry; the latest release and active verification gate are in [CHECKPOINT](../CHECKPOINT.md). Earlier failures and spending are preserved.
 
+## Hosted rent and hiring acceptance closes; final notebook readability review
+
+Native source `60435f2` passed all three original hosted questions on candidate H. Independent Decimal review verified the eleven-month rent table/chart, $5,400 added monthly hiring cost with 7.65-month runway, and the same-conversation $5,000 salary follow-up giving $6,000 added cost and 7.38 months. Every optional numerical claim was also reviewed. The supporting queries/results and original errors remain preserved. These three hosted turns are separate from the E/F comparison cohorts, not replacement scores.
+
+The three turns used 23 known requests and $0.314643000 estimated usage, with zero new unknown receipts. All holds are reconciled: task known $4.170306000 plus historical unknown $0.236865750 totals $4.407171750 of the authorized $5. No provider work or lease remains active. Response times of 321, 169 and 94 seconds remain a latency limitation; this is not a matched speed benchmark. The monetary-support guard requested additional selected evidence for correct optional figures; it did not independently prove semantic accuracy.
+
+A full read-only before/after audit verified all 22 accounts, 76 entries, 152 lines and nine migration hashes unchanged. Actual protected browser run41770291065 restored the saved rent notebook, switched to Querio, and passed desktop/mobile rendering without generation or application mutation. Its four screenshots were reviewed and both temporary secrets removed with absence verified. Screenshot review still exposed tiny mobile axes and technical column/workspace labels. A final frontend-only presentation repair is being prepared; backend/prompt bytes and paid-model evidence remain bound to604. It will have separate CI and saved-answer browser verification before promotion. No new paid run is planned.
+
 ## Targeted repair closes with one delivered answer; align deadlines with actual hosting capacity
 
 Targeted f/run41767004758 at `85a136e` is closed. A08 delivered the correct zero-inclusive monthly expenses, total, mean and median. Its literal-support check rejected a mathematically correct but unselected $1,200 draft aside; the model removed that optional detail and republished successfully. A06 produced no answer after two directly caught40-second model timeouts. The single recovery was scheduled, then exhausted; no manual retry, substitute answer or hidden-calculation credit was used. Keep this1/2 delivery result separate from e's full7/8 strict comparison. Only the authentic f A08 chart fixture replaces its earlier replay; failed A06 has no completed chart.

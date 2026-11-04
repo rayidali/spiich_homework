@@ -331,6 +331,19 @@ for (const [provider, caseId] of cases)
         await expect(figure.locator('figcaption')).toHaveText(chart.title || 'Chart');
         expect((await svg.boundingBox())!.width).toBeGreaterThan(100);
         expect(await svg.innerHTML()).not.toMatch(/(?:NaN|Infinity)/);
+        if (chart.kind !== 'pie') {
+          const textSize = await svg
+            .locator('.analyst-chart-axis')
+            .first()
+            .evaluate((text) => {
+              const matrix = (text as SVGGraphicsElement).getScreenCTM();
+              return parseFloat(getComputedStyle(text).fontSize) * (matrix?.a ?? 0);
+            });
+          expect(
+            textSize,
+            'Chart text must remain readable at the actual rendered scale',
+          ).toBeGreaterThanOrEqual(11);
+        }
         await figure.getByText('View chart data', { exact: true }).click();
         const rows = figure.locator('tbody tr');
         await expect(rows).toHaveCount(chart.labels.length);

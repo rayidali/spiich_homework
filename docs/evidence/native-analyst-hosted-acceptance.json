@@ -1,0 +1,144 @@
+{
+  "version": 1,
+  "reviewedAt": "2026-11-04T04:04:46.380651+00:00",
+  "status": "PASSED_BOUNDED_HOSTED_ACCEPTANCE",
+  "modelSourceCommit": "60435f2c315363bf8110526066f3d6ce61771eb8",
+  "modelDeploymentId": "dpl_765NRHeNpRBz9EB25U9bAcEaXocs",
+  "businessDate": "2026-11-03",
+  "model": "gemini-3.8-flash",
+  "protocol": "Three predeclared hosted turns; rent in a separate saved conversation and a hiring scenario with salary follow-up. Independent full-ledger Decimal review. These are not the synthetic matched comparison.",
+  "financialReview": {
+    "passed": 3,
+    "total": 3,
+    "reviews": [
+      {
+        "version": 1,
+        "turn": 1,
+        "sourceCommit": "60435f2c315363bf8110526066f3d6ce61771eb8",
+        "deploymentId": "dpl_765NRHeNpRBz9EB25U9bAcEaXocs",
+        "answerSha256": "1c7912de27d1ca834a7f99e8106703d712c75d9b8a147e0cdfad53faf19b36e2",
+        "independentReference": "Full pre-run core ledger rows; Python Decimal recomputation, no model SQL executed",
+        "numericAndRowChecks": 144,
+        "requestedMonths": 11,
+        "requestedAnswer": "pass",
+        "optionalNumericalClaims": "pass",
+        "scope": "Posted year-to-date primary answer; drafts separately labeled conditional alternatives. All actual records inspected are within2026.",
+        "chartBackingValues": "pass; six defined values and five null percentages",
+        "renderedChart": "pending protected browser",
+        "strictFinancialEligibility": true,
+        "elapsedSeconds": 321,
+        "limitation": "One hosted question, not a latency benchmark. Summary query omits explicit lower-year bound; its observed row set is2026-only, so this pass does not establish correctness after different-year data is added. Verbose unrequested draft analysis and slow response remain product limitations."
+      },
+      {
+        "version": 1,
+        "turn": 2,
+        "sourceCommit": "60435f2c315363bf8110526066f3d6ce61771eb8",
+        "deploymentId": "dpl_765NRHeNpRBz9EB25U9bAcEaXocs",
+        "answerSha256": "685bb29b9c435cbc7509cd9fe6df66bc2af7f027c8f9acfcaa24a22a1b38ebeb",
+        "independentReference": "Pre-run full-core-row-verified monthly expenses and native/base cash; Python Decimal recomputation",
+        "requestedAnswer": "pass",
+        "optionalNumericalClaims": "pass",
+        "salaryUsd": "4500",
+        "employerRate": "0.20",
+        "addedMonthlyCostUsd": "5400.0",
+        "cashUsd": "124820.00",
+        "monthlyExpenseProxyExact": "10924.3333333333333333333333333333333333333333333333333333333",
+        "runwayMonthsExact": "7.64625405835868744001796908500602372735997386314908214730567",
+        "runwayMonthsDisplayed": "7.65",
+        "scope": "Aug\u2013Oct2026 posted expenses, cash throughNov3 at recorded carrying rates; no income; accrual expenses explicitly labeled cash-burn proxy, no external settlement assumption",
+        "strictFinancialEligibility": true,
+        "chartBackingValues": "pass; unrequested baseline/hire comparison",
+        "renderedChart": "not separately browser-tested",
+        "elapsedSeconds": 169,
+        "limitation": "One supplied-input scenario, not a bank-reconciled cashflow forecast. Queries group recorded months; allthree requestedmonths exist here, so this pass does not establish zero-month handling on other data."
+      },
+      {
+        "version": 1,
+        "turn": 3,
+        "sourceCommit": "60435f2c315363bf8110526066f3d6ce61771eb8",
+        "deploymentId": "dpl_765NRHeNpRBz9EB25U9bAcEaXocs",
+        "answerSha256": "1454dbe2ebc75b8d8e44eb9933708d3051850db2c727f5285826555b9f8c73f3",
+        "independentReference": "Pre-run full-core-row-verified monthly expenses and native/base cash; Python Decimal recomputation",
+        "requestedAnswer": "pass",
+        "optionalNumericalClaims": "pass",
+        "priorMessagesPreservedExactly": true,
+        "sameConversation": true,
+        "salaryUsd": "5000",
+        "employerRate": "0.20",
+        "addedMonthlyCostUsd": "6000.0",
+        "cashUsd": "124820.00",
+        "monthlyExpenseProxyExact": "10924.3333333333333333333333333333333333333333333333333333333",
+        "runwayMonthsExact": "7.37517972150552458984105725484017095700470722628168514761784",
+        "runwayMonthsDisplayed": "7.38",
+        "scope": "Same Aug\u2013Oct2026 baseline, Nov3 carrying-rate cash, no income and20% user-supplied overhead; only salary changed. Allscenario comparisons recomputed with fresh SQL.",
+        "strictFinancialEligibility": true,
+        "chartBackingValues": "pass; unrequested three-scenario comparison",
+        "renderedChart": "not separately browser-tested",
+        "elapsedSeconds": 94,
+        "limitation": "One follow-up on one dataset, not universal conversational accuracy or a reconciled cash forecast."
+      }
+    ]
+  },
+  "providerUsage": {
+    "requests": 23,
+    "knownRequests": 23,
+    "newUnknownRequests": 0,
+    "knownEstimatedUsd": "0.314643000",
+    "turnKnownEstimatedUsd": [
+      "0.174753750",
+      "0.071919750",
+      "0.067969500"
+    ],
+    "elapsedSeconds": [
+      321,
+      169,
+      94
+    ],
+    "matchedLatencyBenchmark": false
+  },
+  "taskBudget": {
+    "limitUsd": "5.00",
+    "knownEstimatedUsd": "4.170306000",
+    "unknownReservedUsd": "0.236865750",
+    "trackedUsd": "4.407171750",
+    "remainingUsd": "0.592828250",
+    "invoiceVerified": false,
+    "ledgerSha256": "8d61ea794527c31589aa6d560aff9990b1c4c3c9c81306eb941b15a38549f68d",
+    "noPendingPaidWork": true
+  },
+  "accountingAudit": {
+    "allCoreRowsUnchanged": true,
+    "rowCounts": {
+      "lines": 152,
+      "entries": 76,
+      "accounts": 22
+    },
+    "postedEntriesBalanced": 73,
+    "migrationChecks": 9,
+    "coreLedgerCanonicalSha256": "ac90e593503f77a659558f01ceedac2e02c5b1615c9ae6982e3a8376a557d9cf",
+    "beforeReceiptSha256": "a6b411c4ea90cd64323adb8b7fde65be5190bd76ee5fc3fec49a4d015dd27321",
+    "afterReceiptSha256": "93af4272e2bcf4849b0694b8692d08377a35d30d9cfbb9e006801aa95bd956d5",
+    "transaction": "READ ONLY / RepeatableRead"
+  },
+  "savedAnswerBrowser": {
+    "runId": 41770291065,
+    "receipt": "native-analyst-hosted-browser.json",
+    "receiptSha256": "e618d06522c73a4754f54a73aec893992fa957b50a1bd8fb98a299a5fdc07184",
+    "modelCalls": 0,
+    "applicationMutations": 0,
+    "rentChartReviewedOn": [
+      "desktop",
+      "mobile emulation"
+    ],
+    "onlyOneOfTheThreeNotebooksRendered": true
+  },
+  "operationalReceiptSha256": "b0e9c92e2537a8b29651440b51f7cae8f17b3b0c7842e4f8f1f179e94515dc39",
+  "limitations": [
+    "Only three original hosted turns; neither universal accuracy nor a new full-suite score.",
+    "Responses took94\u2013321seconds and included optional details; latency and concision remain weaknesses.",
+    "Browser reads restored a completed answer; these checks did not submit or stop a question through the browser.",
+    "Numerical support does not establish every query's intent, dates or accounting meaning.",
+    "Mobile emulation is not physical-device testing.",
+    "Later frontend-only release must prove backend byte equivalence and separately verify its UI; these model captures remain source604."
+  ]
+}

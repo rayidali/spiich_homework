@@ -1,6 +1,26 @@
 # Daybook session checkpoint
 
-## Current handoff — publication support repair before release
+## Current handoff — two analyst tabs
+
+Daybook keeps its original accounting engine. Ask offers **Querio** and the rebuilt **Daybook** analyst, with separate conversations and shared tables/charts/notebooks. The new native analyst discovers the scoped schema and writes checked read-only SQL; it is not limited to a menu of financial questions. It cannot post or change the books. The user's latest two-tab request and fresh $5 allowance supersede older paused tasks and budgets.
+
+**Three hosted native answers passed at source604; final display polish remains.** Protected candidate H (`dpl_765NRHeNpRBz9EB25U9bAcEaXocs`) returned the correct eleven-month rent chart and $4,500→$5,000 salary scenarios. Three turns used 23 known model requests, costing $0.314643000, with no new unknown receipt. Response times were 321, 169 and 94 seconds: latency and verbosity remain weaknesses. Actual saved-rent browser run41770291065 passed desktop/mobile; both temporary secrets were deleted and absence verified. The full before/after core ledger audit passed unchanged. No paid call or worker remains active. Stable production is still Querio HNS1; no native candidate has been promoted.
+
+Actual screenshots revealed small mobile chart labels and technical field/provenance text. A final frontend-only readability change is in progress. It must preserve exact result values, prove backend/prompt equivalence to604, pass CI and re-render the same saved answer; it does not require or authorize another paid model cohort. Final release I, two-page paper, documentation publication and ZIP remain.
+
+- **Verified application source:** `60435f2c315363bf8110526066f3d6ce61771eb8`. Full CI `41768363849` passed 3,365 normal tests (19 skipped), 11 separate analyst-fixture tests, four completeness fixture tests, and 60 browser workflows. Compose passed 3,364 overlapping tests (20 skipped), seven lifecycle checks and recreation persistence. Fourteen actual PostgreSQL analyst-store tests passed, including ownership after 90 seconds. Do not add overlapping test counts.
+- **Deadline repair:** native model requests have 120 seconds, hosted index/cron functions 180 seconds, and native database ownership leases 210 seconds. Querio keeps 75 seconds. The existing Hobby project already supports Fluid Compute; no plan purchase was made. SQL/generation/money limits remain. One bounded recovery applies only to directly caught, fully accounted transport failures; crash-pending work is never replayed.
+- **Publication support:** recognized money amounts and percentages must match selected fresh SQL numeric results or explicit user inputs. Unsupported text goes back for correction; code does not silently replace numbers. This is a literal-support check, not proof of correct dates, vendors, currencies or every claim.
+- **Honest comparison:** final full cohort e delivered 14/14 turns; strict matched answers passed 7/8 and extra native-only acceptance 6/6. Querio passed 6/8 matched turns. Native e invented an optional $45 draft; the actual draft was $60. Querio's failures include two 0.01-percentage-point rounding differences. Earlier d's 8/8 is a different source. Later targeted f passed 1/2: A08 was correct and rendered; A06 timed out twice. None of these results is overwritten by later repairs or hosted checks. The small authored development set is not a blind holdout or proof of universal superiority.
+- **Accounting preserved:** immutable migrations 001–009, `.tools/postgres`, and the named Compose volume are retained. Production has 22 accounts, 76 entries and 152 lines. The independent financial fingerprint before hosted testing is `ac90e593503f77a659558f01ceedac2e02c5b1615c9ae6982e3a8376a557d9cf`. Test books are isolated from production.
+- **Spending:** known estimates **$4.170306000** + retained historical unknown reservations **$0.236865750** = **$4.407171750** of $5; remaining **$0.592828250**. Root owns the ledger, SHA `8d61ea794527c31589aa6d560aff9990b1c4c3c9c81306eb941b15a38549f68d`. All three hosted holds are reconciled and paid work is closed. Do not reset old charges, erase unknown reservations, reopen closed cohorts or infer invoice balance from estimates. Querio's 52 observed responses include 13 integration and 39 matched-comparison responses; remaining included credits and invoice charges are unverified.
+- **Handoff:** Private final drafts and source-bound evidence are staged under `.tools/analyst-product-20261103/evaluation-review/`. Public hosted financial evidence is [native-analyst-hosted-acceptance.json](docs/evidence/native-analyst-hosted-acceptance.json). Preserve its source604 binding through the display-only release. Local GitHub/Vercel authentication only. Publication checkout is `/private/tmp/daybook-publish.kbVq33`; root `.git` is protected. Keep credentials, raw captures, browser state and private deployment payloads out of Git, docs and archives.
+
+## Historical chronology — preserved superseded handoffs
+
+The snapshots below describe earlier states. Their “current,” “pending,” “deployed,” cost and approval language is historical; it does not override the current handoff above. Original failures, source bindings and budgets remain intact.
+
+### Superseded handoff — publication support repair before release
 
 Continue the two-tab Daybook product. Querio is live; native flexible SQL is staged and awaiting final release. Do not reopen prior studies or erase their failures.
 
