@@ -168,6 +168,7 @@ function fixture() {
   const outputs: AnalystStepResult[] = [];
   const modelCalls: Parameters<NonNullable<Parameters<typeof createNativeAnalystService>[0]['step']>>[0][] =
     [];
+  const modelToolNames: string[][] = [];
   let beforeModel: (() => Promise<void>) | undefined;
   const sql = {
     query: vi.fn(async (org: string, q: { id: string }) => result(q.id, org)),
@@ -190,6 +191,7 @@ function fixture() {
     },
     step: async (input) => {
       modelCalls.push(copy({ ...input, model: {}, tools: {} }) as typeof input);
+      modelToolNames.push(Object.keys(input.tools));
       const attempt: AnalystModelAttempt = {
         attemptId: `a${++attemptN}`,
         modelId: 'gemini-3.8-flash',
@@ -226,6 +228,7 @@ function fixture() {
     sql,
     outputs,
     modelCalls,
+    modelToolNames,
     externalBefore,
     externalAfter,
     setBeforeModel: (fn: () => Promise<void>) => {
@@ -236,6 +239,19 @@ function fixture() {
       await service.send('org-a', 'chat', 'm1', text);
     },
   };
+}
+async function atPublicationBoundary() {
+  const f = fixture();
+  await f.start();
+  f.outputs.push(calls({ name: 'query_sql', input: { sql: 'SELECT amount FROM analytics.ledger' } }));
+  await f.service.advance('org-a', 'chat');
+  await f.service.advance('org-a', 'chat');
+  // Resume with a saved source at the investigation boundary; each test varies
+  // the actual final model/tool behavior rather than rerunning nine dummy reads.
+  f.edit((record) => {
+    (record.runtime.nativeTurn as NativeAnalystTurn).stepIndex = 10;
+  });
+  return f;
 }
 describe('durable native analyst service', () => {
   it('queues/read-refresh without a paid model call and preserves client idempotency', async () => {
@@ -563,5 +579,196 @@ describe('durable native analyst service', () => {
     expect(f.externalAfter).not.toHaveBeenCalled();
     expect((f.peek().runtime.nativeTurn as NativeAnalystTurn).pendingGeneration).toBeUndefined();
     expect((f.peek().runtime.nativeTurn as NativeAnalystTurn).meter.attempts[0].receipt).toBeUndefined();
+  });
+
+  it('executes the tenth investigation result and reserves a publication generation to deliver its checked answer and chart', async () => {
+    const f = fixture();
+    await f.start();
+    for (let index = 0; index < 10; index++) {
+      f.outputs.push(calls({ name: 'query_sql', input: { sql: `SELECT ${index} AS amount` } }));
+      await f.service.advance('org-a', 'chat');
+      await f.service.advance('org-a', 'chat');
+    }
+    expect(f.sql.query).toHaveBeenCalledTimes(10);
+    expect(f.modelCalls[9].instructions).toContain('including this generation when applicable): 1.');
+    expect(f.modelToolNames[9]).toContain('query_sql');
+    f.outputs.push(
+      calls({
+        name: 'publish_notebook',
+        input: {
+          ...publication,
+          tables: [{ queryId: 'q10' }],
+          charts: [{ ...publication.charts[0], queryId: 'q10' }],
+        },
+      }),
+    );
+    await f.service.advance('org-a', 'chat');
+    expect(f.modelToolNames[10]).toEqual(['publish_notebook']);
+    expect(f.modelCalls[10].instructions).toContain('Current phase: publication only.');
+    expect(f.modelCalls[10].instructions).toContain('Saved CURRENT-TURN query IDs: q1, q2, q3');
+    expect(f.modelCalls[10].instructions).toContain('q10.');
+    const state = await f.service.advance('org-a', 'chat');
+    expect(state.status).toBe('completed');
+    expect(state.messages.at(-1)?.content).toBe(publication.notes);
+    expect(state.notebook.cells.some((cell) => cell.outputs.some((output) => output.type === 'chart'))).toBe(
+      true,
+    );
+    expect(f.sql.query).toHaveBeenCalledTimes(10);
+    expect(f.sql.reexecute).toHaveBeenCalledTimes(1);
+    expect(f.modelCalls).toHaveLength(11);
+  });
+
+  it('repairs invalid chart columns in the final publication generation without requesting new data', async () => {
+    const f = await atPublicationBoundary();
+    f.outputs.push(
+      calls({
+        name: 'publish_notebook',
+        input: { ...publication, charts: [{ ...publication.charts[0], yColumns: ['missing_column'] }] },
+      }),
+      calls({ name: 'publish_notebook', input: publication }),
+    );
+    await f.service.advance('org-a', 'chat');
+    const rejected = await f.service.advance('org-a', 'chat');
+    expect(rejected.status).toBe('running');
+    expect(rejected.notebook.cells).toHaveLength(0);
+    await f.service.advance('org-a', 'chat');
+    expect(JSON.stringify(f.modelCalls[2].messages)).toContain('missing_column');
+    expect(f.modelCalls[2].instructions).toContain(
+      'Remaining publication-only generations (including this generation when applicable): 1.',
+    );
+    const state = await f.service.advance('org-a', 'chat');
+    expect(state.status).toBe('completed');
+    expect((f.peek().runtime.nativeTurn as NativeAnalystTurn).stepIndex).toBe(12);
+    expect(f.sql.query).toHaveBeenCalledTimes(1);
+  });
+
+  it('uses the second reserved publication generation to revise changed evidence and recheck it again', async () => {
+    const f = await atPublicationBoundary();
+    f.outputs.push(
+      calls({ name: 'publish_notebook', input: publication }),
+      calls({
+        name: 'publish_notebook',
+        input: { ...publication, notes: 'The current recorded cost is99.01 USD.' },
+      }),
+    );
+    vi.mocked(f.sql.reexecute).mockResolvedValueOnce({
+      results: [{ ...result(), rows: [['2026-10', '99.01']], hash: 'changed' }],
+      changedQueryIds: ['q1'],
+    });
+    await f.service.advance('org-a', 'chat');
+    const changed = await f.service.advance('org-a', 'chat');
+    expect(changed.status).toBe('running');
+    expect(changed.notebook.cells).toHaveLength(0);
+    await f.service.advance('org-a', 'chat');
+    expect(JSON.stringify(f.modelCalls[2].messages)).toContain('ANALYST_SNAPSHOT_CHANGED');
+    expect(JSON.stringify(f.modelCalls[2].messages)).toContain('99.01');
+    const state = await f.service.advance('org-a', 'chat');
+    expect(state.status).toBe('completed');
+    expect(state.messages.at(-1)?.content).toContain('99.01');
+    expect(JSON.stringify(state.notebook)).toContain('99.01');
+    expect(f.sql.query).toHaveBeenCalledTimes(1);
+    expect(f.sql.reexecute).toHaveBeenCalledTimes(2);
+  });
+
+  it('can remove an unrequested chart after duplicate coordinates are rejected, retaining the complete checked table', async () => {
+    const f = await atPublicationBoundary();
+    f.edit((record) => {
+      const source = (record.runtime.nativeTurn as NativeAnalystTurn).results[0];
+      source.rows = [
+        ['2026-10', '42.01'],
+        ['2026-10', '17.50'],
+      ];
+      source.rowCount = 2;
+    });
+    f.outputs.push(
+      calls({ name: 'publish_notebook', input: publication }),
+      calls({
+        name: 'publish_notebook',
+        input: { ...publication, notes: 'Here are both recorded costs.', charts: [] },
+      }),
+    );
+    await f.service.advance('org-a', 'chat');
+    await f.service.advance('org-a', 'chat');
+    expect(f.peek().state.notebook.cells).toHaveLength(0);
+    expect(JSON.stringify(f.peek().runtime.nativeHistory)).toContain('ANALYST_NOTEBOOK_DUPLICATE');
+    await f.service.advance('org-a', 'chat');
+    const state = await f.service.advance('org-a', 'chat');
+    expect(state.status).toBe('completed');
+    expect(JSON.stringify(state.notebook)).toContain('42.01');
+    expect(JSON.stringify(state.notebook)).toContain('17.50');
+    expect(state.notebook.cells.some((cell) => cell.outputs.some((output) => output.type === 'chart'))).toBe(
+      false,
+    );
+    expect(f.sql.query).toHaveBeenCalledTimes(1);
+  });
+
+  it('enforces publication-only tools in the executor even if the model requests forbidden SQL or schema reads', async () => {
+    const f = await atPublicationBoundary();
+    const forbidden = calls(
+      { name: 'query_sql', input: { sql: 'SELECT 900000 AS amount' } },
+      { name: 'inspect_schema', input: {} },
+    );
+    forbidden.toolCalls[0].invalid = true;
+    f.outputs.push(forbidden, calls({ name: 'publish_notebook', input: publication }));
+    await f.service.advance('org-a', 'chat');
+    await f.service.advance('org-a', 'chat');
+    expect(f.modelToolNames[1]).toEqual(['publish_notebook']);
+    expect(f.sql.query).toHaveBeenCalledTimes(1);
+    expect(JSON.stringify(f.peek().runtime.nativeHistory).match(/ANALYST_PUBLICATION_ONLY/g)).toHaveLength(2);
+    await f.service.advance('org-a', 'chat');
+    const state = await f.service.advance('org-a', 'chat');
+    expect(state.status).toBe('completed');
+    expect(f.sql.query).toHaveBeenCalledTimes(1);
+  });
+
+  it('stops after two unsuccessful publication generations without a thirteenth generation or an invented answer', async () => {
+    const f = await atPublicationBoundary();
+    f.outputs.push(
+      calls({ name: 'publish_notebook', input: { title: 'Unsupported' } }),
+      calls({ name: 'publish_notebook', input: { title: 'Still unsupported' } }),
+    );
+    for (let index = 0; index < 4; index++) await f.service.advance('org-a', 'chat');
+    const state = await f.service.advance('org-a', 'chat');
+    expect(state.status).toBe('failed');
+    expect(state.error?.code).toBe('ANALYST_STEP_LIMIT');
+    expect(state.error?.message).toContain('could not finish and check a complete answer');
+    expect(state.messages).toHaveLength(1);
+    expect(state.notebook.cells).toHaveLength(0);
+    expect(f.modelCalls).toHaveLength(3);
+    expect(f.peek().runtime.nativeTurn).toMatchObject({ stepIndex: 12, results: [{ id: 'q1' }] });
+    await f.service.advance('org-a', 'chat');
+    expect(f.modelCalls).toHaveLength(3);
+  });
+
+  it('honors Stop during a reserved publication generation and retains usage without publishing the late result', async () => {
+    const f = await atPublicationBoundary();
+    f.outputs.push(calls({ name: 'publish_notebook', input: publication }));
+    f.setBeforeModel(async () => {
+      await f.service.close('org-a', 'chat');
+    });
+    const state = await f.service.advance('org-a', 'chat');
+    expect(state.status).toBe('closed');
+    expect(state.messages).toHaveLength(1);
+    expect(state.notebook.cells).toHaveLength(0);
+    expect(f.sql.reexecute).not.toHaveBeenCalled();
+    expect((f.peek().runtime.nativeTurn as NativeAnalystTurn).meter.attempts.at(-1)?.receipt?.kind).toBe(
+      'known',
+    );
+  });
+
+  it('keeps the same per-turn allowance during reserved publication generations', async () => {
+    const f = await atPublicationBoundary();
+    f.edit((record) => {
+      const prior = (record.runtime.nativeTurn as NativeAnalystTurn).meter.attempts[0];
+      prior.receipt = undefined;
+      prior.reservationNanoUsd = 9500;
+    });
+    f.outputs.push(calls({ name: 'publish_notebook', input: publication }));
+    const state = await f.service.advance('org-a', 'chat');
+    expect(state.error?.code).toBe('ANALYST_BUDGET_LIMIT');
+    expect(f.externalBefore).toHaveBeenCalledTimes(1);
+    expect(f.externalAfter).toHaveBeenCalledTimes(1);
+    expect(f.sql.reexecute).not.toHaveBeenCalled();
+    expect((f.peek().runtime.nativeTurn as NativeAnalystTurn).meter.attempts).toHaveLength(1);
   });
 });

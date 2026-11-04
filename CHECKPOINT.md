@@ -1,5 +1,9 @@
 # Daybook session checkpoint
 
+**Native first cohort closed; repair awaiting CI and rerun:** run41748017431/source51 delivered3/8 expected turns,61 requests,$0.451608750 estimated known spend, zero unknown. Root usage ledger reconciled; six temporary secrets removed/absence verified. Raw authenticated artifacts are under`.tools/analyst-product-20261103/native-run-a/decrypted/`. The current local service reserves two publication-only generations after ten investigation generations and exposes remaining work;34service+22model+1SDK tests/typecheck pass. Original failures remain. Querio paired capture is now authorized/running under the included-credit cap, owned by`querio_live_context`; it must report its usage delta without overwriting the root ledger. Native preview51 must not be promoted.
+
+**Staged build migration audit:** production now has migrations001–009, all matching repository hashes. Its accounts, entries, lines, cash and monthly references remain unchanged. The stable website is still the promoted Querio release; native candidate51 is only a protected preview. The first real-model native run has already exposed two completion-limit failures; no release or accuracy gate is claimed. Preserve those original outcomes while repairing the general completion policy.
+
 ## Current handoff — native analyst verification, November 3, 2026
 
 **Querio is delivered; the replacement Daybook analyst is integrated and being verified.** Continue the application and existing ledger. The user's request for two analyst tabs supersedes the earlier native-work pause. Do not restart the project or rerun closed experiments.

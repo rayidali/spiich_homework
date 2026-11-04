@@ -1,0 +1,34 @@
+{
+  "sourceCommit": "51edf9a4bec987a628482f7c3dfe2b5cf3ef340b",
+  "runId": 41746825331,
+  "url": "https://github.com/rayidali/spiich_homework/actions/runs/41746825331",
+  "conclusion": "success",
+  "normalTests": {
+    "passed": 3291,
+    "skipped": 19
+  },
+  "browserWorkflows": {
+    "passed": 50,
+    "actualProviderCalls": 0
+  },
+  "composeTests": {
+    "passed": 3290,
+    "skipped": 20,
+    "overlapNormalSuite": true
+  },
+  "composeLifecycleAndRecreationPersistencePassed": true,
+  "nativeSqlPostgresCases": 13,
+  "fixtureVerifier": {
+    "tests": 11,
+    "storedJournalLines": 118,
+    "independentFacts": 38,
+    "booksUnchanged": true
+  },
+  "hostedSqlWasmSmokePassed": true,
+  "researchNativeTsTests": 30,
+  "limitations": [
+    "Scripted browser/provider contracts do not establish live-model answer accuracy.",
+    "Counts overlap and must not be added.",
+    "Real native acceptance is recorded separately; this CI success does not override a failed answer."
+  ]
+}
