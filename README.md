@@ -2,9 +2,11 @@
 
 A React and TypeScript accounting application with an Express REST API and PostgreSQL. Record transactions, review balanced entries, manage recurring drafts and inspect financial reports. AI suggests entries and categories for review; database constraints protect posted history.
 
-**Analyst workspace:** Ask lets you switch between Daybook’s Gemini analyst and Querio. Both show answers with inspectable tables, charts and queries. The native model can write a new checked read-only SQL calculation; accounting writes still require the existing review/posting flow. Both tabs are live on the protected site. [Two-page explanation](docs/reports/analyst-workspace-comparison.pdf) · [Comparison and limitations](docs/ANALYST_COMPARISON.md) · [Verified release](docs/evidence/native-analyst-release.json).
+**Spiich reviewer handoff:** start with the [setup and reading guide](docs/SUBMISSION_GUIDE.md). Docker Compose plus your own Gemini key is sufficient; Querio and TypeSafe/Jev are optional and require no setup. The [original assignment](docs/ORIGINAL_ASSIGNMENT.md) is preserved. [Current architecture PDF](docs/reports/submission-architecture.pdf) · [Analyst comparison PDF](docs/reports/analyst-workspace-comparison.pdf) · [Category-learning PDF](docs/reports/category-learning-explained.pdf).
 
-Open the [protected hosted demo](https://daybook-ledger-delta.vercel.app), or run the complete application with Docker below. No API key is needed for manual accounting, reports, recurrence or statistical anomaly alerts.
+**Analyst workspace:** Ask lets you switch between Daybook’s Gemini analyst and Querio. Both show answers with inspectable tables, charts and queries. The native model can write a new checked read-only SQL calculation; accounting writes still require the existing review/posting flow. Both tabs are live on the public demo; the submitted source opens Daybook by default. [Two-page explanation](docs/reports/analyst-workspace-comparison.pdf) · [Comparison and limitations](docs/ANALYST_COMPARISON.md) · [Verified release](docs/evidence/native-analyst-release.json).
+
+Open the [public hosted demo](https://daybook-ledger-delta.vercel.app/analyst?tab=daybook), or run the complete application with Docker below. The hosted books are a shared fictional workspace; use local Docker for isolated review with your own key. No API key is needed for manual accounting, reports, recurrence or statistical anomaly alerts.
 
 ## Run with Docker Compose
 
@@ -46,7 +48,7 @@ For a self-contained file to import into a meeting-notes tool, use the [complete
 | Anomaly detection           | Duplicate/amount/category rules, review/dismissal, resolved alerts and reversal-aware rechecks                         |
 | Insights                    | Querio notebook workspace; native generated read-only SQL analyst with bounded hosted acceptance; legacy chat fallback |
 | UX                          | Four accounting destinations plus Ask, reviewed account effects, accessible controls and progressive detail            |
-| Operations                  | Migrations, Docker Compose, health checks, request IDs, outbox jobs, passing CI, protected Vercel/Neon demo            |
+| Operations                  | Migrations, Docker Compose, health checks, request IDs, outbox jobs, passing CI, public Vercel/Neon demo               |
 
 The short-form **Suggest category** action chooses an expense/revenue category while code preserves the fixed amount and payment account. Loans, transfers, invoice settlements and more complex entries use the full-entry workflow. Suggestions require review and cannot post themselves. [Category selector](docs/CATEGORY_SELECTOR.md) · [Assignment checklist](docs/ASSIGNMENT_REVIEW.md).
 

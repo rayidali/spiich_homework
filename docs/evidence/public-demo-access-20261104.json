@@ -1,0 +1,23 @@
+{
+  "recordedAt": "2026-11-04T17:00:43.750856+00:00",
+  "authorization": "Owner explicitly requested a public Vercel link",
+  "publicUrl": "https://daybook-ledger-delta.vercel.app",
+  "projectId": "prj_5lvzp08Wa2E1A3pZPkm0UF9u9oYR",
+  "deploymentId": "dpl_F3am1c39jixhAhChaj9P3MZZC1ja",
+  "before": {
+    "deploymentType": "all"
+  },
+  "after": {
+    "deploymentType": "prod_deployment_urls_and_all_previews"
+  },
+  "unauthenticatedHome": 200,
+  "unauthenticatedApiHealth": 200,
+  "health": "ok",
+  "generatedDeploymentStillRedirectsToVercelLogin": true,
+  "runtimeDeploymentUnchanged": true,
+  "storedEnvironmentUnchanged": true,
+  "modelCallsByVerification": 0,
+  "applicationWritesByVerification": 0,
+  "sharedDemoWriteAndAiActionsRemainAvailable": true,
+  "publicDataWarning": "Fictional shared workspace; visitors can change records and consume configured provider allowance. No application-user authentication."
+}

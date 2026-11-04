@@ -2,6 +2,14 @@
 
 Entries are chronological evidence. Their pending/current/deployed language refers to the time of that entry; the latest release and active verification gate are in [CHECKPOINT](../CHECKPOINT.md). Earlier failures and spending are preserved.
 
+## November 4 — reviewer handoff and owner-requested public demo
+
+Prepared the complete submission for the Spiich-owned repository with the original assignment preserved verbatim and its Git history retained. Added a reviewer setup/code guide and a new three-page current architecture PDF, with the earlier comparison/category papers available as optional reading. The normal setup uses Docker Compose and the reviewer's own Gemini key; no Querio, Jev, Neon or Vercel account is required. Transcript ambiguities are clarified: amount detection requires four comparable samples, rent values are seed examples, and base-currency/timezone policies are currently fixed.
+
+The only product-code adjustment makes Daybook the default full-page Ask tab. The existing native/Querio browser workflows now check the default and explicitly address the optional tab. Backend code, applied migrations, deployed runtime and model-score cohorts are unchanged. The PDF exporter uses ReportLab and no network; all three rendered pages were visually reviewed. Local browser startup returned `listen EPERM`; Docker is unavailable locally, so actual browser/database/Compose gates are delegated to the repository's existing CI, not claimed as local passes. Final check results will be recorded after the source run completes.
+
+At the user's subsequent explicit request, changed the existing Vercel project's protection scope so the production alias is public while generated URLs/previews remain protected. Anonymous homepage/API checks passed; a generated URL still reached Vercel login. A follow-up project read confirmed the same production target and unchanged settings/credentials. No new deployment, model inference or application-data write was made. The public demo is a shared fictional workspace with write/AI actions, explained before the change and in the handoff guide. [Access evidence](evidence/public-demo-access-20261104.json).
+
 ## November 4 — self-contained meeting and interview knowledge base
 
 Added [MEETING_NOTES_KNOWLEDGE_BASE.md](MEETING_NOTES_KNOWLEDGE_BASE.md) at the user's request for a long Markdown file importable into a meeting-notes tool. The 27-section briefing preserves the original assignment and explains requirement coverage, accounting examples, every application table, code/function responsibilities, posting/reversal/concurrency, reports/FX, recurrence/outbox work, anomaly rules, reviewed correction learning, native SQL/notebook orchestration, Querio integration, errors, hosting, evaluation and interview answers. It distinguishes actual source excerpts from teaching pseudocode, live books from synthetic fixtures, and released features from historical experiments or future proposals.

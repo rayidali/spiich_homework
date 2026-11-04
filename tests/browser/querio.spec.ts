@@ -180,7 +180,7 @@ test('Querio runs inside Daybook, displays notebook and chart, and resumes witho
   const calls = await stubWorkspace(page);
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
-  await page.goto('/analyst');
+  await page.goto('/analyst?tab=querio');
   await expect(page.getByRole('heading', { name: 'Ask your books' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Ask a question', exact: true })).toHaveCount(0);
   await expect(page.getByRole('tab', { name: 'Querio', exact: true })).toHaveAttribute(
@@ -226,7 +226,7 @@ test('Querio runs inside Daybook, displays notebook and chart, and resumes witho
 
 test('a lost send response reconciles the accepted turn without submitting it twice', async ({ page }) => {
   const calls = await stubWorkspace(page, { loseFirstResponse: true });
-  await page.goto('/analyst');
+  await page.goto('/analyst?tab=querio');
   await page.getByLabel('Ask Querio a financial question').fill('Show monthly expenses.');
   await page.getByRole('button', { name: 'Send to Querio', exact: true }).click();
   await expect(page.getByText('Recorded expenses were $100.00.', { exact: true })).toBeVisible();
@@ -254,7 +254,7 @@ for (const recovery of ['invalid stored UUID', 'rejected saved ID'] as const) {
       key: storageKey,
       id: staleId,
     });
-    await page.goto('/analyst');
+    await page.goto('/analyst?tab=querio');
     await expect(page.getByLabel('Ask Querio a financial question')).toBeVisible();
     await expect.poll(() => page.evaluate((key) => sessionStorage.getItem(key), storageKey)).toBeNull();
     // React StrictMode replays the mount effect in the development browser build.
@@ -281,7 +281,7 @@ for (const recovery of ['invalid stored UUID', 'rejected saved ID'] as const) {
 
 test('unavailable integration and failed analysis have clear non-posting states', async ({ page }) => {
   const calls = await stubWorkspace(page, { available: false });
-  await page.goto('/analyst');
+  await page.goto('/analyst?tab=querio');
   await expect(
     page.getByText('Querio is not connected to this Daybook workspace yet.', { exact: false }),
   ).toBeVisible();
@@ -295,7 +295,7 @@ test('terminal provider failure keeps the question and copyable diagnostic witho
   page,
 }) => {
   const calls = await stubWorkspace(page, { failRun: true });
-  await page.goto('/analyst');
+  await page.goto('/analyst?tab=querio');
   await page.getByLabel('Ask Querio a financial question').fill('Show monthly expenses.');
   await page.getByRole('button', { name: 'Send to Querio', exact: true }).click();
   await expect(
@@ -310,7 +310,7 @@ test('terminal provider failure keeps the question and copyable diagnostic witho
 test('phone layout switches between conversation and notebook without page overflow', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   const calls = await stubWorkspace(page);
-  await page.goto('/analyst');
+  await page.goto('/analyst?tab=querio');
   await page.getByLabel('Ask Querio a financial question').fill('Show monthly expenses.');
   await page.getByRole('button', { name: 'Send to Querio', exact: true }).click();
   await expect(page.getByText('Recorded expenses were $100.00.', { exact: true })).toBeVisible();

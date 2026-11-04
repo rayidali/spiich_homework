@@ -2,6 +2,14 @@
 
 Read [CHECKPOINT.md](CHECKPOINT.md) first, then relevant project documents. Continue the implemented application; do not rebuild it or rerun closed experiments.
 
+## Post-interview handoff — current scope
+
+Deliver the complete source to https://github.com/Spiich/spiich-accounting-assignment-rayid-ali.git using local authentication. Preserve its initial assignment commit and exact original README in `docs/ORIGINAL_ASSIGNMENT.md`. Reviewer setup is Docker Compose plus their own Gemini key; Querio/Jev remain optional. See `docs/SUBMISSION_GUIDE.md` and `docs/reports/submission-architecture.pdf`.
+
+The user explicitly requested public access: the stable production domain is public and anonymously verified; generated deployment URLs/previews remain protected. This supersedes older instructions to retain all-deployment protection. The deployed application, database and credentials are unchanged. Submission source defaults Ask to Daybook; do not describe it as a newly deployed backend or rerun closed model studies. Evidence/checkpoint should distinguish source CI, public access and historical model acceptance.
+
+Use the existing personal publication checkout for secret-scanned source/ZIP preparation; the separate Spiich checkout is `/private/tmp/daybook-spiich-handoff-20261104`. Do not force-push or replace existing destination history. The latest local Vercel request credentials are private in `.tools/interview-handoff-20261104/`; older saved auth is expired. No connectors or secrets in handoff artifacts.
+
 ## Current handoff — both analyst tabs delivered
 
 Querio is delivered in Ask. The flexible native Daybook analyst passed its bounded model review, three hosted financial checks, protected browser inspection and unchanged-books audit. Final UI source `10778bae` passed full CI and protected saved-answer browser verification and is promoted at the stable Daybook URL. Its 85 non-web backend/configuration files are byte-identical to model-tested `60435f2`; no model score was changed and no extra generation occurred. Keep the existing accounting engine and both tabs.
@@ -42,7 +50,7 @@ Querio is delivered in Ask. The flexible native Daybook analyst passed its bound
 - Keep `.env`, keys, database URLs, raw private responses, browser state and encrypted-artifact keys out of source, public docs, screenshots and archives. Preserve original failed runs and private evidence under `.tools/conversation-reliability-20261101/` and earlier study directories.
 - Project-local design guidance is `.tools/design-skills/skills-main`; provenance is in [DESIGN.md](docs/DESIGN.md). It is local tooling, not a globally installed skill package.
 
-Continue the active two-tab goal from the current handoff. Both analyst tabs are delivered; bounded acceptance, final UI verification and stable promotion passed. Broad arbitrary-question perfection and production-scale capacity remain unsupported claims.
+Continue the post-interview repository handoff from the current checkpoint. Both analyst tabs are delivered; bounded acceptance, final UI verification and stable promotion passed. Broad arbitrary-question perfection and production-scale capacity remain unsupported claims.
 
 ## Historical states — superseded by the current handoff
 

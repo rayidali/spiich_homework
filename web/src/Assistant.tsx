@@ -160,7 +160,7 @@ export function Assistant({ initialText, onClose }: { initialText?: string; onCl
 
 export function AnalystPage() {
   const [search, setSearch] = useSearchParams();
-  const selected: Analyst = search.get('tab') === 'daybook' ? 'daybook' : 'querio';
+  const selected: Analyst = search.get('tab') === 'querio' ? 'querio' : 'daybook';
   return (
     <div className="analyst-page">
       <PageHeader

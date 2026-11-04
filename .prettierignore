@@ -21,3 +21,6 @@ docs/evidence/chat-scope-cases.json
 docs/evidence/chat-query-runs/**
 # Analyst receipts retain the exact reviewed bytes and their recorded digests.
 docs/evidence/native-analyst-*.json
+
+# Preserve the assignment recipient's original README bytes.
+docs/ORIGINAL_ASSIGNMENT.md

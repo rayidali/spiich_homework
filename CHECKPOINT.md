@@ -1,5 +1,15 @@
 # Daybook session checkpoint
 
+## Post-interview submission — November 4, 2026
+
+The user requests source delivery to **https://github.com/Spiich/spiich-accounting-assignment-rayid-ali.git**, reviewer instructions using the interviewer's own Gemini key, and architecture PDFs. Querio/Jev are optional and not prerequisites. [SUBMISSION_GUIDE](docs/SUBMISSION_GUIDE.md) contains setup, review flow, code reading order and limits; [current architecture PDF](docs/reports/submission-architecture.pdf) summarizes the current system. Preserve the original destination assignment verbatim in `docs/ORIGINAL_ASSIGNMENT.md` and its initial Git history.
+
+The owner additionally requested public demo access. **https://daybook-ledger-delta.vercel.app is now public**, verified anonymously; generated deployment URLs/previews remain protected. The deployed runtime is still `10778bae` / `dpl_F3am1c39jixhAhChaj9P3MZZC1ja`. Only the Vercel protection scope changed; no environment, credential, database or model call changed. The shared demo has no application login, so visitors can write demo records/use configured AI. [Access receipt](docs/evidence/public-demo-access-20261104.json). Older protection statements below describe historical checkpoints.
+
+Submission source now defaults `/analyst` to Daybook rather than Querio; explicit Querio selection remains available. This one-line frontend change and the corresponding existing browser workflows need source-bound CI; it is not a new hosted release or model-accuracy result. Local browser startup is unavailable due `listen EPERM`, and Docker is not installed here; use actual GitHub CI for those checks, not invented local passes. Closed model allowances remain closed.
+
+Publication uses the existing local-auth checkout `/private/tmp/daybook-publish.kbVq33`; a separate destination checkout is `/private/tmp/daybook-spiich-handoff-20261104`. Never change the former's origin or force-push the destination. Local Vercel auth was read from the refreshed global CLI credential, with private request config under `.tools/interview-handoff-20261104/`; older saved auth may be expired. No connector was used. Final checks and upload evidence will be in `docs/evidence/submission-handoff.json`; keep this checkpoint synchronized after verification and refresh the ZIP.
+
 ## Latest documentation handoff — November 4, 2026
 
 The user requested a long, standalone Markdown knowledge base for a meeting-notes tool. [docs/MEETING_NOTES_KNOWLEDGE_BASE.md](docs/MEETING_NOTES_KNOWLEDGE_BASE.md) is the import-ready briefing: original assignment verbatim, current requirement coverage, accounting/code walkthroughs, diagrams, all tables, native/Querio architecture, guarantees and limits, tests/studies, decisions, glossary and interview Q&A. README and the interview guide link to it. It describes released runtime10778 and model-tested backend604; it does not promote old experiments into the current chat or combine E/F/hosted results.

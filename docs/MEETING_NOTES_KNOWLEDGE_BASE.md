@@ -6,7 +6,9 @@
 
 **Version boundary:** This describes released application source `10778bae77251ee797c2aaa31149f189ca20318f`. The financially tested backend is `60435f2c315363bf8110526066f3d6ce61771eb8`; its 85 backend/configuration files and runtime settings match the release. The later difference is presentation in two frontend files. Documentation can have a newer commit without changing this application. This is a dated snapshot, not a claim that these balances or provider settings will remain current forever.
 
-**Website:** https://daybook-ledger-delta.vercel.app — protected by Vercel access controls. **Repository:** https://github.com/rayidali/spiich_homework.
+**Post-interview handoff update:** The production domain is now public by owner request; generated deployment URLs and previews remain protected. The source handoff targets https://github.com/Spiich/spiich-accounting-assignment-rayid-ali.git. See [the reviewer guide](SUBMISSION_GUIDE.md) for Gemini-only Docker setup and the current architecture PDF. The submission changes only the default Ask tab to Daybook; the deployed runtime and historical scores described below remain unchanged.
+
+**Website:** https://daybook-ledger-delta.vercel.app/analyst?tab=daybook. **Development repository:** https://github.com/rayidali/spiich_homework.
 
 ## How a meeting assistant should use these notes
 

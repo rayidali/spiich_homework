@@ -1,14 +1,20 @@
 # Hosting Daybook
 
+## Public reviewer access — November 4, 2026
+
+At the owner's explicit request, the stable production domain is now **public**: https://daybook-ledger-delta.vercel.app. Anonymous homepage and health requests returned 200. Generated deployment URLs and previews still require Vercel authentication. The project protection scope changed from `all` to `prod_deployment_urls_and_all_previews`; the deployment, credentials and application settings were preserved. [Access verification](evidence/public-demo-access-20261104.json).
+
+This is a shared fictional workspace with no application-user login. Public visitors can write demo entries and consume the configured AI allowance. The database checks and server-side keys remain in place, but public access does not create user isolation. Use the [reviewer Docker setup](SUBMISSION_GUIDE.md) for isolated books and your own Gemini key. No new deployment or model call was required for this access change.
+
 ## Current analyst hosting state
 
-The protected stable [Daybook site](https://daybook-ledger-delta.vercel.app) is promoted as `dpl_F3am1c39jixhAhChaj9P3MZZC1ja`, UI source `10778bae`. Both Daybook and Querio are available. Its 85 non-web backend/configuration files match the model-tested `60435f2` source exactly. Full CI, the repeated protected saved-rent browser review, unchanged-books audits and promotion were independently verified. [Release receipt](evidence/native-analyst-release.json). Earlier E/F model scores remain separate and unchanged.
+The public stable [Daybook site](https://daybook-ledger-delta.vercel.app) is promoted as `dpl_F3am1c39jixhAhChaj9P3MZZC1ja`, UI source `10778bae`. Both Daybook and Querio are available. Its 85 non-web backend/configuration files match the model-tested `60435f2` source exactly. Full CI, the repeated protected saved-rent browser review, unchanged-books audits and promotion were independently verified. [Release receipt](evidence/native-analyst-release.json). Earlier E/F model scores remain separate and unchanged.
 
 Production and the isolated acceptance database have immutable migrations 001–009. A read-only audit verified migration hashes, eight analytics views and unchanged accounting fingerprints. Native SQL parsing requires package-relative `node_modules/libpg-query/wasm/**` assets, tested with the actual packaged parser in CI. HTTP handlers save/read durable work; the post-response worker advances one model or tool phase at a time within the hosted function budget. A caught transport failure may schedule one bounded, separately reserved fresh inference. A crashed pending dispatch or failure after a result arrived is never replayed. Unknown prior costs remain reserved.
 
 Source `60435f2` keeps the existing generation and cost caps but allows 120 seconds per model request, a 180-second hosted function and a 210-second native lease. The lease outlasts the function so another worker cannot take over while the first is still running. Querio keeps its separate 75-second lease.
 
-Authentic captured chart replay is recorded UI evidence, not a fresh hosted model test. The protected rent/hiring/follow-up calls passed financial review; the rent notebook also passed separate desktop/mobile browser verification. All-deployment protection stays enabled; no credential belongs in browser code or public receipts.
+Authentic captured chart replay is recorded UI evidence, not a fresh hosted model test. The protected rent/hiring/follow-up calls passed financial review; the rent notebook also passed separate desktop/mobile browser verification. The original release retained all-deployment protection; the subsequent owner-authorized production-domain change is recorded above. No credential belongs in browser code or public receipts.
 
 **Live Querio access — November 3:** `Daybook LIVE — all records` now reads the actual hosted database, including drafts, through a dedicated restricted reader. All 16 base tables/two views are catalogued; owner credentials were not supplied. Future tables created by the current owner in `public`/`research` inherit SELECT, with catalogue refresh needed for discovery. The research archive is clearly labeled fictional. Actual Querio SQL execution and unchanged database fingerprints were verified; no Daybook redeployment or model call occurred. The old fixture is renamed `TEST ONLY — synthetic benchmark`. [User guide and evidence](QUERIO_LIVE.md). Private provisioning/credentials/closure receipts: `.tools/querio-live-20261103/`.
 

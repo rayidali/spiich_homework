@@ -185,7 +185,8 @@ test('native and Querio keep distinct conversations and pending questions across
   page,
 }) => {
   const calls = await workspace(page, { enabled: true });
-  await page.goto('/analyst?tab=daybook');
+  // A fresh Gemini-only installation opens Daybook without an optional provider key.
+  await page.goto('/analyst');
   const daybook = page.getByLabel('Ask Daybook a financial question');
   await expect(daybook).toBeVisible();
   expect(calls.creates).toHaveLength(0);
