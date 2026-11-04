@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "mode": "verify",
   "transport": "Neon HTTP batched RepeatableRead READ ONLY",
   "database": "daybook_analyst_acceptance_20261104",
@@ -70,5 +70,74 @@
   "responseSha256": "11b9527f2cefca092b7c0095df73f112ee47b1d5dea75f8d2e39ee9240355554",
   "sqlOracleSha256": "09500c6abc09195d78e0a7c29a1d0049e73ad821862946afa90b763fe537a60f",
   "modelCalls": 0,
-  "caveat": "Actual fixture verification only; no assistant accuracy score. Full independent TCP verifier still runs before model dispatch."
+  "caveat": "Actual fixture and datasource verification only; no assistant accuracy score. The full independent TCP verifier must run before native model dispatch.",
+  "querioDatasource": {
+    "datasource": {
+      "id": "cmw1dprls01n101cvnullthy5",
+      "slug": "daybook-acceptance-20261104",
+      "kind": "postgres",
+      "name": "TEST ONLY \u2014 paired analyst acceptance 2026-11-04",
+      "revision": 1,
+      "configured": true,
+      "embedded": false
+    },
+    "sourceSchema": "querio_fixture",
+    "catalogViews": [
+      "accounts",
+      "alerts",
+      "currencies",
+      "entries",
+      "ledger",
+      "lines",
+      "organization",
+      "recurring"
+    ],
+    "catalogColumns": 106,
+    "sourceCatalogSha256": "02241da182cd3519f427a1043a43a9ac011068742259200b2313fa058174f6f8",
+    "contextPath": "datasources/daybook-acceptance-20261104/kb/accounting-context.md",
+    "contextSha256": "72d1bdfc5a867696ebca898db481eef2602d97e7eb4eedcc612cbb800a98aa76",
+    "contextExactReadback": true,
+    "savedConnectionTestPassed": true,
+    "readerChecks": {
+      "primaryCounts": {
+        "organization": 1,
+        "currencies": 5,
+        "accounts": 17,
+        "entries": 56,
+        "lines": 112,
+        "ledger": 112,
+        "recurring": 2,
+        "alerts": 5
+      },
+      "tenantGucChangeCannotWiden": true,
+      "baseTablesReadable": false,
+      "baseTablesWritable": false,
+      "writeCreateTempMembership": false,
+      "existingDatasourceCount": 3,
+      "newSlugAbsent": true,
+      "modelCalls": 0
+    },
+    "otherDatasourcesUnchanged": true,
+    "globalMemoryUnchanged": true,
+    "fullFixtureFingerprintBefore": "1d8f3425713aae72c4c0665f552b88dc728fef069d773a43826098b9f5b2d67f",
+    "fullFixtureFingerprintAfter": "1d8f3425713aae72c4c0665f552b88dc728fef069d773a43826098b9f5b2d67f",
+    "modelCalls": 0,
+    "agentSessionsCreated": 0,
+    "notebooksCreated": 0,
+    "environmentsCreated": 0,
+    "validationFailuresPreserved": [
+      {
+        "status": 422,
+        "cause": "Initial request missing application/json Content-Type; API rejected before creating datasource; metadata absence confirmed."
+      },
+      {
+        "status": 422,
+        "cause": "One explicit rejected-request replay captured validation details; corrected JSON request then returned201."
+      }
+    ],
+    "limitations": [
+      "Datasource setup and exact fixture verification, not assistant accuracy.",
+      "Existing workspace memory still guides normal chats toward LIVE. Paired controller must explicitly select only this fixture and supply the frozen context."
+    ]
+  }
 }

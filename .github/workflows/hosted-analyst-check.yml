@@ -20,9 +20,15 @@ on:
         type: string
         required: true
       conversation_id:
-        description: Completed real Querio conversation UUID with a saved answer, table and chart
+        description: Completed real selected-provider conversation UUID with a saved answer, table and chart
         type: string
         required: true
+      provider:
+        description: Analyst whose existing saved answer will be inspected
+        type: choice
+        required: false
+        default: querio
+        options: [querio, daybook]
 permissions:
   contents: read
 concurrency:
@@ -38,6 +44,7 @@ jobs:
       DAYBOOK_BROWSER_URL: ${{ inputs.deployment_url }}
       DAYBOOK_BROWSER_DEPLOYMENT_ID: ${{ inputs.deployment_id }}
       DAYBOOK_ANALYST_CONVERSATION_ID: ${{ inputs.conversation_id }}
+      DAYBOOK_ANALYST_PROVIDER: ${{ inputs.provider || 'querio' }}
     steps:
       - uses: actions/checkout@v4
         with:

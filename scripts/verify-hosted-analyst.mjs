@@ -1,4 +1,4 @@
-/** Read-only verification of one already-completed real Querio conversation. */
+/** Read-only verification of one already-completed real analyst conversation. */
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -27,11 +27,20 @@ const requireValue = (value, code) => {
 export function validateAnalystTarget(input) {
   const base = validateTarget(input);
   requireValue(z.uuid().safeParse(input.conversationId).success, 'CONVERSATION_ID_REQUIRED');
-  return { ...base, suite: VERSION, conversationSha256: digest(input.conversationId) };
+  const provider = input.provider === undefined ? 'querio' : input.provider;
+  requireValue(['querio', 'daybook'].includes(provider), 'ANALYST_PROVIDER_REQUIRED');
+  // Keep legacy Querio authenticated metadata byte-for-byte compatible.
+  return {
+    ...base,
+    suite: VERSION,
+    conversationSha256: digest(input.conversationId),
+    ...(provider === 'daybook' ? { provider } : {}),
+  };
 }
 
 /** No refresh, message, cancellation or other provider-driving endpoint is permitted. */
-export function analystRequestPolicy(rawUrl, method, origin, conversationId) {
+export function analystRequestPolicy(rawUrl, method, origin, conversationId, provider = 'querio') {
+  if (!['querio', 'daybook'].includes(provider)) return { allowed: false, reason: 'provider' };
   let url;
   try {
     url = new URL(rawUrl);
@@ -58,16 +67,20 @@ export function analystRequestPolicy(rawUrl, method, origin, conversationId) {
       '/api/meta',
       '/api/accounts',
       '/api/ai/querio/status',
-      `/api/ai/querio/conversations/${conversationId}`,
+      '/api/ai/daybook/status',
+      `/api/ai/${provider}/conversations/${conversationId}`,
     ].includes(url.pathname);
   return page || asset || api
     ? { allowed: true, kind: api ? 'api' : page ? 'page' : 'asset' }
     : { allowed: false, reason: 'path' };
 }
 
-export function completedConversation(value, conversationId) {
+export function completedConversation(value, conversationId, provider = 'querio') {
   requireValue(
-    value?.id === conversationId && value.provider === 'querio' && value.status === 'completed',
+    ['querio', 'daybook'].includes(provider) &&
+      value?.id === conversationId &&
+      value.provider === provider &&
+      value.status === 'completed',
     'COMPLETED_CONVERSATION_REQUIRED',
   );
   requireValue(
@@ -110,10 +123,10 @@ export function completedConversation(value, conversationId) {
 }
 
 /** Live response forwarding only: no synthetic API data, credentials on same-origin reads only. */
-export function guardedAnalystRequest(origin, conversationId, bypass, stats, observed) {
+export function guardedAnalystRequest(origin, conversationId, bypass, stats, observed, provider = 'querio') {
   return async (route) => {
     const request = route.request();
-    const policy = analystRequestPolicy(request.url(), request.method(), origin, conversationId);
+    const policy = analystRequestPolicy(request.url(), request.method(), origin, conversationId, provider);
     stats.attempted++;
     if (!policy.allowed || stats.attempted > MAX_REQUESTS) {
       stats.blocked++;
@@ -147,15 +160,25 @@ export function guardedAnalystRequest(origin, conversationId, bypass, stats, obs
           if (observed.organizationId)
             requireValue(observed.organizationId === meta.organization.id, 'WORKSPACE_CHANGED');
           observed.organizationId = meta.organization.id;
+          observed.nativeEnabled = meta.ai?.analystAvailable === true;
+          if (provider === 'daybook') requireValue(observed.nativeEnabled, 'NATIVE_ANALYST_NOT_ENABLED');
           stats.metaVerified = /^\d{4}-\d{2}-\d{2}$/.test(meta.today ?? '');
         }
-        if (path === '/api/ai/querio/status') {
-          const state = await response.json();
-          stats.querioVerified = state.available === true && state.provider === 'querio';
-        }
-        if (path === `/api/ai/querio/conversations/${conversationId}`) {
+        for (const candidate of ['querio', 'daybook'])
+          if (path === `/api/ai/${candidate}/status`) {
+            const state = await response.json();
+            stats[`${candidate}Verified`] = state.available === true && state.provider === candidate;
+            observed.availability ??= {};
+            observed.availability[candidate] = {
+              available: state.available === true,
+              provider: state.provider,
+              configuredModelLabel: typeof state.modelLabel === 'string' ? state.modelLabel : null,
+              sourceLabel: typeof state.sourceLabel === 'string' ? state.sourceLabel : null,
+            };
+          }
+        if (path === `/api/ai/${provider}/conversations/${conversationId}`) {
           const value = await response.json();
-          const evidence = completedConversation(value, conversationId);
+          const evidence = completedConversation(value, conversationId, provider);
           if (observed.evidence)
             requireValue(
               observed.evidence.snapshotSha256 === evidence.snapshotSha256,
@@ -176,6 +199,10 @@ export function guardedAnalystRequest(origin, conversationId, bypass, stats, obs
 
 export async function runHostedAnalyst(env = process.env) {
   const conversationId = env.DAYBOOK_ANALYST_CONVERSATION_ID;
+  const provider = env.DAYBOOK_ANALYST_PROVIDER ?? 'querio';
+  const label = provider === 'daybook' ? 'Daybook' : 'Querio';
+  const otherProvider = provider === 'daybook' ? 'querio' : 'daybook';
+  const otherLabel = otherProvider === 'daybook' ? 'Daybook' : 'Querio';
   const binding = validateAnalystTarget({
     url: env.DAYBOOK_BROWSER_URL,
     sourceCommit: env.DAYBOOK_BROWSER_SOURCE_COMMIT,
@@ -184,6 +211,7 @@ export async function runHostedAnalyst(env = process.env) {
     runId: env.GITHUB_RUN_ID,
     runAttempt: env.GITHUB_RUN_ATTEMPT,
     conversationId,
+    provider,
   });
   requireValue(
     env.GITHUB_ACTIONS === 'true' &&
@@ -211,7 +239,7 @@ export async function runHostedAnalyst(env = process.env) {
   mkdirSync('.tools', { recursive: true, mode: 0o700 });
   mkdirSync(OUTPUT, { mode: 0o700 }); // Refuse replay/overwrite.
   const { chromium, expect } = await import('@playwright/test');
-  const stats = { ...requestStats(), querioVerified: false, conversationReads: 0 };
+  const stats = { ...requestStats(), querioVerified: false, daybookVerified: false, conversationReads: 0 };
   const observed = {},
     files = [],
     checks = [];
@@ -245,7 +273,7 @@ export async function runHostedAnalyst(env = process.env) {
     context.setDefaultTimeout(15000);
     await context.route(
       '**/*',
-      guardedAnalystRequest(binding.origin, conversationId, bypass, stats, observed),
+      guardedAnalystRequest(binding.origin, conversationId, bypass, stats, observed, provider),
     );
     await context.routeWebSocket('**/*', async (socket) => {
       stats.webSocketsBlocked++;
@@ -259,7 +287,7 @@ export async function runHostedAnalyst(env = process.env) {
     });
     const work = async () => {
       // Inspect the real saved snapshot before mounting an application that can poll active runs.
-      for (const path of ['/api/health', '/api/meta', `/api/ai/querio/conversations/${conversationId}`])
+      for (const path of ['/api/health', '/api/meta', `/api/ai/${provider}/conversations/${conversationId}`])
         await page.goto(`${binding.origin}${path}`, { waitUntil: 'domcontentloaded' });
       requireValue(stats.healthVerified && stats.metaVerified && observed.evidence, 'LIVE_PREFLIGHT_FAILED');
       await context.addInitScript(
@@ -268,7 +296,7 @@ export async function runHostedAnalyst(env = process.env) {
         },
         {
           origin: binding.origin,
-          key: `daybook.querio.conversation.v1.${observed.organizationId}`,
+          key: `daybook.${provider}.conversation.v1.${observed.organizationId}`,
           id: conversationId,
         },
       );
@@ -283,7 +311,7 @@ export async function runHostedAnalyst(env = process.env) {
         checks.push({ name, passed: true });
       };
       const checkAnswer = async () => {
-        const answers = page.locator('article[aria-label="Querio answer"]');
+        const answers = page.locator(`article[aria-label="${label} answer"]`);
         await expect(answers).toHaveCount(observed.evidence.answers.length);
         const latest = observed.evidence.answers.at(-1).content;
         const html = renderToStaticMarkup(
@@ -307,7 +335,7 @@ export async function runHostedAnalyst(env = process.env) {
         await expect(answers.last()).toBeVisible();
       };
       const checkNotebook = async () => {
-        const notebook = page.getByRole('complementary', { name: 'Querio notebook', exact: true });
+        const notebook = page.getByRole('complementary', { name: `${label} notebook`, exact: true });
         await expect(notebook).toBeVisible();
         await expect(notebook.locator('.analyst-notebook-cell')).toHaveCount(
           observed.conversation.notebook.cells.length,
@@ -331,34 +359,43 @@ export async function runHostedAnalyst(env = process.env) {
         await source.locator('summary').click();
         await notebook.locator('svg.analyst-chart').first().scrollIntoViewIfNeeded();
       };
-      await page.goto(`${binding.origin}/analyst`, { waitUntil: 'networkidle' });
-      await expect(page.getByRole('tab', { name: 'Querio', exact: true })).toHaveAttribute(
+      await page.goto(`${binding.origin}/analyst?tab=${provider}`, { waitUntil: 'networkidle' });
+      await expect(page.getByRole('tab', { name: label, exact: true })).toHaveAttribute(
         'aria-selected',
         'true',
       );
       await checkAnswer();
       await checkNotebook();
-      await assertLayout('desktop-querio');
-      await page.getByRole('tab', { name: 'Querio', exact: true }).focus();
-      await page.keyboard.press('Home');
-      await expect(page.getByRole('tab', { name: 'Daybook', exact: true })).toBeFocused();
-      await expect(page.getByLabel('Ask a financial question', { exact: true })).toBeVisible();
-      await assertLayout('desktop-daybook-tab');
-      await page.keyboard.press('End');
-      await expect(page.getByRole('tab', { name: 'Querio', exact: true })).toBeFocused();
+      await assertLayout(`desktop-${provider}`);
+      await page.getByRole('tab', { name: label, exact: true }).focus();
+      await page.keyboard.press(provider === 'querio' ? 'Home' : 'End');
+      await expect(page.getByRole('tab', { name: otherLabel, exact: true })).toBeFocused();
+      const otherPrompt =
+        otherProvider === 'daybook' && !observed.nativeEnabled
+          ? 'Ask a financial question'
+          : `Ask ${otherLabel} a financial question`;
+      await expect(page.getByLabel(otherPrompt, { exact: true })).toBeVisible();
+      if (otherProvider === 'querio' || observed.nativeEnabled)
+        await expect.poll(() => stats[`${otherProvider}Verified`]).toBe(true);
+      await assertLayout(`desktop-${otherProvider}-tab`);
+      await page.keyboard.press(provider === 'querio' ? 'End' : 'Home');
+      await expect(page.getByRole('tab', { name: label, exact: true })).toBeFocused();
       await checkAnswer();
       await page.reload({ waitUntil: 'networkidle' });
       await checkAnswer();
       checks.push({ name: 'completed-conversation-reloads-without-generation', passed: true });
       await page.setViewportSize({ width: 390, height: 844 });
       await checkAnswer();
-      await assertLayout('mobile-conversation');
+      await assertLayout(provider === 'querio' ? 'mobile-conversation' : 'mobile-daybook-conversation');
       await page.getByRole('button', { name: 'Notebook', exact: true }).click();
       await checkNotebook();
-      await assertLayout('mobile-notebook');
+      await assertLayout(provider === 'querio' ? 'mobile-notebook' : 'mobile-daybook-notebook');
       await page.getByRole('button', { name: 'Conversation', exact: true }).click();
       await checkAnswer();
-      requireValue(stats.querioVerified && stats.conversationReads >= 3, 'SAVED_ANALYST_READS_INCOMPLETE');
+      requireValue(
+        stats[`${provider}Verified`] && stats.conversationReads >= 3,
+        'SAVED_ANALYST_READS_INCOMPLETE',
+      );
       requireValue(
         ![
           'blocked',
@@ -398,6 +435,9 @@ export async function runHostedAnalyst(env = process.env) {
     checks,
     stats,
     snapshotSha256: observed.evidence?.snapshotSha256 ?? null,
+    selectedProvider: provider,
+    selectedAvailability: observed.availability?.[provider] ?? null,
+    nativeFeatureEnabled: observed.nativeEnabled === true,
     screenshots: files.map(({ path, sha256 }) => ({ path, sha256 })),
     providerCalls: 0,
     applicationMutationsDispatched: 0,
@@ -419,6 +459,8 @@ export async function runHostedAnalyst(env = process.env) {
     status: report.status,
     failure,
     checksPassed: checks.length,
+    selectedProvider: provider,
+    selectedAvailability: observed.availability?.[provider] ?? null,
     screenshotCount: files.length - 1,
     encrypted: true,
     algorithm: 'AES-256-GCM',

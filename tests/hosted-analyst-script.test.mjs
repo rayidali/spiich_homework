@@ -279,3 +279,141 @@ test('encrypted artifacts bind to the chosen conversation and cannot be reassign
     decryptBrowserArtifact(envelope, key, validateAnalystTarget({ ...input, conversationId: otherId })),
   );
 });
+
+test('provider selection defaults to the legacy Querio binding and binds native artifacts separately', () => {
+  assert.deepEqual(validateAnalystTarget({ ...input, provider: 'querio' }), binding);
+  assert.equal(Object.hasOwn(binding, 'provider'), false);
+  assert.equal(validateAnalystTarget({ ...input, provider: 'daybook' }).provider, 'daybook');
+  for (const provider of ['', 'native', 'other', '../querio', null, {}])
+    assert.throws(() => validateAnalystTarget({ ...input, provider }), /ANALYST_PROVIDER_REQUIRED/);
+});
+
+test('both status reads support tab switching but only the selected provider and conversation can be loaded', () => {
+  for (const provider of ['querio', 'daybook']) {
+    const other = provider === 'querio' ? 'daybook' : 'querio';
+    for (const path of [
+      '/api/ai/querio/status',
+      '/api/ai/daybook/status',
+      `/api/ai/${provider}/conversations/${conversationId}`,
+    ])
+      assert.equal(
+        analystRequestPolicy(`${binding.origin}${path}`, 'GET', binding.origin, conversationId, provider)
+          .allowed,
+        true,
+      );
+    for (const path of [
+      `/api/ai/${other}/conversations/${conversationId}`,
+      `/api/ai/${provider}/conversations/${otherId}`,
+      `/api/ai/${provider}/conversations/${conversationId}/refresh`,
+      `/api/ai/${provider}/conversations/${conversationId}/messages`,
+      `/api/ai/${provider}/conversations/${conversationId}/close`,
+      `/api/ai/${provider}/conversations`,
+      `/api/ai/${provider}/status?refresh=true`,
+    ])
+      assert.equal(
+        analystRequestPolicy(`${binding.origin}${path}`, 'GET', binding.origin, conversationId, provider)
+          .allowed,
+        false,
+        path,
+      );
+    for (const method of ['POST', 'DELETE', 'PUT', 'PATCH'])
+      assert.equal(
+        analystRequestPolicy(
+          `${binding.origin}/api/ai/${provider}/conversations/${conversationId}`,
+          method,
+          binding.origin,
+          conversationId,
+          provider,
+        ).allowed,
+        false,
+      );
+  }
+});
+
+test('native saved evidence must be completed and belong to Daybook, with no mixed-provider substitution', () => {
+  const native = { ...saved(), provider: 'daybook' };
+  assert.equal(completedConversation(native, conversationId, 'daybook').answers.length, 1);
+  assert.throws(
+    () => completedConversation(saved(), conversationId, 'daybook'),
+    /COMPLETED_CONVERSATION_REQUIRED/,
+  );
+  assert.throws(() => completedConversation(native, conversationId), /COMPLETED_CONVERSATION_REQUIRED/);
+  assert.throws(
+    () => completedConversation({ ...native, status: 'running' }, conversationId, 'daybook'),
+    /COMPLETED_CONVERSATION_REQUIRED/,
+  );
+});
+
+test('native conversation and status retain actual metadata while other conversations never receive a bypass', async () => {
+  const counts = stats(),
+    observed = {},
+    native = { ...saved(), provider: 'daybook' };
+  const guard = guardedAnalystRequest(binding.origin, conversationId, bypass, counts, observed, 'daybook');
+  const route = fakeRoute({ path: `/api/ai/daybook/conversations/${conversationId}`, body: native });
+  await guard(route);
+  assert.equal(route.observed.fulfilled, 1);
+  assert.equal(counts.conversationReads, 1);
+  assert.deepEqual(observed.conversation, native);
+  const status = fakeRoute({
+    path: '/api/ai/daybook/status',
+    body: {
+      available: true,
+      provider: 'daybook',
+      modelLabel: 'gemini-3.8-flash',
+      sourceLabel: 'Daybook live books',
+    },
+  });
+  await guard(status);
+  assert.equal(counts.daybookVerified, true);
+  assert.deepEqual(observed.availability.daybook, {
+    available: true,
+    provider: 'daybook',
+    configuredModelLabel: 'gemini-3.8-flash',
+    sourceLabel: 'Daybook live books',
+  });
+  for (const forbidden of [
+    fakeRoute(),
+    fakeRoute({ path: `/api/ai/daybook/conversations/${otherId}` }),
+    fakeRoute({ path: `/api/ai/daybook/conversations/${conversationId}`, method: 'POST' }),
+  ]) {
+    await guard(forbidden);
+    assert.equal(forbidden.observed.fetched, 0);
+    assert.equal(forbidden.observed.options, null);
+  }
+});
+
+test('native verifier refuses a disabled feature before mounting the legacy assistant', async () => {
+  for (const analystAvailable of [undefined, false, 'true']) {
+    const counts = stats(),
+      observed = {},
+      route = fakeRoute({
+        path: '/api/meta',
+        body: { organization: { id: organizationId }, today: '2026-11-03', ai: { analystAvailable } },
+      });
+    await guardedAnalystRequest(binding.origin, conversationId, bypass, counts, observed, 'daybook')(route);
+    assert.equal(route.observed.fulfilled, 0);
+    assert.equal(counts.failed, 1);
+  }
+  const counts = stats(),
+    observed = {},
+    route = fakeRoute({
+      path: '/api/meta',
+      body: { organization: { id: organizationId }, today: '2026-11-03', ai: { analystAvailable: true } },
+    });
+  await guardedAnalystRequest(binding.origin, conversationId, bypass, counts, observed, 'daybook')(route);
+  assert.equal(route.observed.fulfilled, 1);
+  assert.equal(observed.nativeEnabled, true);
+});
+
+test('invalid provider selections fail closed and ciphertext cannot cross provider boundaries', async () => {
+  const counts = stats(),
+    route = fakeRoute();
+  await guardedAnalystRequest(binding.origin, conversationId, bypass, counts, {}, 'other')(route);
+  assert.equal(route.observed.fetched, 0);
+  const key = 'd'.repeat(64),
+    nativeBinding = validateAnalystTarget({ ...input, provider: 'daybook' });
+  const envelope = encryptBrowserArtifact([], key, nativeBinding);
+  assert.deepEqual(decryptBrowserArtifact(envelope, key, nativeBinding), []);
+  assert.throws(() => decryptBrowserArtifact(envelope, key, binding));
+  assert.throws(() => decryptBrowserArtifact(encryptBrowserArtifact([], key, binding), key, nativeBinding));
+});
